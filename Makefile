@@ -809,14 +809,24 @@ cross-link-full:
 
 .PHONY: judge-check
 judge-check: ## Run the offline public review suite used by hackathon judges
-	@python3 -m unittest \
+	@log="$${TMPDIR:-/tmp}/auditooor-judge-check.$$$$.log"; \
+	if ! python3 -m unittest \
 	  tools.tests.test_pipeline_manifest_validate \
 	  tools.tests.test_pipeline_receipt \
 	  tools.tests.test_pipeline_state_machine \
 	  tools.tests.test_pipeline_full_executor_authority \
 	  tools.tests.test_pipeline_full_step_order_and_gaps \
 	  tools.tests.test_readme_runbook_manifest_v2 \
-	  tools.tests.test_judge_demo
+	  tools.tests.test_judge_demo \
+	  tools.tests.test_semantic_engine_registry_language_integration \
+	  tools.tests.test_awareness_admission_receipt \
+	  tools.tests.test_reasoner_triple_to_hacker_q \
+	  tools.tests.test_ordered_zero_day_case_studies >"$$log" 2>&1; then \
+	  cat "$$log"; rm -f "$$log"; exit 1; \
+	fi; \
+	grep '^Ran ' "$$log" || true; \
+	echo "judge-check: PASS (offline public fixtures)"; \
+	rm -f "$$log"
 	@python3 tools/check-stage-reference.py
 	@python3 tools/check-makefile-tool-refs.py
 	@python3 tools/cross-link-validator.py --strict --scope repo-only \
@@ -897,7 +907,10 @@ pattern-merge-rescan:
 pattern-merge-rescan-test:
 	@python3 -m unittest tools.tests.test_pattern_merge_rescan -v
 
-docs-check: stage-reference-check tool-ref-check cross-link detector-registry-completeness universal-task-ledger-check vault-ontology-check section-sources-collision-check agents-md-sync mcp-pin-drift-check cross-lang-detector-map-check hackerman-tooling-index-check mcp-callable-count-check capability-role-enum-check
+# Public judge builds intentionally omit private vault indexes, corpus-derived
+# maps, and generated operator inventories. Keep this check limited to the
+# portable documentation and public control-plane surfaces.
+docs-check: stage-reference-check tool-ref-check cross-link detector-registry-completeness universal-task-ledger-check vault-ontology-check agents-md-sync mcp-pin-drift-check mcp-callable-count-check
 
 # WAVE-2 items 11+12: fail-closed enum assertion that every capability record
 # carries a role in {finder, referee, infra}. Guards against a regen or a

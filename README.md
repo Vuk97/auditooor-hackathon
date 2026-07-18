@@ -102,10 +102,12 @@ make judge-check
 ~~~
 
 The expected result is a green test suite and a strict documentation check with
-zero broken links. This verifies that all 69 canonical steps have executable,
-ordered contracts; it does not claim that a target workspace has been audited.
-The test path is offline after dependency installation and does not need the
-private vault or the historical corpus.
+zero broken links. It verifies all 69 canonical step contracts plus public
+fixtures for Solidity/Go/Rust semantic-backend admission, awareness evidence,
+reasoner-to-question generation, and unsupported-language blocking. It does
+not claim that a target workspace has been audited. The test path is offline
+after dependency installation and does not need the private vault or historical
+corpus.
 
 ## Five-Minute Judge Tour
 
@@ -116,9 +118,10 @@ make judge-demo
 ~~~
 
 It validates the real manifest, summarizes all 69 required contracts by phase,
-checks that Reasoning precedes Drive, then asks the real state machine to start
-Drive early. The expected result is a visible
-`earlier_run_sequence_blocks` rejection. This is an enforcement demonstration,
+shows the typed reasoner-to-queue/question/proof/closeout handoffs, checks that
+Reasoning precedes Drive, then asks the real state machine to start Drive early.
+The expected result includes visible `earlier_run_sequence_blocks`, empty
+closeout, and state-tamper rejections. This is an enforcement demonstration,
 not a claim that any target was audited.
 
 For the review sequence and the exact evidence boundary, read the
