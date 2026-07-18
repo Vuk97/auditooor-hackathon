@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "check-validity-of-parameters"
+class_name: "CheckValidityOfParameters"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit GammaSwap Staking - Zellic Audit Report"
+help: |
+    Parameters such as the _gsPool in StakingRouter’s functions could be checked for va- lidity. For example, function withdrawEsGsForPool(address _gsPool) external nonReentrant { IVes
+wiki_title: "Check validity of parameters"
+wiki_description: |
+    Parameters such as the _gsPool in StakingRouter’s functions could be checked for va- lidity. For example, function withdrawEsGsForPool(address _gsPool) external nonReentrant { IVester(poolTrackers[_gsPool].vester).withdrawForAccount(msg.sender); } lacks a check that the _gsPool is a valid address in
+wiki_exploit_scenario: |
+    Per audit finding: Parameters such as the _gsPool in StakingRouter’s functions could be checked for va- lidity. For example, function withdrawEsGsForPool(address _gsPool) external nonReentrant { IVester(poolTrackers[_gs
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CheckValidityOfParameters"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawEsGsForPool|nonReentrant|poolTrackers).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "withdrawEsGsForPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "m-13-all-collateral-in-velodrome-vault-will-be-permantly-locked-"
+class_name: "M13AllCollateralInVelodromeVaultWillBePermantlyLocked"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5705 (Sherlock/Isomorph)"
+help: |
+    M-13: All collateral in Velodrome vault will be permantly locked if either asset in liquidity pair stays outside of min/max price
+wiki_title: |
+    M-13: All collateral in Velodrome vault will be permantly locked if either asset in liquidity pair stays outside of min/max price
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-11-isomorph-judging/issues/70 
+    
+    ## Found by 
+    clems4ever, 0x52
+    
+    ## Summary
+    
+    The oracles used have a built in safeguard to revert the transaction if the queried asset is outside of a defined price range. The issue with this is that every vault interaction
+wiki_exploit_scenario: |
+    Per Solodit #5705: Source: https://github.com/sherlock-audit/2022-11-isomorph-judging/issues/70 
+    
+    ## Found by 
+    clems4ever, 0x52
+    
+    ## Summary
+    
+    The oracles used have a built in safeguard to revert the transaction if the qu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M13AllCollateralInVelodromeVaultWillBePermantlyLocked"
+solodit_id: "5705"
+solodit_slug: |
+    m-13-all-collateral-in-velodrome-vault-will-be-permantly-locked-if-either-asset-in-liquidity-pair-stays-outside-of-minmax-price-sherlock-isomorph-isomorph-git
+solodit_quality: "4"
+solodit_rarity: "2"
+solodit_tags: "DOS"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getOraclePrice|roundID|signedPrice|startedAt).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "getOraclePrice"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "two-step-ownership-transfer-not-two-step"
+class_name: "TwoStepOwnershipTransferNotTwoStep"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Bloom Trading - Zellic Audit Report"
+help: |
+    The two-step ownership transfer pattern is a safety pattern where, instead of the old owner of a smart contract setting the new owner, the old owner sets a pending new owner, and t
+wiki_title: "Two-step ownership transfer, not two-step"
+wiki_description: |
+    The two-step ownership transfer pattern is a safety pattern where, instead of the old owner of a smart contract setting the new owner, the old owner sets a pending new owner, and then the new owner must submit a transaction to accept ownership. This ensures that ownership cannot be lost due to trans
+wiki_exploit_scenario: |
+    Per audit finding: The two-step ownership transfer pattern is a safety pattern where, instead of the old owner of a smart contract setting the new owner, the old owner sets a pending new owner, and then the new owner mu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TwoStepOwnershipTransferNotTwoStep"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onlyGov|requestGov|requestedGov).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "onlyGov"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

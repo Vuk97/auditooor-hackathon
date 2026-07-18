@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "m-12-erc1155fuse-transfer-does-not-revert-when-sent-to-the-old-o"
+class_name: "M12Erc1155fuseTransferDoesNotRevertWhenSentToTheOldO"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5556 (Code4rena/ENS)"
+help: "[M-12] `ERC1155Fuse`: `_transfer` does not revert when sent to the old owner"
+wiki_title: "[M-12] `ERC1155Fuse`: `_transfer` does not revert when sent to the old owner"
+wiki_description: |
+    The `safeTransferFrom` does not comply with the ERC1155 standard when the token is sent to the old owner.
+    
+    ### Proof of Concept
+    
+    According to the EIP-1155 standard for the `safeTransferFrom`:
+    
+    > MUST revert if balance of holder for token `_id` is lower than the `_value` sent.
+    
+    Let's say `alice` doe
+wiki_exploit_scenario: |
+    Per Solodit #5556: The `safeTransferFrom` does not comply with the ERC1155 standard when the token is sent to the old owner.
+    
+    ### Proof of Concept
+    
+    According to the EIP-1155 standard for the `safeTransferFrom`:
+    
+    > MUST
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12Erc1155fuseTransferDoesNotRevertWhenSentToTheOldO"
+solodit_id: "5556"
+solodit_slug: "m-12-erc1155fuse-_transfer-does-not-revert-when-sent-to-the-old-owner-code4rena-ens-ens-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal alice;"
+fn_name_regex: ".*(safeTransferFrom|alice|tokenId|bob).*"
+read_var_regex: ".*(alice|bob|safeTranferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeTransferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return alice > 0;"

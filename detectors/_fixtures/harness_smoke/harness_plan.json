@@ -1,0 +1,45 @@
+{
+  "ledger_generated_at": null,
+  "ledger_row_count": 1,
+  "plan_count": 1,
+  "plans": [
+    {
+      "compile_command": "FOUNDRY_PROFILE=default forge test --match-contract HermeticVaultTest -vv",
+      "expected_log_string": "2 passed; 0 failed",
+      "first_negative_control": "test_inflationAttack_blockedOnCleanVariant runs the same attacker recipe against HermeticVaultClean (which adds a `minSharesOut` slippage check + virtual-shares/virtual-assets offset). The clean variant MUST revert the victim's deposit on the slippage check (shares < min), leaving victim's token balance unchanged. If the clean variant does NOT revert AND the victim's balance changes, the negative control has failed.",
+      "foundry_profile_hints": {
+        "exploratory_profile": "profile.default",
+        "proof_profile": "profile.default",
+        "recommended_profiles": {
+          "profile.default": {
+            "purpose": "hermetic smoke build/test profile",
+            "required_for_proof": [
+              "explicit evm_version (paris) pinned in foundry.toml"
+            ]
+          }
+        },
+        "required_metadata": [
+          "foundry_version_inventory",
+          "foundry_profile",
+          "hardfork_or_evm_version"
+        ],
+        "warnings": [
+          "this fixture is hermetic — no fork, no live RPC; only proves bridge tooling, not real production audit"
+        ]
+      },
+      "harness_family": "forge_unit",
+      "minimal_proof_surface": "Drive the first-depositor share-inflation attack against HermeticVault.sol (raw-share-computation ERC4626 vault with no virtual-offset and no minSharesOut slippage check). Surface: deposit() share computation + redeem() asset computation. Negative control swaps in HermeticVault_clean.sol.",
+      "reason": "H-04 hermetic smoke — workspace-generic harness must run on a non-Base or hermetic fixture (PR603 § Gate 2 acceptance #8).",
+      "required_fixtures": [
+        "HermeticVault.sol",
+        "HermeticVault_clean.sol",
+        "HermeticVault.t.sol"
+      ],
+      "row_id": "HERMETIC-SMOKE-H04",
+      "source_invariant_family": "ERC4626-FIRST-DEPOSITOR-INFLATION",
+      "source_row_status": "executed_clean",
+      "stop_condition": "Mark `executed_clean` once the compile command exits 0, the expected_log_string is present in the run output, AND the negative control was demonstrably rejected (the same test fails when HermeticVault_clean.sol is swapped in).",
+      "target_entrypoint": "HermeticVault.sol::deposit"
+    }
+  ]
+}

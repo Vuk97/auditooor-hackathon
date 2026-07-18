@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "centralization-risk-23"
+class_name: "CentralizationRisk23"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Frax0 Mesh - Zellic Audit Report"
+help: |
+    Before performing a cross-chain transfer with OFT, the transfer amount’s precision is converted from local decimals to shared decimals. Any dust generated during this precision con
+wiki_title: "Centralization risk                                                       23"
+wiki_description: |
+    Before performing a cross-chain transfer with OFT, the transfer amount’s precision is converted from local decimals to shared decimals. Any dust generated during this precision conversion will not be transferred. In the contract RemoteCustodian, the OFT token frxUsd serves as its share token. The fu
+wiki_exploit_scenario: |
+    Per audit finding: Before performing a cross-chain transfer with OFT, the transfer amount’s precision is converted from local decimals to shared decimals. Any dust generated during this precision conversion will not be
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CentralizationRisk23"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(frxUsd|custodianTknDecimals|decimalConversionRate).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "frxUsd"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

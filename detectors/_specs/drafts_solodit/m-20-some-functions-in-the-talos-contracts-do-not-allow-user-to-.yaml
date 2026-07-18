@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-20-some-functions-in-the-talos-contracts-do-not-allow-user-to-"
+class_name: "M20SomeFunctionsInTheTalosContractsDoNotAllowUserTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26089 (Code4rena/Maia DAO Ecosystem)"
+help: |
+    [M-20] Some functions in the Talos contracts do not allow user to supply `slippage` and `deadline`, which may cause swap revert
+wiki_title: |
+    [M-20] Some functions in the Talos contracts do not allow user to supply `slippage` and `deadline`, which may cause swap revert
+wiki_description: |
+    In the following functions, except `TalosBaseStrategy.redeem()`, the minimum `slippage` is still hardcoded to `0`, not allowing the user to specify their own slippage parameters. This can expose users to sandwich attacks due to unlimited slippage.
+    
+    Additionally, it also does not allow users to supp
+wiki_exploit_scenario: |
+    Per Solodit #26089: In the following functions, except `TalosBaseStrategy.redeem()`, the minimum `slippage` is still hardcoded to `0`, not allowing the user to specify their own slippage parameters. This can expose user
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M20SomeFunctionsInTheTalosContractsDoNotAllowUserTo"
+solodit_id: "26089"
+solodit_slug: |
+    m-20-some-functions-in-the-talos-contracts-do-not-allow-user-to-supply-slippage-and-deadline-which-may-cause-swap-revert-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deadline;"
+fn_name_regex: ".*(slippage|deadline|mempool).*"
+read_var_regex: ".*(deadline|mempool|slippage).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "slippage"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deadline > 0;"

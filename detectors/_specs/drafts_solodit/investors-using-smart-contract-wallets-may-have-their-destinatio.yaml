@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "investors-using-smart-contract-wallets-may-have-their-destinatio"
+class_name: "InvestorsUsingSmartContractWalletsMayHaveTheirDestinatio"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64319 (Cyfrin/Securitize Bridge Cctp)"
+help: |
+    Investors using smart contract wallets may have their destination chain tokens issued to an address they don't control
+wiki_title: |
+    Investors using smart contract wallets may have their destination chain tokens issued to an address they don't control
+wiki_description: |
+    **Description:** `SecuritizeBridge::bridgeDSTokens` encodes `_msgSender()` in the payload message to be destination address for bridged tokens delivered on the destination chain; this is expected to represent the investor's wallet address:
+    ```solidity
+     // Send Relayer message
+            wormholeRelayer
+wiki_exploit_scenario: |
+    Per Solodit #64319: **Description:** `SecuritizeBridge::bridgeDSTokens` encodes `_msgSender()` in the payload message to be destination address for bridged tokens delivered on the destination chain; this is expected to r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InvestorsUsingSmartContractWalletsMayHaveTheirDestinatio"
+solodit_id: "64319"
+solodit_slug: |
+    investors-using-smart-contract-wallets-may-have-their-destination-chain-tokens-issued-to-an-address-they-dont-control-cyfrin-none-securitize-bridge-cctp-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(bridgeDSTokens|wormholeRelayer|sendPayloadToEvm|targetChain).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "bridgeDSTokens"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

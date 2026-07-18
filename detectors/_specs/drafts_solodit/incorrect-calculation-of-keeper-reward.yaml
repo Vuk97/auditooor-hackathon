@@ -1,0 +1,55 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-calculation-of-keeper-reward"
+class_name: "IncorrectCalculationOfKeeperReward"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6750 (Spearbit/Tracer)"
+help: "Incorrect calculation of keeper reward"
+wiki_title: "Incorrect calculation of keeper reward"
+wiki_description: |
+    ## Risk Assessment
+    
+    **Severity:** Medium Risk  
+    **Context:** PoolKeeper.sol#L251-L259  
+    
+    ## Description
+    The keeper reward is calculated as 
+    
+    ```
+    (keeperGas * tipPercent / 100) / 1e18
+    ```
+    
+    The division by `1e18` is incorrect and undervalues the reward for the keeper. The tip part of the keeper reward
+wiki_exploit_scenario: |
+    Per Solodit #6750: ## Risk Assessment
+    
+    **Severity:** Medium Risk  
+    **Context:** PoolKeeper.sol#L251-L259  
+    
+    ## Description
+    The keeper reward is calculated as 
+    
+    ```
+    (keeperGas * tipPercent / 100) / 1e18
+    ```
+    
+    The division
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectCalculationOfKeeperReward"
+solodit_id: "6750"
+solodit_slug: "incorrect-calculation-of-keeper-reward-spearbit-tracer-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(FIXED_POINT).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "FIXED_POINT"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

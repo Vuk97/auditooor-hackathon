@@ -1,0 +1,42 @@
+{
+  "schema": "auditooor.evm_engine_harness_proof.v1",
+  "fixture_role": "negative-control",
+  "expected_verdict": "clean",
+  "target_contract": "MiniVault",
+  "target_source": "MiniVault.sol",
+  "target_imports": [
+    "MiniVault.sol",
+    "MockERC20.sol"
+  ],
+  "deployment_adapter": "MiniVaultControlTest.setUp",
+  "constructor_args_source": "new MiniVault(address(token)) in setUp; token = new MockERC20()",
+  "entrypoints_bound": [
+    "MiniVault.deposit(uint256,address)",
+    "MiniVault.redeem(uint256,address)",
+    "MiniVault.convertToShares(uint256)"
+  ],
+  "real_target_call_count": 3,
+  "state_snapshots": [
+    "victimSharesBefore = vault.shares(victim)",
+    "victimSharesAfter = vault.shares(victim)"
+  ],
+  "negative_controls": [],
+  "engines": [
+    "foundry-invariant",
+    "foundry-poc"
+  ],
+  "proof_ready": true,
+  "blocked_reason": null,
+  "asserted_impact": "Same assertion as the vulnerable sibling; on the fixed (virtual-offset) vault a real victim deposit mints > 0 shares, so the assertion HOLDS.",
+  "expected_passing_property": "test_first_depositor_inflation",
+  "candidate_not_proof": false,
+  "mitigation": "OpenZeppelin-style virtual shares/assets decimals offset (VIRTUAL_SHARES=1e3, VIRTUAL_ASSETS=1).",
+  "rule40_points": {
+    "real_entrypoint_real_code_real_impact": true,
+    "defenses_executed_or_ruled_out": true,
+    "mocks_external_deps_only": true,
+    "negative_control_present": true,
+    "before_after_assertions": true,
+    "per_variant_proof": true
+  }
+}

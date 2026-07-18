@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "raacreleaseorchestrator-emergencyrevoke-fails-to-update-category"
+class_name: "RaacreleaseorchestratorEmergencyrevokeFailsToUpdateCategory"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57259 (Codehawks/Core Contracts)"
+help: |
+    `RAACReleaseOrchestrator::emergencyRevoke()` fails to update `categoryUsed`, leading to token lockup and incorrect accounting
+wiki_title: |
+    `RAACReleaseOrchestrator::emergencyRevoke()` fails to update `categoryUsed`, leading to token lockup and incorrect accounting
+wiki_description: |
+    ## Summary
+    
+    The `emergencyRevoke` function doesn't decrease `categoryUsed[category]` when revoking a vesting schedule, causing tokens to remain locked and preventing new schedule creation within category limits.
+    
+    ## Vulnerability Details
+    
+    When `RAACReleaseOrchestrator::emergencyRevoke()` is called,
+wiki_exploit_scenario: |
+    Per Solodit #57259: ## Summary
+    
+    The `emergencyRevoke` function doesn't decrease `categoryUsed[category]` when revoking a vesting schedule, causing tokens to remain locked and preventing new schedule creation within categ
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RaacreleaseorchestratorEmergencyrevokeFailsToUpdateCategory"
+solodit_id: "57259"
+solodit_slug: |
+    raacreleaseorchestratoremergencyrevoke-fails-to-update-categoryused-leading-to-token-lockup-and-incorrect-accounting-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal categoryused;"
+fn_name_regex: ".*(emergencyRevoke|categoryUsed|DEFAULT_ADMIN_ROLE|updateCategoryAllocation).*"
+read_var_regex: ".*(categoryUsed|emergencyRevoke|updateCategoryAllocation).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "emergencyRevoke"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return categoryused > 0;"

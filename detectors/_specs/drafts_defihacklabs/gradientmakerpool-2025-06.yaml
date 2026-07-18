@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "gradientmakerpool-2025-06"
+class_name: "Gradientmakerpool202506"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-06/GradientMakerPool_exp.sol"
+help: "GradientMakerPool 2025-06 — swap exploit (5k USD)"
+wiki_title: "GradientMakerPool (2025-06) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-06): GradientMakerPool lost 5k USD. Bug class: swap. Attack tx: 0xb5cfa3f86ce9506e2364475dc43c44de444b079d4752edbffcdad7d1654b1f67.
+wiki_exploit_scenario: |
+    Attacker (0x1234567a98230550894bf93e2346a8bc5c3b36e3) exploits GradientMakerPool via swap: the victim contract 0x37Ea5f691bCe8459C66fFceeb9cf34ffa32fdadC exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Gradientmakerpool202506"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

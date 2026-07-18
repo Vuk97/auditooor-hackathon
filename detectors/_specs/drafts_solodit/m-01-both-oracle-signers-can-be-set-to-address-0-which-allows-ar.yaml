@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_require"
+name: "m-01-both-oracle-signers-can-be-set-to-address-0-which-allows-ar"
+class_name: "M01BothOracleSignersCanBeSetToAddress0WhichAllowsAr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18710 (ZachObront/Hook)"
+help: |
+    [M-01] Both oracle signers can be set to address(0), which allows arbitrary data to be fraudulently signed
+wiki_title: |
+    [M-01] Both oracle signers can be set to address(0), which allows arbitrary data to be fraudulently signed
+wiki_description: |
+    The `priceOracleSigner` is set using the following admin-only function:
+    
+    ```solidity
+    function setPriceOracleSigner(address _priceOracleSigner) external onlyRole(ORACLE_ROLE) {
+    priceOracleSigner = _priceOracleSigner;
+    emit PriceOracleSignerUpdated(_priceOracleSigner);
+    }
+    ```
+    
+    Similarly, the `orderValid
+wiki_exploit_scenario: |
+    Per Solodit #18710: The `priceOracleSigner` is set using the following admin-only function:
+    
+    ```solidity
+    function setPriceOracleSigner(address _priceOracleSigner) external onlyRole(ORACLE_ROLE) {
+    priceOracleSigner = _pri
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01BothOracleSignersCanBeSetToAddress0WhichAllowsAr"
+solodit_id: "18710"
+solodit_slug: |
+    m-01-both-oracle-signers-can-be-set-to-address0-which-allows-arbitrary-data-to-be-fraudulently-signed-zachobront-none-hook-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ordervalidityoraclesigner;"
+fn_name_regex: ".*(priceOracleSigner|orderValidityOracleSigner).*"
+write_var_regex: ".*(orderValidityOracleSigner|priceOracleSigner).*"
+guard_var_regex: ".*(orderValidityOracleSigner|priceOracleSigner).*"
+vuln_fn_name: "priceOracleSigner"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "ordervalidityoraclesigner = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

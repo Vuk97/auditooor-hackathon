@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "m-08-collateral-could-be-transferred-to-an-address-which-is-not-"
+class_name: "M08CollateralCouldBeTransferredToAnAddressWhichIsNot"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29356 (Code4rena/Open Dollar)"
+help: |
+    [M-08] Collateral could be transferred to an address, which is not `SAFEHandler` managed by the `SAFEManager`
+wiki_title: |
+    [M-08] Collateral could be transferred to an address, which is not `SAFEHandler` managed by the `SAFEManager`
+wiki_description: |
+    In the current implementation each safe has corresponding proxy contract inside `ODSafeManager` and corresponding `SAFEHandler` "proxy" which is deployed for each safe and used as safe's address inside `SAFEEngine`.
+    The problem is that inside `ODSafeManager` `transferCollateral()` function there is
+wiki_exploit_scenario: |
+    Per Solodit #29356: In the current implementation each safe has corresponding proxy contract inside `ODSafeManager` and corresponding `SAFEHandler` "proxy" which is deployed for each safe and used as safe's address insi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08CollateralCouldBeTransferredToAnAddressWhichIsNot"
+solodit_id: "29356"
+solodit_slug: |
+    m-08-collateral-could-be-transferred-to-an-address-which-is-not-safehandler-managed-by-the-safemanager-code4rena-open-dollar-open-dollar-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal transfercollateral;"
+fn_name_regex: ".*(ODSafeManager|SAFEHandler|SAFEEngine|transferCollateral).*"
+write_var_regex: ".*(transferCollateral|transferInternalCoins).*"
+guard_var_regex: ".*(transferCollateral|transferInternalCoins).*"
+vuln_fn_name: "ODSafeManager"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "transfercollateral = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

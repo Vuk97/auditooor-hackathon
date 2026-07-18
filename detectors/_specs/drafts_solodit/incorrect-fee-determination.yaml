@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-fee-determination"
+class_name: "IncorrectFeeDetermination"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #52026 (Halborn/Internal Exchange Re-Assessment)"
+help: "Incorrect Fee Determination"
+wiki_title: "Incorrect Fee Determination"
+wiki_description: |
+    ##### Description
+    
+    The `_fillOrders` function uses the `exOrderId` parameter to determine if the trade pair is zero-fee by calling `orderBookConfig.isPairZeroFee`. This is incorrect because `isPairZeroFee` is meant to operate on `pairId`, which uniquely identifies the trade pair, not on `exOrderId`.
+wiki_exploit_scenario: |
+    Per Solodit #52026: ##### Description
+    
+    The `_fillOrders` function uses the `exOrderId` parameter to determine if the trade pair is zero-fee by calling `orderBookConfig.isPairZeroFee`. This is incorrect because `isPairZer
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectFeeDetermination"
+solodit_id: "52026"
+solodit_slug: "incorrect-fee-determination-halborn-dappos-internal-exchange-re-assessment-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal exorderid;"
+fn_name_regex: ".*(exOrderId|isPairZeroFee|pairId).*"
+read_var_regex: ".*(exOrderId|isPairZeroFee|pairId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "exOrderId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return exorderid > 0;"

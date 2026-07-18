@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-constant-used-in-twoscomplement"
+class_name: "IncorrectConstantUsedInTwoscomplement"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Brevis - Zellic Audit Report"
+help: |
+    In sdk/utils.go, the function twosComplement is implemented as follows: func twosComplement(bits []uint, n int) []uint { padded := padBitsRight(bits, n, 0) flipped := flipBits(padd
+wiki_title: "Incorrect constant used in twosComplement"
+wiki_description: |
+    In sdk/utils.go, the function twosComplement is implemented as follows: func twosComplement(bits []uint, n int) []uint { padded := padBitsRight(bits, n, 0) flipped := flipBits(padded) a := recompose(flipped, 1) a.Add(a, big.NewInt(1)) d := decomposeAndSlice(a, 1, 248) ret := make([]uint, len(d)) for
+wiki_exploit_scenario: |
+    Per audit finding: In sdk/utils.go, the function twosComplement is implemented as follows: func twosComplement(bits []uint, n int) []uint { padded := padBitsRight(bits, n, 0) flipped := flipBits(padded) a := recompose(f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectConstantUsedInTwoscomplement"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(twosComplement|padBitsRight|flipBits).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "twosComplement"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

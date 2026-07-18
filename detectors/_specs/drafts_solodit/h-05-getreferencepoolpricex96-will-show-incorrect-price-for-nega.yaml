@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "h-05-getreferencepoolpricex96-will-show-incorrect-price-for-nega"
+class_name: "H05Getreferencepoolpricex96WillShowIncorrectPriceForNega"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #32265 (Code4rena/Revert Lend)"
+help: |
+    [H-05]  `_getReferencePoolPriceX96()` will show incorrect price for negative tick deltas in current implementation cause it doesn't round up for them
+wiki_title: |
+    [H-05]  `_getReferencePoolPriceX96()` will show incorrect price for negative tick deltas in current implementation cause it doesn't round up for them
+wiki_description: |
+    Take a look [here](https://github.com/code-423n4/2024-03-revert-lend/blob/457230945a49878eefdc1001796b10638c1e7584/src/V3Oracle.sol#L357-L374).
+    
+    ```solidity
+        function _getReferencePoolPriceX96(IUniswapV3Pool pool, uint32 twapSeconds) internal view returns (uint256) {
+            uint160 sqrtPriceX96
+wiki_exploit_scenario: |
+    Per Solodit #32265: Take a look [here](https://github.com/code-423n4/2024-03-revert-lend/blob/457230945a49878eefdc1001796b10638c1e7584/src/V3Oracle.sol#L357-L374).
+    
+    ```solidity
+        function _getReferencePoolPriceX96(IUn
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05Getreferencepoolpricex96WillShowIncorrectPriceForNega"
+solodit_id: "32265"
+solodit_slug: |
+    h-05-_getreferencepoolpricex96-will-show-incorrect-price-for-negative-tick-deltas-in-current-implementation-cause-it-doesnt-round-up-for-them-code4rena-revert-lend-revert-lend-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal tickcumulatives;"
+fn_name_regex: ".*(tickCumulatives).*"
+read_var_regex: ".*(tickCumulatives).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tickCumulatives"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tickcumulatives > 0;"

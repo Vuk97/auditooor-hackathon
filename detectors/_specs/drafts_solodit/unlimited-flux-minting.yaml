@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "unlimited-flux-minting"
+class_name: "UnlimitedFluxMinting"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #38169 (Immunefi/Alchemix)"
+help: "Unlimited Flux minting"
+wiki_title: "Unlimited Flux minting"
+wiki_description: |
+    Report type: Smart Contract
+    
+    
+    Target: https://github.com/alchemix-finance/alchemix-v2-dao/blob/main/src/Voter.sol
+    
+    Impacts:
+    - Direct theft of any user funds, whether at-rest or in-motion, other than unclaimed yield
+    - Manipulation of governance voting result deviating from voted outcome and resulting
+wiki_exploit_scenario: |
+    Per Solodit #38169: Report type: Smart Contract
+    
+    
+    Target: https://github.com/alchemix-finance/alchemix-v2-dao/blob/main/src/Voter.sol
+    
+    Impacts:
+    - Direct theft of any user funds, whether at-rest or in-motion, other than u
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnlimitedFluxMinting"
+solodit_id: "38169"
+solodit_slug: "unlimited-flux-minting-immunefi-alchemix-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal onlynewepoch;"
+fn_name_regex: ".*(vote|reset|Voter|poke).*"
+write_var_regex: ".*(onlyNewEpoch|poke|reset).*"
+guard_var_regex: ".*(onlyNewEpoch|poke|reset).*"
+vuln_fn_name: "vote"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "onlynewepoch = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

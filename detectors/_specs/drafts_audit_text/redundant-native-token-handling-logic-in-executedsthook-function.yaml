@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "redundant-native-token-handling-logic-in-executedsthook-function"
+class_name: "RedundantNativeTokenHandlingLogicInExecutedsthookFunction"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Aori 0.3.1 Upgrade - Zellic Audit Report"
+help: |
+    The internal _executeDstHook function processes hook execution during the fill function call. The trusted solver provides the necessary data for the fund transferring before the ho
+wiki_title: "Redundant native token–handling logic in _executeDstHook function"
+wiki_description: |
+    The internal _executeDstHook function processes hook execution during the fill function call. The trusted solver provides the necessary data for the fund transferring before the hook call. This data includes the preferredToken address and the preferedDstInputAmount (amount of tokens to be transferre
+wiki_exploit_scenario: |
+    Per audit finding: The internal _executeDstHook function processes hook execution during the fill function call. The trusted solver provides the necessary data for the fund transferring before the hook call. This data i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RedundantNativeTokenHandlingLogicInExecutedsthookFunction"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(preferredToken|preferedDstInputAmount|isNativeToken).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "preferredToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

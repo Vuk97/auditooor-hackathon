@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-governance-may-fail-to-set-the-fee"
+class_name: "TheGovernanceMayFailToSetTheFee"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Plaza Core Protocol - Zellic Audit Report"
+help: |
+    Addresses with the GOV_ROLE are able to set the fee. In the function setFee, if the return value of the function getFeeAmount is greater than zero, it will call the function claimF
+wiki_title: "The governance may fail to set the fee"
+wiki_description: |
+    Addresses with the GOV_ROLE are able to set the fee. In the function setFee, if the return value of the function getFeeAmount is greater than zero, it will call the function claimFees to collect fees. function setFee(uint256 _fee) external onlyRole(poolFactory.GOV_ROLE()) { // [...] // Force a fee c
+wiki_exploit_scenario: |
+    Per audit finding: Addresses with the GOV_ROLE are able to set the fee. In the function setFee, if the return value of the function getFeeAmount is greater than zero, it will call the function claimFees to collect fees.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheGovernanceMayFailToSetTheFee"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setFee|getFeeAmount|claimFees).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setFee"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

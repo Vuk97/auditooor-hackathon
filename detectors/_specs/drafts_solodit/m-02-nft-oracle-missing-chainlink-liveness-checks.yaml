@@ -1,0 +1,49 @@
+skeleton: "state_write_without_paired_write"
+name: "m-02-nft-oracle-missing-chainlink-liveness-checks"
+class_name: "M02NftOracleMissingChainlinkLivenessChecks"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31815 (ZachObront/Fungify)"
+help: "[M-02] NFT oracle missing Chainlink liveness checks"
+wiki_title: "[M-02] NFT oracle missing Chainlink liveness checks"
+wiki_description: |
+    When `getUnderlyingPrice()` is called on the Chainlink oracle, the recommended liveness checks are performed:
+    ```solidity
+    (
+        /*uint80 roundID*/,
+        int rate,
+        /*uint startedAt*/,
+        uint updatedAt,
+        /*uint80 answeredInRound*/
+    ) = feed.latestRoundData();
+    
+    ...
+    
+    // check if price is stale
+    ui
+wiki_exploit_scenario: |
+    Per Solodit #31815: When `getUnderlyingPrice()` is called on the Chainlink oracle, the recommended liveness checks are performed:
+    ```solidity
+    (
+        /*uint80 roundID*/,
+        int rate,
+        /*uint startedAt*/,
+        uint updat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02NftOracleMissingChainlinkLivenessChecks"
+solodit_id: "31815"
+solodit_slug: "m-02-nft-oracle-missing-chainlink-liveness-checks-zachobront-none-fungify-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getUnderlyingPrice|FloorPriceFeedAdaptor|latestRoundData|stalePriceDelay).*"
+primary_var_regex: ".*(getUnderlyingPrice|latestRoundData|stalePriceDelay).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

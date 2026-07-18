@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_require"
+name: "h-02-threshold-conflicts-with-removing-controllers"
+class_name: "H02ThresholdConflictsWithRemovingControllers"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31466 (Pashov Audit Group/Hytopiawallet)"
+help: "[H-02] Threshold conflicts with removing controllers"
+wiki_title: "[H-02] Threshold conflicts with removing controllers"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High, attack vector to capture the wallet
+    
+    **Likelihood:** Medium, relevant not for all sets of controllers
+    
+    **Description**
+    
+    There is a drawback to using absolute weights - sometimes we should decrease the Threshold before removing a controller. Decreasing Threshold is a s
+wiki_exploit_scenario: |
+    Per Solodit #31466: **Severity**
+    
+    **Impact:** High, attack vector to capture the wallet
+    
+    **Likelihood:** Medium, relevant not for all sets of controllers
+    
+    **Description**
+    
+    There is a drawback to using absolute weights -
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02ThresholdConflictsWithRemovingControllers"
+solodit_id: "31466"
+solodit_slug: "h-02-threshold-conflicts-with-removing-controllers-pashov-none-hytopiawallet-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal removecontrollers;"
+fn_name_regex: ".*(totalWeight|updateControlThreshold|removeControllers|threshold).*"
+write_var_regex: ".*(removeControllers|threshold|totalWeight).*"
+guard_var_regex: ".*(removeControllers|threshold|totalWeight).*"
+vuln_fn_name: "totalWeight"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "removecontrollers = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

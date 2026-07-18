@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "h-03-swap-can-execute-after-deadline-expires"
+class_name: "H03SwapCanExecuteAfterDeadlineExpires"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61339 (Shieldify/Gluex V2)"
+help: "[H-03] Swap Can Execute After Deadline Expires"
+wiki_title: "[H-03] Swap Can Execute After Deadline Expires"
+wiki_description: |
+    ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    The `swap()` function lacks a deadline enforcement mechanism, despite the [official documentation](https://docs.gluex.xyz/gluex-apis/router-api/smart-contracts/Router#reverts) explicitly requiring that swaps revert if the current block timestamp exceeds a spe
+wiki_exploit_scenario: |
+    Per Solodit #61339: ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    The `swap()` function lacks a deadline enforcement mechanism, despite the [official documentation](https://docs.gluex.xyz/gluex-apis/router-api/smart-contracts
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03SwapCanExecuteAfterDeadlineExpires"
+solodit_id: "61339"
+solodit_slug: "h-03-swap-can-execute-after-deadline-expires-shieldify-none-gluex-v2-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(swap).*"
+primary_var_regex: ".*(swap).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

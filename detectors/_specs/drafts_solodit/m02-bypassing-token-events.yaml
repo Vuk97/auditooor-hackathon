@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m02-bypassing-token-events"
+class_name: "M02BypassingTokenEvents"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11583 (OpenZeppelin/PoolTogether Audit)"
+help: "[M02] Bypassing token events"
+wiki_title: "[M02] Bypassing token events"
+wiki_description: |
+    Pool Tokens can be redeemed by calling the `burn` function on the `ERC777Pool` contract. This will [emit the `Burned` and `Transfer` events](https://github.com/pooltogether/pooltogether-contracts/tree/78ac6863f4616269f7d04a0ddd1d60bdfc454937/contracts/ERC777Pool.sol#L442-L443).
+    
+    
+    However, users can
+wiki_exploit_scenario: |
+    Per Solodit #11583: Pool Tokens can be redeemed by calling the `burn` function on the `ERC777Pool` contract. This will [emit the `Burned` and `Transfer` events](https://github.com/pooltogether/pooltogether-contracts/tree
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02BypassingTokenEvents"
+solodit_id: "11583"
+solodit_slug: "m02-bypassing-token-events-openzeppelin-pooltogether-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal burn;"
+fn_name_regex: ".*(burn|ERC777Pool|Burned|Transfer).*"
+read_var_regex: ".*(burn|withdraw).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "burn"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return burn > 0;"

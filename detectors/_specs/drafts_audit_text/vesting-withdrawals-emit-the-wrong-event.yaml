@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "vesting-withdrawals-emit-the-wrong-event"
+class_name: "VestingWithdrawalsEmitTheWrongEvent"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Solera - Zellic Audit Report"
+help: |
+    The vestingWithdraw function mistakenly emits the VestingDeposit event instead of VestingWithdraw. function vestingWithdraw( address to, uint256 amount ) public nonReentrant onlyRo
+wiki_title: "Vesting withdrawals emit the wrong event"
+wiki_description: |
+    The vestingWithdraw function mistakenly emits the VestingDeposit event instead of VestingWithdraw. function vestingWithdraw( address to, uint256 amount ) public nonReentrant onlyRole(VESTING_ADMIN_ROLE) returns (uint256) { if (amount > getVestingDeposit()) { revert VestingWithdrawAmountExceeded(amou
+wiki_exploit_scenario: |
+    Per audit finding: The vestingWithdraw function mistakenly emits the VestingDeposit event instead of VestingWithdraw. function vestingWithdraw( address to, uint256 amount ) public nonReentrant onlyRole(VESTING_ADMIN_ROL
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VestingWithdrawalsEmitTheWrongEvent"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(vestingWithdraw|nonReentrant|onlyRole).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "vestingWithdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

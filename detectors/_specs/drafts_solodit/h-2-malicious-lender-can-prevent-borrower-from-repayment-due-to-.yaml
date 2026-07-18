@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "h-2-malicious-lender-can-prevent-borrower-from-repayment-due-to-"
+class_name: "H2MaliciousLenderCanPreventBorrowerFromRepaymentDueTo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44214 (Sherlock/Teller Lender Groups Update Audit)"
+help: "H-2: Malicious lender can prevent borrower from repayment due to try/catch block revert"
+wiki_title: "H-2: Malicious lender can prevent borrower from repayment due to try/catch block revert"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-11-teller-finance-update-judging/issues/39 
+    
+    ## Found by 
+    OpaBatyo, hash
+    ### Summary
+    
+    Insufficient validation for `try/catch` address will disallow borrower's from repaying their loans
+    
+    ### Root Cause
+    
+    A malicious lender can bypass the `try/catch` block
+wiki_exploit_scenario: |
+    Per Solodit #44214: Source: https://github.com/sherlock-audit/2024-11-teller-finance-update-judging/issues/39 
+    
+    ## Found by 
+    OpaBatyo, hash
+    ### Summary
+    
+    Insufficient validation for `try/catch` address will disallow borro
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H2MaliciousLenderCanPreventBorrowerFromRepaymentDueTo"
+solodit_id: "44214"
+solodit_slug: |
+    h-2-malicious-lender-can-prevent-borrower-from-repayment-due-to-trycatch-block-revert-sherlock-teller-lender-groups-update-audit-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal loanrepaymentlistener;"
+fn_name_regex: ".*(loanRepaymentListener|setRepaymentListenerForBid|selfdestructing).*"
+write_var_regex: ".*(loanRepaymentListener|selfdestructing|setRepaymentListenerForBid).*"
+guard_var_regex: ".*(loanRepaymentListener|selfdestructing|setRepaymentListenerForBid).*"
+vuln_fn_name: "loanRepaymentListener"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "loanrepaymentlistener = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

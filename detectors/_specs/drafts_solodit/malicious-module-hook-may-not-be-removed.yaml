@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "malicious-module-hook-may-not-be-removed"
+class_name: "MaliciousModuleHookMayNotBeRemoved"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40906 (Cantina/Clave)"
+help: "Malicious module/hook may not be removed"
+wiki_title: "Malicious module/hook may not be removed "
+wiki_description: |
+    ## Module and Hook Management Overview
+    
+    ## Context
+    - **Files**: 
+      - `ModuleManager.sol#L111-L112`
+      - `HookManager.sol#L197-L198`
+    
+    ## Description
+    In the `ModuleManager`, the `_removeModule()` function calls the module's `disable()` function using a low-level call. This allows the overall transactio
+wiki_exploit_scenario: |
+    Per Solodit #40906: ## Module and Hook Management Overview
+    
+    ## Context
+    - **Files**: 
+      - `ModuleManager.sol#L111-L112`
+      - `HookManager.sol#L197-L198`
+    
+    ## Description
+    In the `ModuleManager`, the `_removeModule()` functio
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousModuleHookMayNotBeRemoved"
+solodit_id: "40906"
+solodit_slug: "malicious-modulehook-may-not-be-removed-cantina-none-clave-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal disable;"
+fn_name_regex: ".*(ModuleManager|disable|HookManager|ExcessivelySafeCall).*"
+read_var_regex: ".*(disable|excessivelySafeCall|gasleft).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ModuleManager"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return disable > 0;"

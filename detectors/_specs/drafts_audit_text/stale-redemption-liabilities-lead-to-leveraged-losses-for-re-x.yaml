@@ -1,0 +1,27 @@
+skeleton: "state_write_without_paired_write"
+name: "stale-redemption-liabilities-lead-to-leveraged-losses-for-re-x"
+class_name: "StaleRedemptionLiabilitiesLeadToLeveragedLossesForReX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-11-sukukfi"
+help: |
+    farismaulana , also found by Audittens Ekene h2134 jo13 Noro , and Valves src/ERC7575VaultUpgradeable.sol #L831 src/ERC7575VaultUpgradeable.sol #L1208 src/ShareTokenUpgradeable.sol
+wiki_title: |
+    Stale Redemption Liabilities Lead to Leveraged Losses for Remaining Shareholders and Potential Denial of Service
+wiki_description: |
+    farismaulana , also found by Audittens Ekene h2134 jo13 Noro , and Valves src/ERC7575VaultUpgradeable.sol #L831 src/ERC7575VaultUpgradeable.sol #L1208 src/ShareTokenUpgradeable.sol #L369-L390 src/ShareTokenUpgradeable.sol #L603-L620 When a user request redeem and then fulfilled by the investment man
+wiki_exploit_scenario: |
+    Per audit finding: farismaulana , also found by Audittens Ekene h2134 jo13 Noro , and Valves src/ERC7575VaultUpgradeable.sol #L831 src/ERC7575VaultUpgradeable.sol #L1208 src/ShareTokenUpgradeable.sol #L369-L390 src/Shar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StaleRedemptionLiabilitiesLeadToLeveragedLossesForReX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(fulfillRedeem|nonReentrant|pendingRedeemShares).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

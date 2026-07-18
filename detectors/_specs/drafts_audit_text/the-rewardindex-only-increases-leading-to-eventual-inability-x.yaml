@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-rewardindex-only-increases-leading-to-eventual-inability-x"
+class_name: "TheRewardindexOnlyIncreasesLeadingToEventualInabilityX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Yeet October - Zellic Audit Report"
+help: |
+    The StakingV2 contract uses rewardIndex, which acts as an epoch-based rewards tracker. Due to rounding errors in Solidity, it is possible that rewardIndex increases to the point wh
+wiki_title: "The rewardIndex only increases, leading to eventual inability to claim re-"
+wiki_description: |
+    The StakingV2 contract uses rewardIndex, which acts as an epoch-based rewards tracker. Due to rounding errors in Solidity, it is possible that rewardIndex increases to the point where _verifyAnd- PrepareClaim() will revert. The rewardIndex variable is an ever-increasing denominator in the totalUserV
+wiki_exploit_scenario: |
+    Per audit finding: The StakingV2 contract uses rewardIndex, which acts as an epoch-based rewards tracker. Due to rounding errors in Solidity, it is possible that rewardIndex increases to the point where _verifyAnd- Prep
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheRewardindexOnlyIncreasesLeadingToEventualInabilityX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rewardIndex|totalUserVaultShares|totalVaultShares).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "rewardIndex"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

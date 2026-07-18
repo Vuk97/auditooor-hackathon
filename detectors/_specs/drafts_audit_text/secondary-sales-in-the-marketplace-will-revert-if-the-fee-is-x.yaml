@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "secondary-sales-in-the-marketplace-will-revert-if-the-fee-is-x"
+class_name: "SecondarySalesInTheMarketplaceWillRevertIfTheFeeIsX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit d3-doma - Zellic Audit Report"
+help: |
+    In the Marketplace contract, the _secondaryFee state variable is intended to be within the range [0, 10000]. However, the _setSecondarySaleFee() function does not have a check for
+wiki_title: "Secondary sales in the Marketplace will revert if the fee is not set correctly"
+wiki_description: |
+    In the Marketplace contract, the _secondaryFee state variable is intended to be within the range [0, 10000]. However, the _setSecondarySaleFee() function does not have a check for this, which allows the fee to be set higher than the range. This will cause the secondarySale() function to revert, as t
+wiki_exploit_scenario: |
+    Per audit finding: In the Marketplace contract, the _secondaryFee state variable is intended to be within the range [0, 10000]. However, the _setSecondarySaleFee() function does not have a check for this, which allows t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SecondarySalesInTheMarketplaceWillRevertIfTheFeeIsX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(secondarySale|totalFee|totalAmount).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "secondarySale"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

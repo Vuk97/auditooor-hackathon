@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "integer-overflows-and-underflows-in-unchecked-blocks"
+class_name: "IntegerOverflowsAndUnderflowsInUncheckedBlocks"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit SushiSwap RouteProcessor3 - Zellic Audit Report"
+help: |
+    The contract makes sporadic use of unchecked blocks to improve gas efficiency. So- lidity does not perform some safety checks when compiling code placed inside unch ecked blocks; m
+wiki_title: "Integer overflows and underflows in unchecked blocks"
+wiki_description: |
+    The contract makes sporadic use of unchecked blocks to improve gas efficiency. So- lidity does not perform some safety checks when compiling code placed inside unch ecked blocks; most notably, it does not check for integer overflows and underflows. While most unchecked blocks are safe, some function
+wiki_exploit_scenario: |
+    Per audit finding: The contract makes sporadic use of unchecked blocks to improve gas efficiency. So- lidity does not perform some safety checks when compiling code placed inside unch ecked blocks; most notably, it does
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IntegerOverflowsAndUnderflowsInUncheckedBlocks"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(distributeAndSwap|tokenIn|amountTotal).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "distributeAndSwap"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

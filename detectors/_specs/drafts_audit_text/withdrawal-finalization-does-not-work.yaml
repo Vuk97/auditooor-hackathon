@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "withdrawal-finalization-does-not-work"
+class_name: "WithdrawalFinalizationDoesNotWork"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Hyperliquid - Zellic Audit Report"
+help: |
+    The single entry point for finalizing withdrawals is the batchedFinalizeWithdrawals function, which iterates over an array of messages and calls finalizeWithdrawal on each. Both fu
+wiki_title: "Withdrawal finalization does not work"
+wiki_description: |
+    The single entry point for finalizing withdrawals is the batchedFinalizeWithdrawals function, which iterates over an array of messages and calls finalizeWithdrawal on each. Both functions have the nonReentrant modifier. function batchedFinalizeWithdrawals( bytes32[] calldata messages ) external nonR
+wiki_exploit_scenario: |
+    Per audit finding: The single entry point for finalizing withdrawals is the batchedFinalizeWithdrawals function, which iterates over an array of messages and calls finalizeWithdrawal on each. Both functions have the non
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WithdrawalFinalizationDoesNotWork"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(batchedFinalizeWithdrawals|finalizeWithdrawal|nonReentrant).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "batchedFinalizeWithdrawals"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

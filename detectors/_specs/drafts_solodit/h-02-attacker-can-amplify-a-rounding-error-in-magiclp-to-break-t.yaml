@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "h-02-attacker-can-amplify-a-rounding-error-in-magiclp-to-break-t"
+class_name: "H02AttackerCanAmplifyARoundingErrorInMagiclpToBreakT"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #32054 (Code4rena/Abracadabra Money)"
+help: |
+    [H-02] Attacker can amplify a rounding error in MagicLP to break the I invariant and cause malicious pricing
+wiki_title: |
+    [H-02] Attacker can amplify a rounding error in MagicLP to break the I invariant and cause malicious pricing
+wiki_description: |
+    One of the two key parameters in MagicLP pools is `I`, which is defined to be the ideal ratio between the two reserves. It is set during MagicLP initialization:
+    `_I_ = i;`
+    
+    It is used when performing the initial LP deposit, in `buyShares()`:
+    
+        if (totalSupply() == 0) {
+            // case 1. initial
+wiki_exploit_scenario: |
+    Per Solodit #32054: One of the two key parameters in MagicLP pools is `I`, which is defined to be the ideal ratio between the two reserves. It is set during MagicLP initialization:
+    `_I_ = i;`
+    
+    It is used when performing
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02AttackerCanAmplifyARoundingErrorInMagiclpToBreakT"
+solodit_id: "32054"
+solodit_slug: |
+    h-02-attacker-can-amplify-a-rounding-error-in-magiclp-to-break-the-i-invariant-and-cause-malicious-pricing-code4rena-abracadabra-money-abracadabra-money-git
+solodit_quality: "4"
+solodit_rarity: "2"
+solodit_tags: "Rounding"
+state_decl: "uint256 internal basebalance;"
+fn_name_regex: ".*(buyShares|QUOTE_TARGET|BASE_TARGET|quoteBalance).*"
+read_var_regex: ".*(baseBalance|buyShares|mulFloor).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "buyShares"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return basebalance > 0;"

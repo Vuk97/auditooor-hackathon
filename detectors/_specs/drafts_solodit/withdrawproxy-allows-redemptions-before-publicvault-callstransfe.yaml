@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "withdrawproxy-allows-redemptions-before-publicvault-callstransfe"
+class_name: "WithdrawproxyAllowsRedemptionsBeforePublicvaultCallstransfe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7308 (Spearbit/Astaria)"
+help: "WithdrawProxy allows redemptions before PublicVault callstransferWithdrawReserve"
+wiki_title: "WithdrawProxy allows redemptions before PublicVault callstransferWithdrawReserve"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    `WithdrawProxy.sol#L172-L175`
+    
+    ## Description
+    Anytime there is a withdrawal pending (i.e., someone holds WithdrawProxy shares), shares may be redeemed as long as `totalAssets() > 0` and `s.finalAuctionEnd == 0`. Under normal operating conditions, `totalAssets()` be
+wiki_exploit_scenario: |
+    Per Solodit #7308: ## Severity: High Risk
+    
+    ## Context
+    `WithdrawProxy.sol#L172-L175`
+    
+    ## Description
+    Anytime there is a withdrawal pending (i.e., someone holds WithdrawProxy shares), shares may be redeemed as long as `to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WithdrawproxyAllowsRedemptionsBeforePublicvaultCallstransfe"
+solodit_id: "7308"
+solodit_slug: |
+    withdrawproxy-allows-redemptions-before-publicvault-callstransferwithdrawreserve-spearbit-astaria-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Business Logic, Validation, EIP-4626, ERC4626"
+state_decl: "uint256 internal finalauctionend;"
+fn_name_regex: ".*(totalAssets|PublicVault|transferWithdrawReserve|withdrawReserve).*"
+write_var_regex: ".*(finalAuctionEnd|totalAssets|transferWithdrawReserve).*"
+guard_var_regex: ".*(finalAuctionEnd|totalAssets|transferWithdrawReserve).*"
+vuln_fn_name: "totalAssets"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "finalauctionend = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

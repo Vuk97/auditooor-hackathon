@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "a-user-calling-controller-dctstake-can-bypass-tax-by-rst-transfe"
+class_name: "AUserCallingControllerDctstakeCanBypassTaxByRstTransfe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #40665 (Cantina/Goat Tech)"
+help: |
+    A user calling controller::dctstake can bypass tax by ﬁrst transferring the tokens to be staked in a separate transaction
+wiki_title: |
+    A user calling controller::dctstake can bypass tax by ﬁrst transferring the tokens to be staked in a separate transaction 
+wiki_description: |
+    ## Context
+    **File:** Controller.sol#L430
+    
+    ## Impact
+    When a user stakes DCT tokens via `dctStake`, there is a 1% tax on their `amount_` to stake. This 1% "tax" is transferred to the burn address as shown here:
+    
+    ```solidity
+    uint taxA = LPercentage.getPercentA(amount_, _dctTaxPercent);
+    _dct.transfer(ad
+wiki_exploit_scenario: |
+    Per Solodit #40665: ## Context
+    **File:** Controller.sol#L430
+    
+    ## Impact
+    When a user stakes DCT tokens via `dctStake`, there is a 1% tax on their `amount_` to stake. This 1% "tax" is transferred to the burn address as sho
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AUserCallingControllerDctstakeCanBypassTaxByRstTransfe"
+solodit_id: "40665"
+solodit_slug: |
+    a-user-calling-controllerdctstake-can-bypass-tax-by-first-transferring-the-tokens-to-be-staked-in-a-separate-transaction-cantina-none-goat-tech-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount_;"
+fn_name_regex: ".*(dctStake|amount_).*"
+read_var_regex: ".*(amount_|dctStake).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "dctStake"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount_ > 0;"

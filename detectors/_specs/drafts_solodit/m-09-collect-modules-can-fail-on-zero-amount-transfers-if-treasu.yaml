@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "m-09-collect-modules-can-fail-on-zero-amount-transfers-if-treasu"
+class_name: "M09CollectModulesCanFailOnZeroAmountTransfersIfTreasu"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1479 (Code4rena/Aave Lens)"
+help: "[M-09] Collect modules can fail on zero amount transfers if treasury fee is set to zero"
+wiki_title: "[M-09] Collect modules can fail on zero amount transfers if treasury fee is set to zero"
+wiki_description: |
+    _Submitted by hyh_
+    
+    Treasury fee can be zero, while collect modules do attempt to send it in such a case anyway as there is no check in place. Some ERC20 tokens do not allow zero value transfers, reverting such attempts.
+    
+    This way, a combination of zero treasury fee and such a token set as a collect
+wiki_exploit_scenario: |
+    Per Solodit #1479: _Submitted by hyh_
+    
+    Treasury fee can be zero, while collect modules do attempt to send it in such a case anyway as there is no check in place. Some ERC20 tokens do not allow zero value transfers, reve
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09CollectModulesCanFailOnZeroAmountTransfersIfTreasu"
+solodit_id: "1479"
+solodit_slug: |
+    m-09-collect-modules-can-fail-on-zero-amount-transfers-if-treasury-fee-is-set-to-zero-code4rena-aave-lens-aave-lens-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal treasuryamount;"
+fn_name_regex: ".*(treasuryAmount).*"
+write_var_regex: ".*(treasuryAmount).*"
+guard_var_regex: ".*(treasuryAmount).*"
+vuln_fn_name: "treasuryAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "treasuryamount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

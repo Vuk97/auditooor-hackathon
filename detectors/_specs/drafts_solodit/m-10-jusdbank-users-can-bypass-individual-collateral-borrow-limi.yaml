@@ -1,0 +1,42 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-10-jusdbank-users-can-bypass-individual-collateral-borrow-limi"
+class_name: "M10JusdbankUsersCanBypassIndividualCollateralBorrowLimi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18477 (Sherlock/JOJO Exchange)"
+help: "M-10: JUSDBank users can bypass individual collateral borrow limits"
+wiki_title: "M-10: JUSDBank users can bypass individual collateral borrow limits"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-04-jojo-judging/issues/403 
+    
+    ## Found by 
+    0x52, Ace-30, GalloDaSballo, J4de, carrotsmuggler, peakbolt
+    ## Summary
+    
+    JUSDBank imposes individual borrow caps on each collateral. The issue is that this can be bypassed due to the fact that withdraw and borrow
+wiki_exploit_scenario: |
+    Per Solodit #18477: Source: https://github.com/sherlock-audit/2023-04-jojo-judging/issues/403 
+    
+    ## Found by 
+    0x52, Ace-30, GalloDaSballo, J4de, carrotsmuggler, peakbolt
+    ## Summary
+    
+    JUSDBank imposes individual borrow caps
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10JusdbankUsersCanBypassIndividualCollateralBorrowLimi"
+solodit_id: "18477"
+solodit_slug: "m-10-jusdbank-users-can-bypass-individual-collateral-borrow-limits-sherlock-none-jojo-exchange-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(isDepositToJOJO|nonReentrant|nonFlashLoanReentrant|t0BorrowedAmount).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

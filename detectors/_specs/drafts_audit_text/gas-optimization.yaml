@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "gas-optimization"
+class_name: "GasOptimization"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Smart Vault - Zellic Audit Report"
+help: |
+    The executeStrategy function first increases the strategy's allowance to type(uint256).max before calling the strategy contract's execute function. After execution, it queries the
+wiki_title: "Gas optimization"
+wiki_description: |
+    The executeStrategy function first increases the strategy's allowance to type(uint256).max before calling the strategy contract's execute function. After execution, it queries the current allowance and then decreases it by the queried amount. However, when the allowance is set to type(uint256).max,
+wiki_exploit_scenario: |
+    Per audit finding: The executeStrategy function first increases the strategy's allowance to type(uint256).max before calling the strategy contract's execute function. After execution, it queries the current allowance an
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GasOptimization"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(executeStrategy|transferFrom|underlyingAsset).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "executeStrategy"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

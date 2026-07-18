@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-stale-price-oracle-check-results-in-outsized-nft-price"
+class_name: "MissingStalePriceOracleCheckResultsInOutsizedNftPrice"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Voyage - Zellic Audit Report"
+help: |
+    The price oracle stores the average price of NFTs in a given collection. Calls to update TWAP(...))) set the average price and the block.timestamp: function updateTwap(address _cur
+wiki_title: "Missing stale price oracle check results in outsized NFT price"
+wiki_description: |
+    The price oracle stores the average price of NFTs in a given collection. Calls to update TWAP(...))) set the average price and the block.timestamp: function updateTwap(address _currency, uint256 _priceAverage) external auth { prices[_currency].priceAverage = _priceAverage; prices[_currency].blockTim
+wiki_exploit_scenario: |
+    Per audit finding: The price oracle stores the average price of NFTs in a given collection. Calls to update TWAP(...))) set the average price and the block.timestamp: function updateTwap(address _currency, uint256 _pric
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingStalePriceOracleCheckResultsInOutsizedNftPrice"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateTwap|priceAverage|getTWAP).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "updateTwap"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

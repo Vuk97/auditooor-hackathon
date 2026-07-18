@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "h03-malicious-maker-could-take-advantage-of-partial-fills-to-ste"
+class_name: "H03MaliciousMakerCouldTakeAdvantageOfPartialFillsToSte"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #10680 (OpenZeppelin/1inch Limit Order Protocol Audit)"
+help: "[H03] Malicious maker could take advantage of partial fills to steal taker’s assets"
+wiki_title: "[H03] Malicious maker could take advantage of partial fills to steal taker’s assets"
+wiki_description: |
+    Orders from the [`OrderMixin`](https://github.com/1inch/limit-order-protocol/blob/4d94eea25e4dac6271bfd703096a5c4a4d899b4a/contracts/OrderMixin.sol) contract have the ability to be partially filled. To support partial fills, the protocol requires a way to calculate both sides of swaps. Both [`getMak
+wiki_exploit_scenario: |
+    Per Solodit #10680: Orders from the [`OrderMixin`](https://github.com/1inch/limit-order-protocol/blob/4d94eea25e4dac6271bfd703096a5c4a4d899b4a/contracts/OrderMixin.sol) contract have the ability to be partially filled. T
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03MaliciousMakerCouldTakeAdvantageOfPartialFillsToSte"
+solodit_id: "10680"
+solodit_slug: |
+    h03-malicious-maker-could-take-advantage-of-partial-fills-to-steal-takers-assets-openzeppelin-1inch-limit-order-protocol-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getmakeramount;"
+fn_name_regex: ".*(OrderMixin|getMakerAmount|getTakerAmount|makingAmount).*"
+write_var_regex: ".*(getMakerAmount|getTakerAmount|makingAmount).*"
+guard_var_regex: ".*(getMakerAmount|getTakerAmount|makingAmount).*"
+vuln_fn_name: "OrderMixin"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "getmakeramount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "missing-slippage-protection-for-rewards-swap"
+class_name: "MissingSlippageProtectionForRewardsSwap"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16533 (ConsenSys/Fuji Protocol)"
+help: "Missing slippage protection for rewards swap"
+wiki_title: "Missing slippage protection for rewards swap"
+wiki_description: |
+    #### Description
+    
+    
+    In `FujiVaultFTM.harvestRewards` a swap transaction is generated using a call to `SwapperFTM.getSwapTransaction`. In all relevant scenarios, this call uses a minimum output amount of zero, which de-facto deactivates slippage checks. Most values from harvesting rewards can thus be
+wiki_exploit_scenario: |
+    Per Solodit #16533: #### Description
+    
+    
+    In `FujiVaultFTM.harvestRewards` a swap transaction is generated using a call to `SwapperFTM.getSwapTransaction`. In all relevant scenarios, this call uses a minimum output amount o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingSlippageProtectionForRewardsSwap"
+solodit_id: "16533"
+solodit_slug: "missing-slippage-protection-for-rewards-swap-consensys-fuji-protocol-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amountoutmin;"
+fn_name_regex: ".*(amountOutMin).*"
+write_var_regex: ".*(amountOutMin).*"
+guard_var_regex: ".*(amountOutMin).*"
+vuln_fn_name: "amountOutMin"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amountoutmin = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

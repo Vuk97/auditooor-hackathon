@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "sol-1-cross-function-reentrancy-leading-to-double-delegation"
+class_name: "Sol1CrossFunctionReentrancyLeadingToDoubleDelegation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53456 (Hexens/1Inch)"
+help: "1. Cross-function reentrancy leading to double delegation"
+wiki_title: "1. Cross-function reentrancy leading to double delegation"
+wiki_description: |
+    **Severity:** Critical
+    
+    **Path:** ERC20Pods.sol#L116-L151
+    
+    **Description:** 
+    
+    In the function `_beforeTokenTransfer` that is being overloaded to process
+    the delegations transfers for various pods, user pods are being read from
+    `_pods` mapping and then the code checks whether the “`from`” and “`to`”
+wiki_exploit_scenario: |
+    Per Solodit #53456: **Severity:** Critical
+    
+    **Path:** ERC20Pods.sol#L116-L151
+    
+    **Description:** 
+    
+    In the function `_beforeTokenTransfer` that is being overloaded to process
+    the delegations transfers for various pods, use
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Sol1CrossFunctionReentrancyLeadingToDoubleDelegation"
+solodit_id: "53456"
+solodit_slug: "1-cross-function-reentrancy-leading-to-double-delegation-hexens-none-1inch-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal from;"
+fn_name_regex: ".*(from|pod).*"
+read_var_regex: ".*(from|pod).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "from"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return from > 0;"

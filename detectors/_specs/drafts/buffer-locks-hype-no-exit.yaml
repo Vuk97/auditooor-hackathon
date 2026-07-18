@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "buffer-locks-hype-no-exit"
+class_name: "BufferLocksHypeNoExit"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice code4arena_slice_ac"
+help: |
+    Buffer contract silently holds staked HYPE with no withdrawal/move-to-L1 path, permanently locking user funds.
+wiki_title: "Buffer-Locks-HYPE-No-Exit"
+wiki_description: |
+    Buffer contract silently holds staked HYPE with no withdrawal/move-to-L1 path, permanently locking user funds.
+wiki_exploit_scenario: |
+    Attacker exploits Buffer-Locks-HYPE-No-Exit as described: Buffer contract silently holds staked HYPE with no withdrawal/move-to-L1 path, permanently locking user funds.
+wiki_recommendation: "per-contract balance accumulator with no path to withdraw or forward the held asset."
+contract_name: "BufferLocksHypeNoExit"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(buffer|locks|hype).*"
+read_var_regex: ".*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "buffer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

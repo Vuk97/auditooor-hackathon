@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "using-atoken-balanceof-in-claggaaveadapter-compoundaccounting-al"
+class_name: "UsingAtokenBalanceofInClaggaaveadapterCompoundaccountingAl"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #46278 (Cantina/Clave)"
+help: "Using aToken.balanceOf() in ClaggAaveAdapter._compoundAccounting() allows for inﬂation at- tacks"
+wiki_title: "Using aToken.balanceOf() in ClaggAaveAdapter._compoundAccounting() allows for inﬂation at- tacks "
+wiki_description: |
+    ## Context
+    ClaggAaveAdapter.sol#L98-L102, ClaggBaseAdapter.sol#L559-L563
+    
+    ## Description
+    When `compound()` is called, `ClaggAaveAdapter._compoundAccounting()` sets `totalLiquidity`
+    of the pool to the current aToken balance of the contract:
+    
+    ```solidity
+    function _compoundAccounting(address pool, uint
+wiki_exploit_scenario: |
+    Per Solodit #46278: ## Context
+    ClaggAaveAdapter.sol#L98-L102, ClaggBaseAdapter.sol#L559-L563
+    
+    ## Description
+    When `compound()` is called, `ClaggAaveAdapter._compoundAccounting()` sets `totalLiquidity`
+    of the pool to the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsingAtokenBalanceofInClaggaaveadapterCompoundaccountingAl"
+solodit_id: "46278"
+solodit_slug: |
+    using-atokenbalanceof-in-claggaaveadapter_compoundaccounting-allows-for-inflation-at-tacks-cantina-none-clave-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal compound;"
+fn_name_regex: ".*(compound|totalLiquidity|ClaggAaveAdapter|deposit).*"
+read_var_regex: ".*(compound|deposit|totalLiquidity).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "compound"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return compound > 0;"

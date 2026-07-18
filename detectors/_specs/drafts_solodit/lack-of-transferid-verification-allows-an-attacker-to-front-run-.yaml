@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-transferid-verification-allows-an-attacker-to-front-run-"
+class_name: "LackOfTransferidVerificationAllowsAnAttackerToFrontRun"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7211 (Spearbit/Connext)"
+help: "Lack of transferId Verification Allows an Attacker to Front-Run Bridge Transfers"
+wiki_title: "Lack of transferId Verification Allows an Attacker to Front-Run Bridge Transfers"
+wiki_description: |
+    ## Severity: Critical Risk  
+    
+    ## Context  
+    - `NomadFacet.sol#L99-L149`  
+    - `BridgeRouter.sol#L176-L199`  
+    - `BridgeRouter.sol#L347-L381`  
+    
+    ## Description  
+    The `onReceive()` function does not verify the integrity of `transferId` against all other parameters. Although the `onlyBridgeRouter` modifier
+wiki_exploit_scenario: |
+    Per Solodit #7211: ## Severity: Critical Risk  
+    
+    ## Context  
+    - `NomadFacet.sol#L99-L149`  
+    - `BridgeRouter.sol#L176-L199`  
+    - `BridgeRouter.sol#L347-L381`  
+    
+    ## Description  
+    The `onReceive()` function does not verify
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfTransferidVerificationAllowsAnAttackerToFrontRun"
+solodit_id: "7211"
+solodit_slug: |
+    lack-of-transferid-verification-allows-an-attacker-to-front-run-bridge-transfers-spearbit-connext-pdf
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Validation, Front-Running"
+state_decl: "uint256 internal onreceive;"
+fn_name_regex: ".*(onReceive|transferId|onlyBridgeRouter|sendToHook).*"
+write_var_regex: ".*(onReceive|onlyBridgeRouter|sendToHook).*"
+guard_var_regex: ".*(onReceive|onlyBridgeRouter|sendToHook).*"
+vuln_fn_name: "onReceive"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "onreceive = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

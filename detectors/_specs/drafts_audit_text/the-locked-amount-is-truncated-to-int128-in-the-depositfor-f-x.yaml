@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-locked-amount-is-truncated-to-int128-in-the-depositfor-f-x"
+class_name: "TheLockedAmountIsTruncatedToInt128InTheDepositforFX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Palmy Finance - Zellic Audit Report"
+help: |
+    The _depositFor function handles creating a new lock, extending the period of the lock and deposit- ing to the lock. function _depositFor( uint256 _lockerId, uint256 _value, uint25
+wiki_title: "The locked amount is truncated to int128 in the _depositFor function"
+wiki_description: |
+    The _depositFor function handles creating a new lock, extending the period of the lock and deposit- ing to the lock. function _depositFor( uint256 _lockerId, uint256 _value, uint256 unlockTime, LockedBalance memory lockedBalance, DepositType _depositType ) internal { // ... if (_value != 0) { _locke
+wiki_exploit_scenario: |
+    Per audit finding: The _depositFor function handles creating a new lock, extending the period of the lock and deposit- ing to the lock. function _depositFor( uint256 _lockerId, uint256 _value, uint256 unlockTime, Locked
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheLockedAmountIsTruncatedToInt128InTheDepositforFX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(unlockTime|lockedBalance|supplyBefore).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "unlockTime"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "permanent-locking-of-user-funds-in-the-stability-pool"
+class_name: "PermanentLockingOfUserFundsInTheStabilityPool"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #46261 (Cantina/Bima)"
+help: "Permanent Locking of User Funds in the Stability Pool"
+wiki_title: "Permanent Locking of User Funds in the Stability Pool "
+wiki_description: |
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Summary
+    If the collateral is sunsetted and 180 days have passed, the sunsetted collateral will be replaced by newly added collateral. At this point, the `epochToScaleToSums` for the relevant index is reset to zero. This value may increa
+wiki_exploit_scenario: |
+    Per Solodit #46261: ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Summary
+    If the collateral is sunsetted and 180 days have passed, the sunsetted collateral will be replaced by newly added collateral. At
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PermanentLockingOfUserFundsInTheStabilityPool"
+solodit_id: "46261"
+solodit_slug: "permanent-locking-of-user-funds-in-the-stability-pool-cantina-none-bima-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositsums;"
+fn_name_regex: ".*(epochToScaleToSums|depositSums|underlyingtokens|provideToSP).*"
+write_var_regex: ".*(depositSums|epochToScaleToSums|provideToSP).*"
+guard_var_regex: ".*(depositSums|epochToScaleToSums|provideToSP).*"
+vuln_fn_name: "epochToScaleToSums"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "depositsums = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

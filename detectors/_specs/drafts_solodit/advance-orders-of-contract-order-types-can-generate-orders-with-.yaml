@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "advance-orders-of-contract-order-types-can-generate-orders-with-"
+class_name: "AdvanceOrdersOfContractOrderTypesCanGenerateOrdersWith"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #15955 (Spearbit/SEAPORT)"
+help: |
+    Advance orders of CONTRACT order types can generate orders with less consideration items that would break the aggregation routine
+wiki_title: |
+    Advance orders of CONTRACT order types can generate orders with less consideration items that would break the aggregation routine
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - **OrderValidator.sol**: Lines 444-447
+    - **FulfillmentApplier.sol**: Lines 561-569
+    
+    ## Description
+    When Seaport gets a collection of advanced orders to fulfill or match, if one of the orders has a `CONTRACT` order type, Seaport calls the `generateOrder(...)` end
+wiki_exploit_scenario: |
+    Per Solodit #15955: ## Severity: Medium Risk
+    
+    ## Context
+    - **OrderValidator.sol**: Lines 444-447
+    - **FulfillmentApplier.sol**: Lines 561-569
+    
+    ## Description
+    When Seaport gets a collection of advanced orders to fulfill or
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AdvanceOrdersOfContractOrderTypesCanGenerateOrdersWith"
+solodit_id: "15955"
+solodit_slug: |
+    advance-orders-of-contract-order-types-can-generate-orders-with-less-consideration-items-that-spearbit-seaport-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal generateorder;"
+fn_name_regex: ".*(CONTRACT|generateOrder|previewOrder|ContractOffererInterface).*"
+read_var_regex: ".*(generateOrder|previewOrder).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "CONTRACT"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return generateorder > 0;"

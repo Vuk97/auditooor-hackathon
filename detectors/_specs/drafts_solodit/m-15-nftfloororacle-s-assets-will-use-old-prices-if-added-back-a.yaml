@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m-15-nftfloororacle-s-assets-will-use-old-prices-if-added-back-a"
+class_name: "M15NftfloororacleSAssetsWillUseOldPricesIfAddedBackA"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25727 (Code4rena/ParaSpace)"
+help: "[M-15] NFTFloorOracle's assets will use old prices if added back after removal"
+wiki_title: "[M-15] NFTFloorOracle's assets will use old prices if added back after removal"
+wiki_description: |
+    `assetFeederMap` mapping has elements of the `FeederRegistrar` structure type, that contains nested `feederPrice` mapping. When an asset is being removed with \_removeAsset(), its `assetFeederMap` entry is deleted with the plain `delete assetFeederMap[_asset]` operation, which leaves `feederPrice`
+wiki_exploit_scenario: |
+    Per Solodit #25727: `assetFeederMap` mapping has elements of the `FeederRegistrar` structure type, that contains nested `feederPrice` mapping. When an asset is being removed with \_removeAsset(), its `assetFeederMap` en
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15NftfloororacleSAssetsWillUseOldPricesIfAddedBackA"
+solodit_id: "25727"
+solodit_slug: |
+    m-15-nftfloororacles-assets-will-use-old-prices-if-added-back-after-removal-code4rena-paraspace-paraspace-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assetfeedermap;"
+fn_name_regex: ".*(assetFeederMap|FeederRegistrar|feederPrice|delete).*"
+read_var_regex: ".*(assetFeederMap|delete|feederPrice).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "assetFeederMap"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assetfeedermap > 0;"

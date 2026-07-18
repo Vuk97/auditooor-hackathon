@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "stake-contract-address-should-not-change-once-set"
+class_name: "StakeContractAddressShouldNotChangeOnceSet"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Audius EVM - Zellic Audit Report"
+help: |
+    Currently, the address of the staking contract is stored in a variable called stakingAd dress and can be set via the setStakingAddress function, an action that can only be performe
+wiki_title: "Stake contract address should not change once set"
+wiki_description: |
+    Currently, the address of the staking contract is stored in a variable called stakingAd dress and can be set via the setStakingAddress function, an action that can only be performed by the governanceAddress. There is no check put in place, however, on whether the stakingAddress has been previously s
+wiki_exploit_scenario: |
+    Per audit finding: Currently, the address of the staking contract is stored in a variable called stakingAd dress and can be set via the setStakingAddress function, an action that can only be performed by the governanceA
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StakeContractAddressShouldNotChangeOnceSet"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stakingAd|setStakingAddress|governanceAddress).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "stakingAd"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_require"
+name: "m-04-lack-of-data-validation-for-oracle-price-feed"
+class_name: "M04LackOfDataValidationForOraclePriceFeed"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49122 (Pashov Audit Group/Dinari_2024-12-07)"
+help: "[M-04] Lack of data validation for oracle price feed"
+wiki_title: "[M-04] Lack of data validation for oracle price feed"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    There are several issues with the validation of price feed data in the `USDPlusMinter` and `USDPlusRedeemer` (when using Chainlink's `latestRoundData()`):
+    
+    - Missing Validation for Price > 0:
+      There is no check to ensure the price
+wiki_exploit_scenario: |
+    Per Solodit #49122: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    There are several issues with the validation of price feed data in the `USDPlusMinter` and `USDPlusRedeemer` (when using Chainlink's
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04LackOfDataValidationForOraclePriceFeed"
+solodit_id: "49122"
+solodit_slug: |
+    m-04-lack-of-data-validation-for-oracle-price-feed-pashov-audit-group-none-dinari_2024-12-07-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal latestrounddata;"
+fn_name_regex: ".*(USDPlusMinter|USDPlusRedeemer|latestRoundData|GRACE_PERIOD).*"
+write_var_regex: ".*(latestRoundData).*"
+guard_var_regex: ".*(latestRoundData).*"
+vuln_fn_name: "USDPlusMinter"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "latestrounddata = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

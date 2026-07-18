@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "authentication-bypass"
+class_name: "AuthenticationBypass"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Osmosis Authentication Abstraction - Zellic Audit Report"
+help: |
+    When adding an AllOfAuthenticator authenticator to an account, the only check on the provided data is that it unmarshals into an array of InitializationData. func (aoa AllOfAuthent
+wiki_title: "Authentication bypass"
+wiki_description: |
+    When adding an AllOfAuthenticator authenticator to an account, the only check on the provided data is that it unmarshals into an array of InitializationData. func (aoa AllOfAuthenticator) OnAuthenticatorAdded(ctx sdk.Context, account sdk.AccAddress, data []byte) error { var initDatas []Initializatio
+wiki_exploit_scenario: |
+    Per audit finding: When adding an AllOfAuthenticator authenticator to an account, the only check on the provided data is that it unmarshals into an array of InitializationData. func (aoa AllOfAuthenticator) OnAuthentica
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AuthenticationBypass"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(initDatas|initData|authenticatorCode).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "initDatas"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

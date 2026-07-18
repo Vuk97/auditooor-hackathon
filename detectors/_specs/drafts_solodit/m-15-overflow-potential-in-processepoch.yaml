@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "m-15-overflow-potential-in-processepoch"
+class_name: "M15OverflowPotentialInProcessepoch"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25831 (Code4rena/Astaria)"
+help: "[M-15] Overflow potential in processEpoch()"
+wiki_title: "[M-15] Overflow potential in processEpoch()"
+wiki_description: |
+    In `PublicVault.sol#processEpoch()`, we update the withdraw reserves based on how `totalAssets()` (the real amount of the underlying asset held by the vault) compares to the expected value in the withdraw proxy:
+    
+          unchecked {
+            if (totalAssets() > expected) {
+              s.withdrawReserve
+wiki_exploit_scenario: |
+    Per Solodit #25831: In `PublicVault.sol#processEpoch()`, we update the withdraw reserves based on how `totalAssets()` (the real amount of the underlying asset held by the vault) compares to the expected value in the wit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15OverflowPotentialInProcessepoch"
+solodit_id: "25831"
+solodit_slug: "m-15-overflow-potential-in-processepoch-code4rena-astaria-astaria-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidationwithdrawratio;"
+fn_name_regex: ".*(totalAssets|unchecked|mulWadDown|liquidationWithdrawRatio).*"
+write_var_regex: ".*(liquidationWithdrawRatio|mulWadDown|totalAssets).*"
+guard_var_regex: ".*(liquidationWithdrawRatio|mulWadDown|totalAssets).*"
+vuln_fn_name: "totalAssets"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "liquidationwithdrawratio = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

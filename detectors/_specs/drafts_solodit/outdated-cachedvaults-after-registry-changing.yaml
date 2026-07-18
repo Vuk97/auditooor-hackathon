@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "outdated-cachedvaults-after-registry-changing"
+class_name: "OutdatedCachedvaultsAfterRegistryChanging"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28516 (MixBytes/Yearn Finance)"
+help: "Outdated `_cachedVaults` after `registry` changing"
+wiki_title: "Outdated `_cachedVaults` after `registry` changing"
+wiki_description: |
+    ##### Description
+    Each `registry` has own `vaults` variable. It is possible that new `registry` contains different set of Vaults. In `allVaults` function we always copy old `_cachedVaults` https://github.com/yearn/yearn-vaults/blob/e390c2a6b2ba6e2ecc8f3a72a1ea4adfabd17544/contracts/BaseWrapper.sol#L
+wiki_exploit_scenario: |
+    Per Solodit #28516: ##### Description
+    Each `registry` has own `vaults` variable. It is possible that new `registry` contains different set of Vaults. In `allVaults` function we always copy old `_cachedVaults` https://git
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OutdatedCachedvaultsAfterRegistryChanging"
+solodit_id: "28516"
+solodit_slug: "outdated-_cachedvaults-after-registry-changing-mixbytes-none-yearn-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal allvaults;"
+fn_name_regex: ".*(registry|vaults|allVaults|setRegistry).*"
+read_var_regex: ".*(allVaults|registry|setRegistry).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "registry"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return allvaults > 0;"

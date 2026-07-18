@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-availablecap-update-in-withdraw-function"
+class_name: "MissingAvailablecapUpdateInWithdrawFunction"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Mitosis (May) - Zellic Audit Report"
+help: |
+    There is an inconsistency in the implementation of the MitosisVault contract. In the current code, the _deposit function deducts from availableCap, but the withdraw function does n
+wiki_title: "Missing availableCap update in withdraw function"
+wiki_description: |
+    There is an inconsistency in the implementation of the MitosisVault contract. In the current code, the _deposit function deducts from availableCap, but the withdraw function does not perform any operations with availableCap. See the _deposit function in the MitosisVault contract: L217 ↗ function _de
+wiki_exploit_scenario: |
+    Per audit finding: There is an inconsistency in the implementation of the MitosisVault contract. In the current code, the _deposit function deducts from availableCap, but the withdraw function does not perform any opera
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingAvailablecapUpdateInWithdrawFunction"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(availableCap|safeTransferFrom|whenNotPaused).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "availableCap"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,48 @@
+skeleton: "state_write_without_paired_write"
+name: "h-02-lendingpair-liquidateaccount-does-not-accrue-and-update-cum"
+class_name: "H02LendingpairLiquidateaccountDoesNotAccrueAndUpdateCum"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #468 (Code4rena/Wild Credit)"
+help: "[H-02] LendingPair.liquidateAccount does not accrue and update cumulativeInterestRate"
+wiki_title: "[H-02] LendingPair.liquidateAccount does not accrue and update cumulativeInterestRate"
+wiki_description: |
+    ## Handle
+    
+    cmichel
+    
+    
+    ## Vulnerability details
+    
+    The `LendingPair.liquidateAccount` function does not accrue and update the `cumulativeInterestRate` first, it only calls `_accrueAccountInterest` which does not update and instead uses the old `cumulativeInterestRate`.
+    
+    ## Impact
+    The liquidatee (borrowe
+wiki_exploit_scenario: |
+    Per Solodit #468: ## Handle
+    
+    cmichel
+    
+    
+    ## Vulnerability details
+    
+    The `LendingPair.liquidateAccount` function does not accrue and update the `cumulativeInterestRate` first, it only calls `_accrueAccountInterest` which d
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02LendingpairLiquidateaccountDoesNotAccrueAndUpdateCum"
+solodit_id: "468"
+solodit_slug: |
+    h-02-lendingpairliquidateaccount-does-not-accrue-and-update-cumulativeinterestrate-code4rena-wild-credit-wild-credit-contest-git
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(cumulativeInterestRate|accrueAccount).*"
+primary_var_regex: ".*(accrueAccount|cumulativeInterestRate).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "h-01-transfering-kibtoken-to-yourself-increases-your-balance"
+class_name: "H01TransferingKibtokenToYourselfIncreasesYourBalance"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19897 (Code4rena/KUMA Protocol)"
+help: "[H-01] TRANSFERING KIBToken TO YOURSELF INCREASES YOUR BALANCE"
+wiki_title: "[H-01] TRANSFERING KIBToken TO YOURSELF INCREASES YOUR BALANCE"
+wiki_description: |
+    Using temporary variables to update balances is a dangerous construction.
+    
+    If transferred to yourself, it will cause your balance to increase, thus growing the token balance infinitely.
+    
+    ### Proof of Concept
+    
+    KIBToken overrides `\_transfer()` to perform the transfer of the token, the code is as fol
+wiki_exploit_scenario: |
+    Per Solodit #19897: Using temporary variables to update balances is a dangerous construction.
+    
+    If transferred to yourself, it will cause your balance to increase, thus growing the token balance infinitely.
+    
+    ### Proof of
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01TransferingKibtokenToYourselfIncreasesYourBalance"
+solodit_id: "19897"
+solodit_slug: |
+    h-01-transfering-kibtoken-to-yourself-increases-your-balance-code4rena-kuma-protocol-kuma-protocol-versus-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(startingFromBalance|balanceOf|newFromBalance|newToBalance).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "startingFromBalance"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

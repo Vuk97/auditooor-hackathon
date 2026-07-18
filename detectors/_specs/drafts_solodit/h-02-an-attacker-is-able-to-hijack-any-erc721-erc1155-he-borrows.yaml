@@ -1,0 +1,41 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-02-an-attacker-is-able-to-hijack-any-erc721-erc1155-he-borrows"
+class_name: "H02AnAttackerIsAbleToHijackAnyErc721Erc1155HeBorrows"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30522 (Code4rena/reNFT)"
+help: |
+    [H-02] An attacker is able to hijack any ERC721 / ERC1155 he borrows because guard is missing validation on the address supplied to function call `setFallbackHandler()`
+wiki_title: |
+    [H-02] An attacker is able to hijack any ERC721 / ERC1155 he borrows because guard is missing validation on the address supplied to function call `setFallbackHa
+wiki_description: |
+    ### Pre-requisite knowledge & an overview of the features in question
+    
+    ***
+    
+    1.  **Gnosis safe fallback handlers**: Safes starting with version 1.1.1 allow to specify a fallback handler. A gnosis safe fallback handler is a contract which handles all functions that is unknown to the safe, this featur
+wiki_exploit_scenario: |
+    Per Solodit #30522: ### Pre-requisite knowledge & an overview of the features in question
+    
+    ***
+    
+    1.  **Gnosis safe fallback handlers**: Safes starting with version 1.1.1 allow to specify a fallback handler. A gnosis safe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02AnAttackerIsAbleToHijackAnyErc721Erc1155HeBorrows"
+solodit_id: "30522"
+solodit_slug: |
+    h-02-an-attacker-is-able-to-hijack-any-erc721-erc1155-he-borrows-because-guard-is-missing-validation-on-the-address-supplied-to-function-call-setfallbackhandler-code4rena-renft-renft-git
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "ERC721, ERC1155"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(uniswapV2Call|swap|setFallbackHandler).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

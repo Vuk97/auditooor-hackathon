@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "order-could-be-executed-after-the-end-of-the-pool-s-duration"
+class_name: "OrderCouldBeExecutedAfterTheEndOfThePoolSDuration"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Alkimiya - Zellic Audit Report"
+help: |
+    The function fillOrder in the SilicaPools contract does not check if the pool is still open before executing the order. This oversight could allow a user to execute an order after
+wiki_title: "Order could be executed after the end of the pool's duration"
+wiki_description: |
+    The function fillOrder in the SilicaPools contract does not check if the pool is still open before executing the order. This oversight could allow a user to execute an order after the pool's duration has ended. If an order's expiry is greater than the end of the pool's duration, the order could be e
+wiki_exploit_scenario: |
+    Per audit finding: The function fillOrder in the SilicaPools contract does not check if the pool is still open before executing the order. This oversight could allow a user to execute an order after the pool's duration
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OrderCouldBeExecutedAfterTheEndOfThePoolSDuration"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(fillOrder|nonReentrant|orderHash).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "fillOrder"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

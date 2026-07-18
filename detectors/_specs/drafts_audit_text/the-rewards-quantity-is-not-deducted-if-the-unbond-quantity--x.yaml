@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "the-rewards-quantity-is-not-deducted-if-the-unbond-quantity--x"
+class_name: "TheRewardsQuantityIsNotDeductedIfTheUnbondQuantityX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Polygon Staking - Zellic Audit Report"
+help: |
+    In the unbond function, this logic handles deciding what to do with the vault that is next in line for unbonding — specifically, whether to skip it, withdraw rewards from it, or un
+wiki_title: "The rewards quantity is not deducted if the unbond quantity is lesser"
+wiki_description: |
+    In the unbond function, this logic handles deciding what to do with the vault that is next in line for unbonding — specifically, whether to skip it, withdraw rewards from it, or unbond it: IPolygonVault vault = vaults[i]; uint256 deposits = vault.getTotalDeposits(); if (deposits != 0) { uint256 prin
+wiki_exploit_scenario: |
+    Per audit finding: In the unbond function, this logic handles deciding what to do with the vault that is next in line for unbonding — specifically, whether to skip it, withdraw rewards from it, or unbond it: IPolygonVau
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheRewardsQuantityIsNotDeductedIfTheUnbondQuantityX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getTotalDeposits|principalDeposits|getPrincipalDeposits).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getTotalDeposits"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

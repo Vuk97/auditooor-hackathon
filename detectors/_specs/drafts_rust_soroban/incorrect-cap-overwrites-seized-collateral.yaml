@@ -1,0 +1,19 @@
+id: incorrect-cap-overwrites-seized-collateral
+title: "Incorrect cap logic overwrites seized collateral ignoring fee computation"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44350"
+bug_class: precision-loss
+indicators:
+  - "`seize_amount = min(requested, user_balance)` applied AFTER fee was computed on `requested`"
+  - "fee over-counts vs actual seized amount"
+victim: "Protocol treasury: fee accounting mis-reports."
+exploit_precondition: "Seize request exceeds user balance."
+real_world_example: |
+  V12 #44350 (Low): Incorrect cap logic overwrites collateral seized ignoring fee computation.
+suggested_remediation: "Apply cap first, then compute fee on capped amount."
+cross_refs:
+  - exact-collateral-liquidation-skips-deficit

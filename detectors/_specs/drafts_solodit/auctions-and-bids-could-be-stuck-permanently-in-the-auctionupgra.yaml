@@ -1,0 +1,54 @@
+skeleton: "name_match_missing_call"
+name: "auctions-and-bids-could-be-stuck-permanently-in-the-auctionupgra"
+class_name: "AuctionsAndBidsCouldBeStuckPermanentlyInTheAuctionupgra"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #51101 (Halborn/Protocol)"
+help: |
+    AUCTIONS AND BIDS COULD BE STUCK PERMANENTLY IN THE AUCTIONUPGRADEABLE CONTRACT IF A BID IS PLACED BY A BLACKLISTED USDC/USDT USER
+wiki_title: |
+    AUCTIONS AND BIDS COULD BE STUCK PERMANENTLY IN THE AUCTIONUPGRADEABLE CONTRACT IF A BID IS PLACED BY A BLACKLISTED USDC/USDT USER
+wiki_description: |
+    ##### Description
+    
+    The `AuctionUpgradeable` contract allows creating different auctions through the `createAuction()` function:
+    
+    #### AuctionUpgradeable.sol
+    
+    ```
+    function createAuction(
+        uint96 startTime,
+        uint96 duration,
+        address sellToken,
+        uint256 trancheIndex,
+        uint128 sellAmount
+wiki_exploit_scenario: |
+    Per Solodit #51101: ##### Description
+    
+    The `AuctionUpgradeable` contract allows creating different auctions through the `createAuction()` function:
+    
+    #### AuctionUpgradeable.sol
+    
+    ```
+    function createAuction(
+        uint96 sta
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AuctionsAndBidsCouldBeStuckPermanentlyInTheAuctionupgra"
+solodit_id: "51101"
+solodit_slug: |
+    auctions-and-bids-could-be-stuck-permanently-in-the-auctionupgradeable-contract-if-a-bid-is-placed-by-a-blacklisted-usdcusdt-user-halborn-irrigation-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal closeauction;"
+fn_name_regex: ".*(AuctionUpgradeable|createAuction|closeAuction|sellToken).*"
+read_var_regex: ".*(closeAuction|createAuction|purchaseToken).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "AuctionUpgradeable"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return closeauction > 0;"

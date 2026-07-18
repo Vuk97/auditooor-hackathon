@@ -1,0 +1,35 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-05-pools-can-be-created-without-initial-liquidity"
+class_name: "M05PoolsCanBeCreatedWithoutInitialLiquidity"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #503 (Code4rena/Spartan Protocol)"
+help: "[M-05] Pools can be created without initial liquidity"
+wiki_title: "[M-05] Pools can be created without initial liquidity"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The protocol differentiates between public pool creations and private ones (starting without liquidity). However, this is not effective as anyone can just flashloan the required initial pool liquidity, call `PoolFactory.createPoolADD`, receive the LP tokens in `addForMember`
+wiki_exploit_scenario: |
+    Per Solodit #503: _Submitted by cmichel_
+    
+    The protocol differentiates between public pool creations and private ones (starting without liquidity). However, this is not effective as anyone can just flashloan the require
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05PoolsCanBeCreatedWithoutInitialLiquidity"
+solodit_id: "503"
+solodit_slug: |
+    m-05-pools-can-be-created-without-initial-liquidity-code4rena-spartan-protocol-spartan-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(addForMember).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

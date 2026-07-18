@@ -1,0 +1,31 @@
+skeleton: "state_write_without_paired_write"
+name: "h01-fei-reweight-and-stabilization-may-not-react-to-price-swings"
+class_name: "H01FeiReweightAndStabilizationMayNotReactToPriceSwings"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #10848 (OpenZeppelin/Fei Protocol Audit – Phase 2)"
+help: "[H01] Fei reweight and stabilization may not react to price swings"
+wiki_title: "[H01] Fei reweight and stabilization may not react to price swings"
+wiki_description: |
+    In the [`TribeReserveStabilizer`](https://github.com/fei-protocol/fei-protocol-core-internal/blob/f54d7bb07c55adb78e2e142e7044f60090bb7602/contracts/stabilizer/TribeReserveStabilizer.sol#L14) contract, the [`exchangeFei` function](https://github.com/fei-protocol/fei-protocol-core-internal/blob/f54d7
+wiki_exploit_scenario: |
+    Per Solodit #10848: In the [`TribeReserveStabilizer`](https://github.com/fei-protocol/fei-protocol-core-internal/blob/f54d7bb07c55adb78e2e142e7044f60090bb7602/contracts/stabilizer/TribeReserveStabilizer.sol#L14) contract
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01FeiReweightAndStabilizationMayNotReactToPriceSwings"
+solodit_id: "10848"
+solodit_slug: |
+    h01-fei-reweight-and-stabilization-may-not-react-to-price-swings-openzeppelin-fei-protocol-audit-phase-2-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(TribeReserveStabilizer|exchangeFei|isFeiBelowThreshold|UniswapPCVController).*"
+primary_var_regex: ".*(exchangeFei|isFeiBelowThreshold|reweight).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "dtxt-2026-06"
+class_name: "Dtxt202606"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-06/DTXT_exp.sol"
+help: "DTXT 2026-06 — oracle exploit (35,041.11 USDT)"
+wiki_title: "DTXT (2026-06) — oracle"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-06): DTXT lost 35,041.11 USDT. Bug class: oracle. Attack tx: 0x07ba2ccf2b5c1aaca4c017af4fe87762a73ef7177f6ea8bb569367e908a0671d.
+wiki_exploit_scenario: |
+    Attacker (0xd304ea1592f733e0a46436a01fe54bd504009526) exploits DTXT via oracle: the victim contract 0xac9bf7c320d4ce2d0ac978b83955dd67351897d2 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Replace spot-price reads with a TWAP wrapper (e.g., Uniswap V3 OracleLibrary.consult) and require a minimum observation window; sanity-check prices against a reference oracle.
+contract_name: "Dtxt202606"
+trigger_sig_regex: ".*(getPrice).*"
+required_sibling_regex: ".*(validatePrice).*"
+target_interface_decl: "interface IT { function getPrice(uint256) external; function validatePrice(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "readPrice"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.getPrice(x)"
+sibling_call: "target.validatePrice(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

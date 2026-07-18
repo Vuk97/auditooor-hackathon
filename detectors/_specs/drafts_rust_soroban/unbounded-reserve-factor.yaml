@@ -1,0 +1,20 @@
+id: unbounded-reserve-factor
+title: "Unbounded reserve factor can underflow liquidity rate calculation"
+severity: Info
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.40"
+bug_class: precision-loss
+indicators:
+  - "`set_reserve_factor(factor)` with no `factor <= 100_00` bound"
+  - "liquidity rate formula `(1 - factor) * borrow_rate` underflows when `factor > 100%`"
+victim: "Suppliers: liquidity rate wraps or panics."
+exploit_precondition: "Admin sets factor > 100%."
+real_world_example: |
+  Halborn 7.40 (INFO): Unbounded reserve factor can underflow liquidity rate calculation.
+suggested_remediation: "Enforce `factor <= BASIS_POINTS_MAX` on setter."
+cross_refs:
+  - unbounded-interest-rate-parameters
+  - out-of-range-reserve-params-truncated

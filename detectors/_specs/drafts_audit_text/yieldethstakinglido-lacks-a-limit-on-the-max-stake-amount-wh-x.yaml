@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "yieldethstakinglido-lacks-a-limit-on-the-max-stake-amount-wh-x"
+class_name: "YieldethstakinglidoLacksALimitOnTheMaxStakeAmountWhX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-benddao"
+help: |
+    bin2chen , also found by oakcobalt In YieldEthStakingLido , the main processes are as follows: stake() -> stEth balance increase unstake () -> unstETH.requestWithdrawals(allShares)
+wiki_title: |
+    YieldEthStakingLido lacks a limit on the max stake amount, which may result in the unstake exceeding MAX_STETH_WITHDRAWAL_AMOUNT , resulting in the token not be
+wiki_description: |
+    bin2chen , also found by oakcobalt In YieldEthStakingLido , the main processes are as follows: stake() -> stEth balance increase unstake () -> unstETH.requestWithdrawals(allShares) repay() -> unstETH.claimWithdrawal() The issue is the second step, unstETH is with a maximum withdrawal limit: MAX_STET
+wiki_exploit_scenario: |
+    Per audit finding: bin2chen , also found by oakcobalt In YieldEthStakingLido , the main processes are as follows: stake() -> stEth balance increase unstake () -> unstETH.requestWithdrawals(allShares) repay() -> unstETH.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "YieldethstakinglidoLacksALimitOnTheMaxStakeAmountWhX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stEth|unstETH|requestWithdrawals).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "stEth"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

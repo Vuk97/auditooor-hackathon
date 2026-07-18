@@ -1,0 +1,45 @@
+skeleton: "state_write_without_paired_write"
+name: "the-timelockcontroller-executeemergencyaction-function-does-not-"
+class_name: "TheTimelockcontrollerExecuteemergencyactionFunctionDoesNot"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57271 (Codehawks/Core Contracts)"
+help: |
+    The `TimelockController::executeEmergencyAction()` function does not update the `_operations` mapping, which can lead to an operation being executed twice.
+wiki_title: |
+    The `TimelockController::executeEmergencyAction()` function does not update the `_operations` mapping, which can lead to an operation being executed twice.
+wiki_description: |
+    ## Summary
+    
+    The `TimelockController::executeEmergencyAction()` function does not update the `_operations` mapping, which can lead to an operation being executed twice.
+    
+    ## Vulnerability Details
+    
+    When an operation is marked as an emergency action by an account with the `EMERGENCY_ROLE`, it can still
+wiki_exploit_scenario: |
+    Per Solodit #57271: ## Summary
+    
+    The `TimelockController::executeEmergencyAction()` function does not update the `_operations` mapping, which can lead to an operation being executed twice.
+    
+    ## Vulnerability Details
+    
+    When
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheTimelockcontrollerExecuteemergencyactionFunctionDoesNot"
+solodit_id: "57271"
+solodit_slug: |
+    the-timelockcontrollerexecuteemergencyaction-function-does-not-update-the-_operations-mapping-which-can-lead-to-an-operation-being-executed-twice-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(EMERGENCY_ROLE|executeEmergencyAction|executeBatch).*"
+primary_var_regex: ".*(executeBatch|executeEmergencyAction).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

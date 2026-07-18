@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-proof-of-possession-verification"
+class_name: "LackOfProofOfPossessionVerification"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Session Token - Zellic Audit Report"
+help: |
+    Before aggregating a BLS public key, a proof-of-possession is required by the contract. It consists in a signature of the domain separation tag, the public key together with the ca
+wiki_title: "Lack of proof-of-possession verification"
+wiki_description: |
+    Before aggregating a BLS public key, a proof-of-possession is required by the contract. It consists in a signature of the domain separation tag, the public key together with the caller address, and the service-node public key. This allows proving to the contract that the service node knows the corre
+wiki_exploit_scenario: |
+    Per audit finding: Before aggregating a BLS public key, a proof-of-possession is required by the contract. It consists in a signature of the domain separation tag, the public key together with the caller address, and th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfProofOfPossessionVerification"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(seedPublicKeyList|onlyOwner|allocID).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "seedPublicKeyList"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

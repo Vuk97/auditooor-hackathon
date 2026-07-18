@@ -1,0 +1,19 @@
+id: acl-membership-first-64-only
+title: "ACL membership checks ignore entries after the first 64"
+severity: Medium
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44791"
+bug_class: input-validation
+indicators:
+  - "bitmap-based ACL with 64-bit width hardcoded"
+  - "membership-add past index 63 silently dropped"
+victim: "Members beyond the 64th slot."
+exploit_precondition: "More than 64 entries added."
+real_world_example: |
+  V12 #44791 (Medium): ACL membership checks ignore entries after the first 64.
+suggested_remediation: "Use dynamic bitmap or Vec/Map-based membership that scales."
+cross_refs:
+  - acl-oversized-blacklist-dos

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "bonded-validators-can-trigger-reverts-for-successful-transac-x"
+class_name: "BondedValidatorsCanTriggerRevertsForSuccessfulTransacX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit ZetaChain - 7.12.23 Zellic Audit Report"
+help: |
+    actions This finding was fixed by introducing a new Admin Policy account type. With this fix, although outgoing transactions can still be removed from the tracker, this is only all
+wiki_title: "— Bonded validators can trigger reverts for successful transactions"
+wiki_description: |
+    actions This finding was fixed by introducing a new Admin Policy account type. With this fix, although outgoing transactions can still be removed from the tracker, this is only allowed if the message creator is the Admin Policy account. Previously, any bonded validators could perform this action. fu
+wiki_exploit_scenario: |
+    Per audit finding: actions This finding was fixed by introducing a new Admin Policy account type. With this fix, although outgoing transactions can still be removed from the tracker, this is only allowed if the message
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BondedValidatorsCanTriggerRevertsForSuccessfulTransacX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(msgServer|goCtx|zetaObserverKeeper).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "msgServer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

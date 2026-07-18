@@ -1,0 +1,33 @@
+skeleton: "state_write_without_paired_write"
+name: "navs-or-aprs-are-updated-using-an-outdated-accounting-on-certain"
+class_name: "NavsOrAprsAreUpdatedUsingAnOutdatedAccountingOnCertain"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63227 (Cyfrin/Strata Tranches)"
+help: "NAVs or APRs are updated using an outdated accounting on certain operations"
+wiki_title: "NAVs or APRs are updated using an outdated accounting on certain operations"
+wiki_description: |
+    **Description:** The next list of functions makes changes either to the NAVs or APRs, or both of them, but none of those variables are updated before the update is reflected on the storage, which means, the accounting is updated using outdated values that don't reflect the current value.
+    
+    - `Account
+wiki_exploit_scenario: |
+    Per Solodit #63227: **Description:** The next list of functions makes changes either to the NAVs or APRs, or both of them, but none of those variables are updated before the update is reflected on the storage, which mean
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NavsOrAprsAreUpdatedUsingAnOutdatedAccountingOnCertain"
+solodit_id: "63227"
+solodit_slug: |
+    navs-or-aprs-are-updated-using-an-outdated-accounting-on-certain-operations-cyfrin-none-strata-tranches-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(reserveNav|nav).*"
+primary_var_regex: ".*(nav|reserveNav).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unbounded-originaldata-can-be-provided"
+class_name: "UnboundedOriginaldataCanBeProvided"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Swisstronik - Zellic Audit Report"
+help: |
+    The function addVerificationDetailsInternal does not restrict the maximum size of OriginalData in the VerificationDetails struct. Currently, only a check is performed to ensure tha
+wiki_title: "Unbounded originalData can be provided"
+wiki_description: |
+    The function addVerificationDetailsInternal does not restrict the maximum size of OriginalData in the VerificationDetails struct. Currently, only a check is performed to ensure that OriginalData is nonempty, and no upper bound is enforced. Attackers could potentially supply extremely large data (e.g
+wiki_exploit_scenario: |
+    Per audit finding: The function addVerificationDetailsInternal does not restrict the maximum size of OriginalData in the VerificationDetails struct. Currently, only a check is performed to ensure that OriginalData is no
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnboundedOriginaldataCanBeProvided"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addVerificationDetailsInternal|originalData).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "addVerificationDetailsInternal"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

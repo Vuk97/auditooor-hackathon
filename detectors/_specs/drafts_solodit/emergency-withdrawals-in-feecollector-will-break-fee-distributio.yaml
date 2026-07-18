@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "emergency-withdrawals-in-feecollector-will-break-fee-distributio"
+class_name: "EmergencyWithdrawalsInFeecollectorWillBreakFeeDistributio"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57287 (Codehawks/Core Contracts)"
+help: "Emergency Withdrawals in `FeeCollector` will break Fee Distribution Logic"
+wiki_title: "Emergency Withdrawals in `FeeCollector` will break Fee Distribution Logic"
+wiki_description: |
+    ## Summary
+    
+    When doing emergency withdraw via `emergencyWithdraw()`, we send ALL the `raacToken` to Treasury.
+    
+    However, these tokens are tracked using `collectedFees`.
+    And we do **NOT** delete `collectedFees` state variable during emergency withdrawal, which leads to wrong accounting, and fee distri
+wiki_exploit_scenario: |
+    Per Solodit #57287: ## Summary
+    
+    When doing emergency withdraw via `emergencyWithdraw()`, we send ALL the `raacToken` to Treasury.
+    
+    However, these tokens are tracked using `collectedFees`.
+    And we do **NOT** delete `collec
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EmergencyWithdrawalsInFeecollectorWillBreakFeeDistributio"
+solodit_id: "57287"
+solodit_slug: |
+    emergency-withdrawals-in-feecollector-will-break-fee-distribution-logic-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(collectedFee|collectedFees|contract).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

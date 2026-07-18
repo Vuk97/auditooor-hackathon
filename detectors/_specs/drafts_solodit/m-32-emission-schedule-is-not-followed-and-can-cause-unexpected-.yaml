@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "m-32-emission-schedule-is-not-followed-and-can-cause-unexpected-"
+class_name: "M32EmissionScheduleIsNotFollowedAndCanCauseUnexpected"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49069 (Code4rena/LoopFi)"
+help: "[M-32] Emission schedule is not followed and can cause unexpected allocation of rewards"
+wiki_title: "[M-32] Emission schedule is not followed and can cause unexpected allocation of rewards"
+wiki_description: |
+    Whenever a new emission schedule is to be followed, i.e., `block.timestamp `becomes greater than the `startOffset` of the schedule, the `setScheduledRewardsPerSecond` function invokes the `_massUpdatePools` function in order to bring the pools to the latest state.
+    
+    ```solidity
+        function setSched
+wiki_exploit_scenario: |
+    Per Solodit #49069: Whenever a new emission schedule is to be followed, i.e., `block.timestamp `becomes greater than the `startOffset` of the schedule, the `setScheduledRewardsPerSecond` function invokes the `_massUpdat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M32EmissionScheduleIsNotFollowedAndCanCauseUnexpected"
+solodit_id: "49069"
+solodit_slug: |
+    m-32-emission-schedule-is-not-followed-and-can-cause-unexpected-allocation-of-rewards-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal rewardspersecond;"
+fn_name_regex: ".*(startOffset|setScheduledRewardsPerSecond|rewardsPerSecond).*"
+write_var_regex: ".*(rewardsPerSecond|setScheduledRewardsPerSecond|startOffset).*"
+guard_var_regex: ".*(rewardsPerSecond|setScheduledRewardsPerSecond|startOffset).*"
+vuln_fn_name: "startOffset"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "rewardspersecond = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

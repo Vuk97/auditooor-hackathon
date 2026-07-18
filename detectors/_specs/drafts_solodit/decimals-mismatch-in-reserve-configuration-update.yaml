@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "decimals-mismatch-in-reserve-configuration-update"
+class_name: "DecimalsMismatchInReserveConfigurationUpdate"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28715 (MixBytes/AAVE)"
+help: "Decimals Mismatch in Reserve Configuration Update"
+wiki_title: "Decimals Mismatch in Reserve Configuration Update"
+wiki_description: |
+    ##### Description
+    https://github.com/aave/protocol-v2/blob/f435b2fa0ac589852ca3dd6ae2b0fbfbc7079d54/contracts/lendingpool/LendingPoolConfigurator.sol#L533 
+    
+    Changing the decimals here will not automatically change the decimals either in the aToken or in the debt tokens.
+    
+    ```solidity
+    function setRese
+wiki_exploit_scenario: |
+    Per Solodit #28715: ##### Description
+    https://github.com/aave/protocol-v2/blob/f435b2fa0ac589852ca3dd6ae2b0fbfbc7079d54/contracts/lendingpool/LendingPoolConfigurator.sol#L533 
+    
+    Changing the decimals here will not automat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DecimalsMismatchInReserveConfigurationUpdate"
+solodit_id: "28715"
+solodit_slug: "decimals-mismatch-in-reserve-configuration-update-mixbytes-none-aave-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(aToken|setReserveDecimals|onlyAaveAdmin|currentConfig).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "aToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

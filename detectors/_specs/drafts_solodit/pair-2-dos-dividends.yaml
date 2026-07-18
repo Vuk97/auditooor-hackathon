@@ -1,0 +1,38 @@
+skeleton: "paired_function_divergence"
+name: "pair-2-dos-dividends"
+class_name: "Pair2DosDividends"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26576 (Guardian Audits/Bridges)"
+help: "PAIR-2 | DoS Dividends"
+wiki_title: "PAIR-2 | DoS Dividends"
+wiki_description: |
+    **Description**
+    
+    Due to the unbounded `for` loop in `distributeDividends`, there is a risk of a DoS attack. A malicious party can keep generating new addresses and minting minimal amounts of the BridgesPair token to make `distributeDividends` exceed the block gas limit, stopping all dividends.
+    
+    **Re
+wiki_exploit_scenario: |
+    Per Solodit #26576: **Description**
+    
+    Due to the unbounded `for` loop in `distributeDividends`, there is a risk of a DoS attack. A malicious party can keep generating new addresses and minting minimal amounts of the Bridg
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Pair2DosDividends"
+solodit_id: "26576"
+solodit_slug: "pair-2-dos-dividends-guardian-audits-none-bridges-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(distributeDividends|for).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

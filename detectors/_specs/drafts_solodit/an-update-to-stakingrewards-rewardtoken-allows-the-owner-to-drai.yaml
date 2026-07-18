@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "an-update-to-stakingrewards-rewardtoken-allows-the-owner-to-drai"
+class_name: "AnUpdateToStakingrewardsRewardtokenAllowsTheOwnerToDrai"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52874 (Spearbit/Berachain Pol)"
+help: "An update to StakingRewards.rewardToken allows the owner to drain all rewardTokens"
+wiki_title: "An update to StakingRewards.rewardToken allows the owner to drain all rewardTokens"
+wiki_description: |
+    Severity: Medium Risk
+    Context: /src/base/StakingRewards.sol#L38-L41, /src/pol/BGTStaker.sol#L81-L85
+    Description: StakingRewards contract leaves a number of variables mutable, namely therewardToken which has
+    an exposed setter in BGTStaker.sol .
+    After updating rewardToken , all unclaimed rewards b
+wiki_exploit_scenario: |
+    Per Solodit #52874: Severity: Medium Risk
+    Context: /src/base/StakingRewards.sol#L38-L41, /src/pol/BGTStaker.sol#L81-L85
+    Description: StakingRewards contract leaves a number of variables mutable, namely therewardToken w
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnUpdateToStakingrewardsRewardtokenAllowsTheOwnerToDrai"
+solodit_id: "52874"
+solodit_slug: |
+    an-update-to-stakingrewardsrewardtoken-allows-the-owner-to-drain-all-rewardtokens-spearbit-none-berachain-pol-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(therewardToken|rewardToken|rewardTokens).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "therewardToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

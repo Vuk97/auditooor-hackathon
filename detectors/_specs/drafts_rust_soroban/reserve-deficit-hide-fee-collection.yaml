@@ -1,0 +1,20 @@
+id: reserve-deficit-hide-fee-collection
+title: "Reserve accounting breaks fee collection when debt exceeds supply"
+severity: Medium
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44795"
+bug_class: reward-accounting
+indicators:
+  - "fee-collection formula `fees = total_debt - total_supply_scaled` panics/underflows"
+  - "no `saturating_sub` or ordering guard"
+victim: "Protocol: fee sweeps revert once deficit exists."
+exploit_precondition: "Debt exceeds supply (after bad debt)."
+real_world_example: |
+  V12 #44795 (Medium): Reserve accounting breaks fee collection when debt exceeds supply.
+suggested_remediation: "`saturating_sub` and track deficit separately."
+cross_refs:
+  - deficit-treated-as-available-liquidity
+  - total-borrow-exceeds-supply

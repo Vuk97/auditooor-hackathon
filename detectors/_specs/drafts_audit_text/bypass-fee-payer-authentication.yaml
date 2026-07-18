@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "bypass-fee-payer-authentication"
+class_name: "BypassFeePayerAuthentication"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Osmosis Authentication Abstraction - Zellic Audit Report"
+help: |
+    The authenticator’s job is to validate the signature of a message and ensure that the required accounts have signed it, including the fee payer if one is specified. When custom Cos
+wiki_title: "Bypass fee payer authentication"
+wiki_description: |
+    The authenticator’s job is to validate the signature of a message and ensure that the required accounts have signed it, including the fee payer if one is specified. When custom CosmWasm authenticators are added (or if an empty AllOfAuthenticator is used) then it is possible for an authenticator to b
+wiki_exploit_scenario: |
+    Per audit finding: The authenticator’s job is to validate the signature of a message and ensure that the required accounts have signed it, including the fee payer if one is specified. When custom CosmWasm authenticators
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BypassFeePayerAuthentication"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(cacheCtx|neverWriteCacheCtx|authData).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "cacheCtx"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

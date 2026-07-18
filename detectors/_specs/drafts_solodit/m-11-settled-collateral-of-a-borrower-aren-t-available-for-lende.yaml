@@ -1,0 +1,51 @@
+skeleton: "state_write_without_paired_write"
+name: "m-11-settled-collateral-of-a-borrower-aren-t-available-for-lende"
+class_name: "M11SettledCollateralOfABorrowerArenTAvailableForLende"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6308 (Sherlock/Ajna)"
+help: |
+    M-11: Settled collateral of a borrower aren't available for lenders until borrower's debt is fully cleared
+wiki_title: |
+    M-11: Settled collateral of a borrower aren't available for lenders until borrower's debt is fully cleared
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-ajna-judging/issues/104 
+    
+    ## Found by 
+    hyh
+    
+    ## Summary
+    
+    ERC721Pool's settle() lacks collateral ids array rebalance when the settlement isn't full, i.e. when `t0DebtRemaining > 0`.
+    
+    ## Vulnerability Detail
+    
+    Auctions's settlePoolDebt() returns current
+wiki_exploit_scenario: |
+    Per Solodit #6308: Source: https://github.com/sherlock-audit/2023-01-ajna-judging/issues/104 
+    
+    ## Found by 
+    hyh
+    
+    ## Summary
+    
+    ERC721Pool's settle() lacks collateral ids array rebalance when the settlement isn't full, i.e
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11SettledCollateralOfABorrowerArenTAvailableForLende"
+solodit_id: "6308"
+solodit_slug: |
+    m-11-settled-collateral-of-a-borrower-arent-available-for-lenders-until-borrowers-debt-is-fully-cleared-sherlock-ajna-ajna-git
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Don't update state, Business Logic"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(bucketTokenIds|borrowerTokenIds).*"
+primary_var_regex: ".*(borrowerTokenIds|bucketTokenIds).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

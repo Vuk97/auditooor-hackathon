@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "harvest-unvalidated-agent"
+class_name: "HarvestUnvalidatedAgent"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_aa"
+help: |
+    `LiquidityMineSP.harvest()` accepts arbitrary `agent` address without validating via `AgentFactory.isAgent()`; attacker spoof owner/id and drain all rewards.
+wiki_title: "harvest-unvalidated-agent"
+wiki_description: |
+    `LiquidityMineSP.harvest()` accepts arbitrary `agent` address without validating via `AgentFactory.isAgent()`; attacker spoof owner/id and drain all rewards.
+wiki_exploit_scenario: |
+    Attacker exploits harvest-unvalidated-agent as described: `LiquidityMineSP.harvest()` accepts arbitrary `agent` address without validating via `AgentFactory.isAgent()`; attacker spoof owner/id and drain all rewards.
+wiki_recommendation: |
+    function where parameter is passed to external call without validation against a registry (`isAgent`, `isValid`, etc.).
+contract_name: "HarvestUnvalidatedAgent"
+state_decl: "uint256 internal agent;"
+fn_name_regex: ".*(agent|isAgent|isValid).*"
+read_var_regex: ".*(agent|isAgent|isValid).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "agent"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return agent > 0;"

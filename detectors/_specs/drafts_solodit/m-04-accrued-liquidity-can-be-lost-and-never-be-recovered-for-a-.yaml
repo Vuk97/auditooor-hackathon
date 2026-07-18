@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-04-accrued-liquidity-can-be-lost-and-never-be-recovered-for-a-"
+class_name: "M04AccruedLiquidityCanBeLostAndNeverBeRecoveredForA"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27555 (Code4rena/Canto)"
+help: "[M-04] Accrued liquidity can be lost and never be recovered for a given tick period."
+wiki_title: "[M-04] Accrued liquidity can be lost and never be recovered for a given tick period."
+wiki_description: |
+    Accrued liquidity can be lost and never be recovered for a given tick period due to not incrementing
+    `tickTrackingIndex`, which sets the tick end timestamp to `nextweek` and will start accruing liquidity for next tick period.
+    
+    ### Proof of Concept
+    
+    `LiquidityMining.accrueConcentratedPositionTimeWei
+wiki_exploit_scenario: |
+    Per Solodit #27555: Accrued liquidity can be lost and never be recovered for a given tick period due to not incrementing
+    `tickTrackingIndex`, which sets the tick end timestamp to `nextweek` and will start accruing liqui
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04AccruedLiquidityCanBeLostAndNeverBeRecoveredForA"
+solodit_id: "27555"
+solodit_slug: |
+    m-04-accrued-liquidity-can-be-lost-and-never-be-recovered-for-a-given-tick-period-code4rena-canto-canto-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal exittimestamp;"
+fn_name_regex: ".*(tickTrackingIndex|nextweek|nextWeek|tickActiveStart).*"
+read_var_regex: ".*(exitTimestamp|nextWeek|nextweek).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tickTrackingIndex"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return exittimestamp > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "ema-fee-manipulation-via-amount-ordering-in-calctradeliquidity"
+class_name: "EmaFeeManipulationViaAmountOrderingInCalctradeliquidity"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ae"
+help: |
+    calcTradeLiquidity uses only amount0In when >0, ignores amount1In even if larger; attacker supplies tiny amount0In to minimize reported trade volume and avoid fees.
+wiki_title: "EMA Fee Manipulation via Amount Ordering in calcTradeLiquidity"
+wiki_description: |
+    calcTradeLiquidity uses only amount0In when >0, ignores amount1In even if larger; attacker supplies tiny amount0In to minimize reported trade volume and avoid fees.
+wiki_exploit_scenario: |
+    Attacker exploits EMA Fee Manipulation via Amount Ordering in calcTradeLiquidity as described: calcTradeLiquidity uses only amount0In when >0, ignores amount1In even if larger; attacker supplies tiny amount0In to minimize reported trade volume and avoid fees.
+wiki_recommendation: "AMM fee-volume calculations checking only one of two input amounts."
+contract_name: "EmaFeeManipulationViaAmountOrderingInCalctradeliquidity"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(manipulation|amount|ordering).*"
+read_var_regex: ".*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "manipulation"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

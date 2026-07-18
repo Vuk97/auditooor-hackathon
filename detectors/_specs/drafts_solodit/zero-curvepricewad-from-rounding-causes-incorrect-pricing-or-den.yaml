@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "zero-curvepricewad-from-rounding-causes-incorrect-pricing-or-den"
+class_name: "ZeroCurvepricewadFromRoundingCausesIncorrectPricingOrDen"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64598 (Cyfrin/Securitize Public Stock Ramp)"
+help: "Zero `curvePriceWad` from rounding causes incorrect pricing or denial of service"
+wiki_title: "Zero `curvePriceWad` from rounding causes incorrect pricing or denial of service"
+wiki_description: |
+    **Description:** The curve price calculation in `SecuritizeAmmNavProvider::_curveBuy` can round to zero when reserves become imbalanced:
+    ```solidity
+    curvePriceWad = (amountInQuote * WAD) / deltaBase;
+    ```
+    
+    Mathematically, this simplifies to:
+    ```solidity
+    curvePriceWad = WAD * (quoteReserves + amountIn
+wiki_exploit_scenario: |
+    Per Solodit #64598: **Description:** The curve price calculation in `SecuritizeAmmNavProvider::_curveBuy` can round to zero when reserves become imbalanced:
+    ```solidity
+    curvePriceWad = (amountInQuote * WAD) / deltaBase;
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ZeroCurvepricewadFromRoundingCausesIncorrectPricingOrDen"
+solodit_id: "64598"
+solodit_slug: |
+    zero-curvepricewad-from-rounding-causes-incorrect-pricing-or-denial-of-service-cyfrin-none-securitize-public-stock-ramp-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal basereserves;"
+fn_name_regex: ".*(deltaBase|curvePriceWad|baseReserves|quoteReserves).*"
+read_var_regex: ".*(baseReserves|curvePriceWad|deltaBase).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deltaBase"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return basereserves > 0;"

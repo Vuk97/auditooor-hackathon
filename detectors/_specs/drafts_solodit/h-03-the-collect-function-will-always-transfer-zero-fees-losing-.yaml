@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "h-03-the-collect-function-will-always-transfer-zero-fees-losing-"
+class_name: "H03TheCollectFunctionWillAlwaysTransferZeroFeesLosing"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #24903 (Code4rena/Timeswap)"
+help: |
+    [H-03] The `collect()` function will always TRANSFER ZERO fees, losing _feesPositions without receiving fees!
+wiki_title: |
+    [H-03] The `collect()` function will always TRANSFER ZERO fees, losing _feesPositions without receiving fees!
+wiki_description: |
+    Detailed description of the impact of this finding.
+    The `collect()` function will always transfer ZERO fees. At the same time, non-zero `_feesPosition` will be burned.
+    
+        _feesPositions[id][msg.sender].burn(long0Fees, long1Fees, shortFees);
+    
+    As a result, the contracts will be left in an inconsist
+wiki_exploit_scenario: |
+    Per Solodit #24903: Detailed description of the impact of this finding.
+    The `collect()` function will always transfer ZERO fees. At the same time, non-zero `_feesPosition` will be burned.
+    
+        _feesPositions[id][msg.sen
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03TheCollectFunctionWillAlwaysTransferZeroFeesLosing"
+solodit_id: "24903"
+solodit_slug: |
+    h-03-the-collect-function-will-always-transfer-zero-fees-losing-_feespositions-without-receiving-fees-code4rena-timeswap-timeswap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(collect|long0Fees|long1Fees).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

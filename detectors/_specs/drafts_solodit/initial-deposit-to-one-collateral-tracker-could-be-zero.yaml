@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "initial-deposit-to-one-collateral-tracker-could-be-zero"
+class_name: "InitialDepositToOneCollateralTrackerCouldBeZero"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33823 (OpenZeppelin/Panoptic Audit)"
+help: "Initial Deposit to One Collateral Tracker Could Be Zero"
+wiki_title: "Initial Deposit to One Collateral Tracker Could Be Zero"
+wiki_description: |
+    When deploying a new Panoptic pool, the deployer is required to provide a small amount of full-range liquidity to the underlying AMM pool. The returned amounts, `amount0` and `amount1`, are then divided by `100` and deposited into both collateral trackers in the name of the `PanopticFactory` to prev
+wiki_exploit_scenario: |
+    Per Solodit #33823: When deploying a new Panoptic pool, the deployer is required to provide a small amount of full-range liquidity to the underlying AMM pool. The returned amounts, `amount0` and `amount1`, are then divid
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InitialDepositToOneCollateralTrackerCouldBeZero"
+solodit_id: "33823"
+solodit_slug: "initial-deposit-to-one-collateral-tracker-could-be-zero-openzeppelin-none-panoptic-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount0;"
+fn_name_regex: ".*(amount0|amount1|PanopticFactory|MAX_TICK).*"
+write_var_regex: ".*(amount0|amount1|getAmount0Delta).*"
+guard_var_regex: ".*(amount0|amount1|getAmount0Delta).*"
+vuln_fn_name: "amount0"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amount0 = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

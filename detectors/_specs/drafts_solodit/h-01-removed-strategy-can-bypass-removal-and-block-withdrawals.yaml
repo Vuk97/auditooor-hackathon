@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "h-01-removed-strategy-can-bypass-removal-and-block-withdrawals"
+class_name: "H01RemovedStrategyCanBypassRemovalAndBlockWithdrawals"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #64014 (Shieldify/Prime Vaults)"
+help: "[H-01] Removed Strategy Can Bypass Removal and Block Withdrawals"
+wiki_title: "[H-01] Removed Strategy Can Bypass Removal and Block Withdrawals"
+wiki_description: |
+    ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    The `StrategyRegistry.removeStrategy()` function allows the owner to permanently remove a strategy (the context). However, removal is implemented via `delete strategies[stra]`, which resets `kind` to its default enum value (`StrategyKind.SingleAsset == 0`) an
+wiki_exploit_scenario: |
+    Per Solodit #64014: ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    The `StrategyRegistry.removeStrategy()` function allows the owner to permanently remove a strategy (the context). However, removal is implemented via `delete s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01RemovedStrategyCanBypassRemovalAndBlockWithdrawals"
+solodit_id: "64014"
+solodit_slug: "h-01-removed-strategy-can-bypass-removal-and-block-withdrawals-shieldify-none-prime-vaults-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(active|kind|withdraw).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

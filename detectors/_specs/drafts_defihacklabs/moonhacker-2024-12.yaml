@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "moonhacker-2024-12"
+class_name: "Moonhacker202412"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-12/Moonhacker_exp.sol"
+help: "Moonhacker 2024-12 — flashloan exploit (318.9 k)"
+wiki_title: "Moonhacker (2024-12) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-12): Moonhacker lost 318.9 k. Bug class: flashloan. Attack tx: 0xd12016b25d7aef681ade3dc3c9d1a1cc12f35b2c99953ff0e0ee23a59454c4fe.
+wiki_exploit_scenario: |
+    Attacker (0x36491840ebcf040413003df9fb65b6bc9a181f52) exploits Moonhacker via flashloan: the victim contract 0xd9b45e2c389b6ad55dd3631abc1de6f2d2229847 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Moonhacker202412"
+trigger_sig_regex: ".*(executeOperation).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function executeOperation(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.executeOperation(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

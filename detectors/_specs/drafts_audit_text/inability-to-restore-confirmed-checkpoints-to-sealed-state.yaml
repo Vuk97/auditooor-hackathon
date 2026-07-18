@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "inability-to-restore-confirmed-checkpoints-to-sealed-state"
+class_name: "InabilityToRestoreConfirmedCheckpointsToSealedState"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Babylon Genesis Chain - Zellic Audit Report"
+help: |
+    The SetCheckpointForgotten function in the btccheckpoint module is intended to transition an epoch in the submitted or confirmed states to the sealed state. However, due to the har
+wiki_title: "Inability to restore confirmed checkpoints to sealed state"
+wiki_description: |
+    The SetCheckpointForgotten function in the btccheckpoint module is intended to transition an epoch in the submitted or confirmed states to the sealed state. However, due to the hardcoded from parameter in the setCheckpointStatus function, only epochs in the submitted state can suc- cessfully transit
+wiki_exploit_scenario: |
+    Per audit finding: The SetCheckpointForgotten function in the btccheckpoint module is intended to transition an epoch in the submitted or confirmed states to the sealed state. However, due to the hardcoded from paramete
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InabilityToRestoreConfirmedCheckpointsToSealedState"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setCheckpointStatus|ckptWithMeta).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setCheckpointStatus"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

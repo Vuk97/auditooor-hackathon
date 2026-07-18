@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_call"
+name: "m-02-attacker-can-dos-privatemint"
+class_name: "M02AttackerCanDosPrivatemint"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49120 (Pashov Audit Group/Dinari_2024-12-07)"
+help: "[M-02] Attacker can DOS `privateMint()`"
+wiki_title: "[M-02] Attacker can DOS `privateMint()`"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    Function `privateMint()` calls `permit()` to set the allowance before token transfer:
+    
+    ```solidity
+            IERC20Permit(address(paymentToken)).permit(permit.owner, address(this), permit.value, permit.deadline, v, r, s);
+wiki_exploit_scenario: |
+    Per Solodit #49120: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    Function `privateMint()` calls `permit()` to set the allowance before token transfer:
+    
+    ```solidity
+            IERC20Permit(address
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02AttackerCanDosPrivatemint"
+solodit_id: "49120"
+solodit_slug: "m-02-attacker-can-dos-privatemint-pashov-audit-group-none-dinari_2024-12-07-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal permit;"
+fn_name_regex: ".*(privateMint|permit|selfPermit).*"
+read_var_regex: ".*(permit|privateMint|selfPermit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "privateMint"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return permit > 0;"

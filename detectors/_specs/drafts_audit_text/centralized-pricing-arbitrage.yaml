@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "centralized-pricing-arbitrage"
+class_name: "CentralizedPricingArbitrage"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Nukem Loans - Zellic Audit Report"
+help: |
+    As the protocol uses a combination of automated market maker (AMM) oracles and centralized prices provided in signatures, an arbitrage opportunity may exist that will result in the
+wiki_title: "Centralized pricing arbitrage"
+wiki_description: |
+    As the protocol uses a combination of automated market maker (AMM) oracles and centralized prices provided in signatures, an arbitrage opportunity may exist that will result in the drainage of pools. function borrow(...))) public virtual returns (uint256 debt_shares) { require( checkSignature(author
+wiki_exploit_scenario: |
+    Per audit finding: As the protocol uses a combination of automated market maker (AMM) oracles and centralized prices provided in signatures, an arbitrage opportunity may exist that will result in the drainage of pools.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CentralizedPricingArbitrage"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(checkSignature|validatePrice).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "checkSignature"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

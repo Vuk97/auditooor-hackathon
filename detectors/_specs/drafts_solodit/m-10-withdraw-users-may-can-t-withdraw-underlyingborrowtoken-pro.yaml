@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-10-withdraw-users-may-can-t-withdraw-underlyingborrowtoken-pro"
+class_name: "M10WithdrawUsersMayCanTWithdrawUnderlyingborrowtokenPro"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #38049 (Code4rena/Size)"
+help: "[M-10] `withdraw()` users may can't withdraw `underlyingBorrowToken` properly"
+wiki_title: "[M-10] `withdraw()` users may can't withdraw `underlyingBorrowToken` properly"
+wiki_description: |
+    We can withdraw `underlyingCollateralToken` and `underlyingBorrowToken` by `withdraw()`:
+    
+    ```solidity
+        function withdraw(WithdrawParams calldata params) external payable override(ISize) whenNotPaused {
+            state.validateWithdraw(params);
+            state.executeWithdraw(params);
+    @>      state.v
+wiki_exploit_scenario: |
+    Per Solodit #38049: We can withdraw `underlyingCollateralToken` and `underlyingBorrowToken` by `withdraw()`:
+    
+    ```solidity
+        function withdraw(WithdrawParams calldata params) external payable override(ISize) whenNotPau
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10WithdrawUsersMayCanTWithdrawUnderlyingborrowtokenPro"
+solodit_id: "38049"
+solodit_slug: "m-10-withdraw-users-may-cant-withdraw-underlyingborrowtoken-properly-code4rena-size-size-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal collateralratio;"
+fn_name_regex: ".*(underlyingCollateralToken|underlyingBorrowToken|withdraw|validateUserIsNotBelowOpeningLimitBorrowCR).*"
+read_var_regex: ".*(collateralRatio|openingLimitBorrowCR|underlyingBorrowToken).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "underlyingCollateralToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return collateralratio > 0;"

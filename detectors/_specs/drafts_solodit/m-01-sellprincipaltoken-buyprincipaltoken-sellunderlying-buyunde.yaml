@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-01-sellprincipaltoken-buyprincipaltoken-sellunderlying-buyunde"
+class_name: "M01SellprincipaltokenBuyprincipaltokenSellunderlyingBuyunde"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25285 (Code4rena/Illuminate)"
+help: |
+    [M-01] sellPrincipalToken, buyPrincipalToken, sellUnderlying, buyUnderlying uses pool funds but pays msg.sender
+wiki_title: |
+    [M-01] sellPrincipalToken, buyPrincipalToken, sellUnderlying, buyUnderlying uses pool funds but pays msg.sender
+wiki_description: |
+    _Submitted by 0x52, also found by datapunk, kenzo, kirk-baird, and pashov_
+    
+    Fund loss from marketplace.
+    
+    ### Proof of Concept
+    
+    sellPrincipalToken, buyPrincipalToken, sellUnderlying, buyUnderlying are all unpermissioned and use marketplace funds to complete the action but send the resulting tokens to
+wiki_exploit_scenario: |
+    Per Solodit #25285: _Submitted by 0x52, also found by datapunk, kenzo, kirk-baird, and pashov_
+    
+    Fund loss from marketplace.
+    
+    ### Proof of Concept
+    
+    sellPrincipalToken, buyPrincipalToken, sellUnderlying, buyUnderlying are
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01SellprincipaltokenBuyprincipaltokenSellunderlyingBuyunde"
+solodit_id: "25285"
+solodit_slug: |
+    m-01-sellprincipaltoken-buyprincipaltoken-sellunderlying-buyunderlying-uses-pool-funds-but-pays-msgsender-code4rena-illuminate-illuminate-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(sellPrincipalToken|buyPrincipalToken|sellUnderlying|buyUnderlying).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "sellPrincipalToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

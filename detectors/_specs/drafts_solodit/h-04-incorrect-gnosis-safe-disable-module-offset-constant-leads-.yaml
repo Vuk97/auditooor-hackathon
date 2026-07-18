@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-04-incorrect-gnosis-safe-disable-module-offset-constant-leads-"
+class_name: "H04IncorrectGnosisSafeDisableModuleOffsetConstantLeads"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30524 (Code4rena/reNFT)"
+help: |
+    [H-04] Incorrect `gnosis_safe_disable_module_offset` constant leads to removing the rental safe's `module` without verification
+wiki_title: |
+    [H-04] Incorrect `gnosis_safe_disable_module_offset` constant leads to removing the rental safe's `module` without verification
+wiki_description: |
+    The `gnosis_safe_disable_module_offset` constant was incorrectly specified to point at an incorrect function parameter of the `disableModule(address prevModule, address module)`.
+    
+    Specifically, the offset constant will point at the `prevModule` (1st param) instead of the `module` (2nd param).
+    
+    ###
+wiki_exploit_scenario: |
+    Per Solodit #30524: The `gnosis_safe_disable_module_offset` constant was incorrectly specified to point at an incorrect function parameter of the `disableModule(address prevModule, address module)`.
+    
+    Specifically, the o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04IncorrectGnosisSafeDisableModuleOffsetConstantLeads"
+solodit_id: "30524"
+solodit_slug: |
+    h-04-incorrect-gnosis_safe_disable_module_offset-constant-leads-to-removing-the-rental-safes-module-without-verification-code4rena-renft-renft-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal disablemodule;"
+fn_name_regex: ".*(gnosis_safe_disable_module_offset|disableModule|prevModule|module).*"
+read_var_regex: ".*(disableModule|gnosis_safe_disable_module_offset|gnosis_safe_disable_module_selector).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "gnosis_safe_disable_module_offset"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return disablemodule > 0;"

@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "h-1-pool-s-kickwithdeposit-misses-liquidation-debt-check"
+class_name: "H1PoolSKickwithdepositMissesLiquidationDebtCheck"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19766 (Sherlock/Ajna Update)"
+help: "H-1: Pool's kickWithDeposit misses liquidation debt check"
+wiki_title: "H-1: Pool's kickWithDeposit misses liquidation debt check"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-04-ajna-judging/issues/82 
+    
+    ## Found by 
+    hyh
+    ## Summary
+    
+    _revertIfAuctionDebtLocked() is missed in kickWithDeposit() function, that can actually remove deposit from anywhere, including HPB that are frozen by liquidation debt accumulator.
+    
+    ## Vulnerabili
+wiki_exploit_scenario: |
+    Per Solodit #19766: Source: https://github.com/sherlock-audit/2023-04-ajna-judging/issues/82 
+    
+    ## Found by 
+    hyh
+    ## Summary
+    
+    _revertIfAuctionDebtLocked() is missed in kickWithDeposit() function, that can actually remove d
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1PoolSKickwithdepositMissesLiquidationDebtCheck"
+solodit_id: "19766"
+solodit_slug: "h-1-pools-kickwithdeposit-misses-liquidation-debt-check-sherlock-none-ajna-update-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(kickWithDeposit|moveQuoteToken|removeQuoteToken|withdrawBonds).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "kickWithDeposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

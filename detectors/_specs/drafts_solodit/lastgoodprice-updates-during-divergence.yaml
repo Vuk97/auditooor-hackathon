@@ -1,0 +1,48 @@
+skeleton: "state_write_without_paired_write"
+name: "lastgoodprice-updates-during-divergence"
+class_name: "LastgoodpriceUpdatesDuringDivergence"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64802 (Spearbit/Buck Labs)"
+help: "lastGoodPrice updates during divergence"
+wiki_title: "lastGoodPrice updates during divergence"
+wiki_description: |
+    ## OracleAdapterV4 Risk Assessment
+    
+    ## Severity: Medium Risk
+    
+    ### Context
+    - `OracleAdapterV4.sol#L277-L279`
+    - `OracleAdapterV4.sol#L310-L312`
+    
+    ### Description
+    `OracleAdapterV4` trips the circuit breaker when Redstone and Pyth disagree beyond the configured deviation threshold, but it still proceeds
+wiki_exploit_scenario: |
+    Per Solodit #64802: ## OracleAdapterV4 Risk Assessment
+    
+    ## Severity: Medium Risk
+    
+    ### Context
+    - `OracleAdapterV4.sol#L277-L279`
+    - `OracleAdapterV4.sol#L310-L312`
+    
+    ### Description
+    `OracleAdapterV4` trips the circuit break
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LastgoodpriceUpdatesDuringDivergence"
+solodit_id: "64802"
+solodit_slug: "lastgoodprice-updates-during-divergence-spearbit-none-buck-labs-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(OracleAdapterV4|lastGoodPrice|lastSavedPrice|f40ce28).*"
+primary_var_regex: ".*(f40ce28|lastGoodPrice|lastSavedPrice).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

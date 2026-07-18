@@ -1,0 +1,34 @@
+skeleton: "paired_function_divergence"
+name: "useless-insecure-pause-functionality-into-spiritfactory"
+class_name: "UselessInsecurePauseFunctionalityIntoSpiritfactory"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28422 (MixBytes/SpiritSwap)"
+help: "Useless/insecure pause functionality into SpiritFactory"
+wiki_title: "Useless/insecure pause functionality into SpiritFactory"
+wiki_description: |
+    ##### Description
+    The SpiritFactory contains implementation to pause / to lock swap operations. https://github.com/Layer3Org/spiritswap-core/blob/a23463f87fd3c7633e97fab5e8124b4499e1519e/SpiritFactory.sol#L499 However, that lock status is ignored inside PancakePair and can be easyly avoided by an at
+wiki_exploit_scenario: |
+    Per Solodit #28422: ##### Description
+    The SpiritFactory contains implementation to pause / to lock swap operations. https://github.com/Layer3Org/spiritswap-core/blob/a23463f87fd3c7633e97fab5e8124b4499e1519e/SpiritFactory
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UselessInsecurePauseFunctionalityIntoSpiritfactory"
+solodit_id: "28422"
+solodit_slug: "uselessinsecure-pause-functionality-into-spiritfactory-mixbytes-none-spiritswap-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(swap).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

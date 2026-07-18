@@ -1,0 +1,54 @@
+{
+  "schema": "auditooor.novel_vector_spec_invariant_proof.v1",
+  "fixture_role": "negative-control",
+  "expected_verdict": "clean",
+  "source_corpus_match": false,
+  "known_class_match": false,
+  "known_class_match_reason": "Same target-specific conservation law as the vulnerable variant; the fix runs the standing-pool ceiling check unconditionally so no violation exists. Still not a known-class detector match.",
+  "violated_spec_invariant_id": "INV-REBATE-CONSERVATION",
+  "spec_invariant_statement": "sum_over_users(creditOf(user)) <= rebatePool, evaluated as totalCredits <= rebatePool",
+  "spec_source_ref": "../rebate_conservation_vuln/SPEC.md#declared-conservation-law; RebateLedger.sol NatSpec @notice INV-REBATE-CONSERVATION",
+  "target_contract": "RebateLedger",
+  "target_source": "RebateLedger.sol",
+  "target_imports": [
+    "RebateLedger.sol"
+  ],
+  "deployment_adapter": "RebateLedgerConservationTest.setUp",
+  "constructor_args_source": "new RebateLedger() in setUp; deployer is admin",
+  "entrypoints_bound": [
+    "RebateLedger.fundPool(uint256)",
+    "RebateLedger.rollEpoch()",
+    "RebateLedger.settleEpoch(address,uint256)"
+  ],
+  "real_target_call_count": 4,
+  "state_snapshots": [
+    "totalCreditsAfter = ledger.totalCredits()",
+    "rebatePoolAfter = ledger.rebatePool()"
+  ],
+  "negative_controls": [],
+  "engines": [
+    "foundry-invariant",
+    "foundry-poc"
+  ],
+  "proof_ready": true,
+  "blocked_reason": null,
+  "asserted_impact": "On the fixed ledger the identical epoch-boundary sequence cannot inflate credits past the funded pool (the unconditional ceiling check makes the second cross-epoch settle revert exceeds-pool), so the spec-derived conservation invariant holds.",
+  "expected_passing_property": "invariant_rebateConservation",
+  "expected_passing_test": "test_conservation_holds_on_epoch_boundary",
+  "candidate_not_proof": false,
+  "novel_vector_points": {
+    "invariant_derived_from_target_spec": true,
+    "not_a_known_class_pattern_match": true,
+    "engine_searches_for_unknown_violation": true,
+    "violation_proven_against_real_entrypoint": false,
+    "clean_negative_control_passes": true
+  },
+  "rule40_points": {
+    "real_entrypoint_real_code_real_impact": true,
+    "defenses_executed_or_ruled_out": true,
+    "mocks_external_deps_only": true,
+    "negative_control_present": true,
+    "before_after_assertions": true,
+    "per_variant_proof": true
+  }
+}

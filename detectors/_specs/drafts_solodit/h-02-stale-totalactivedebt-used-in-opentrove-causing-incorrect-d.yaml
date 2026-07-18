@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "h-02-stale-totalactivedebt-used-in-opentrove-causing-incorrect-d"
+class_name: "H02StaleTotalactivedebtUsedInOpentroveCausingIncorrectD"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #55112 (Pashov Audit Group/Roots_2025-02-09)"
+help: "[H-02] Stale `totalActiveDebt` used in `openTrove` causing incorrect debt update"
+wiki_title: "[H-02] Stale `totalActiveDebt` used in `openTrove` causing incorrect debt update"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    In the `TroveManager::openTrove` function, the `totalActiveDebt` is cached into a local variable `supply` before the `_accrueActiveInterests` function is called. The `_accrueActiveInterests` function itself updates the `totalActi
+wiki_exploit_scenario: |
+    Per Solodit #55112: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    In the `TroveManager::openTrove` function, the `totalActiveDebt` is cached into a local variable `supply` before the `_accrueActi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02StaleTotalactivedebtUsedInOpentroveCausingIncorrectD"
+solodit_id: "55112"
+solodit_slug: |
+    h-02-stale-totalactivedebt-used-in-opentrove-causing-incorrect-debt-update-pashov-audit-group-none-roots_2025-02-09-markdown
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal opentrove;"
+fn_name_regex: ".*(totalActiveDebt|supply|openTrove).*"
+write_var_regex: ".*(openTrove|supply|totalActiveDebt).*"
+guard_var_regex: ".*(openTrove|supply|totalActiveDebt).*"
+vuln_fn_name: "totalActiveDebt"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "opentrove = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

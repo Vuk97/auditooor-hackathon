@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-13-escrowed-nft-can-be-stolen-by-anyone-if-no-active-buyprice-"
+class_name: "M13EscrowedNftCanBeStolenByAnyoneIfNoActiveBuyprice"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42493 (Code4rena/Foundation)"
+help: "[M-13] Escrowed NFT can be stolen by anyone if no active `buyPrice` or auction exists for it"
+wiki_title: "[M-13] Escrowed NFT can be stolen by anyone if no active `buyPrice` or auction exists for it"
+wiki_description: |
+    _Submitted by hyh, also found by wuwe1_
+    
+    If a NFT happens to be in escrow with neither buyPrice, nor auction being initialised for it, there is a way to obtain it for free by any actor via `makeOffer`, `acceptOffer` combination.
+    
+    I.e. a malicious user can track the FNDNFTMarket contract and obtain a
+wiki_exploit_scenario: |
+    Per Solodit #42493: _Submitted by hyh, also found by wuwe1_
+    
+    If a NFT happens to be in escrow with neither buyPrice, nor auction being initialised for it, there is a way to obtain it for free by any actor via `makeOffer`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M13EscrowedNftCanBeStolenByAnyoneIfNoActiveBuyprice"
+solodit_id: "42493"
+solodit_slug: |
+    m-13-escrowed-nft-can-be-stolen-by-anyone-if-no-active-buyprice-or-auction-exists-for-it-code4rena-foundation-foundation-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal acceptoffer;"
+fn_name_regex: ".*(makeOffer|acceptOffer|setBuyPrice|createReserveAuction).*"
+read_var_regex: ".*(acceptOffer|createReserveAuction|makeOffer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "makeOffer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return acceptoffer > 0;"

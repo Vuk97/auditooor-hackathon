@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "active-and-pending-bets-can-be-cancelled-by-anyone"
+class_name: "ActiveAndPendingBetsCanBeCancelledByAnyone"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64637 (Cyfrin/Wannabet)"
+help: "Active and pending bets can be cancelled by anyone"
+wiki_title: "Active and pending bets can be cancelled by anyone"
+wiki_description: |
+    **Description:** [`Bet::cancel`](https://github.com/gskril/wannabet-v2/blob/d7333369548874cb99e9648ea2424ac1e67cc23f/contracts/src/Bet.sol#L163-L176) allows any address (except the maker) to cancel a bet while it is in the `ACTIVE` or `PENDING` state:
+    
+    ```solidity
+    /// @dev Anybody can cancel an expi
+wiki_exploit_scenario: |
+    Per Solodit #64637: **Description:** [`Bet::cancel`](https://github.com/gskril/wannabet-v2/blob/d7333369548874cb99e9648ea2424ac1e67cc23f/contracts/src/Bet.sol#L163-L176) allows any address (except the maker) to cancel a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ActiveAndPendingBetsCanBeCancelledByAnyone"
+solodit_id: "64637"
+solodit_slug: "active-and-pending-bets-can-be-cancelled-by-anyone-cyfrin-none-wannabet-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cancel;"
+fn_name_regex: ".*(ACTIVE|PENDING|maker|taker).*"
+read_var_regex: ".*(cancel|maker|taker).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ACTIVE"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cancel > 0;"

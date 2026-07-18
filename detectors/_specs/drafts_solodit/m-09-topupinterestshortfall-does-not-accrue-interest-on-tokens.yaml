@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-09-topupinterestshortfall-does-not-accrue-interest-on-tokens"
+class_name: "M09TopupinterestshortfallDoesNotAccrueInterestOnTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31822 (ZachObront/Fungify)"
+help: "[M-09] `topUpInterestShortfall()` does not accrue interest on tokens"
+wiki_title: "[M-09] `topUpInterestShortfall()` does not accrue interest on tokens"
+wiki_description: |
+    Similar to the above issue, the `topUpInterestShortfall()` function does not explicitly accrue interest for either the interest market token or the collateral token.
+    
+    This leads to a number of possible problems:
+    - The call to `getAccountLiquidity()` can revert if the user is in shortfall before accr
+wiki_exploit_scenario: |
+    Per Solodit #31822: Similar to the above issue, the `topUpInterestShortfall()` function does not explicitly accrue interest for either the interest market token or the collateral token.
+    
+    This leads to a number of possibl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09TopupinterestshortfallDoesNotAccrueInterestOnTokens"
+solodit_id: "31822"
+solodit_slug: "m-09-topupinterestshortfall-does-not-accrue-interest-on-tokens-zachobront-none-fungify-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accrueinterest;"
+fn_name_regex: ".*(topUpInterestShortfall|getAccountLiquidity|accrueInterest).*"
+read_var_regex: ".*(accrueInterest|getAccountLiquidity|topUpInterestShortfall).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "topUpInterestShortfall"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accrueinterest > 0;"

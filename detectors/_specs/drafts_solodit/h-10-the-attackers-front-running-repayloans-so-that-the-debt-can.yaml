@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "h-10-the-attackers-front-running-repayloans-so-that-the-debt-can"
+class_name: "H10TheAttackersFrontRunningRepayloansSoThatTheDebtCan"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35212 (Code4rena/Gondi)"
+help: "[H-10] The attackers front-running `repayloans` so that the debt cannot be repaid"
+wiki_title: "[H-10] The attackers front-running `repayloans` so that the debt cannot be repaid"
+wiki_description: |
+    The attackers make it impossible for borrowers to repay their debts, and the collateral is liquidated when the debts mature.
+    
+    ### Proof of Concept
+    
+    `repayLoan` needs to check the `loanId`; if the id is inconsistent it will revert.
+    
+    ```solidity
+        function repayLoan(LoanRepaymentData calldata _repa
+wiki_exploit_scenario: |
+    Per Solodit #35212: The attackers make it impossible for borrowers to repay their debts, and the collateral is liquidated when the debts mature.
+    
+    ### Proof of Concept
+    
+    `repayLoan` needs to check the `loanId`; if the id
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H10TheAttackersFrontRunningRepayloansSoThatTheDebtCan"
+solodit_id: "35212"
+solodit_slug: |
+    h-10-the-attackers-front-running-repayloans-so-that-the-debt-cannot-be-repaid-code4rena-gondi-gondi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addnewtranche;"
+fn_name_regex: ".*(repayLoan|loanId|mergeTranches|addNewTranche).*"
+read_var_regex: ".*(addNewTranche|liquidateLoan|loanId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "repayLoan"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addnewtranche > 0;"

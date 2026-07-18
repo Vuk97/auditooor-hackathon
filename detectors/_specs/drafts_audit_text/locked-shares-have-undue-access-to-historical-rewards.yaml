@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "locked-shares-have-undue-access-to-historical-rewards"
+class_name: "LockedSharesHaveUndueAccessToHistoricalRewards"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    In VeTranche, the rewardsDistributedPerSharePerLockPoint state variable increases in order to give rewards to all of the current locked positions. Each time rewards are distributed
+wiki_title: "Locked shares have undue access to historical rewards"
+wiki_description: |
+    In VeTranche, the rewardsDistributedPerSharePerLockPoint state variable increases in order to give rewards to all of the current locked positions. Each time rewards are distributed at the request of the owner of the lock or when the lock expires, the difference between the current value of this stat
+wiki_exploit_scenario: |
+    Per audit finding: In VeTranche, the rewardsDistributedPerSharePerLockPoint state variable increases in order to give rewards to all of the current locked positions. Each time rewards are distributed at the request of t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LockedSharesHaveUndueAccessToHistoricalRewards"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(lastSharePoint|pendingReward|tokensByTokenId).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "lastSharePoint"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

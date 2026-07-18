@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "faulty-access-control-allows-anyone-to-claim-fees"
+class_name: "FaultyAccessControlAllowsAnyoneToClaimFees"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #54806 (Cantina/Cozy Finance)"
+help: "Faulty Access Control allows anyone to claim Fees"
+wiki_title: "Faulty Access Control allows anyone to claim Fees "
+wiki_description: |
+    ## Context: Set.sol#L90
+    
+    ## Description
+    
+    A Set's accumulated fees may be collected by calling the `claimSetFees()` function of the Manager singleton contract, which allows an owner to batch-collect all fees from multiple of their Sets at once. To ensure that only the correct Set owner can claim thes
+wiki_exploit_scenario: |
+    Per Solodit #54806: ## Context: Set.sol#L90
+    
+    ## Description
+    
+    A Set's accumulated fees may be collected by calling the `claimSetFees()` function of the Manager singleton contract, which allows an owner to batch-collect al
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FaultyAccessControlAllowsAnyoneToClaimFees"
+solodit_id: "54806"
+solodit_slug: "faulty-access-control-allows-anyone-to-claim-fees-cantina-none-cozy-finance-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal caller_;"
+fn_name_regex: ".*(claimSetFees|caller_|receiver_).*"
+read_var_regex: ".*(caller_|claimSetFees|receiver_).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimSetFees"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return caller_ > 0;"

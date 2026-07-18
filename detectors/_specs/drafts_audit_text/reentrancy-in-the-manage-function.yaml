@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "reentrancy-in-the-manage-function"
+class_name: "ReentrancyInTheManageFunction"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Maia DAO Ulysses Protocol - Zellic Audit Report"
+help: |
+    The manage function permits trusted strategy contracts to borrow funds from the BranchPort contract. However, a strategy contract is restricted from withdrawing more token funds th
+wiki_title: "Reentrancy in the manage function"
+wiki_description: |
+    The manage function permits trusted strategy contracts to borrow funds from the BranchPort contract. However, a strategy contract is restricted from withdrawing more token funds than its reserve management limit. Therefore, the total of funds already borrowed plus the new amount must not exceed this
+wiki_exploit_scenario: |
+    Per audit finding: The manage function permits trusted strategy contracts to borrow funds from the BranchPort contract. However, a strategy contract is restricted from withdrawing more token funds than its reserve manag
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyInTheManageFunction"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalTokenBalance|replenishReserves|getPortStrategyTokenDebt).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "totalTokenBalance"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

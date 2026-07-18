@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "anyone-can-cancel-traders-market-orders-due-to-missing-access-co"
+class_name: "AnyoneCanCancelTradersMarketOrdersDueToMissingAccessCo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34832 (Cyfrin/Zaros)"
+help: |
+    Anyone can cancel traders' market orders due to missing access control in `OrderBranch::cancelMarketOrder`
+wiki_title: |
+    Anyone can cancel traders' market orders due to missing access control in `OrderBranch::cancelMarketOrder`
+wiki_description: |
+    **Description:** Anyone can cancel traders' market orders due to missing access control in `OrderBranch::cancelMarketOrder`:
+    
+    ```solidity
+    function cancelMarketOrder(uint128 tradingAccountId) external {
+        MarketOrder.Data storage marketOrder = MarketOrder.loadExisting(tradingAccountId);
+    
+        market
+wiki_exploit_scenario: |
+    Per Solodit #34832: **Description:** Anyone can cancel traders' market orders due to missing access control in `OrderBranch::cancelMarketOrder`:
+    
+    ```solidity
+    function cancelMarketOrder(uint128 tradingAccountId) external
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyoneCanCancelTradersMarketOrdersDueToMissingAccessCo"
+solodit_id: "34832"
+solodit_slug: |
+    anyone-can-cancel-traders-market-orders-due-to-missing-access-control-in-orderbranchcancelmarketorder-cyfrin-none-cyfrinzaros-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(cancelMarketOrder|tradingAccountId|marketOrder|loadExisting).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "cancelMarketOrder"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

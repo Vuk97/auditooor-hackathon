@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "m-04-unchecked-erc20-transfer-calls"
+class_name: "M04UncheckedErc20TransferCalls"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #938 (Code4rena/Mochi)"
+help: "[M-04] Unchecked ERC20 transfer calls"
+wiki_title: "[M-04] Unchecked ERC20 transfer calls"
+wiki_description: |
+    _Submitted by loop, also found by cmichel, defsec, gzeon, leastwood, nikitastupin, pants, and WatchPug_
+    
+    ERC20 `transfer` and `transferFrom` calls normally return `true` on a succesful transfer. In DutchAuctionLiquidator the call `asset.transfer(msg.sender, _collateral);` is made. `asset` refers to
+wiki_exploit_scenario: |
+    Per Solodit #938: _Submitted by loop, also found by cmichel, defsec, gzeon, leastwood, nikitastupin, pants, and WatchPug_
+    
+    ERC20 `transfer` and `transferFrom` calls normally return `true` on a succesful transfer. In Du
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04UncheckedErc20TransferCalls"
+solodit_id: "938"
+solodit_slug: "m-04-unchecked-erc20-transfer-calls-code4rena-mochi-mochi-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal asset;"
+fn_name_regex: ".*(transfer|transferFrom|asset|void).*"
+write_var_regex: ".*(asset|cheapTransfer|cheapTransferFrom).*"
+guard_var_regex: ".*(asset|cheapTransfer|cheapTransferFrom).*"
+vuln_fn_name: "transfer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "asset = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_call"
+name: "m-02-tokens-with-a-no-op-fallback-function-can-be-used-to-steal-"
+class_name: "M02TokensWithANoOpFallbackFunctionCanBeUsedToSteal"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20440 (Pashov Audit Group/Azuro)"
+help: "[M-02] Tokens with a no-op fallback function can be used to steal the ETH balance of `LP`"
+wiki_title: "[M-02] Tokens with a no-op fallback function can be used to steal the ETH balance of `LP`"
+wiki_description: |
+    **Impact:**
+    High, because it can lead to stolen funds from the protocol
+    
+    **Likelihood:**
+    Low, as it requires a token with a fallback function but without a `withdraw` function
+    
+    **Description**
+    
+    In `LP::withdrawPayout` we have the following code:
+    
+    ```solidty
+    if (isNative) {
+        IWNative(token).withdr
+wiki_exploit_scenario: |
+    Per Solodit #20440: **Impact:**
+    High, because it can lead to stolen funds from the protocol
+    
+    **Likelihood:**
+    Low, as it requires a token with a fallback function but without a `withdraw` function
+    
+    **Description**
+    
+    In `LP
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02TokensWithANoOpFallbackFunctionCanBeUsedToSteal"
+solodit_id: "20440"
+solodit_slug: |
+    m-02-tokens-with-a-no-op-fallback-function-can-be-used-to-steal-the-eth-balance-of-lp-pashov-none-azuro-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal isnative;"
+fn_name_regex: ".*(withdraw|token|withdrawPayout|isNative).*"
+read_var_regex: ".*(isNative|token|withdraw).*"
+required_call_regex: ".*withdraw.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return isnative > 0;"

@@ -1,0 +1,49 @@
+skeleton: "state_write_without_paired_write"
+name: "m-10-arbitrage-opportunity-using-different-prices-in-the-same-bl"
+class_name: "M10ArbitrageOpportunityUsingDifferentPricesInTheSameBl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36540 (Pashov Audit Group/Nabla)"
+help: "[M-10] Arbitrage opportunity using different prices in the same block"
+wiki_title: "[M-10] Arbitrage opportunity using different prices in the same block"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    **Description**
+    
+    The current implementation of the `PythAdapter` contract allows using different prices for the same token in the same block. This can be exploited by a malicious user to make a profit with zero risk.
+    
+    There are different ways
+wiki_exploit_scenario: |
+    Per Solodit #36540: **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    **Description**
+    
+    The current implementation of the `PythAdapter` contract allows using different prices for the same token in the same block.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10ArbitrageOpportunityUsingDifferentPricesInTheSameBl"
+solodit_id: "36540"
+solodit_slug: |
+    m-10-arbitrage-opportunity-using-different-prices-in-the-same-block-pashov-audit-group-none-nabla-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(PythAdapter|updatePriceFeeds|swapExactTokensForTokensWithoutPriceFeedUpdate|swapExactTokensForTokens).*"
+primary_var_regex: ".*(swapExactTokensForTokens|swapExactTokensForTokensWithoutPriceFeedUpdate|updatePriceFeeds).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

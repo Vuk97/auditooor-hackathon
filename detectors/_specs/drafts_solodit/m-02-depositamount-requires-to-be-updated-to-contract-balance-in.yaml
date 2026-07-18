@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "m-02-depositamount-requires-to-be-updated-to-contract-balance-in"
+class_name: "M02DepositamountRequiresToBeUpdatedToContractBalanceIn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24993 (Code4rena/PoolTogether)"
+help: "[M-02] `_depositAmount` requires to be updated to contract balance increase"
+wiki_title: "[M-02] `_depositAmount` requires to be updated to contract balance increase"
+wiki_description: |
+    _Submitted by MaratCerby, also found by berndartmueller, cccz, CertoraInc, IllIllI, and reassor_
+    
+    [AaveV3YieldSource.sol#L231-L242](https://github.com/pooltogether/aave-v3-yield-source/blob/e63d1b0e396a5bce89f093630c282ca1c6627e44/contracts/AaveV3YieldSource.sol#L231-L242)<br>
+    
+    Every time transferFr
+wiki_exploit_scenario: |
+    Per Solodit #24993: _Submitted by MaratCerby, also found by berndartmueller, cccz, CertoraInc, IllIllI, and reassor_
+    
+    [AaveV3YieldSource.sol#L231-L242](https://github.com/pooltogether/aave-v3-yield-source/blob/e63d1b0e39
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02DepositamountRequiresToBeUpdatedToContractBalanceIn"
+solodit_id: "24993"
+solodit_slug: |
+    m-02-_depositamount-requires-to-be-updated-to-contract-balance-increase-code4rena-pooltogether-pooltogether-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferFrom|supplyTokenTo|nonReentrant|balanceBefore).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

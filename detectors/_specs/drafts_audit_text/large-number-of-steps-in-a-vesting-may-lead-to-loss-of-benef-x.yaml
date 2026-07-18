@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "large-number-of-steps-in-a-vesting-may-lead-to-loss-of-benef-x"
+class_name: "LargeNumberOfStepsInAVestingMayLeadToLossOfBenefX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-secondswap"
+help: |
+    gesha17 Some token owners may create StepVesting contracts with very large numbers of steps, to simulate a continous vesting. This can lead to two edge cases for the releaseRate of
+wiki_title: |
+    Large number of steps in a vesting may lead to loss of beneficiary funds or uneven vesting distribution
+wiki_description: |
+    gesha17 Some token owners may create StepVesting contracts with very large numbers of steps, to simulate a continous vesting. This can lead to two edge cases for the releaseRate of a beneficiary: Consider a scenario where a vesting is created that has less tokens than there are number of steps in th
+wiki_exploit_scenario: |
+    Per audit finding: gesha17 Some token owners may create StepVesting contracts with very large numbers of steps, to simulate a continous vesting. This can lead to two edge cases for the releaseRate of a beneficiary: Cons
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LargeNumberOfStepsInAVestingMayLeadToLossOfBenefX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(releaseRate|tokenAmount|numSteps).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "releaseRate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

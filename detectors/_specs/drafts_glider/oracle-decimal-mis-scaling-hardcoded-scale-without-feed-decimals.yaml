@@ -1,0 +1,25 @@
+skeleton: "state_write_without_paired_write"
+name: "oracle-decimal-mis-scaling-hardcoded-scale-without-feed-decimals"
+class_name: "OracleDecimalMisScalingHardcodedScaleWithoutFeedDecimals"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: oracle-prices-with-hardcoded-scales"
+help: "Oracle decimal mis-scaling (hardcoded scale without feed decimals)"
+wiki_title: "Oracle decimal mis-scaling (hardcoded scale without feed decimals)"
+wiki_description: |
+    Flags price/quote functions that read oracle answers but either hardcode a single scale (1e18/1e8) or mix 18/8 scalars without calling decimals(). Also checks callers via caller_functions_recursive and downranks/filters cases where callers enforce price/zero guards.
+wiki_exploit_scenario: |
+    Per Glider query tags [oracle, decimals, price, misconfiguration, scaling]: Flags price/quote functions that read oracle answers but either hardcode a single scale (1e18/1e8) or mix 18/8 scalars without calling decimals(). Also checks callers via caller_functions_recursive an
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "OracleDecimalMisScalingHardcodedScaleWithoutFeedDecimals"
+fn_name_regex: ".*(oracle).*"
+primary_var_regex: ".*(balance|amount|position|stake).*"
+paired_var_regex: ".*(flag|status|cleared|isLong|reset).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;

@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "ranttoken-2025-07"
+class_name: "Ranttoken202507"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-07/RANTToken_exp.sol"
+help: "RANTToken 2025-07 — flashloan exploit (~ 311.4 BNB)"
+wiki_title: "RANTToken (2025-07) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-07): RANTToken lost ~ 311.4 BNB. Bug class: flashloan. Attack tx: 0x2d9c1a00cf3d2fda268d0d11794ad2956774b156355e16441d6edb9a448e5a99.
+wiki_exploit_scenario: |
+    Attacker (0xad2cb8f48e74065a0b884af9c5a4ecbba101be23) exploits RANTToken via flashloan: the victim contract 0xc321ac21a07b3d593b269acdace69c3762ca2dd0 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Ranttoken202507"
+trigger_sig_regex: ".*(pancakeCall).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function pancakeCall(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.pancakeCall(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

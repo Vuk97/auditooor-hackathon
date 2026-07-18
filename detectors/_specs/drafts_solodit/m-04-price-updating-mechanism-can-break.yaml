@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "m-04-price-updating-mechanism-can-break"
+class_name: "M04PriceUpdatingMechanismCanBreak"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33499 (Code4rena/Renzo)"
+help: "[M-04] Price updating mechanism can break"
+wiki_title: "[M-04] Price updating mechanism can break"
+wiki_description: |
+    Renzo uses `CCIP` to send price updates from `L1 -> L2` using:
+    
+    ```javascript
+        function sendPrice(
+            CCIPDestinationParam[] calldata _destinationParam,
+            ConnextDestinationParam[] calldata _connextDestinationParam
+        ) external payable onlyPriceFeedSender nonReentrant {
+        // omitt
+wiki_exploit_scenario: |
+    Per Solodit #33499: Renzo uses `CCIP` to send price updates from `L1 -> L2` using:
+    
+    ```javascript
+        function sendPrice(
+            CCIPDestinationParam[] calldata _destinationParam,
+            ConnextDestinationParam[] call
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04PriceUpdatingMechanismCanBreak"
+solodit_id: "33499"
+solodit_slug: "m-04-price-updating-mechanism-can-break-code4rena-renzo-renzo-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(CCIP).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "CCIP"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

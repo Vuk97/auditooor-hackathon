@@ -1,0 +1,36 @@
+skeleton: "paired_function_divergence"
+name: "redstone-eth-oracle-misconfiguration"
+class_name: "RedstoneEthOracleMisconfiguration"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52054 (Halborn/Intent Assets)"
+help: "RedStone ETH Oracle Misconfiguration"
+wiki_title: "RedStone ETH Oracle Misconfiguration"
+wiki_description: |
+    ##### Description
+    
+    The `RedStoneInETHOracle.sol` contract is designed for ETH pairs, which have different heart-beats than the hard-coded 6-hour `PRICE_UPDATE_DELAY` value in the contract under analysis. According to the [**RedStone Price Feeds documentation**](https://chat.mistral.ai/chat/link), mo
+wiki_exploit_scenario: |
+    Per Solodit #52054: ##### Description
+    
+    The `RedStoneInETHOracle.sol` contract is designed for ETH pairs, which have different heart-beats than the hard-coded 6-hour `PRICE_UPDATE_DELAY` value in the contract under analys
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RedstoneEthOracleMisconfiguration"
+solodit_id: "52054"
+solodit_slug: "redstone-eth-oracle-misconfiguration-halborn-dappos-intent-assets-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(basePrice|getPrice|tokenPrice).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "fixed-number-of-validators"
+class_name: "FixedNumberOfValidators"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Mina Token Bridge EVM - Zellic Audit Report"
+help: |
+    The bridge is expected to have some validators, but the Mina contract has a fixed number of valida- tors on the functions. @method async unlock( amount: UInt64, receiver: PublicKey
+wiki_title: "Fixed number of validators"
+wiki_description: |
+    The bridge is expected to have some validators, but the Mina contract has a fixed number of valida- tors on the functions. @method async unlock( amount: UInt64, receiver: PublicKey, id: UInt64, tokenAddr: PublicKey, useSig1: Bool, validator1: PublicKey, sig1: Signature, useSig2: Bool, validator2: Pu
+wiki_exploit_scenario: |
+    Per audit finding: The bridge is expected to have some validators, but the Mina contract has a fixed number of valida- tors on the functions. @method async unlock( amount: UInt64, receiver: PublicKey, id: UInt64, tokenA
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FixedNumberOfValidators"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(tokenAddr|useSig1|useSig2).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "tokenAddr"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

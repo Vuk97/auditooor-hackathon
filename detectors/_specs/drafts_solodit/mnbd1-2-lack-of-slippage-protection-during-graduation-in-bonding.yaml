@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "mnbd1-2-lack-of-slippage-protection-during-graduation-in-bonding"
+class_name: "Mnbd12LackOfSlippageProtectionDuringGraduationInBonding"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62423 (Hexens/Moonbound)"
+help: "[MNBD1-2] Lack of Slippage Protection During Graduation in BondingCurvePool"
+wiki_title: "[MNBD1-2] Lack of Slippage Protection During Graduation in BondingCurvePool"
+wiki_description: |
+    **Severity:** Medium
+    
+    **Path:** contracts/BondingCurvePool.sol#L253-L260 
+    
+    **Description:** When the `BondingCurvePool` has sold all its tokens, it calls `graduateToken` and sends all collected Ether to the Zealous Swap Router to convert it into liquidity. However, it lacks any checks to ensure a fa
+wiki_exploit_scenario: |
+    Per Solodit #62423: **Severity:** Medium
+    
+    **Path:** contracts/BondingCurvePool.sol#L253-L260 
+    
+    **Description:** When the `BondingCurvePool` has sold all its tokens, it calls `graduateToken` and sends all collected Ether
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Mnbd12LackOfSlippageProtectionDuringGraduationInBonding"
+solodit_id: "62423"
+solodit_slug: |
+    mnbd1-2-lack-of-slippage-protection-during-graduation-in-bondingcurvepool-hexens-none-moonbound-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(amountKASMin|amountTokenMin|graduateToken).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

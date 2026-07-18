@@ -1,0 +1,25 @@
+skeleton: "state_write_without_paired_write"
+name: "reward-distribution-precision-loss"
+class_name: "RewardDistributionPrecisionLoss"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: reward-rate-precision-loss"
+help: "Reward Distribution Precision Loss"
+wiki_title: "Reward Distribution Precision Loss"
+wiki_description: |
+    Finds reward-distribution functions that: - are public or external - modify state - participate in reward funding or accounting (transferFrom / safeTransferFrom / updateReward) - contain integer division in state assignments - where NO multiplication is present in the same expression This flags case
+wiki_exploit_scenario: |
+    Per Glider query tags []: Finds reward-distribution functions that: - are public or external - modify state - participate in reward funding or accounting (transferFrom / safeTransferFrom / updateReward) - contain integer divis
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "RewardDistributionPrecisionLoss"
+fn_name_regex: ".*(transferFrom).*"
+primary_var_regex: ".*(balance|amount|position|stake).*"
+paired_var_regex: ".*(flag|status|cleared|isLong|reset).*"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;

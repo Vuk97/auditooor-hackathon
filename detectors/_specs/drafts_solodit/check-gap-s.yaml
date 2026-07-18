@@ -1,0 +1,56 @@
+skeleton: "state_write_without_paired_write"
+name: "check-gap-s"
+class_name: "CheckGapS"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7158 (Spearbit/Connext)"
+help: "Check __GAP s"
+wiki_title: "Check __GAP s"
+wiki_description: |
+    ## Security Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    - LPToken.sol#L16
+    - OwnerPausableUpgradeable.sol#L16
+    - StableSwap.sol#L39
+    - Merkle.sol#L37
+    - ProposedOwnable.sol#L193
+    
+    ## Description
+    All `__GAP` variables have the same size, while the different contracts have a different number of storage
+wiki_exploit_scenario: |
+    Per Solodit #7158: ## Security Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    - LPToken.sol#L16
+    - OwnerPausableUpgradeable.sol#L16
+    - StableSwap.sol#L39
+    - Merkle.sol#L37
+    - ProposedOwnable.sol#L193
+    
+    ## Description
+    All `_
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CheckGapS"
+solodit_id: "7158"
+solodit_slug: "check-__gap-s-spearbit-connext-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(ProposedOwnableUpgradeable|ProposedOwnable).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

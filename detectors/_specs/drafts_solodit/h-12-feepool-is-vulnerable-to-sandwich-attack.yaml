@@ -1,0 +1,47 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-12-feepool-is-vulnerable-to-sandwich-attack"
+class_name: "H12FeepoolIsVulnerableToSandwichAttack"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #933 (Code4rena/Mochi)"
+help: "[H-12] feePool is vulnerable to sandwich attack."
+wiki_title: "[H-12] feePool is vulnerable to sandwich attack."
+wiki_description: |
+    ## Handle
+    
+    jonah1005
+    
+    
+    ## Vulnerability details
+    
+    ## Impact
+    There's a permissionless function `distributeMochi` in FeePoolV0. Since everyone can trigger this function, an attacker can launch a sandwich attack with flashloan to steal the funds.
+    [FeePoolV0.sol#L55-L62](https://github.com/code-423n4/202
+wiki_exploit_scenario: |
+    Per Solodit #933: ## Handle
+    
+    jonah1005
+    
+    
+    ## Vulnerability details
+    
+    ## Impact
+    There's a permissionless function `distributeMochi` in FeePoolV0. Since everyone can trigger this function, an attacker can launch a sandwich
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H12FeepoolIsVulnerableToSandwichAttack"
+solodit_id: "933"
+solodit_slug: "h-12-feepool-is-vulnerable-to-sandwich-attack-code4rena-mochi-mochi-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Sandwich Attack"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(distributeMochi|harvest).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

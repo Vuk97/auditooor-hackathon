@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "clone-construction-leaves-constants-uninitialized"
+class_name: "CloneConstructionLeavesConstantsUninitialized"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_af"
+help: |
+    `VaultFactory` clones `LidoVault` but constant-initialized state vars (e.g. `minimumDepositAmount = 0.01 ether`) are not set in clone's storage because they are set in constructor
+wiki_title: "Clone Construction Leaves Constants Uninitialized"
+wiki_description: |
+    `VaultFactory` clones `LidoVault` but constant-initialized state vars (e.g. `minimumDepositAmount = 0.01 ether`) are not set in clone's storage because they are set in constructor which doesn't run for clones.
+wiki_exploit_scenario: |
+    Attacker exploits Clone Construction Leaves Constants Uninitialized as described: `VaultFactory` clones `LidoVault` but constant-initialized state vars (e.g. `minimumDepositAmount = 0.01 ether`) are not set in clone's storage because they are set in constructor which doesn't run fo
+wiki_recommendation: "EIP-1167 clone of contract with inline state-var initializers that aren't in `initialize()`."
+contract_name: "CloneConstructionLeavesConstantsUninitialized"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(VaultFactory|LidoVault|initialize).*"
+read_var_regex: ".*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "VaultFactory"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

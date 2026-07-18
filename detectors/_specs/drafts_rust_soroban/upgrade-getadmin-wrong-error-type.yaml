@@ -1,0 +1,19 @@
+id: upgrade-getadmin-wrong-error-type
+title: "upgrade() and get_admin() may incorrectly use TransferFailed in error handling"
+severity: Info
+language: rust
+platform: soroban
+source: "watchpug-rev3"
+source_ids:
+  - "WP-N12"
+bug_class: error-handling
+indicators:
+  - "admin/upgrade path returns `TokenError::TransferFailed` when real cause is `Unauthorized`"
+  - "generic error variant reused across unrelated code paths"
+victim: "Operators: misleading error traces."
+exploit_precondition: "Auth failure on admin path."
+real_world_example: |
+  WatchPug WP-N12 (Info): `upgrade()` and `get_admin()` may incorrectly use TransferFailed in error handling.
+suggested_remediation: "Use a dedicated error variant per failure mode."
+cross_refs:
+  - ambiguous-error-codes

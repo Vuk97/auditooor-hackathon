@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "native-coin-sent-can-be-lost"
+class_name: "NativeCoinSentCanBeLost"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37077 (Zokyo/Limit Break)"
+help: "Native coin sent can be lost"
+wiki_title: "Native coin sent can be lost"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In CPortModule.sol - Function `_executeOrderBuySide()` accepts native coin `msg.value` in a sale that requires ERC20 payment without reverting. Native coin in this scenario is transferred to the contract to be effectively lost. This takes
+wiki_exploit_scenario: |
+    Per Solodit #37077: **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In CPortModule.sol - Function `_executeOrderBuySide()` accepts native coin `msg.value` in a sale that requires ERC20 payment without revert
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NativeCoinSentCanBeLost"
+solodit_id: "37077"
+solodit_slug: "native-coin-sent-can-be-lost-zokyo-none-limit-break-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal buylistingcosigned;"
+fn_name_regex: ".*(feeOnTop|buyListingWithFeeOnTop|msgValueItemPrice|buyListingCosigned).*"
+write_var_regex: ".*(buyListingCosigned|buyListingWithFeeOnTop|feeOnTop).*"
+guard_var_regex: ".*(buyListingCosigned|buyListingWithFeeOnTop|feeOnTop).*"
+vuln_fn_name: "feeOnTop"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "buylistingcosigned = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

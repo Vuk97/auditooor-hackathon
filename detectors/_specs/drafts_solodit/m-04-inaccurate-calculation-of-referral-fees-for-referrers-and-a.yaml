@@ -1,0 +1,51 @@
+skeleton: "paired_function_divergence"
+name: "m-04-inaccurate-calculation-of-referral-fees-for-referrers-and-a"
+class_name: "M04InaccurateCalculationOfReferralFeesForReferrersAndA"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37801 (Pashov Audit Group/GainsNetwork-February)"
+help: "[M-04] Inaccurate calculation of referral fees for referrers and allies"
+wiki_title: "[M-04] Inaccurate calculation of referral fees for referrers and allies"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Low
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    When calculating the referral reward, the fee tiers are applied immediately to the `positionSizeCollateral`, so the position size is already adjusted by the `feeMultiplierCache` of the trader.
+    
+            function _registerTrade(
+wiki_exploit_scenario: |
+    Per Solodit #37801: ## Severity
+    
+    **Impact:** Low
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    When calculating the referral reward, the fee tiers are applied immediately to the `positionSizeCollateral`, so the position size is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04InaccurateCalculationOfReferralFeesForReferrersAndA"
+solodit_id: "37801"
+solodit_slug: |
+    m-04-inaccurate-calculation-of-referral-fees-for-referrers-and-allies-pashov-audit-group-none-gainsnetwork-february-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(feeMultiplierCache|feeP|positionSizeCollateral).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

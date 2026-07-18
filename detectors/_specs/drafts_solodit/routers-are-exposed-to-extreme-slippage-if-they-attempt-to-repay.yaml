@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "routers-are-exposed-to-extreme-slippage-if-they-attempt-to-repay"
+class_name: "RoutersAreExposedToExtremeSlippageIfTheyAttemptToRepay"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7218 (Spearbit/Connext)"
+help: "Routers are exposed to extreme slippage if they attempt to repay debt before being reconciled"
+wiki_title: "Routers are exposed to extreme slippage if they attempt to repay debt before being reconciled"
+wiki_description: |
+    ## High Risk Severity Report
+    
+    ## Context
+    - NomadFacet.sol#L188-L209
+    - NomadFacet.sol#L269-L320
+    - AssetLogic.sol#L228-L250
+    - AssetLogic.sol#L308-L362
+    
+    ## Description
+    When routers are reconciled, the local asset may need to be exchanged for the adopted asset in order to repay the unbacked Aave loan. `
+wiki_exploit_scenario: |
+    Per Solodit #7218: ## High Risk Severity Report
+    
+    ## Context
+    - NomadFacet.sol#L188-L209
+    - NomadFacet.sol#L269-L320
+    - AssetLogic.sol#L228-L250
+    - AssetLogic.sol#L308-L362
+    
+    ## Description
+    When routers are reconciled, the lo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RoutersAreExposedToExtremeSlippageIfTheyAttemptToRepay"
+solodit_id: "7218"
+solodit_slug: |
+    routers-are-exposed-to-extreme-slippage-if-they-attempt-to-repay-debt-before-being-reconciled-spearbit-connext-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Slippage, Business Logic"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(swapFromLocalAssetIfNeededForExactOut).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swapFromLocalAssetIfNeededForExactOut"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-02-when-transferring-tokens-native-on-skale-to-ethereum-with-t"
+class_name: "M02WhenTransferringTokensNativeOnSkaleToEthereumWithT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1601 (Code4rena/SKALE)"
+help: |
+    [M-02] When transferring tokens native on SKALE to Ethereum with `TokenManagerERC20.exitToMainERC20()`, the tokens on the schain will be frozen on `TokenManagerERC20`, but they wil
+wiki_title: |
+    [M-02] When transferring tokens native on SKALE to Ethereum with `TokenManagerERC20.exitToMainERC20()`, the tokens on the schain will be frozen on `TokenManager
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    In the current implementation of `TokenManagerERC20`, it allows `exitToMainERC20(tokenOnSchain, amount)`.
+    
+    At L277 of `TokenManagerERC20.sol` in `exitToMainERC20()`, if `tokenOnSchain` is minted on SKALE schain natively, there are no such require statement that prevents the
+wiki_exploit_scenario: |
+    Per Solodit #1601: _Submitted by WatchPug_
+    
+    In the current implementation of `TokenManagerERC20`, it allows `exitToMainERC20(tokenOnSchain, amount)`.
+    
+    At L277 of `TokenManagerERC20.sol` in `exitToMainERC20()`, if `token
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02WhenTransferringTokensNativeOnSkaleToEthereumWithT"
+solodit_id: "1601"
+solodit_slug: |
+    m-02-when-transferring-tokens-native-on-skale-to-ethereum-with-tokenmanagererc20exittomainerc20-the-tokens-on-the-schain-will-be-frozen-on-tokenmanagererc20-but-they-will-not-receive-tokens-on-ethereum-code4rena-skale-skale-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal exittomainerc20;"
+fn_name_regex: ".*(TokenManagerERC20|exitToMainERC20|tokenOnSchain|require).*"
+read_var_regex: ".*(exitToMainERC20|require|tokenOnSchain).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "TokenManagerERC20"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return exittomainerc20 > 0;"

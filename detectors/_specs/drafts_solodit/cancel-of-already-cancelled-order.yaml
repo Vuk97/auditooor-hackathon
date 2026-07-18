@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "cancel-of-already-cancelled-order"
+class_name: "CancelOfAlreadyCancelledOrder"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28351 (MixBytes/1Inch)"
+help: "Cancel of already cancelled order"
+wiki_title: "Cancel of already cancelled order"
+wiki_description: |
+    ##### Description
+    User can cancel already filled order, so incorrect event would emit:
+    https://github.com/1inch/limit-order-protocol/tree/a14bde6a260458de5083cee117d734221e1cbc05/contracts/LimitOrderProtocol.sol#L161
+    ##### Recommendation
+    We recommend to add the following check:
+    ```solidity=
+    require(
+wiki_exploit_scenario: |
+    Per Solodit #28351: ##### Description
+    User can cancel already filled order, so incorrect event would emit:
+    https://github.com/1inch/limit-order-protocol/tree/a14bde6a260458de5083cee117d734221e1cbc05/contracts/LimitOrderP
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CancelOfAlreadyCancelledOrder"
+solodit_id: "28351"
+solodit_slug: "cancel-of-already-cancelled-order-mixbytes-none-1inch-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(orderHash).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "orderHash"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

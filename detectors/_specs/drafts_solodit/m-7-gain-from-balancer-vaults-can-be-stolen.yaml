@@ -1,0 +1,52 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-7-gain-from-balancer-vaults-can-be-stolen"
+class_name: "M7GainFromBalancerVaultsCanBeStolen"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3332 (Sherlock/Notional)"
+help: "M-7: Gain From Balancer Vaults Can Be Stolen"
+wiki_title: "M-7: Gain From Balancer Vaults Can Be Stolen"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-09-notional-judging/issues/83 
+    
+    ## Found by 
+    xiaoming90
+    
+    ## Summary
+    
+    The BPT gain (rewards) of the vault can be stolen by an attacker.
+    
+    ## Vulnerability Detail
+    
+    At T0 (Time 0), assume that the state of the WETH/wstETH MetaPool Vault is as follows:
+    
+    - to
+wiki_exploit_scenario: |
+    Per Solodit #3332: Source: https://github.com/sherlock-audit/2022-09-notional-judging/issues/83 
+    
+    ## Found by 
+    xiaoming90
+    
+    ## Summary
+    
+    The BPT gain (rewards) of the vault can be stolen by an attacker.
+    
+    ## Vulnerability
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M7GainFromBalancerVaultsCanBeStolen"
+solodit_id: "3332"
+solodit_slug: "m-7-gain-from-balancer-vaults-can-be-stolen-sherlock-notional-notional-git"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Flash Loan"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(reinvestReward|fCash).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

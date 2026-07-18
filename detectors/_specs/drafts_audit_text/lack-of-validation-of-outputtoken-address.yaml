@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-validation-of-outputtoken-address"
+class_name: "LackOfValidationOfOutputtokenAddress"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Odos Cross-Chain Contracts - Zellic Audit Report"
+help: |
+    In the executeOdosHook function of the AcrossHook contract, there is a lack of validation to ensure that the outputToken specified by the user in hookData is not the zero address.
+wiki_title: "Lack of validation of outputToken address"
+wiki_description: |
+    In the executeOdosHook function of the AcrossHook contract, there is a lack of validation to ensure that the outputToken specified by the user in hookData is not the zero address. Since the zero address is used in OdosRouterV3 to represent native tokens, users may assume that it is a valid and suppo
+wiki_exploit_scenario: |
+    Per audit finding: In the executeOdosHook function of the AcrossHook contract, there is a lack of validation to ensure that the outputToken specified by the user in hookData is not the zero address. Since the zero addre
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfValidationOfOutputtokenAddress"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(executeOdosHook|outputToken|hookData).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "executeOdosHook"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "m-01-destination-slippage-protections-broken-by-amount-drift"
+class_name: "M01DestinationSlippageProtectionsBrokenByAmountDrift"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64068 (Shieldify/Toki Bridge)"
+help: "[M-01] Destination Slippage Protections Broken by Amount Drift"
+wiki_title: "[M-01] Destination Slippage Protections Broken by Amount Drift"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `DexReceiverUniswap._recalculateAmountIn()` tries to reconcile the user-provided swap parameters with the actual token amount delivered by the bridge. When `actualAmount > totalAmountIn`, it **only** mutates the last hop by adding the entire surplus to
+wiki_exploit_scenario: |
+    Per Solodit #64068: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `DexReceiverUniswap._recalculateAmountIn()` tries to reconcile the user-provided swap parameters with the actual token amount delivered by the bridge. Wh
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01DestinationSlippageProtectionsBrokenByAmountDrift"
+solodit_id: "64068"
+solodit_slug: "m-01-destination-slippage-protections-broken-by-amount-drift-shieldify-none-toki-bridge-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(amountIn|amountOutMin|token|DexReceiverUniswap).*"
+primary_var_regex: ".*(amountIn|amountOutMin|token).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

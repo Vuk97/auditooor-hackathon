@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-function-removemilestone-does-not-remove-milestones-from-x"
+class_name: "TheFunctionRemovemilestoneDoesNotRemoveMilestonesFromX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Metavest - Zellic Audit Report"
+help: |
+    The function removeMilestone uses the keyword delete to remove milestones. Since milestones is an array, delete milestones[_milestoneIndex] only deletes the milestone at _milestone
+wiki_title: "The function removeMilestone does not remove milestones from the array"
+wiki_description: |
+    The function removeMilestone uses the keyword delete to remove milestones. Since milestones is an array, delete milestones[_milestoneIndex] only deletes the milestone at _milestoneIndex and leaves the length of the array untouched. This will cause checks using milestones.length to be inaccurate beca
+wiki_exploit_scenario: |
+    Per audit finding: The function removeMilestone uses the keyword delete to remove milestones. Since milestones is an array, delete milestones[_milestoneIndex] only deletes the milestone at _milestoneIndex and leaves the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheFunctionRemovemilestoneDoesNotRemoveMilestonesFromX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(removeMilestone|onlyController).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "removeMilestone"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

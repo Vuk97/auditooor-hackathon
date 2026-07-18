@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "wrong-handling-of-erc20-denoms-in-erc20keeper-burncoins"
+class_name: "WrongHandlingOfErc20DenomsInErc20keeperBurncoins"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-initia-cosmos"
+help: |
+    0xAlix2 MiniEVM is an optimistic rollup consumer chain powered by EVM, it allows users to interact with EVM/solidity contracts through Cosmos. Part of those contracts is ERC20, whi
+wiki_title: "Wrong handling of ERC20 denoms in ERC20Keeper::BurnCoins"
+wiki_description: |
+    0xAlix2 MiniEVM is an optimistic rollup consumer chain powered by EVM, it allows users to interact with EVM/solidity contracts through Cosmos. Part of those contracts is ERC20, which allows users to interact with ERC20Factory to create their ERC20s through Cosmos call messages. When doing so, a new
+wiki_exploit_scenario: |
+    Per audit finding: 0xAlix2 MiniEVM is an optimistic rollup consumer chain powered by EVM, it allows users to interact with EVM/solidity contracts through Cosmos. Part of those contracts is ERC20, which allows users to i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrongHandlingOfErc20DenomsInErc20keeperBurncoins"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(sudoMint|inputBz|evmAddr).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "sudoMint"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

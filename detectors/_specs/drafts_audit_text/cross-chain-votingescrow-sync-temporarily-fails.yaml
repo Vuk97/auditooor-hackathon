@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "cross-chain-votingescrow-sync-temporarily-fails"
+class_name: "CrossChainVotingescrowSyncTemporarilyFails"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Anzen and protocol-v2 - Zellic Audit Report"
+help: |
+    When cross-chain calls occur between VotingEscrowAnzenMainchain and VotingEscrowAnzenSid- echain, there is no guarantee that the order of multiple cross-chain calls occurring withi
+wiki_title: "Cross-chain VotingEscrow sync temporarily fails"
+wiki_description: |
+    When cross-chain calls occur between VotingEscrowAnzenMainchain and VotingEscrowAnzenSid- echain, there is no guarantee that the order of multiple cross-chain calls occurring within the same block.timestamp will be preserved. The data being synchronized between these contracts includes totalSupply a
+wiki_exploit_scenario: |
+    Per audit finding: When cross-chain calls occur between VotingEscrowAnzenMainchain and VotingEscrowAnzenSid- echain, there is no guarantee that the order of multiple cross-chain calls occurring within the same block.tim
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CrossChainVotingescrowSyncTemporarilyFails"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalSupply|positionData|scrowAnzenSidechain).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalSupply"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

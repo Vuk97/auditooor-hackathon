@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "call-depth-is-never-explicitly-reset"
+class_name: "CallDepthIsNeverExplicitlyReset"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #33034 (OpenZeppelin/SphereX Audit)"
+help: "Call Depth Is Never Explicitly Reset"
+wiki_title: "Call Depth Is Never Explicitly Reset"
+wiki_description: |
+    The Engine does not explicitly reset the call depth, which can lead to an off-by-one error in certain situations:
+    
+    
+    * If an arbitrary call to the Pre-hook is allowed from an unprotected method in an approved sender (a known client-reported edge case)
+    * In the event of a malicious or incorrectly impl
+wiki_exploit_scenario: |
+    Per Solodit #33034: The Engine does not explicitly reset the call depth, which can lead to an off-by-one error in certain situations:
+    
+    
+    * If an arbitrary call to the Pre-hook is allowed from an unprotected method in an a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CallDepthIsNeverExplicitlyReset"
+solodit_id: "33034"
+solodit_slug: "call-depth-is-never-explicitly-reset-openzeppelin-none-spherex-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal currentblockoriginhash;"
+fn_name_regex: ".*(forceCheck|currentBlockOriginHash).*"
+read_var_regex: ".*(currentBlockOriginHash|forceCheck).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "forceCheck"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return currentblockoriginhash > 0;"

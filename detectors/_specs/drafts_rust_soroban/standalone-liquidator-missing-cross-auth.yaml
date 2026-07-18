@@ -1,0 +1,19 @@
+id: standalone-liquidator-missing-cross-auth
+title: "Standalone liquidator path fails without cross-contract authorization"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.28"
+bug_class: authorization
+indicators:
+  - "liquidator contract's call to router omits `authorize_as_current_contract`"
+  - "standalone path reverts while internal path works because it uses `require_auth` pre-auth'd"
+victim: "Users of the standalone liquidator."
+exploit_precondition: "Attempt to liquidate via standalone contract."
+real_world_example: |
+  Halborn 7.28 (LOW): Standalone liquidator path fails without cross-contract authorization.
+suggested_remediation: "Wrap the router call in `env.authorize_as_current_contract(...)` tree."
+cross_refs:
+  - missing-self-authorize-as-current-contract

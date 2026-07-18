@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "reentrancy-attack-to-make-an-nft-unbridgeable"
+class_name: "ReentrancyAttackToMakeAnNftUnbridgeable"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #38515 (Codehawks/ArkProject: NFT Bridge)"
+help: "Reentrancy attack to make an NFT unbridgeable"
+wiki_title: "Reentrancy attack to make an NFT unbridgeable"
+wiki_description: |
+    ## Summary
+    
+    An attacker by applying reentrancy in the function `_withdrawFromEscrow` can make an NFT (whether L1-native or L2-native) **un-bridgeable** to L1 permanently.
+    
+    * Alice buys an L1-native NFT from Bob, and it is supposed to be transferred to Alice on L2.
+    * Bob, bridges this NFT from L1 to
+wiki_exploit_scenario: |
+    Per Solodit #38515: ## Summary
+    
+    An attacker by applying reentrancy in the function `_withdrawFromEscrow` can make an NFT (whether L1-native or L2-native) **un-bridgeable** to L1 permanently.
+    
+    * Alice buys an L1-native NF
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyAttackToMakeAnNftUnbridgeable"
+solodit_id: "38515"
+solodit_slug: "reentrancy-attack-to-make-an-nft-unbridgeable-codehawks-arkproject-nft-bridge-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal safetransferfrom;"
+fn_name_regex: ".*(safeTransferFrom).*"
+read_var_regex: ".*(safeTransferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeTransferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return safetransferfrom > 0;"

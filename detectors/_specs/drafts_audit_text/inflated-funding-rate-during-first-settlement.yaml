@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "inflated-funding-rate-during-first-settlement"
+class_name: "InflatedFundingRateDuringFirstSettlement"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit GTE Perps - Zellic Audit Report"
+help: |
+    During the first call to the settleFunding() function, the self.lastFundingTime storage variable is zero. As a result, the calculation currentTime - self.lastFundingTime assigns th
+wiki_title: "Inflated funding rate during first settlement"
+wiki_description: |
+    During the first call to the settleFunding() function, the self.lastFundingTime storage variable is zero. As a result, the calculation currentTime - self.lastFundingTime assigns the current block.timestamp value to the timeSinceLastFunding variable. This results in an inflated value for traders who
+wiki_exploit_scenario: |
+    Per audit finding: During the first call to the settleFunding() function, the self.lastFundingTime storage variable is zero. As a result, the calculation currentTime - self.lastFundingTime assigns the current block.time
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InflatedFundingRateDuringFirstSettlement"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(settleFunding|lastFundingTime|currentTime).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "settleFunding"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

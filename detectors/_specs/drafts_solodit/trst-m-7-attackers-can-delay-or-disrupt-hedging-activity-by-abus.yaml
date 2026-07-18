@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "trst-m-7-attackers-can-delay-or-disrupt-hedging-activity-by-abus"
+class_name: "TrstM7AttackersCanDelayOrDisruptHedgingActivityByAbus"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18902 (Trust Security/Lyra Finance)"
+help: |
+    TRST-M-7 attackers can delay or disrupt hedging activity by abusing mutual exclusion with updateCollateral()
+wiki_title: |
+    TRST-M-7 attackers can delay or disrupt hedging activity by abusing mutual exclusion with updateCollateral()
+wiki_description: |
+    **Description:**
+    `hedgeDelta()` is the engine behind the PoolHedger.sol used to offset exposure.
+     GMX increase / decrease position requests are performed in two steps to minimize slippage attacks. Firstly, 
+    users call `increasePositionRequest()`. Every short period (usually several seconds), GMX kee
+wiki_exploit_scenario: |
+    Per Solodit #18902: **Description:**
+    `hedgeDelta()` is the engine behind the PoolHedger.sol used to offset exposure.
+     GMX increase / decrease position requests are performed in two steps to minimize slippage attacks. Fir
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM7AttackersCanDelayOrDisruptHedgingActivityByAbus"
+solodit_id: "18902"
+solodit_slug: |
+    trst-m-7-attackers-can-delay-or-disrupt-hedging-activity-by-abusing-mutual-exclusion-with-updatecollateral-trust-security-none-lyra-finance-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal hedgedelta;"
+fn_name_regex: ".*(hedgeDelta|increasePositionRequest|updateCollateral).*"
+read_var_regex: ".*(hedgeDelta|increasePositionRequest|updateCollateral).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "hedgeDelta"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return hedgedelta > 0;"

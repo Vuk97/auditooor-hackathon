@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "attackers-can-use-a-malicious-yield-token-to-steal-funds-from-us"
+class_name: "AttackersCanUseAMaliciousYieldTokenToStealFundsFromUs"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26161 (Cyfrin/Stakepet)"
+help: "Attackers can use a malicious yield token to steal funds from users"
+wiki_title: "Attackers can use a malicious yield token to steal funds from users"
+wiki_description: |
+    **Severity:** High
+    
+    **Description:** According to the documentation and the current implementation, anyone can create a new StakePet contract and feed any address for the `YIELD_TOKEN`. As long as a contract implements `IYieldToken` interface, the contract will be created without problems.
+    
+    An attac
+wiki_exploit_scenario: |
+    Per Solodit #26161: **Severity:** High
+    
+    **Description:** According to the documentation and the current implementation, anyone can create a new StakePet contract and feed any address for the `YIELD_TOKEN`. As long as a c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AttackersCanUseAMaliciousYieldTokenToStealFundsFromUs"
+solodit_id: "26161"
+solodit_slug: |
+    attackers-can-use-a-malicious-yield-token-to-steal-funds-from-users-cyfrin-none-cyfrin-stakepet-markdown
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Access Control, Validation"
+state_decl: "uint256 internal totoken;"
+fn_name_regex: ".*(YIELD_TOKEN|IYieldToken|toToken|toValue).*"
+write_var_regex: ".*(toToken|toValue).*"
+guard_var_regex: ".*(toToken|toValue).*"
+vuln_fn_name: "YIELD_TOKEN"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "totoken = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

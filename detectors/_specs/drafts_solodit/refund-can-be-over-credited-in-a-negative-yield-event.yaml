@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "refund-can-be-over-credited-in-a-negative-yield-event"
+class_name: "RefundCanBeOverCreditedInANegativeYieldEvent"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #10423 (OpenZeppelin/Pods Finance Ethereum Volatility Vault Audit #1)"
+help: "Refund can be over-credited in a negative yield event"
+wiki_title: "Refund can be over-credited in a negative yield event"
+wiki_description: |
+    Deposits added to the queue are [point in time](https://github.com/pods-finance/yield-contracts/blob/9389ab46e9ecdd1ea1fd7228c9d9c6821c00f057/contracts/libs/DepositQueueLib.sol#L22) stETH balance amounts. The stETH token balance rebases regularly to account for yield, and in the event of [slashing](
+wiki_exploit_scenario: |
+    Per Solodit #10423: Deposits added to the queue are [point in time](https://github.com/pods-finance/yield-contracts/blob/9389ab46e9ecdd1ea1fd7228c9d9c6821c00f057/contracts/libs/DepositQueueLib.sol#L22) stETH balance amou
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RefundCanBeOverCreditedInANegativeYieldEvent"
+solodit_id: "10423"
+solodit_slug: |
+    refund-can-be-over-credited-in-a-negative-yield-event-openzeppelin-pods-finance-ethereum-volatility-vault-audit-1-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stETH).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "stETH"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

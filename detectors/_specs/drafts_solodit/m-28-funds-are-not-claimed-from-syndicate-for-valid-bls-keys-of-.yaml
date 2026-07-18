@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "m-28-funds-are-not-claimed-from-syndicate-for-valid-bls-keys-of-"
+class_name: "M28FundsAreNotClaimedFromSyndicateForValidBlsKeysOf"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5936 (Code4rena/Stakehouse Protocol)"
+help: |
+    [M-28] Funds are not claimed from syndicate for valid BLS keys of first key is invalid (no longer part of syndicate).
+wiki_title: |
+    [M-28] Funds are not claimed from syndicate for valid BLS keys of first key is invalid (no longer part of syndicate).
+wiki_description: |
+    <https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/StakingFundsVault.sol#L218>
+    
+    claimRewards in StakingFundsVault.sol has this code:
+    
+        if (i == 0 && !Syndicate(payable(liquidStakingNetworkManager.syndicate())).isNoLongerPartOf
+wiki_exploit_scenario: |
+    Per Solodit #5936: <https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/StakingFundsVault.sol#L218>
+    
+    claimRewards in StakingFundsVault.sol has this co
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M28FundsAreNotClaimedFromSyndicateForValidBlsKeysOf"
+solodit_id: "5936"
+solodit_slug: |
+    m-28-funds-are-not-claimed-from-syndicate-for-valid-bls-keys-of-first-key-is-invalid-no-longer-part-of-syndicate-code4rena-stakehouse-protocol-lsd-network-stakehouse-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation, Business Logic"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimRewards|liquidStakingNetworkManager|isNoLongerPartOfSyndicate|updateAccumulatedETHPerLP).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "claimRewards"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

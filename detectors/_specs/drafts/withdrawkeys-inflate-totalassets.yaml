@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "withdrawkeys-inflate-totalassets"
+class_name: "WithdrawkeysInflateTotalassets"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ab"
+help: |
+    Claimed-but-unremoved withdraw keys permanently inflate `totalAssets()`; vault over-reports assets causing diluted shares for new depositors.
+wiki_title: "WithdrawKeys-Inflate-TotalAssets"
+wiki_description: |
+    Claimed-but-unremoved withdraw keys permanently inflate `totalAssets()`; vault over-reports assets causing diluted shares for new depositors.
+wiki_exploit_scenario: |
+    Attacker exploits WithdrawKeys-Inflate-TotalAssets as described: Claimed-but-unremoved withdraw keys permanently inflate `totalAssets()`; vault over-reports assets causing diluted shares for new depositors.
+wiki_recommendation: |
+    ERC-4626 vault where `totalAssets()` sums a mapping of pending-withdraw entries that are not removed after redemption.
+contract_name: "WithdrawkeysInflateTotalassets"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(totalAssets).*"
+read_var_regex: ".*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalAssets"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

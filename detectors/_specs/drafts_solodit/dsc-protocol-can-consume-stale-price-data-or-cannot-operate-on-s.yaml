@@ -1,0 +1,33 @@
+skeleton: "state_write_without_paired_write"
+name: "dsc-protocol-can-consume-stale-price-data-or-cannot-operate-on-s"
+class_name: "DscProtocolCanConsumeStalePriceDataOrCannotOperateOnS"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34424 (Codehawks/Foundry DeFi Stablecoin CodeHawks Audit Contest)"
+help: "DSC protocol can consume stale price data or cannot operate on some EVM chains"
+wiki_title: "DSC protocol can consume stale price data or cannot operate on some EVM chains"
+wiki_description: |
+    ### Relevant GitHub Links
+    <a data-meta="codehawks-github-link" href="https://github.com/Cyfrin/2023-07-foundry-defi-stablecoin/blob/d1c5501aa79320ca0aeaa73f47f0dbc88c7b77e2/src/libraries/OracleLib.sol#L19">https://github.com/Cyfrin/2023-07-foundry-defi-stablecoin/blob/d1c5501aa79320ca0aeaa73f47f0dbc
+wiki_exploit_scenario: |
+    Per Solodit #34424: ### Relevant GitHub Links
+    <a data-meta="codehawks-github-link" href="https://github.com/Cyfrin/2023-07-foundry-defi-stablecoin/blob/d1c5501aa79320ca0aeaa73f47f0dbc88c7b77e2/src/libraries/OracleLib.sol
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DscProtocolCanConsumeStalePriceDataOrCannotOperateOnS"
+solodit_id: "34424"
+solodit_slug: |
+    dsc-protocol-can-consume-stale-price-data-or-cannot-operate-on-some-evm-chains-codehawks-foundry-defi-stablecoin-codehawks-audit-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(OracleLib|TIMEOUT|staleCheckLatestRoundData).*"
+primary_var_regex: ".*(staleCheckLatestRoundData).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

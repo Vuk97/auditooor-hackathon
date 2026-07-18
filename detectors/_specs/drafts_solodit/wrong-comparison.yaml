@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "wrong-comparison"
+class_name: "WrongComparison"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28455 (MixBytes/Yearn Finance)"
+help: "Wrong comparison"
+wiki_title: "Wrong comparison"
+wiki_description: |
+    ##### Description
+    At line: https://github.com/orbxball/weth-maker/blob/39cfbee59bcebfce19a5b9ac6f11fb84f3ab7b23/contracts/Strategy.sol#L217 left operand has unit `1e+6` and the right operand has unit `1e+10`.
+    ```solidity=
+    if (_current > DENOMINATOR.mul(c_safe).mul(1e2)) {//  1e6 > 10000 * 40000 * 1e
+wiki_exploit_scenario: |
+    Per Solodit #28455: ##### Description
+    At line: https://github.com/orbxball/weth-maker/blob/39cfbee59bcebfce19a5b9ac6f11fb84f3ab7b23/contracts/Strategy.sol#L217 left operand has unit `1e+6` and the right operand has unit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrongComparison"
+solodit_id: "28455"
+solodit_slug: "wrong-comparison-mixbytes-none-yearn-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal c_safe;"
+fn_name_regex: ".*(c_safe).*"
+read_var_regex: ".*(c_safe).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "c_safe"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return c_safe > 0;"

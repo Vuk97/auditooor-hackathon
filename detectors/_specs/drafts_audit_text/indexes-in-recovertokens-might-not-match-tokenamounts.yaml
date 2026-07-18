@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "indexes-in-recovertokens-might-not-match-tokenamounts"
+class_name: "IndexesInRecovertokensMightNotMatchTokenamounts"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Euler - Zellic Audit Report"
+help: |
+    The recoverTokens() function is intended to be used by the owner to recover tokens from the contract. This might be required if the tokens have been in the contract for a long time
+wiki_title: "Indexes in recoverTokens() might not match TokenAmounts()"
+wiki_description: |
+    The recoverTokens() function is intended to be used by the owner to recover tokens from the contract. This might be required if the tokens have been in the contract for a long time without being claimed. The owner passes in a list of indexes that will be marked as “claimed” and a list of tokens and
+wiki_exploit_scenario: |
+    Per audit finding: The recoverTokens() function is intended to be used by the owner to recover tokens from the contract. This might be required if the tokens have been in the contract for a long time without being claim
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IndexesInRecovertokensMightNotMatchTokenamounts"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(recoverTokens|indexList|tokenAmounts).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "recoverTokens"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

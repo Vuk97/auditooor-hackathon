@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "h-1-after-closing-synthetix-position-we-don-t-update-global-data"
+class_name: "H1AfterClosingSynthetixPositionWeDonTUpdateGlobalData"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45454 (Sherlock/Autonomint Colored Dollar V1)"
+help: "H-1: After closing synthetix position we don't update global data for liquidations"
+wiki_title: "H-1: After closing synthetix position we don't update global data for liquidations"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-11-autonomint-judging/issues/178 
+    
+    ## Found by 
+    Audinarey, valuevalk
+    
+    ### Summary
+    After admin closes synthetix position we don't update any global variables, which means that dCDS depositors and the whole protocol cannot benefit from the liquidation an
+wiki_exploit_scenario: |
+    Per Solodit #45454: Source: https://github.com/sherlock-audit/2024-11-autonomint-judging/issues/178 
+    
+    ## Found by 
+    Audinarey, valuevalk
+    
+    ### Summary
+    After admin closes synthetix position we don't update any global varia
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1AfterClosingSynthetixPositionWeDonTUpdateGlobalData"
+solodit_id: "45454"
+solodit_slug: |
+    h-1-after-closing-synthetix-position-we-dont-update-global-data-for-liquidations-sherlock-autonomint-colored-dollar-v1-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(closeThePositionInSynthetix).*"
+primary_var_regex: ".*(closeThePositionInSynthetix).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

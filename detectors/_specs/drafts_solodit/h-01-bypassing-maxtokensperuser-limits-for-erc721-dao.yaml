@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_require"
+name: "h-01-bypassing-maxtokensperuser-limits-for-erc721-dao"
+class_name: "H01BypassingMaxtokensperuserLimitsForErc721Dao"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41385 (Pashov Audit Group/StationX)"
+help: "[H-01] Bypassing `maxTokensPerUser` limits for ERC721 DAO"
+wiki_title: "[H-01] Bypassing `maxTokensPerUser` limits for ERC721 DAO"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    When users call `buyGovernanceTokenERC721DAO()` code performs max cap checks and then calls `mintToken()`. The issue is that there's no reentrancy guard and when code wants to mint tokens one by one by using `_safeMint()` user ca
+wiki_exploit_scenario: |
+    Per Solodit #41385: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    When users call `buyGovernanceTokenERC721DAO()` code performs max cap checks and then calls `mintToken()`. The issue is that ther
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01BypassingMaxtokensperuserLimitsForErc721Dao"
+solodit_id: "41385"
+solodit_slug: "h-01-bypassing-maxtokensperuser-limits-for-erc721-dao-pashov-audit-group-none-stationx-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balanceof;"
+fn_name_regex: ".*(buyGovernanceTokenERC721DAO|mintToken|balanceOf|maxTokensPerUser).*"
+write_var_regex: ".*(balanceOf|buyGovernanceTokenERC721DAO|mintToken).*"
+guard_var_regex: ".*(balanceOf|buyGovernanceTokenERC721DAO|mintToken).*"
+vuln_fn_name: "buyGovernanceTokenERC721DAO"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balanceof = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "bad-debt-accumulation-index-is-reset-on-partial-liquidation-and-"
+class_name: "BadDebtAccumulationIndexIsResetOnPartialLiquidationAnd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54626 (Cantina/BadgerDAO)"
+help: |
+    Bad debt accumulation index is reset on partial liquidation and is not reset on CDP increase, allowing for phantom bad debt creation
+wiki_title: |
+    Bad debt accumulation index is reset on partial liquidation and is not reset on CDP increase, allowing for phantom bad debt creation 
+wiki_description: |
+    ## Context
+    - **LiquidationLibrary.sol**: Line 446
+    - **CdpManager.sol**: Lines 913-916
+    
+    ## Description
+    Partial liquidation incorrectly resets `debtRedistributionIndex` of the CDP. The CDP update functionality should reset it when the CDP's collateral is increased, but it does not. This can create deb
+wiki_exploit_scenario: |
+    Per Solodit #54626: ## Context
+    - **LiquidationLibrary.sol**: Line 446
+    - **CdpManager.sol**: Lines 913-916
+    
+    ## Description
+    Partial liquidation incorrectly resets `debtRedistributionIndex` of the CDP. The CDP update functi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BadDebtAccumulationIndexIsResetOnPartialLiquidationAnd"
+solodit_id: "54626"
+solodit_slug: |
+    bad-debt-accumulation-index-is-reset-on-partial-liquidation-and-is-not-reset-on-cdp-increase-allowing-for-phantom-bad-debt-creation-cantina-none-badgerdao-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(debtRedistributionIndex|pendingEBTCDebtReward).*"
+primary_var_regex: ".*(debtRedistributionIndex|pendingEBTCDebtReward).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

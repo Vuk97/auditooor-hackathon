@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "ecdsa-signatures-can-be-trivially-bypassed"
+class_name: "EcdsaSignaturesCanBeTriviallyBypassed"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Biconomy PasskeyRegistry and SessionKeyManager Zellic Audit Report"
+help: |
+    The final verification step in the PasskeyRegistryModule plug-in is to call the Verify () function in Secp256r1.sol. The latter does not adequately check the parameters before vali
+wiki_title: "ECDSA signatures can be trivially bypassed"
+wiki_description: |
+    The final verification step in the PasskeyRegistryModule plug-in is to call the Verify () function in Secp256r1.sol. The latter does not adequately check the parameters before validation. The passKey parameter is picked directly from the internal mapping of public keys for msg.sender and is not dire
+wiki_exploit_scenario: |
+    Per audit finding: The final verification step in the PasskeyRegistryModule plug-in is to call the Verify () function in Secp256r1.sol. The latter does not adequately check the parameters before validation. The passKey
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EcdsaSignaturesCanBeTriviallyBypassed"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(passKey|pubKey).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "passKey"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

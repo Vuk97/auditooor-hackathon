@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "uneffective-weth-limit"
+class_name: "UneffectiveWethLimit"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Level Points Farm - Zellic Audit Report"
+help: |
+    The maximum amount staked by a user is set by the mapping tokenBalanceAllowList, which is configured by the constructor of the function setStakableAmount. When a user wants to depo
+wiki_title: "Uneffective wETH limit"
+wiki_description: |
+    The maximum amount staked by a user is set by the mapping tokenBalanceAllowList, which is configured by the constructor of the function setStakableAmount. When a user wants to deposit tokens, the amount sent is checked to be less than the limit and the amount already staked by the depositFor functio
+wiki_exploit_scenario: |
+    Per audit finding: The maximum amount staked by a user is set by the mapping tokenBalanceAllowList, which is configured by the constructor of the function setStakableAmount. When a user wants to deposit tokens, the amou
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UneffectiveWethLimit"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(tokenBalanceAllowList|setStakableAmount|depositFor).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "tokenBalanceAllowList"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

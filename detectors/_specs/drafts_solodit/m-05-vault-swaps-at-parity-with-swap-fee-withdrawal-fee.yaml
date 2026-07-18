@@ -1,0 +1,36 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-05-vault-swaps-at-parity-with-swap-fee-withdrawal-fee"
+class_name: "M05VaultSwapsAtParityWithSwapFeeWithdrawalFee"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #776 (Code4rena/yAxis)"
+help: "[M-05] Vault: Swaps at parity with swap fee = withdrawal fee"
+wiki_title: "[M-05] Vault: Swaps at parity with swap fee = withdrawal fee"
+wiki_description: |
+    _Submitted by hickuphh3_
+    
+    ##### Impact
+    The vault treats all assets to be of the same price. Given that one can also deposit and withdraw in the same transaction, this offers users the ability to swap available funds held in the vault at parity, with the withdrawal protection fee (0.1%) effectively b
+wiki_exploit_scenario: |
+    Per Solodit #776: _Submitted by hickuphh3_
+    
+    ##### Impact
+    The vault treats all assets to be of the same price. Given that one can also deposit and withdraw in the same transaction, this offers users the ability to swap
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05VaultSwapsAtParityWithSwapFeeWithdrawalFee"
+solodit_id: "776"
+solodit_slug: "m-05-vault-swaps-at-parity-with-swap-fee-withdrawal-fee-code4rena-yaxis-yaxis-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(setWithdrawalProtectionFee|setHalted).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

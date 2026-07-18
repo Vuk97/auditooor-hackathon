@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "saturn-2024-05"
+class_name: "Saturn202405"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-05/SATURN_exp.sol"
+help: "SATURN 2024-05 — oracle exploit (~15 BNB)"
+wiki_title: "SATURN (2024-05) — oracle"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-05): SATURN lost ~15 BNB. Bug class: oracle. Attack tx: 0x948132f219c0a1adbffbee5d9dc63bec676dd69341a6eca23790632cb9475312.
+wiki_exploit_scenario: |
+    Attacker (0xc468D9A3a5557BfF457586438c130E3AFbeC2ff9) exploits SATURN via oracle: the victim contract 0x9BDF251435cBC6774c7796632e9C80B233055b93 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Replace spot-price reads with a TWAP wrapper (e.g., Uniswap V3 OracleLibrary.consult) and require a minimum observation window; sanity-check prices against a reference oracle.
+contract_name: "Saturn202405"
+trigger_sig_regex: ".*(getPrice).*"
+required_sibling_regex: ".*(validatePrice).*"
+target_interface_decl: "interface IT { function getPrice(uint256) external; function validatePrice(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "readPrice"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.getPrice(x)"
+sibling_call: "target.validatePrice(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "direct-ytoken-deposits-can-lock-funds-below-minimum-withdrawal-t"
+class_name: "DirectYtokenDepositsCanLockFundsBelowMinimumWithdrawalT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #55543 (Cyfrin/Yieldfi)"
+help: "Direct YToken deposits can lock funds below minimum withdrawal threshold"
+wiki_title: "Direct YToken deposits can lock funds below minimum withdrawal threshold"
+wiki_description: |
+    **Description:** In [`Manager::deposit`](https://github.com/YieldFiLabs/contracts/blob/40caad6c60625d750cc5c3a5a7df92b96a93a2fb/contracts/core/Manager.sol#L134-L155), there is a check enforcing a minimum deposit amount inside [`Manager::_validate`](https://github.com/YieldFiLabs/contracts/blob/40caa
+wiki_exploit_scenario: |
+    Per Solodit #55543: **Description:** In [`Manager::deposit`](https://github.com/YieldFiLabs/contracts/blob/40caad6c60625d750cc5c3a5a7df92b96a93a2fb/contracts/core/Manager.sol#L134-L155), there is a check enforcing a mini
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DirectYtokenDepositsCanLockFundsBelowMinimumWithdrawalT"
+solodit_id: "55543"
+solodit_slug: |
+    direct-ytoken-deposits-can-lock-funds-below-minimum-withdrawal-threshold-cyfrin-none-yieldfi-markdown
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Validation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(YToken|Manager).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "YToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

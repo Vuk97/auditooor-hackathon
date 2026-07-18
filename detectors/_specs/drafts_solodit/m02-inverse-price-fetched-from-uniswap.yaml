@@ -1,0 +1,32 @@
+skeleton: "paired_function_divergence"
+name: "m02-inverse-price-fetched-from-uniswap"
+class_name: "M02InversePriceFetchedFromUniswap"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11002 (OpenZeppelin/Fei Protocol Audit)"
+help: "[M02] Inverse price fetched from Uniswap"
+wiki_title: "[M02] Inverse price fetched from Uniswap"
+wiki_description: |
+    The [`UniswapOracle`](https://github.com/fei-protocol/fei-protocol-core/blob/29aeefddd97f31c7f2a598fb3dca3ef24dc0beb4/contracts/oracle/UniswapOracle.sol) contract keeps track of the Uniswap price of `USDC` for use throughout the protocol and stores the price as USDC-per-WETH. The [`update`](https://
+wiki_exploit_scenario: |
+    Per Solodit #11002: The [`UniswapOracle`](https://github.com/fei-protocol/fei-protocol-core/blob/29aeefddd97f31c7f2a598fb3dca3ef24dc0beb4/contracts/oracle/UniswapOracle.sol) contract keeps track of the Uniswap price of `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02InversePriceFetchedFromUniswap"
+solodit_id: "11002"
+solodit_slug: "m02-inverse-price-fetched-from-uniswap-openzeppelin-fei-protocol-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(isPrice0|price0Cumulative|price1Cumulative).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

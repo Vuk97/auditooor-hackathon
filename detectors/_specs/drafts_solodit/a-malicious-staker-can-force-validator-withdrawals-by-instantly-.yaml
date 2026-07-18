@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "a-malicious-staker-can-force-validator-withdrawals-by-instantly-"
+class_name: "AMaliciousStakerCanForceValidatorWithdrawalsByInstantly"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35001 (Cyfrin/Casimir)"
+help: "A malicious staker can force validator withdrawals by instantly staking and unstaking"
+wiki_title: "A malicious staker can force validator withdrawals by instantly staking and unstaking"
+wiki_description: |
+    **Description:** When a user unstakes via `CasimirManager::requestUnstake`, the number of required validator exits is calculated using the prevailing expected withdrawable balance as follows:
+    
+    ```solidity
+    function requestUnstake(uint256 amount) external nonReentrant {
+        // code ....
+        uint256 ex
+wiki_exploit_scenario: |
+    Per Solodit #35001: **Description:** When a user unstakes via `CasimirManager::requestUnstake`, the number of required validator exits is calculated using the prevailing expected withdrawable balance as follows:
+    
+    ```soli
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AMaliciousStakerCanForceValidatorWithdrawalsByInstantly"
+solodit_id: "35001"
+solodit_slug: |
+    a-malicious-staker-can-force-validator-withdrawals-by-instantly-staking-and-unstaking-cyfrin-none-casimir-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal distributestakes;"
+fn_name_regex: ".*(distributeStakes|requestUnstake).*"
+write_var_regex: ".*(distributeStakes|requestUnstake).*"
+guard_var_regex: ".*(distributeStakes|requestUnstake).*"
+vuln_fn_name: "distributeStakes"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "distributestakes = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,42 @@
+skeleton: "paired_function_divergence"
+name: "h-1-stableoracledai-calculates-getpriceusd-with-inverted-base-ra"
+class_name: "H1StableoracledaiCalculatesGetpriceusdWithInvertedBaseRa"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19130 (Sherlock/USSD - Autonomous Secure Dollar)"
+help: "H-1: `StableOracleDAI` calculates `getPriceUSD` with inverted base/rate tokens for Chainlink price"
+wiki_title: "H-1: `StableOracleDAI` calculates `getPriceUSD` with inverted base/rate tokens for Chainlink price"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-05-USSD-judging/issues/102 
+    
+    ## Found by 
+    0xPkhatri, 0xRobocop, 0xyPhilic, Bahurum, Brenzee, J4de, Juntao, Viktor\_Cortess, juancito, nobody2018, pengun, sashik\_eth, shaka, twicek
+    ## Summary
+    
+    `StableOracleDAI::getPriceUSD()` calculates the average pric
+wiki_exploit_scenario: |
+    Per Solodit #19130: Source: https://github.com/sherlock-audit/2023-05-USSD-judging/issues/102 
+    
+    ## Found by 
+    0xPkhatri, 0xRobocop, 0xyPhilic, Bahurum, Brenzee, J4de, Juntao, Viktor\_Cortess, juancito, nobody2018, pengun,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1StableoracledaiCalculatesGetpriceusdWithInvertedBaseRa"
+solodit_id: "19130"
+solodit_slug: |
+    h-1-stableoracledai-calculates-getpriceusd-with-inverted-baserate-tokens-for-chainlink-price-sherlock-none-ussd-autonomous-secure-dollar-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(price|priceFeedDAIETH).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

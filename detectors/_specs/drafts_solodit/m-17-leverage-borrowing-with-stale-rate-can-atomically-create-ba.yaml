@@ -1,0 +1,45 @@
+skeleton: "state_write_without_paired_write"
+name: "m-17-leverage-borrowing-with-stale-rate-can-atomically-create-ba"
+class_name: "M17LeverageBorrowingWithStaleRateCanAtomicallyCreateBa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31086 (Sherlock/Tapioca)"
+help: |
+    M-17: Leverage borrowing with stale rate can atomically create bad debt with no prior positions and no investment
+wiki_title: |
+    M-17: Leverage borrowing with stale rate can atomically create bad debt with no prior positions and no investment
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-02-tapioca-judging/issues/79 
+    
+    ## Found by 
+    hyh
+    ## Summary
+    
+    Leverage buying, borrow and collateral removal can increase riskness of a position, but are allowed to be performed with a stale exchange rate within `rateValidDuration` both in BB ansd SGL. Th
+wiki_exploit_scenario: |
+    Per Solodit #31086: Source: https://github.com/sherlock-audit/2024-02-tapioca-judging/issues/79 
+    
+    ## Found by 
+    hyh
+    ## Summary
+    
+    Leverage buying, borrow and collateral removal can increase riskness of a position, but are a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M17LeverageBorrowingWithStaleRateCanAtomicallyCreateBa"
+solodit_id: "31086"
+solodit_slug: |
+    m-17-leverage-borrowing-with-stale-rate-can-atomically-create-bad-debt-with-no-prior-positions-and-no-investment-sherlock-tapioca-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(rateValidDuration|FEE_PRECISION).*"
+primary_var_regex: ".*(rateValidDuration).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

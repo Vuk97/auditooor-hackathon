@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-oracle-garbage-collection"
+class_name: "IncorrectOracleGarbageCollection"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #47982 (OtterSec/Switchboard_evm)"
+help: "Incorrect Oracle Garbage Collection"
+wiki_title: "Incorrect Oracle Garbage Collection"
+wiki_description: |
+    ## Oracle Heartbeat Vulnerability
+    
+    `oracleHeartbeat` performs garbage collection on a valid oracle instead of an expired one. Each oracle has a field named `numRows`, which indicates the number of queues associated with it. An oracle may only be added to a queue if its `numRows` value is zero. There
+wiki_exploit_scenario: |
+    Per Solodit #47982: ## Oracle Heartbeat Vulnerability
+    
+    `oracleHeartbeat` performs garbage collection on a valid oracle instead of an expired one. Each oracle has a field named `numRows`, which indicates the number of que
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectOracleGarbageCollection"
+solodit_id: "47982"
+solodit_slug: "incorrect-oracle-garbage-collection-ottersec-none-switchboard_evm-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal e833e48;"
+fn_name_regex: ".*(oracleHeartbeat|numRows|setNumRows|oracleId).*"
+read_var_regex: ".*(e833e48|gcOracleId|numRows).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "oracleHeartbeat"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return e833e48 > 0;"

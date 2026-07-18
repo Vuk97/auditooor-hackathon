@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "transfer-amount-enforcer-for-erc20-and-native-transfers-increase"
+class_name: "TransferAmountEnforcerForErc20AndNativeTransfersIncrease"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #55602 (Cyfrin/Metamask Delegationframework)"
+help: |
+    Transfer Amount enforcer for ERC20 and Native transfers increase spend limit without checking actual transfers
+wiki_title: |
+    Transfer Amount enforcer for ERC20 and Native transfers increase spend limit without checking actual transfers
+wiki_description: |
+    **Description:** Failed token/native transfers can potentially deplete a delegation's spending allowance when used with the `EXECTYPE_TRY` execution mode.
+    
+    The issue occurs because the enforcer tracks spending limits by incrementing a counter in its `beforeHook`, before the actual token transfer occ
+wiki_exploit_scenario: |
+    Per Solodit #55602: **Description:** Failed token/native transfers can potentially deplete a delegation's spending allowance when used with the `EXECTYPE_TRY` execution mode.
+    
+    The issue occurs because the enforcer tracks
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TransferAmountEnforcerForErc20AndNativeTransfersIncrease"
+solodit_id: "55602"
+solodit_slug: |
+    transfer-amount-enforcer-for-erc20-and-native-transfers-increase-spend-limit-without-checking-actual-transfers-cyfrin-none-metamask-delegationframework-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal beforehook;"
+fn_name_regex: ".*(EXECTYPE_TRY|beforeHook).*"
+write_var_regex: ".*(beforeHook).*"
+guard_var_regex: ".*(beforeHook).*"
+vuln_fn_name: "EXECTYPE_TRY"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "beforehook = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

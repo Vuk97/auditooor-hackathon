@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "high-borrowrate-values-in-the-new-xed-rate-irm-could-lead-to-use"
+class_name: "HighBorrowrateValuesInTheNewXedRateIrmCouldLeadToUse"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40729 (Cantina/Morpho)"
+help: |
+    High borrowRate values in the new ﬁxed rate IRM could lead to user funds stuck in Morpho Blue markets
+wiki_title: |
+    High borrowRate values in the new ﬁxed rate IRM could lead to user funds stuck in Morpho Blue markets 
+wiki_description: |
+    ## Context
+    - Morpho.sol#L483-L509
+    - FixedRateIrm.sol#L40-L47
+    
+    ## Description
+    The `FixedRateIrm` allows anyone to set a custom fixed arbitrary `borrowRate` for a specified market. The current implementation of `setBorrowRate` reverts only if the specified `newBorrowRate` value is equal to zero or if
+wiki_exploit_scenario: |
+    Per Solodit #40729: ## Context
+    - Morpho.sol#L483-L509
+    - FixedRateIrm.sol#L40-L47
+    
+    ## Description
+    The `FixedRateIrm` allows anyone to set a custom fixed arbitrary `borrowRate` for a specified market. The current implement
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "HighBorrowrateValuesInTheNewXedRateIrmCouldLeadToUse"
+solodit_id: "40729"
+solodit_slug: |
+    high-borrowrate-values-in-the-new-fixed-rate-irm-could-lead-to-user-funds-stuck-in-morpho-blue-markets-cantina-none-morpho-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accrueinterest;"
+fn_name_regex: ".*(FixedRateIrm|borrowRate|setBorrowRate|newBorrowRate).*"
+read_var_regex: ".*(accrueInterest|borrow|borrowRate).*"
+required_call_regex: ".*_accrueInterest.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "FixedRateIrm"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accrueinterest > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "admin-could-not-revert-exit-request-on-behalf-of-liquiditypool"
+class_name: "AdminCouldNotRevertExitRequestOnBehalfOfLiquiditypool"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit EtherFi - Zellic Audit Report"
+help: |
+    There is a sendExitRequests function to send exit requests when the TNFT holder is LiquidityPool, which calls batchSendExitRequest, but there is no function to call batchRevertExit
+wiki_title: "Admin could not revert exit request on behalf of LiquidityPool"
+wiki_description: |
+    There is a sendExitRequests function to send exit requests when the TNFT holder is LiquidityPool, which calls batchSendExitRequest, but there is no function to call batchRevertExitRequest when the TNFT holder is LiquidityPool.
+wiki_exploit_scenario: |
+    Per audit finding: There is a sendExitRequests function to send exit requests when the TNFT holder is LiquidityPool, which calls batchSendExitRequest, but there is no function to call batchRevertExitRequest when the TNF
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AdminCouldNotRevertExitRequestOnBehalfOfLiquiditypool"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(sendExitRequests|batchSendExitRequest|batchRevertExitRequest).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "sendExitRequests"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

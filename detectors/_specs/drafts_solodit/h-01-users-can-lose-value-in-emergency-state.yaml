@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "h-01-users-can-lose-value-in-emergency-state"
+class_name: "H01UsersCanLoseValueInEmergencyState"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1332 (Code4rena/Trader Joe)"
+help: "[H-01] Users can lose value in emergency state"
+wiki_title: "[H-01] Users can lose value in emergency state"
+wiki_description: |
+    _Submitted by cmichel, also found by static_
+    
+    Imagine the following sequence of events:
+    
+    *   `LaunchEvent.createPair()` is called which sets `wavaxReserve = 0`, adds liquidity to the pair and receives `lpSupply` LP tokens.
+    *   `LaunchEvent.allowEmergencyWithdraw()` is called which enters emergency /
+wiki_exploit_scenario: |
+    Per Solodit #1332: _Submitted by cmichel, also found by static_
+    
+    Imagine the following sequence of events:
+    
+    *   `LaunchEvent.createPair()` is called which sets `wavaxReserve = 0`, adds liquidity to the pair and receives
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01UsersCanLoseValueInEmergencyState"
+solodit_id: "1332"
+solodit_slug: "h-01-users-can-lose-value-in-emergency-state-code4rena-trader-joe-trader-joe-contest-git"
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Emergency"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(emergencyWithdraw|lpSupply).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-separation-between-zk-and-traditional-mpt-verifiers"
+class_name: "LackOfSeparationBetweenZkAndTraditionalMptVerifiers"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Polyhedra zk light client on LayerZero - Zellic Audit Report"
+help: |
+    The oracle contract has the updateMptHash and updateFpHash external functions for submitting oracle proofs using the traditional MPT and ZK verifiers, respectively: function update
+wiki_title: "Lack of separation between ZK and traditional MPT verifiers"
+wiki_description: |
+    The oracle contract has the updateMptHash and updateFpHash external functions for submitting oracle proofs using the traditional MPT and ZK verifiers, respectively: function updateMptHash(uint16 _sourceChainId, bytes32 _blockHash, bytes32 _receiptHash, address _userApplication) external { _updateHas
+wiki_exploit_scenario: |
+    Per audit finding: The oracle contract has the updateMptHash and updateFpHash external functions for submitting oracle proofs using the traditional MPT and ZK verifiers, respectively: function updateMptHash(uint16 _sour
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfSeparationBetweenZkAndTraditionalMptVerifiers"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateMptHash|updateFpHash|zkMptProof).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "updateMptHash"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "missing-value-validation-in-cross-message-handler-allows-unb-x"
+class_name: "MissingValueValidationInCrossMessageHandlerAllowsUnbX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-recall"
+help: |
+    0xastronatey , also found by sin1st3r__ Finding description and impact The GatewayManagerFacet.register function does not properly validate the total Filecoin (FIL) value provided
+wiki_title: "Missing value validation in cross message handler allows unbacked fund transfer"
+wiki_description: |
+    0xastronatey , also found by sin1st3r__ Finding description and impact The GatewayManagerFacet.register function does not properly validate the total Filecoin (FIL) value provided when registering a new subnet. It accepts two separate parameters – genesisCircSupply (genesis circulating supply) and c
+wiki_exploit_scenario: |
+    Per audit finding: 0xastronatey , also found by sin1st3r__ Finding description and impact The GatewayManagerFacet.register function does not properly validate the total Filecoin (FIL) value provided when registering a n
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingValueValidationInCrossMessageHandlerAllowsUnbX"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(genesisCircSupply|supplySource|collateralSource).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

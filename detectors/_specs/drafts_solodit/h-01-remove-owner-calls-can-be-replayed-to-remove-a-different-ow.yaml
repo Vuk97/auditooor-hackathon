@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "h-01-remove-owner-calls-can-be-replayed-to-remove-a-different-ow"
+class_name: "H01RemoveOwnerCallsCanBeReplayedToRemoveADifferentOw"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #32022 (Code4rena/Coinbase)"
+help: |
+    [H-01] Remove owner calls can be replayed to remove a different owner at the same index, leading to severe issues when combined with lack of last owner guard
+wiki_title: |
+    [H-01] Remove owner calls can be replayed to remove a different owner at the same index, leading to severe issues when combined with lack of last owner guard
+wiki_description: |
+    Users are able to upgrade their account's owners via either directly onto the contract with a regular transaction or via an ERC-4337 EntryPoint transaction calling `executeWithoutChainIdValidation`. If a user chooses to use a combination of these methods it's very likely that the addresses at a par
+wiki_exploit_scenario: |
+    Per Solodit #32022: Users are able to upgrade their account's owners via either directly onto the contract with a regular transaction or via an ERC-4337 EntryPoint transaction calling `executeWithoutChainIdValidation`.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01RemoveOwnerCallsCanBeReplayedToRemoveADifferentOw"
+solodit_id: "32022"
+solodit_slug: |
+    h-01-remove-owner-calls-can-be-replayed-to-remove-a-different-owner-at-the-same-index-leading-to-severe-issues-when-combined-with-lack-of-last-owner-guard-code4rena-coinbase-coinbase-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal execute;"
+fn_name_regex: ".*(executeWithoutChainIdValidation|removeOwnerAtIndex|execute|removeOwnerAtInde).*"
+write_var_regex: ".*(execute|executeWithoutChainIdValidation|removeOwnerAtInde).*"
+guard_var_regex: ".*(execute|executeWithoutChainIdValidation|removeOwnerAtInde).*"
+vuln_fn_name: "executeWithoutChainIdValidation"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "execute = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,33 @@
+skeleton: "state_write_without_paired_write"
+name: "multiple-unstake-requests-can-cause-denial-of-service-because-wi"
+class_name: "MultipleUnstakeRequestsCanCauseDenialOfServiceBecauseWi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35006 (Cyfrin/Casimir)"
+help: |
+    Multiple unstake requests can cause denial of service because withdrawn balance is not adjusted after every unstake request is fulfilled
+wiki_title: |
+    Multiple unstake requests can cause denial of service because withdrawn balance is not adjusted after every unstake request is fulfilled
+wiki_description: |
+    **Description:** A `while` loop runs over a specific number of unstake requests, and in every iteration, it checks if an unstake request is fulfillable. If it is, the unstaked amount is transferred back to the staker who requested unstaking. Honoring every unstaking request reduces the effective ETH
+wiki_exploit_scenario: |
+    Per Solodit #35006: **Description:** A `while` loop runs over a specific number of unstake requests, and in every iteration, it checks if an unstake request is fulfillable. If it is, the unstaked amount is transferred ba
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MultipleUnstakeRequestsCanCauseDenialOfServiceBecauseWi"
+solodit_id: "35006"
+solodit_slug: |
+    multiple-unstake-requests-can-cause-denial-of-service-because-withdrawn-balance-is-not-adjusted-after-every-unstake-request-is-fulfilled-cyfrin-none-casimir-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(while|getNextUnstake|withdrawnEffectiveBalance|fulfillUnstakes).*"
+primary_var_regex: ".*(fulfillUnstakes|getNextUnstake|while).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

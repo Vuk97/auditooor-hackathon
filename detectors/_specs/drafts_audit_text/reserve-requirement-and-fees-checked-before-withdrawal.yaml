@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "reserve-requirement-and-fees-checked-before-withdrawal"
+class_name: "ReserveRequirementAndFeesCheckedBeforeWithdrawal"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    When withdrawing from Tranche, the utilization ratio is checked in _withdraw so that the with- draw does not cause the protocol to become insolvent: function _withdraw( address cal
+wiki_title: "Reserve requirement and fees checked before withdrawal"
+wiki_description: |
+    When withdrawing from Tranche, the utilization ratio is checked in _withdraw so that the with- draw does not cause the protocol to become insolvent: function _withdraw( address caller, address receiver, address owner, uint256 assets, uint256 shares ) internal virtual override { require(utilizationRa
+wiki_exploit_scenario: |
+    Per audit finding: When withdrawing from Tranche, the utilization ratio is checked in _withdraw so that the with- draw does not cause the protocol to become insolvent: function _withdraw( address caller, address receive
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReserveRequirementAndFeesCheckedBeforeWithdrawal"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(utilizationRatio|withdrawThreshold|getWithdrawalFeesRaw).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "utilizationRatio"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

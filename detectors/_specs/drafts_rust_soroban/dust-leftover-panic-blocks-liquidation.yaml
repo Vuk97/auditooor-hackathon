@@ -1,0 +1,19 @@
+id: dust-leftover-panic-blocks-liquidation
+title: "Dust leftover check panics, blocking liquidations"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44399"
+bug_class: liquidation
+indicators:
+  - "`if leftover > 0 && leftover < DUST { panic!() }` pattern"
+  - "panic instead of returning structured error"
+victim: "Protocol: liquidation revert leaves bad debt."
+exploit_precondition: "Liquidation produces dust leftover."
+real_world_example: |
+  V12 #44399 (Low): Dust leftover check unconditionally panics.
+suggested_remediation: "Return structured `LiquidationError::DustLeftover` or sweep dust to treasury."
+cross_refs:
+  - dust-cleanup-burns-more-than-accounted

@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m-01-user-may-not-get-il-protection-if-certain-functions-are-cal"
+class_name: "M01UserMayNotGetIlProtectionIfCertainFunctionsAreCal"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42161 (Code4rena/Vader Protocol)"
+help: "[M-01] User may not get IL protection if certain functions are called directly in `Pools.sol`"
+wiki_title: "[M-01] User may not get IL protection if certain functions are called directly in `Pools.sol`"
+wiki_description: |
+    Functions `removeLiquidity()` and `removeLiquidityDirectly()` when called directly, do not provide the the user with IL protection unlike when calling the corresponding `removeLiquidity()` function in `Router.sol`. This should be prevented, at least for `removeLiquidity()` or highlighted in the spe
+wiki_exploit_scenario: |
+    Per Solodit #42161: Functions `removeLiquidity()` and `removeLiquidityDirectly()` when called directly, do not provide the the user with IL protection unlike when calling the corresponding `removeLiquidity()` function i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01UserMayNotGetIlProtectionIfCertainFunctionsAreCal"
+solodit_id: "42161"
+solodit_slug: |
+    m-01-user-may-not-get-il-protection-if-certain-functions-are-called-directly-in-poolssol-code4rena-vader-protocol-vader-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal onlyrouter;"
+fn_name_regex: ".*(removeLiquidity|removeLiquidityDirectly|onlyRouter).*"
+read_var_regex: ".*(onlyRouter|removeLiquidity|removeLiquidityDirectly).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "removeLiquidity"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return onlyrouter > 0;"

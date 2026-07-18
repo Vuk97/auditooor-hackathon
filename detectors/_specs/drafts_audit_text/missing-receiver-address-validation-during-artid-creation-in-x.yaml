@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "missing-receiver-address-validation-during-artid-creation-in-x"
+class_name: "MissingReceiverAddressValidationDuringArtidCreationInX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-08-phi"
+help: |
+    [L-05] Missing receiver address validation during artId creation in _initializePhiArt() could DOS future claiming When an artId is being created, the _initializeArt() function is c
+wiki_title: |
+    Missing receiver address validation during artId creation in _initializePhiArt() could DOS future claiming When an artId is being created, the _initializeArt() 
+wiki_description: |
+    [L-05] Missing receiver address validation during artId creation in _initializePhiArt() could DOS future claiming When an artId is being created, the _initializeArt() function is called as part of the process. In this function the receiver address is stored in the PhiArt struct. The issue is that th
+wiki_exploit_scenario: |
+    Per audit finding: [L-05] Missing receiver address validation during artId creation in _initializePhiArt() could DOS future claiming When an artId is being created, the _initializeArt() function is called as part of the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingReceiverAddressValidationDuringArtidCreationInX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(artId|credId|credCreator).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "artId"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

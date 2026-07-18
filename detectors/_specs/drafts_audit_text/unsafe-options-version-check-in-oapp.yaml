@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unsafe-options-version-check-in-oapp"
+class_name: "UnsafeOptionsVersionCheckInOapp"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero TON - Zellic Audit Report"
+help: |
+    The _lzSend function in baseOApp calls _assertOptionsValid, passing the extra (user-specified) and enforced (OApp-required) options as arguments. () _assertOptionsValid(cell $extra
+wiki_title: "Unsafe options version check in OApp"
+wiki_description: |
+    The _lzSend function in baseOApp calls _assertOptionsValid, passing the extra (user-specified) and enforced (OApp-required) options as arguments. () _assertOptionsValid(cell $extraOptions, cell $enforcedOptions) impure inline { if ( (~ $extraOptions.cl::isNull()) & (~ $enforcedOptions.cl::isNull())
+wiki_exploit_scenario: |
+    Per audit finding: The _lzSend function in baseOApp calls _assertOptionsValid, passing the extra (user-specified) and enforced (OApp-required) options as arguments. () _assertOptionsValid(cell $extraOptions, cell $enfor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnsafeOptionsVersionCheckInOapp"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(baseOApp|extraOptions|enforcedOptions).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "baseOApp"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,30 @@
+skeleton: "name_match_missing_require"
+name: "backrun-of-partly-set-constraints"
+class_name: "BackrunOfPartlySetConstraints"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #43451 (MixBytes/MetaLeX)"
+help: "Backrun of partly set constraints"
+wiki_title: "Backrun of partly set constraints"
+wiki_description: |
+    ##### Description
+    The current version of `borgCore.updatePolicy(_contracts, _methodNames...)` doesn't allow setting up all constraints in one call because it doesn't support constraints for `UINT` and some constraints with multiple exact matches for one parameter. So, multiple calls will be required
+wiki_exploit_scenario: |
+    Per Solodit #43451: ##### Description
+    The current version of `borgCore.updatePolicy(_contracts, _methodNames...)` doesn't allow setting up all constraints in one call because it doesn't support constraints for `UINT` and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BackrunOfPartlySetConstraints"
+solodit_id: "43451"
+solodit_slug: "backrun-of-partly-set-constraints-mixbytes-none-metalex-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addcontract;"
+fn_name_regex: ".*(UINT|updatePolicy|addContract|addFullAccessContract).*"
+write_var_regex: ".*(addContract|addFullAccessContract|addUnrestrictedContract).*"
+guard_var_regex: ".*(addContract|addFullAccessContract|addUnrestrictedContract).*"
+vuln_fn_name: "UINT"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "addcontract = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

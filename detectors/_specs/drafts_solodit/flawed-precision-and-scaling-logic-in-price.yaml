@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "flawed-precision-and-scaling-logic-in-price"
+class_name: "FlawedPrecisionAndScalingLogicInPrice"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62663 (MixBytes/NUTS Finance)"
+help: "Flawed Precision and Scaling Logic in `price()`"
+wiki_title: "Flawed Precision and Scaling Logic in `price()`"
+wiki_description: |
+    ##### Description
+    The `price()` function in `ChainlinkCompositeOracleProvider` begins with a 36-decimal fixed-point accumulator (`highPrecisionPrice = PRECISION`). Each feed is then folded into that value, but two subtle arithmetic mistakes distort the final price:
+    
+    1. **Inverted feeds (`isInverted
+wiki_exploit_scenario: |
+    Per Solodit #62663: ##### Description
+    The `price()` function in `ChainlinkCompositeOracleProvider` begins with a 36-decimal fixed-point accumulator (`highPrecisionPrice = PRECISION`). Each feed is then folded into that v
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FlawedPrecisionAndScalingLogicInPrice"
+solodit_id: "62663"
+solodit_slug: "flawed-precision-and-scaling-logic-in-price-mixbytes-none-nuts-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assetdecimals;"
+fn_name_regex: ".*(price|ChainlinkCompositeOracleProvider|assetDecimals|feedPrice).*"
+read_var_regex: ".*(assetDecimals|feedPrice|price).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "price"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assetdecimals > 0;"

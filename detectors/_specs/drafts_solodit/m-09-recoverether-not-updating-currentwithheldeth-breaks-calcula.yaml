@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "m-09-recoverether-not-updating-currentwithheldeth-breaks-calcula"
+class_name: "M09RecoveretherNotUpdatingCurrentwithheldethBreaksCalcula"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25446 (Code4rena/Frax Finance)"
+help: |
+    [M-09] `recoverEther` not updating `currentWithheldETH` breaks calculation of withheld amount for further deposits
+wiki_title: |
+    [M-09] `recoverEther` not updating `currentWithheldETH` breaks calculation of withheld amount for further deposits
+wiki_description: |
+    _Submitted by joestakey, also found by Chom_
+    
+    The emergency exit function `recoverEther` allows the owner to retrieve the ETH in case an issue were to happen.
+    
+    The problem is that this function does not update `currentWithheldETH`.
+    
+    This means upon deposit starting again after the emergency recovery
+wiki_exploit_scenario: |
+    Per Solodit #25446: _Submitted by joestakey, also found by Chom_
+    
+    The emergency exit function `recoverEther` allows the owner to retrieve the ETH in case an issue were to happen.
+    
+    The problem is that this function does n
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09RecoveretherNotUpdatingCurrentwithheldethBreaksCalcula"
+solodit_id: "25446"
+solodit_slug: |
+    m-09-recoverether-not-updating-currentwithheldeth-breaks-calculation-of-withheld-amount-for-further-deposits-code4rena-frax-finance-frax-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(recoverEther|currentWithheldETH|withholdRatio|depositEther).*"
+primary_var_regex: ".*(currentWithheldETH|depositEther|moveWithheldETH).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

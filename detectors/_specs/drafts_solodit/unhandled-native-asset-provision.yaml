@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "unhandled-native-asset-provision"
+class_name: "UnhandledNativeAssetProvision"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #47427 (OtterSec/Cega CFN)"
+help: "Unhandled Native Asset Provision"
+wiki_title: "Unhandled Native Asset Provision"
+wiki_description: |
+    ## FCN Functions and Their Status
+    
+    `fcnSettleVault` and `fcnRepayBond` are currently not marked as payable, which prevents them from handling the provision of native assets. In cases where an FCN product is set up to utilize native Ether as a deposit asset, these functions unconditionally revert, co
+wiki_exploit_scenario: |
+    Per Solodit #47427: ## FCN Functions and Their Status
+    
+    `fcnSettleVault` and `fcnRepayBond` are currently not marked as payable, which prevents them from handling the provision of native assets. In cases where an FCN prod
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnhandledNativeAssetProvision"
+solodit_id: "47427"
+solodit_slug: "unhandled-native-asset-provision-ottersec-none-cega-cfn-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal fcnrepaybond;"
+fn_name_regex: ".*(fcnSettleVault|fcnRepayBond).*"
+read_var_regex: ".*(fcnRepayBond|fcnSettleVault).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "fcnSettleVault"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return fcnrepaybond > 0;"

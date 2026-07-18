@@ -1,0 +1,32 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-15-the-furnace-melt-is-vulnerable-to-sandwich-attacks"
+class_name: "M15TheFurnaceMeltIsVulnerableToSandwichAttacks"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #43310 (Code4rena/Reserve)"
+help: "[M-15] The `Furnace#melt()` is vulnerable to sandwich attacks"
+wiki_title: "[M-15] The `Furnace#melt()` is vulnerable to sandwich attacks"
+wiki_description: |
+    Malicious users can get more of the RToken appreciation benefit brought by [`Furnace.sol#melt()`](https://github.com/reserve-protocol/protocol/blob/df7ecadc2bae74244ace5e8b39e94bc992903158/contracts/p1/Furnace.sol#L70), and long-term RToken holders will get less benefit.
+    
+    RToken holders will be les
+wiki_exploit_scenario: |
+    Per Solodit #43310: Malicious users can get more of the RToken appreciation benefit brought by [`Furnace.sol#melt()`](https://github.com/reserve-protocol/protocol/blob/df7ecadc2bae74244ace5e8b39e94bc992903158/contracts/
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15TheFurnaceMeltIsVulnerableToSandwichAttacks"
+solodit_id: "43310"
+solodit_slug: "m-15-the-furnacemelt-is-vulnerable-to-sandwich-attacks-code4rena-reserve-reserve-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(inputFund|outputFund|redeem|melt).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

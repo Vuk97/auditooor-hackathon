@@ -1,0 +1,34 @@
+skeleton: "semantic_division_rounding_transfer_guard"
+name: "division-rounding-to-zero-with-token-transfer"
+class_name: "DivisionRoundingToZeroWithTokenTransfer"
+wave: "13"
+severity: "MEDIUM"
+confidence: "LOW"
+source: "Hexens Glider query: division-rounding-to-zero-with-lp-token-minting"
+help: "Division rounding to zero before token transfer"
+wiki_title: "Division Rounding to Zero with Token Transfer"
+wiki_description: |
+    Flags public/external entrypoints where an integer-division result feeds an
+    ERC20-style transfer amount without a preceding nonzero guard. DFX-style
+    shape: amount_ = (_amount * DECIMALS) / rate; token.safeTransferFrom(...,
+    amount_); downstream share/accounting logic still executes when amount_
+    truncates to zero.
+wiki_exploit_scenario: |
+    Per Glider query tags [precision, rounding, division, lp-token, defi,
+    assimilator]: amount = (_amount * DECIMALS) / rate; token.safeTransferFrom(
+    msg.sender, address(this), amount); _mintShares(msg.sender, _amount); With
+    a sufficiently large rate, amount rounds to zero and the receipt path still
+    executes.
+wiki_recommendation: "Require the division-derived transfer amount to be nonzero before transferring or round up explicitly when that is the intended accounting policy."
+contract_name: "DivisionRoundingToZeroWithTokenTransfer"
+transfer_call_regex: "\\.\\s*(safeTransferFrom|transferFrom|safeTransfer|transfer)\\s*\\("
+division_assign_regex: "\\b(?P<var>[A-Za-z_][A-Za-z0-9_]*)\\s*=\\s*(?P<expr>[^;{}]*\\/[^;{}]*);"
+guard_patterns:
+  - "require(amount > 0)"
+  - "assert(amount > 0)"
+  - "require(amount != 0)"
+  - "if (amount == 0) revert"
+  - "if (amount == 0) return"
+fixtures:
+  vuln: detectors/fixtures/division_rounding_to_zero_with_token_transfer/positive.sol
+  clean: detectors/fixtures/division_rounding_to_zero_with_token_transfer/clean.sol

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-08-the-lpp-proposer-may-not-be-reimbursed-their-gas-costs-by-t"
+class_name: "M08TheLppProposerMayNotBeReimbursedTheirGasCostsByT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36610 (Code4rena/Optimism)"
+help: |
+    [M-08] The LPP proposer may not be reimbursed their gas costs by the bonds at `MAX_GAME_DEPTH` because `step()` does not check if the LPP proposer is the one that called it
+wiki_title: |
+    [M-08] The LPP proposer may not be reimbursed their gas costs by the bonds at `MAX_GAME_DEPTH` because `step()` does not check if the LPP proposer is the one th
+wiki_description: |
+    Part of the reason bonds exist is to refund honest challengers for the gas costs incurred from countering malicious claims. We can observe in the Optimism [specs](https://specs.optimism.io/fault-proof/stage-one/bond-incentives.html) how bond prices are chosen:
+    
+    > FPM bonds are priced in the amount
+wiki_exploit_scenario: |
+    Per Solodit #36610: Part of the reason bonds exist is to refund honest challengers for the gas costs incurred from countering malicious claims. We can observe in the Optimism [specs](https://specs.optimism.io/fault-proo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08TheLppProposerMayNotBeReimbursedTheirGasCostsByT"
+solodit_id: "36610"
+solodit_slug: |
+    m-08-the-lpp-proposer-may-not-be-reimbursed-their-gas-costs-by-the-bonds-at-max_game_depth-because-step-does-not-check-if-the-lpp-proposer-is-the-one-that-called-it-code4rena-optimism-optimism-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addleaveslpp;"
+fn_name_regex: ".*(MAX_GAME_DEPTH|addLeavesLPP|step|squeezeLPP).*"
+read_var_regex: ".*(addLeavesLPP|squeezeLPP|step).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "MAX_GAME_DEPTH"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addleaveslpp > 0;"

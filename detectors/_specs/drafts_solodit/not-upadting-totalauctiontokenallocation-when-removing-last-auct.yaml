@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "not-upadting-totalauctiontokenallocation-when-removing-last-auct"
+class_name: "NotUpadtingTotalauctiontokenallocationWhenRemovingLastAuct"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35292 (Codehawks/TempleGold)"
+help: |
+    Not upadting `_totalAuctionTokenAllocation` when removing last auction config at cooldown leads to wrong accounting of `_totalAuctionTokenAllocation` and permanent lock of auction
+wiki_title: |
+    Not upadting `_totalAuctionTokenAllocation` when removing last auction config at cooldown leads to wrong accounting of `_totalAuctionTokenAllocation` and perman
+wiki_description: |
+    ## Vulnerability Details
+    
+    [removeAuctionConfig](https://github.com/Cyfrin/2024-07-templegold/blob/57a3e597e9199f9e9e0c26aab2123332eb19cc28/protocol/contracts/templegold/SpiceAuction.sol#L107-L133) is used to remove auction config set for last epoch. If the auction was started but the cooldown has no
+wiki_exploit_scenario: |
+    Per Solodit #35292: ## Vulnerability Details
+    
+    [removeAuctionConfig](https://github.com/Cyfrin/2024-07-templegold/blob/57a3e597e9199f9e9e0c26aab2123332eb19cc28/protocol/contracts/templegold/SpiceAuction.sol#L107-L133) is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NotUpadtingTotalauctiontokenallocationWhenRemovingLastAuct"
+solodit_id: "35292"
+solodit_slug: |
+    not-upadting-_totalauctiontokenallocation-when-removing-last-auction-config-at-cooldown-leads-to-wrong-accounting-of-_totalauctiontokenallocation-and-permanent-lock-of-auction-tokens-codehawks-templegold-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(removeAuctionConfig|onlyDAOExecutor|configSetButAuctionStartNotCalled|auctionConfigs).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "removeAuctionConfig"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

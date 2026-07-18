@@ -1,0 +1,25 @@
+skeleton: "state_write_without_paired_write"
+name: "zksync-dynamic-create-create2-incompatibilities"
+class_name: "ZksyncDynamicCreateCreate2Incompatibilities"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: zk-sync-createcreate2-calls-with-runtime-provided"
+help: "zkSync dynamic CREATE/CREATE2 incompatibilities"
+wiki_title: "zkSync dynamic CREATE/CREATE2 incompatibilities"
+wiki_description: |
+    Flags functions that create contracts from runtime‑provided bytecode (arg/tainted inputs), which can fail on zkSync Era where bytecode must be known at compile time. Uses instruction‑level analysis (no source grepping).
+wiki_exploit_scenario: |
+    Per Glider query tags [zksync, create, create2, opcode, compatibility]: Flags functions that create contracts from runtime‑provided bytecode (arg/tainted inputs), which can fail on zkSync Era where bytecode must be known at compile time. Uses instruction‑level analysis (n
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "ZksyncDynamicCreateCreate2Incompatibilities"
+fn_name_regex: ".*(zkSync).*"
+primary_var_regex: ".*(balance|amount|position|stake).*"
+paired_var_regex: ".*(flag|status|cleared|isLong|reset).*"
+vuln_fn_name: "zkSync"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "plugins-can-be-maliciously-overridden-by-colliding-signatures"
+class_name: "PluginsCanBeMaliciouslyOverriddenByCollidingSignatures"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #54666 (Cantina/Sablier)"
+help: "Plugins can be maliciously overridden by colliding signatures"
+wiki_title: "Plugins can be maliciously overridden by colliding signatures "
+wiki_description: |
+    ## Context
+    - **File**: PRBProxyAnnex.sol#L44-L64
+    - **Description**: Plugins are saved as a mapping from a 4-byte selector to a given plugin address:
+    
+    ```solidity
+    mapping(bytes4 method => IPRBProxyPlugin plugin) public plugins;
+    ```
+    
+    When new plugins are installed, the `methodList()` function is calle
+wiki_exploit_scenario: |
+    Per Solodit #54666: ## Context
+    - **File**: PRBProxyAnnex.sol#L44-L64
+    - **Description**: Plugins are saved as a mapping from a 4-byte selector to a given plugin address:
+    
+    ```solidity
+    mapping(bytes4 method => IPRBProxyPlug
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PluginsCanBeMaliciouslyOverriddenByCollidingSignatures"
+solodit_id: "54666"
+solodit_slug: "plugins-can-be-maliciously-overridden-by-colliding-signatures-cantina-none-sablier-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal methodlist;"
+fn_name_regex: ".*(methodList|onStreamCanceled).*"
+write_var_regex: ".*(methodList|onStreamCanceled).*"
+guard_var_regex: ".*(methodList|onStreamCanceled).*"
+vuln_fn_name: "methodList"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "methodlist = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

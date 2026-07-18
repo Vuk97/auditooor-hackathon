@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-domain-separation-allows-signature-replay"
+class_name: "LackOfDomainSeparationAllowsSignatureReplay"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit SoSoValue - Zellic Audit Report"
+help: |
+    The checkOrderInfo of a Swap contract is used to check the validity of an order by verifying it was signed by its maker address. To prevent replay, the order hash is stored in the
+wiki_title: "Lack of domain separation allows signature replay"
+wiki_description: |
+    The checkOrderInfo of a Swap contract is used to check the validity of an order by verifying it was signed by its maker address. To prevent replay, the order hash is stored in the Swap contract, and an order is not accepted if its hash has been already validated. The signature is verified with the f
+wiki_exploit_scenario: |
+    Per audit finding: The checkOrderInfo of a Swap contract is used to check the validity of an order by verifying it was signed by its maker address. To prevent replay, the order hash is stored in the Swap contract, and a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfDomainSeparationAllowsSignatureReplay"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(checkOrderInfo|isValidSignatureNow|orderInfo).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "checkOrderInfo"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

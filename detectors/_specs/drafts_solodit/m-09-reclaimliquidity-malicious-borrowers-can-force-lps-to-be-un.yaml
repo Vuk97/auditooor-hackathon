@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-09-reclaimliquidity-malicious-borrowers-can-force-lps-to-be-un"
+class_name: "M09ReclaimliquidityMaliciousBorrowersCanForceLpsToBeUn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29706 (Code4rena/Particle Protocol)"
+help: |
+    [M-09] reclaimLiquidity() Malicious borrowers can force LPs to be unable to retrieve Liquidity by closing and reopening the Position before it expires
+wiki_title: |
+    [M-09] reclaimLiquidity() Malicious borrowers can force LPs to be unable to retrieve Liquidity by closing and reopening the Position before it expires
+wiki_description: |
+    If `LP` wants to retrieve the `Liquidity` that has been lent out, it can set a `renewalCutoffTime` through `reclaimLiquidity()`.
+    If the `borrower` does not voluntarily close, `liquidatePosition()` can be used to forcibly close the `position` after the loan expires.
+    
+    ```solidity
+        function liquida
+wiki_exploit_scenario: |
+    Per Solodit #29706: If `LP` wants to retrieve the `Liquidity` that has been lent out, it can set a `renewalCutoffTime` through `reclaimLiquidity()`.
+    If the `borrower` does not voluntarily close, `liquidatePosition()` ca
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09ReclaimliquidityMaliciousBorrowersCanForceLpsToBeUn"
+solodit_id: "29706"
+solodit_slug: |
+    m-09-reclaimliquidity-malicious-borrowers-can-force-lps-to-be-unable-to-retrieve-liquidity-by-closing-and-reopening-the-position-before-it-expires-code4rena-particle-protocol-particle-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrower;"
+fn_name_regex: ".*(Liquidity|renewalCutoffTime|reclaimLiquidity|borrower).*"
+read_var_regex: ".*(borrower|closePosition|fee).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Liquidity"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borrower > 0;"

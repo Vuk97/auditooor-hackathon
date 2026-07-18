@@ -1,0 +1,26 @@
+skeleton: "state_write_without_paired_write"
+name: "distribution-s-claim-function-does-not-update-storage-variables"
+class_name: "DistributionSClaimFunctionDoesNotUpdateStorageVariables"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Plaza Core Protocol - Zellic Audit Report"
+help: |
+    In Distributor, the claim function does not work correctly. The poolInfo is not updated after the claim, so the amountToDistribute is not updated. Since the balance decreases while
+wiki_title: "Distribution's claim function does not update storage variables"
+wiki_description: |
+    In Distributor, the claim function does not work correctly. The poolInfo is not updated after the claim, so the amountToDistribute is not updated. Since the balance decreases while the amount- ToDistribute remains the same, once the first claim occurs, other users will not be able to make a claim. f
+wiki_exploit_scenario: |
+    Per audit finding: In Distributor, the claim function does not work correctly. The poolInfo is not updated after the claim, so the amountToDistribute is not updated. Since the balance decreases while the amount- ToDistr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DistributionSClaimFunctionDoesNotUpdateStorageVariables"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(poolInfo|amountToDistribute|whenNotPaused).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

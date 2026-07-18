@@ -1,0 +1,199 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "auditooor.universal_task_ledger.v1",
+  "title": "Auditooor Universal Task Ledger Row",
+  "description": "Single row in the universal task ledger spanning all auditooor task types (KLBQ burndown, retro audit, corpus mining, detector authoring, cross-engagement propagation, in-engagement hunt, filing lifecycle, rule codification, triager response, tooling ship, PR landing, next-loop priority, commit mining, external intel intake, regression repro). Lane 6 of MCP harness review (PR #658).",
+  "type": "object",
+  "required": [
+    "schema",
+    "id",
+    "type",
+    "title",
+    "status",
+    "owner_agent",
+    "priority",
+    "created_at",
+    "last_touched"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "auditooor.universal_task_ledger.v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^T[A-Z_]+-[0-9]{8}-[a-z0-9-]{1,40}$",
+      "description": "Format: T<TYPE>-<YYYYMMDD>-<short-slug>. Example: TFILING_LIFECYCLE-20260509-cmtbft-fork-lag"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "klbq_burndown",
+        "retro_audit",
+        "corpus_mining",
+        "detector_authoring",
+        "cross_engagement_propagation",
+        "in_engagement_hunt",
+        "filing_lifecycle",
+        "rule_codification",
+        "triager_response",
+        "tooling_ship",
+        "pr_landing",
+        "next_loop_priority",
+        "commit_mining",
+        "external_intel_intake",
+        "regression_repro"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 120,
+      "minLength": 8
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "in-progress",
+        "blocked",
+        "shipped",
+        "dropped",
+        "superseded"
+      ]
+    },
+    "status_substate": {
+      "type": "string",
+      "description": "Type-specific substate (e.g. paste-ready, escalated, accepted, duplicate, paid). See type_substate_map below."
+    },
+    "workspace": {
+      "type": ["string", "null"],
+      "description": "Absolute path to ~/audits/<workspace> or null if cross-workspace"
+    },
+    "engagement": {
+      "type": ["string", "null"],
+      "description": "Engagement slug (spark, dydx, base_azul, etc.) or null"
+    },
+    "owner_agent": {
+      "type": "string",
+      "enum": ["claude", "codex", "kimi", "minimax", "anthropic-direct", "orchestrator", "operator"]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["P0", "P1", "P2", "P3"]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_touched": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "List of task_ids this task depends on"
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind"],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": ["awaiting-triager", "awaiting-operator", "tool-gap", "tests-fail", "external-dep", "scope-question"]
+          },
+          "note": {"type": "string"}
+        }
+      }
+    },
+    "evidence_paths": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Absolute or workspace-relative paths to evidence (PoCs, drafts, transcripts)"
+    },
+    "mcp_context_pack_id": {
+      "type": "string",
+      "pattern": "^auditooor\\.[a-z_.]+\\.v[0-9]+:[a-z_]+:[a-f0-9]{16}$",
+      "description": "MCP context-pack ID under which this task was created/updated"
+    },
+    "mcp_context_pack_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{32,64}$",
+      "description": "Cryptographic hash binding the task to a specific MCP state"
+    },
+    "source_refs": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "References: file:line, PR#N, commit:sha, vault://path"
+    },
+    "rubric_match": {
+      "type": ["object", "null"],
+      "properties": {
+        "rubric": {"type": "string", "description": "spark | dydx | cantina-fallback | etc."},
+        "row": {"type": "string", "description": "CRIT-1 | HIGH-1 | etc."},
+        "verbatim": {"type": "boolean"}
+      }
+    },
+    "outcome": {
+      "type": ["object", "null"],
+      "properties": {
+        "filed_id": {"type": "string"},
+        "payout_usd": {"type": ["number", "null"]},
+        "verdict": {
+          "type": "string",
+          "enum": ["accepted", "duplicate", "out_of_scope", "rejected", "withdrawn", "pending", "escalated", "paid", "closed_unpaid"]
+        }
+      }
+    },
+    "rules_cited": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^L[0-9]+(-Disc-[0-9]+)?$"},
+      "description": "L-rules from CODIFIED_DISCIPLINE_RULES that gated decisions on this task"
+    },
+    "frames_applied": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^AMF-[0-9]{3}$"},
+      "description": "Attacker mental frames (Lane 10) applied to this task"
+    },
+    "transitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["at", "from_status", "to_status"],
+        "properties": {
+          "at": {"type": "string", "format": "date-time"},
+          "from_status": {"type": "string"},
+          "to_status": {"type": "string"},
+          "from_substate": {"type": "string"},
+          "to_substate": {"type": "string"},
+          "agent": {"type": "string"},
+          "evidence": {"type": "string"}
+        }
+      },
+      "description": "Audit trail of status transitions"
+    }
+  },
+  "definitions": {
+    "type_substate_map": {
+      "_comment": "Per-type allowed substates (advisory; enforced in validator, not schema):",
+      "klbq_burndown": ["verified", "regressed", "needs_human"],
+      "retro_audit": ["scoped", "hunting", "poc-build", "filed", "dropped", "closed"],
+      "corpus_mining": ["patterns-extracted", "wired", "documented-only"],
+      "detector_authoring": ["spec", "fixture", "tested", "wired", "regression-locked"],
+      "cross_engagement_propagation": ["proposed", "scoped", "dispatched", "yielded"],
+      "in_engagement_hunt": ["dispatched", "triaging", "poc-pass", "staged", "paste-ready", "filed", "dropped"],
+      "filing_lifecycle": ["drafted", "paste-ready", "filed", "triaged", "accepted", "escalated", "duplicate", "rejected", "paid", "closed"],
+      "rule_codification": ["proposed", "drafted", "landed-in-claude-md", "tooled"],
+      "triager_response": ["awaiting-us", "awaiting-them", "clarification-pending", "closed"],
+      "tooling_ship": ["planned", "coded", "tested", "wired", "landed"],
+      "pr_landing": ["open", "review", "conflict", "landed", "closed"],
+      "next_loop_priority": ["queued", "active", "done"],
+      "commit_mining": ["scheduled", "running", "classified", "dispatched"],
+      "external_intel_intake": ["ingested", "distilled", "wired"],
+      "regression_repro": ["repro", "upstream-filed", "landed", "closed"]
+    }
+  }
+}

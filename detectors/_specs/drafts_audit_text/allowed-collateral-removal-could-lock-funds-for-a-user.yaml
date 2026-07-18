@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "allowed-collateral-removal-could-lock-funds-for-a-user"
+class_name: "AllowedCollateralRemovalCouldLockFundsForAUser"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "hexens audit RociFi SMA_public"
+help: |
+    In CollateralManager.sol:claimCollateral a user is able to withdraw their deposited collateral. The function checks the collateral token against an allowed tokens list. However, if
+wiki_title: "ALLOWED COLLATERAL REMOVAL COULD LOCK FUNDS FOR A USER"
+wiki_description: |
+    In CollateralManager.sol:claimCollateral a user is able to withdraw their deposited collateral. The function checks the collateral token against an allowed tokens list. However, if a user still has a balance of that collateral token or has an active loan in the collateral token that is about to be r
+wiki_exploit_scenario: |
+    Per audit finding: In CollateralManager.sol:claimCollateral a user is able to withdraw their deposited collateral. The function checks the collateral token against an allowed tokens list. However, if a user still has a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AllowedCollateralRemovalCouldLockFundsForAUser"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimCollateral|removeCollaterals|checkAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "claimCollateral"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

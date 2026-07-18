@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "zongzi-2024-03"
+class_name: "Zongzi202403"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-03/ZongZi_exp.sol"
+help: "ZongZi 2024-03 — flashloan exploit (~$223K)"
+wiki_title: "ZongZi (2024-03) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-03): ZongZi lost ~$223K. Bug class: flashloan. Attack tx: unknown.
+wiki_exploit_scenario: |
+    Attacker (0x2c42824ef89d6efa7847d3997266b62599560a26) exploits ZongZi via flashloan: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Zongzi202403"
+trigger_sig_regex: ".*(pancakeCall).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function pancakeCall(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.pancakeCall(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

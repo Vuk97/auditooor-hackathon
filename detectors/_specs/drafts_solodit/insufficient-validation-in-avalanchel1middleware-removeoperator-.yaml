@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "insufficient-validation-in-avalanchel1middleware-removeoperator-"
+class_name: "InsufficientValidationInAvalanchel1middlewareRemoveoperator"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61248 (Cyfrin/Suzaku Core)"
+help: |
+    Insufficient validation in `AvalancheL1Middleware::removeOperator` can create permanent validator lockup
+wiki_title: |
+    Insufficient validation in `AvalancheL1Middleware::removeOperator` can create permanent validator lockup
+wiki_description: |
+    **Description:** Removal of operators with active nodes, whether intentional or by accident, can permanently lock operator nodes and disrupt the protocol node rebalancing process.
+    
+    The `AvalancheL1Middleware::disableOperator` and `AvalancheL1Middleware::removeOperator()` lack validation to ensure op
+wiki_exploit_scenario: |
+    Per Solodit #61248: **Description:** Removal of operators with active nodes, whether intentional or by accident, can permanently lock operator nodes and disrupt the protocol node rebalancing process.
+    
+    The `AvalancheL1Mid
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InsufficientValidationInAvalanchel1middlewareRemoveoperator"
+solodit_id: "61248"
+solodit_slug: |
+    insufficient-validation-in-avalanchel1middlewareremoveoperator-can-create-permanent-validator-lockup-cyfrin-none-suzaku-core-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(disableOperator|removeOperator|onlyOwner|updateGlobalNodeStakeOncePerEpoch).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "disableOperator"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

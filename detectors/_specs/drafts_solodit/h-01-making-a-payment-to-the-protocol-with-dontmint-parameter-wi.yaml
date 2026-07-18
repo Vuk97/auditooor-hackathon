@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "h-01-making-a-payment-to-the-protocol-with-dontmint-parameter-wi"
+class_name: "H01MakingAPaymentToTheProtocolWithDontmintParameterWi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #5803 (Code4rena/Juicebox)"
+help: |
+    [H-01] Making a payment to the protocol with `_dontMint` parameter will result in lost fund for user.
+wiki_title: |
+    [H-01] Making a payment to the protocol with `_dontMint` parameter will result in lost fund for user.
+wiki_description: |
+    User will have their funds lost if they tries to pay the protocol with `_dontMint = False`. A payment made with this parameter set should increase the `creditsOf[]` balance of user.
+    
+    In `_processPayment()`, `creditsOf[_data.beneficiary]` is updated at the end if there are leftover funds. However, I
+wiki_exploit_scenario: |
+    Per Solodit #5803: User will have their funds lost if they tries to pay the protocol with `_dontMint = False`. A payment made with this parameter set should increase the `creditsOf[]` balance of user.
+    
+    In `_processPaym
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01MakingAPaymentToTheProtocolWithDontmintParameterWi"
+solodit_id: "5803"
+solodit_slug: |
+    h-01-making-a-payment-to-the-protocol-with-_dontmint-parameter-will-result-in-lost-fund-for-user-code4rena-juicebox-juicebox-contest-git
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Don't update state, Business Logic"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(metadata).*"
+primary_var_regex: ".*(metadata).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-02-wrong-token-allocation-computation-for-token-decimals-18-if"
+class_name: "H02WrongTokenAllocationComputationForTokenDecimals18If"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1333 (Code4rena/Trader Joe)"
+help: "[H-02] Wrong token allocation computation for token decimals != 18 if floor price not reached"
+wiki_title: "[H-02] Wrong token allocation computation for token decimals != 18 if floor price not reached"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    In `LaunchEvent.createPair`, when the floor price is not reached (`floorPrice > wavaxReserve * 1e18 / tokenAllocated`), the tokens to be sent to the pool are lowered to match the raised WAVAX at the floor price.
+    
+    Note that the `floorPrice` is supposed to have a precision of 1
+wiki_exploit_scenario: |
+    Per Solodit #1333: _Submitted by cmichel_
+    
+    In `LaunchEvent.createPair`, when the floor price is not reached (`floorPrice > wavaxReserve * 1e18 / tokenAllocated`), the tokens to be sent to the pool are lowered to match t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02WrongTokenAllocationComputationForTokenDecimals18If"
+solodit_id: "1333"
+solodit_slug: |
+    h-02-wrong-token-allocation-computation-for-token-decimals-18-if-floor-price-not-reached-code4rena-trader-joe-trader-joe-contest-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Wrong Math, Decimals"
+state_decl: "uint256 internal floorprice;"
+fn_name_regex: ".*(floorPrice|tokenAllocated|token).*"
+read_var_regex: ".*(floorPrice|token|tokenAllocated).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "floorPrice"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return floorprice > 0;"

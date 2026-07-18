@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "tokentrade-event-parameters-can-be-incorrect-23"
+class_name: "TokentradeEventParametersCanBeIncorrect23"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Memecoin Launcher - Zellic Audit Report"
+help: |
+    After a successful token deployment to a liquidity pool, the functions quoteToken, swapTokenForETH, and swapETHForToken prevent swapping or quoting the token with the contract with
+wiki_title: "TokenTrade event parameters can be incorrect                           23"
+wiki_description: |
+    After a successful token deployment to a liquidity pool, the functions quoteToken, swapTokenForETH, and swapETHForToken prevent swapping or quoting the token with the contract with the following check: if (token.dexPair != address(0)) revert TokenAlreadyDeployed(); During the deployment of the token
+wiki_exploit_scenario: |
+    Per audit finding: After a successful token deployment to a liquidity pool, the functions quoteToken, swapTokenForETH, and swapETHForToken prevent swapping or quoting the token with the contract with the following check
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokentradeEventParametersCanBeIncorrect23"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

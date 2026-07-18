@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "withdrawal-shares-of-msg-sender-are-burnt-incorrectly-in-removel"
+class_name: "WithdrawalSharesOfMsgSenderAreBurntIncorrectlyInRemovel"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35818 (Spearbit/Hyperdrive February 2024)"
+help: "Withdrawal shares of msg.sender are burnt incorrectly in _removeLiquidity flow"
+wiki_title: "Withdrawal shares of msg.sender are burnt incorrectly in _removeLiquidity flow"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    - HyperdriveLP .sol#L279-L296
+    - HyperdriveLP .sol#L397-L402
+    
+    ## Description
+    When `_removeLiquidity` is called, the `_lpShares` of `AssetId._WITHDRAWAL_SHARE_ASSET_ID` is minted for `_options.destination`.
+    
+    ```solidity
+    _mint(
+        AssetId._WITHDRAWAL_SHARE_ASSET_ID,
+wiki_exploit_scenario: |
+    Per Solodit #35818: ## Severity: High Risk
+    
+    ## Context
+    - HyperdriveLP .sol#L279-L296
+    - HyperdriveLP .sol#L397-L402
+    
+    ## Description
+    When `_removeLiquidity` is called, the `_lpShares` of `AssetId._WITHDRAWAL_SHARE_ASSET_ID
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WithdrawalSharesOfMsgSenderAreBurntIncorrectlyInRemovel"
+solodit_id: "35818"
+solodit_slug: |
+    withdrawal-shares-of-msgsender-are-burnt-incorrectly-in-_removeliquidity-flow-spearbit-none-hyperdrive-february-2024-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawalSharesRedeemed).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdrawalSharesRedeemed"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "routetoken-function-may-fail-for-certain-erc20-tokens"
+class_name: "RoutetokenFunctionMayFailForCertainErc20Tokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35734 (TrailOfBits/BoLD and DAC Rewards Updates)"
+help: "routeToken function may fail for certain ERC20 tokens"
+wiki_title: "routeToken function may fail for certain ERC20 tokens"
+wiki_description: |
+    ## src/FeeRouter/OpChildToParentRewardRouter.sol
+    ## src/FeeRouter/ParentToChildRewardRouter.sol
+    
+    ## Description
+    The `routeToken` function can revert for ERC20 tokens that require the allowance to be set to 0 when calling the `approve` function, such as USDT.
+    
+    The function has an optimization where i
+wiki_exploit_scenario: |
+    Per Solodit #35734: ## src/FeeRouter/OpChildToParentRewardRouter.sol
+    ## src/FeeRouter/ParentToChildRewardRouter.sol
+    
+    ## Description
+    The `routeToken` function can revert for ERC20 tokens that require the allowance to be s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RoutetokenFunctionMayFailForCertainErc20Tokens"
+solodit_id: "35734"
+solodit_slug: |
+    routetoken-function-may-fail-for-certain-erc20-tokens-trailofbits-none-bold-and-dac-rewards-updates-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal approve;"
+fn_name_regex: ".*(routeToken|approve|ParentToChildRewardRouter|parentChainTokenAddr).*"
+write_var_regex: ".*(approve|forceApprove|parentChainTokenAddr).*"
+guard_var_regex: ".*(approve|forceApprove|parentChainTokenAddr).*"
+vuln_fn_name: "routeToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "approve = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

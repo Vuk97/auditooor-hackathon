@@ -1,0 +1,45 @@
+skeleton: "state_write_without_paired_write"
+name: "h-2-incorrect-function-call-leads-to-stale-borrowing-fees"
+class_name: "H2IncorrectFunctionCallLeadsToStaleBorrowingFees"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18628 (Sherlock/GMX)"
+help: "H-2: Incorrect function call leads to stale borrowing fees"
+wiki_title: "H-2: Incorrect function call leads to stale borrowing fees"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-02-gmx-judging/issues/197 
+    
+    ## Found by 
+    0xAmanda
+    
+    ## Summary
+    Due to an incorrect function call while getting the total borrow fees, the returned fees will be an inaccurate and stale amount. Which will have an impact on liquidity providers
+    
+    
+    ## Vulnerab
+wiki_exploit_scenario: |
+    Per Solodit #18628: Source: https://github.com/sherlock-audit/2023-02-gmx-judging/issues/197 
+    
+    ## Found by 
+    0xAmanda
+    
+    ## Summary
+    Due to an incorrect function call while getting the total borrow fees, the returned fees wi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H2IncorrectFunctionCallLeadsToStaleBorrowingFees"
+solodit_id: "18628"
+solodit_slug: "h-2-incorrect-function-call-leads-to-stale-borrowing-fees-sherlock-none-gmx-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getTotalBorrowingFees|getCumulativeBorrowingFactor|getNextCumulativeBorrowingFactor).*"
+primary_var_regex: ".*(getCumulativeBorrowingFactor|getNextCumulativeBorrowingFactor|getTotalBorrowingFees).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

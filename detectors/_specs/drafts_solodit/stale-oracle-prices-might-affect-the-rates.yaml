@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "stale-oracle-prices-might-affect-the-rates"
+class_name: "StaleOraclePricesMightAffectTheRates"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #13534 (ConsenSys/Definer)"
+help: "Stale Oracle prices might affect the rates"
+wiki_title: "Stale Oracle prices might affect the rates"
+wiki_description: |
+    #### Description
+    
+    
+    It’s possible that due to network congestion or other reasons, the price that the ChainLink oracle returns is old and not up to date. This is more extreme in lesser known tokens that have fewer ChainLink Price feeds to update the price frequently.
+    The codebase as is, relies on `ch
+wiki_exploit_scenario: |
+    Per Solodit #13534: #### Description
+    
+    
+    It’s possible that due to network congestion or other reasons, the price that the ChainLink oracle returns is old and not up to date. This is more extreme in lesser known tokens tha
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StaleOraclePricesMightAffectTheRates"
+solodit_id: "13534"
+solodit_slug: "stale-oracle-prices-might-affect-the-rates-consensys-definer-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(chainLink|getLatestAnswer|priceFromAddress|tokenAddress).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

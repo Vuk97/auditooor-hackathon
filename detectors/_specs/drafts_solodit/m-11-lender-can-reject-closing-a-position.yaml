@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "m-11-lender-can-reject-closing-a-position"
+class_name: "M11LenderCanRejectClosingAPosition"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6251 (Code4rena/Debt DAO)"
+help: "[M-11] Lender can reject closing a position"
+wiki_title: "[M-11] Lender can reject closing a position"
+wiki_description: |
+    A credit line can be closed by using the `LineOfCredit.depositAndClose()` or `LineOfCredit.close`. The remaining funds deposited by the lender (`credit.deposit`) and the accumulated and paid interest are transferred to the lender.
+    
+    However, if the used credit token `credit.token` is native ETH (or
+wiki_exploit_scenario: |
+    Per Solodit #6251: A credit line can be closed by using the `LineOfCredit.depositAndClose()` or `LineOfCredit.close`. The remaining funds deposited by the lender (`credit.deposit`) and the accumulated and paid interest
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11LenderCanRejectClosingAPosition"
+solodit_id: "6251"
+solodit_slug: "m-11-lender-can-reject-closing-a-position-code4rena-debt-dao-debt-dao-contest-git"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Revert Inside Hook"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositAndClose|interestRepaid|sendOutTokenOrETH).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositAndClose"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

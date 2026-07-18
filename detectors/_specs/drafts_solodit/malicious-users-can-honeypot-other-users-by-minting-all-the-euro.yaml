@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "malicious-users-can-honeypot-other-users-by-minting-all-the-euro"
+class_name: "MaliciousUsersCanHoneypotOtherUsersByMintingAllTheEuro"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41605 (Codehawks/The Standard)"
+help: |
+    Malicious users can honeypot other users by minting all the ``EURO`` tokens that the vault's ``collateralRate`` allows right before sale
+wiki_title: |
+    Malicious users can honeypot other users by minting all the ``EURO`` tokens that the vault's ``collateralRate`` allows right before sale
+wiki_description: |
+    ## Summary
+    Each smart vault is represented by an NFT that is owned inittialy by the user who minted it by calling  the ```mint()``` function in ``SmartVaultManagerV5.sol`` contract:
+    ```solidity
+    function mint() external returns (address vault, uint256 tokenId) {
+            tokenId = lastToken + 1;
+wiki_exploit_scenario: |
+    Per Solodit #41605: ## Summary
+    Each smart vault is represented by an NFT that is owned inittialy by the user who minted it by calling  the ```mint()``` function in ``SmartVaultManagerV5.sol`` contract:
+    ```solidity
+    functi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousUsersCanHoneypotOtherUsersByMintingAllTheEuro"
+solodit_id: "41605"
+solodit_slug: |
+    malicious-users-can-honeypot-other-users-by-minting-all-the-euro-tokens-that-the-vaults-collateralrate-allows-right-before-sale-codehawks-the-standard-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal collateralrate;"
+fn_name_regex: ".*(mint|EURO|collateralRate).*"
+read_var_regex: ".*(collateralRate|mint).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mint"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return collateralrate > 0;"

@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "resolvedispute-reverts-when-disputer-is-blacklisted-causing--x"
+class_name: "ResolvedisputeRevertsWhenDisputerIsBlacklistedCausingX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-11-merkl"
+help: |
+    [L-01] resolveDispute reverts when disputer is blacklisted causing dispute resolution deadlock When disputer address becomes blacklisted (e.g. USDC blacklist), the resolveDispute(t
+wiki_title: |
+    resolveDispute reverts when disputer is blacklisted causing dispute resolution deadlock When disputer address becomes blacklisted (e.g. USDC blacklist), the res
+wiki_description: |
+    [L-01] resolveDispute reverts when disputer is blacklisted causing dispute resolution deadlock When disputer address becomes blacklisted (e.g. USDC blacklist), the resolveDispute(true) function reverts because it cannot transfer tokens back to disputer. This creates deadlock where Governor cannot va
+wiki_exploit_scenario: |
+    Per audit finding: [L-01] resolveDispute reverts when disputer is blacklisted causing dispute resolution deadlock When disputer address becomes blacklisted (e.g. USDC blacklist), the resolveDispute(true) function revert
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ResolvedisputeRevertsWhenDisputerIsBlacklistedCausingX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(resolveDispute|revokeTree|disputeAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "resolveDispute"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

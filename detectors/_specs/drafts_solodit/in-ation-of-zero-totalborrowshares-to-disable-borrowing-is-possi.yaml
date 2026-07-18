@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "in-ation-of-zero-totalborrowshares-to-disable-borrowing-is-possi"
+class_name: "InAtionOfZeroTotalborrowsharesToDisableBorrowingIsPossi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46377 (Cantina/Dahlia)"
+help: "Inﬂation of zero totalBorrowShares to disable borrowing is possible"
+wiki_title: "Inﬂation of zero totalBorrowShares to disable borrowing is possible "
+wiki_description: |
+    ## Context: SharesMathLib.sol#L20-L22
+    
+    ## Description
+    
+    - When `totalBorrowShares` equals zero, an attacker can exploit the rounding by borrowing `SHARES_OFFSET - 1` shares.
+      - Initially, `totalBorrowShares = 0` and `totalBorrowAssets = 0`.
+      - The borrow amount (`borrowAssets`) is calculated as:
+wiki_exploit_scenario: |
+    Per Solodit #46377: ## Context: SharesMathLib.sol#L20-L22
+    
+    ## Description
+    
+    - When `totalBorrowShares` equals zero, an attacker can exploit the rounding by borrowing `SHARES_OFFSET - 1` shares.
+      - Initially, `totalBorrow
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InAtionOfZeroTotalborrowsharesToDisableBorrowingIsPossi"
+solodit_id: "46377"
+solodit_slug: "inflation-of-zero-totalborrowshares-to-disable-borrowing-is-possible-cantina-none-dahlia-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrowassets;"
+fn_name_regex: ".*(totalBorrowShares|borrowAssets|SHARES_OFFSET|borrowShares).*"
+write_var_regex: ".*(borrowAssets|borrowShares|totalBorrowAssets).*"
+guard_var_regex: ".*(borrowAssets|borrowShares|totalBorrowAssets).*"
+vuln_fn_name: "totalBorrowShares"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "borrowassets = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,131 @@
+{
+ "schema": "auditooor.evm_zero_day_pipeline_fixtures.v1",
+ "kit": "erc4626_share_price_controls",
+ "description": "Proof-fixture pair for the EVM 0-day proof contract: a real-vulnerability fixture whose PoC FLIPS to CAUGHT against the unmodified target, and a clean negative-control fixture whose identical PoC PASSES. Bug class: ERC4626 first-depositor / share-price inflation (donation) attack.",
+ "proof_contract": "real entrypoint -> asserted impact -> negative control",
+ "fixtures": [
+  {
+   "role": "vulnerable",
+   "dir": "erc4626_share_price_vuln",
+   "target": "MiniVault.sol",
+   "poc": "MiniVault.t.sol",
+   "proof_manifest": "engine_harness_proof.json",
+   "expected_verdict": "caught",
+   "expected_failing_property": "test_first_depositor_inflation"
+  },
+  {
+   "role": "negative-control",
+   "dir": "erc4626_share_price_clean",
+   "target": "MiniVault.sol",
+   "poc": "MiniVault.t.sol",
+   "proof_manifest": "engine_harness_proof.json",
+   "expected_verdict": "clean",
+   "expected_passing_property": "test_first_depositor_inflation"
+  },
+  {
+   "role": "step2-internal-bug-through-public-wrapper",
+   "dir": "internal_share_inflation_via_wrapper",
+   "target": "WrappedVault.sol",
+   "cite_fn": "_deposit",
+   "cite_visibility": "internal",
+   "bound_entrypoint": "deposit",
+   "vuln_class": "share-inflation",
+   "expected_verdict": "proof-backed",
+   "note": "Step 2: the donation/inflation bug lives in the internal _deposit; the external-entrypoint binder routes it to the public deposit wrapper and the pipeline proves the bug through the real public entrypoint (real compile+run+exploit-PASS+control-PASS)."
+  },
+  {
+   "role": "step3-deployable-donation-inflation-proof-backed",
+   "dir": "erc4626_share_price_vuln",
+   "target": "MiniVault.sol",
+   "cite_fn": "deposit",
+   "vuln_class": "share-inflation",
+   "expected_verdict": "proof-backed",
+   "note": "Step 3: single-asset-constructor donation/inflation vault deployed with a synthesized inline ERC20 asset mock (external dependency); before/after victim share-price assert + no-donation negative control."
+  },
+  {
+   "role": "step3-blocked-with-obligation",
+   "dir": "share_inflation_blocked_obligation",
+   "target": "DeepGraphVault.sol",
+   "cite_fn": "deposit",
+   "vuln_class": "share-inflation",
+   "expected_verdict": "blocked-with-obligation",
+   "note": "Step 3: the donation/inflation SHAPE is detected, but the multi-dependency constructor (asset + oracle + registry) is not a single synthesizable ERC20-asset deploy, so the pipeline blocks honestly with a precise next-action obligation rather than emitting a fake proof."
+  },
+  {
+   "role": "step3-ctor-constant-dep-etch-proof-backed",
+   "dir": "share_inflation_ctor_constant_dep",
+   "target": "PoolVault.sol",
+   "cite_fn": "deposit",
+   "vuln_class": "share-inflation",
+   "expected_verdict": "proof-backed",
+   "note": "codex95 OBL2 (scLiquity convert-gap shape, target-literal-free): a single-asset-constructor donation/inflation vault that references a HARDCODED-CONSTANT external dependency (yieldPool) and CALLS A METHOD ON IT IN THE CONSTRUCTOR (asset.approve(yieldPool,max); yieldPool.register(this)). A naive `new PoolVault(asset)` deploy REVERTS because the constant address has no code (verified counterfactual: no-etch run = EvmError: Revert in both tests). The author synthesizes a minimal permissive-fallback mock per constant dep and vm.etch'es it at the constant address in setUp BEFORE deploy, so the REAL constructor's external calls succeed and the REAL deposit() entrypoint drives the donation/share-price-inflation impact to a forge PASS (real deploy + real entrypoint + synthesized etched mock + before/after + no-donation negative control)."
+  },
+  {
+   "role": "obl3-inherited-erc4626-share-inflation-proof-backed",
+   "dir": "inherited_erc4626_share_inflation",
+   "target": "InheritedVault.sol",
+   "cite_fn": "totalAssets",
+   "vuln_class": "share-inflation",
+   "expected_verdict": "proof-backed",
+   "note": "obl3: first-depositor share-inflation where the share math + deposit entrypoint live in an INHERITED ERC4626 base; detector recognizes ERC4626 inheritance + raw-balanceOf totalAssets + no virtual-offset/dead-shares/min-first-deposit guard, binds the inherited public deposit() + inherited ERC20 balanceOf share-read, synthesizes the external-dep asset mock. Real compile+deploy+exploit-PASS+control-PASS."
+  },
+  {
+   "role": "obl4-multiarg-role-ctor-inherited-inflation-proof-backed",
+   "dir": "multiarg_role_ctor_inherited_inflation",
+   "target": "RoleGatedVault.sol",
+   "cite_fn": "totalAssets",
+   "vuln_class": "share-inflation",
+   "expected_verdict": "proof-backed",
+   "note": "codex95 OBL4(1) (sandclock scLiquity-class multi-arg role+asset ctor, target-literal-free): an inherited-ERC4626 inflation vault whose constructor is (address admin, address keeper, IERC20Like asset, string name, string symbol) - the asset arg is forwarded into the base ctor signature. The prior author hard-rejected any ctor with len(params) != 1; the multi-arg classifier now fills admin/keeper with distinct vm.addr(N) role EOAs, name/symbol with string literals, and the single asset slot with the synthesized token cast to its declared interface, deploys the REAL vault, and drives the inherited deposit() 1-wei-seed + donation + victim-deposit sequence to a forge PASS (real deploy + real inherited entrypoint + synthesized asset mock + before/after + no-donation negative control). Inherited multi-arg ctors whose asset arg lives only in the base ctor signature resolve through resolve_inheritance_source."
+  },
+  {
+   "role": "obl4-oz-override-indirected-inflation-proof-backed",
+   "dir": "oz_override_indirected_inflation",
+   "target": "HookOverrideVault.sol",
+   "extra_source": "base/ERC4626Base.sol",
+   "cite_fn": "_deposit",
+   "cite_visibility": "internal",
+   "bound_entrypoint": "deposit",
+   "vuln_class": "share-inflation",
+   "expected_verdict": "proof-backed",
+   "note": "codex95 OBL4(2b) (Pods-class OZ-override-indirected reachability, target-literal-free): the cited vulnerable fn is the INTERNAL _deposit OVERRIDE, reachable ONLY through the OZ-style ERC4626 base's public deposit() which lives in a SEPARATE imported file (base/ERC4626Base.sol), routing deposit() -> _deposit() [base dispatch] -> _deposit override [vault] via super-dispatch. No in-cited-file public body literally calls _deposit(, so the textual-call wrapper binder (steps 1-3) misses it; the OZ-override-indirected binder step recognizes the ERC4626 inheritance + the _deposit override and binds the canonical inherited public deposit() as the real entrypoint. The whole multi-file tree compiles; the cited candidate is the vault file only. Real deploy + real public entrypoint + synthesized asset mock + before/after + no-donation negative control."
+  },
+  {
+   "role": "gapb-view-fn-constant-dep-etch-proof-backed",
+   "dir": "share_inflation_view_fn_constant_dep",
+   "target": "YieldVault.sol",
+   "cite_fn": "deposit",
+   "vuln_class": "share-inflation",
+   "expected_verdict": "proof-backed",
+   "note": "GAP B (C.stabilityPool/C.usd2eth-style const-dep-read-in-view-fn, target-literal-free): a single-asset-constructor donation/inflation vault whose CONSTRUCTOR touches NO external dep (deploy is clean) but whose exploited share-price view fn totalAssets() READS a HARDCODED-CONSTANT external dependency address (stabilityPool.deposited(this)) that is NOT a ctor arg. The deploy succeeds but the first totalAssets()/deposit() call reverts reading the un-etched constant address - the obl2 ctor-relevance check skips stabilityPool because it never appears in the ctor body. The GAP B extension to _share_inflation_ctor_const_deps detects const deps read inside the share-price view fns (totalAssets/convertToShares/convertToAssets/preview*) + the cited exploited fn, synthesizes the same permissive-fallback mock, and vm.etch'es it at the constant address in setUp BEFORE deploy, so the REAL totalAssets() read succeeds (safe-default 0 from the mock) and the REAL deposit() entrypoint drives the donation/share-price-inflation impact to a forge PASS (real deploy + real entrypoint + synthesized etched view-fn-dep mock + before/after + no-donation negative control). The authored test pragma derives from the source pragma to an INSTALLED solc (GAP B pragma-derive), not a hardcoded 0.8.28."
+  },
+  {
+   "role": "gapb-view-fn-const-dep-too-deep-blocked-with-obligation",
+   "dir": "share_inflation_view_fn_const_dep_blocked",
+   "target": "DeepConstDepVault.sol",
+   "cite_fn": "deposit",
+   "vuln_class": "share-inflation",
+   "expected_verdict": "blocked-with-obligation",
+   "note": "GAP B honest-block half (target-literal-free): a const-dep-read-in-view-fn vault whose totalAssets() reads a hardcoded-constant dep (reservePool, detected by the GAP B view-fn detection) BUT whose constructor ALSO takes a second non-asset CONTRACT-DEPENDENCY arg (priceOracle) it casts + calls, so the deploy is NOT single-asset-synthesizable. The GAP B view-fn const-dep detection still RECOGNIZES reservePool (proving the detection path fires), but the overall deploy cannot be auto-synthesized (the oracle dependency is out of single-asset scope), so the converter returns blocked-with-obligation with a precise next action (author asset + oracle dep mock, deploy, drive the 1-wei-seed + donation + victim-deposit sequence, assert victim rounded to 0 shares with a no-donation negative control). NO fake proof is emitted."
+  },
+  {
+   "role": "common-library-vendoring-solmate-oz-proof-backed",
+   "dir": "solmate_oz_common_lib_share_inflation",
+   "target": "LibVault.sol",
+   "cite_fn": "deposit",
+   "vuln_class": "share-inflation",
+   "expected_verdict": "proof-backed",
+   "note": "COMMON-LIBRARY vendoring lift (generalizes the forge-std vendoring/remapping mechanism to solmate + OpenZeppelin, target-literal-free): an UNSEEN single-asset-ctor donation/share-price-inflation vault that imports the well-known COMMON LIBRARY deps - solmate (ERC20 share-token base / SafeTransferLib pull / FixedPointMathLib) and OpenZeppelin (Address, via the BARE openzeppelin-contracts/ foundry-install prefix). With no installed deps + no remappings.txt in the workspace, those imports cannot resolve in-place; the converter discovers a sibling solmate src/ + OZ contracts/ + forge-std checkout under ~/audits and synthesizes the remappings (solmate/=<sibling>/src, openzeppelin-contracts/=<sibling>/contracts, @openzeppelin/contracts/=same, forge-std/=<sibling>/src) for the run - the SAME finite pattern as forge-std. The real vault deploys, the REAL deposit() entrypoint is driven through the 1-wei-seed + donation + victim-deposit sequence, the victim is griefed to 0 shares, and the no-donation negative control mints non-zero (real compile [solmate+OZ resolved] + run + exploit-PASS + control-PASS). Env disable hook AUDITOOOR_EVM0DAY_NO_COMMON_LIB_VENDOR suppresses the vendoring -> the unresolved imports yield an honest blocked-with-obligation (compile-blocked), NEVER refuted. In-repo bases (a project-local ERC4626 base) are NOT vendored - they resolve via the project's own remappings/src tree; protocol-coupled application deps are the deferred asymptotic tail, out of scope for this lift."
+  },
+  {
+   "role": "interface-cast-ctor-asset-arg-proof-backed",
+   "dir": "solmate_erc20_typed_ctor_share_inflation",
+   "target": "TypedAssetVault.sol",
+   "cite_fn": "deposit",
+   "vuln_class": "share-inflation",
+   "expected_verdict": "proof-backed",
+   "note": "INTERFACE-CAST CTOR ASSET ARG lift (FIX 1, approach (b), target-literal-free): an UNSEEN donation/share-price-inflation vault whose constructor declares the asset arg with the solmate ERC20 type (constructor(ERC20 _asset)) rather than a bare address. The converter must cast the synthesized inline token to that REAL ctor parameter type (ERC20(address(token))) AND make the ERC20 identifier resolve in the authored harness by co-importing it from the cited file's import graph (the solmate ERC20 already vendored for the common-library lift). Before the fix the converter emitted a hardcoded IERC20(address(token)) cast with NO matching import/declaration, producing solc Error 7576 Undeclared identifier at new TypedAssetVault(..., IERC20(address(token))) and a compile-block. Sibling shape approach (a): a bare ERC20-shaped interface the cited file neither declares nor imports gets a minimal co-emitted interface declaration so the cast still resolves. The real vault deploys, the REAL deposit() entrypoint is driven through the 1-wei-seed + donation + victim-deposit sequence, the victim is griefed to 0 shares, and the no-donation negative control mints non-zero (real compile [solmate+OZ resolved, ctor-cast identifier resolved] + run + exploit-PASS + control-PASS)."
+  }
+ ],
+ "doc": "../../../docs/EVM_0DAY_PROOF_CONTRACT_2026-05-29.md"
+}

@@ -1,0 +1,39 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-34-incorrect-accrual-of-sumnative-and-sumusd-in-producing-cons"
+class_name: "H34IncorrectAccrualOfSumnativeAndSumusdInProducingCons"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42346 (Code4rena/Vader Protocol)"
+help: "[H-34] Incorrect Accrual Of `sumNative` and `sumUSD` In Producing Consultation Results"
+wiki_title: "[H-34] Incorrect Accrual Of `sumNative` and `sumUSD` In Producing Consultation Results"
+wiki_description: |
+    _Submitted by leastwood_
+    
+    #### Impact
+    
+    The `TwapOracle.consult()` function iterates over all token pairs which belong to either `VADER` or USDV\` and then calculates the price of the respective asset by using both UniswapV2 and Chainlink price data. This helps to further protect against price manipu
+wiki_exploit_scenario: |
+    Per Solodit #42346: _Submitted by leastwood_
+    
+    #### Impact
+    
+    The `TwapOracle.consult()` function iterates over all token pairs which belong to either `VADER` or USDV\` and then calculates the price of the respective asset
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H34IncorrectAccrualOfSumnativeAndSumusdInProducingCons"
+solodit_id: "42346"
+solodit_slug: |
+    h-34-incorrect-accrual-of-sumnative-and-sumusd-in-producing-consultation-results-code4rena-vader-protocol-vader-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(VADER|USDV|token1|USD).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

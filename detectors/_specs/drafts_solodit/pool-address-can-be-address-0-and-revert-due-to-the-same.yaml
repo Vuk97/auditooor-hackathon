@@ -1,0 +1,50 @@
+skeleton: "paired_function_divergence"
+name: "pool-address-can-be-address-0-and-revert-due-to-the-same"
+class_name: "PoolAddressCanBeAddress0AndRevertDueToTheSame"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37174 (Zokyo/Aarna)"
+help: "Pool address can be address(0) and revert due to the same"
+wiki_title: "Pool address can be address(0) and revert due to the same"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In Contract AFiStorage.sol, method getMinimumAmount(...) has the following check:
+    ```solidity
+    else if(_tokenIn == (midTok) || _tokenOut == (midTok)){
+    address pool = IAFi(afiContract).getPool(_tokenIn, midTok); 
+    amountOut = IUniswapOracleV3
+wiki_exploit_scenario: |
+    Per Solodit #37174: **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In Contract AFiStorage.sol, method getMinimumAmount(...) has the following check:
+    ```solidity
+    else if(_tokenIn == (midTok) || _tokenOut ==
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PoolAddressCanBeAddress0AndRevertDueToTheSame"
+solodit_id: "37174"
+solodit_slug: "pool-address-can-be-address0-and-revert-due-to-the-same-zokyo-none-aarna-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

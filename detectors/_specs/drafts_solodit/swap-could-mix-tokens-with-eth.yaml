@@ -1,0 +1,50 @@
+skeleton: "paired_function_divergence"
+name: "swap-could-mix-tokens-with-eth"
+class_name: "SwapCouldMixTokensWithEth"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18291 (Spearbit/Sudoswap LSSVM2)"
+help: "swap() could mix tokens with ETH"
+wiki_title: "swap() could mix tokens with ETH"
+wiki_description: |
+    ## Security Analysis Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `VeryFastRouter.sol#L102-L212`
+    
+    ## Description
+    The function `swap()` adds the output of `swapNFTsForToken()` to the `ethAmount`. Although this only happens when `order.isETHSell == true`, this value could be set to the wrong value
+wiki_exploit_scenario: |
+    Per Solodit #18291: ## Security Analysis Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `VeryFastRouter.sol#L102-L212`
+    
+    ## Description
+    The function `swap()` adds the output of `swapNFTsForToken()` to the `ethAmount`. Al
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwapCouldMixTokensWithEth"
+solodit_id: "18291"
+solodit_slug: "swap-could-mix-tokens-with-eth-spearbit-sudoswap-lssvm2-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(ethAmount|swap|swapNFTsForToken).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "automation-and-redemption-could-be-artificially-manipulated-due-"
+class_name: "AutomationAndRedemptionCouldBeArtificiallyManipulatedDue"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #45060 (Cyfrin/The Standard Auto Redemption)"
+help: |
+    Automation and redemption could be artificially manipulated due to use of instantaneous `sqrtPriceX96`
+wiki_title: |
+    Automation and redemption could be artificially manipulated due to use of instantaneous `sqrtPriceX96`
+wiki_description: |
+    **Description:** `AutoRedemption::checkUpkeep` is queried every block by the Chainlink Automation DON:
+    
+    ```solidity
+    function checkUpkeep(bytes calldata checkData) external returns (bool upkeepNeeded, bytes memory performData) {
+        (uint160 sqrtPriceX96,,,,,,) = pool.slot0();
+        upkeepNeeded = sqrt
+wiki_exploit_scenario: |
+    Per Solodit #45060: **Description:** `AutoRedemption::checkUpkeep` is queried every block by the Chainlink Automation DON:
+    
+    ```solidity
+    function checkUpkeep(bytes calldata checkData) external returns (bool upkeepNeeded,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AutomationAndRedemptionCouldBeArtificiallyManipulatedDue"
+solodit_id: "45060"
+solodit_slug: |
+    automation-and-redemption-could-be-artificially-manipulated-due-to-use-of-instantaneous-sqrtpricex96-cyfrin-none-the-standard-auto-redemption-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal sqrtpricex96;"
+fn_name_regex: ".*(sqrtPriceX96|USDs|USDC).*"
+write_var_regex: ".*(sqrtPriceX96).*"
+guard_var_regex: ".*(sqrtPriceX96).*"
+vuln_fn_name: "sqrtPriceX96"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "sqrtpricex96 = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

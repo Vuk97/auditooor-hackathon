@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-09-spreads-can-be-minted-with-a-deactivated-oracle"
+class_name: "M09SpreadsCanBeMintedWithADeactivatedOracle"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1694 (Code4rena/Rolla)"
+help: "[M-09] Spreads can be minted with a deactivated oracle"
+wiki_title: "[M-09] Spreads can be minted with a deactivated oracle"
+wiki_description: |
+    _Submitted by hyh_
+    
+    When deactivateOracle() is called for an oracle in OracleRegistry it is still available for option spreads minting.
+    
+    This way a user can continue to mint new options within spreads that rely on an oracle that was deactivated. As economic output of spreads is close to vanilla opti
+wiki_exploit_scenario: |
+    Per Solodit #1694: _Submitted by hyh_
+    
+    When deactivateOracle() is called for an oracle in OracleRegistry it is still available for option spreads minting.
+    
+    This way a user can continue to mint new options within spreads
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09SpreadsCanBeMintedWithADeactivatedOracle"
+solodit_id: "1694"
+solodit_slug: "m-09-spreads-can-be-minted-with-a-deactivated-oracle-code4rena-rolla-rolla-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(deactivateOracle|isOracleActive|validateOptionParameters).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deactivateOracle"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

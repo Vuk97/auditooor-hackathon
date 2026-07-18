@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_require"
+name: "boss-2026-06"
+class_name: "Boss202606"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-06/BOSS_exp.sol"
+help: "BOSS 2026-06 — rounding exploit (10,207.54 USDT)"
+wiki_title: "BOSS (2026-06) — rounding"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-06): BOSS lost 10,207.54 USDT. Bug class: rounding. Attack tx: 0x96d1a0175eb4a82585db62a374518391f6b575a07c25c0e2874ca82400b830c7.
+wiki_exploit_scenario: |
+    Attacker (0x618639fe719987153e0ec3fe494aa9a62ca02c91) exploits BOSS via rounding: the victim contract 0x876d4539b7f13dddea969190c9a231a4b91735cf exposes a code path that can be triggered without the guard expected by the name_match_missing_require skeleton.
+wiki_recommendation: |
+    Use mulDiv with explicit rounding direction; require the resulting amount to stay within tolerance bounds; never round user-withdraw amounts up.
+contract_name: "Boss202606"
+fn_name_regex: ".*(withdraw).*"
+write_var_regex: ".*(admin|owner|balance|amount).*"
+guard_var_regex: ".*(admin|owner|balance|amount).*"
+vuln_fn_name: "withdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(msg.sender == owner, \"!auth\");"
+state_decl: |
+    uint256 internal balance;
+        address internal owner;

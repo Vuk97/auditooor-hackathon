@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "chainlink-oracle-price-feed-used-without-staleness-check"
+class_name: "ChainlinkOraclePriceFeedUsedWithoutStalenessCheck"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52276 (Halborn/Brt Dci Contracts)"
+help: "Chainlink Oracle Price Feed Used Without Staleness Check"
+wiki_title: "Chainlink Oracle Price Feed Used Without Staleness Check"
+wiki_description: |
+    ##### Description
+    
+    The `getPrice` function in AggregatorHelper.sol fetches price data from a Chainlink oracle without validating the freshness of the returned data:
+    
+    ```
+    function getPrice(address _aggregator, bytes32 _pythPriceFeed, bytes[] calldata _priceUpdateData)
+        internal
+        returns (int256
+wiki_exploit_scenario: |
+    Per Solodit #52276: ##### Description
+    
+    The `getPrice` function in AggregatorHelper.sol fetches price data from a Chainlink oracle without validating the freshness of the returned data:
+    
+    ```
+    function getPrice(address _agg
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainlinkOraclePriceFeedUsedWithoutStalenessCheck"
+solodit_id: "52276"
+solodit_slug: "chainlink-oracle-price-feed-used-without-staleness-check-halborn-prodigy-brt-dci-contracts-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getPrice|latestRoundData|updatedAt).*"
+primary_var_regex: ".*(getPrice|latestRoundData|updatedAt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

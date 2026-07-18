@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-validation-check-on-erc20-transfer"
+class_name: "MissingValidationCheckOnErc20Transfer"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Voyage - Zellic Audit Report"
+help: |
+    Currently liquidate(...))) does not revert the transaction if the following ERC20 tran sfer fails: if (param.totalDebt > discountedFloorPriceInTotal) { param.remaningDebt = param.t
+wiki_title: "Missing validation check on ERC20 transfer"
+wiki_description: |
+    Currently liquidate(...))) does not revert the transaction if the following ERC20 tran sfer fails: if (param.totalDebt > discountedFloorPriceInTotal) { param.remaningDebt = param.totalDebt - discountedFloorPriceInTotal; } else { uint256 refundAmount = discountedFloorPriceInTotal - param.totalDebt; I
+wiki_exploit_scenario: |
+    Per audit finding: Currently liquidate(...))) does not revert the transaction if the following ERC20 tran sfer fails: if (param.totalDebt > discountedFloorPriceInTotal) { param.remaningDebt = param.totalDebt - discounte
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingValidationCheckOnErc20Transfer"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalDebt|discountedFloorPriceInTotal|remaningDebt).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "totalDebt"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

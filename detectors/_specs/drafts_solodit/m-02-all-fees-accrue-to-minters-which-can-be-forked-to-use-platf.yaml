@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-02-all-fees-accrue-to-minters-which-can-be-forked-to-use-platf"
+class_name: "M02AllFeesAccrueToMintersWhichCanBeForkedToUsePlatf"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18755 (ZachObront/Sound.Xyz)"
+help: "[M-02] All fees accrue to minters, which can be forked to use platform without fees"
+wiki_title: "[M-02] All fees accrue to minters, which can be forked to use platform without fees"
+wiki_description: |
+    All platform fees accrue on the minters, rather than the core `SoundEditionV1_2.sol` contract. These contracts allow the Sound team to set platform fees (both a percentage and a flat fee), and then withhold them from mint fees as follows:
+    
+    ```solidity
+    unchecked {
+    t.platformFlatFee = uint256(quantity
+wiki_exploit_scenario: |
+    Per Solodit #18755: All platform fees accrue on the minters, rather than the core `SoundEditionV1_2.sol` contract. These contracts allow the Sound team to set platform fees (both a percentage and a flat fee), and then wi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02AllFeesAccrueToMintersWhichCanBeForkedToUsePlatf"
+solodit_id: "18755"
+solodit_slug: |
+    m-02-all-fees-accrue-to-minters-which-can-be-forked-to-use-platform-without-fees-zachobront-none-soundxyz-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal roles;"
+fn_name_regex: ".*(MINTER_ROLE|roles).*"
+write_var_regex: ".*(roles).*"
+guard_var_regex: ".*(roles).*"
+vuln_fn_name: "MINTER_ROLE"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "roles = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

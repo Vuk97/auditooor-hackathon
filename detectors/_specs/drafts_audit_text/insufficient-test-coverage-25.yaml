@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "insufficient-test-coverage-25"
+class_name: "InsufficientTestCoverage25"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Apyx Stablecoin - Zellic Audit Report"
+help: |
+    The CommitToken contract utilizes msg.sender as the key to track redemption requests in the redeemRequests mapping. When a user initiates a withdrawal via the ApyUSD vault, the vau
+wiki_title: "Insufficient test coverage                                   25"
+wiki_description: |
+    The CommitToken contract utilizes msg.sender as the key to track redemption requests in the redeemRequests mapping. When a user initiates a withdrawal via the ApyUSD vault, the vault calls requestRedeem on UnlockToken (a CommitToken instance). In this context, msg.sender is the ApyUSD contract addre
+wiki_exploit_scenario: |
+    Per audit finding: The CommitToken contract utilizes msg.sender as the key to track redemption requests in the redeemRequests mapping. When a user initiates a withdrawal via the ApyUSD vault, the vault calls requestRede
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InsufficientTestCoverage25"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(redeemRequests|requestRedeem|balanceOf).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "redeemRequests"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

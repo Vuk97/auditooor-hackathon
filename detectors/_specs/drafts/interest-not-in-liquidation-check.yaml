@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "interest-not-in-liquidation-check"
+class_name: "InterestNotInLiquidationCheck"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_aa"
+help: |
+    `_isDelinquent` uses `loan.amount` without accrued interest; loan appears healthy until 1 wei repay triggers `loan.amount` update, creating sudden bad debt.
+wiki_title: "interest-not-in-liquidation-check"
+wiki_description: |
+    `_isDelinquent` uses `loan.amount` without accrued interest; loan appears healthy until 1 wei repay triggers `loan.amount` update, creating sudden bad debt.
+wiki_exploit_scenario: |
+    Attacker exploits interest-not-in-liquidation-check as described: `_isDelinquent` uses `loan.amount` without accrued interest; loan appears healthy until 1 wei repay triggers `loan.amount` update, creating sudden bad debt.
+wiki_recommendation: |
+    `_isDelinquent`-style function that compares `loan.amount` without calling `getInterest()` or equivalent accrual function.
+contract_name: "InterestNotInLiquidationCheck"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(getInterest).*"
+read_var_regex: ".*"
+required_call_regex: ".*getInterest.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getInterest"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

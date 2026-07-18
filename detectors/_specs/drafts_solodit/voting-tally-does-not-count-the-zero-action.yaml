@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "voting-tally-does-not-count-the-zero-action"
+class_name: "VotingTallyDoesNotCountTheZeroAction"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19343 (SigmaPrime/DXdao)"
+help: "Voting Tally Does Not Count the Zero Action"
+wiki_title: "Voting Tally Does Not Count the Zero Action"
+wiki_description: |
+    ## Description
+    
+    The function `endProposal()` allows users to tally votes and determine the winning action on a proposal after `block.timestamp` exceeds the proposal `endTime`. Voting is tallied using the following logic:
+    
+    ```solidity
+    uint256 winningAction = 0;
+    uint256 i = 1;
+    
+    for (i = 1; i < proposa
+wiki_exploit_scenario: |
+    Per Solodit #19343: ## Description
+    
+    The function `endProposal()` allows users to tally votes and determine the winning action on a proposal after `block.timestamp` exceeds the proposal `endTime`. Voting is tallied using
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VotingTallyDoesNotCountTheZeroAction"
+solodit_id: "19343"
+solodit_slug: "voting-tally-does-not-count-the-zero-action-sigmaprime-none-dxdao-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal endproposal;"
+fn_name_regex: ".*(endProposal|endTime|votingPowerForProposalExecution|setConfig).*"
+write_var_regex: ".*(endProposal|endTime|setConfig).*"
+guard_var_regex: ".*(endProposal|endTime|setConfig).*"
+vuln_fn_name: "endProposal"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "endproposal = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

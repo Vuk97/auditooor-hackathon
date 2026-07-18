@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-6-lendingpool-flashaction-is-broken-when-trying-to-refinance-p"
+class_name: "M6LendingpoolFlashactionIsBrokenWhenTryingToRefinanceP"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30453 (Sherlock/Arcadia)"
+help: |
+    M-6: `LendingPool#flashAction` is broken when trying to refinance position across `LendingPools` due to improper access control
+wiki_title: |
+    M-6: `LendingPool#flashAction` is broken when trying to refinance position across `LendingPools` due to improper access control
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-12-arcadia-judging/issues/145 
+    
+    ## Found by 
+    0x52
+    ## Summary
+    
+    When refinancing an account, `LendingPool#flashAction` is used to facilitate the transfer. However due to access restrictions on `updateActionTimestampByCreditor`, the call made from the new
+wiki_exploit_scenario: |
+    Per Solodit #30453: Source: https://github.com/sherlock-audit/2023-12-arcadia-judging/issues/145 
+    
+    ## Found by 
+    0x52
+    ## Summary
+    
+    When refinancing an account, `LendingPool#flashAction` is used to facilitate the transfer.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M6LendingpoolFlashactionIsBrokenWhenTryingToRefinanceP"
+solodit_id: "30453"
+solodit_slug: |
+    m-6-lendingpoolflashaction-is-broken-when-trying-to-refinance-position-across-lendingpools-due-to-improper-access-control-sherlock-arcadia-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Lending Pool"
+state_decl: "uint256 internal flashactionbycreditor;"
+fn_name_regex: ".*(updateActionTimestampByCreditor|flashActionByCreditor|flashaction|lendingPools).*"
+read_var_regex: ".*(flashActionByCreditor|flashaction|lendingPools).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateActionTimestampByCreditor"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return flashactionbycreditor > 0;"

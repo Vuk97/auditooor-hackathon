@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "m-15-notifyloss-can-be-frontrun-by-redeem"
+class_name: "M15NotifylossCanBeFrontrunByRedeem"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20036 (Code4rena/Frankencoin)"
+help: "[M-15] `notifyLoss` can be frontrun by redeem"
+wiki_title: "[M-15] `notifyLoss` can be frontrun by redeem"
+wiki_description: |
+    notifyLoss immediately transfer zchf from reserve to the minter, reducing the amount of reserve and hence the equity and zchf to claim pershare.
+    
+    While the deposit has 90 days cooldown before depositor can withdraw, current depositor that passed this cooldown can take advantage of a notifyLoss even
+wiki_exploit_scenario: |
+    Per Solodit #20036: notifyLoss immediately transfer zchf from reserve to the minter, reducing the amount of reserve and hence the equity and zchf to claim pershare.
+    
+    While the deposit has 90 days cooldown before deposit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15NotifylossCanBeFrontrunByRedeem"
+solodit_id: "20036"
+solodit_slug: "m-15-notifyloss-can-be-frontrun-by-redeem-code4rena-frankencoin-frankencoin-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Front-Running"
+state_decl: "uint256 internal end;"
+fn_name_regex: ".*(end|MAX_SPEED|notifyLoss).*"
+read_var_regex: ".*(end).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "end"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return end > 0;"

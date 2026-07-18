@@ -1,0 +1,19 @@
+id: factory-deploy-breaks-incentives-sync
+title: "Factory deploy breaks incentives sync, orphaning new reserves from rewards"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44521"
+bug_class: reward-accounting
+indicators:
+  - "factory `deploy_and_init_reserve` does not register the new reserve with the incentives module"
+  - "post-deploy admin step required but easy to forget"
+victim: "Users of newly-deployed reserves: no incentives."
+exploit_precondition: "Factory deploys a new reserve; no admin follow-up."
+real_world_example: |
+  V12 #44521 (Low): Factory deploy breaks incentives sync.
+suggested_remediation: "Atomically register new reserves with incentives inside factory deploy."
+cross_refs:
+  - ttl-desynced-registries

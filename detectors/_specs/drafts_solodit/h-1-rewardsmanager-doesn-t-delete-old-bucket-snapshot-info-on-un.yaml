@@ -1,0 +1,44 @@
+skeleton: "state_write_without_paired_write"
+name: "h-1-rewardsmanager-doesn-t-delete-old-bucket-snapshot-info-on-un"
+class_name: "H1RewardsmanagerDoesnTDeleteOldBucketSnapshotInfoOnUn"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6287 (Sherlock/Ajna)"
+help: "H-1: RewardsManager doesn't delete old bucket snapshot info on unstaking"
+wiki_title: "H-1: RewardsManager doesn't delete old bucket snapshot info on unstaking"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-ajna-judging/issues/183 
+    
+    ## Found by 
+    hyh
+    
+    ## Summary
+    
+    RewardsManager's unstake() use `delete stakes[tokenId_]` to clear old stake state, but `snapshot` is the nested mapping in the `StakeInfo` structure and will not be reset this way as delete oper
+wiki_exploit_scenario: |
+    Per Solodit #6287: Source: https://github.com/sherlock-audit/2023-01-ajna-judging/issues/183 
+    
+    ## Found by 
+    hyh
+    
+    ## Summary
+    
+    RewardsManager's unstake() use `delete stakes[tokenId_]` to clear old stake state, but `snapsh
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1RewardsmanagerDoesnTDeleteOldBucketSnapshotInfoOnUn"
+solodit_id: "6287"
+solodit_slug: "h-1-rewardsmanager-doesnt-delete-old-bucket-snapshot-info-on-unstaking-sherlock-ajna-ajna-git"
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(snapshot|StakeInfo).*"
+primary_var_regex: ".*(snapshot).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

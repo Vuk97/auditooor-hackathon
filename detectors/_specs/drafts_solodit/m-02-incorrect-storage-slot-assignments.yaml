@@ -1,0 +1,56 @@
+skeleton: "paired_function_divergence"
+name: "m-02-incorrect-storage-slot-assignments"
+class_name: "M02IncorrectStorageSlotAssignments"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37799 (Pashov Audit Group/GainsNetwork-February)"
+help: "[M-02] Incorrect storage slot assignments"
+wiki_title: "[M-02] Incorrect storage slot assignments"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    We have the extracted storage layout of the GNSMultiCollatDiamond contract.
+    
+    ```
+    | Name                       | Type                        | Slot | Offset | Bytes |
+    
+    | _initialized               | uint8                       | 0
+wiki_exploit_scenario: |
+    Per Solodit #37799: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    We have the extracted storage layout of the GNSMultiCollatDiamond contract.
+    
+    ```
+    | Name                       | Type
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02IncorrectStorageSlotAssignments"
+solodit_id: "37799"
+solodit_slug: "m-02-incorrect-storage-slot-assignments-pashov-audit-group-none-gainsnetwork-february-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

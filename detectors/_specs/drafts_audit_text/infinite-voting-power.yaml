@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "infinite-voting-power"
+class_name: "InfiniteVotingPower"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "hexens audit 1inch_FusionMode_Hexens.2"
+help: |
+    The 1inch staking contract St1inch.sol implements ERC20Pods.sol and therefore supports attaching pods for delegating voting power, such as the pod PowerPod.sol. A user can add a po
+wiki_title: "INFINITE VOTING POWER"
+wiki_description: |
+    The 1inch staking contract St1inch.sol implements ERC20Pods.sol and therefore supports attaching pods for delegating voting power, such as the pod PowerPod.sol. A user can add a pod for themselves by calling ERC20Pods.sol:addPod. The pod will receive an external call upon every token transfer to cor
+wiki_exploit_scenario: |
+    Per audit finding: The 1inch staking contract St1inch.sol implements ERC20Pods.sol and therefore supports attaching pods for delegating voting power, such as the pod PowerPod.sol. A user can add a pod for themselves by
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InfiniteVotingPower"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addPod|updateBalances).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "addPod"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

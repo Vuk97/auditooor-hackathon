@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m02-negative-dsr-causes-unexpected-reverts"
+class_name: "M02NegativeDsrCausesUnexpectedReverts"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11578 (OpenZeppelin/Compound Finance – MCD & DSR Integration)"
+help: "[M02] Negative DSR causes unexpected reverts"
+wiki_title: "[M02] Negative DSR causes unexpected reverts"
+wiki_description: |
+    [On line 66 of `DAIInterestRateModel.sol`](https://github.com/compound-finance/compound-protocol/blob/9ea64ddd166a78b264ba8006f688880085eeed13/contracts/DAIInterestRateModel.sol#L66), `1e27` is subtracted from `dsr`. If for any reason, `dsr` is less than `1e27` (which corresponds to a “negative” int
+wiki_exploit_scenario: |
+    Per Solodit #11578: [On line 66 of `DAIInterestRateModel.sol`](https://github.com/compound-finance/compound-protocol/blob/9ea64ddd166a78b264ba8006f688880085eeed13/contracts/DAIInterestRateModel.sol#L66), `1e27` is subtra
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02NegativeDsrCausesUnexpectedReverts"
+solodit_id: "11578"
+solodit_slug: |
+    m02-negative-dsr-causes-unexpected-reverts-openzeppelin-compound-finance-mcd-dsr-integration-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal baserateperblock;"
+fn_name_regex: ".*(dsr|dsrPerBlock|poke|getSupplyRate).*"
+read_var_regex: ".*(baseRatePerBlock|dsr|dsrPerBlock).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "dsr"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return baserateperblock > 0;"

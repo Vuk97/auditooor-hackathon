@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "swapaction-getswaptoken-will-return-wrong-swap-token-for-bal-x"
+class_name: "SwapactionGetswaptokenWillReturnWrongSwapTokenForBalX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-loopfi"
+help: |
+    0xAlix2 As known, when doing a Balancer EXACT_OUT batch swap, assets should be passed in reverse order, this is thoroughly documented here . Swapping in USDC for an exact amount ou
+wiki_title: "SwapAction::getSwapToken will return wrong swap token for balancer EXACT_OUT"
+wiki_description: |
+    0xAlix2 As known, when doing a Balancer EXACT_OUT batch swap, assets should be passed in reverse order, this is thoroughly documented here . Swapping in USDC for an exact amount out of BAL swapType = `EXACT_OUT` and `assets` = [BAL, WETH, DAI, USDC]: However, in SwapAction::getSwapToken , for Balanc
+wiki_exploit_scenario: |
+    Per audit finding: 0xAlix2 As known, when doing a Balancer EXACT_OUT batch swap, assets should be passed in reverse order, this is thoroughly documented here . Swapping in USDC for an exact amount out of BAL swapType =
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwapactionGetswaptokenWillReturnWrongSwapTokenForBalX"
+state_decl: "uint256 internal assets;"
+fn_name_regex: ".*(EXACT_OUT|assets|getSwapToken).*"
+write_var_regex: ".*(assets|getSwapToken|token).*"
+guard_var_regex: ".*(assets|getSwapToken|token).*"
+vuln_fn_name: "EXACT_OUT"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "assets = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

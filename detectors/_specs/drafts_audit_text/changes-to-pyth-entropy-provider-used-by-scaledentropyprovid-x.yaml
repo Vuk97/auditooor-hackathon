@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "changes-to-pyth-entropy-provider-used-by-scaledentropyprovid-x"
+class_name: "ChangesToPythEntropyProviderUsedByScaledentropyprovidX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-11-megapot"
+help: |
+    hgrano Finding description and impact When the Jackpot requests entropy from the ScaledEntropyProvider during Jackpot::runJackpot , the ScaledEntropyProvider tracks each request by
+wiki_title: "Changes to Pyth entropy provider used by ScaledEntropyProvider allow attacker to fix jackpot result"
+wiki_description: |
+    hgrano Finding description and impact When the Jackpot requests entropy from the ScaledEntropyProvider during Jackpot::runJackpot , the ScaledEntropyProvider tracks each request by the sequence number returned from the Pyth Network Entropy contract: function requestAndCallbackScaledRandomness ( uint
+wiki_exploit_scenario: |
+    Per audit finding: hgrano Finding description and impact When the Jackpot requests entropy from the ScaledEntropyProvider during Jackpot::runJackpot , the ScaledEntropyProvider tracks each request by the sequence number
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChangesToPythEntropyProviderUsedByScaledentropyprovidX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(runJackpot|getFee|requestV2).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "runJackpot"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

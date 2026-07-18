@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "vlts3-14-read-only-reentrancy-in-withdraw-can-lead-to-swap-fee-m"
+class_name: "Vlts314ReadOnlyReentrancyInWithdrawCanLeadToSwapFeeM"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #56686 (Hexens/Valantis)"
+help: "[VLTS3-14] Read-only reentrancy in withdraw can lead to swap fee manipulation"
+wiki_title: "[VLTS3-14] Read-only reentrancy in withdraw can lead to swap fee manipulation"
+wiki_description: |
+    **Severity:** Medium
+    
+    **Path:** src/STEXAMM.sol:withdraw#L523-L624
+    
+    **Description:** In the `withdraw` function for LP shareholders in STEXAMM, the caller can choose to unwrap their wHYPE and receive native HYPE instead. This happens on lines 599-602 and an external call is made to the receiver, giv
+wiki_exploit_scenario: |
+    Per Solodit #56686: **Severity:** Medium
+    
+    **Path:** src/STEXAMM.sol:withdraw#L523-L624
+    
+    **Description:** In the `withdraw` function for LP shareholders in STEXAMM, the caller can choose to unwrap their wHYPE and receive
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Vlts314ReadOnlyReentrancyInWithdrawCanLeadToSwapFeeM"
+solodit_id: "56686"
+solodit_slug: |
+    vlts3-14-read-only-reentrancy-in-withdraw-can-lead-to-swap-fee-manipulation-hexens-none-valantis-markdown
+solodit_quality: "2"
+solodit_rarity: "2"
+solodit_tags: ""
+state_decl: "uint256 internal burntoken0afterwithdraw;"
+fn_name_regex: ".*(withdraw|nonReentrant|token0|burnToken0AfterWithdraw).*"
+read_var_regex: ".*(burnToken0AfterWithdraw|getLiquidityQuote|nonReentrant).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return burntoken0afterwithdraw > 0;"

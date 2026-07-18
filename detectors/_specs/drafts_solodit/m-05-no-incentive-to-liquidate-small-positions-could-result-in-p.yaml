@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "m-05-no-incentive-to-liquidate-small-positions-could-result-in-p"
+class_name: "M05NoIncentiveToLiquidateSmallPositionsCouldResultInP"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33471 (Code4rena/DYAD)"
+help: "[M-05] No incentive to liquidate small positions could result in protocol going underwater"
+wiki_title: "[M-05] No incentive to liquidate small positions could result in protocol going underwater"
+wiki_description: |
+    The DYAD protocol allows users to deposit as little as 1 WEI via the [`deposit()`](https://github.com/code-423n4/2024-04-dyad/blob/main/src/core/VaultManagerV2.sol#L119-L131) function; however, in order to mint the DYAD token the protocol requires user to have a collateral ratio of 150% or above. L
+wiki_exploit_scenario: |
+    Per Solodit #33471: The DYAD protocol allows users to deposit as little as 1 WEI via the [`deposit()`](https://github.com/code-423n4/2024-04-dyad/blob/main/src/core/VaultManagerV2.sol#L119-L131) function; however, in or
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05NoIncentiveToLiquidateSmallPositionsCouldResultInP"
+solodit_id: "33471"
+solodit_slug: |
+    m-05-no-incentive-to-liquidate-small-positions-could-result-in-protocol-going-underwater-code4rena-dyad-dyad-git
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal cappedcr;"
+fn_name_regex: ".*(deposit|cappedCr|liquidationEquityShare).*"
+write_var_regex: ".*(cappedCr|deposit|liquidationEquityShare).*"
+guard_var_regex: ".*(cappedCr|deposit|liquidationEquityShare).*"
+vuln_fn_name: "deposit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "cappedcr = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

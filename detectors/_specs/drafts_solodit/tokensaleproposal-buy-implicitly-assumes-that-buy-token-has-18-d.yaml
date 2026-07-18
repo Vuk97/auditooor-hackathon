@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "tokensaleproposal-buy-implicitly-assumes-that-buy-token-has-18-d"
+class_name: "TokensaleproposalBuyImplicitlyAssumesThatBuyTokenHas18D"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27293 (Cyfrin/Dexe)"
+help: |
+    `TokenSaleProposal::buy` implicitly assumes that buy token has 18 decimals resulting in a potential total loss scenario for Dao Pool
+wiki_title: |
+    `TokenSaleProposal::buy` implicitly assumes that buy token has 18 decimals resulting in a potential total loss scenario for Dao Pool
+wiki_description: |
+    **Description:** `TokenSaleProposalBuy::buy` is called by users looking to buy the DAO token using a pre-approved token. The exchange rate for this sale is pre-assigned for the specific tier. This function internally calls `TokenSaleProposalBuy::_purchaseWithCommission` to transfer funds from the bu
+wiki_exploit_scenario: |
+    Per Solodit #27293: **Description:** `TokenSaleProposalBuy::buy` is called by users looking to buy the DAO token using a pre-approved token. The exchange rate for this sale is pre-assigned for the specific tier. This fun
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokensaleproposalBuyImplicitlyAssumesThatBuyTokenHas18D"
+solodit_id: "27293"
+solodit_slug: |
+    tokensaleproposalbuy-implicitly-assumes-that-buy-token-has-18-decimals-resulting-in-a-potential-total-loss-scenario-for-dao-pool-cyfrin-none-cyfrin-dexe-markdown
+solodit_quality: "1.007154661394276"
+solodit_rarity: "3.0007154661394275"
+solodit_tags: "Wrong Math, Precision Loss, Decimals, Weird ERC20, ERC20"
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(GovPool|amount|sendFunds).*"
+read_var_regex: ".*(amount|sendFunds).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "GovPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

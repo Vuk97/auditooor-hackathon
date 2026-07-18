@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "markets-and-vaults-will-not-update-their-state-until-market-fee-"
+class_name: "MarketsAndVaultsWillNotUpdateTheirStateUntilMarketFee"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49944 (Codehawks/Part 2)"
+help: |
+    Markets and vaults will not update their state until market fee is received, any deposits before market fee will not be reflected
+wiki_title: |
+    Markets and vaults will not update their state until market fee is received, any deposits before market fee will not be reflected
+wiki_description: |
+    ## Summary
+    
+    When calculating accumulated vault values, the change is not acknowledged if previous value is zero. This will prevent some important vaules from getting updated.
+    
+    ## Vulnerability Details
+    
+    ### Root Cause
+    
+    During `Vault.recalculateVaultsCreditCapacity`, we have the following code [`Marke
+wiki_exploit_scenario: |
+    Per Solodit #49944: ## Summary
+    
+    When calculating accumulated vault values, the change is not acknowledged if previous value is zero. This will prevent some important vaules from getting updated.
+    
+    ## Vulnerability Details
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MarketsAndVaultsWillNotUpdateTheirStateUntilMarketFee"
+solodit_id: "49944"
+solodit_slug: |
+    markets-and-vaults-will-not-update-their-state-until-market-fee-is-received-any-deposits-before-market-fee-will-not-be-reflected-codehawks-zaros-part-2-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal creditdelegation;"
+fn_name_regex: ".*(wethRewardChangeX18|creditDelegation).*"
+read_var_regex: ".*(creditDelegation|wethRewardChangeX18).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "wethRewardChangeX18"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return creditdelegation > 0;"

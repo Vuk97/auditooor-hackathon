@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "bad-decimal-parsing-function-accepts-multiple-dots"
+class_name: "BadDecimalParsingFunctionAcceptsMultipleDots"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Initia - Zellic Audit Report"
+help: |
+    The decimal-parsing function shown below is incorrectly implemented. A variant of this function is used in all targets listed. public fun from_string(num: &String): Decimal256 { le
+wiki_title: "Bad decimal-parsing function accepts multiple dots"
+wiki_description: |
+    The decimal-parsing function shown below is incorrectly implemented. A variant of this function is used in all targets listed. public fun from_string(num: &String): Decimal256 { let vec = string::bytes(num); let len = vector::length(vec); let cursor = 0; let dot_index = 0; let val: u256 = 0; while (
+wiki_exploit_scenario: |
+    Per audit finding: The decimal-parsing function shown below is incorrectly implemented. A variant of this function is used in all targets listed. public fun from_string(num: &String): Decimal256 { let vec = string::byte
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BadDecimalParsingFunctionAcceptsMultipleDots"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(FRACTIONAL_LENGTH).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "FRACTIONAL_LENGTH"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

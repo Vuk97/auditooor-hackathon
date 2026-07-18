@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "delayed-rewards-can-be-claimed-without-updating-internal-account"
+class_name: "DelayedRewardsCanBeClaimedWithoutUpdatingInternalAccount"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #34995 (Cyfrin/Casimir)"
+help: "Delayed rewards can be claimed without updating internal accounting"
+wiki_title: "Delayed rewards can be claimed without updating internal accounting"
+wiki_description: |
+    **Description:** The `claimRewards()` function is designed to claim delayed withdrawals from the EigenLayer Delayed Withdrawal Router and to update accounting variables such as `delayedRewards` and `reservedFeeBalance`.
+    
+    ```solidity
+    function claimRewards() external {
+        onlyReporter();
+    
+        uint256
+wiki_exploit_scenario: |
+    Per Solodit #34995: **Description:** The `claimRewards()` function is designed to claim delayed withdrawals from the EigenLayer Delayed Withdrawal Router and to update accounting variables such as `delayedRewards` and `r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DelayedRewardsCanBeClaimedWithoutUpdatingInternalAccount"
+solodit_id: "34995"
+solodit_slug: "delayed-rewards-can-be-claimed-without-updating-internal-accounting-cyfrin-none-casimir-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(claimRewards|delayedRewards|reservedFeeBalance|CasimirManager).*"
+primary_var_regex: ".*(claimRewards|delayedRewards|receive).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

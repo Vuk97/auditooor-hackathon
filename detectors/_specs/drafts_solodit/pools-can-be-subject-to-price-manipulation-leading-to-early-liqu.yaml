@@ -1,0 +1,31 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "pools-can-be-subject-to-price-manipulation-leading-to-early-liqu"
+class_name: "PoolsCanBeSubjectToPriceManipulationLeadingToEarlyLiqu"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61790 (OpenZeppelin/f(x) v2 Audit)"
+help: "Pools Can Be Subject to Price Manipulation Leading to Early Liquidations or Arbitrage"
+wiki_title: "Pools Can Be Subject to Price Manipulation Leading to Early Liquidations or Arbitrage"
+wiki_description: |
+    The [price oracles](https://github.com/AladdinDAO/fx-protocol-contracts/tree/56a47eab8d10334e479df83a2b13a8b68ce390e9/contracts/price-oracle) in the protocol are designed to fetch the prices of the collateral from the Chainlink Data feed which [acts as the `anchorPrice`](https://github.com/AladdinDA
+wiki_exploit_scenario: |
+    Per Solodit #61790: The [price oracles](https://github.com/AladdinDAO/fx-protocol-contracts/tree/56a47eab8d10334e479df83a2b13a8b68ce390e9/contracts/price-oracle) in the protocol are designed to fetch the prices of the co
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PoolsCanBeSubjectToPriceManipulationLeadingToEarlyLiqu"
+solodit_id: "61790"
+solodit_slug: |
+    pools-can-be-subject-to-price-manipulation-leading-to-early-liquidations-or-arbitrage-openzeppelin-none-fx-v2-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(anchorPrice|minPrice|maxPrice|getPrice).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,35 @@
+skeleton: "state_write_without_paired_write"
+name: "m-14-chainlink-s-latestrounddata-may-return-a-stale-or-incorrect"
+class_name: "M14ChainlinkSLatestrounddataMayReturnAStaleOrIncorrect"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20187 (Code4rena/Stader Labs)"
+help: "[M-14] Chainlink's `latestRoundData` may return a stale or incorrect result"
+wiki_title: "[M-14] Chainlink's `latestRoundData` may return a stale or incorrect result"
+wiki_description: |
+    <https://github.com/code-423n4/2023-06-stader/blob/main/contracts/StaderOracle.sol#L646> <br><https://github.com/code-423n4/2023-06-stader/blob/main/contracts/StaderOracle.sol#L648>
+    
+    Chainlink's `latestRoundData` is used here to retrieve price feed data; however, there is insufficient protection ag
+wiki_exploit_scenario: |
+    Per Solodit #20187: <https://github.com/code-423n4/2023-06-stader/blob/main/contracts/StaderOracle.sol#L646> <br><https://github.com/code-423n4/2023-06-stader/blob/main/contracts/StaderOracle.sol#L648>
+    
+    Chainlink's `lat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14ChainlinkSLatestrounddataMayReturnAStaleOrIncorrect"
+solodit_id: "20187"
+solodit_slug: |
+    m-14-chainlinks-latestrounddata-may-return-a-stale-or-incorrect-result-code4rena-stader-labs-stader-labs-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Stale Price, Chainlink"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(latestRoundData|updatedAt|latestRoundID).*"
+primary_var_regex: ".*(latestRoundData|latestRoundID|updatedAt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-addfee-functions-can-repeat-receivers-36"
+class_name: "TheAddfeeFunctionsCanRepeatReceivers36"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Polygon Staking - Zellic Audit Report"
+help: |
+    In the main loop inside the unbond function, the PolygonStrategy contract checks to ensure that the quantity it will claim as rewards from the external staking contract is above th
+wiki_title: "The addFee functions can repeat receivers                                       36"
+wiki_description: |
+    In the main loop inside the unbond function, the PolygonStrategy contract checks to ensure that the quantity it will claim as rewards from the external staking contract is above the minimum claim amount: function unbond(uint256 _toUnbond) external onlyFundFlowController { // [...] while (toUnbondRem
+wiki_exploit_scenario: |
+    Per audit finding: In the main loop inside the unbond function, the PolygonStrategy contract checks to ensure that the quantity it will claim as rewards from the external staking contract is above the minimum claim amou
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheAddfeeFunctionsCanRepeatReceivers36"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onlyFundFlowController|toUnbondRemaining|getTotalDeposits).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "onlyFundFlowController"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "limit-prices-handled-incorrectly"
+class_name: "LimitPricesHandledIncorrectly"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit CrocSwap - Zellic Audit Report"
+help: |
+    Limit prices are used to stop operations when a certain price is reached; in the main core loop of the function sweepSwapLiq, a require statement is used to verify that the current
+wiki_title: "Limit prices handled incorrectly"
+wiki_description: |
+    Limit prices are used to stop operations when a certain price is reached; in the main core loop of the function sweepSwapLiq, a require statement is used to verify that the current price is appropriate in respect to the limits that have been set. However, due to the implementation of this require, w
+wiki_exploit_scenario: |
+    Per audit finding: Limit prices are used to stop operations when a certain price is reached; in the main core loop of the function sweepSwapLiq, a require statement is used to verify that the current price is appropriat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LimitPricesHandledIncorrectly"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(sweepSwapLiq).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "sweepSwapLiq"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

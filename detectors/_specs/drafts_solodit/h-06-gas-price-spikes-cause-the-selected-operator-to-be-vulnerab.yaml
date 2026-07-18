@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "h-06-gas-price-spikes-cause-the-selected-operator-to-be-vulnerab"
+class_name: "H06GasPriceSpikesCauseTheSelectedOperatorToBeVulnerab"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #5591 (Code4rena/Holograph)"
+help: "[H-06] Gas price spikes cause the selected operator to be vulnerable to frontrunning and be slashed"
+wiki_title: "[H-06] Gas price spikes cause the selected operator to be vulnerable to frontrunning and be slashed"
+wiki_description: |
+    [HolographOperator.sol#L354](https://github.com/code-423n4/2022-10-holograph/blob/f8c2eae866280a1acfdc8a8352401ed031be1373/contracts/HolographOperator.sol#L354)<br>
+    
+    ```solidity
+    require(gasPrice >= tx.gasprice, "HOLOGRAPH: gas spike detected");
+    ```
+    
+    ```solidity
+            /**
+             * @dev select op
+wiki_exploit_scenario: |
+    Per Solodit #5591: [HolographOperator.sol#L354](https://github.com/code-423n4/2022-10-holograph/blob/f8c2eae866280a1acfdc8a8352401ed031be1373/contracts/HolographOperator.sol#L354)<br>
+    
+    ```solidity
+    require(gasPrice >= t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06GasPriceSpikesCauseTheSelectedOperatorToBeVulnerab"
+solodit_id: "5591"
+solodit_slug: |
+    h-06-gas-price-spikes-cause-the-selected-operator-to-be-vulnerable-to-frontrunning-and-be-slashed-code4rena-holograph-holograph-contest-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Gas Price, Front-Running"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(gasPrice|bridgeInRequestPayload|timeDifference).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "gasPrice"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

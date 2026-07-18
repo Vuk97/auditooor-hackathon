@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "mnbd1-12-insufficient-check-of-approval-delay-in-bondingcurvepoo"
+class_name: "Mnbd112InsufficientCheckOfApprovalDelayInBondingcurvepoo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62421 (Hexens/Moonbound)"
+help: "[MNBD1-12] Insufficient Check of Approval Delay in BondingCurvePool"
+wiki_title: "[MNBD1-12] Insufficient Check of Approval Delay in BondingCurvePool"
+wiki_description: |
+    **Severity:** Medium
+    
+    **Path:** contracts/BondingCurvePool.sol#L95-L100 
+    
+    **Description:** In the `BondingCurvePool.buyTokens()` function, lines 95–100 attempt to enforce a delay between a user’s approval and their first token purchase:
+    ```
+    if (firstApprovalBlock[to] > 0 && lastBuyBlock[to] == 0) {
+wiki_exploit_scenario: |
+    Per Solodit #62421: **Severity:** Medium
+    
+    **Path:** contracts/BondingCurvePool.sol#L95-L100 
+    
+    **Description:** In the `BondingCurvePool.buyTokens()` function, lines 95–100 attempt to enforce a delay between a user’s appr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Mnbd112InsufficientCheckOfApprovalDelayInBondingcurvepoo"
+solodit_id: "62421"
+solodit_slug: "mnbd1-12-insufficient-check-of-approval-delay-in-bondingcurvepool-hexens-none-moonbound-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal registerapproval;"
+fn_name_regex: ".*(registerApproval|APPROVE_DELAY).*"
+write_var_regex: ".*(registerApproval).*"
+guard_var_regex: ".*(registerApproval).*"
+vuln_fn_name: "registerApproval"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "registerapproval = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "m-09-system-implicitly-relies-on-off-chain-oracle"
+class_name: "M09SystemImplicitlyReliesOnOffChainOracle"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31775 (ZachObront/Alongside)"
+help: "[M-09] System implicitly relies on off chain oracle"
+wiki_title: "[M-09] System implicitly relies on off chain oracle"
+wiki_description: |
+    While many smart contract systems rely on on-chain oracles to determine asset prices and calculations, the rebalancing calculations for the AMKT vault is performed off-chain by the Alongside team, and uploaded in the form of a hash to the HashStore:
+    ```solidity
+    function setHash(bytes32 _hash, bool i
+wiki_exploit_scenario: |
+    Per Solodit #31775: While many smart contract systems rely on on-chain oracles to determine asset prices and calculations, the rebalancing calculations for the AMKT vault is performed off-chain by the Alongside team, and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09SystemImplicitlyReliesOnOffChainOracle"
+solodit_id: "31775"
+solodit_slug: "m-09-system-implicitly-relies-on-off-chain-oracle-zachobront-none-alongside-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setHash|isValid|isValidHash).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setHash"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,32 @@
+skeleton: "paired_function_divergence"
+name: "h03-affiliate-keys-can-be-stolen"
+class_name: "H03AffiliateKeysCanBeStolen"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #11482 (OpenZeppelin/Augur Core v2 Audit: Components)"
+help: "[H03] Affiliate keys can be stolen"
+wiki_title: "[H03] Affiliate keys can be stolen"
+wiki_description: |
+    The [`addKey` function of the `AffiliateValidator` contract](https://github.com/AugurProject/augur/blob/67c0fec95e65fca8d27751f28a6c06e5247978c6/packages/augur-core/source/contracts/AffiliateValidator.sol#L23) is used to associate a `key` with a user account. The `key` is expected to be derived from
+wiki_exploit_scenario: |
+    Per Solodit #11482: The [`addKey` function of the `AffiliateValidator` contract](https://github.com/AugurProject/augur/blob/67c0fec95e65fca8d27751f28a6c06e5247978c6/packages/augur-core/source/contracts/AffiliateValidator
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03AffiliateKeysCanBeStolen"
+solodit_id: "11482"
+solodit_slug: "h03-affiliate-keys-can-be-stolen-openzeppelin-augur-core-v2-audit-components-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addKey|key).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,274 @@
+# routing_manifest.yaml — per-task-type provider routing source-of-truth
+# Updated: 2026-05-04  (ACT-14 agent-calibration-memory)
+#
+# Status legend:
+#   route-ok       — preferred provider has TP >= 70% with n >= 5
+#   do-not-route   — all providers below 70% TP; use human review
+#   advisory-only  — use output for framing only, not for direct submission
+#   no-data        — insufficient calibration data (n < 5); treat as advisory-only
+#
+# thinking_weight: fraction of budget allocated to reasoning tokens (0.0–1.0)
+# budget_per_task_usd: soft cap per dispatch (informational only)
+
+task_types:
+
+  next-loop-dispatch:
+    preferred: null
+    fallback: null
+    status: route-ok
+    tp_rate_basis: null
+    n_basis: 0
+    thinking_weight: null
+    budget_per_task_usd: 0.00
+    mitigations:
+      - No LLM provider dispatch is required; operator-reviewed local workpack only
+      - Prompt must cite recommendation_source and pass strict lint before dispatch
+      - Agent output remains advisory until local verification and finalization land
+    incident_history: []
+    notes: "Local memory workpack routing. Provider routing is not applicable; manifest is operator-gated."
+
+  pr-review:
+    preferred: kimi
+    fallback: minimax
+    status: route-ok
+    tp_rate_basis: 0.883   # kimi: 53/60 TRUE verdicts
+    n_basis: 60
+    thinking_weight: 0.35
+    budget_per_task_usd: 0.04
+    mitigations:
+      - Require operator final sign-off before merge
+      - Cross-check Makefile/CI diffs manually; kimi misses build-system nuances
+    incident_history: []
+    notes: "Highest-volume task type. Kimi dominates; minimax acceptable fallback."
+
+  source-extraction:
+    preferred: kimi
+    fallback: minimax
+    status: route-ok
+    tp_rate_basis: 1.000   # kimi: 23/23 TRUE verdicts
+    n_basis: 23
+    thinking_weight: 0.20
+    budget_per_task_usd: 0.02
+    mitigations:
+      - Validate extracted paths exist in audit tree (5-check rule)
+      - Do not trust line numbers without sed confirmation
+    incident_history: []
+    notes: "Perfect TP rate on n=23. Low thinking_weight sufficient."
+
+  adversarial-kill:
+    preferred: minimax
+    fallback: kimi
+    status: route-ok
+    tp_rate_basis: 0.849   # minimax: 45/53 TRUE verdicts
+    n_basis: 53
+    thinking_weight: 0.60
+    budget_per_task_usd: 0.12
+    mitigations:
+      - M14-trap mandatory before applying any "kill confirmed" claim
+      - Independent verifier smoke-fire required for severity >= High
+      - 3/3 fp_repair_v2 kills were false; see INC-001
+    incident_history:
+      - INC-001   # fp_repair_v2: 91/91 fake YAMLs, all smoke-passing, 2026-05-04
+    notes: "minimax preferred for deep adversarial reasoning. High thinking_weight needed."
+
+  gap-finding:
+    preferred: null
+    fallback: null
+    status: do-not-route
+    tp_rate_basis: 0.200   # kimi: 1/5; minimax: 2/6 — both below floor
+    n_basis: 11
+    thinking_weight: null
+    budget_per_task_usd: null
+    mitigations:
+      - Use human review for gap-finding tasks
+      - If LLM output used, treat as brainstorm only; verify every gap independently
+    incident_history: []
+    notes: "Both providers fail 70% floor. Do not route to any LLM without heavy human oversight."
+
+  synthesis:
+    preferred: kimi
+    fallback: null
+    status: advisory-only
+    tp_rate_basis: null    # no calibration verdicts recorded yet
+    n_basis: 0
+    thinking_weight: 0.30
+    budget_per_task_usd: 0.05
+    mitigations:
+      - Treat all synthesis output as draft only
+      - Do not submit synthesized findings without independent line-by-line verification
+    incident_history: []
+    notes: "Kimi produces well-structured synthesis. No calibration data yet; advisory-only."
+
+  methodology-critique:
+    preferred: kimi
+    fallback: minimax
+    status: advisory-only
+    tp_rate_basis: null
+    n_basis: 0
+    thinking_weight: 0.40
+    budget_per_task_usd: 0.06
+    mitigations:
+      - Use as peer-review supplement, not replacement
+      - Operator must read full critique and make independent judgment
+    incident_history: []
+    notes: "Useful for sanity-checking approach. No calibration verdicts yet."
+
+  impact_analysis:
+    preferred: kimi
+    fallback: minimax
+    status: advisory-only
+    tp_rate_basis: null
+    n_basis: 0
+    thinking_weight: 0.45
+    budget_per_task_usd: 0.08
+    mitigations:
+      - Provider output is advisory only; local tests or source review must verify every accepted suggestion
+      - Packets must embed exact file content, diff, or concrete artifact excerpts; thin prompts produce INDETERMINATE outputs
+      - Minimax is preferred for bounded adversarial review only when the packet is self-contained
+      - Kimi is preferred for nuanced code-review and compatibility inventory, but long packets should be split to avoid timeout/no-output failures
+    incident_history:
+      - INC-004
+    notes: "2026-05-17 slice calibration: Kimi produced useful nuanced review; Minimax produced useful adversarial review when packet context was complete, but underfed packets mostly returned INDETERMINATE. Keep advisory-only until n>=20 decided rows under standardized packet templates."
+
+  redteam:
+    preferred: minimax
+    fallback: kimi
+    status: advisory-only
+    tp_rate_basis: null
+    n_basis: 0
+    thinking_weight: 0.70
+    budget_per_task_usd: 0.15
+    mitigations:
+      - M14-trap mandatory on every claimed vulnerability
+      - High thinking_weight required for attack-surface exploration
+    incident_history: []
+    notes: "minimax preferred for adversarial creativity. No calibration data yet."
+
+  fixture-synthesis:
+    preferred: null
+    fallback: null
+    status: no-data
+    tp_rate_basis: null
+    n_basis: 0
+    thinking_weight: null
+    budget_per_task_usd: null
+    mitigations:
+      - Run smoke-tests on every generated fixture before use
+      - See INC-001: minimax generated 91 fake passing fixtures
+    incident_history:
+      - INC-001
+    notes: "No calibration data. INC-001 shows high FP risk. Treat all output as untrusted."
+
+  fp-repair-yaml:
+    preferred: null
+    fallback: null
+    status: no-data
+    tp_rate_basis: null
+    n_basis: 0
+    thinking_weight: null
+    budget_per_task_usd: null
+    mitigations:
+      - NEVER accept LLM-repaired YAML without smoke-fire test
+      - INC-001 post-mortem: all 91 minimax repairs were fake
+    incident_history:
+      - INC-001
+    notes: "INC-001 triggered by this task type. Do not route until calibration established."
+
+  missing-path-evidence:
+    preferred: null
+    fallback: null
+    status: no-data
+    tp_rate_basis: null
+    n_basis: 0
+    thinking_weight: null
+    budget_per_task_usd: null
+    mitigations:
+      - 5-check rule mandatory: find audit-tree existence, sed line, SCOPE.md, SEVERITY.md, upstream-equiv
+      - See feedback_llm_hallucinates_oos_paths_into_in_scope_tree memory note
+    incident_history: []
+    notes: "High hallucination risk. Path existence must be independently confirmed."
+
+  oos-review:
+    preferred: null
+    fallback: null
+    status: no-data
+    tp_rate_basis: null
+    n_basis: 0
+    thinking_weight: null
+    budget_per_task_usd: null
+    mitigations:
+      - Run pre-submit-check.sh and per-finding-oos-check.py before any verbal OOS answer
+      - See feedback_oos_judgment_must_use_tooling memory note
+    incident_history: []
+    notes: "Tooling-gated. No LLM routing until tools confirm RC=0."
+
+  harness-implementation:
+    preferred: null
+    fallback: null
+    status: no-data
+    tp_rate_basis: null
+    n_basis: 0
+    thinking_weight: null
+    budget_per_task_usd: null
+    mitigations:
+      - Require smoke-test pass before accepting implementation
+      - Verify Slither IR-gen compatibility (see auditooor_r38_r41_session memory)
+    incident_history: []
+    notes: "No calibration data. Treat all harness output as draft requiring smoke-test."
+
+  fixture-wiring:
+    preferred: null
+    fallback: null
+    status: no-data
+    tp_rate_basis: null
+    n_basis: 0
+    thinking_weight: null
+    budget_per_task_usd: null
+    mitigations:
+      - Verify wiring compiles and detector fires before accepting
+    incident_history: []
+    notes: "No calibration data. Treat as no-data advisory."
+
+  docs-integration:
+    preferred: kimi
+    fallback: minimax
+    status: no-data
+    tp_rate_basis: null
+    n_basis: 0
+    thinking_weight: 0.15
+    budget_per_task_usd: 0.02
+    mitigations:
+      - Verify all cross-references and file paths after integration
+      - Do not create documentation files unless explicitly requested
+    incident_history: []
+    notes: "Low thinking_weight sufficient for docs. No calibration verdicts yet."
+
+  severity-downgrade:
+    preferred: null
+    fallback: null
+    status: no-data
+    tp_rate_basis: null
+    n_basis: 0
+    thinking_weight: null
+    budget_per_task_usd: null
+    mitigations:
+      - Provider output has no severity authority; local source/OOS/PoC gates decide
+      - Calibration verdicts remain TRUE/FALSE/PARTIAL/INDETERMINATE only
+      - Do not log severity labels such as MEDIUM or LOW as verdicts
+    incident_history: []
+    notes: "One legacy raw row exists with non-normalized provider/verdict, but no calibrated TRUE/FALSE routing evidence exists yet."
+
+  severity-escalation:
+    preferred: null
+    fallback: null
+    status: no-data
+    tp_rate_basis: null
+    n_basis: 0
+    thinking_weight: null
+    budget_per_task_usd: null
+    mitigations:
+      - Provider output cannot upgrade severity without source proof, OOS clearance, and runnable PoC evidence
+      - Calibration verdicts remain TRUE/FALSE/PARTIAL/INDETERMINATE only
+      - Do not log severity labels such as HIGH or CRITICAL as verdicts
+    incident_history: []
+    notes: "One legacy raw row exists with non-normalized provider/verdict, but no calibrated TRUE/FALSE routing evidence exists yet."

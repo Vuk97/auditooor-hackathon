@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "m-9-claimfees-may-cause-some-external-rewards-to-be-locked-in-th"
+class_name: "M9ClaimfeesMayCauseSomeExternalRewardsToBeLockedInTh"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6685 (Sherlock/Olympusdao)"
+help: "M-9: claimFees may cause some external rewards to be locked in the contract"
+wiki_title: "M-9: claimFees may cause some external rewards to be locked in the contract"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-02-olympus-judging/issues/100 
+    
+    ## Found by 
+    cccz
+    
+    ## Summary
+    claimFees will update rewardToken.lastBalance so that if there are unaccrued reward tokens in the contract, users will not be able to claim them.
+    ## Vulnerability Detail
+    _accumulateExternalRe
+wiki_exploit_scenario: |
+    Per Solodit #6685: Source: https://github.com/sherlock-audit/2023-02-olympus-judging/issues/100 
+    
+    ## Found by 
+    cccz
+    
+    ## Summary
+    claimFees will update rewardToken.lastBalance so that if there are unaccrued reward tokens
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M9ClaimfeesMayCauseSomeExternalRewardsToBeLockedInTh"
+solodit_id: "6685"
+solodit_slug: |
+    m-9-claimfees-may-cause-some-external-rewards-to-be-locked-in-the-contract-sherlock-olympusdao-olympusdao-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimFees|rewardToken|lastBalance|numExternalRewards).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "claimFees"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-handling-of-negative-multipliers-in-quantammweightedpo"
+class_name: "IncorrectHandlingOfNegativeMultipliersInQuantammweightedpo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44296 (Cyfrin/Quantamm)"
+help: |
+    Incorrect handling of negative multipliers in `QuantAMMWeightedPool` leads to underflow in weight calculation
+wiki_title: |
+    Incorrect handling of negative multipliers in `QuantAMMWeightedPool` leads to underflow in weight calculation
+wiki_description: |
+    **Description:** In [`QuantAMMWeightedPool::calculateBlockNormalisedWeight`](https://github.com/QuantAMMProtocol/QuantAMM-V1/blob/7213401491f6a8fd1fcc1cf4763b15b5da355f1c/pkg/pool-quantamm/contracts/QuantAMMWeightedPool.sol#L505-L521):
+    ```solidity
+    if (multiplier > 0) {
+        return uint256(weight) + F
+wiki_exploit_scenario: |
+    Per Solodit #44296: **Description:** In [`QuantAMMWeightedPool::calculateBlockNormalisedWeight`](https://github.com/QuantAMMProtocol/QuantAMM-V1/blob/7213401491f6a8fd1fcc1cf4763b15b5da355f1c/pkg/pool-quantamm/contracts/Q
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectHandlingOfNegativeMultipliersInQuantammweightedpo"
+solodit_id: "44296"
+solodit_slug: |
+    incorrect-handling-of-negative-multipliers-in-quantammweightedpool-leads-to-underflow-in-weight-calculation-cyfrin-none-quantamm-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(QuantAMMWeightedPool).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "QuantAMMWeightedPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

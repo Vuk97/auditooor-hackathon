@@ -1,0 +1,38 @@
+skeleton: "paired_function_divergence"
+name: "new-interfaces-can-add-malicious-code-without-any-delay-or-check"
+class_name: "NewInterfacesCanAddMaliciousCodeWithoutAnyDelayOrCheck"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20750 (ConsenSys/Geodefi)"
+help: "New interfaces can add malicious code without any delay or check"
+wiki_title: "New interfaces can add malicious code without any delay or check"
+wiki_description: |
+    #### Description
+    
+    
+    Geode Finance uses an interesting system of contracts for each individual staked ETH derivative. At the base of it all is an ERC1155 gETH contract where planet id acts as a token id. To make it more compatible with the rest of DeFi the Geode team pairs it up with an ERC20 contract
+wiki_exploit_scenario: |
+    Per Solodit #20750: #### Description
+    
+    
+    Geode Finance uses an interesting system of contracts for each individual staked ETH derivative. At the base of it all is an ERC1155 gETH contract where planet id acts as a token id
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NewInterfacesCanAddMaliciousCodeWithoutAnyDelayOrCheck"
+solodit_id: "20750"
+solodit_slug: "new-interfaces-can-add-malicious-code-without-any-delay-or-check-consensys-none-geodefi-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

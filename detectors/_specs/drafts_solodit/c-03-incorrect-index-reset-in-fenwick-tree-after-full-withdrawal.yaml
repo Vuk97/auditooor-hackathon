@@ -1,0 +1,47 @@
+skeleton: "state_write_without_paired_write"
+name: "c-03-incorrect-index-reset-in-fenwick-tree-after-full-withdrawal"
+class_name: "C03IncorrectIndexResetInFenwickTreeAfterFullWithdrawal"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57737 (Pashov Audit Group/Hyperhyper_2025-03-30)"
+help: "[C-03] Incorrect index reset in `Fenwick tree` after full withdrawal"
+wiki_title: "[C-03] Incorrect index reset in `Fenwick tree` after full withdrawal"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    When a user adds liquidity to the pool, the system triggers the `_updateLockData` function, which in turn calls the `Fenwicks._deposit` function to record the deposit amount and its associated lock duration (e.g., 7 days). The `Fen
+wiki_exploit_scenario: |
+    Per Solodit #57737: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    When a user adds liquidity to the pool, the system triggers the `_updateLockData` function, which in turn calls the `Fenwicks._depo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C03IncorrectIndexResetInFenwickTreeAfterFullWithdrawal"
+solodit_id: "57737"
+solodit_slug: |
+    c-03-incorrect-index-reset-in-fenwick-tree-after-full-withdrawal-pashov-audit-group-none-hyperhyper_2025-03-30-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(removeLiquidity).*"
+primary_var_regex: ".*(removeLiquidity).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

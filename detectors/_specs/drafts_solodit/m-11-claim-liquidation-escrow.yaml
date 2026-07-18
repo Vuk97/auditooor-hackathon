@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "m-11-claim-liquidation-escrow"
+class_name: "M11ClaimLiquidationEscrow"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25499 (Code4rena/Tracer)"
+help: "[M-11] Claim liquidation escrow"
+wiki_title: "[M-11] Claim liquidation escrow"
+wiki_description: |
+    _Submitted by gpersoon_
+    
+    A liquidator can always claim the liquidation escrow in the following way:
+    - create a second account
+    - setup a complimentary trade in that second account, which will result in a large slippage when executed
+    - call `executeTrade` (which everyone can call), to execute a trade
+wiki_exploit_scenario: |
+    Per Solodit #25499: _Submitted by gpersoon_
+    
+    A liquidator can always claim the liquidation escrow in the following way:
+    - create a second account
+    - setup a complimentary trade in that second account, which will result in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11ClaimLiquidationEscrow"
+solodit_id: "25499"
+solodit_slug: "m-11-claim-liquidation-escrow-code4rena-tracer-tracer-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimreceipt;"
+fn_name_regex: ".*(executeTrade|claimReceipt).*"
+write_var_regex: ".*(claimReceipt|executeTrade).*"
+guard_var_regex: ".*(claimReceipt|executeTrade).*"
+vuln_fn_name: "executeTrade"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "claimreceipt = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

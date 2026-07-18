@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "sfpm-token-transfer-can-fail-with-multiple-touches-to-a-position"
+class_name: "SfpmTokenTransferCanFailWithMultipleTouchesToAPosition"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33818 (OpenZeppelin/Panoptic Audit)"
+help: "SFPM Token Transfer Can Fail With Multiple Touches to a Position Key"
+wiki_title: "SFPM Token Transfer Can Fail With Multiple Touches to a Position Key"
+wiki_description: |
+    The position tokenId is minted to the caller as an ERC-1155 token and can be transferred with `safeTransferFrom`. The post-transfer hook will register the token transfer by validating the liquidity of each leg and updating the relevant state variables. For each leg, the `netLiquidity` of the `from`
+wiki_exploit_scenario: |
+    Per Solodit #33818: The position tokenId is minted to the caller as an ERC-1155 token and can be transferred with `safeTransferFrom`. The post-transfer hook will register the token transfer by validating the liquidity of
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SfpmTokenTransferCanFailWithMultipleTouchesToAPosition"
+solodit_id: "33818"
+solodit_slug: |
+    sfpm-token-transfer-can-fail-with-multiple-touches-to-a-position-key-openzeppelin-none-panoptic-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal from;"
+fn_name_regex: ".*(safeTransferFrom|netLiquidity|from|tokenId).*"
+write_var_regex: ".*(from|netLiquidity|safeTransferFrom).*"
+guard_var_regex: ".*(from|netLiquidity|safeTransferFrom).*"
+vuln_fn_name: "safeTransferFrom"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "from = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

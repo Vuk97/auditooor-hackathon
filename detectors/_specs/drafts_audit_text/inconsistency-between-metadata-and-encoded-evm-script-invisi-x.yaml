@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "inconsistency-between-metadata-and-encoded-evm-script-invisi-x"
+class_name: "InconsistencyBetweenMetadataAndEncodedEvmScriptInvisiX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "hexens audit API3_public"
+help: |
+    decodeEvmScript function on line 203 in the ﬁle encoding.ts lets a malicious actor create a proposal without using application’s UI, but with RPC calls to bypass the UI validations
+wiki_title: "INCONSISTENCY BETWEEN METADATA AND ENCODED EVM SCRIPT: INVISIBLE CONTRACT CALL"
+wiki_description: |
+    decodeEvmScript function on line 203 in the ﬁle encoding.ts lets a malicious actor create a proposal without using application’s UI, but with RPC calls to bypass the UI validations. He can also attach other contract’s function call inside the proposal’s EVM script. This works as the AragonOS’s execS
+wiki_exploit_scenario: |
+    Per audit finding: decodeEvmScript function on line 203 in the ﬁle encoding.ts lets a malicious actor create a proposal without using application’s UI, but with RPC calls to bypass the UI validations. He can also attach
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistencyBetweenMetadataAndEncodedEvmScriptInvisiX"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(decodeEvmScript|execScript|isInitialized).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m-04-incorrect-usage-of-safetransferfrom-traps-fees-in-papr-cont"
+class_name: "M04IncorrectUsageOfSafetransferfromTrapsFeesInPaprCont"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6209 (Code4rena/Backed Protocol)"
+help: "[M-04] Incorrect usage of safeTransferFrom traps fees in Papr Controller"
+wiki_title: "[M-04] Incorrect usage of safeTransferFrom traps fees in Papr Controller"
+wiki_description: |
+    Because the Papr Controller never gives approval for ERC20 transfers, calls to `safeTransferFrom` on the Papr token will revert with insufficient approval. This will trap proceeds from auctions in the contract and prevent the owner/ DAO from collecting fees, motivating the rating of high severity.
+wiki_exploit_scenario: |
+    Per Solodit #6209: Because the Papr Controller never gives approval for ERC20 transfers, calls to `safeTransferFrom` on the Papr token will revert with insufficient approval. This will trap proceeds from auctions in th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04IncorrectUsageOfSafetransferfromTrapsFeesInPaprCont"
+solodit_id: "6209"
+solodit_slug: |
+    m-04-incorrect-usage-of-safetransferfrom-traps-fees-in-papr-controller-code4rena-backed-protocol-papr-contest-git
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: "transferFrom vs safeTransferFrom"
+state_decl: "uint256 internal safetransfer;"
+fn_name_regex: ".*(safeTransferFrom|transfer|safeTrasferFrom|safeTransfer).*"
+read_var_regex: ".*(safeTransfer|safeTransferFrom|safeTrasferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeTransferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return safetransfer > 0;"

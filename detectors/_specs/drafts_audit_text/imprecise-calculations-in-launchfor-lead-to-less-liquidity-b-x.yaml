@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "imprecise-calculations-in-launchfor-lead-to-less-liquidity-b-x"
+class_name: "ImpreciseCalculationsInLaunchforLeadToLessLiquidityBX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-04-virtuals-protocol"
+help: |
+    Matin , also found by codexNature Finding description and impact Solidity rounds down the result of an integer division, and because of that, it is always recommended to multiply b
+wiki_title: "Imprecise calculations in launchFor() lead to less liquidity be added to the pair via the router"
+wiki_description: |
+    Matin , also found by codexNature Finding description and impact Solidity rounds down the result of an integer division, and because of that, it is always recommended to multiply before dividing to avoid that precision loss. The problem arises in the Bonding.sol’s launchFor() function where the liqu
+wiki_exploit_scenario: |
+    Per audit finding: Matin , also found by codexNature Finding description and impact Solidity rounds down the result of an integer division, and because of that, it is always recommended to multiply before dividing to av
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ImpreciseCalculationsInLaunchforLeadToLessLiquidityBX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

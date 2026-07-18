@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "ertr-1-missing-validation"
+class_name: "Ertr1MissingValidation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27196 (Guardian Audits/GMX)"
+help: "ERTR-1 | Missing Validation"
+wiki_title: "ERTR-1 | Missing Validation"
+wiki_description: |
+    **Description**
+    
+    When creating a deposit, there is no validation that the `longToken` or the `shortToken` are valid for the supplied market. If WBTC is accidentally used as the long token in an ETH/USDC market, the user would lose their WBTC in the `depositStore`.
+    
+    Furthermore, there is no validatio
+wiki_exploit_scenario: |
+    Per Solodit #27196: **Description**
+    
+    When creating a deposit, there is no validation that the `longToken` or the `shortToken` are valid for the supplied market. If WBTC is accidentally used as the long token in an ETH/US
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Ertr1MissingValidation"
+solodit_id: "27196"
+solodit_slug: "ertr-1-missing-validation-guardian-audits-none-gmx-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositstore;"
+fn_name_regex: ".*(longToken|shortToken|depositStore|orderStore).*"
+write_var_regex: ".*(depositStore|longToken|orderStore).*"
+guard_var_regex: ".*(depositStore|longToken|orderStore).*"
+vuln_fn_name: "longToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "depositstore = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

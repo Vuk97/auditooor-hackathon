@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "the-claimrecord-amountwritten-is-not-reset-in-the-redeem"
+class_name: "TheClaimrecordAmountwrittenIsNotResetInTheRedeem"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Valorem - Zellic Audit Report"
+help: |
+    The _claim mapping contains the OptionLotClaim object for claimId, namely, data on the number of written options and status of claim. This information is created during the write c
+wiki_title: "The claimRecord.amountWritten is not reset in the redeem()"
+wiki_description: |
+    The _claim mapping contains the OptionLotClaim object for claimId, namely, data on the number of written options and status of claim. This information is created during the write call. During the redeem call the claimed state is changed to true, but the amountWritten value is not reset to zero. func
+wiki_exploit_scenario: |
+    Per audit finding: The _claim mapping contains the OptionLotClaim object for claimId, namely, data on the number of written options and status of claim. This information is created during the write call. During the rede
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheClaimrecordAmountwrittenIsNotResetInTheRedeem"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimId|amountWritten|optionKey).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "paymentsettler-can-change-stablecoin-but-remoratoken-can-t-resul"
+class_name: "PaymentsettlerCanChangeStablecoinButRemoratokenCanTResul"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61177 (Cyfrin/Remora Pledge)"
+help: |
+    `PaymentSettler` can change `stablecoin` but `RemoraToken` can't resulting in corrupted state with DoS for core functions
+wiki_title: |
+    `PaymentSettler` can change `stablecoin` but `RemoraToken` can't resulting in corrupted state with DoS for core functions
+wiki_description: |
+    **Description:** `RemoraToken` has a `stablecoin` member with a comment that indicates it must match `PaymentSettler`:
+    ```solidity
+    address public stablecoin; //make sure same stablecoin is used here that is used in payment settler
+    ```
+    
+    But in the updated code there is no way to update `RemoraToken::
+wiki_exploit_scenario: |
+    Per Solodit #61177: **Description:** `RemoraToken` has a `stablecoin` member with a comment that indicates it must match `PaymentSettler`:
+    ```solidity
+    address public stablecoin; //make sure same stablecoin is used here t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PaymentsettlerCanChangeStablecoinButRemoratokenCanTResul"
+solodit_id: "61177"
+solodit_slug: |
+    paymentsettler-can-change-stablecoin-but-remoratoken-cant-resulting-in-corrupted-state-with-dos-for-core-functions-cyfrin-none-remora-pledge-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal changestablecoin;"
+fn_name_regex: ".*(RemoraToken|stablecoin|PaymentSettler|DividendManager).*"
+read_var_regex: ".*(changeStablecoin|stablecoin).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "RemoraToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return changestablecoin > 0;"

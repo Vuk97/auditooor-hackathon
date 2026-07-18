@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "m-05-attacker-can-keep-fees-max-at-no-cost"
+class_name: "M05AttackerCanKeepFeesMaxAtNoCost"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5715 (Code4rena/Trader Joe)"
+help: "[M-05] Attacker can keep fees max at no cost"
+wiki_title: "[M-05] Attacker can keep fees max at no cost"
+wiki_description: |
+    [FeeHelper.sol#L58-L72](https://github.com/code-423n4/2022-10-traderjoe/blob/79f25d48b907f9d0379dd803fc2abc9c5f57db93/src/libraries/FeeHelper.sol#L58-L72)<br>
+    
+    The volatile fee component in TJ is calculated using several variables, as described [here](https://docs.traderjoexyz.com/concepts/fees). I
+wiki_exploit_scenario: |
+    Per Solodit #5715: [FeeHelper.sol#L58-L72](https://github.com/code-423n4/2022-10-traderjoe/blob/79f25d48b907f9d0379dd803fc2abc9c5f57db93/src/libraries/FeeHelper.sol#L58-L72)<br>
+    
+    The volatile fee component in TJ is cal
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05AttackerCanKeepFeesMaxAtNoCost"
+solodit_id: "5715"
+solodit_slug: "m-05-attacker-can-keep-fees-max-at-no-cost-code4rena-trader-joe-trader-joe-v2-contest-git"
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(binDelta|activeId|updateVariableFeeParameters|filterPeriod).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "binDelta"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

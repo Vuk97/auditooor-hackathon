@@ -1,0 +1,46 @@
+skeleton: "state_write_without_paired_write"
+name: "h-12-sender-transferring-giantmevandfeespool-tokens-can-afterwar"
+class_name: "H12SenderTransferringGiantmevandfeespoolTokensCanAfterwar"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #5899 (Code4rena/Stakehouse Protocol)"
+help: |
+    [H-12] Sender transferring GiantMevAndFeesPool tokens can afterward experience pool DOS and orphaning of future rewards
+wiki_title: |
+    [H-12] Sender transferring GiantMevAndFeesPool tokens can afterward experience pool DOS and orphaning of future rewards
+wiki_description: |
+    ## Lines of code
+    
+    https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/GiantMevAndFeesPool.sol#L170-L173
+    
+    
+    ## Vulnerability details
+    
+    ## Impact
+    When a user transfers away GiantMevAndFeesPool tokens, the pool's claimed[] computed is le
+wiki_exploit_scenario: |
+    Per Solodit #5899: ## Lines of code
+    
+    https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/GiantMevAndFeesPool.sol#L170-L173
+    
+    
+    ## Vulnerability details
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H12SenderTransferringGiantmevandfeespoolTokensCanAfterwar"
+solodit_id: "5899"
+solodit_slug: |
+    h-12-sender-transferring-giantmevandfeespool-tokens-can-afterward-experience-pool-dos-and-orphaning-of-future-rewards-code4rena-stakehouse-protocol-lsd-network-stakehouse-contest-git
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(afterTokenTransfer|testTransferDOSUserOrphansFutureRewards).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

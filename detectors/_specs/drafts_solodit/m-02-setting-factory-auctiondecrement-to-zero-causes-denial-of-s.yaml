@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "m-02-setting-factory-auctiondecrement-to-zero-causes-denial-of-s"
+class_name: "M02SettingFactoryAuctiondecrementToZeroCausesDenialOfS"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19830 (Code4rena/Kuiper)"
+help: |
+    [M-02] Setting `Factory.auctionDecrement` to zero causes Denial of Service in `Auction.settleAuction()`
+wiki_title: |
+    [M-02] Setting `Factory.auctionDecrement` to zero causes Denial of Service in `Auction.settleAuction()`
+wiki_description: |
+    _Submitted by pants_.
+    
+    The function `Factory.setAuctionDecrement()` allows the owner to set the state variable `Factory.auctionDecrement` to zero.
+    
+    #### Impact
+    
+    If `Factory.auctionDecrement` equals zero then the function `Auction.settleAuction()` will always revert due to a division by zero:
+    
+        ui
+wiki_exploit_scenario: |
+    Per Solodit #19830: _Submitted by pants_.
+    
+    The function `Factory.setAuctionDecrement()` allows the owner to set the state variable `Factory.auctionDecrement` to zero.
+    
+    #### Impact
+    
+    If `Factory.auctionDecrement` equals ze
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02SettingFactoryAuctiondecrementToZeroCausesDenialOfS"
+solodit_id: "19830"
+solodit_slug: |
+    m-02-setting-factoryauctiondecrement-to-zero-causes-denial-of-service-in-auctionsettleauction-code4rena-kuiper-kuiper-contest-git_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setAuctionDecrement|auctionDecrement|settleAuction|bondBlock).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setAuctionDecrement"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-a-zero-value-check-for-assetsupply-57"
+class_name: "MissingAZeroValueCheckForAssetsupply57"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Plaza Core Protocol - Zellic Audit Report"
+help: |
+    In Distributor, the functions claim and allocate do not check that the pool's address parameter, _pool is in the registered pool, so a fake pool could be used in this function to d
+wiki_title: "Missing a zero-value check for assetSupply                                        57"
+wiki_description: |
+    In Distributor, the functions claim and allocate do not check that the pool's address parameter, _pool is in the registered pool, so a fake pool could be used in this function to drain the distributor. A malicious user could create a fake pool with some function's interface, such as balanceOf and ge
+wiki_exploit_scenario: |
+    Per audit finding: In Distributor, the functions claim and allocate do not check that the pool's address parameter, _pool is in the registered pool, so a fake pool could be used in this function to drain the distributor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingAZeroValueCheckForAssetsupply57"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(balanceOf|getIndexedUserAmount|whenNotPaused).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "balanceOf"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

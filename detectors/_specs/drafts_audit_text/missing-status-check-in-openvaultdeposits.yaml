@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "missing-status-check-in-openvaultdeposits"
+class_name: "MissingStatusCheckInOpenvaultdeposits"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Cega - Zellic Audit Report"
+help: |
+    Before the depositQueue can be processed for a specific vault, that vault’s status needs to be set to DepositsOpen. This can be achieved using the openVaultDeposits() func- tion: f
+wiki_title: "Missing status check in openVaultDeposits"
+wiki_description: |
+    Before the depositQueue can be processed for a specific vault, that vault’s status needs to be set to DepositsOpen. This can be achieved using the openVaultDeposits() func- tion: function openVaultDeposits(address vaultAddress) public onlyTraderAdmin { FCNVaultMetadata storage vaultMetadata = vaults
+wiki_exploit_scenario: |
+    Per audit finding: Before the depositQueue can be processed for a specific vault, that vault’s status needs to be set to DepositsOpen. This can be achieved using the openVaultDeposits() func- tion: function openVaultDep
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingStatusCheckInOpenvaultdeposits"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositQueue|openVaultDeposits|vaultAddress).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositQueue"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

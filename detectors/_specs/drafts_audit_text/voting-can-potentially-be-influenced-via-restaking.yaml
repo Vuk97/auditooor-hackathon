@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "voting-can-potentially-be-influenced-via-restaking"
+class_name: "VotingCanPotentiallyBeInfluencedViaRestaking"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Audius EVM - Zellic Audit Report"
+help: |
+    Currently, the magnitude of a vote is determined when it is submitted, based on the total stake of the user that submits the vote. function submitVote(uint256 _proposalId, Vote _vo
+wiki_title: "Voting can potentially be influenced via restaking"
+wiki_description: |
+    Currently, the magnitude of a vote is determined when it is submitted, based on the total stake of the user that submits the vote. function submitVote(uint256 _proposalId, Vote _vote) external { /) ...)) address voter = msg.sender; /) ...)) /) Require voter has non-zero total active stake uint256 vo
+wiki_exploit_scenario: |
+    Per audit finding: Currently, the magnitude of a vote is determined when it is submitted, based on the total stake of the user that submits the vote. function submitVote(uint256 _proposalId, Vote _vote) external { /) ..
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VotingCanPotentiallyBeInfluencedViaRestaking"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(submitVote|voterActiveStake|voteMagnitude).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "submitVote"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

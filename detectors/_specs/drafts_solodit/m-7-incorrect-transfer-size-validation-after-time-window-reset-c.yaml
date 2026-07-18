@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "m-7-incorrect-transfer-size-validation-after-time-window-reset-c"
+class_name: "M7IncorrectTransferSizeValidationAfterTimeWindowResetC"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62730 (Sherlock/Malda)"
+help: "M-7: Incorrect transfer size validation after time window reset can lead to rebalancing DoS"
+wiki_title: "M-7: Incorrect transfer size validation after time window reset can lead to rebalancing DoS"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-07-malda-judging/issues/234 
+    
+    ## Found by 
+    0x213, 0xBlackie, 0xEkko, 0xShoonya, 0xSolus, 0xapple, 0xmechanic, 10ap17, 5am, 7, 8olidity, BADROBINX, Bizarro, Cybrid, DeveloperX, EQUATION, HeckerTrieuTien, Ivcho332, KiroBrejka, LeFy, MacroWang, PratRed, R
+wiki_exploit_scenario: |
+    Per Solodit #62730: Source: https://github.com/sherlock-audit/2025-07-malda-judging/issues/234 
+    
+    ## Found by 
+    0x213, 0xBlackie, 0xEkko, 0xShoonya, 0xSolus, 0xapple, 0xmechanic, 10ap17, 5am, 7, 8olidity, BADROBINX, Bizar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M7IncorrectTransferSizeValidationAfterTimeWindowResetC"
+solodit_id: "62730"
+solodit_slug: |
+    m-7-incorrect-transfer-size-validation-after-time-window-reset-can-lead-to-rebalancing-dos-sherlock-malda-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(TransferInfo|Rebalancer_TransferSizeExcedeed|transferInfo|currentTransferSize).*"
+primary_var_regex: ".*(currentTransferSize|transferInfo).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

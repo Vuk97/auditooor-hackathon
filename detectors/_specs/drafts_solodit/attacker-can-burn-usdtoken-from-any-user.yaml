@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "attacker-can-burn-usdtoken-from-any-user"
+class_name: "AttackerCanBurnUsdtokenFromAnyUser"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #34820 (Cyfrin/Zaros)"
+help: "Attacker can burn `USDToken` from any user"
+wiki_title: "Attacker can burn `USDToken` from any user"
+wiki_description: |
+    **Description:** [USDToken::burn](https://github.com/zaros-labs/zaros-core-audit/blob/de09d030c780942b70f1bebcb2d245214144acd2/src/usd/USDToken.sol#L21-L24) has:
+    * no access control meaning anyone can call it
+    * arbitrary address parameter, not using `msg.sender`
+    
+    **Impact:** Anyone can call `USDToke
+wiki_exploit_scenario: |
+    Per Solodit #34820: **Description:** [USDToken::burn](https://github.com/zaros-labs/zaros-core-audit/blob/de09d030c780942b70f1bebcb2d245214144acd2/src/usd/USDToken.sol#L21-L24) has:
+    * no access control meaning anyone can
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AttackerCanBurnUsdtokenFromAnyUser"
+solodit_id: "34820"
+solodit_slug: "attacker-can-burn-usdtoken-from-any-user-cyfrin-none-cyfrinzaros-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(USDToken).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "USDToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

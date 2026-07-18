@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "reentrancy-in-withdrawexcesscollateral-and-withdrawexcesspayment"
+class_name: "ReentrancyInWithdrawexcesscollateralAndWithdrawexcesspayment"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6855 (Spearbit/Porter Finance)"
+help: "Reentrancy in withdrawExcessCollateral() and withdrawExcessPayment() functions."
+wiki_title: "Reentrancy in withdrawExcessCollateral() and withdrawExcessPayment() functions."
+wiki_description: |
+    ## Security Report
+    
+    ## Severity: Medium Risk
+    
+    ### Context
+    - `Bond.sol#L212`
+    - `Bond.sol#233`
+    
+    ### Description
+    The functions `withdrawExcessCollateral()` and `withdrawExcessPayment()` enable the caller to withdraw excess collateral and payment tokens, respectively. Both functions are guarded by an `o
+wiki_exploit_scenario: |
+    Per Solodit #6855: ## Security Report
+    
+    ## Severity: Medium Risk
+    
+    ### Context
+    - `Bond.sol#L212`
+    - `Bond.sol#233`
+    
+    ### Description
+    The functions `withdrawExcessCollateral()` and `withdrawExcessPayment()` enable the caller
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyInWithdrawexcesscollateralAndWithdrawexcesspayment"
+solodit_id: "6855"
+solodit_slug: |
+    reentrancy-in-withdrawexcesscollateral-and-withdrawexcesspayment-functions-spearbit-porter-finance-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal nonreentrant;"
+fn_name_regex: ".*(withdrawExcessCollateral|withdrawExcessPayment|onlyOwner|transferFrom).*"
+write_var_regex: ".*(nonReentrant|onlyOwner|transferFrom).*"
+guard_var_regex: ".*(nonReentrant|onlyOwner|transferFrom).*"
+vuln_fn_name: "withdrawExcessCollateral"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "nonreentrant = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

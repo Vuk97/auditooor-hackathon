@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-mapping-update-in-baskettoken-updatebitflag-causes-rebal"
+class_name: "MissingMappingUpdateInBaskettokenUpdatebitflagCausesRebal"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Cove - Zellic Audit Report"
+help: |
+    The updateBitFlag() function does not update the basketAssetToIndexPlusOne mapping after adding a new asset to the registry. This leads to errors during rebalancing when the rebala
+wiki_title: "Missing mapping update in BasketToken.updateBitFlag() causes rebal-"
+wiki_description: |
+    The updateBitFlag() function does not update the basketAssetToIndexPlusOne mapping after adding a new asset to the registry. This leads to errors during rebalancing when the rebalance can- not locate the new asset. function updateBitFlag(address basket, uint256 bitFlag) external onlyRole(_TIMELOCK_R
+wiki_exploit_scenario: |
+    Per audit finding: The updateBitFlag() function does not update the basketAssetToIndexPlusOne mapping after adding a new asset to the registry. This leads to errors during rebalancing when the rebalance can- not locate
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingMappingUpdateInBaskettokenUpdatebitflagCausesRebal"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateBitFlag|basketAssetToIndexPlusOne|bitFlag).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "updateBitFlag"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

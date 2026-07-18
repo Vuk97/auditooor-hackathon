@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "h-04-multiple-swap-lack-slippage-protection"
+class_name: "H04MultipleSwapLackSlippageProtection"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #33663 (Code4rena/BakerFi)"
+help: "[H-04] Multiple swap lack slippage protection"
+wiki_title: "[H-04] Multiple swap lack slippage protection"
+wiki_description: |
+    The current protocol requires swapping tokens in multiple places, such as `weth -> ierc20A` or `ierc20A -> weth`.
+    
+    Primarily, these swaps are executed using the `_swap()` method.
+    
+    ```solidity
+        function _swap(
+            ISwapHandler.SwapParams memory params
+        ) internal override returns (uint256
+wiki_exploit_scenario: |
+    Per Solodit #33663: The current protocol requires swapping tokens in multiple places, such as `weth -> ierc20A` or `ierc20A -> weth`.
+    
+    Primarily, these swaps are executed using the `_swap()` method.
+    
+    ```solidity
+        fun
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04MultipleSwapLackSlippageProtection"
+solodit_id: "33663"
+solodit_slug: "h-04-multiple-swap-lack-slippage-protection-code4rena-bakerfi-bakerfi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(amountOut|underlyingIn|underlyingOut|feeTier).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "amountOut"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

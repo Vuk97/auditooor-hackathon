@@ -1,0 +1,38 @@
+skeleton: "state_write_without_paired_write"
+name: "m-29-user-receives-less-rewards-than-they-are-eligible-for-if-fi"
+class_name: "M29UserReceivesLessRewardsThanTheyAreEligibleForIfFi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5937 (Code4rena/Stakehouse Protocol)"
+help: "[M-29] User receives less rewards than they are eligible for if first passed BLS key is inactive"
+wiki_title: "[M-29] User receives less rewards than they are eligible for if first passed BLS key is inactive"
+wiki_description: |
+    <https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/StakingFundsVault.sol#L224>
+    
+    StakingFundsVault has the claimRewards() function to allow users to withdraw profits.
+    
+        function claimRewards(
+            address _recipient,
+wiki_exploit_scenario: |
+    Per Solodit #5937: <https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/StakingFundsVault.sol#L224>
+    
+    StakingFundsVault has the claimRewards() function
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M29UserReceivesLessRewardsThanTheyAreEligibleForIfFi"
+solodit_id: "5937"
+solodit_slug: |
+    m-29-user-receives-less-rewards-than-they-are-eligible-for-if-first-passed-bls-key-is-inactive-code4rena-stakehouse-protocol-lsd-network-stakehouse-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(claimRewards|nonReentrant|liquidStakingNetworkManager|isBLSPublicKeyBanned).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "dpu-1-unable-to-decrease-collateral"
+class_name: "Dpu1UnableToDecreaseCollateral"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27200 (Guardian Audits/GMX)"
+help: "DPU-1 | Unable to Decrease Collateral"
+wiki_title: "DPU-1 | Unable to Decrease Collateral"
+wiki_description: |
+    **Description**
+    
+    In the `processCollateral` function, the `collateralDeltaAmount` is initially set to `params.order.initialCollateralDeltaAmount().toInt256()`, which cannot be set for decrease orders. Therefore, there is no way to decrease collateral from a position without closing the entire positi
+wiki_exploit_scenario: |
+    Per Solodit #27200: **Description**
+    
+    In the `processCollateral` function, the `collateralDeltaAmount` is initially set to `params.order.initialCollateralDeltaAmount().toInt256()`, which cannot be set for decrease orders.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Dpu1UnableToDecreaseCollateral"
+solodit_id: "27200"
+solodit_slug: "dpu-1-unable-to-decrease-collateral-guardian-audits-none-gmx-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal collateraldeltaamount;"
+fn_name_regex: ".*(processCollateral|collateralDeltaAmount|initialCollateralDeltaAmount).*"
+read_var_regex: ".*(collateralDeltaAmount|initialCollateralDeltaAmount|processCollateral).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "processCollateral"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return collateraldeltaamount > 0;"

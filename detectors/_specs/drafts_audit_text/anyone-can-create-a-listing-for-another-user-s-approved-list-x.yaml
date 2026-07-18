@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "anyone-can-create-a-listing-for-another-user-s-approved-list-x"
+class_name: "AnyoneCanCreateAListingForAnotherUserSApprovedListX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "hexens audit Babylon-jan-2023"
+help: |
+    A user can create a listing for an ERC721 or ERC1155 in the BabylonCore contract. This contract checks whether the controller is approved through TokensController.sol:checkApproval
+wiki_title: "ANYONE CAN CREATE A LISTING FOR ANOTHER USER’S APPROVED/LISTED ERC721"
+wiki_description: |
+    A user can create a listing for an ERC721 or ERC1155 in the BabylonCore contract. This contract checks whether the controller is approved through TokensController.sol:checkApproval for the speciﬁed asset and if so, create the listing. However, in case of ERC721 the approval check fails to check whet
+wiki_exploit_scenario: |
+    Per audit finding: A user can create a listing for an ERC721 or ERC1155 in the BabylonCore contract. This contract checks whether the controller is approved through TokensController.sol:checkApproval for the speciﬁed as
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyoneCanCreateAListingForAnotherUserSApprovedListX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(checkApproval|itemType|getApproved).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "checkApproval"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

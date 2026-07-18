@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-01-user-could-lose-underlying-tokens-when-redeeming-from-the-i"
+class_name: "H01UserCouldLoseUnderlyingTokensWhenRedeemingFromTheI"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25471 (Code4rena/PoolTogether)"
+help: "[H-01] User could lose underlying tokens when redeeming from the `IdleYieldSource`"
+wiki_title: "[H-01] User could lose underlying tokens when redeeming from the `IdleYieldSource`"
+wiki_description: |
+    _Submitted by shw_
+    
+    The `redeemToken` function in `IdleYieldSource` uses `redeemedShare` instead of `redeemAmount` as the input parameter when calling `redeemIdleToken` of the Idle yield source. As a result, users could get fewer underlying tokens than they should.
+    
+    When burning users' shares, it is
+wiki_exploit_scenario: |
+    Per Solodit #25471: _Submitted by shw_
+    
+    The `redeemToken` function in `IdleYieldSource` uses `redeemedShare` instead of `redeemAmount` as the input parameter when calling `redeemIdleToken` of the Idle yield source. As a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01UserCouldLoseUnderlyingTokensWhenRedeemingFromTheI"
+solodit_id: "25471"
+solodit_slug: |
+    h-01-user-could-lose-underlying-tokens-when-redeeming-from-the-idleyieldsource-code4rena-pooltogether-pooltogether-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal redeemamount;"
+fn_name_regex: ".*(redeemToken|IdleYieldSource|redeemedShare|redeemAmount).*"
+read_var_regex: ".*(redeemAmount|redeemIdleToken|redeemToken).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "redeemToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return redeemamount > 0;"

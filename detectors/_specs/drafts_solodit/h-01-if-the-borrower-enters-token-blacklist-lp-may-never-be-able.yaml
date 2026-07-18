@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-01-if-the-borrower-enters-token-blacklist-lp-may-never-be-able"
+class_name: "H01IfTheBorrowerEntersTokenBlacklistLpMayNeverBeAble"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29694 (Code4rena/Particle Protocol)"
+help: "[H-01] If the borrower enters token blacklist, LP may never be able to retrieve Liquidity"
+wiki_title: "[H-01] If the borrower enters token blacklist, LP may never be able to retrieve Liquidity"
+wiki_description: |
+    Currently, there are two ways to retrieve `Liquidity`
+    
+    1.  `borrower` actively close position :  call `closePosition()`
+    2.  be forced liquidation leads to close position :  `liquidatePosition()` ->  `_closePosition()`
+    
+    No matter which one, if there is a profit in the end, it needs to be refunded to
+wiki_exploit_scenario: |
+    Per Solodit #29694: Currently, there are two ways to retrieve `Liquidity`
+    
+    1.  `borrower` actively close position :  call `closePosition()`
+    2.  be forced liquidation leads to close position :  `liquidatePosition()` ->
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01IfTheBorrowerEntersTokenBlacklistLpMayNeverBeAble"
+solodit_id: "29694"
+solodit_slug: |
+    h-01-if-the-borrower-enters-token-blacklist-lp-may-never-be-able-to-retrieve-liquidity-code4rena-particle-protocol-particle-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrower;"
+fn_name_regex: ".*(Liquidity|borrower|closePosition|liquidatePosition).*"
+read_var_regex: ".*(borrower|closePosition|liquidatePosition).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Liquidity"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borrower > 0;"

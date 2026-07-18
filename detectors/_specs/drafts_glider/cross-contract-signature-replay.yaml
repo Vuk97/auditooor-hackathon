@@ -1,0 +1,25 @@
+skeleton: "state_write_without_paired_write"
+name: "cross-contract-signature-replay"
+class_name: "CrossContractSignatureReplay"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: signatures-lack-addressthis-allowing-for-cross-con"
+help: "Cross-contract Signature replay"
+wiki_title: "Cross-contract Signature replay"
+wiki_description: |
+    Flags externally callable functions where the signature digest is hashed without including 'address(this)' Logic: - Traces through "Transparent" layers (ECDSA helpers, EIP-191 prefixing). - Stops at "Root" sources (Parameters or Raw Hashing). - Flags ONLY if a Root Hash is created locally without ad
+wiki_exploit_scenario: |
+    Per Glider query tags [signatures, replay, ecrecover, security]: Flags externally callable functions where the signature digest is hashed without including 'address(this)' Logic: - Traces through "Transparent" layers (ECDSA helpers, EIP-191 prefixing). - Stops at "
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "CrossContractSignatureReplay"
+fn_name_regex: ".*(cross).*"
+primary_var_regex: ".*(balance|amount|position|stake).*"
+paired_var_regex: ".*(flag|status|cleared|isLong|reset).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;

@@ -1,0 +1,50 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-1-depositreceipt-base-sol-l21-heartbeat-time-gap-is-too-huge"
+class_name: "M1DepositreceiptBaseSolL21HeartbeatTimeGapIsTooHuge"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5693 (Sherlock/Isomorph)"
+help: "M-1: DepositReceipt_Base.sol#L21 : HEARTBEAT_TIME gap is too huge"
+wiki_title: "M-1: DepositReceipt_Base.sol#L21 : HEARTBEAT_TIME gap is too huge"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-11-isomorph-judging/issues/256 
+    
+    ## Found by 
+    ak1
+    
+    ## Summary
+    
+    HEARTBEAT_TIME = 24 hours could not be safe. The oracle data still be stale one.
+    
+    ## Vulnerability Detail
+    
+    oracle is using the HEARTBEAT_TIME  as 24 hours. Since the price of oracle could va
+wiki_exploit_scenario: |
+    Per Solodit #5693: Source: https://github.com/sherlock-audit/2022-11-isomorph-judging/issues/256 
+    
+    ## Found by 
+    ak1
+    
+    ## Summary
+    
+    HEARTBEAT_TIME = 24 hours could not be safe. The oracle data still be stale one.
+    
+    ## Vulne
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1DepositreceiptBaseSolL21HeartbeatTimeGapIsTooHuge"
+solodit_id: "5693"
+solodit_slug: "m-1-depositreceipt_basesoll21-heartbeat_time-gap-is-too-huge-sherlock-isomorph-isomorph-git"
+solodit_quality: "2"
+solodit_rarity: "5"
+solodit_tags: "Oracle"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(HEARTBEAT_TIME).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

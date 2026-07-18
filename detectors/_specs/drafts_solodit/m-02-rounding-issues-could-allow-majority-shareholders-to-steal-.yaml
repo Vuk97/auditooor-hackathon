@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "m-02-rounding-issues-could-allow-majority-shareholders-to-steal-"
+class_name: "M02RoundingIssuesCouldAllowMajorityShareholdersToSteal"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31753 (ZachObront/Splits)"
+help: "[M-02] Rounding issues could allow majority shareholders to steal funds"
+wiki_title: "[M-02] Rounding issues could allow majority shareholders to steal funds"
+wiki_description: |
+    When distributions are calculated (using either push or pull), the `_split.calculateAllocatedAmount()` function is used to determine the amount.
+    
+    ```solidity
+    allocatedAmount = _amount * _split.allocations[_index] / _split.totalAllocation;
+    ```
+    In the situation where one user holds a majority position
+wiki_exploit_scenario: |
+    Per Solodit #31753: When distributions are calculated (using either push or pull), the `_split.calculateAllocatedAmount()` function is used to determine the amount.
+    
+    ```solidity
+    allocatedAmount = _amount * _split.allocat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02RoundingIssuesCouldAllowMajorityShareholdersToSteal"
+solodit_id: "31753"
+solodit_slug: |
+    m-02-rounding-issues-could-allow-majority-shareholders-to-steal-funds-zachobront-none-splits-v2-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(calculateAllocatedAmount|allocatedAmount|totalAllocation|makeAddr).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "calculateAllocatedAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

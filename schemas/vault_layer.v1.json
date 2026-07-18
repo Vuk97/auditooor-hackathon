@@ -1,0 +1,150 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "auditooor.vault_layer.v1",
+  "title": "Auditooor Vault Note Layer Frontmatter",
+  "description": "Frontmatter contract for vault notes per the 5-layer ontology (L0-L4). Lane 11 of MCP harness review (PR #658). L0=raw artifacts, L1=structural patterns, L2=causal case studies, L3=attacker mental frames, L4=meta-discipline rules.",
+  "type": "object",
+  "required": ["layer"],
+  "properties": {
+    "layer": {
+      "type": "string",
+      "enum": ["L0", "L1", "L2", "L3", "L4"],
+      "description": "Knowledge ontology layer"
+    },
+    "source_uri": {
+      "type": "string",
+      "description": "L0 only: source URI (file path, git commit, web URL)"
+    },
+    "extracted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "L0 only: when the artifact was extracted"
+    },
+    "verbatim": {
+      "type": "boolean",
+      "description": "L0 only: true if note content is verbatim copy of source"
+    },
+    "pattern_id": {
+      "type": "string",
+      "description": "L1 only: detector / DSL rule pattern ID"
+    },
+    "tier": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D"],
+      "description": "L1 only: detector promotion tier"
+    },
+    "links_to_l2": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "L1 only: list of L2 case study refs (must have ≥1 OR links_to_l0)"
+    },
+    "links_to_l0": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "L1 only: list of L0 PoC/source refs"
+    },
+    "engagement": {
+      "type": "string",
+      "description": "L2 only: engagement slug (spark, dydx, base_azul)"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["Critical", "High", "Medium", "Low", "Informational", "N/A"],
+      "description": "L2 only: severity of associated finding"
+    },
+    "outcome": {
+      "type": "string",
+      "enum": ["accepted", "duplicate", "out_of_scope", "rejected", "withdrawn", "pending", "escalated", "paid", "closed_unpaid"],
+      "description": "L2 only: filing outcome"
+    },
+    "root_cause_class": {
+      "type": "string",
+      "description": "L2 only: bug class (missing_validation, reentrancy, oracle_manipulation, etc.)"
+    },
+    "derived_pattern_ids": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "L2 only: L1 pattern IDs derived from this case study"
+    },
+    "frame_id": {
+      "type": "string",
+      "pattern": "^AMF-[0-9]{3}$",
+      "description": "L3 only: attacker mental frame ID (AMF-001..AMF-NNN)"
+    },
+    "applicable_classes": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "L3 only: bug classes / protocol classes the frame applies to"
+    },
+    "case_studies": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 2,
+      "description": "L3 only: ≥2 L2 case studies grounding this frame (frames are derived, not invented)"
+    },
+    "detectors": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "L3 only: related L1 detector IDs"
+    },
+    "rule_id": {
+      "type": "string",
+      "pattern": "^(L|Rule\\s*)[0-9]+(-Disc-[0-9]+)?$",
+      "description": "L4 only: discipline rule ID (L1..L32, Rule 1..7, L29-Disc-1..6)"
+    },
+    "triggers": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1,
+      "description": "L4 only: task_type or surface_keyword triggers for the dispatcher to route this rule"
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "title": {"type": "string"},
+    "id": {"type": "string"},
+    "status": {"type": "string"},
+    "ontology_version": {
+      "type": "string",
+      "default": "v1",
+      "description": "Ontology schema version"
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"layer": {"const": "L0"}}, "required": ["layer"]},
+      "then": {
+        "required": ["layer", "source_uri", "extracted_at"]
+      }
+    },
+    {
+      "if": {"properties": {"layer": {"const": "L1"}}, "required": ["layer"]},
+      "then": {
+        "required": ["layer", "pattern_id"],
+        "anyOf": [
+          {"required": ["links_to_l2"], "properties": {"links_to_l2": {"minItems": 1}}},
+          {"required": ["links_to_l0"], "properties": {"links_to_l0": {"minItems": 1}}}
+        ]
+      }
+    },
+    {
+      "if": {"properties": {"layer": {"const": "L2"}}, "required": ["layer"]},
+      "then": {
+        "required": ["layer", "engagement", "root_cause_class"]
+      }
+    },
+    {
+      "if": {"properties": {"layer": {"const": "L3"}}, "required": ["layer"]},
+      "then": {
+        "required": ["layer", "frame_id", "applicable_classes", "case_studies"]
+      }
+    },
+    {
+      "if": {"properties": {"layer": {"const": "L4"}}, "required": ["layer"]},
+      "then": {
+        "required": ["layer", "rule_id", "triggers"]
+      }
+    }
+  ]
+}

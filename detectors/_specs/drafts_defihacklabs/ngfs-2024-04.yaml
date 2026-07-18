@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "ngfs-2024-04"
+class_name: "Ngfs202404"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-04/NGFS_exp.sol"
+help: "NGFS 2024-04 — generic exploit (~190K)"
+wiki_title: "NGFS (2024-04) — generic"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-04): NGFS lost ~190K. Bug class: generic. Attack tx: 0x8ff764dde572928c353716358e271638fa05af54be69f043df72ad9ad054de25.
+wiki_exploit_scenario: |
+    Attacker (0xd03d360dfc1dac7935e114d564a088077e6754a0) exploits NGFS via generic: the victim contract 0xa608985f5b40cdf6862bec775207f84280a91e3a exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Add the missing guard identified by the skeleton; cross-reference the DeFiHackLabs PoC for the exact bug path.
+contract_name: "Ngfs202404"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "bug-in-maxmem-handling-can-halt-the-batch-verification"
+class_name: "BugInMaxmemHandlingCanHaltTheBatchVerification"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "hexens audit Hexens_Polygon_zkEVM_PUBLIC_27.02.23"
+help: |
+    In the zkEVM ROM the MAXMEM register that is used to set the biggest offset of memory used is being set only once to zero - for the ﬁrst step of the execution trace. The contracts
+wiki_title: "BUG IN MAXMEM HANDLING CAN HALT THE BATCH VERIFICATION"
+wiki_description: |
+    In the zkEVM ROM the MAXMEM register that is used to set the biggest offset of memory used is being set only once to zero - for the ﬁrst step of the execution trace. The contracts that will call MLOAD,MSTORE EVM-opcodes will alter the MAXMEM if the memory referenced has higher relative address than
+wiki_exploit_scenario: |
+    Per audit finding: In the zkEVM ROM the MAXMEM register that is used to set the biggest offset of memory used is being set only once to zero - for the ﬁrst step of the execution trace. The contracts that will call MLOAD
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BugInMaxmemHandlingCanHaltTheBatchVerification"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(zkEVM|addrRel|indRR).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "zkEVM"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

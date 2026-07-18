@@ -1,0 +1,23 @@
+skeleton: "name_match_missing_require"
+name: "uniswapv2-addliquidity-dos-via-one-sided-reserve-manipulation"
+class_name: "Uniswapv2AddliquidityDosViaOneSidedReserveManipulation"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: denial-of-service-attack-on-uniswap-v2-pools-via-o"
+help: "UniswapV2 addLiquidity DoS via One-Sided Reserve Manipulation"
+wiki_title: "UniswapV2 addLiquidity DoS via One-Sided Reserve Manipulation"
+wiki_description: |
+    Detects unsafe usage of uniV2Router.addLiquidity() or addLiquidityETH() for initial liquidity provision. Attackers can pre-create the pair, transfer tokens to only one side, and call sync() to register an imbalanced reserve state. When addLiquidity/addLiquidityETH executes, UniswapV2Library.quote() 
+wiki_exploit_scenario: |
+    Per Glider query tags [uniswap, dos, liquidity, reserves, launchpad]: Detects unsafe usage of uniV2Router.addLiquidity() or addLiquidityETH() for initial liquidity provision. Attackers can pre-create the pair, transfer tokens to only one side, and call sync() to registe
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "Uniswapv2AddliquidityDosViaOneSidedReserveManipulation"
+fn_name_regex: ".*(addLiquidity).*"
+write_var_regex: ".*(addliquidi).*"
+guard_var_regex: ".*(addliquidi).*"
+vuln_fn_name: "addLiquidity"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "addliquidi = newVal;"
+guard_require_line: "require(newVal <= 10000);"
+state_decl: "uint256 internal addliquidi;"

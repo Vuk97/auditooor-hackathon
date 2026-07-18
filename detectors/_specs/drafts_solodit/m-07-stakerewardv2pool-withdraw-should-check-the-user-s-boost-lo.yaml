@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "m-07-stakerewardv2pool-withdraw-should-check-the-user-s-boost-lo"
+class_name: "M07Stakerewardv2poolWithdrawShouldCheckTheUserSBoostLo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21152 (Code4rena/Lybra Finance)"
+help: "[M-07] `stakerewardV2pool.withdraw()` should check the user's boost lock status."
+wiki_title: "[M-07] `stakerewardV2pool.withdraw()` should check the user's boost lock status."
+wiki_description: |
+    Users can withdraw their staking token immediately after charging more rewards using boost.
+    
+    ### Proof of Concept
+    
+    `withdraw()` should prevent withdrawals during the boost lock, but there is no such logic.
+    
+    The below steps show how users can charge more rewards without locking their funds.
+    
+    1.  Ali
+wiki_exploit_scenario: |
+    Per Solodit #21152: Users can withdraw their staking token immediately after charging more rewards using boost.
+    
+    ### Proof of Concept
+    
+    `withdraw()` should prevent withdrawals during the boost lock, but there is no such
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07Stakerewardv2poolWithdrawShouldCheckTheUserSBoostLo"
+solodit_id: "21152"
+solodit_slug: |
+    m-07-stakerewardv2poolwithdraw-should-check-the-users-boost-lock-status-code4rena-lybra-finance-lybra-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Validation"
+state_decl: "uint256 internal withdraw;"
+fn_name_regex: ".*(withdraw).*"
+write_var_regex: ".*(withdraw).*"
+guard_var_regex: ".*(withdraw).*"
+vuln_fn_name: "withdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "withdraw = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

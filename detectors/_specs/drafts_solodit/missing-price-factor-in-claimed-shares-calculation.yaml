@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "missing-price-factor-in-claimed-shares-calculation"
+class_name: "MissingPriceFactorInClaimedSharesCalculation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56821 (MixBytes/XPress)"
+help: "Missing Price Factor in Claimed Shares Calculation"
+wiki_title: "Missing Price Factor in Claimed Shares Calculation"
+wiki_description: |
+    ##### Description
+    This issue has been identified within the `_claimOrder` function of the `ProxyLOB` contract. 
+    
+    When `isAsk = false`, the current code subtracts `(totalClaimedShares + passiveFee) * scalingFactorTokenY` from the reserves without multiplying `totalClaimedShares` by `price`. Consequen
+wiki_exploit_scenario: |
+    Per Solodit #56821: ##### Description
+    This issue has been identified within the `_claimOrder` function of the `ProxyLOB` contract. 
+    
+    When `isAsk = false`, the current code subtracts `(totalClaimedShares + passiveFee) * s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingPriceFactorInClaimedSharesCalculation"
+solodit_id: "56821"
+solodit_slug: "missing-price-factor-in-claimed-shares-calculation-mixbytes-none-xpress-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal price;"
+fn_name_regex: ".*(ProxyLOB|totalClaimedShares|price).*"
+read_var_regex: ".*(price|totalClaimedShares).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ProxyLOB"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return price > 0;"

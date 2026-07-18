@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "precision-loss-in-getdistribution-resulting-in-revert"
+class_name: "PrecisionLossInGetdistributionResultingInRevert"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Yeet - Zellic Audit Report"
+help: |
+    When a user invokes the yeet function with their funds, the function distributes the funds to multiple pots and taxes. function _yeet(uint256[] memory tokenIds) internal { // (...)
+wiki_title: "Precision loss in getDistribution resulting in revert"
+wiki_description: |
+    When a user invokes the yeet function with their funds, the function distributes the funds to multiple pots and taxes. function _yeet(uint256[] memory tokenIds) internal { // (...) ( uint valueToPot, uint valueToYeetback, uint valueToStakers, uint publicGoods, uint teamRevenue ) = getDistribution(ms
+wiki_exploit_scenario: |
+    Per audit finding: When a user invokes the yeet function with their funds, the function distributes the funds to multiple pots and taxes. function _yeet(uint256[] memory tokenIds) internal { // (...) ( uint valueToPot,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PrecisionLossInGetdistributionResultingInRevert"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(tokenIds|valueToPot|valueToYeetback).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tokenIds"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "eth-locked-in-rocketnodedeposit-contract"
+class_name: "EthLockedInRocketnodedepositContract"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53675 (SigmaPrime/Rocketpool)"
+help: "ETH Locked In RocketNodeDeposit Contract"
+wiki_title: "ETH Locked In RocketNodeDeposit Contract"
+wiki_description: |
+    ## Description
+    
+    Specific transactions using `depositWithCredit()` will result in ETH supplied as a bond being stuck in the `RocketNodeDeposit` contract indefinitely.
+    
+    The issue arises when calling `depositWithCredit()` with `msg.value == 0`, but preloading the node with sufficient balance. The downs
+wiki_exploit_scenario: |
+    Per Solodit #53675: ## Description
+    
+    Specific transactions using `depositWithCredit()` will result in ETH supplied as a bond being stuck in the `RocketNodeDeposit` contract indefinitely.
+    
+    The issue arises when calling `de
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EthLockedInRocketnodedepositContract"
+solodit_id: "53675"
+solodit_slug: "eth-locked-in-rocketnodedeposit-contract-sigmaprime-none-rocketpool-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assigndeposits;"
+fn_name_regex: ".*(depositWithCredit|RocketNodeDeposit|nodeDeposit|assignDeposits).*"
+read_var_regex: ".*(assignDeposits|depositWithCredit|nodeDeposit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositWithCredit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assigndeposits > 0;"

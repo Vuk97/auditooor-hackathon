@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "global-1-market-used-as-limit"
+class_name: "Global1MarketUsedAsLimit"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27180 (Guardian Audits/GMX)"
+help: "GLOBAL-1 | Market Used as Limit"
+wiki_title: "GLOBAL-1 | Market Used as Limit"
+wiki_description: |
+    **Description - [PoC](https://github.com/GuardianAudits/GMX/blob/af740b1972788f429219d1381183c68b244e00d8/test/guardianTestSuite/testPOCS.js#L220)**
+    
+    A `MarketIncrease` order can mimic a limit order by specifying a `minOutputAmount` to fabricate a limit price. However, `MarketIncrease` orders will a
+wiki_exploit_scenario: |
+    Per Solodit #27180: **Description - [PoC](https://github.com/GuardianAudits/GMX/blob/af740b1972788f429219d1381183c68b244e00d8/test/guardianTestSuite/testPOCS.js#L220)**
+    
+    A `MarketIncrease` order can mimic a limit order b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Global1MarketUsedAsLimit"
+solodit_id: "27180"
+solodit_slug: "global-1-market-used-as-limit-guardian-audits-none-gmx-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal acceptableprice;"
+fn_name_regex: ".*(MarketIncrease|minOutputAmount|acceptablePrice).*"
+read_var_regex: ".*(acceptablePrice|minOutputAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "MarketIncrease"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return acceptableprice > 0;"

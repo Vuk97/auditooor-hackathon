@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-05-replenishing-gas-is-missing-in-payfallbackgas-of-rootbridge"
+class_name: "M05ReplenishingGasIsMissingInPayfallbackgasOfRootbridge"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26074 (Code4rena/Maia DAO Ecosystem)"
+help: "[M-05] Replenishing gas is missing in `_payFallbackGas` of `RootBridgeAgent`"
+wiki_title: "[M-05] Replenishing gas is missing in `_payFallbackGas` of `RootBridgeAgent`"
+wiki_description: |
+    The call `_payFallbackGas` is used to update the user deposit with the amount of gas needed to pay for the `fallback` function execution. However, it doesn't replenish gas. In other words, it doesn't deposit the `executionGasSpent` into `AnycallConfig` execution budget.
+    
+    ### Proof of Concept
+    
+    Here
+wiki_exploit_scenario: |
+    Per Solodit #26074: The call `_payFallbackGas` is used to update the user deposit with the amount of gas needed to pay for the `fallback` function execution. However, it doesn't replenish gas. In other words, it doesn't
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05ReplenishingGasIsMissingInPayfallbackgasOfRootbridge"
+solodit_id: "26074"
+solodit_slug: |
+    m-05-replenishing-gas-is-missing-in-_payfallbackgas-of-rootbridgeagent-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal anyfallback;"
+fn_name_regex: ".*(fallback|executionGasSpent|AnycallConfig|anyFallback).*"
+read_var_regex: ".*(anyFallback|executionGasSpent|fallback).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "fallback"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return anyfallback > 0;"

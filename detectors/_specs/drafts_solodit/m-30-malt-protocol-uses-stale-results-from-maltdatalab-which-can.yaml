@@ -1,0 +1,35 @@
+skeleton: "state_write_without_paired_write"
+name: "m-30-malt-protocol-uses-stale-results-from-maltdatalab-which-can"
+class_name: "M30MaltProtocolUsesStaleResultsFromMaltdatalabWhichCan"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42392 (Code4rena/Malt Finance)"
+help: "[M-30] Malt Protocol Uses Stale Results From `MaltDataLab` Which Can Be Abused By Users"
+wiki_title: "[M-30] Malt Protocol Uses Stale Results From `MaltDataLab` Which Can Be Abused By Users"
+wiki_description: |
+    _Submitted by leastwood_
+    
+    `MaltDataLab` integrates several `MovingAverage` contracts to fetch sensitive data for the Malt protocol. Primary data used by the protocol consists of the real value for LP tokens, the average price for Malt and average reserve ratios. `trackMaltPrice`, `trackPoolReserves`
+wiki_exploit_scenario: |
+    Per Solodit #42392: _Submitted by leastwood_
+    
+    `MaltDataLab` integrates several `MovingAverage` contracts to fetch sensitive data for the Malt protocol. Primary data used by the protocol consists of the real value for LP
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M30MaltProtocolUsesStaleResultsFromMaltdatalabWhichCan"
+solodit_id: "42392"
+solodit_slug: |
+    m-30-malt-protocol-uses-stale-results-from-maltdatalab-which-can-be-abused-by-users-code4rena-malt-finance-malt-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(MaltDataLab|MovingAverage|trackMaltPrice|trackPoolReserves).*"
+primary_var_regex: ".*(exchangeRate|fastAveragePeriod|maltPriceAverage).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

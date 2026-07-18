@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-33-when-execute-deposit-fails-cancel-deposit-will-be-called-wh"
+class_name: "M33WhenExecuteDepositFailsCancelDepositWillBeCalledWh"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18680 (Sherlock/GMX)"
+help: |
+    M-33: when execute deposit fails, cancel deposit will be called which means that execution fee for keeper will be little for executing the cancellation depending on where the execu
+wiki_title: |
+    M-33: when execute deposit fails, cancel deposit will be called which means that execution fee for keeper will be little for executing the cancellation dependin
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-02-gmx-judging/issues/89 
+    
+    ## Found by 
+    koxuan
+    
+    ## Summary
+    When execute deposit fails, the deposit will be automatically cancelled. However, since executeDeposit has taken up a portion of the execution fee,  execution fee left for cancellation might be
+wiki_exploit_scenario: |
+    Per Solodit #18680: Source: https://github.com/sherlock-audit/2023-02-gmx-judging/issues/89 
+    
+    ## Found by 
+    koxuan
+    
+    ## Summary
+    When execute deposit fails, the deposit will be automatically cancelled. However, since execut
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M33WhenExecuteDepositFailsCancelDepositWillBeCalledWh"
+solodit_id: "18680"
+solodit_slug: |
+    m-33-when-execute-deposit-fails-cancel-deposit-will-be-called-which-means-that-execution-fee-for-keeper-will-be-little-for-executing-the-cancellation-depending-on-where-the-executedeposit-fails-sherlock-none-gmx-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal canceldeposit;"
+fn_name_regex: ".*(executeDeposit|cancelDeposit|executeWithdrawal).*"
+read_var_regex: ".*(cancelDeposit|executeDeposit|executeWithdrawal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "executeDeposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return canceldeposit > 0;"

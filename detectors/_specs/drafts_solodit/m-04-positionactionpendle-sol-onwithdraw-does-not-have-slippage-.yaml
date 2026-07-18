@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-04-positionactionpendle-sol-onwithdraw-does-not-have-slippage-"
+class_name: "M04PositionactionpendleSolOnwithdrawDoesNotHaveSlippage"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49116 (Code4rena/LoopFi)"
+help: "[M-04] `PositionActionPendle.sol#_onWithdraw` does not have slippage parameter `minOut` set"
+wiki_title: "[M-04] `PositionActionPendle.sol#_onWithdraw` does not have slippage parameter `minOut` set"
+wiki_description: |
+    When performing withdraws on `PositionActionPendle` and exiting Pendle pools, users may lose funds due to not setting slippage.
+    
+    ### Bug Description
+    
+    *Note: This is a new issue that was introduced by the latest code diff.*
+    
+    The dataflow for withdrawing on `PositionActionPendle` is:
+    1. User withdraw
+wiki_exploit_scenario: |
+    Per Solodit #49116: When performing withdraws on `PositionActionPendle` and exiting Pendle pools, users may lose funds due to not setting slippage.
+    
+    ### Bug Description
+    
+    *Note: This is a new issue that was introduced by
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04PositionactionpendleSolOnwithdrawDoesNotHaveSlippage"
+solodit_id: "49116"
+solodit_slug: |
+    m-04-positionactionpendlesol_onwithdraw-does-not-have-slippage-parameter-minout-set-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal minout;"
+fn_name_regex: ".*(PositionActionPendle|minOut).*"
+read_var_regex: ".*(minOut).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "PositionActionPendle"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return minout > 0;"

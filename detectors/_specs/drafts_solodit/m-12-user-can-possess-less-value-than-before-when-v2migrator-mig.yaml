@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "m-12-user-can-possess-less-value-than-before-when-v2migrator-mig"
+class_name: "M12UserCanPossessLessValueThanBeforeWhenV2migratorMig"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #48968 (Code4rena/Rubicon)"
+help: |
+    [M-12] User can possess less value than before when `V2Migrator.migrate` function is called to give up `bathTokenV1` tokens and hold `bathTokenV2` tokens
+wiki_title: |
+    [M-12] User can possess less value than before when `V2Migrator.migrate` function is called to give up `bathTokenV1` tokens and hold `bathTokenV2` tokens
+wiki_description: |
+    Calling the following `V2Migrator.migrate` function executes `uint256 amountWithdrawn = bathTokenV1.withdraw(bathBalance)`.
+    
+    <https://github.com/code-423n4/2023-04-rubicon/blob/main/contracts/V2Migrator.sol#L38-L74>
+    
+    ```solidity
+        function migrate(IBathToken bathTokenV1) external {
+            //////
+wiki_exploit_scenario: |
+    Per Solodit #48968: Calling the following `V2Migrator.migrate` function executes `uint256 amountWithdrawn = bathTokenV1.withdraw(bathBalance)`.
+    
+    <https://github.com/code-423n4/2023-04-rubicon/blob/main/contracts/V2Migra
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12UserCanPossessLessValueThanBeforeWhenV2migratorMig"
+solodit_id: "48968"
+solodit_slug: |
+    m-12-user-can-possess-less-value-than-before-when-v2migratormigrate-function-is-called-to-give-up-bathtokenv1-tokens-and-hold-bathtokenv2-tokens-code4rena-rubicon-rubicon-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amountwithdrawn;"
+fn_name_regex: ".*(amountWithdrawn|V2Migrator|bathTokenV1|bathTokenV2).*"
+write_var_regex: ".*(amountWithdrawn).*"
+guard_var_regex: ".*(amountWithdrawn).*"
+vuln_fn_name: "amountWithdrawn"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amountwithdrawn = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

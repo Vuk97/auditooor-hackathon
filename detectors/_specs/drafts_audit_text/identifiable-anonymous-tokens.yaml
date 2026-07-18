@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "identifiable-anonymous-tokens"
+class_name: "IdentifiableAnonymousTokens"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Memecoin Launcher - Zellic Audit Report"
+help: |
+    A new token is launched by the launchToken function. This function takes as parameter the token data, like its name and symbol, and an argument isAnon to decide if the token is ano
+wiki_title: "Identifiable anonymous tokens"
+wiki_description: |
+    A new token is launched by the launchToken function. This function takes as parameter the token data, like its name and symbol, and an argument isAnon to decide if the token is anonymously de- ployed. If isAnon is set to true, the token data saves the null address as the deployer: Token memory token
+wiki_exploit_scenario: |
+    Per audit finding: A new token is launched by the launchToken function. This function takes as parameter the token data, like its name and symbol, and an argument isAnon to decide if the token is anonymously de- ployed.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IdentifiableAnonymousTokens"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "case-sensitive-address-check-allows-for-double-signing"
+class_name: "CaseSensitiveAddressCheckAllowsForDoubleSigning"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit ZetaChain - 6.30.23 Zellic Audit Report"
+help: |
+    The IsDuplicateSigner() function is used to check whether a given address already exists within a list of signers. It does this by doing a string comparison, which is case sensitiv
+wiki_title: "Case-sensitive address check allows for double signing"
+wiki_description: |
+    The IsDuplicateSigner() function is used to check whether a given address already exists within a list of signers. It does this by doing a string comparison, which is case sensitive. func isDuplicateSigner(creator string, signers []string) bool { for _, v :) range signers { if creator =) v { return
+wiki_exploit_scenario: |
+    Per audit finding: The IsDuplicateSigner() function is used to check whether a given address already exists within a list of signers. It does this by doing a string comparison, which is case sensitive. func isDuplicateS
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CaseSensitiveAddressCheckAllowsForDoubleSigning"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(isDuplicateSigner|eateTSSVoter|msgServer).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "isDuplicateSigner"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

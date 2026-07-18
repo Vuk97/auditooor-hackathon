@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-18-shift-overflow-in-getequivalentliq-inflates-lp-shares"
+class_name: "M18ShiftOverflowInGetequivalentliqInflatesLpShares"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63197 (Sherlock/Ammplify)"
+help: "M-18: Shift-Overflow in getEquivalentLiq Inflates LP Shares"
+wiki_title: "M-18: Shift-Overflow in getEquivalentLiq Inflates LP Shares"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-09-ammplify-judging/issues/442 
+    
+    ## Found by 
+    K42, maigadoh
+    
+    ## Summary
+    `PoolLib.getEquivalentLiq` computes the liquidity-equivalent value of token balances using left shifts prior to division. The term `(lyX128 << 96) / sqrtPriceX96` can overflow 256
+wiki_exploit_scenario: |
+    Per Solodit #63197: Source: https://github.com/sherlock-audit/2025-09-ammplify-judging/issues/442 
+    
+    ## Found by 
+    K42, maigadoh
+    
+    ## Summary
+    `PoolLib.getEquivalentLiq` computes the liquidity-equivalent value of token bala
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18ShiftOverflowInGetequivalentliqInflatesLpShares"
+solodit_id: "63197"
+solodit_slug: "m-18-shift-overflow-in-getequivalentliq-inflates-lp-shares-sherlock-ammplify-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal equivliq;"
+fn_name_regex: ".*(equivLiq|getEquivalentLiq|liqValueX128|sqrtPriceX96).*"
+read_var_regex: ".*(equivLiq|getEquivalentLiq|liqValueX128).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "equivLiq"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return equivliq > 0;"

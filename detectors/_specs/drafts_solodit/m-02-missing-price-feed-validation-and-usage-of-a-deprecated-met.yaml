@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "m-02-missing-price-feed-validation-and-usage-of-a-deprecated-met"
+class_name: "M02MissingPriceFeedValidationAndUsageOfADeprecatedMet"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20596 (Pashov Audit Group/Bloom)"
+help: "[M-02] Missing price feed validation and usage of a deprecated method can lead to 0 price"
+wiki_title: "[M-02] Missing price feed validation and usage of a deprecated method can lead to 0 price"
+wiki_description: |
+    **Impact:**
+    High, as using a 0 price would mess the swap calculations
+    
+    **Likelihood:**
+    Low, as it requires a malfunctioning price feed
+    
+    **Description**
+    
+    The `_getTokenPrices` method in `SwapFacility` makes use of the `latestAnswer` method from Chainlink price feeds. The problem is that the NatSpec o
+wiki_exploit_scenario: |
+    Per Solodit #20596: **Impact:**
+    High, as using a 0 price would mess the swap calculations
+    
+    **Likelihood:**
+    Low, as it requires a malfunctioning price feed
+    
+    **Description**
+    
+    The `_getTokenPrices` method in `SwapFacility`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02MissingPriceFeedValidationAndUsageOfADeprecatedMet"
+solodit_id: "20596"
+solodit_slug: |
+    m-02-missing-price-feed-validation-and-usage-of-a-deprecated-method-can-lead-to-0-price-pashov-none-bloom-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal billytoken;"
+fn_name_regex: ".*(SwapFacility|latestAnswer|underlyingToken|billyToken).*"
+write_var_regex: ".*(billyToken|latestAnswer|latestRoundData).*"
+guard_var_regex: ".*(billyToken|latestAnswer|latestRoundData).*"
+vuln_fn_name: "SwapFacility"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "billytoken = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

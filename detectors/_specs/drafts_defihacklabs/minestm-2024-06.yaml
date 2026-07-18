@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "minestm-2024-06"
+class_name: "Minestm202406"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-06/MineSTM_exp.sol"
+help: "MineSTM 2024-06 — swap exploit ($13.8K)"
+wiki_title: "MineSTM (2024-06) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-06): MineSTM lost $13.8K. Bug class: swap. Attack tx: 0x849ed7f687cc2ebd1f7c4bed0849893e829a74f512b7f4a18aea39a3ef4d83b1.
+wiki_exploit_scenario: |
+    Attacker (unknown) exploits MineSTM via swap: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Minestm202406"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

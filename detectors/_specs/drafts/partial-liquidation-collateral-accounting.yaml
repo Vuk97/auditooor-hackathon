@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "partial-liquidation-collateral-accounting"
+class_name: "PartialLiquidationCollateralAccounting"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_aa"
+help: |
+    Partial liquidation seizes frozen collateral but does not update `loan.frozenCollateralAmount`; borrower can later repay remaining dust and unlock full original collateral, creatin
+wiki_title: "partial-liquidation-collateral-accounting"
+wiki_description: |
+    Partial liquidation seizes frozen collateral but does not update `loan.frozenCollateralAmount`; borrower can later repay remaining dust and unlock full original collateral, creating collateral-free second loan.
+wiki_exploit_scenario: |
+    Attacker exploits partial-liquidation-collateral-accounting as described: Partial liquidation seizes frozen collateral but does not update `loan.frozenCollateralAmount`; borrower can later repay remaining dust and unlock full original collateral, creating collateral-free se
+wiki_recommendation: "`liquidate` function that sets `loan.amount` but does not write to `loan.frozenCollateralAmount`."
+contract_name: "PartialLiquidationCollateralAccounting"
+state_decl: "uint256 internal liquidate;"
+fn_name_regex: ".*(liquidate).*"
+read_var_regex: ".*(liquidate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return liquidate > 0;"

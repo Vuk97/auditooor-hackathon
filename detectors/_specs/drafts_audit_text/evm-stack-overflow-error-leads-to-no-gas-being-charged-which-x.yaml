@@ -1,0 +1,27 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "evm-stack-overflow-error-leads-to-no-gas-being-charged-which-x"
+class_name: "EvmStackOverflowErrorLeadsToNoGasBeingChargedWhichX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-initia-cosmos"
+help: |
+    berndartmueller Finding description and impact Both the EVMCallWithTracer() and EVMCreateWithTracer() functions check the special case where gasRemaining == 0 && err != nil && err
+wiki_title: |
+    EVM stack overflow error leads to no gas being charged, which can be exploited to DoS the chain by dispatching EVM calls via the cosmos precompile
+wiki_description: |
+    berndartmueller Finding description and impact Both the EVMCallWithTracer() and EVMCreateWithTracer() functions check the special case where gasRemaining == 0 && err != nil && err != vm.ErrOutOfGas , which can happen in scenarios like: Stack overflow errors Invalid jump destinations Invalid opcodes
+wiki_exploit_scenario: |
+    Per audit finding: berndartmueller Finding description and impact Both the EVMCallWithTracer() and EVMCreateWithTracer() functions check the special case where gasRemaining == 0 && err != nil && err != vm.ErrOutOfGas ,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EvmStackOverflowErrorLeadsToNoGasBeingChargedWhichX"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(gasRemaining|dispatchMessage|consumeGas).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,18 @@
+id: flash-liq-repays-twice
+title: "Flash liquidation repays the same debt twice across two obligations"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44847"
+bug_class: liquidation
+indicators:
+  - "flash-liq flow calls `burn_scaled` once but accounts-for the repayment on two separate debt tracking structs"
+  - "duplicate write to both debt token and an auxiliary 'liquidation obligation' store"
+victim: "Protocol: ledger shows debt repaid even though flash-loan did not cover it."
+exploit_precondition: "Liquidator triggers the flash-liq path."
+real_world_example: |
+  V12 #44847 (Low): Flash liquidation repays once for two separate obligations.
+suggested_remediation: "Route all debt write-down through a single function; remove the parallel accounting path."
+cross_refs: []

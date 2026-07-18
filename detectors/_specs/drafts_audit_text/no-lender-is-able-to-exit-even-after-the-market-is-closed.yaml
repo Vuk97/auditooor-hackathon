@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "no-lender-is-able-to-exit-even-after-the-market-is-closed"
+class_name: "NoLenderIsAbleToExitEvenAfterTheMarketIsClosed"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-08-wildcat"
+help: |
+    0xpiken , also found by josephxander and 0xNirix When a borrower creates a market hooked by a fixed-term hook , all lenders are prohibited from withdrawing their assets from the ma
+wiki_title: "No lender is able to exit even after the market is closed"
+wiki_description: |
+    0xpiken , also found by josephxander and 0xNirix When a borrower creates a market hooked by a fixed-term hook , all lenders are prohibited from withdrawing their assets from the market before the fixed-term time has elapsed. The borrower can close the market at any time. However, fixedTermEndTime of
+wiki_exploit_scenario: |
+    Per audit finding: 0xpiken , also found by josephxander and 0xNirix When a borrower creates a market hooked by a fixed-term hook , all lenders are prohibited from withdrawing their assets from the market before the fixe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoLenderIsAbleToExitEvenAfterTheMarketIsClosed"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(fixedTermEndTime|closeMarket|fixedTermHookTemplate).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "fixedTermEndTime"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,20 @@
+id: i128-bounds-unchecked-cast
+title: "Missing i128 bounds checks cause wrapped conversions"
+severity: Info
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.49"
+bug_class: precision-loss
+indicators:
+  - "`value as i128` / `as u128` / `.try_into().unwrap()` on cross-boundary conversions"
+  - "no `if value > i128::MAX as u128 { return Err(..) }` before cast"
+victim: "Protocol: value wraps negative and subsequent logic is wildly wrong."
+exploit_precondition: "Inputs near the u128/i128 boundary."
+real_world_example: |
+  Halborn 7.49 (INFO): Missing i128 bounds checks throughout codebase can cause wrapped conversions.
+suggested_remediation: "Use `i128::try_from(u128_val)` and propagate the error."
+cross_refs:
+  - unchecked-u128-addition-overflow
+  - redstone-u256-silent-truncation

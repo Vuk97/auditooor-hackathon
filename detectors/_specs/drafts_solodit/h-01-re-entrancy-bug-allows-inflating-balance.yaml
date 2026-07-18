@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "h-01-re-entrancy-bug-allows-inflating-balance"
+class_name: "H01ReEntrancyBugAllowsInflatingBalance"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3856 (Code4rena/Marginswap)"
+help: "[H-01] Re-entrancy bug allows inflating balance"
+wiki_title: "[H-01] Re-entrancy bug allows inflating balance"
+wiki_description: |
+    One can call the `MarginRouter.crossSwapExactTokensForTokens` function first with a fake contract disguised as a token pair:
+    `crossSwapExactTokensForTokens(0.0001 WETH, 0, [ATTACKER_CONTRACT], [WETH, WBTC])`. When the amounts are computed by the `amounts = UniswapStyleLib.getAmountsOut(amountIn -
+wiki_exploit_scenario: |
+    Per Solodit #3856: One can call the `MarginRouter.crossSwapExactTokensForTokens` function first with a fake contract disguised as a token pair:
+    `crossSwapExactTokensForTokens(0.0001 WETH, 0, [ATTACKER_CONTRACT], [WETH
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01ReEntrancyBugAllowsInflatingBalance"
+solodit_id: "3856"
+solodit_slug: "h-01-re-entrancy-bug-allows-inflating-balance-code4rena-marginswap-marginswap-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal crossswapexacttokensfortokens;"
+fn_name_regex: ".*(crossSwapExactTokensForTokens|registerTrade|startingBalance|MarginRouter).*"
+read_var_regex: ".*(crossSwapExactTokensForTokens|registerTrade|startingBalance).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "crossSwapExactTokensForTokens"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return crossswapexacttokensfortokens > 0;"

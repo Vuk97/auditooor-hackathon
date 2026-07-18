@@ -1,0 +1,47 @@
+skeleton: "state_write_without_paired_write"
+name: "getlastmarketstate-does-not-update-the-market-properly"
+class_name: "GetlastmarketstateDoesNotUpdateTheMarketProperly"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #46371 (Cantina/Dahlia)"
+help: "getLastMarketState does not update the market properly"
+wiki_title: "getLastMarketState does not update the market properly "
+wiki_description: |
+    ## Context: InterestImpl.sol#L80-L101
+    
+    ## Description
+    The function `getLastMarketState` is used in the following endpoints:
+    - `previewLendRateAfterDeposit`
+    - `getMarket`
+    - `getMaxBorrowableAmount`
+    - `getPositionLTV`
+    - `getPositionInterest`
+    
+    In all these endpoints, except `previewLendRateAfterDeposit
+wiki_exploit_scenario: |
+    Per Solodit #46371: ## Context: InterestImpl.sol#L80-L101
+    
+    ## Description
+    The function `getLastMarketState` is used in the following endpoints:
+    - `previewLendRateAfterDeposit`
+    - `getMarket`
+    - `getMaxBorrowableAmount`
+    - `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GetlastmarketstateDoesNotUpdateTheMarketProperly"
+solodit_id: "46371"
+solodit_slug: "getlastmarketstate-does-not-update-the-market-properly-cantina-none-dahlia-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getLastMarketState|previewLendRateAfterDeposit|getMarket|getMaxBorrowableAmount).*"
+primary_var_regex: ".*(getLastMarketState|getMarket|getMaxBorrowableAmount).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

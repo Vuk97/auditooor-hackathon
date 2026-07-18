@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "m-08-mistakenly-sent-eth-could-be-locked"
+class_name: "M08MistakenlySentEthCouldBeLocked"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6248 (Code4rena/Debt DAO)"
+help: "[M-08] Mistakenly sent eth could be locked"
+wiki_title: "[M-08] Mistakenly sent eth could be locked"
+wiki_description: |
+    If ERC20 and eth are transferred at same time, the mistakenly sent eth will be locked.
+    
+    There are several functions that could be affected and cause user fund lock:
+    
+    *   `addCollateral()`
+    *   `addCredit()`
+    *   `increaseCredit()`
+    *   `depositAndClose()`
+    *   `depositAndRepay()`
+    *   `close()`
+    
+    ### Pro
+wiki_exploit_scenario: |
+    Per Solodit #6248: If ERC20 and eth are transferred at same time, the mistakenly sent eth will be locked.
+    
+    There are several functions that could be affected and cause user fund lock:
+    
+    *   `addCollateral()`
+    *   `addCre
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08MistakenlySentEthCouldBeLocked"
+solodit_id: "6248"
+solodit_slug: "m-08-mistakenly-sent-eth-could-be-locked-code4rena-debt-dao-debt-dao-contest-git"
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Refund Ether"
+state_decl: "uint256 internal addcollateral;"
+fn_name_regex: ".*(addCollateral|addCredit|increaseCredit|depositAndClose).*"
+read_var_regex: ".*(addCollateral|addCredit|close).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "addCollateral"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addcollateral > 0;"

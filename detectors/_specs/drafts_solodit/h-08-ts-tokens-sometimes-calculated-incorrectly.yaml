@@ -1,0 +1,46 @@
+skeleton: "paired_function_divergence"
+name: "h-08-ts-tokens-sometimes-calculated-incorrectly"
+class_name: "H08TsTokensSometimesCalculatedIncorrectly"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1133 (Code4rena/Streaming Protocol)"
+help: "[H-08] ts.tokens sometimes calculated incorrectly"
+wiki_title: "[H-08] ts.tokens sometimes calculated incorrectly"
+wiki_description: |
+    _Submitted by gpersoon, also found by WatchPug_
+    
+    #### Impact
+    
+    Suppose someone stakes some tokens and then withdraws all of his tokens (he can still withdraw). This will result in ts.tokens being 0.
+    
+    Now after some time he stakes some tokens again.
+    At the second stake `updateStream()` is called and t
+wiki_exploit_scenario: |
+    Per Solodit #1133: _Submitted by gpersoon, also found by WatchPug_
+    
+    #### Impact
+    
+    Suppose someone stakes some tokens and then withdraws all of his tokens (he can still withdraw). This will result in ts.tokens being 0.
+    
+    N
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H08TsTokensSometimesCalculatedIncorrectly"
+solodit_id: "1133"
+solodit_slug: |
+    h-08-tstokens-sometimes-calculated-incorrectly-code4rena-streaming-protocol-streaming-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(updateStream).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

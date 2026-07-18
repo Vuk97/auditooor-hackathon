@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "redundant-view-methods"
+class_name: "RedundantViewMethods"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "hexens audit FastToken_public"
+help: |
+    The listed methods duplicate the functionality provided by the compiler for all public variables, which include a getter in the ABI, making them or the custom getters redundant. fu
+wiki_title: "REDUNDANT VIEW METHODS"
+wiki_description: |
+    The listed methods duplicate the functionality provided by the compiler for all public variables, which include a getter in the ABI, making them or the custom getters redundant. function getOwners() public view returns (address[] memory) { return owners; } … function getTransactions() public view re
+wiki_exploit_scenario: |
+    Per audit finding: The listed methods duplicate the functionality provided by the compiler for all public variables, which include a getter in the ABI, making them or the custom getters redundant. function getOwners() p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RedundantViewMethods"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getOwners|getTransactions).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getOwners"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

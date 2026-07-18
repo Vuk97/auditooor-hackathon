@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "m-31-discrepancy-between-the-lastrewadtime-and-the-lastallpoolup"
+class_name: "M31DiscrepancyBetweenTheLastrewadtimeAndTheLastallpoolup"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49068 (Code4rena/LoopFi)"
+help: |
+    [M-31] Discrepancy between the `lastRewadTime` and the `lastAllPoolUpdate` can allow for incorrect reward distribution to pools if `registerRewardDeposit` deposits less assets
+wiki_title: |
+    [M-31] Discrepancy between the `lastRewadTime` and the `lastAllPoolUpdate` can allow for incorrect reward distribution to pools if `registerRewardDeposit` depos
+wiki_description: |
+    Incorrect reward distribution causing some pools to gain more while others to gain less.
+    
+    ### Proof of Concept
+    
+    The `_massUpdatePools` function always sets `lastAllPoolUpdate = block.timestamp`:
+    
+    ```solidity
+        function _massUpdatePools() internal {
+            uint256 totalAP = totalAllocPoint;
+wiki_exploit_scenario: |
+    Per Solodit #49068: Incorrect reward distribution causing some pools to gain more while others to gain less.
+    
+    ### Proof of Concept
+    
+    The `_massUpdatePools` function always sets `lastAllPoolUpdate = block.timestamp`:
+    
+    ```
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M31DiscrepancyBetweenTheLastrewadtimeAndTheLastallpoolup"
+solodit_id: "49068"
+solodit_slug: |
+    m-31-discrepancy-between-the-lastrewadtime-and-the-lastallpoolupdate-can-allow-for-incorrect-reward-distribution-to-pools-if-registerrewarddeposit-deposits-less-assets-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal endrewardtime;"
+fn_name_regex: ".*(individualPool|endRewardTime|rewardsPerSecond|lastRewadTime).*"
+write_var_regex: ".*(endRewardTime|individualPool|rewardsPerSecond).*"
+guard_var_regex: ".*(endRewardTime|individualPool|rewardsPerSecond).*"
+vuln_fn_name: "individualPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "endrewardtime = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

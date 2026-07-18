@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "openposition-should-not-charge-fees-on-marginfrom-or-charge-fees"
+class_name: "OpenpositionShouldNotChargeFeesOnMarginfromOrChargeFees"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #40715 (Cantina/Particle)"
+help: "openPosition should not charge fees on marginfrom or charge fees on marginTo as well"
+wiki_title: "openPosition should not charge fees on marginfrom or charge fees on marginTo as well "
+wiki_description: |
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    In `openPosition`, `marginFrom + amountFromBorrowed` is used as the base for calculating the fee:
+    
+    ```javascript
+    if (cache.feeFactor > 0) {
+        cache.feeAmount = ((params.marginFrom + cache.amountFromBorrowed) * cache.feeFac
+wiki_exploit_scenario: |
+    Per Solodit #40715: ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    In `openPosition`, `marginFrom + amountFromBorrowed` is used as the base for calculating the fee:
+    
+    ```javascript
+    if (cache.f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OpenpositionShouldNotChargeFeesOnMarginfromOrChargeFees"
+solodit_id: "40715"
+solodit_slug: |
+    openposition-should-not-charge-fees-on-marginfrom-or-charge-fees-on-marginto-as-well-cantina-none-particle-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal feeamount;"
+fn_name_regex: ".*(openPosition|marginFrom|marginTo|feeAmount).*"
+read_var_regex: ".*(feeAmount|marginFrom|marginTo).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "openPosition"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return feeamount > 0;"

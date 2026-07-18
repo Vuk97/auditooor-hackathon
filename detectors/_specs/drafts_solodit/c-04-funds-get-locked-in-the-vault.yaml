@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_require"
+name: "c-04-funds-get-locked-in-the-vault"
+class_name: "C04FundsGetLockedInTheVault"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53315 (Pashov Audit Group/Omo_2025-01-25)"
+help: "[C-04] Funds get locked in the vault"
+wiki_title: "[C-04] Funds get locked in the vault"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    In case:
+    
+    - User X requests to redeem shares for assets and set `receiver` for Y
+    - Agent Z registered in the Dynamic Account of user X will remove liquidity from Uniswap V3
+    - Agent Z calls `OmoVault.sol#topOff()` function.
+    
+    But the
+wiki_exploit_scenario: |
+    Per Solodit #53315: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    In case:
+    
+    - User X requests to redeem shares for assets and set `receiver` for Y
+    - Agent Z registered in the Dynamic Account of use
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C04FundsGetLockedInTheVault"
+solodit_id: "53315"
+solodit_slug: "c-04-funds-get-locked-in-the-vault-pashov-audit-group-none-omo_2025-01-25-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal receiver;"
+fn_name_regex: ".*(receiver|topOff|userAccount).*"
+write_var_regex: ".*(receiver|topOff|userAccount).*"
+guard_var_regex: ".*(receiver|topOff|userAccount).*"
+vuln_fn_name: "receiver"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "receiver = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

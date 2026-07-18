@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "relayers-can-steal-funds-by-manipulating-intended-relayer-an-x"
+class_name: "RelayersCanStealFundsByManipulatingIntendedRelayerAnX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Singularity - Zellic Audit Report"
+help: |
+    For many transactions, relayers are sent a fee for their gas costs and other costs. As an example, let us consider the function withdrawERC20 of the DarkpoolAssetManager, which is
+wiki_title: "Relayers can steal funds by manipulating intended relayer and relayer fee"
+wiki_description: |
+    For many transactions, relayers are sent a fee for their gas costs and other costs. As an example, let us consider the function withdrawERC20 of the DarkpoolAssetManager, which is implemented as follows: function withdrawERC20( address _asset, bytes calldata _proof, bytes32 _merkleRoot, bytes32 _nul
+wiki_exploit_scenario: |
+    Per audit finding: For many transactions, relayers are sent a fee for their gas costs and other costs. As an example, let us consider the function withdrawERC20 of the DarkpoolAssetManager, which is implemented as follo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RelayersCanStealFundsByManipulatingIntendedRelayerAnX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawERC20|isPermitted|isRelayerRegistered).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "withdrawERC20"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

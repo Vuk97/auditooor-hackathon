@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "xmsg-execution-can-be-halted-or-delayed"
+class_name: "XmsgExecutionCanBeHaltedOrDelayed"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53655 (SigmaPrime/Omni Network)"
+help: "XMsg Execution Can Be Halted Or Delayed"
+wiki_title: "XMsg Execution Can Be Halted Or Delayed"
+wiki_description: |
+    ## Description
+    
+    The `validatorSetId` is not included in each XBlock header and is an arbitrary input parameter in `xsubmit()` inside `XTypes.Submission`:
+    
+    ```solidity
+    // OmniPortal.sol
+    // Line 172
+    uint64 valSetId = xsub.validatorSetId;
+    ```
+    
+    This means that it is possible for an `XSubmission` to prov
+wiki_exploit_scenario: |
+    Per Solodit #53655: ## Description
+    
+    The `validatorSetId` is not included in each XBlock header and is an arbitrary input parameter in `xsubmit()` inside `XTypes.Submission`:
+    
+    ```solidity
+    // OmniPortal.sol
+    // Line 172
+    uin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "XmsgExecutionCanBeHaltedOrDelayed"
+solodit_id: "53655"
+solodit_slug: "xmsg-execution-can-be-halted-or-delayed-sigmaprime-none-omni-network-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal attestationroot;"
+fn_name_regex: ".*(validatorSetId|xsubmit|XSubmission|XMsg).*"
+read_var_regex: ".*(attestationRoot|lastValSetId|valSetId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "validatorSetId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return attestationroot > 0;"

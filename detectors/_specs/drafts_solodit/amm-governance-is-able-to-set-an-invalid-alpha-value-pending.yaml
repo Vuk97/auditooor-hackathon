@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "amm-governance-is-able-to-set-an-invalid-alpha-value-pending"
+class_name: "AmmGovernanceIsAbleToSetAnInvalidAlphaValuePending"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #13716 (ConsenSys/MCDEX Mai Protocol V2)"
+help: "AMM - Governance is able to set an invalid alpha value  Pending"
+wiki_title: "AMM - Governance is able to set an invalid alpha value  Pending"
+wiki_description: |
+    #### Resolution
+    
+    
+    
+    This issue was addressed by checking that the provided `emaAlpha <= 1 WAD`. This would allow a data smoothing factor of 1 which causes `emaAlpha2` and `emaAlpha2Ln` to go zero which should not be allowed. As outlined in the recommendation, check `0 < α < 1` instead.
+    
+    
+    #### Descrip
+wiki_exploit_scenario: |
+    Per Solodit #13716: #### Resolution
+    
+    
+    
+    This issue was addressed by checking that the provided `emaAlpha <= 1 WAD`. This would allow a data smoothing factor of 1 which causes `emaAlpha2` and `emaAlpha2Ln` to go zero which
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AmmGovernanceIsAbleToSetAnInvalidAlphaValuePending"
+solodit_id: "13716"
+solodit_slug: |
+    amm-governance-is-able-to-set-an-invalid-alpha-value-pending-consensys-mcdex-mai-protocol-v2-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal emaalpha;"
+fn_name_regex: ".*(emaAlpha2|emaAlpha2Ln|emaAlpha).*"
+write_var_regex: ".*(emaAlpha|emaAlpha2|emaAlpha2Ln).*"
+guard_var_regex: ".*(emaAlpha|emaAlpha2|emaAlpha2Ln).*"
+vuln_fn_name: "emaAlpha2"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "emaalpha = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

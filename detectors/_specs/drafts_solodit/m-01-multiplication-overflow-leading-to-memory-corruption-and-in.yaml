@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-01-multiplication-overflow-leading-to-memory-corruption-and-in"
+class_name: "M01MultiplicationOverflowLeadingToMemoryCorruptionAndIn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36603 (Code4rena/Optimism)"
+help: "[M-01] Multiplication overflow leading to memory corruption and incorrect register write-back"
+wiki_title: "[M-01] Multiplication overflow leading to memory corruption and incorrect register write-back"
+wiki_description: |
+    <https://github.com/code-423n4/2024-07-optimism/blob/main/packages/contracts-bedrock/src/cannon/MIPS.sol#L967><br><https://github.com/code-423n4/2024-07-optimism/blob/main/packages/contracts-bedrock/src/cannon/MIPS.sol#L763>
+    
+    ### Impact
+    
+    The unchecked multiplication of int32 values (rs and rt) and
+wiki_exploit_scenario: |
+    Per Solodit #36603: <https://github.com/code-423n4/2024-07-optimism/blob/main/packages/contracts-bedrock/src/cannon/MIPS.sol#L967><br><https://github.com/code-423n4/2024-07-optimism/blob/main/packages/contracts-bedrock/
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01MultiplicationOverflowLeadingToMemoryCorruptionAndIn"
+solodit_id: "36603"
+solodit_slug: |
+    m-01-multiplication-overflow-leading-to-memory-corruption-and-incorrect-register-write-back-code4rena-optimism-optimism-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(storeAddr|writeMem|handleRd|rdReg).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "storeAddr"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

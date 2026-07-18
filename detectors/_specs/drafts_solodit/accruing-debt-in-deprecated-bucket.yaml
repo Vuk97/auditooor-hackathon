@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "accruing-debt-in-deprecated-bucket"
+class_name: "AccruingDebtInDeprecatedBucket"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #59035 (Quantstamp/Primex Finance)"
+help: "Accruing Debt in Deprecated Bucket"
+wiki_title: "Accruing Debt in Deprecated Bucket"
+wiki_description: |
+    **Update**
+    The team fixed the issue in the commit `711d76e`. An extra `position.bucket.isActive()` check occurs in the `PositionLibrary.decreaseDeposit()` function.
+    
+    We have verified that currently, all places calling `Bucket.increaseDebt()` have the validation of the bucket status. However, as a be
+wiki_exploit_scenario: |
+    Per Solodit #59035: **Update**
+    The team fixed the issue in the commit `711d76e`. An extra `position.bucket.isActive()` check occurs in the `PositionLibrary.decreaseDeposit()` function.
+    
+    We have verified that currently, a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AccruingDebtInDeprecatedBucket"
+solodit_id: "59035"
+solodit_slug: "accruing-debt-in-deprecated-bucket-quantstamp-primex-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(Bucket|BUCKET_DELISTED|increaseDebt|deposit).*"
+read_var_regex: ".*(deposit|increaseDebt).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Bucket"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposit > 0;"

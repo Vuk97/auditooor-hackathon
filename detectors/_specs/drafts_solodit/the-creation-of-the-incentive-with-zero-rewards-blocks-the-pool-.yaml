@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "the-creation-of-the-incentive-with-zero-rewards-blocks-the-pool-"
+class_name: "TheCreationOfTheIncentiveWithZeroRewardsBlocksThePool"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27882 (MixBytes/Algebra Finance)"
+help: "The creation of the incentive with zero rewards blocks the pool's incentive system"
+wiki_title: "The creation of the incentive with zero rewards blocks the pool's incentive system"
+wiki_description: |
+    ##### Description
+    It's possible to create an incentive with 0 rewards using `AlgebraEternalFarming.createEternalFarming()`:
+    https://github.com/cryptoalgebra/Algebra/blob/7290fad656bfa89db3743c52af631154f6a8a2d5/src/tokenomics/contracts/farmings/AlgebraEternalFarming.sol#L103.
+    Later `AlgebraEternalFa
+wiki_exploit_scenario: |
+    Per Solodit #27882: ##### Description
+    It's possible to create an incentive with 0 rewards using `AlgebraEternalFarming.createEternalFarming()`:
+    https://github.com/cryptoalgebra/Algebra/blob/7290fad656bfa89db3743c52af6311
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheCreationOfTheIncentiveWithZeroRewardsBlocksThePool"
+solodit_id: "27882"
+solodit_slug: |
+    the-creation-of-the-incentive-with-zero-rewards-blocks-the-pools-incentive-system-mixbytes-none-algebra-finance-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(createEternalFarming|deactivateIncentive|decreaseRewardsAmount|addRewards).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "createEternalFarming"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

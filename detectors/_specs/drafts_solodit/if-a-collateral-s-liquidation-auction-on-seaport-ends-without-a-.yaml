@@ -1,0 +1,51 @@
+skeleton: "state_write_without_paired_write"
+name: "if-a-collateral-s-liquidation-auction-on-seaport-ends-without-a-"
+class_name: "IfACollateralSLiquidationAuctionOnSeaportEndsWithoutA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7298 (Spearbit/Astaria)"
+help: |
+    If a collateral's liquidation auction on Seaport ends without a winning bid, the call to liquidatorNFTClaim does not clear the related data on LienToken 's side and also for payee
+wiki_title: |
+    If a collateral's liquidation auction on Seaport ends without a winning bid, the call to liquidatorNFTClaim does not clear the related data on LienToken 's side
+wiki_description: |
+    ## High Risk Vulnerability Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    `CollateralToken.sol#L107`
+    
+    ## Description
+    If/when a liquidation auction ends without being fulfilled/matched on Seaport, and afterward when the current liquidator calls into `liquidatorNFTClaim`, the storage data (`s.collatera
+wiki_exploit_scenario: |
+    Per Solodit #7298: ## High Risk Vulnerability Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    `CollateralToken.sol#L107`
+    
+    ## Description
+    If/when a liquidation auction ends without being fulfilled/matched on Seaport, and a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IfACollateralSLiquidationAuctionOnSeaportEndsWithoutA"
+solodit_id: "7298"
+solodit_slug: |
+    if-a-collaterals-liquidation-auction-on-seaport-ends-without-a-winning-bid-the-call-to-liquidatorn-spearbit-astaria-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(liquidatorNFTClaim|commitToLiens).*"
+primary_var_regex: ".*(commitToLiens|liquidatorNFTClaim).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

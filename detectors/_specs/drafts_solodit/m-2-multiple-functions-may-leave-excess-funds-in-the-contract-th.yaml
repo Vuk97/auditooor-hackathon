@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-2-multiple-functions-may-leave-excess-funds-in-the-contract-th"
+class_name: "M2MultipleFunctionsMayLeaveExcessFundsInTheContractTh"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #8723 (Sherlock/Sense Update #1)"
+help: "M-2: Multiple functions may leave excess funds in the contract that should be returned"
+wiki_title: "M-2: Multiple functions may leave excess funds in the contract that should be returned"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-03-sense-judging/issues/29 
+    
+    ## Found by 
+    Bauer, 0x52, spyrosonic10
+    
+    ## Summary
+    
+    Periphery#combine may leave excess underlying in the contract due to _fromTarget unwrapping to underlying and the quote may not swap them all.
+    
+    When using arbitrary tokens
+wiki_exploit_scenario: |
+    Per Solodit #8723: Source: https://github.com/sherlock-audit/2023-03-sense-judging/issues/29 
+    
+    ## Found by 
+    Bauer, 0x52, spyrosonic10
+    
+    ## Summary
+    
+    Periphery#combine may leave excess underlying in the contract due to _fr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2MultipleFunctionsMayLeaveExcessFundsInTheContractTh"
+solodit_id: "8723"
+solodit_slug: |
+    m-2-multiple-functions-may-leave-excess-funds-in-the-contract-that-should-be-returned-sherlock-sense-sense-update-1-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(swapForPTs|addLiquidity|previewMint).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swapForPTs"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

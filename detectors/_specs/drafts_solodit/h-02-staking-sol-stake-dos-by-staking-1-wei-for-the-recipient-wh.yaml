@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "h-02-staking-sol-stake-dos-by-staking-1-wei-for-the-recipient-wh"
+class_name: "H02StakingSolStakeDosByStaking1WeiForTheRecipientWh"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #2873 (Code4rena/Yieldy)"
+help: "[H-02] `Staking.sol#stake()` DoS by staking 1 wei for the recipient when `warmUpPeriod > 0`"
+wiki_title: "[H-02] `Staking.sol#stake()` DoS by staking 1 wei for the recipient when `warmUpPeriod > 0`"
+wiki_description: |
+    _Submitted by WatchPug, also found by BowTiedWardens, cccz, minhquanym, parashar, pashov, shung, and zzzitron_
+    
+    ```solidity
+    if (warmUpPeriod == 0) {
+        IYieldy(YIELDY_TOKEN).mint(_recipient, _amount);
+    } else {
+        // create a claim and mint tokens so a user can claim them once warm up has passed
+wiki_exploit_scenario: |
+    Per Solodit #2873: _Submitted by WatchPug, also found by BowTiedWardens, cccz, minhquanym, parashar, pashov, shung, and zzzitron_
+    
+    ```solidity
+    if (warmUpPeriod == 0) {
+        IYieldy(YIELDY_TOKEN).mint(_recipient, _amount)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02StakingSolStakeDosByStaking1WeiForTheRecipientWh"
+solodit_id: "2873"
+solodit_slug: |
+    h-02-stakingsolstake-dos-by-staking-1-wei-for-the-recipient-when-warmupperiod-0-code4rena-yieldy-yieldy-contest-git
+solodit_quality: "4.021853146853147"
+solodit_rarity: "3.043706293706294"
+solodit_tags: "DOS, Denial-Of-Service"
+state_decl: "uint256 internal warmupinfo;"
+fn_name_regex: ".*(YIELDY_TOKEN|warmUpInfo).*"
+read_var_regex: ".*(warmUpInfo).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "YIELDY_TOKEN"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return warmupinfo > 0;"

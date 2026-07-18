@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "h-01-interest-isn-t-charged-on-accrued-interest-in-erc721-market"
+class_name: "H01InterestIsnTChargedOnAccruedInterestInErc721Market"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31810 (ZachObront/Fungify)"
+help: |
+    [H-01] Interest isn't charged on accrued interest in ERC721 market, allowing attacker to earn free yield
+wiki_title: |
+    [H-01] Interest isn't charged on accrued interest in ERC721 market, allowing attacker to earn free yield
+wiki_description: |
+    When a user borrows an ERC721, the interest they are charged is stored in the `borrowSnapshot.interestAccrued` field of the ERC721 market. Only when the interest is paid does it become a balance in the interest market.
+    
+    This causes a discrepancy because the accrued interest is effectively being borr
+wiki_exploit_scenario: |
+    Per Solodit #31810: When a user borrows an ERC721, the interest they are charged is stored in the `borrowSnapshot.interestAccrued` field of the ERC721 market. Only when the interest is paid does it become a balance in th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01InterestIsnTChargedOnAccruedInterestInErc721Market"
+solodit_id: "31810"
+solodit_slug: |
+    h-01-interest-isnt-charged-on-accrued-interest-in-erc721-market-allowing-attacker-to-earn-free-yield-zachobront-none-fungify-markdown
+solodit_quality: "3"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(borrowSnapshot|interestAccrued).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "borrowSnapshot"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,40 @@
+package keeper
+
+type Context struct{}
+
+type MsgUpdateConsensusParams struct {
+	Authority string
+	Params    ConsensusParams
+}
+
+type ConsensusParams struct {
+	Block BlockParams
+}
+
+type BlockParams struct {
+	MaxBytes int64
+}
+
+func (p ConsensusParams) Validate() error { return nil }
+
+type Keeper struct {
+	authority string
+}
+
+func (k Keeper) SetParams(ctx Context, params ConsensusParams) {}
+
+type msgServer struct {
+	Keeper
+}
+
+func (m msgServer) UpdateConsensusParams(ctx Context, msg *MsgUpdateConsensusParams) error {
+	if msg.Authority != m.Keeper.authority {
+		return ErrUnauthorized
+	}
+	params := msg.Params
+	if err := params.Validate(); err != nil {
+		return err
+	}
+	m.Keeper.SetParams(ctx, params)
+	return nil
+}

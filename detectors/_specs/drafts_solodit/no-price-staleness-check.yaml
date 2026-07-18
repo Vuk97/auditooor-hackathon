@@ -1,0 +1,48 @@
+skeleton: "state_write_without_paired_write"
+name: "no-price-staleness-check"
+class_name: "NoPriceStalenessCheck"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37240 (Zokyo/Trzn Finance)"
+help: "No Price Staleness Check"
+wiki_title: "No Price Staleness Check"
+wiki_description: |
+    **Severity** - Medium
+    
+    **Status** - Resolved
+    
+    **Description**
+    
+    The function `latestRoundData()` has been used inside ERC20PriceOracle_V2 (getChainlinkPrice) to fetch the price of an asset , but there are no price staleness checks.
+    
+    
+    
+    **Recommendation**:
+    
+    Introduce price staleness checks as follows →
+wiki_exploit_scenario: |
+    Per Solodit #37240: **Severity** - Medium
+    
+    **Status** - Resolved
+    
+    **Description**
+    
+    The function `latestRoundData()` has been used inside ERC20PriceOracle_V2 (getChainlinkPrice) to fetch the price of an asset , but there
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoPriceStalenessCheck"
+solodit_id: "37240"
+solodit_slug: "no-price-staleness-check-zokyo-none-trzn-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(latestRoundData).*"
+primary_var_regex: ".*(latestRoundData).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

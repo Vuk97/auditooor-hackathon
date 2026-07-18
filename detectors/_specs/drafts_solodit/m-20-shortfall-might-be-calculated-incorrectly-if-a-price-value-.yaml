@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-20-shortfall-might-be-calculated-incorrectly-if-a-price-value-"
+class_name: "M20ShortfallMightBeCalculatedIncorrectlyIfAPriceValue"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #43313 (Code4rena/Reserve)"
+help: |
+    [M-20] Shortfall might be calculated incorrectly if a price value for one collateral isn't fetched correctly
+wiki_title: |
+    [M-20] Shortfall might be calculated incorrectly if a price value for one collateral isn't fetched correctly
+wiki_description: |
+    Function `price()` of an asset doesn't revert. It [returns values](https://github.com/reserve-protocol/protocol/blob/df7ecadc2bae74244ace5e8b39e94bc992903158/contracts/plugins/assets/Asset.sol#L117) `(0, FIX_MAX)` for `low, high` values of price in case there's a problem with fetching it. Code that
+wiki_exploit_scenario: |
+    Per Solodit #43313: Function `price()` of an asset doesn't revert. It [returns values](https://github.com/reserve-protocol/protocol/blob/df7ecadc2bae74244ace5e8b39e94bc992903158/contracts/plugins/assets/Asset.sol#L117)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M20ShortfallMightBeCalculatedIncorrectlyIfAPriceValue"
+solodit_id: "43313"
+solodit_slug: |
+    m-20-shortfall-might-be-calculated-incorrectly-if-a-price-value-for-one-collateral-isnt-fetched-correctly-code4rena-reserve-reserve-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal collateralshortfall;"
+fn_name_regex: ".*(price|collateralShortfall|RecollateralizationLibP1|shortfall).*"
+read_var_regex: ".*(collateralShortfall|prepareRecollateralizationTrade|price).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "price"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return collateralshortfall > 0;"

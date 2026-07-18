@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "h-01-protocol-can-receive-zero-shares-despite-surplus"
+class_name: "H01ProtocolCanReceiveZeroSharesDespiteSurplus"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61337 (Shieldify/Gluex V2)"
+help: "[H-01] Protocol Can Receive Zero Shares Despite Surplus"
+wiki_title: "[H-01] Protocol Can Receive Zero Shares Despite Surplus"
+wiki_description: |
+    ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    The contract computes `protocolShare` by subtracting `partnerShare` from `surplus` and adding a portion of `slippage` based on `protocolSlippageShare`. However, there is no enforcement of a minimum threshold for `protocolSlippageShare`, allowing it to be zero
+wiki_exploit_scenario: |
+    Per Solodit #61337: ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    The contract computes `protocolShare` by subtracting `partnerShare` from `surplus` and adding a portion of `slippage` based on `protocolSlippageShare`. However
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01ProtocolCanReceiveZeroSharesDespiteSurplus"
+solodit_id: "61337"
+solodit_slug: "h-01-protocol-can-receive-zero-shares-despite-surplus-shieldify-none-gluex-v2-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal partnershare;"
+fn_name_regex: ".*(protocolShare|partnerShare|surplus|slippage).*"
+write_var_regex: ".*(partnerShare|protocolShare|protocolSlippageShare).*"
+guard_var_regex: ".*(partnerShare|protocolShare|protocolSlippageShare).*"
+vuln_fn_name: "protocolShare"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "partnershare = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

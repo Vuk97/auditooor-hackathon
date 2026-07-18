@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-05-orders-may-not-be-fillable-due-to-missing-approvals"
+class_name: "M05OrdersMayNotBeFillableDueToMissingApprovals"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #12208 (Code4rena/Tessera)"
+help: "[M-05] Orders may not be fillable due to missing approvals"
+wiki_title: "[M-05] Orders may not be fillable due to missing approvals"
+wiki_description: |
+    Not all `IERC20` implementations `revert()` when there's a failure in `approve()`. If one of these tokens returns false, there is no check for whether this has happened during the order listing validation, so it will only be detected when the order is attempted.
+    
+    ### Impact
+    
+    If the approval failure
+wiki_exploit_scenario: |
+    Per Solodit #12208: Not all `IERC20` implementations `revert()` when there's a failure in `approve()`. If one of these tokens returns false, there is no check for whether this has happened during the order listing valid
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05OrdersMayNotBeFillableDueToMissingApprovals"
+solodit_id: "12208"
+solodit_slug: |
+    m-05-orders-may-not-be-fillable-due-to-missing-approvals-code4rena-tessera-tessera-versus-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal approve;"
+fn_name_regex: ".*(IERC20|revert|approve).*"
+write_var_regex: ".*(approve|revert).*"
+guard_var_regex: ".*(approve|revert).*"
+vuln_fn_name: "IERC20"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "approve = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

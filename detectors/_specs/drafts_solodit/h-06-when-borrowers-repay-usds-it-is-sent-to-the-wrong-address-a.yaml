@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "h-06-when-borrowers-repay-usds-it-is-sent-to-the-wrong-address-a"
+class_name: "H06WhenBorrowersRepayUsdsItIsSentToTheWrongAddressA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31111 (Code4rena/Salty.IO)"
+help: |
+    [H-06] When borrowers repay USDS, it is sent to the wrong address, allowing anyone to burn Protocol Owned Liquidity and build bad debt for USDS
+wiki_title: |
+    [H-06] When borrowers repay USDS, it is sent to the wrong address, allowing anyone to burn Protocol Owned Liquidity and build bad debt for USDS
+wiki_description: |
+    When a user repays the USDS he has borrowed, it is taken from him and kept for burning. The Liquidizer contract is updated with the new amount repaid. The USDS is burnt whenever the `performUpkeep` function is called on Liquidizer by the Upkeep contract during upkeep.
+    
+    The USDS collected is sent to
+wiki_exploit_scenario: |
+    Per Solodit #31111: When a user repays the USDS he has borrowed, it is taken from him and kept for burning. The Liquidizer contract is updated with the new amount repaid. The USDS is burnt whenever the `performUpkeep` f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06WhenBorrowersRepayUsdsItIsSentToTheWrongAddressA"
+solodit_id: "31111"
+solodit_slug: |
+    h-06-when-borrowers-repay-usds-it-is-sent-to-the-wrong-address-allowing-anyone-to-burn-protocol-owned-liquidity-and-build-bad-debt-for-usds-code4rena-saltyio-saltyio-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal burntokensincontract;"
+fn_name_regex: ".*(performUpkeep|burnTokensInContract|incrementBurnableUSDS|usdsThatShouldBeBurned).*"
+read_var_regex: ".*(burnTokensInContract|incrementBurnableUSDS|performUpkeep).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "performUpkeep"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return burntokensincontract > 0;"

@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "liquidation-leaves-traders-with-unhealthier-and-riskier-collater"
+class_name: "LiquidationLeavesTradersWithUnhealthierAndRiskierCollater"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34834 (Cyfrin/Zaros)"
+help: |
+    Liquidation leaves traders with unhealthier and riskier collateral basket, making them more likely to be liquidated in future trades
+wiki_title: |
+    Liquidation leaves traders with unhealthier and riskier collateral basket, making them more likely to be liquidated in future trades
+wiki_description: |
+    **Description:** The protocol's proposed collateral priority queue with associated Loan-To-Value (LTV) is:
+    ```
+    1 - USDz   - 1e18 LTV
+    2 - USDC   - 1e18 LTV
+    3 - WETH   - 0.8e18 LTV
+    4 - WBTC   - 0.8e18 LTV
+    5 - wstETH - 0.7e18 LTV
+    6 - weETH  - 0.7e18 LTV
+    ```
+    
+    This means that the protocol will:
+    * first l
+wiki_exploit_scenario: |
+    Per Solodit #34834: **Description:** The protocol's proposed collateral priority queue with associated Loan-To-Value (LTV) is:
+    ```
+    1 - USDz   - 1e18 LTV
+    2 - USDC   - 1e18 LTV
+    3 - WETH   - 0.8e18 LTV
+    4 - WBTC   - 0.8e18 L
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LiquidationLeavesTradersWithUnhealthierAndRiskierCollater"
+solodit_id: "34834"
+solodit_slug: |
+    liquidation-leaves-traders-with-unhealthier-and-riskier-collateral-basket-making-them-more-likely-to-be-liquidated-in-future-trades-cyfrin-none-cyfrinzaros-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(wstETH|weETH).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "wstETH"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

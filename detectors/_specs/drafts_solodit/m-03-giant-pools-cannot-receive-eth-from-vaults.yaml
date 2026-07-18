@@ -1,0 +1,33 @@
+skeleton: "state_write_without_paired_write"
+name: "m-03-giant-pools-cannot-receive-eth-from-vaults"
+class_name: "M03GiantPoolsCannotReceiveEthFromVaults"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5911 (Code4rena/Stakehouse Protocol)"
+help: "[M-03] Giant pools cannot receive ETH from vaults"
+wiki_title: "[M-03] Giant pools cannot receive ETH from vaults"
+wiki_description: |
+    <https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/GiantSavETHVaultPool.sol#L137><br>
+    <https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/GiantMevAndFeesPool.so
+wiki_exploit_scenario: |
+    Per Solodit #5911: <https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/GiantSavETHVaultPool.sol#L137><br>
+    <https://github.com/code-423n4/2022-11-stak
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03GiantPoolsCannotReceiveEthFromVaults"
+solodit_id: "5911"
+solodit_slug: |
+    m-03-giant-pools-cannot-receive-eth-from-vaults-code4rena-stakehouse-protocol-lsd-network-stakehouse-contest-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Refund Ether, Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(bringUnusedETHBackIntoGiantPool).*"
+primary_var_regex: ".*(bringUnusedETHBackIntoGiantPool).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

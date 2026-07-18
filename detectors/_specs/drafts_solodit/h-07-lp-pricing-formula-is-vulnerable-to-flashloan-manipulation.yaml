@@ -1,0 +1,35 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-07-lp-pricing-formula-is-vulnerable-to-flashloan-manipulation"
+class_name: "H07LpPricingFormulaIsVulnerableToFlashloanManipulation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1365 (Code4rena/Behodler)"
+help: "[H-07] LP pricing formula is vulnerable to flashloan manipulation"
+wiki_title: "[H-07] LP pricing formula is vulnerable to flashloan manipulation"
+wiki_description: |
+    _Submitted by shw_
+    
+    The LP pricing formula used in the `burnAsset` function of `LimboDAO` is vulnerable to flashloan manipulation. By swapping a large number of EYE into the underlying pool, an attacker can intentionally inflate the value of the LP tokens to get more `fate` than he is supposed to wi
+wiki_exploit_scenario: |
+    Per Solodit #1365: _Submitted by shw_
+    
+    The LP pricing formula used in the `burnAsset` function of `LimboDAO` is vulnerable to flashloan manipulation. By swapping a large number of EYE into the underlying pool, an attack
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H07LpPricingFormulaIsVulnerableToFlashloanManipulation"
+solodit_id: "1365"
+solodit_slug: |
+    h-07-lp-pricing-formula-is-vulnerable-to-flashloan-manipulation-code4rena-behodler-behodler-contest-git
+solodit_quality: "1"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(burnAsset|LimboDAO|fate|setEYEBasedAssetStake).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

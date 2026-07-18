@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "wsm-2024-04"
+class_name: "Wsm202404"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-04/WSM_exp.sol"
+help: "WSM 2024-04 — flashloan exploit (2_517_438_179_912_631_607_253_979 WSM ≈ 18K)"
+wiki_title: "WSM (2024-04) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-04): WSM lost 2_517_438_179_912_631_607_253_979 WSM ≈ 18K. Bug class: flashloan. Attack tx: 0x5a475a73343519f899527fdb9850f68f8fc73168073c72a3cff8c0c7b8a1e520.
+wiki_exploit_scenario: |
+    Attacker (0x3026C464d3Bd6Ef0CeD0D49e80f171b58176Ce32) exploits WSM via flashloan: the victim contract 0xc0afd0e40bb3dcaebd9451aa5c319b745bf792b4 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Wsm202404"
+trigger_sig_regex: ".*(uniswapV3FlashCallback).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function uniswapV3FlashCallback(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.uniswapV3FlashCallback(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-quorum-and-verifier-count-validation"
+class_name: "LackOfQuorumAndVerifierCountValidation"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero TON - Zellic Audit Report"
+help: |
+    In the setQuorum and setVerifiers functions of the DVN worker contract (workers/dvn/handler.fc), there are no checks to ensure that the new quorum does not exceed the number of ver
+wiki_title: "Lack of quorum and verifier count validation"
+wiki_description: |
+    In the setQuorum and setVerifiers functions of the DVN worker contract (workers/dvn/handler.fc), there are no checks to ensure that the new quorum does not exceed the number of verifiers or that the number of verifiers remains sufficient after updating them. In other words, the code does not assert
+wiki_exploit_scenario: |
+    Per audit finding: In the setQuorum and setVerifiers functions of the DVN worker contract (workers/dvn/handler.fc), there are no checks to ensure that the new quorum does not exceed the number of verifiers or that the n
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfQuorumAndVerifierCountValidation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setQuorum|setVerifiers).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setQuorum"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

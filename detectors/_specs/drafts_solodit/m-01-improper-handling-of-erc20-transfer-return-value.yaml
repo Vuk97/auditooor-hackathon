@@ -1,0 +1,55 @@
+skeleton: "name_match_missing_call"
+name: "m-01-improper-handling-of-erc20-transfer-return-value"
+class_name: "M01ImproperHandlingOfErc20TransferReturnValue"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53303 (Pashov Audit Group/Gacha_2025-01-27)"
+help: "[M-01] Improper handling of ERC20 `transfer` return value"
+wiki_title: "[M-01] Improper handling of ERC20 `transfer` return value"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    In the `GachaTickets::entropyCallback` function, the contract transfers, winnings to the recipient as follows:
+    
+    ```solidity
+    if (token == pool.token) pool.tokenBalance -= amount;
+    if (amount > 0) IERC20(token).transfer(receiver, amoun
+wiki_exploit_scenario: |
+    Per Solodit #53303: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    In the `GachaTickets::entropyCallback` function, the contract transfers, winnings to the recipient as follows:
+    
+    ```solidity
+    if (toke
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01ImproperHandlingOfErc20TransferReturnValue"
+solodit_id: "53303"
+solodit_slug: |
+    m-01-improper-handling-of-erc20-transfer-return-value-pashov-audit-group-none-gacha_2025-01-27-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal approve;"
+fn_name_regex: ".*(transfer|IERC20|USDT|approve).*"
+read_var_regex: ".*(approve|transfer|transferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return approve > 0;"

@@ -1,0 +1,39 @@
+skeleton: "state_write_without_paired_write"
+name: "gas-greifing-and-missing-return-status-check-for-staticcall-s-ma"
+class_name: "GasGreifingAndMissingReturnStatusCheckForStaticcallSMa"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26823 (ConsenSys/Linea Plonk Verifier)"
+help: |
+    Gas Greifing and Missing Return Status Check for staticcall(s), May Lead to Unexpected Outcomes  Partially Addressed
+wiki_title: |
+    Gas Greifing and Missing Return Status Check for staticcall(s), May Lead to Unexpected Outcomes  Partially Addressed
+wiki_description: |
+    #### Description
+    
+    
+    The gas supplied to the `staticcall`(s), is calculated by subtracting `2000` from the remaining gas at this point in time. However, if not provided enough gas, the `staticcall`(s) may fail and there will be no return data, and the execution will continue with the stale data that w
+wiki_exploit_scenario: |
+    Per Solodit #26823: #### Description
+    
+    
+    The gas supplied to the `staticcall`(s), is calculated by subtracting `2000` from the remaining gas at this point in time. However, if not provided enough gas, the `staticcall`(s) m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GasGreifingAndMissingReturnStatusCheckForStaticcallSMa"
+solodit_id: "26823"
+solodit_slug: |
+    gas-greifing-and-missing-return-status-check-for-staticcalls-may-lead-to-unexpected-outcomes-partially-addressed-consensys-none-linea-plonk-verifier-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(staticcall|derive_gamma_beta_alpha_zeta|gamma|beta).*"
+primary_var_regex: ".*(alpha|beta|compute_ith_lagrange_at_z).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

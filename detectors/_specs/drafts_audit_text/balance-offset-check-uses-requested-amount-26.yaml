@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "balance-offset-check-uses-requested-amount-26"
+class_name: "BalanceOffsetCheckUsesRequestedAmount26"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit ether.fi - Zellic Audit Report"
+help: |
+    When a queued withdrawal is deposited, the fee per strategy is calculated by getFeeAmount: function getFeeAmount() public view returns (uint256) { uint256 gasSpendings = EigenLayer
+wiki_title: "Balance-offset check uses requested amount                              26"
+wiki_description: |
+    When a queued withdrawal is deposited, the fee per strategy is calculated by getFeeAmount: function getFeeAmount() public view returns (uint256) { uint256 gasSpendings = EigenLayerWithdrawalClaimGasCost; uint256 feeAmount = gasSpendings * block.basefee; return gasSpendings; } The constant EigenLayer
+wiki_exploit_scenario: |
+    Per audit finding: When a queued withdrawal is deposited, the fee per strategy is calculated by getFeeAmount: function getFeeAmount() public view returns (uint256) { uint256 gasSpendings = EigenLayerWithdrawalClaimGasCo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BalanceOffsetCheckUsesRequestedAmount26"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getFeeAmount|gasSpendings|feeAmount).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getFeeAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

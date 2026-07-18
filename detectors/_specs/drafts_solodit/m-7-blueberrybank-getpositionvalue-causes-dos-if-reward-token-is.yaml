@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-7-blueberrybank-getpositionvalue-causes-dos-if-reward-token-is"
+class_name: "M7BlueberrybankGetpositionvalueCausesDosIfRewardTokenIs"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18501 (Sherlock/Blueberry Update)"
+help: "M-7: BlueBerryBank#getPositionValue causes DOS if reward token is added that doens't have an oracle"
+wiki_title: "M-7: BlueBerryBank#getPositionValue causes DOS if reward token is added that doens't have an oracle"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-04-blueberry-judging/issues/115 
+    
+    ## Found by 
+    0x52, nobody2018
+    ## Summary
+    
+    collToken.pendingRewards pulls the most recent reward list from Aura/Convex. In the event that reward tokens are added to pools that don't currently have an oracle then it will
+wiki_exploit_scenario: |
+    Per Solodit #18501: Source: https://github.com/sherlock-audit/2023-04-blueberry-judging/issues/115 
+    
+    ## Found by 
+    0x52, nobody2018
+    ## Summary
+    
+    collToken.pendingRewards pulls the most recent reward list from Aura/Convex.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M7BlueberrybankGetpositionvalueCausesDosIfRewardTokenIs"
+solodit_id: "18501"
+solodit_slug: |
+    m-7-blueberrybankgetpositionvalue-causes-dos-if-reward-token-is-added-that-doenst-have-an-oracle-sherlock-none-blueberry-update-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Oracle, Liquidation, Denial-Of-Service"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(collToken|pendingRewards|collId|collateralSize).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

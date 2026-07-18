@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-02-if-dt-is-not-updated-accurately-timeweightedweeklypositioni"
+class_name: "M02IfDtIsNotUpdatedAccuratelyTimeweightedweeklypositioni"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27553 (Code4rena/Canto)"
+help: |
+    [M-02] If `dt` is not updated accurately, `timeWeightedWeeklyPositionInRangeConcLiquidity_` might be updated incorrectly
+wiki_title: |
+    [M-02] If `dt` is not updated accurately, `timeWeightedWeeklyPositionInRangeConcLiquidity_` might be updated incorrectly
+wiki_description: |
+    In the function `accrueConcentratedPositionTimeWeightedLiquidity`, inside the while block, `dt` is initialised as:
+    
+            uint32 dt = uint32(
+               nextWeek < block.timestamp
+               ? nextWeek - time
+               : block.timestamp - time
+           );
+    
+    <https://github.com/code-423n4/2023-10-ca
+wiki_exploit_scenario: |
+    Per Solodit #27553: In the function `accrueConcentratedPositionTimeWeightedLiquidity`, inside the while block, `dt` is initialised as:
+    
+            uint32 dt = uint32(
+               nextWeek < block.timestamp
+               ? next
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02IfDtIsNotUpdatedAccuratelyTimeweightedweeklypositioni"
+solodit_id: "27553"
+solodit_slug: |
+    m-02-if-dt-is-not-updated-accurately-timeweightedweeklypositioninrangeconcliquidity_-might-be-updated-incorrectly-code4rena-canto-canto-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accrueconcentratedpositiontimeweightedliquidity;"
+fn_name_regex: ".*(accrueConcentratedPositionTimeWeightedLiquidity|timeWeightedWeeklyPositionInRangeConcLiquidity_).*"
+read_var_regex: ".*(accrueConcentratedPositionTimeWeightedLiquidity).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "accrueConcentratedPositionTimeWeightedLiquidity"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accrueconcentratedpositiontimeweightedliquidity > 0;"

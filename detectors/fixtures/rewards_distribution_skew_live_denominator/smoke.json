@@ -1,0 +1,30 @@
+{
+  "schema": "auditooor.canonical_detector_fixture_smoke.v1",
+  "pattern": "rewards-distribution-skew-live-denominator",
+  "detector_slug": "rewards_distribution_skew_live_denominator",
+  "detector_path": "detectors/wave17/rewards_distribution_skew_live_denominator.py",
+  "fixture_id": "rewards_distribution_skew_live_denominator",
+  "status": "passed_vulnerable_clean_smoke",
+  "positive_fixture_path": "detectors/fixtures/rewards_distribution_skew_live_denominator/positive.sol",
+  "clean_fixture_path": "detectors/fixtures/rewards_distribution_skew_live_denominator/clean.sol",
+  "positive_hits": 1,
+  "clean_hits": 0,
+  "same_class_replay": [
+    {
+      "path": "detectors/fixtures/frontrunning_immediate_distribution_dilutes_the_rewards_for_legitimate/positive.sol",
+      "hits": 0,
+      "note": "Expected zero for the class-lift detector: the legacy fixture is entrypoint-name-only and does not encode live denominator reward math."
+    },
+    {
+      "path": "patterns/fixtures/reward-pool-reward-integral-manipulable_vuln.sol",
+      "hits": 0,
+      "note": "Expected zero: this sample is reward-token balance/integral manipulation, not a funded distribution event with mutable eligibility."
+    }
+  ],
+  "positive_command": "AUDITOOOR_FIXTURE_SMOKE_MODE=1 AUDITOOOR_SLITHER_NOCACHE=1 python3 detectors/run_custom.py --tier=ALL detectors/fixtures/rewards_distribution_skew_live_denominator/positive.sol rewards-distribution-skew-live-denominator",
+  "clean_command": "AUDITOOOR_FIXTURE_SMOKE_MODE=1 AUDITOOOR_SLITHER_NOCACHE=1 python3 detectors/run_custom.py --tier=ALL detectors/fixtures/rewards_distribution_skew_live_denominator/clean.sol rewards-distribution-skew-live-denominator",
+  "coverage_claim": "detector_fixture_smoke_only",
+  "promotion_allowed": false,
+  "submission_posture": "NOT_SUBMIT_READY",
+  "limitation_note": "Detector-fixture-smoke-only: proves a live stake/share denominator distribution shape. A real finding still needs target reachability, eligibility-window proof, non-self yield redistribution, and runnable PoC."
+}

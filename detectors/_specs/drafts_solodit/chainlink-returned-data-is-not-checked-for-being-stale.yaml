@@ -1,0 +1,32 @@
+skeleton: "state_write_without_paired_write"
+name: "chainlink-returned-data-is-not-checked-for-being-stale"
+class_name: "ChainlinkReturnedDataIsNotCheckedForBeingStale"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #43442 (MixBytes/MetaLeX)"
+help: "Chainlink returned data is not checked for being stale"
+wiki_title: "Chainlink returned data is not checked for being stale"
+wiki_description: |
+    ##### Description
+    There is a call to the Chainlink price feed `latestRoundData` at line https://github.com/MetaLex-Tech/borg-core/blob/67e3131f9ea7daafa7e98b5fb6892a122516fe2a/src/libs/conditions/chainlinkOracleCondition.sol#L53. It can return a stale price due to Chainlink lagging in delivering act
+wiki_exploit_scenario: |
+    Per Solodit #43442: ##### Description
+    There is a call to the Chainlink price feed `latestRoundData` at line https://github.com/MetaLex-Tech/borg-core/blob/67e3131f9ea7daafa7e98b5fb6892a122516fe2a/src/libs/conditions/chai
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainlinkReturnedDataIsNotCheckedForBeingStale"
+solodit_id: "43442"
+solodit_slug: "chainlink-returned-data-is-not-checked-for-being-stale-mixbytes-none-metalex-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(latestRoundData|updatedAt).*"
+primary_var_regex: ".*(latestRoundData|updatedAt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

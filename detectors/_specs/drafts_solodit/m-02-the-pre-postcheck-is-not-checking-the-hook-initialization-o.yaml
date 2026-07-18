@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_require"
+name: "m-02-the-pre-postcheck-is-not-checking-the-hook-initialization-o"
+class_name: "M02ThePrePostcheckIsNotCheckingTheHookInitializationO"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61416 (Shieldify/Etherspot Credibleaccountmodule)"
+help: "[M-02] The `pre/postCheck()` Is Not Checking the Hook Initialization of the Sender"
+wiki_title: "[M-02] The `pre/postCheck()` Is Not Checking the Hook Initialization of the Sender"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    In order for the Smart Wallets to use `CredibleAccountModule` as a Hook, they call `onInstall()` and install it as a Hook.
+    
+    ```solidity
+    function onInstall(bytes calldata data) external override {
+        // code
+        if (moduleType == MODULE_TYPE_VALIDATOR) { ..
+wiki_exploit_scenario: |
+    Per Solodit #61416: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    In order for the Smart Wallets to use `CredibleAccountModule` as a Hook, they call `onInstall()` and install it as a Hook.
+    
+    ```solidity
+    function onInstall(by
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02ThePrePostcheckIsNotCheckingTheHookInitializationO"
+solodit_id: "61416"
+solodit_slug: |
+    m-02-the-prepostcheck-is-not-checking-the-hook-initialization-of-the-sender-shieldify-none-etherspot-credibleaccountmodule-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liveness;"
+fn_name_regex: ".*(CredibleAccountModule|onInstall|ModularEtherspotWallet|withHook).*"
+write_var_regex: ".*(liveness|onInstall|postCheck).*"
+guard_var_regex: ".*(liveness|onInstall|postCheck).*"
+vuln_fn_name: "CredibleAccountModule"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "liveness = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

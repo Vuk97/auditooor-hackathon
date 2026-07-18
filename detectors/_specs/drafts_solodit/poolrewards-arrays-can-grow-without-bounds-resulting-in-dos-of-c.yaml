@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "poolrewards-arrays-can-grow-without-bounds-resulting-in-dos-of-c"
+class_name: "PoolrewardsArraysCanGrowWithoutBoundsResultingInDosOfC"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61554 (Cyfrin/Paladin Valkyrie)"
+help: "`poolRewards` arrays can grow without bounds, resulting in DoS of core functionality"
+wiki_title: "`poolRewards` arrays can grow without bounds, resulting in DoS of core functionality"
+wiki_description: |
+    **Description:** The `poolRewards` mapping maintains an array of reward token addresses for a given `IncentivizedPoolId`. Given that the distribution of rewards is permissionless, anyone can invoke this functionality with arbitrary ERC-20 tokens to cause the array to grow without bounds. The implica
+wiki_exploit_scenario: |
+    Per Solodit #61554: **Description:** The `poolRewards` mapping maintains an array of reward token addresses for a given `IncentivizedPoolId`. Given that the distribution of rewards is permissionless, anyone can invoke th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PoolrewardsArraysCanGrowWithoutBoundsResultingInDosOfC"
+solodit_id: "61554"
+solodit_slug: |
+    poolrewards-arrays-can-grow-without-bounds-resulting-in-dos-of-core-functionality-cyfrin-none-paladin-valkyrie-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal earnedall;"
+fn_name_regex: ".*(poolRewards|IncentivizedPoolId|updateRewardState|updateUserState).*"
+read_var_regex: ".*(earnedAll|notifyBalanceChange|notifyTransfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "poolRewards"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return earnedall > 0;"

@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-06-basket-becomes-unusable-if-everybody-burns-their-shares"
+class_name: "M06BasketBecomesUnusableIfEverybodyBurnsTheirShares"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19825 (Code4rena/Kuiper)"
+help: "[M-06] Basket becomes unusable if everybody burns their shares"
+wiki_title: "[M-06] Basket becomes unusable if everybody burns their shares"
+wiki_description: |
+    _Submitted by kenzo_
+    
+    While handling the fees, the contract calculates the new `ibRatio` by dividing by `totalSupply`. This can be 0 leading to a division by 0.
+    
+    #### Impact
+    
+    If everybody burns their shares, in the next mint, `totalSupply` will be 0, `handleFees` will revert, and so nobody will be a
+wiki_exploit_scenario: |
+    Per Solodit #19825: _Submitted by kenzo_
+    
+    While handling the fees, the contract calculates the new `ibRatio` by dividing by `totalSupply`. This can be 0 leading to a division by 0.
+    
+    #### Impact
+    
+    If everybody burns their
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06BasketBecomesUnusableIfEverybodyBurnsTheirShares"
+solodit_id: "19825"
+solodit_slug: "m-06-basket-becomes-unusable-if-everybody-burns-their-shares-code4rena-kuiper-kuiper-contest-git_"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal handlefees;"
+fn_name_regex: ".*(ibRatio|totalSupply|handleFees|mintTo).*"
+read_var_regex: ".*(handleFees|ibRatio|mintTo).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ibRatio"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return handlefees > 0;"

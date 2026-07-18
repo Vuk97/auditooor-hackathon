@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-01-retroactive-parameter-updates-cause-unfair-reward-distribut"
+class_name: "M01RetroactiveParameterUpdatesCauseUnfairRewardDistribut"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62874 (Shieldify/Honeypotfinance Nftstaking)"
+help: "[M-01] Retroactive Parameter Updates Cause Unfair Reward Distribution"
+wiki_title: "[M-01] Retroactive Parameter Updates Cause Unfair Reward Distribution"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    Changing `rewardRatePerSecond` or `burnBonusBps` immediately affects accrual for the entire unclaimed interval, applying new parameters retroactively to past time. Rewards are computed at claim time using current values without epoching or checkpointing. Th
+wiki_exploit_scenario: |
+    Per Solodit #62874: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    Changing `rewardRatePerSecond` or `burnBonusBps` immediately affects accrual for the entire unclaimed interval, applying new parameters retroactively to past
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01RetroactiveParameterUpdatesCauseUnfairRewardDistribut"
+solodit_id: "62874"
+solodit_slug: |
+    m-01-retroactive-parameter-updates-cause-unfair-reward-distribution-shieldify-none-honeypotfinance-nftstaking-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal burnbonusbps;"
+fn_name_regex: ".*(rewardRatePerSecond|burnBonusBps).*"
+read_var_regex: ".*(burnBonusBps|rewardRatePerSecond).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rewardRatePerSecond"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return burnbonusbps > 0;"

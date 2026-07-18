@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "low-bit-widths-for-transaction-fields-96"
+class_name: "LowBitWidthsForTransactionFields96"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Brevis - Zellic Audit Report"
+help: |
+    In brevis-sdk, the type Int248 is implemented in sdk/api_int248.go, intended as an in-circuit, signed 248-bit integer type. The value is stored in the field Val, which is a single
+wiki_title: "Low bit widths for Transaction fields                                                96"
+wiki_description: |
+    In brevis-sdk, the type Int248 is implemented in sdk/api_int248.go, intended as an in-circuit, signed 248-bit integer type. The value is stored in the field Val, which is a single circuit variable holding a value that is at most 248 bits wide, with the little-endian bits of Val corresponding to the
+wiki_exploit_scenario: |
+    Per audit finding: In brevis-sdk, the type Int248 is implemented in sdk/api_int248.go, intended as an in-circuit, signed 248-bit integer type. The value is stored in the field Val, which is a single circuit variable hol
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LowBitWidthsForTransactionFields96"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(signBitSet|ensureSignBit|isGtAsUint).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "signBitSet"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

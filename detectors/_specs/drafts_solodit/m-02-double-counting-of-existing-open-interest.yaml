@@ -1,0 +1,48 @@
+skeleton: "paired_function_divergence"
+name: "m-02-double-counting-of-existing-open-interest"
+class_name: "M02DoubleCountingOfExistingOpenInterest"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36424 (Pashov Audit Group/Gainsnetwork May)"
+help: "[M-02] Double counting of existing open interest"
+wiki_title: "[M-02] Double counting of existing open interest"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    **Description**
+    
+    When validating a request to increase position size, the function `validateRequest` checks if the trade stays within exposure limits. However, the amounts and leverage used are `newCollateralAmount` and `newLeverage` instead
+wiki_exploit_scenario: |
+    Per Solodit #36424: **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    **Description**
+    
+    When validating a request to increase position size, the function `validateRequest` checks if the trade stays within exposure
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02DoubleCountingOfExistingOpenInterest"
+solodit_id: "36424"
+solodit_slug: "m-02-double-counting-of-existing-open-interest-pashov-audit-group-none-gainsnetwork-may-markdown"
+solodit_quality: "3"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(collateralDelta|existingPositionSizeCollateral|leverageDelta).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,30 @@
+skeleton: "state_write_without_paired_write"
+name: "incomplete-validation-of-chainlink-price-data"
+class_name: "IncompleteValidationOfChainlinkPriceData"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32857 (OpenZeppelin/Radiant V2 Audit)"
+help: "Incomplete Validation of Chainlink Price Data"
+wiki_title: "Incomplete Validation of Chainlink Price Data"
+wiki_description: |
+    The [`ChainlinkV3Adapter`](https://github.com/radiant-capital/v2-core/blob/e8f21f103e17736907b62809d1ad902febc53714/contracts/radiant/oracles/ChainlinkV3Adapter.sol) and [`WSTETHOracle`](https://github.com/radiant-capital/v2-core/blob/e8f21f103e17736907b62809d1ad902febc53714/contracts/radiant/oracle
+wiki_exploit_scenario: |
+    Per Solodit #32857: The [`ChainlinkV3Adapter`](https://github.com/radiant-capital/v2-core/blob/e8f21f103e17736907b62809d1ad902febc53714/contracts/radiant/oracles/ChainlinkV3Adapter.sol) and [`WSTETHOracle`](https://githu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncompleteValidationOfChainlinkPriceData"
+solodit_id: "32857"
+solodit_slug: "incomplete-validation-of-chainlink-price-data-openzeppelin-none-radiant-v2-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(ChainlinkV3Adapter|WSTETHOracle|latestRoundData|answer).*"
+primary_var_regex: ".*(answer|answeredInRound|latestAnswer).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "return-value-from-transferfrom-should-be-checked"
+class_name: "ReturnValueFromTransferfromShouldBeChecked"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Palmy Finance - Zellic Audit Report"
+help: |
+    The Leverager and IncentivesController contracts use the transferFrom function but do not validate the return value. The transferFrom function is not required to revert when the tr
+wiki_title: "Return value from transferFrom should be checked"
+wiki_description: |
+    The Leverager and IncentivesController contracts use the transferFrom function but do not validate the return value. The transferFrom function is not required to revert when the transfer fails (due to the insufficient balance or approval) under the ERC-20 token standard, and some ERC-20 tokens retur
+wiki_exploit_scenario: |
+    Per audit finding: The Leverager and IncentivesController contracts use the transferFrom function but do not validate the return value. The transferFrom function is not required to revert when the transfer fails (due to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReturnValueFromTransferfromShouldBeChecked"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferFrom).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

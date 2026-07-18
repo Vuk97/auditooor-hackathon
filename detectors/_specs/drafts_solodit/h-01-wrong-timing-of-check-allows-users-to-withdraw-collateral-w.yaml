@@ -1,0 +1,42 @@
+skeleton: "paired_function_divergence"
+name: "h-01-wrong-timing-of-check-allows-users-to-withdraw-collateral-w"
+class_name: "H01WrongTimingOfCheckAllowsUsersToWithdrawCollateralW"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25648 (Code4rena/Timeswap)"
+help: "[H-01] Wrong timing of check allows users to withdraw collateral without paying for the debt"
+wiki_title: "[H-01] Wrong timing of check allows users to withdraw collateral without paying for the debt"
+wiki_description: |
+    _Submitted by WatchPug, also found by IllIllI_
+    
+    [TimeswapPair.sol#L459-L490](https://github.com/code-423n4/2022-03-timeswap/blob/00317d9a8319715a8e28361901ab14fe50d06172/Timeswap/Core/contracts/TimeswapPair.sol#L459-L490)<br>
+    
+    ```solidity
+    function pay(PayParam calldata param)
+        external 
+        overr
+wiki_exploit_scenario: |
+    Per Solodit #25648: _Submitted by WatchPug, also found by IllIllI_
+    
+    [TimeswapPair.sol#L459-L490](https://github.com/code-423n4/2022-03-timeswap/blob/00317d9a8319715a8e28361901ab14fe50d06172/Timeswap/Core/contracts/Timesw
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01WrongTimingOfCheckAllowsUsersToWithdrawCollateralW"
+solodit_id: "25648"
+solodit_slug: |
+    h-01-wrong-timing-of-check-allows-users-to-withdraw-collateral-without-paying-for-the-debt-code4rena-timeswap-timeswap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(assetIn|assetsIn|borrow).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

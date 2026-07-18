@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "m-18-distribute-when-can-t-repay-all-lenders-may-lack-of-notific"
+class_name: "M18DistributeWhenCanTRepayAllLendersMayLackOfNotific"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35237 (Code4rena/Gondi)"
+help: |
+    [M-18] `distribute()` when can't repay all lenders, may lack of notification to `LoanManager` for accounting
+wiki_title: |
+    [M-18] `distribute()` when can't repay all lenders, may lack of notification to `LoanManager` for accounting
+wiki_description: |
+    The `LiquidationDistributor` is used to distribute funds after an auction. When the auction amount is insufficient, lenders are repaid in sequence.
+    
+    ```solidity
+        function distribute(uint256 _proceeds, IMultiSourceLoan.Loan calldata _loan) external {
+    ...
+            if (_proceeds > totalPrincipalAndP
+wiki_exploit_scenario: |
+    Per Solodit #35237: The `LiquidationDistributor` is used to distribute funds after an auction. When the auction amount is insufficient, lenders are repaid in sequence.
+    
+    ```solidity
+        function distribute(uint256 _proce
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18DistributeWhenCanTRepayAllLendersMayLackOfNotific"
+solodit_id: "35237"
+solodit_slug: |
+    m-18-distribute-when-cant-repay-all-lenders-may-lack-of-notification-to-loanmanager-for-accounting-code4rena-gondi-gondi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal totalassets;"
+fn_name_regex: ".*(LiquidationDistributor|LoanManager|totalAssets|distribute).*"
+write_var_regex: ".*(totalAssets).*"
+guard_var_regex: ".*(totalAssets).*"
+vuln_fn_name: "LiquidationDistributor"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "totalassets = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-01-low-data-feed-frequency-from-tellor-makes-your-protocol-vul"
+class_name: "M01LowDataFeedFrequencyFromTellorMakesYourProtocolVul"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16144 (Code4rena/Ethos Reserve)"
+help: "[M-01] Low data feed frequency from Tellor makes your protocol vulnerable to flash loan attacks"
+wiki_title: "[M-01] Low data feed frequency from Tellor makes your protocol vulnerable to flash loan attacks"
+wiki_description: |
+    An attacker can stale Tellor Oracle for several hours cheaply and perform a flash loan attack to profit.
+    
+    ### Proof of Concept
+    
+    To explain this issue I will first compare Chainlink to Tellor.
+    
+    Most ERC-20 tokens are in general much more volatile than ETH and BTC. In Chainlink,  there are triggers o
+wiki_exploit_scenario: |
+    Per Solodit #16144: An attacker can stale Tellor Oracle for several hours cheaply and perform a flash loan attack to profit.
+    
+    ### Proof of Concept
+    
+    To explain this issue I will first compare Chainlink to Tellor.
+    
+    Most E
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01LowDataFeedFrequencyFromTellorMakesYourProtocolVul"
+solodit_id: "16144"
+solodit_slug: |
+    m-01-low-data-feed-frequency-from-tellor-makes-your-protocol-vulnerable-to-flash-loan-attacks-code4rena-ethos-reserve-ethos-reserve-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Oracle, Flash Loan"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(submitValue).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

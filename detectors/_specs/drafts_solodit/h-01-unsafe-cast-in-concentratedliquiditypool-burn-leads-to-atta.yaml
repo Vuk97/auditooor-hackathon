@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "h-01-unsafe-cast-in-concentratedliquiditypool-burn-leads-to-atta"
+class_name: "H01UnsafeCastInConcentratedliquiditypoolBurnLeadsToAtta"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25561 (Code4rena/Sushi)"
+help: "[H-01] Unsafe cast in `ConcentratedLiquidityPool.burn` leads to attack"
+wiki_title: "[H-01] Unsafe cast in `ConcentratedLiquidityPool.burn` leads to attack"
+wiki_description: |
+    _Submitted by cmichel, also found by broccoli_
+    
+    The `ConcentratedLiquidityPool.burn` function performs an unsafe cast of a `uint128` type to a *signed* integer.
+    
+    ```solidity
+    (uint256 amount0fees, uint256 amount1fees) = _updatePosition(msg.sender, lower, upper, -int128(amount));
+    ```
+    
+    Note that `amoun
+wiki_exploit_scenario: |
+    Per Solodit #25561: _Submitted by cmichel, also found by broccoli_
+    
+    The `ConcentratedLiquidityPool.burn` function performs an unsafe cast of a `uint128` type to a *signed* integer.
+    
+    ```solidity
+    (uint256 amount0fees, uint
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01UnsafeCastInConcentratedliquiditypoolBurnLeadsToAtta"
+solodit_id: "25561"
+solodit_slug: "h-01-unsafe-cast-in-concentratedliquiditypoolburn-leads-to-attack-code4rena-sushi-sushi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(amount|burn|MAX_TICK_LIQUIDITY|lower).*"
+read_var_regex: ".*(amount|burn|lower).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "amount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

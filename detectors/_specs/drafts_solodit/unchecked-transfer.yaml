@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "unchecked-transfer"
+class_name: "UncheckedTransfer"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #50386 (Halborn/Ocean Protocol H2O System and Action)"
+help: "UNCHECKED TRANSFER"
+wiki_title: "UNCHECKED TRANSFER"
+wiki_description: |
+    ##### Description
+    
+    In the contracts `GebProxyActions.sol`, `GebProxyAuctionActions.sol`, `GebProxyIncentivesActions.sol`, `GebProxyLeverageActions.sol`, `GebProxySaviourActions.sol`, the return values of the external transfer calls are not checked. It should be noted that token does not revert in ca
+wiki_exploit_scenario: |
+    Per Solodit #50386: ##### Description
+    
+    In the contracts `GebProxyActions.sol`, `GebProxyAuctionActions.sol`, `GebProxyIncentivesActions.sol`, `GebProxyLeverageActions.sol`, `GebProxySaviourActions.sol`, the return values
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UncheckedTransfer"
+solodit_id: "50386"
+solodit_slug: "unchecked-transfer-halborn-ocean-protocol-ocean-protocol-h2o-system-and-action-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(safeHandler|systemCoin|transferFrom|claimProxyFunds).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "safeHandler"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

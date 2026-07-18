@@ -1,0 +1,39 @@
+skeleton: "state_write_without_paired_write"
+name: "m-12-single-hardcoded-cap-used-for-multiple-tokens-in-a-pump-cau"
+class_name: "M12SingleHardcodedCapUsedForMultipleTokensInAPumpCau"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26949 (Code4rena/Basin)"
+help: |
+    [M-12] Single hardcoded cap used for multiple tokens in a pump causing some assets to be more stale, while having no effects on other stable assets
+wiki_title: |
+    [M-12] Single hardcoded cap used for multiple tokens in a pump causing some assets to be more stale, while having no effects on other stable assets
+wiki_description: |
+    <https://github.com/code-423n4/2023-07-basin/blob/c1b72d4e372a6246e0efbd57b47fb4cbb5d77062/src/pumps/MultiFlowPump.sol#L36-L37> 
+    
+    <https://github.com/code-423n4/2023-07-basin/blob/c1b72d4e372a6246e0efbd57b47fb4cbb5d77062/src/pumps/MultiFlowPump.sol#L205-L208> 
+    
+    <https://github.com/code-423n4/2023-0
+wiki_exploit_scenario: |
+    Per Solodit #26949: <https://github.com/code-423n4/2023-07-basin/blob/c1b72d4e372a6246e0efbd57b47fb4cbb5d77062/src/pumps/MultiFlowPump.sol#L36-L37> 
+    
+    <https://github.com/code-423n4/2023-07-basin/blob/c1b72d4e372a6246e0e
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12SingleHardcodedCapUsedForMultipleTokensInAPumpCau"
+solodit_id: "26949"
+solodit_slug: |
+    m-12-single-hardcoded-cap-used-for-multiple-tokens-in-a-pump-causing-some-assets-to-be-more-stale-while-having-no-effects-on-other-stable-assets-code4rena-basin-basin-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(LOG_MAX_INCREASE|LOG_MAX_DECREASE|update).*"
+primary_var_regex: ".*(update).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

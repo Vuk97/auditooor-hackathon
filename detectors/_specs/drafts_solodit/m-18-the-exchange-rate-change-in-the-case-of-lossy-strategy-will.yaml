@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-18-the-exchange-rate-change-in-the-case-of-lossy-strategy-will"
+class_name: "M18TheExchangeRateChangeInTheCaseOfLossyStrategyWill"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26387 (Code4rena/PoolTogether)"
+help: |
+    [M-18] The exchange rate change in the case of Lossy Strategy will cause the Vault to be under-collateralized for generic ERC4626 Yield Vaults
+wiki_title: |
+    [M-18] The exchange rate change in the case of Lossy Strategy will cause the Vault to be under-collateralized for generic ERC4626 Yield Vaults
+wiki_description: |
+    For Yield Vaults that use Lossy Strategies, the PT Vault will burn more Yield Vault Shares than intended when processing a withdrawal, socializing a loss at the advantage of early withdrawers.
+    
+    `withdraw` calls `_convertToShares`:
+    
+    <https://github.com/GenerationSoftware/pt-v5-vault/blob/b1deb5d494c
+wiki_exploit_scenario: |
+    Per Solodit #26387: For Yield Vaults that use Lossy Strategies, the PT Vault will burn more Yield Vault Shares than intended when processing a withdrawal, socializing a loss at the advantage of early withdrawers.
+    
+    `with
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18TheExchangeRateChangeInTheCaseOfLossyStrategyWill"
+solodit_id: "26387"
+solodit_slug: |
+    m-18-the-exchange-rate-change-in-the-case-of-lossy-strategy-will-cause-the-vault-to-be-under-collateralized-for-generic-erc4626-yield-vaults-code4rena-pooltogether-pooltogether-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal maxwithdraw;"
+fn_name_regex: ".*(withdraw|withdrawableAssets|totalSupply|maxWithdraw).*"
+read_var_regex: ".*(maxWithdraw|totalSupply|view).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return maxwithdraw > 0;"

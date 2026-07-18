@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-06-only-one-groupbuy-can-ever-use-usdt-or-similar-tokens-with-"
+class_name: "M06OnlyOneGroupbuyCanEverUseUsdtOrSimilarTokensWith"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #43291 (Code4rena/Tessera)"
+help: |
+    [M-06] Only one `GroupBuy` can ever use USDT or similar tokens with front-running approval protections
+wiki_title: |
+    [M-06] Only one `GroupBuy` can ever use USDT or similar tokens with front-running approval protections
+wiki_description: |
+    Calling `approve()` without first calling `approve(0)` if the current approval is non-zero will revert with some tokens, such as Tether (USDT). While Tether is known to do this, it applies to other tokens as well, which are trying to protect against [this attack vector](https://docs.google.com/docu
+wiki_exploit_scenario: |
+    Per Solodit #43291: Calling `approve()` without first calling `approve(0)` if the current approval is non-zero will revert with some tokens, such as Tether (USDT). While Tether is known to do this, it applies to other t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06OnlyOneGroupbuyCanEverUseUsdtOrSimilarTokensWith"
+solodit_id: "43291"
+solodit_slug: |
+    m-06-only-one-groupbuy-can-ever-use-usdt-or-similar-tokens-with-front-running-approval-protections-code4rena-tessera-tessera-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal approve;"
+fn_name_regex: ".*(approve|GroupBuy).*"
+read_var_regex: ".*(approve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "approve"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return approve > 0;"

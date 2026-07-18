@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-21-missing-the-unwrapping-of-native-token-in-rootbridgeagent-s"
+class_name: "H21MissingTheUnwrappingOfNativeTokenInRootbridgeagentS"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26055 (Code4rena/Maia DAO Ecosystem)"
+help: "[H-21] Missing the unwrapping of native token in `RootBridgeAgent.sweep()` causes fees to be stuck"
+wiki_title: "[H-21] Missing the unwrapping of native token in `RootBridgeAgent.sweep()` causes fees to be stuck"
+wiki_description: |
+    `RootBridgeAgent.sweep()` will fail as it tries to transfer `accumulatedFees` using `SafeTransferLib.safeTransferETH()` but fails to unwrap the fees by withdrawing from `wrappedNativeToken`.
+    
+    ### Impact
+    
+    The `accumulatedFees` will be stuck in `RootBridgeAgent` without any functions to withdraw them
+wiki_exploit_scenario: |
+    Per Solodit #26055: `RootBridgeAgent.sweep()` will fail as it tries to transfer `accumulatedFees` using `SafeTransferLib.safeTransferETH()` but fails to unwrap the fees by withdrawing from `wrappedNativeToken`.
+    
+    ### Imp
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H21MissingTheUnwrappingOfNativeTokenInRootbridgeagentS"
+solodit_id: "26055"
+solodit_slug: |
+    h-21-missing-the-unwrapping-of-native-token-in-rootbridgeagentsweep-causes-fees-to-be-stuck-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accumulatedfees;"
+fn_name_regex: ".*(accumulatedFees|wrappedNativeToken|RootBridgeAgent).*"
+read_var_regex: ".*(accumulatedFees|wrappedNativeToken).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "accumulatedFees"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accumulatedfees > 0;"

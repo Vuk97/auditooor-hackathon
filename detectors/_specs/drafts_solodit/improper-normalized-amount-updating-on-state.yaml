@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "improper-normalized-amount-updating-on-state"
+class_name: "ImproperNormalizedAmountUpdatingOnState"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #48394 (OtterSec/Vertex Protocol)"
+help: "Improper Normalized Amount Updating On State"
+wiki_title: "Improper Normalized Amount Updating On State"
+wiki_description: |
+    ## SpotEngine SocializeSubaccount Function Issue
+    
+    In SpotEngine’s `socializeSubaccount` function, the negative balance amount is being added to the total borrow, instead of being subtracted.
+    
+    ```solidity
+    contracts/SpotEngine.sol
+    state.totalBorrowsNormalizedX18 -= balance.amountX18.div(
+        state.cum
+wiki_exploit_scenario: |
+    Per Solodit #48394: ## SpotEngine SocializeSubaccount Function Issue
+    
+    In SpotEngine’s `socializeSubaccount` function, the negative balance amount is being added to the total borrow, instead of being subtracted.
+    
+    ```solid
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ImproperNormalizedAmountUpdatingOnState"
+solodit_id: "48394"
+solodit_slug: "improper-normalized-amount-updating-on-state-ottersec-none-vertex-protocol-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amountx18;"
+fn_name_regex: ".*(socializeSubaccount|socializeSubAccount|amountX18).*"
+read_var_regex: ".*(amountX18|socializeSubAccount|socializeSubaccount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "socializeSubaccount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amountx18 > 0;"

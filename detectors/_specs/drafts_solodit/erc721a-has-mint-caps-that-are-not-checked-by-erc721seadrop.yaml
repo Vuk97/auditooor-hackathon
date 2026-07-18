@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "erc721a-has-mint-caps-that-are-not-checked-by-erc721seadrop"
+class_name: "Erc721aHasMintCapsThatAreNotCheckedByErc721seadrop"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6842 (Spearbit/SeaDrop)"
+help: "ERC721A has mint caps that are not checked by ERC721SeaDrop"
+wiki_title: "ERC721A has mint caps that are not checked by ERC721SeaDrop"
+wiki_description: |
+    ## Medium Risk Severity Report
+    
+    ## Context
+    `ERC721SeaDrop.sol#L137-L145`
+    
+    ## Description
+    `ERC721SeaDrop` inherits from `ERC721A`, which packs `balance`, `numberMinted`, `numberBurned`, and an extra data chunk into one storage slot (64 bits per sub-storage) for every address. This creates an inherent
+wiki_exploit_scenario: |
+    Per Solodit #6842: ## Medium Risk Severity Report
+    
+    ## Context
+    `ERC721SeaDrop.sol#L137-L145`
+    
+    ## Description
+    `ERC721SeaDrop` inherits from `ERC721A`, which packs `balance`, `numberMinted`, `numberBurned`, and an extra da
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Erc721aHasMintCapsThatAreNotCheckedByErc721seadrop"
+solodit_id: "6842"
+solodit_slug: "erc721a-has-mint-caps-that-are-not-checked-by-erc721seadrop-spearbit-seadrop-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Min/Max Cap Validation, Business Logic"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(ERC721SeaDrop|ERC721A|balance|numberMinted).*"
+write_var_regex: ".*(balance|maxSupply|mintSeaDrop).*"
+guard_var_regex: ".*(balance|maxSupply|mintSeaDrop).*"
+vuln_fn_name: "ERC721SeaDrop"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

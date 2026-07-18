@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "h-01-siloamo-can-be-forced-to-fund-reduced-interest-rates-by-man"
+class_name: "H01SiloamoCanBeForcedToFundReducedInterestRatesByMan"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18686 (ZachObront/Olympusdao)"
+help: "[H-01] SiloAMO can be forced to fund reduced interest rates by manipulating utilization"
+wiki_title: "[H-01] SiloAMO can be forced to fund reduced interest rates by manipulating utilization"
+wiki_description: |
+    When `update()` is permissionlessly called on the SiloAMO, it decides whether to deposit or withdraw funds by comparing the `totalDeposits` to an "ideal" amount of deposits that is calculated by multiplying the `totalBorrows` by `uopt` (the optimal utilization rate set on the Silo).
+    
+    ```solidity
+    fun
+wiki_exploit_scenario: |
+    Per Solodit #18686: When `update()` is permissionlessly called on the SiloAMO, it decides whether to deposit or withdraw funds by comparing the `totalDeposits` to an "ideal" amount of deposits that is calculated by multi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01SiloamoCanBeForcedToFundReducedInterestRatesByMan"
+solodit_id: "18686"
+solodit_slug: |
+    h-01-siloamo-can-be-forced-to-fund-reduced-interest-rates-by-manipulating-utilization-zachobront-none-olympusdao-markdown_
+solodit_quality: "5"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal totalborrows;"
+fn_name_regex: ".*(update|totalDeposits|totalBorrows|uopt).*"
+read_var_regex: ".*(totalBorrows|totalDeposits|uopt).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "update"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return totalborrows > 0;"

@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "the-protocol-will-lose-funds-as-startrebalance-can-be-called-mor"
+class_name: "TheProtocolWillLoseFundsAsStartrebalanceCanBeCalledMor"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37441 (Zokyo/Vaultka)"
+help: |
+    The protocol will lose funds as `startRebalance()` can be called more than once for the same `currentId`
+wiki_title: |
+    The protocol will lose funds as `startRebalance()` can be called more than once for the same `currentId`
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In Contract GlmRebalance, the method `startRebalance()` can be called by a `glmKeeper` for the `currentId` and set all the rebalance-related information.
+    
+    The method will sell all the GM tokens for the sell token address and will wait for
+wiki_exploit_scenario: |
+    Per Solodit #37441: **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In Contract GlmRebalance, the method `startRebalance()` can be called by a `glmKeeper` for the `currentId` and set all the rebalance-relate
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheProtocolWillLoseFundsAsStartrebalanceCanBeCalledMor"
+solodit_id: "37441"
+solodit_slug: |
+    the-protocol-will-lose-funds-as-startrebalance-can-be-called-more-than-once-for-the-same-currentid-zokyo-none-vaultka-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal currentid;"
+fn_name_regex: ".*(startRebalance|glmKeeper|currentId|rebalanceInfo).*"
+write_var_regex: ".*(currentId|glmKeeper|rebalanceInfo).*"
+guard_var_regex: ".*(currentId|glmKeeper|rebalanceInfo).*"
+vuln_fn_name: "startRebalance"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "currentid = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

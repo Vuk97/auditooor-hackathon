@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "tranche-maxmint-for-junior-tranches-is-at-risk-of-overflow-when-"
+class_name: "TrancheMaxmintForJuniorTranchesIsAtRiskOfOverflowWhen"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63230 (Cyfrin/Strata Tranches)"
+help: |
+    `Tranche::maxMint` for Junior Tranches is at risk of overflow when the `jrNav` falls below `1:1` rate to `JR_Shares`
+wiki_title: |
+    `Tranche::maxMint` for Junior Tranches is at risk of overflow when the `jrNav` falls below `1:1` rate to `JR_Shares`
+wiki_description: |
+    **Description:** Given that the system is composed of two tranches (Senior and Junior), and all the assets deposited among the two Tranches are polled together on the Strategy, the actual `totalAssets()` for each Tranche is calculated using the corresponding NAVs (`srtNav` and `jrtNav`).
+    The Junior
+wiki_exploit_scenario: |
+    Per Solodit #63230: **Description:** Given that the system is composed of two tranches (Senior and Junior), and all the assets deposited among the two Tranches are polled together on the Strategy, the actual `totalAssets
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrancheMaxmintForJuniorTranchesIsAtRiskOfOverflowWhen"
+solodit_id: "63230"
+solodit_slug: |
+    tranchemaxmint-for-junior-tranches-is-at-risk-of-overflow-when-the-jrnav-falls-below-11-rate-to-jr_shares-cyfrin-none-strata-tranches-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assets;"
+fn_name_regex: ".*(totalAssets|srtNav|jrtNav|maxMint).*"
+read_var_regex: ".*(assets|jrtNav|maxMint).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalAssets"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assets > 0;"

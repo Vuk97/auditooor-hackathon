@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "m-01-same-order-id-can-be-used-twice-in-batch-payments"
+class_name: "M01SameOrderIdCanBeUsedTwiceInBatchPayments"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64691 (Shieldify/Shiny Paymentrouter)"
+help: "[M-01] Same Order ID Can Be Used Twice in Batch Payments"
+wiki_title: "[M-01] Same Order ID Can Be Used Twice in Batch Payments"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `payOrdersBatch()` function validates all orders against the initial state before updating any state in a subsequent loop. This allows duplicate `orderIds` in a single batch to bypass the `OrderAlreadyProcessed` check.
+    
+    ## Location of Affected Code
+    
+    Fil
+wiki_exploit_scenario: |
+    Per Solodit #64691: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `payOrdersBatch()` function validates all orders against the initial state before updating any state in a subsequent loop. This allows duplicate `orderId
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01SameOrderIdCanBeUsedTwiceInBatchPayments"
+solodit_id: "64691"
+solodit_slug: "m-01-same-order-id-can-be-used-twice-in-batch-payments-shieldify-none-shiny-paymentrouter-markdown"
+solodit_quality: "4.5"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal orderids;"
+fn_name_regex: ".*(payOrdersBatch|orderIds|OrderAlreadyProcessed).*"
+read_var_regex: ".*(orderIds|payOrdersBatch).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "payOrdersBatch"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return orderids > 0;"

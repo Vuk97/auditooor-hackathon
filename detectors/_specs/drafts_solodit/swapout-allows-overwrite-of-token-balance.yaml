@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_require"
+name: "swapout-allows-overwrite-of-token-balance"
+class_name: "SwapoutAllowsOverwriteOfTokenBalance"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7213 (Spearbit/Connext)"
+help: "swapOut allows overwrite of token balance"
+wiki_title: "swapOut allows overwrite of token balance"
+wiki_description: |
+    ## Security Analysis Report
+    
+    ## Severity
+    **Critical Risk**
+    
+    ## Context
+    - **StableSwapFacet.sol**: Lines 266-281
+    - **SwapUtils.sol**: Lines 740-781, Lines 417-473
+    
+    ## Description
+    The `StableSwapFacet` has the function `swapExactOut()` where a user could supply the same `assetIn` address as `assetOut`
+wiki_exploit_scenario: |
+    Per Solodit #7213: ## Security Analysis Report
+    
+    ## Severity
+    **Critical Risk**
+    
+    ## Context
+    - **StableSwapFacet.sol**: Lines 266-281
+    - **SwapUtils.sol**: Lines 740-781, Lines 417-473
+    
+    ## Description
+    The `StableSwapFacet`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwapoutAllowsOverwriteOfTokenBalance"
+solodit_id: "7213"
+solodit_slug: "swapout-allows-overwrite-of-token-balance-spearbit-connext-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation, Swap, from=to"
+state_decl: "uint256 internal assetin;"
+fn_name_regex: ".*(StableSwapFacet|swapExactOut|assetIn|assetOut).*"
+write_var_regex: ".*(assetIn|assetOut|getY).*"
+guard_var_regex: ".*(assetIn|assetOut|getY).*"
+vuln_fn_name: "StableSwapFacet"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "assetin = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

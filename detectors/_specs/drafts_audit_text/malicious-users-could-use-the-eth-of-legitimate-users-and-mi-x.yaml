@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "malicious-users-could-use-the-eth-of-legitimate-users-and-mi-x"
+class_name: "MaliciousUsersCouldUseTheEthOfLegitimateUsersAndMiX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit EtherFi - Zellic Audit Report"
+help: |
+    There are two source of funds to deposit ETH in the contract: DELEGATED_STAKING and EETH. In DELEGATED_STAKING, the user could deposit the entire 32 ETH using the payable function
+wiki_title: "Malicious users could use the ETH of legitimate users and mint themselves"
+wiki_description: |
+    There are two source of funds to deposit ETH in the contract: DELEGATED_STAKING and EETH. In DELEGATED_STAKING, the user could deposit the entire 32 ETH using the payable function batchDepositWithBidIds in StakingManager, which changes the phase of the validator ID to STAKE_DEPOSITED, and then call
+wiki_exploit_scenario: |
+    Per audit finding: There are two source of funds to deposit ETH in the contract: DELEGATED_STAKING and EETH. In DELEGATED_STAKING, the user could deposit the entire 32 ETH using the payable function batchDepositWithBidI
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousUsersCouldUseTheEthOfLegitimateUsersAndMiX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(batchDepositWithBidIds|batchRegisterValidators|batchDepositAsBnftHolder).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "batchDepositWithBidIds"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "single-step-ownership-transfer-may-cause-loss-of-contract"
+class_name: "SingleStepOwnershipTransferMayCauseLossOfContract"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Euler - Zellic Audit Report"
+help: |
+    The transferOwnership() function is used to transfer ownership of the contract to a different address. This is done in a single step, meaning that the ownership is fully transferre
+wiki_title: "Single-step ownership transfer may cause loss of contract"
+wiki_description: |
+    The transferOwnership() function is used to transfer ownership of the contract to a different address. This is done in a single step, meaning that the ownership is fully transferred after this function is called. function transferOwnership(address newOwner) external onlyOwner { require(newOwner !) a
+wiki_exploit_scenario: |
+    Per audit finding: The transferOwnership() function is used to transfer ownership of the contract to a different address. This is done in a single step, meaning that the ownership is fully transferred after this functio
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SingleStepOwnershipTransferMayCauseLossOfContract"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferOwnership|newOwner|onlyOwner).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "transferOwnership"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

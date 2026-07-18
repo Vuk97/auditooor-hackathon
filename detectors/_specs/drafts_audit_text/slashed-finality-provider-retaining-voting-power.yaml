@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "slashed-finality-provider-retaining-voting-power"
+class_name: "SlashedFinalityProviderRetainingVotingPower"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Babylon Genesis Chain - Zellic Audit Report"
+help: |
+    Finality providers are ranked based on their staked Satoshi, and only those within maxActiveFps are eligible to participate in voting. In the ProcessAllPowerDistUpdateEvents functi
+wiki_title: "Slashed finality provider retaining voting power"
+wiki_description: |
+    Finality providers are ranked based on their staked Satoshi, and only those within maxActiveFps are eligible to participate in voting. In the ProcessAllPowerDistUpdateEvents function (source here ↗), an FP that has been slashed is intended to be excluded from newDc, ensuring that it no longer con- t
+wiki_exploit_scenario: |
+    Per audit finding: Finality providers are ranked based on their staked Satoshi, and only those within maxActiveFps are eligible to participate in voting. In the ProcessAllPowerDistUpdateEvents function (source here ↗),
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SlashedFinalityProviderRetainingVotingPower"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxActiveFps|newDc).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "maxActiveFps"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

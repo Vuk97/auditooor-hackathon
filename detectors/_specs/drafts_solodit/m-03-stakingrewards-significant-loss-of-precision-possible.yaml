@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-03-stakingrewards-significant-loss-of-precision-possible"
+class_name: "M03StakingrewardsSignificantLossOfPrecisionPossible"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5784 (Code4rena/Y2k Finance)"
+help: "[M-03] StakingRewards: Significant loss of precision possible"
+wiki_title: "[M-03] StakingRewards: Significant loss of precision possible"
+wiki_description: |
+    In `notifyRewardAmount`, the reward rate per second is calculated. This calculation rounds down, which can lead to situations where significantly less rewards are paid out to stakers, because the effect of the rounding is multiplied by the duration.
+    
+    ### Proof Of Concept
+    
+    Let's say we have a `rewar
+wiki_exploit_scenario: |
+    Per Solodit #5784: In `notifyRewardAmount`, the reward rate per second is calculated. This calculation rounds down, which can lead to situations where significantly less rewards are paid out to stakers, because the eff
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03StakingrewardsSignificantLossOfPrecisionPossible"
+solodit_id: "5784"
+solodit_slug: |
+    m-03-stakingrewards-significant-loss-of-precision-possible-code4rena-y2k-finance-y2k-finance-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal notifyrewardamount;"
+fn_name_regex: ".*(notifyRewardAmount|rewardsDuration|rewardRate).*"
+read_var_regex: ".*(notifyRewardAmount|rewardRate|rewardsDuration).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "notifyRewardAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return notifyrewardamount > 0;"

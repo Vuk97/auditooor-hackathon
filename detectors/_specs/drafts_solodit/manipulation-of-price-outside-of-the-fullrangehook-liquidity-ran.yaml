@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "manipulation-of-price-outside-of-the-fullrangehook-liquidity-ran"
+class_name: "ManipulationOfPriceOutsideOfTheFullrangehookLiquidityRan"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61556 (Cyfrin/Paladin Valkyrie)"
+help: |
+    Manipulation of price outside of the `FullRangeHook` liquidity range can result in DoS and financial loss to liquidity providers
+wiki_title: |
+    Manipulation of price outside of the `FullRangeHook` liquidity range can result in DoS and financial loss to liquidity providers
+wiki_description: |
+    **Description:** The minimum and maximum ticks used by the `FullRangeHook` differ from those defined in Uniswap V4 pools:
+    
+    ```solidity
+    FullRangeHook.sol:
+     /// @dev Min tick for full range with tick spacing of 60
+    int24 internal constant MIN_TICK = -887220;
+    /// @dev Max tick for full range with tick s
+wiki_exploit_scenario: |
+    Per Solodit #61556: **Description:** The minimum and maximum ticks used by the `FullRangeHook` differ from those defined in Uniswap V4 pools:
+    
+    ```solidity
+    FullRangeHook.sol:
+     /// @dev Min tick for full range with tick sp
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ManipulationOfPriceOutsideOfTheFullrangehookLiquidityRan"
+solodit_id: "61556"
+solodit_slug: |
+    manipulation-of-price-outside-of-the-fullrangehook-liquidity-range-can-result-in-dos-and-financial-loss-to-liquidity-providers-cyfrin-none-paladin-valkyrie-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(FullRangeHook).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "FullRangeHook"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

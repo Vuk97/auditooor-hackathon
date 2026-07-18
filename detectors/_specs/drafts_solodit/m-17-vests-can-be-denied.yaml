@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-17-vests-can-be-denied"
+class_name: "M17VestsCanBeDenied"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1036 (Code4rena/Vader Protocol)"
+help: "[M-17] Vests can be denied"
+wiki_title: "[M-17] Vests can be denied"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `LinearVesting.vestFor` function (which is called by `Converter`) reverts if there already exists a vest for the user:
+    
+    ```solidity
+     require(
+        vest[user].amount == 0,
+        "LinearVesting::selfVest: Already a vester"
+    );
+    ```
+    
+    There's an attack where a griefer frontruns th
+wiki_exploit_scenario: |
+    Per Solodit #1036: _Submitted by cmichel_
+    
+    The `LinearVesting.vestFor` function (which is called by `Converter`) reverts if there already exists a vest for the user:
+    
+    ```solidity
+     require(
+        vest[user].amount == 0,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M17VestsCanBeDenied"
+solodit_id: "1036"
+solodit_slug: "m-17-vests-can-be-denied-code4rena-vader-protocol-vader-protocol-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal user;"
+fn_name_regex: ".*(Converter|vestFor|user).*"
+read_var_regex: ".*(user|vestFor).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Converter"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return user > 0;"

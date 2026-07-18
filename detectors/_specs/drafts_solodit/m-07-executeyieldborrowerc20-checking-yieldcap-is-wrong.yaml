@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "m-07-executeyieldborrowerc20-checking-yieldcap-is-wrong"
+class_name: "M07Executeyieldborrowerc20CheckingYieldcapIsWrong"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36889 (Code4rena/BendDAO)"
+help: "[M-07] `executeYieldBorrowERC20()` checking `yieldCap` is wrong"
+wiki_title: "[M-07] `executeYieldBorrowERC20()` checking `yieldCap` is wrong"
+wiki_description: |
+    In `executeYieldBorrowERC20()`, we will check whether `stakerAddr` exceeds `yieldCap`.
+    
+    ```solidity
+      function executeYieldBorrowERC20(InputTypes.ExecuteYieldBorrowERC20Params memory params) internal {
+    ...
+        ValidateLogic.validateYieldBorrowERC20(params, poolData, assetData, groupData);
+    
+    @>  vars
+wiki_exploit_scenario: |
+    Per Solodit #36889: In `executeYieldBorrowERC20()`, we will check whether `stakerAddr` exceeds `yieldCap`.
+    
+    ```solidity
+      function executeYieldBorrowERC20(InputTypes.ExecuteYieldBorrowERC20Params memory params) internal
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07Executeyieldborrowerc20CheckingYieldcapIsWrong"
+solodit_id: "36889"
+solodit_slug: "m-07-executeyieldborrowerc20-checking-yieldcap-is-wrong-code4rena-benddao-benddao-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal executeyieldborrowerc20;"
+fn_name_regex: ".*(executeYieldBorrowERC20|stakerAddr|yieldCap|totalSupply).*"
+write_var_regex: ".*(executeYieldBorrowERC20|stakerAddr|supply).*"
+guard_var_regex: ".*(executeYieldBorrowERC20|stakerAddr|supply).*"
+vuln_fn_name: "executeYieldBorrowERC20"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "executeyieldborrowerc20 = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

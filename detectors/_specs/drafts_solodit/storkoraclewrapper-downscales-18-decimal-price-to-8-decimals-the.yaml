@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "storkoraclewrapper-downscales-18-decimal-price-to-8-decimals-the"
+class_name: "StorkoraclewrapperDownscales18DecimalPriceTo8DecimalsThe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #38435 (Cyfrin/Bima)"
+help: |
+    `StorkOracleWrapper` downscales 18 decimal price to 8 decimals then `PriceFeed` upscales to 18 decimals resulting in inaccurate price
+wiki_title: |
+    `StorkOracleWrapper` downscales 18 decimal price to 8 decimals then `PriceFeed` upscales to 18 decimals resulting in inaccurate price
+wiki_description: |
+    **Description:** `StorkOracleWrapper` returns hard-coded 8 decimals:
+    ```solidity
+    function decimals() external pure returns (uint8 dec) {
+        dec = 8;
+    }
+    ```
+    
+    And its functions `getRoundData` and `latestRoundData` always downscale the native 18-decimal price to 8 decimals:
+    ```solidity
+    answer = int256(
+wiki_exploit_scenario: |
+    Per Solodit #38435: **Description:** `StorkOracleWrapper` returns hard-coded 8 decimals:
+    ```solidity
+    function decimals() external pure returns (uint8 dec) {
+        dec = 8;
+    }
+    ```
+    
+    And its functions `getRoundData` and `lates
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StorkoraclewrapperDownscales18DecimalPriceTo8DecimalsThe"
+solodit_id: "38435"
+solodit_slug: |
+    storkoraclewrapper-downscales-18-decimal-price-to-8-decimals-then-pricefeed-upscales-to-18-decimals-resulting-in-inaccurate-price-cyfrin-none-bima-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getrounddata;"
+fn_name_regex: ".*(StorkOracleWrapper|getRoundData|latestRoundData|PriceFeed).*"
+read_var_regex: ".*(getRoundData|latestRoundData).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "StorkOracleWrapper"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getrounddata > 0;"

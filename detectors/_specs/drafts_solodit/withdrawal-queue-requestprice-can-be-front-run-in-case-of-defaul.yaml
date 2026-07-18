@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "withdrawal-queue-requestprice-can-be-front-run-in-case-of-defaul"
+class_name: "WithdrawalQueueRequestpriceCanBeFrontRunInCaseOfDefaul"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62982 (Cyfrin/Accountable)"
+help: "Withdrawal queue `RequestPrice` can be front run in case of defaults"
+wiki_title: "Withdrawal queue `RequestPrice` can be front run in case of defaults"
+wiki_description: |
+    **Description:** When `processingMode == ProcessingMode.RequestPrice` in `AccountableWithdrawalQueue`, a redeem request’s value is fixed at the request-time share price. The request is later processed potentially at a very different price.
+    
+    **Impact:** * Normal operation: Requesters are typically di
+wiki_exploit_scenario: |
+    Per Solodit #62982: **Description:** When `processingMode == ProcessingMode.RequestPrice` in `AccountableWithdrawalQueue`, a redeem request’s value is fixed at the request-time share price. The request is later processed
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WithdrawalQueueRequestpriceCanBeFrontRunInCaseOfDefaul"
+solodit_id: "62982"
+solodit_slug: "withdrawal-queue-requestprice-can-be-front-run-in-case-of-defaults-cyfrin-none-accountable-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal processingmode;"
+fn_name_regex: ".*(AccountableWithdrawalQueue|processingMode|RequestPrice).*"
+read_var_regex: ".*(processingMode).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "AccountableWithdrawalQueue"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return processingmode > 0;"

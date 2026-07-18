@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_require"
+name: "topbpool-2026-06"
+class_name: "Topbpool202606"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-06/TOPBPool_exp.sol"
+help: "TOPBPool 2026-06 — rounding exploit (944.20 WETH)"
+wiki_title: "TOPBPool (2026-06) — rounding"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-06): TOPBPool lost 944.20 WETH. Bug class: rounding. Attack tx: 0x967aa34c69b7775c718545c7f94d92e965eb5fc553c0f27f6f1a9c65c93ac156.
+wiki_exploit_scenario: |
+    Attacker (0xff8ef7bc455a57e5893232203052ce0232b39fa2) exploits TOPBPool via rounding: the victim contract 0xb935c3d80229d5d92f3761b17cd81dc2610e3a45 exposes a code path that can be triggered without the guard expected by the name_match_missing_require skeleton.
+wiki_recommendation: |
+    Use mulDiv with explicit rounding direction; require the resulting amount to stay within tolerance bounds; never round user-withdraw amounts up.
+contract_name: "Topbpool202606"
+fn_name_regex: ".*(withdraw).*"
+write_var_regex: ".*(admin|owner|balance|amount).*"
+guard_var_regex: ".*(admin|owner|balance|amount).*"
+vuln_fn_name: "withdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(msg.sender == owner, \"!auth\");"
+state_decl: |
+    uint256 internal balance;
+        address internal owner;

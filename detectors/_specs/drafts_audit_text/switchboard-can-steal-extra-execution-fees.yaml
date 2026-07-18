@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "switchboard-can-steal-extra-execution-fees"
+class_name: "SwitchboardCanStealExtraExecutionFees"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Socket Data Layer - Zellic Audit Report"
+help: |
+    The payAndCheckFees function considers any fees left over after transmission fees, switchboard fees, and the minimum execution fees — the verification overhead fees added to msg.va
+wiki_title: "Switchboard can steal extra execution fees"
+wiki_description: |
+    The payAndCheckFees function considers any fees left over after transmission fees, switchboard fees, and the minimum execution fees — the verification overhead fees added to msg.value transfer fees) — to be extra execution fees which can be optionally provided to encourage priority execution: if (ms
+wiki_exploit_scenario: |
+    Per audit finding: The payAndCheckFees function considers any fees left over after transmission fees, switchboard fees, and the minimum execution fees — the verification overhead fees added to msg.value transfer fees) —
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwitchboardCanStealExtraExecutionFees"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(payAndCheckFees|msgValue|transmissionFees).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

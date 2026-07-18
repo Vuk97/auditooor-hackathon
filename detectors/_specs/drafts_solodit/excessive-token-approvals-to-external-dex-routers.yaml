@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "excessive-token-approvals-to-external-dex-routers"
+class_name: "ExcessiveTokenApprovalsToExternalDexRouters"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52350 (Halborn/Bellum Core)"
+help: "Excessive Token Approvals to External DEX Routers"
+wiki_title: "Excessive Token Approvals to External DEX Routers"
+wiki_description: |
+    ##### Description
+    
+    The `BellumFactory` contract approves an unlimited amount (i.e.: `type(uint256).max`) of newly created tokens to external DEX routers (`TJ_ROUTER` or `PHARAOH_ROUTER`). While this is done for convenience, it creates a security risk:
+    
+      
+    
+    If either router contract is compromised th
+wiki_exploit_scenario: |
+    Per Solodit #52350: ##### Description
+    
+    The `BellumFactory` contract approves an unlimited amount (i.e.: `type(uint256).max`) of newly created tokens to external DEX routers (`TJ_ROUTER` or `PHARAOH_ROUTER`). While this i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExcessiveTokenApprovalsToExternalDexRouters"
+solodit_id: "52350"
+solodit_slug: "excessive-token-approvals-to-external-dex-routers-halborn-bellum-exchange-bellum-core-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(BellumFactory|TJ_ROUTER|PHARAOH_ROUTER).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BellumFactory"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_require"
+name: "m-02-unchecked-low-level-calls"
+class_name: "M02UncheckedLowLevelCalls"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #970 (Code4rena/Boot Finance)"
+help: "[M-02] Unchecked low-level calls"
+wiki_title: "[M-02] Unchecked low-level calls"
+wiki_description: |
+    _Submitted by 0v3rf10w, also found by Reigada_
+    
+    #### Impact
+    
+    Unchecked low-level calls
+    
+    #### Proof of Concept
+    
+    Unchecked cases at 2 places :-
+    `BasicSale.receive()` (2021-11-bootfinance/tge/contracts/PublicSale.sol#148-156) ignores return value by `burnAddress.call{value: msg.value}()` (2021-11-bootf
+wiki_exploit_scenario: |
+    Per Solodit #970: _Submitted by 0v3rf10w, also found by Reigada_
+    
+    #### Impact
+    
+    Unchecked low-level calls
+    
+    #### Proof of Concept
+    
+    Unchecked cases at 2 places :-
+    `BasicSale.receive()` (2021-11-bootfinance/tge/contracts/P
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02UncheckedLowLevelCalls"
+solodit_id: "970"
+solodit_slug: "m-02-unchecked-low-level-calls-code4rena-boot-finance-boot-finance-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(burnAddress|burnEtherForMember).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "burnAddress"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

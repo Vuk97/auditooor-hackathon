@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "lps-3-fee-on-transfer-tokens"
+class_name: "Lps3FeeOnTransferTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26764 (Guardian Audits/Key Finance)"
+help: "LPS-3 | Fee-On-Transfer Tokens"
+wiki_title: "LPS-3 | Fee-On-Transfer Tokens"
+wiki_description: |
+    **Description**
+    
+    The `LPStaker` contract is not compatible with fee-on-transfer tokens for the `rewardToken` as it relies on the `uint` returned from the `uniswapV3Staker` `claimReward` function to increment the reward mapping.
+    Fee on transfer tokens will cause this returned value to be inaccurate a
+wiki_exploit_scenario: |
+    Per Solodit #26764: **Description**
+    
+    The `LPStaker` contract is not compatible with fee-on-transfer tokens for the `rewardToken` as it relies on the `uint` returned from the `uniswapV3Staker` `claimReward` function to in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Lps3FeeOnTransferTokens"
+solodit_id: "26764"
+solodit_slug: "lps-3-fee-on-transfer-tokens-guardian-audits-none-key-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimreward;"
+fn_name_regex: ".*(LPStaker|rewardToken|uint|uniswapV3Staker).*"
+read_var_regex: ".*(claimReward|rewardToken|uint).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LPStaker"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimreward > 0;"

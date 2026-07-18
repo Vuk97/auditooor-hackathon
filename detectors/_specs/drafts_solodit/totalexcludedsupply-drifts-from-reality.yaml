@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "totalexcludedsupply-drifts-from-reality"
+class_name: "TotalexcludedsupplyDriftsFromReality"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #64666 (Spearbit/Buck Labs: Smart Contracts)"
+help: "totalExcludedSupply drifts from reality"
+wiki_title: "totalExcludedSupply drifts from reality"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    RewardsEngine.sol#L498-L551
+    
+    ## Description
+    RewardsEngine tracks `totalExcludedSupply` as the sum of balances for excluded accounts, but it only updates this value inside the `setAccountExcluded()` and `setBreakageSink()` functions. Excluded accounts can still rece
+wiki_exploit_scenario: |
+    Per Solodit #64666: ## Severity: High Risk
+    
+    ## Context
+    RewardsEngine.sol#L498-L551
+    
+    ## Description
+    RewardsEngine tracks `totalExcludedSupply` as the sum of balances for excluded accounts, but it only updates this value i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TotalexcludedsupplyDriftsFromReality"
+solodit_id: "64666"
+solodit_slug: "totalexcludedsupply-drifts-from-reality-spearbit-none-buck-labs-smart-contracts-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(totalExcludedSupply|setAccountExcluded|setBreakageSink|currentEligibleSupply).*"
+primary_var_regex: ".*(currentEligibleSupply|setAccountExcluded|setBreakageSink).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

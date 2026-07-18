@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-13-attacker-can-transfer-all-susd-s-balance-of-liquiditypool-a"
+class_name: "M13AttackerCanTransferAllSusdSBalanceOfLiquiditypoolA"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20250 (Code4rena/Polynomial Protocol)"
+help: |
+    [M-13] Attacker can transfer all SUSD’s balance of LiquidityPool as margin to Synthetix perpetual market, and break the actions of users until the pool is rebalanced by the authori
+wiki_title: |
+    [M-13] Attacker can transfer all SUSD’s balance of LiquidityPool as margin to Synthetix perpetual market, and break the actions of users until the pool is rebal
+wiki_description: |
+    Contract `LiquidityPool` will transfer margin of size delta for every trade, and this margin is always > 0. Then attacker can repeat open and close a position in 1 transaction, to make the pool transfer all its SUSD tokens to Synthetix perpetual market as margin, even the perpetual size of `Liquidi
+wiki_exploit_scenario: |
+    Per Solodit #20250: Contract `LiquidityPool` will transfer margin of size delta for every trade, and this margin is always > 0. Then attacker can repeat open and close a position in 1 transaction, to make the pool trans
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M13AttackerCanTransferAllSusdSBalanceOfLiquiditypoolA"
+solodit_id: "20250"
+solodit_slug: |
+    m-13-attacker-can-transfer-all-susds-balance-of-liquiditypool-as-margin-to-synthetix-perpetual-market-and-break-the-actions-of-users-until-the-pool-is-rebalanced-by-the-authority-code4rena-polynomial-protocol-polynomial-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal hedgingsize;"
+fn_name_regex: ".*(LiquidityPool|marginRequired|hedgingSize|rebalanceMargin).*"
+read_var_regex: ".*(hedgingSize|marginRequired|rebalanceMargin).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LiquidityPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return hedgingsize > 0;"

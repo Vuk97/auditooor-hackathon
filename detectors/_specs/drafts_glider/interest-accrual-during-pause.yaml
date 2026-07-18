@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "interest-accrual-during-pause"
+class_name: "InterestAccrualDuringPause"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: interest-accruals-when-contract-is-paused"
+help: "Interest Accrual During Pause"
+wiki_title: "Interest Accrual During Pause"
+wiki_description: |
+    Detects if a protocol allows interest to accrue while paused, potentially causing unfair liquidations. If users cannot repay loans while paused but interest continues to accumulate, users can be unfairly liquidated when the protocol is unpaused due to interest build-up. This script finds interest ac
+wiki_exploit_scenario: |
+    Per Glider query tags [Pausable, Interest Accrual, Liquidation, Access Control]: Detects if a protocol allows interest to accrue while paused, potentially causing unfair liquidations. If users cannot repay loans while paused but interest continues to accumulate, users can be unfai
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "InterestAccrualDuringPause"
+fn_name_regex: ".*(interest).*"
+read_var_regex: ".*(interest).*"
+required_call_regex: ".*(accrue|update|sync|validate|check).*"
+guarded_helper_name: "_guard"
+vuln_fn_name: "interestFn"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return interest > 0;"
+state_decl: "uint256 internal interest;"

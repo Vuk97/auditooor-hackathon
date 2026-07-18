@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "dos-of-meta-vault-withdrawals-during-points-phase-if-one-vault-i"
+class_name: "DosOfMetaVaultWithdrawalsDuringPointsPhaseIfOneVaultI"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57018 (Cyfrin/Strata)"
+help: |
+    DoS of meta vault withdrawals during points phase if one vault is paused or attempted redemption exceeds the maximum
+wiki_title: |
+    DoS of meta vault withdrawals during points phase if one vault is paused or attempted redemption exceeds the maximum
+wiki_description: |
+    **Description:** `pUSDeVault::_withdraw` assumes any `USDe` shortfall is covered by the multi-vaults; however, `redeemRequiredBaseAssets()` does not guarantee that the required assets are available or actually withdrawn, so the subsequent ERC-20 token transfer could fail and DoS withdrawals if the E
+wiki_exploit_scenario: |
+    Per Solodit #57018: **Description:** `pUSDeVault::_withdraw` assumes any `USDe` shortfall is covered by the multi-vaults; however, `redeemRequiredBaseAssets()` does not guarantee that the required assets are available or
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DosOfMetaVaultWithdrawalsDuringPointsPhaseIfOneVaultI"
+solodit_id: "57018"
+solodit_slug: |
+    dos-of-meta-vault-withdrawals-during-points-phase-if-one-vault-is-paused-or-attempted-redemption-exceeds-the-maximum-cyfrin-none-strata-markdown
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: ""
+state_decl: "uint256 internal maxwithdraw;"
+fn_name_regex: ".*(USDe|redeemRequiredBaseAssets|previewRedeem|maxWithdraw).*"
+write_var_regex: ".*(maxWithdraw|previewRedeem|redeemRequiredBaseAssets).*"
+guard_var_regex: ".*(maxWithdraw|previewRedeem|redeemRequiredBaseAssets).*"
+vuln_fn_name: "USDe"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "maxwithdraw = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

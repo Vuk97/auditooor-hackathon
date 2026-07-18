@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-migrate-function-can-be-recalled"
+class_name: "TheMigrateFunctionCanBeRecalled"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit StaFi - Zellic Audit Report"
+help: |
+    The migrate function is responsible for migrating the state of the StakeManager con- tract when it is bridged to the Ethereum Mainnet. However, the current implementa- tion lacks p
+wiki_title: "The migrate function can be recalled"
+wiki_description: |
+    The migrate function is responsible for migrating the state of the StakeManager con- tract when it is bridged to the Ethereum Mainnet. However, the current implementa- tion lacks proper checks, allowing for the _rate to be set to zero, which would allow the function to be called again. function migr
+wiki_exploit_scenario: |
+    Per audit finding: The migrate function is responsible for migrating the state of the StakeManager con- tract when it is bridged to the Ethereum Mainnet. However, the current implementa- tion lacks proper checks, allowi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheMigrateFunctionCanBeRecalled"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onlyAdmin|bondedPools|validatorIdsOf).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "onlyAdmin"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

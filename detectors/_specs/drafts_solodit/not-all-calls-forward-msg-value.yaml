@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "not-all-calls-forward-msg-value"
+class_name: "NotAllCallsForwardMsgValue"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #43815 (Spearbit/Biconomy Nexus)"
+help: "Not all calls forward msg.value"
+wiki_title: "Not all calls forward msg.value"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    `ModuleManager.sol#L102`
+    
+    ## Description
+    Most functions of the codebase are payable. When these functions perform an inner call, the `msg.value` is not always forwarded:
+    - `Nexus.executeUserOp` does not forward it in `target.call(data)`.
+    - `Nexus.fallback` handle
+wiki_exploit_scenario: |
+    Per Solodit #43815: ## Severity: Medium Risk
+    
+    ## Context
+    `ModuleManager.sol#L102`
+    
+    ## Description
+    Most functions of the codebase are payable. When these functions perform an inner call, the `msg.value` is not always forw
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NotAllCallsForwardMsgValue"
+solodit_id: "43815"
+solodit_slug: "not-all-calls-forward-msgvalue-spearbit-none-biconomy-nexus-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal executeuserop;"
+fn_name_regex: ".*(executeUserOp|initNexus).*"
+write_var_regex: ".*(executeUserOp|initNexus).*"
+guard_var_regex: ".*(executeUserOp|initNexus).*"
+vuln_fn_name: "executeUserOp"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "executeuserop = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

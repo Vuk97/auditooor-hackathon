@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "burnsdefi-2024-02"
+class_name: "Burnsdefi202402"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-02/BurnsDefi_exp.sol"
+help: "BurnsDefi 2024-02 — oracle exploit (~$67K)"
+wiki_title: "BurnsDefi (2024-02) — oracle"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-02): BurnsDefi lost ~$67K. Bug class: oracle. Attack tx: 0x1d0af3a963682748493f21bf9e955ce3a950bee5817401bf2486db7a0af104b4.
+wiki_exploit_scenario: |
+    Attacker (0xc9fbcf3eb24385491f73bbf691b13a6f8be7c339) exploits BurnsDefi via oracle: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Replace spot-price reads with a TWAP wrapper (e.g., Uniswap V3 OracleLibrary.consult) and require a minimum observation window; sanity-check prices against a reference oracle.
+contract_name: "Burnsdefi202402"
+trigger_sig_regex: ".*(getPrice).*"
+required_sibling_regex: ".*(validatePrice).*"
+target_interface_decl: "interface IT { function getPrice(uint256) external; function validatePrice(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "readPrice"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.getPrice(x)"
+sibling_call: "target.validatePrice(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

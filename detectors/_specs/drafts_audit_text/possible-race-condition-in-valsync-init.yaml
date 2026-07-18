@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "possible-race-condition-in-valsync-init"
+class_name: "PossibleRaceConditionInValsyncInit"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Omni Network - Zellic Audit Report"
+help: |
+    If a subscriber is initialized as a valid validator, and if a previous round where the validator was not a validator is attested to, that validator will mistakenly think it's not a
+wiki_title: "Possible race condition in valsync init"
+wiki_description: |
+    If a subscriber is initialized as a valid validator, and if a previous round where the validator was not a validator is attested to, that validator will mistakenly think it's not a validator. func (k *Keeper) EndBlock(ctx context.Context) ([]abci.ValidatorUpdate, error) { ... // The subscriber is on
+wiki_exploit_scenario: |
+    Per audit finding: If a subscriber is initialized as a valid validator, and if a previous round where the validator was not a validator is attested to, that validator will mistakenly think it's not a validator. func (k
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleRaceConditionInValsyncInit"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(InitGenesis).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "InitGenesis"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

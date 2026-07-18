@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "bankrollnetwork-2025-06"
+class_name: "Bankrollnetwork202506"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-06/BankrollNetwork_exp.sol"
+help: "BankrollNetwork 2025-06 — flashloan exploit (24.5 WBNB)"
+wiki_title: "BankrollNetwork (2025-06) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-06): BankrollNetwork lost 24.5 WBNB. Bug class: flashloan. Attack tx: 0x7226b3947c7e8651982e5bd777bca52d03ea31d19b515dec123595a4435ae22c.
+wiki_exploit_scenario: |
+    Attacker (0x2dea406bb3bea68d6be8d9ef0071fdf63082fb52) exploits BankrollNetwork via flashloan: the victim contract 0xAdEfb902CaB716B8043c5231ae9A50b8b4eE7c4e exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Bankrollnetwork202506"
+trigger_sig_regex: ".*(pancakeCall).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function pancakeCall(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.pancakeCall(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

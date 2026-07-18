@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "zk-circuit-dummy-spend-bypass"
+class_name: "ZkCircuitDummySpendBypass"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ag"
+help: |
+    Dummy spend (zero-value note) bypasses circuit constraints; arbitrary balance commitment accepted as valid.
+wiki_title: "ZK-Circuit Dummy-Spend Bypass"
+wiki_description: |
+    Dummy spend (zero-value note) bypasses circuit constraints; arbitrary balance commitment accepted as valid.
+wiki_exploit_scenario: |
+    Attacker exploits ZK-Circuit Dummy-Spend Bypass as described: Dummy spend (zero-value note) bypasses circuit constraints; arbitrary balance commitment accepted as valid.
+wiki_recommendation: "`is_dummy` flag used to skip `conditional_enforce_equal` on balance/nullifier."
+contract_name: "ZkCircuitDummySpendBypass"
+state_decl: "uint256 internal conditional_enforce_equal;"
+fn_name_regex: ".*(is_dummy|conditional_enforce_equal).*"
+read_var_regex: ".*(conditional_enforce_equal|is_dummy).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "is_dummy"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return conditional_enforce_equal > 0;"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-02-liquiditypool-requestredeemwithpermit-transaction-can-be-fr"
+class_name: "M02LiquiditypoolRequestredeemwithpermitTransactionCanBeFr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27030 (Code4rena/Centrifuge)"
+help: |
+    [M-02] `LiquidityPool::requestRedeemWithPermit` transaction can be front run with the different liquidity pool
+wiki_title: |
+    [M-02] `LiquidityPool::requestRedeemWithPermit` transaction can be front run with the different liquidity pool
+wiki_description: |
+    The permit signature is linked only to the tranche token. That's why it can be used with any liquidity pool with the same tranche token. Since anyone can call `LiquidityPool::requestRedeemWithPermit` the following scenario is possible:
+    
+    1.  Let's assume that some user has some amount of tranche tok
+wiki_exploit_scenario: |
+    Per Solodit #27030: The permit signature is linked only to the tranche token. That's why it can be used with any liquidity pool with the same tranche token. Since anyone can call `LiquidityPool::requestRedeemWithPermit`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02LiquiditypoolRequestredeemwithpermitTransactionCanBeFr"
+solodit_id: "27030"
+solodit_slug: |
+    m-02-liquiditypoolrequestredeemwithpermit-transaction-can-be-front-run-with-the-different-liquidity-pool-code4rena-centrifuge-centrifuge-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal requestredeemwithpermit;"
+fn_name_regex: ".*(requestRedeemWithPermit).*"
+read_var_regex: ".*(requestRedeemWithPermit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "requestRedeemWithPermit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return requestredeemwithpermit > 0;"

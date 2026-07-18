@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "loss-of-eth-when-executing-a-transaction-from-the-module"
+class_name: "LossOfEthWhenExecutingATransactionFromTheModule"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51128 (Halborn/ZK Sync - ZK Safe)"
+help: "Loss of ETH when executing a transaction from the module"
+wiki_title: "Loss of ETH when executing a transaction from the module"
+wiki_description: |
+    ##### Description
+    
+    Due to adding the `payable` keyword and not implementing a way to pull out the ETH sent, if the call to `sendZkSafeTransaction` carries ETH, then those funds will remain locked within the module.
+    
+    ##### Proof of Concept
+    
+    It can be seen in the function definition that it accepts ca
+wiki_exploit_scenario: |
+    Per Solodit #51128: ##### Description
+    
+    Due to adding the `payable` keyword and not implementing a way to pull out the ETH sent, if the call to `sendZkSafeTransaction` carries ETH, then those funds will remain locked with
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LossOfEthWhenExecutingATransactionFromTheModule"
+solodit_id: "51128"
+solodit_slug: "loss-of-eth-when-executing-a-transaction-from-the-module-halborn-1kx-zk-sync-zk-safe-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal exectransactionfrommodule;"
+fn_name_regex: ".*(payable|sendZkSafeTransaction|execTransactionFromModule).*"
+read_var_regex: ".*(execTransactionFromModule|payable|sendZkSafeTransaction).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "payable"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return exectransactionfrommodule > 0;"

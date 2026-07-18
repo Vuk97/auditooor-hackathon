@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "pledge-can-t-successfully-complete-unless-remoratoken-is-paused"
+class_name: "PledgeCanTSuccessfullyCompleteUnlessRemoratokenIsPaused"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61191 (Cyfrin/Remora Pledge)"
+help: "Pledge can't successfully complete unless `RemoraToken` is paused"
+wiki_title: "Pledge can't successfully complete unless `RemoraToken` is paused"
+wiki_description: |
+    **Description:** When the funding goal has been reached, `PledgeManager::checkPledgeStatus` calls `RemoraToken::unpause`:
+    ```solidity
+    function checkPledgeStatus() public returns(bool pledgeNowConcluded) {
+        if (pledgeRoundConcluded) return true;
+    
+        uint32 curTime = SafeCast.toUint32(block.timest
+wiki_exploit_scenario: |
+    Per Solodit #61191: **Description:** When the funding goal has been reached, `PledgeManager::checkPledgeStatus` calls `RemoraToken::unpause`:
+    ```solidity
+    function checkPledgeStatus() public returns(bool pledgeNowConclude
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PledgeCanTSuccessfullyCompleteUnlessRemoratokenIsPaused"
+solodit_id: "61191"
+solodit_slug: "pledge-cant-successfully-complete-unless-remoratoken-is-paused-cyfrin-none-remora-pledge-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal whenpaused;"
+fn_name_regex: ".*(RemoraToken|whenPaused).*"
+read_var_regex: ".*(whenPaused).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "RemoraToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return whenpaused > 0;"

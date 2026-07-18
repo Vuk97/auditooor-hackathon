@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "laxo-token-2026-02"
+class_name: "LaxoToken202602"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-02/LAXO_Token_exp.sol"
+help: "LAXO_Token 2026-02 — oracle exploit (~137K US$)"
+wiki_title: "LAXO_Token (2026-02) — oracle"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-02): LAXO_Token lost ~137K US$. Bug class: oracle. Attack tx: 0xd58f3ef6414b59f95f55dae1acb3d5d6e626acf5333917c6d43fe422d98ac7d3.
+wiki_exploit_scenario: |
+    Attacker (0x17f9132E66A78b93195b4B186702Ad18Fdcd6E3D) exploits LAXO_Token via oracle: the victim contract 0x62951CaD7659393BF07fbe790cF898A3B6d317CB exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Replace spot-price reads with a TWAP wrapper (e.g., Uniswap V3 OracleLibrary.consult) and require a minimum observation window; sanity-check prices against a reference oracle.
+contract_name: "LaxoToken202602"
+trigger_sig_regex: ".*(getPrice).*"
+required_sibling_regex: ".*(validatePrice).*"
+target_interface_decl: "interface IT { function getPrice(uint256) external; function validatePrice(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "readPrice"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.getPrice(x)"
+sibling_call: "target.validatePrice(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

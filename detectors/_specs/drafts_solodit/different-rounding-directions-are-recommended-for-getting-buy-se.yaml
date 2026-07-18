@@ -1,0 +1,36 @@
+skeleton: "paired_function_divergence"
+name: "different-rounding-directions-are-recommended-for-getting-buy-se"
+class_name: "DifferentRoundingDirectionsAreRecommendedForGettingBuySe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18415 (Cyfrin/Sudoswap)"
+help: "Different rounding directions are recommended for getting buy/sell info"
+wiki_title: "Different rounding directions are recommended for getting buy/sell info"
+wiki_description: |
+    **Description:**
+    This issue pertains to the need for more implementation of different rounding directions for buy and sell operations in the AMM pools.
+    In several `ICurve` implementations (`XykCurve`, `GDACurve`), the `ICurve::getBuyInfo` and `ICurve::getSellInfo` functions are implemented using the
+wiki_exploit_scenario: |
+    Per Solodit #18415: **Description:**
+    This issue pertains to the need for more implementation of different rounding directions for buy and sell operations in the AMM pools.
+    In several `ICurve` implementations (`XykCurve`,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DifferentRoundingDirectionsAreRecommendedForGettingBuySe"
+solodit_id: "18415"
+solodit_slug: "different-rounding-directions-are-recommended-for-getting-buysell-info-cyfrin-sudoswap-markdown_"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Rounding"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

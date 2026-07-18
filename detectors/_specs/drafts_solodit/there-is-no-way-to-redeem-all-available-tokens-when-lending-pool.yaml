@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "there-is-no-way-to-redeem-all-available-tokens-when-lending-pool"
+class_name: "ThereIsNoWayToRedeemAllAvailableTokensWhenLendingPool"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16939 (TrailOfBits/Aave Protocol)"
+help: |
+    There is no way to redeem all available tokens when Lending Pool parameters are close to the redemption limit
+wiki_title: |
+    There is no way to redeem all available tokens when Lending Pool parameters are close to the redemption limit
+wiki_description: |
+    ## Type: Timing
+    **Target:** LendingPool.sol
+    
+    **Difficulty:** High
+    
+    ## Description
+    If the available liquidity or health metric are close to the acceptable limits, the redeem function provides no way to specify to redeem the maximum amount of available tokens, forcing the user to guess this amount.
+    
+    U
+wiki_exploit_scenario: |
+    Per Solodit #16939: ## Type: Timing
+    **Target:** LendingPool.sol
+    
+    **Difficulty:** High
+    
+    ## Description
+    If the available liquidity or health metric are close to the acceptable limits, the redeem function provides no way to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ThereIsNoWayToRedeemAllAvailableTokensWhenLendingPool"
+solodit_id: "16939"
+solodit_slug: |
+    there-is-no-way-to-redeem-all-available-tokens-when-lending-pool-parameters-are-close-to-the-redemption-limit-trailofbits-aave-protocol-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(nonReentrant|aToken|getUnderlyingAssetAddress|underlyingAmountToRedeem).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "nonReentrant"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

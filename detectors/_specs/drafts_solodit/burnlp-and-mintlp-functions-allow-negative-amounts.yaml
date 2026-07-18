@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "burnlp-and-mintlp-functions-allow-negative-amounts"
+class_name: "BurnlpAndMintlpFunctionsAllowNegativeAmounts"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #48391 (OtterSec/Vertex Protocol)"
+help: "BurnLp And MintLp Functions Allow Negative Amounts"
+wiki_title: "BurnLp And MintLp Functions Allow Negative Amounts"
+wiki_description: |
+    ## Vulnerabilities in Clearinghouse Contract
+    
+    Both spot and perp engines allow negative amounts for minting and burning. The amounts from transactions are `uint256` and are converted to `int256` in Clearinghouse. `int256(2**255 - 1)` becomes `-1` in signed number, therefore, an attacker may still pa
+wiki_exploit_scenario: |
+    Per Solodit #48391: ## Vulnerabilities in Clearinghouse Contract
+    
+    Both spot and perp engines allow negative amounts for minting and burning. The amounts from transactions are `uint256` and are converted to `int256` in Cl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BurnlpAndMintlpFunctionsAllowNegativeAmounts"
+solodit_id: "48391"
+solodit_slug: "burnlp-and-mintlp-functions-allow-negative-amounts-ottersec-none-vertex-protocol-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal baseamount;"
+fn_name_regex: ".*(mintLp|burnLp|baseAmount|lpBalance).*"
+read_var_regex: ".*(baseAmount|burnLp|getHealth).*"
+required_call_regex: ".*mintLp.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mintLp"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return baseamount > 0;"

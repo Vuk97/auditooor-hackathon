@@ -1,0 +1,39 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-30-in-the-liquidation-type-1-process-ether-refunds-are-being-s"
+class_name: "H30InTheLiquidationType1ProcessEtherRefundsAreBeingS"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45483 (Sherlock/Autonomint Colored Dollar V1)"
+help: |
+    H-30: In the Liquidation Type 1 process, Ether refunds are being sent to an incorrect recipient address
+wiki_title: |
+    H-30: In the Liquidation Type 1 process, Ether refunds are being sent to an incorrect recipient address
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-11-autonomint-judging/issues/998 
+    
+    ## Found by 
+    0x23r0, 0xAristos, Audinarey, AuditorPraise, Aymen0909, DenTonylifer, Flashloan44, John44, LZ\_security, Ocean\_Sky, RampageAudit, nuthan2x, santiellena, super\_jack, t.aksoy, theweb3mechanic, valuevalk, v
+wiki_exploit_scenario: |
+    Per Solodit #45483: Source: https://github.com/sherlock-audit/2024-11-autonomint-judging/issues/998 
+    
+    ## Found by 
+    0x23r0, 0xAristos, Audinarey, AuditorPraise, Aymen0909, DenTonylifer, Flashloan44, John44, LZ\_security,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H30InTheLiquidationType1ProcessEtherRefundsAreBeingS"
+solodit_id: "45483"
+solodit_slug: |
+    h-30-in-the-liquidation-type-1-process-ether-refunds-are-being-sent-to-an-incorrect-recipient-address-sherlock-autonomint-colored-dollar-v1-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Cross Chain"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(borrowLiquidation|liqAmountToGetFromOtherChain).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

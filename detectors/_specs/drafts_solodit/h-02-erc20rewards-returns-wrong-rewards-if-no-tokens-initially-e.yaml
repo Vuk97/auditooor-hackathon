@@ -1,0 +1,47 @@
+skeleton: "state_write_without_paired_write"
+name: "h-02-erc20rewards-returns-wrong-rewards-if-no-tokens-initially-e"
+class_name: "H02Erc20rewardsReturnsWrongRewardsIfNoTokensInitiallyE"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #631 (Code4rena/Yield)"
+help: "[H-02] ERC20Rewards returns wrong rewards if no tokens initially exist"
+wiki_title: "[H-02] ERC20Rewards returns wrong rewards if no tokens initially exist"
+wiki_description: |
+    ## Handle
+    
+    cmichel
+    
+    
+    ## Vulnerability details
+    
+    The `ERC20Rewards._updateRewardsPerToken` function exits without updating `rewardsPerToken_.lastUpdated` if `totalSupply` is zero, i.e., if there are no tokens initially.
+    
+    This leads to an error if there is an active rewards period but not tokens have b
+wiki_exploit_scenario: |
+    Per Solodit #631: ## Handle
+    
+    cmichel
+    
+    
+    ## Vulnerability details
+    
+    The `ERC20Rewards._updateRewardsPerToken` function exits without updating `rewardsPerToken_.lastUpdated` if `totalSupply` is zero, i.e., if there are no
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02Erc20rewardsReturnsWrongRewardsIfNoTokensInitiallyE"
+solodit_id: "631"
+solodit_slug: |
+    h-02-erc20rewards-returns-wrong-rewards-if-no-tokens-initially-exist-code4rena-yield-yield-micro-contest-1-git
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: "Business Logic"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(totalSupply|claim|setRewards|end).*"
+primary_var_regex: ".*(claim|end|setRewards).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

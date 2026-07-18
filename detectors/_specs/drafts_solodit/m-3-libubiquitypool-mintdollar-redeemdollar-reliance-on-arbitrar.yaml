@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "m-3-libubiquitypool-mintdollar-redeemdollar-reliance-on-arbitrar"
+class_name: "M3LibubiquitypoolMintdollarRedeemdollarRelianceOnArbitrar"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30206 (Sherlock/Ubiquity)"
+help: |
+    M-3: LibUbiquityPool::mintDollar/redeemDollar reliance on arbitrarily short TWAP oracle may be inefficient for preventing depeg
+wiki_title: |
+    M-3: LibUbiquityPool::mintDollar/redeemDollar reliance on arbitrarily short TWAP oracle may be inefficient for preventing depeg
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-12-ubiquity-judging/issues/20 
+    
+    ## Found by 
+    0xLogos, Arz, Coinstein, Krace, b0g0, cducrest-brainbot, cergyk, evmboi32, infect3d, nirohgo, rvierdiiev, the-first-elder
+    ## Summary
+    The ubiquity pool used for minting/burning uAD relies on a twap oracle whic
+wiki_exploit_scenario: |
+    Per Solodit #30206: Source: https://github.com/sherlock-audit/2023-12-ubiquity-judging/issues/20 
+    
+    ## Found by 
+    0xLogos, Arz, Coinstein, Krace, b0g0, cducrest-brainbot, cergyk, evmboi32, infect3d, nirohgo, rvierdiiev, th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M3LibubiquitypoolMintdollarRedeemdollarRelianceOnArbitrar"
+solodit_id: "30206"
+solodit_slug: |
+    m-3-libubiquitypoolmintdollarredeemdollar-reliance-on-arbitrarily-short-twap-oracle-may-be-inefficient-for-preventing-depeg-sherlock-ubiquity-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(get_twap_balances).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

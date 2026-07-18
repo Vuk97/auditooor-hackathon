@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "setbeforesendhook-can-never-delete-an-existing-store-due-to--x"
+class_name: "SetbeforesendhookCanNeverDeleteAnExistingStoreDueToX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-initia-cosmos"
+help: |
+    oakcobalt , also found by 0xAlix2 and gxh191 Finding description setBeforeSendHook allows disabling an existing token transfer hook (deleting a store) by setting an empty cosmwasmA
+wiki_title: "setBeforeSendHook can never delete an existing store due to vulnerable validate"
+wiki_description: |
+    oakcobalt , also found by 0xAlix2 and gxh191 Finding description setBeforeSendHook allows disabling an existing token transfer hook (deleting a store) by setting an empty cosmwasmAddress . However, this functionality is not available due to a vulnerable validate flow. Proof of Concept We see the int
+wiki_exploit_scenario: |
+    Per audit finding: oakcobalt , also found by 0xAlix2 and gxh191 Finding description setBeforeSendHook allows disabling an existing token transfer hook (deleting a store) by setting an empty cosmwasmAddress . However, th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SetbeforesendhookCanNeverDeleteAnExistingStoreDueToX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setBeforeSendHook|cosmwasmAddress|cacheCtx).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setBeforeSendHook"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

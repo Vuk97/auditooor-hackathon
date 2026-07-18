@@ -1,0 +1,21 @@
+id: ttl-counter-unwrap-or-zero
+title: "Expiring global counter read with unwrap_or(0) regresses high-water mark"
+severity: Critical
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44793"
+  - "44794"
+bug_class: ttl-archival
+indicators:
+  - "`get_next_reserve_id` / `get_next_*_id` returns `unwrap_or(0)` on a persistent counter"
+  - "counter used as both iteration bound AND allocation source"
+  - "no separate 'high-water mark' key or reconstruction helper"
+victim: "Protocol accounting: ids can be reused, overwriting existing reserve or record storage; scan bounds can skip live positions."
+exploit_precondition: "Counter key's TTL elapses without being refreshed by any hot path."
+real_world_example: |
+  V12 #44793 (Critical, V12-self-invalidated on v23): `NEXT_RESERVE_ID` read with `unwrap_or(0)` feeds both reserve scan upper bound and new reserve id allocation.
+suggested_remediation: "Store counters in instance storage, refresh TTL on every use, and reconstruct the true high-water mark on any missing-key signal rather than defaulting to 0."
+cross_refs:
+  - ttl-archival-unwrap-or-zero-hides-debt

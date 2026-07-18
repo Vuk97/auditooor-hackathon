@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unnecessary-precision-loss-in-protocol-fee-38"
+class_name: "UnnecessaryPrecisionLossInProtocolFee38"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Lido Fixed Income - Zellic Audit Report"
+help: |
+    After a vault begins, fixed depositors can call the claimFixedPremium() function to claim their ETH fixed premium: function claimFixedPremium() external { require(isStarted(), "CBS
+wiki_title: "Unnecessary precision loss in protocol fee                                 38"
+wiki_description: |
+    After a vault begins, fixed depositors can call the claimFixedPremium() function to claim their ETH fixed premium: function claimFixedPremium() external { require(isStarted(), "CBS"); // Check and cache balance for gas savings uint256 claimBal = fixedClaimToken[msg.sender]; require(claimBal > 0, "NC
+wiki_exploit_scenario: |
+    Per audit finding: After a vault begins, fixed depositors can call the claimFixedPremium() function to claim their ETH fixed premium: function claimFixedPremium() external { require(isStarted(), "CBS"); // Check and cac
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnnecessaryPrecisionLossInProtocolFee38"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimFixedPremium|isStarted|claimBal).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "claimFixedPremium"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

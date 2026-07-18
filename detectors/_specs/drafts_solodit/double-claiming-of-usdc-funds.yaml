@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "double-claiming-of-usdc-funds"
+class_name: "DoubleClaimingOfUsdcFunds"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #47680 (OtterSec/Watches)"
+help: "Double Claiming Of USDC Funds"
+wiki_title: "Double Claiming Of USDC Funds"
+wiki_description: |
+    ## Escrow Vulnerability Overview
+    
+    Funds in escrow may be double-claimed under limited preconditions due to lack of checks in `revertEscrow`. In Escrow, two methods, namely `claimIntent` and `revertEscrow`, facilitate the return of `totalAmount` to the buyer. This amount corresponds to the funds init
+wiki_exploit_scenario: |
+    Per Solodit #47680: ## Escrow Vulnerability Overview
+    
+    Funds in escrow may be double-claimed under limited preconditions due to lack of checks in `revertEscrow`. In Escrow, two methods, namely `claimIntent` and `revertEsc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DoubleClaimingOfUsdcFunds"
+solodit_id: "47680"
+solodit_slug: "double-claiming-of-usdc-funds-ottersec-none-watches-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimintent;"
+fn_name_regex: ".*(revertEscrow|claimIntent|totalAmount|initiateEscrow).*"
+write_var_regex: ".*(claimIntent|initiateEscrow|revertEscrow).*"
+guard_var_regex: ".*(claimIntent|initiateEscrow|revertEscrow).*"
+vuln_fn_name: "revertEscrow"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "claimintent = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-12-curatedvaultsetters-supplypool-does-not-consider-the-pool-c"
+class_name: "M12CuratedvaultsettersSupplypoolDoesNotConsiderThePoolC"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41833 (Sherlock/ZeroLend One)"
+help: |
+    M-12: `CuratedVaultSetters::_supplyPool()` does not consider the pool cap of the underlying pool, which may cause `deposit()` to revert or lead to an unintended reordering of `supp
+wiki_title: |
+    M-12: `CuratedVaultSetters::_supplyPool()` does not consider the pool cap of the underlying pool, which may cause `deposit()` to revert or lead to an unintended
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-06-new-scope-judging/issues/433 
+    
+    ## Found by 
+    Bigsam, Nihavent, wellbyt3
+    ### Summary
+    
+    The curated vault's `_supplyPool()` function deposits assets into the underlying pools in `supplyQueue`. Whilst it considers the curated vault's cap for a given pool,
+wiki_exploit_scenario: |
+    Per Solodit #41833: Source: https://github.com/sherlock-audit/2024-06-new-scope-judging/issues/433 
+    
+    ## Found by 
+    Bigsam, Nihavent, wellbyt3
+    ### Summary
+    
+    The curated vault's `_supplyPool()` function deposits assets into
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12CuratedvaultsettersSupplypoolDoesNotConsiderThePoolC"
+solodit_id: "41833"
+solodit_slug: |
+    m-12-curatedvaultsetters_supplypool-does-not-consider-the-pool-cap-of-the-underlying-pool-which-may-cause-deposit-to-revert-or-lead-to-an-unintended-reordering-of-supplyqueue-sherlock-zerolend-one-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assets;"
+fn_name_regex: ".*(supplyQueue|assets|supplyAssets|toSupply).*"
+read_var_regex: ".*(assets|supplyAssets|supplyQueue).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "supplyQueue"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assets > 0;"

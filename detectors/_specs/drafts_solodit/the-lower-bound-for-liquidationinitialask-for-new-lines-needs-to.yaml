@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "the-lower-bound-for-liquidationinitialask-for-new-lines-needs-to"
+class_name: "TheLowerBoundForLiquidationinitialaskForNewLinesNeedsTo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7303 (Spearbit/Astaria)"
+help: "The lower bound for liquidationInitialAsk for new lines needs to be stricter"
+wiki_title: "The lower bound for liquidationInitialAsk for new lines needs to be stricter"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    - `LienToken.sol#L376-L381`
+    - `AstariaRouter.sol#L516`
+    
+    ## Description
+    `params.lien.details.liquidationInitialAsk` (`Lnew`) is only compared to `params.amount` (`Anew`) whereas in `_appendStack` `newStack[j].lien.details.liquidationInitialAsk` (`Lj`) is compared to
+wiki_exploit_scenario: |
+    Per Solodit #7303: ## Severity: High Risk
+    
+    ## Context
+    - `LienToken.sol#L376-L381`
+    - `AstariaRouter.sol#L516`
+    
+    ## Description
+    `params.lien.details.liquidationInitialAsk` (`Lnew`) is only compared to `params.amount` (`Ane
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheLowerBoundForLiquidationinitialaskForNewLinesNeedsTo"
+solodit_id: "7303"
+solodit_slug: "the-lower-bound-for-liquidationinitialask-for-new-lines-needs-to-be-stricter-spearbit-astaria-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Wrong Math, Validation"
+state_decl: "uint256 internal getowed;"
+fn_name_regex: ".*(Lnew|Anew|potentialDebt|getOwed).*"
+write_var_regex: ".*(getOwed|potentialDebt).*"
+guard_var_regex: ".*(getOwed|potentialDebt).*"
+vuln_fn_name: "Lnew"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "getowed = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

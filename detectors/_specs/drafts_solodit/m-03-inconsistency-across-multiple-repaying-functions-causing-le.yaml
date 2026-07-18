@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "m-03-inconsistency-across-multiple-repaying-functions-causing-le"
+class_name: "M03InconsistencyAcrossMultipleRepayingFunctionsCausingLe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41704 (Code4rena/The Wildcat Protocol)"
+help: "[M-03] Inconsistency across multiple repaying functions causing lender to pay extra fees"
+wiki_title: "[M-03] Inconsistency across multiple repaying functions causing lender to pay extra fees"
+wiki_description: |
+    Within functions such as `repay` and `repayAndProcessUnpaidWithdrawalBatches`, funds are first pulled from the user in order to use them towards the currently expired, but not yet unpaid batch, and then the updated state is fetched.
+    
+    ```solidity
+      function repay(uint256 amount) external nonReentran
+wiki_exploit_scenario: |
+    Per Solodit #41704: Within functions such as `repay` and `repayAndProcessUnpaidWithdrawalBatches`, funds are first pulled from the user in order to use them towards the currently expired, but not yet unpaid batch, and t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03InconsistencyAcrossMultipleRepayingFunctionsCausingLe"
+solodit_id: "41704"
+solodit_slug: |
+    m-03-inconsistency-across-multiple-repaying-functions-causing-lender-to-pay-extra-fees-code4rena-the-wildcat-protocol-the-wildcat-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal closemarket;"
+fn_name_regex: ".*(repay|repayAndProcessUnpaidWithdrawalBatches|closeMarket|deposit).*"
+read_var_regex: ".*(closeMarket|deposit|repay).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "repay"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return closemarket > 0;"

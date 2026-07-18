@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_require"
+name: "risks-of-non-complete-initialization"
+class_name: "RisksOfNonCompleteInitialization"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27996 (MixBytes/Clearpool)"
+help: "Risks of non-complete initialization"
+wiki_title: "Risks of non-complete initialization"
+wiki_description: |
+    ##### Description
+    
+    `PoolFactory.initialize()` is far from being the final initialization.
+    It sets only:
+    - `cpool`
+    - `staking`
+    - `poolBeacon`
+    - `interestRateModel`
+    - `auction`
+    
+    But many of crucial parameters remain not set and require calling a separate function for every parameter.
+    - `treasury` - if
+wiki_exploit_scenario: |
+    Per Solodit #27996: ##### Description
+    
+    `PoolFactory.initialize()` is far from being the final initialization.
+    It sets only:
+    - `cpool`
+    - `staking`
+    - `poolBeacon`
+    - `interestRateModel`
+    - `auction`
+    
+    But many of crucial para
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RisksOfNonCompleteInitialization"
+solodit_id: "27996"
+solodit_slug: "risks-of-non-complete-initialization-mixbytes-none-clearpool-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal auction;"
+fn_name_regex: ".*(cpool|staking|poolBeacon|interestRateModel).*"
+write_var_regex: ".*(auction|cpool|insuranceFactor).*"
+guard_var_regex: ".*(auction|cpool|insuranceFactor).*"
+vuln_fn_name: "cpool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "auction = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

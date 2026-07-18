@@ -1,0 +1,58 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "users-can-burn-delegated-tokens-using-re-entrancy-attack-address"
+class_name: "UsersCanBurnDelegatedTokensUsingReEntrancyAttackAddress"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #13843 (ConsenSys/Skale Token)"
+help: "Users can burn delegated tokens using re-entrancy attack ✓ Addressed"
+wiki_title: "Users can burn delegated tokens using re-entrancy attack ✓ Addressed"
+wiki_description: |
+    #### Resolution
+    
+    
+    
+    Mitigated in [skalenetwork/skale-manager#128](https://github.com/skalenetwork/skale-manager/pull/128)
+    
+    
+    #### Description
+    
+    
+    When a user burns tokens, the following code is called:
+    
+    
+    **new\_code/contracts/ERC777/LockableERC777.sol:L413-L426**
+    
+    
+    
+    ```
+            uint locked = \_getAndUpd
+wiki_exploit_scenario: |
+    Per Solodit #13843: #### Resolution
+    
+    
+    
+    Mitigated in [skalenetwork/skale-manager#128](https://github.com/skalenetwork/skale-manager/pull/128)
+    
+    
+    #### Description
+    
+    
+    When a user burns tokens, the following code is called:
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanBurnDelegatedTokensUsingReEntrancyAttackAddress"
+solodit_id: "13843"
+solodit_slug: "users-can-burn-delegated-tokens-using-re-entrancy-attack-addressed-consensys-skale-token-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(operatorData).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

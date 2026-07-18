@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "relocking-through-mfdbase-claimbounty-leads-to-accounting-error-"
+class_name: "RelockingThroughMfdbaseClaimbountyLeadsToAccountingError"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53445 (Cantina/DefiApp)"
+help: "Relocking through MFDBase::claimBounty() leads to accounting error and causes funds loss"
+wiki_title: "Relocking through MFDBase::claimBounty() leads to accounting error and causes funds loss "
+wiki_description: |
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Summary
+    Whenever a user stakes, the amount is staked in the gauge. Whenever a user withdraws, the amount is unstaked from the gauge. However, when `MFDBase::claimBounty()` is called and the amount is relocked, it is unstaked from the ga
+wiki_exploit_scenario: |
+    Per Solodit #53445: ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Summary
+    Whenever a user stakes, the amount is staked in the gauge. Whenever a user withdraws, the amount is unstaked from the gauge. How
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RelockingThroughMfdbaseClaimbountyLeadsToAccountingError"
+solodit_id: "53445"
+solodit_slug: |
+    relocking-through-mfdbaseclaimbounty-leads-to-accounting-error-and-causes-funds-loss-cantina-none-defiapp-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimBounty|stakeLogic|getGauge|getReward).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimBounty"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

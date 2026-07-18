@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "token-retrieval-not-linked-to-signed-transactions"
+class_name: "TokenRetrievalNotLinkedToSignedTransactions"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54854 (Cantina/Parcel)"
+help: "Token retrieval not linked to signed transactions"
+wiki_title: "Token retrieval not linked to signed transactions "
+wiki_description: |
+    ## Context: PayrollManager.sol#L139-L244
+    
+    ## Description
+    There is no check done that `tokenAddress[]` is one of the `paymentTokens[]`. So this way you can steal tokens that happen to be left in the Organizer contract. 
+    
+    **Note:** Normally, there should not be any tokens left in the Organizer contrac
+wiki_exploit_scenario: |
+    Per Solodit #54854: ## Context: PayrollManager.sol#L139-L244
+    
+    ## Description
+    There is no check done that `tokenAddress[]` is one of the `paymentTokens[]`. So this way you can steal tokens that happen to be left in the Or
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokenRetrievalNotLinkedToSignedTransactions"
+solodit_id: "54854"
+solodit_slug: "token-retrieval-not-linked-to-signed-transactions-cantina-none-parcel-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(executePayroll|tokenAddress|amount).*"
+write_var_regex: ".*(amount|executePayroll|tokenAddress).*"
+guard_var_regex: ".*(amount|executePayroll|tokenAddress).*"
+vuln_fn_name: "executePayroll"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

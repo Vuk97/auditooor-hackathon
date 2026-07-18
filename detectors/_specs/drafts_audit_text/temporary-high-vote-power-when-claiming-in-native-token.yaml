@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "temporary-high-vote-power-when-claiming-in-native-token"
+class_name: "TemporaryHighVotePowerWhenClaimingInNativeToken"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Mitosis (May) - Zellic Audit Report"
+help: |
+    In the ValidatorStakingGovMITO contract, there is a issue that allows users to temporarily gain excessive voting power when claiming unstaked tokens in native token. The issue stem
+wiki_title: "Temporary high vote power when claiming in native token"
+wiki_description: |
+    In the ValidatorStakingGovMITO contract, there is a issue that allows users to temporarily gain excessive voting power when claiming unstaked tokens in native token. The issue stems from the order of operations in the _claimUnstake function. When a user claims their unstaked tokens in native token,
+wiki_exploit_scenario: |
+    Per audit finding: In the ValidatorStakingGovMITO contract, there is a issue that allows users to temporarily gain excessive voting power when claiming unstaked tokens in native token. The issue stems from the order of
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TemporaryHighVotePowerWhenClaimingInNativeToken"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(safeTransferETH|safeTransfer|totalUnstaking).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "safeTransferETH"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

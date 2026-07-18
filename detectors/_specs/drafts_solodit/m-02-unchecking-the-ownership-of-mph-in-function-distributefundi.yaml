@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-02-unchecking-the-ownership-of-mph-in-function-distributefundi"
+class_name: "M02UncheckingTheOwnershipOfMphInFunctionDistributefundi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42189 (Code4rena/88mph)"
+help: |
+    [M-02] Unchecking the ownership of `mph` in function `distributeFundingRewards` could cause several critical functions to revert
+wiki_title: |
+    [M-02] Unchecking the ownership of `mph` in function `distributeFundingRewards` could cause several critical functions to revert
+wiki_description: |
+    In contract `MPHMinter`, the function `distributeFundingRewards` does not check whether the contract itself is the owner of `mph`. If the contract is not the owner of `mph`, `mph.ownerMint` could revert, causing functions such as `withdraw`, `rolloverDeposit`, `payInterestToFunders` in the contract
+wiki_exploit_scenario: |
+    Per Solodit #42189: In contract `MPHMinter`, the function `distributeFundingRewards` does not check whether the contract itself is the owner of `mph`. If the contract is not the owner of `mph`, `mph.ownerMint` could rev
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02UncheckingTheOwnershipOfMphInFunctionDistributefundi"
+solodit_id: "42189"
+solodit_slug: |
+    m-02-unchecking-the-ownership-of-mph-in-function-distributefundingrewards-could-cause-several-critical-functions-to-revert-code4rena-88mph-88mph-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal distributefundingrewards;"
+fn_name_regex: ".*(MPHMinter|distributeFundingRewards|mph|withdraw).*"
+read_var_regex: ".*(distributeFundingRewards|mintVested|mph).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "MPHMinter"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return distributefundingrewards > 0;"

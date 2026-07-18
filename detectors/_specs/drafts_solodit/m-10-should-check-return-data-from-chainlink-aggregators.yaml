@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "m-10-should-check-return-data-from-chainlink-aggregators"
+class_name: "M10ShouldCheckReturnDataFromChainlinkAggregators"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1029 (Code4rena/Vader Protocol)"
+help: "[M-10] SHOULD CHECK RETURN DATA FROM CHAINLINK AGGREGATORS"
+wiki_title: "[M-10] SHOULD CHECK RETURN DATA FROM CHAINLINK AGGREGATORS"
+wiki_description: |
+    _Submitted by defsec_
+    
+    #### Impact
+    
+    The consult function in the contract TwapOracle.sol fetches the asset price from a Chainlink aggregator using the latestRoundData function. However, there are no checks on timeStamp, resulting in stale prices. The oracle wrapper calls out to a chainlink oracle rec
+wiki_exploit_scenario: |
+    Per Solodit #1029: _Submitted by defsec_
+    
+    #### Impact
+    
+    The consult function in the contract TwapOracle.sol fetches the asset price from a Chainlink aggregator using the latestRoundData function. However, there are no ch
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10ShouldCheckReturnDataFromChainlinkAggregators"
+solodit_id: "1029"
+solodit_slug: |
+    m-10-should-check-return-data-from-chainlink-aggregators-code4rena-vader-protocol-vader-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(latestRoundData|timeStamp|updatedAt|roundID).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "latestRoundData"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

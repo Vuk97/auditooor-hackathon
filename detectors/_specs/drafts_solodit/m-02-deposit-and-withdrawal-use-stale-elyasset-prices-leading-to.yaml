@@ -1,0 +1,51 @@
+skeleton: "state_write_without_paired_write"
+name: "m-02-deposit-and-withdrawal-use-stale-elyasset-prices-leading-to"
+class_name: "M02DepositAndWithdrawalUseStaleElyassetPricesLeadingTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63549 (Pashov Audit Group/Elytra_2025-07-10)"
+help: "[M-02] Deposit and withdrawal use stale `elyAsset` prices leading to extraction"
+wiki_title: "[M-02] Deposit and withdrawal use stale `elyAsset` prices leading to extraction"
+wiki_description: |
+    _Resolved_
+    
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `depositAsset()` and `withdrawAsset()` functions rely on the `elyAssetPrice` from the oracle without ensuring it's up-to-date. While the `updateElyAssetPrice()` function is publicly callable, there's no mechani
+wiki_exploit_scenario: |
+    Per Solodit #63549: _Resolved_
+    
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `depositAsset()` and `withdrawAsset()` functions rely on the `elyAssetPrice` from the oracle without ensuring
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02DepositAndWithdrawalUseStaleElyassetPricesLeadingTo"
+solodit_id: "63549"
+solodit_slug: |
+    m-02-deposit-and-withdrawal-use-stale-elyasset-prices-leading-to-extraction-pashov-audit-group-none-elytra_2025-07-10-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(depositAsset|withdrawAsset|elyAssetPrice|updateElyAssetPrice).*"
+primary_var_regex: ".*(depositAsset|elyAssetPrice|getAssetAmountToReceive).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

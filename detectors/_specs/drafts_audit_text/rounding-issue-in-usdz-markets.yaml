@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "rounding-issue-in-usdz-markets"
+class_name: "RoundingIssueInUsdzMarkets"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Anzen and protocol-v2 - Zellic Audit Report"
+help: |
+    In MainnetUSDzMarket and LockedUsdzMarket, the function fillOffer invokes calcu- lateRequiredUSDC to calculate requiredUSDC by amount. function fillOffer(uint256 offerId, uint256 u
+wiki_title: "Rounding issue in USDz markets"
+wiki_description: |
+    In MainnetUSDzMarket and LockedUsdzMarket, the function fillOffer invokes calcu- lateRequiredUSDC to calculate requiredUSDC by amount. function fillOffer(uint256 offerId, uint256 usdzAmount) external nonReentrant { Offer storage offer = offers[offerId]; require(usdzAmount <= offer.amount, "Requested
+wiki_exploit_scenario: |
+    Per audit finding: In MainnetUSDzMarket and LockedUsdzMarket, the function fillOffer invokes calcu- lateRequiredUSDC to calculate requiredUSDC by amount. function fillOffer(uint256 offerId, uint256 usdzAmount) external
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RoundingIssueInUsdzMarkets"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(fillOffer|lateRequiredUSDC|requiredUSDC).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "fillOffer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

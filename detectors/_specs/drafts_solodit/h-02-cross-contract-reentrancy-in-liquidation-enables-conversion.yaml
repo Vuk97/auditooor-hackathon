@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "h-02-cross-contract-reentrancy-in-liquidation-enables-conversion"
+class_name: "H02CrossContractReentrancyInLiquidationEnablesConversion"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #65026 (Code4rena/Panoptic)"
+help: |
+    [H-02] Cross-contract reentrancy in liquidation enables conversion of phantom shares to real shares, draining `CollateralTracker` assets
+wiki_title: |
+    [H-02] Cross-contract reentrancy in liquidation enables conversion of phantom shares to real shares, draining `CollateralTracker` assets
+wiki_description: |
+    `CollateralTracker.sol` [L1359-L1360](https://github.com/code-423n4/2025-12-panoptic/blob/main/contracts/CollateralTracker.sol# L1359-L1360)
+    
+    ### Impact
+    
+    A malicious liquidator can exploit a cross-contract reentrancy vulnerability during the liquidation process to steal “phantom shares” (virtual l
+wiki_exploit_scenario: |
+    Per Solodit #65026: `CollateralTracker.sol` [L1359-L1360](https://github.com/code-423n4/2025-12-panoptic/blob/main/contracts/CollateralTracker.sol# L1359-L1360)
+    
+    ### Impact
+    
+    A malicious liquidator can exploit a cross-c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02CrossContractReentrancyInLiquidationEnablesConversion"
+solodit_id: "65026"
+solodit_slug: |
+    h-02-cross-contract-reentrancy-in-liquidation-enables-conversion-of-phantom-shares-to-real-shares-draining-collateraltracker-assets-code4rena-panoptic-panoptic-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ct0;"
+fn_name_regex: ".*(CollateralTracker|token0|token1|ct0).*"
+read_var_regex: ".*(ct0|ct1|revoke).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "CollateralTracker"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ct0 > 0;"

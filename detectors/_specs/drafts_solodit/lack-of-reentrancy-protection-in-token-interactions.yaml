@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-reentrancy-protection-in-token-interactions"
+class_name: "LackOfReentrancyProtectionInTokenInteractions"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16524 (ConsenSys/Fuji Protocol)"
+help: "Lack of reentrancy protection in token interactions"
+wiki_title: "Lack of reentrancy protection in token interactions"
+wiki_description: |
+    #### Description
+    
+    
+    Token operations may potentially re-enter the system. For example, `univTransfer` may perform a low-level `to.call{value}()` and, depending on the token’s specification (e.g. `ERC-20` extension or `ERC-20` compliant `ERC-777`), `token` may implement callbacks when being called as
+wiki_exploit_scenario: |
+    Per Solodit #16524: #### Description
+    
+    
+    Token operations may potentially re-enter the system. For example, `univTransfer` may perform a low-level `to.call{value}()` and, depending on the token’s specification (e.g. `ERC-2
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfReentrancyProtectionInTokenInteractions"
+solodit_id: "16524"
+solodit_slug: "lack-of-reentrancy-protection-in-token-interactions-consensys-fuji-protocol-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositandborrow;"
+fn_name_regex: ".*(univTransfer|token|withdraw|nonReentrant).*"
+write_var_regex: ".*(depositAndBorrow|nonReentrant|paybackAndWithdraw).*"
+guard_var_regex: ".*(depositAndBorrow|nonReentrant|paybackAndWithdraw).*"
+vuln_fn_name: "univTransfer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "depositandborrow = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

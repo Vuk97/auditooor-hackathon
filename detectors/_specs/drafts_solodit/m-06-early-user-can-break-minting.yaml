@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-06-early-user-can-break-minting"
+class_name: "M06EarlyUserCanBreakMinting"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #415 (Code4rena/Gro Protocol)"
+help: "[M-06] Early user can break minting"
+wiki_title: "[M-06] Early user can break minting"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The protocol computes a `factor` when minting (and burning) tokens, which is the exchange rate of rebase to base tokens (base supply / total assets value), see `GToken.factor()`.
+    The first user can manipulate this factor such that it always returns `0`.
+    
+    **Example:**
+    - Attack
+wiki_exploit_scenario: |
+    Per Solodit #415: _Submitted by cmichel_
+    
+    The protocol computes a `factor` when minting (and burning) tokens, which is the exchange rate of rebase to base tokens (base supply / total assets value), see `GToken.factor()
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06EarlyUserCanBreakMinting"
+solodit_id: "415"
+solodit_slug: "m-06-early-user-can-break-minting-code4rena-gro-protocol-gro-protocol-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositgtoken;"
+fn_name_regex: ".*(factor|WithdrawHandler|depositGToken).*"
+read_var_regex: ".*(depositGToken|factor).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "factor"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return depositgtoken > 0;"

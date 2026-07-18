@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-withdrawable-check-in-withdrawstrategyfunds"
+class_name: "IncorrectWithdrawableCheckInWithdrawstrategyfunds"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Concrete - Zellic Audit Report"
+help: |
+    The _withdrawStrategyFunds function in the WithdrawalQueueHelper library contains two issues in its withdrawable amount validation: function _withdrawStrategyFunds( uint256 amount_
+wiki_title: "Incorrect withdrawable check in _withdrawStrategyFunds"
+wiki_description: |
+    The _withdrawStrategyFunds function in the WithdrawalQueueHelper library contains two issues in its withdrawable amount validation: function _withdrawStrategyFunds( uint256 amount_, address receiver_, address asset_, Strategy[] memory strategies, IParkingLot parkingLot ) internal { // [...] uint256
+wiki_exploit_scenario: |
+    Per audit finding: The _withdrawStrategyFunds function in the WithdrawalQueueHelper library contains two issues in its withdrawable amount validation: function _withdrawStrategyFunds( uint256 amount_, address receiver_,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectWithdrawableCheckInWithdrawstrategyfunds"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(parkingLot|previewRedeem|balanceOf).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "parkingLot"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

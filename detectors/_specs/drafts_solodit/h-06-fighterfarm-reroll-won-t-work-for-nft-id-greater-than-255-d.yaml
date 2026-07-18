@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "h-06-fighterfarm-reroll-won-t-work-for-nft-id-greater-than-255-d"
+class_name: "H06FighterfarmRerollWonTWorkForNftIdGreaterThan255D"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #32188 (Code4rena/AI Arena)"
+help: "[H-06] `FighterFarm::reRoll` won't work for nft id greater than 255 due to input limited to uint8"
+wiki_title: "[H-06] `FighterFarm::reRoll` won't work for nft id greater than 255 due to input limited to uint8"
+wiki_description: |
+    `FighterFarm::reRoll` uses uint8 for nft id as input, which will stop people calling this function who owns id greater than 255. It will lead to not being able to use the reRoll to get random traits, which could have been better for there game performance.
+    
+    ### Proof of Concept
+    
+    Affect code can be
+wiki_exploit_scenario: |
+    Per Solodit #32188: `FighterFarm::reRoll` uses uint8 for nft id as input, which will stop people calling this function who owns id greater than 255. It will lead to not being able to use the reRoll to get random traits,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06FighterfarmRerollWonTWorkForNftIdGreaterThan255D"
+solodit_id: "32188"
+solodit_slug: |
+    h-06-fighterfarmreroll-wont-work-for-nft-id-greater-than-255-due-to-input-limited-to-uint8-code4rena-ai-arena-ai-arena-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal tokenid;"
+fn_name_regex: ".*(tokenId).*"
+write_var_regex: ".*(tokenId).*"
+guard_var_regex: ".*(tokenId).*"
+vuln_fn_name: "tokenId"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "tokenid = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

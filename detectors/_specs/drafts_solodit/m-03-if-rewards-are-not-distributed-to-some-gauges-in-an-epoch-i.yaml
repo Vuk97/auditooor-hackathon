@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-03-if-rewards-are-not-distributed-to-some-gauges-in-an-epoch-i"
+class_name: "M03IfRewardsAreNotDistributedToSomeGaugesInAnEpochI"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41463 (Code4rena/Fenix Finance)"
+help: |
+    [M-03] If rewards are not distributed to some gauges in an epoch, it can lead to incorrect rewards distribution in the next epoch
+wiki_title: |
+    [M-03] If rewards are not distributed to some gauges in an epoch, it can lead to incorrect rewards distribution in the next epoch
+wiki_description: |
+    Some gauges may receive more rewards, while others may not receive any rewards at all.
+    
+    ### Proof of Concept
+    
+    In the `VoterUpgradeableV2.notifyRewardAmount` function, the `index` is accumulated for every reward distribution from the minter. When distributing rewards to gauges, the reward amount is
+wiki_exploit_scenario: |
+    Per Solodit #41463: Some gauges may receive more rewards, while others may not receive any rewards at all.
+    
+    ### Proof of Concept
+    
+    In the `VoterUpgradeableV2.notifyRewardAmount` function, the `index` is accumulated for e
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03IfRewardsAreNotDistributedToSomeGaugesInAnEpochI"
+solodit_id: "41463"
+solodit_slug: |
+    m-03-if-rewards-are-not-distributed-to-some-gauges-in-an-epoch-it-can-lead-to-incorrect-rewards-distribution-in-the-next-epoch-code4rena-fenix-finance-fenix-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal distribute;"
+fn_name_regex: ".*(index|weightsPerEpoch|poolA|poolB).*"
+read_var_regex: ".*(distribute|gaugeA|gaugeB).*"
+required_call_regex: ".*distribute.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "index"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return distribute > 0;"

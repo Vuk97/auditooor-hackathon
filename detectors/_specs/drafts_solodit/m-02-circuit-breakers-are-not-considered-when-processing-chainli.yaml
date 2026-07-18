@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "m-02-circuit-breakers-are-not-considered-when-processing-chainli"
+class_name: "M02CircuitBreakersAreNotConsideredWhenProcessingChainli"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41675 (Pashov Audit Group/Cryptex)"
+help: "[M-02] Circuit breakers are not considered when processing Chainlink's answer"
+wiki_title: "[M-02] Circuit breakers are not considered when processing Chainlink's answer"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    Every Chainlink feed has a minimum and maximum price. However, due to the circuit breaker, if an asset's price moves outside these limits, the provided answer will still be capped.
+    
+    This can lead to an incorrect price if the actual
+wiki_exploit_scenario: |
+    Per Solodit #41675: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    Every Chainlink feed has a minimum and maximum price. However, due to the circuit breaker, if an asset's price moves outside these l
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02CircuitBreakersAreNotConsideredWhenProcessingChainli"
+solodit_id: "41675"
+solodit_slug: |
+    m-02-circuit-breakers-are-not-considered-when-processing-chainlinks-answer-pashov-audit-group-none-cryptex-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal maxanswer;"
+fn_name_regex: ".*(minAnswer|maxAnswer).*"
+write_var_regex: ".*(maxAnswer|minAnswer).*"
+guard_var_regex: ".*(maxAnswer|minAnswer).*"
+vuln_fn_name: "minAnswer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "maxanswer = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

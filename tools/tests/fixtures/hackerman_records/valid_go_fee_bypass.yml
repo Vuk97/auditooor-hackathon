@@ -1,0 +1,26 @@
+schema_version: auditooor.hackerman_record.v1
+record_id: audit:dydx-2025-01-10:fee-bypass:bbbbcccc
+source_audit_ref: audit:dydx-2025-01-10:fee-bypass
+target_domain: dex
+target_language: go
+target_repo: dydxprotocol/v4-chain
+target_component: x/affiliates/keeper
+function_shape:
+  raw_signature: "func (k Keeper) ProcessAffiliate(ctx sdk.Context, msg *types.MsgProcessAffiliate) error"
+  shape_tags:
+    - permissioned-msg-handler-with-fee-recipient-write
+bug_class: missing-blocked-address-check
+attack_class: blocked-addr-fee-redirect
+attacker_role: privileged-compromised
+attacker_action_sequence: "Step 1: compromise authorized keeper. Step 2: set blocked affiliate as recipient. Step 3: route protocol fees to blocked address."
+required_preconditions:
+  - keeper authorization exists
+impact_class: privilege-escalation
+impact_actor: protocol-treasury
+impact_dollar_class: "non-financial"
+fix_pattern: apply blocked-address guard before fee-recipient state write
+fix_anti_pattern_avoided: checking authorization but not recipient eligibility
+severity_at_finding: medium
+year: 2025
+cross_language_analogues: []
+related_records: []

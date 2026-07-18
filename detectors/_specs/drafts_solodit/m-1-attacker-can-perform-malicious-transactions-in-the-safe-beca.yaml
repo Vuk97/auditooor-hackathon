@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-1-attacker-can-perform-malicious-transactions-in-the-safe-beca"
+class_name: "M1AttackerCanPerformMaliciousTransactionsInTheSafeBeca"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6721 (Sherlock/Hats)"
+help: |
+    M-1: attacker can perform malicious transactions in the safe because reentrancy is not implemented correctly in the checkTransaction() and checkAfterExecution() function in HSG
+wiki_title: |
+    M-1: attacker can perform malicious transactions in the safe because reentrancy is not implemented correctly in the checkTransaction() and checkAfterExecution()
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-02-hats-judging/issues/124 
+    
+    ## Found by 
+    cducrest-brainbot, unforgiven
+    
+    ## Summary
+    to prevent reentrancy during the safe's `execTransaction()` function call code use `_guardEntries` and increase it in the `checkTransaction()` and decrease it in the `ch
+wiki_exploit_scenario: |
+    Per Solodit #6721: Source: https://github.com/sherlock-audit/2023-02-hats-judging/issues/124 
+    
+    ## Found by 
+    cducrest-brainbot, unforgiven
+    
+    ## Summary
+    to prevent reentrancy during the safe's `execTransaction()` function
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1AttackerCanPerformMaliciousTransactionsInTheSafeBeca"
+solodit_id: "6721"
+solodit_slug: |
+    m-1-attacker-can-perform-malicious-transactions-in-the-safe-because-reentrancy-is-not-implemented-correctly-in-the-checktransaction-and-checkafterexecution-function-in-hsg-sherlock-hats-hats-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Reentrancy"
+state_decl: "uint256 internal checkafterexecution;"
+fn_name_regex: ".*(execTransaction|checkTransaction|checkAfterExecution).*"
+read_var_regex: ".*(checkAfterExecution|checkTransaction|execTransaction).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "execTransaction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return checkafterexecution > 0;"

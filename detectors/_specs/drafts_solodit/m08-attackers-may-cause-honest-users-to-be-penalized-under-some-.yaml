@@ -1,0 +1,33 @@
+skeleton: "paired_function_divergence"
+name: "m08-attackers-may-cause-honest-users-to-be-penalized-under-some-"
+class_name: "M08AttackersMayCauseHonestUsersToBePenalizedUnderSome"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11141 (OpenZeppelin/Futureswap V2 Audit)"
+help: "[M08] Attackers may cause honest users to be penalized under some conditions"
+wiki_title: "[M08] Attackers may cause honest users to be penalized under some conditions"
+wiki_description: |
+    In the [`MessageProcessor` contract](https://github.com/futureswap/fs_core/blob/96255fc4a550a5f34681c117b5969b848d07b3a3/contracts/messageProcessor/MessageProcessor.sol), if the [`callAddLiquidity`](https://github.com/futureswap/fs_core/blob/96255fc4a550a5f34681c117b5969b848d07b3a3/contracts/message
+wiki_exploit_scenario: |
+    Per Solodit #11141: In the [`MessageProcessor` contract](https://github.com/futureswap/fs_core/blob/96255fc4a550a5f34681c117b5969b848d07b3a3/contracts/messageProcessor/MessageProcessor.sol), if the [`callAddLiquidity`](h
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08AttackersMayCauseHonestUsersToBePenalizedUnderSome"
+solodit_id: "11141"
+solodit_slug: |
+    m08-attackers-may-cause-honest-users-to-be-penalized-under-some-conditions-openzeppelin-futureswap-v2-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity|callAddLiquidity|callCloseTrade).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

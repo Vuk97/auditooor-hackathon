@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "buffer-overflow-in-unicode-expansion"
+class_name: "BufferOverflowInUnicodeExpansion"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Cosmos SDK Sign Mode Textual - Zellic Audit Report"
+help: |
+    The tx_display_translation function in tx_display.c performs a translation of char- acters from src into characters written to dst. The purpose is to substitute ASCII control chara
+wiki_title: "Buffer overflow in Unicode expansion"
+wiki_description: |
+    The tx_display_translation function in tx_display.c performs a translation of char- acters from src into characters written to dst. The purpose is to substitute ASCII control characters with their escape sequence equivalents and transform non-ASCII characters into their Unicode escape sequence equiv
+wiki_exploit_scenario: |
+    Per audit finding: The tx_display_translation function in tx_display.c performs a translation of char- acters from src into characters written to dst. The purpose is to substitute ASCII control characters with their esc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BufferOverflowInUnicodeExpansion"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(srcLen|dstLen).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "srcLen"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

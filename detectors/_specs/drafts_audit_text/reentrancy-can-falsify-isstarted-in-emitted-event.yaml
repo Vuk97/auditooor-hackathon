@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "reentrancy-can-falsify-isstarted-in-emitted-event"
+class_name: "ReentrancyCanFalsifyIsstartedInEmittedEvent"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Lido Fixed Income - Zellic Audit Report"
+help: |
+    In multiple places, isStarted() and isEnded() are called in the same line of code that an event is emitted. For example, when a variable-side user withdraws before the vault starts
+wiki_title: "Reentrancy can falsify isStarted in emitted event"
+wiki_description: |
+    In multiple places, isStarted() and isEnded() are called in the same line of code that an event is emitted. For example, when a variable-side user withdraws before the vault starts: function withdraw(uint256 side) external { // [...] [ case !isStarted() && side == VARIABLE ] uint256 sendAmount = var
+wiki_exploit_scenario: |
+    Per audit finding: In multiple places, isStarted() and isEnded() are called in the same line of code that an event is emitted. For example, when a variable-side user withdraws before the vault starts: function withdraw(
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyCanFalsifyIsstartedInEmittedEvent"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(isStarted|isEnded|sendAmount).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "isStarted"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "users-can-prevent-getting-bad-debt-by-withdrawing-just-before-a-liquid"
+class_name: "UsersCanPreventGettingBadDebtByWithdrawingJustBeforeALiquid"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: users-can-prevent-getting-bad-debt-by-withdrawing"
+help: "Users can prevent getting bad debt by withdrawing just before a liquidation"
+wiki_title: "Users can prevent getting bad debt by withdrawing just before a liquidation"
+wiki_description: |
+    Identifies user-facing “close position” functions inside contracts that also implement liquidation logic, where the close flow has no visible timelock/cooldown/withdrawal-request gating. This will allow instantaneous close to avoid liquidation.
+wiki_exploit_scenario: |
+    Per Glider query tags [liquidation, withdraw, closetrove]: Identifies user-facing “close position” functions inside contracts that also implement liquidation logic, where the close flow has no visible timelock/cooldown/withdrawal-request gating. This will all
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "UsersCanPreventGettingBadDebtByWithdrawingJustBeforeALiquid"
+fn_name_regex: ".*(users).*"
+read_var_regex: ".*(users).*"
+required_call_regex: ".*(accrue|update|sync|validate|check).*"
+guarded_helper_name: "_guard"
+vuln_fn_name: "usersFn"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return users > 0;"
+state_decl: "uint256 internal users;"

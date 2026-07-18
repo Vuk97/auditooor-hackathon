@@ -1,0 +1,19 @@
+id: expired-override-bricks-price-reads
+title: "Expired manual override still consulted and bricks price read with stale baseline"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44866"
+bug_class: oracle-cascade
+indicators:
+  - "manual override has expiry but read path returns `Err` when expired instead of falling through to live feed"
+  - "no `if expiry < now { ignore override, read feed }` fallthrough"
+victim: "Users: price reads fail until admin manually deletes the expired override entry."
+exploit_precondition: "Manual override is set with expiry and the expiry elapses."
+real_world_example: |
+  V12 #44866 (Low): Expired overrides can brick price reads with a stale baseline.
+suggested_remediation: "On expiry, fallthrough to live feed; delete override lazily on read."
+cross_refs:
+  - manual-override-never-expires

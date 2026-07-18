@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "token-bound-account-may-not-be-deployed-at-the-counterfactual-ad"
+class_name: "TokenBoundAccountMayNotBeDeployedAtTheCounterfactualAd"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53131 (Cantina/Hyperware)"
+help: "Token bound account may not be deployed at the counterfactual address"
+wiki_title: "Token bound account may not be deployed at the counterfactual address "
+wiki_description: |
+    ## Context
+    Kimap.sol#L174-L177
+    
+    ## Description
+    Kimap._mint() is supposed to deploy a token-bound account (TBA) at a counterfactual address. However, if this mint transaction is frontrun with another mint transaction, then the TBA is deployed at a different address, breaking this assumption.
+    
+    ### ERC
+wiki_exploit_scenario: |
+    Per Solodit #53131: ## Context
+    Kimap.sol#L174-L177
+    
+    ## Description
+    Kimap._mint() is supposed to deploy a token-bound account (TBA) at a counterfactual address. However, if this mint transaction is frontrun with another m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokenBoundAccountMayNotBeDeployedAtTheCounterfactualAd"
+solodit_id: "53131"
+solodit_slug: "token-bound-account-may-not-be-deployed-at-the-counterfactual-address-cantina-none-hyperware-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal create2;"
+fn_name_regex: ".*(create2|KinoAccountProxy|CREATE2).*"
+read_var_regex: ".*(create2).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "create2"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return create2 > 0;"

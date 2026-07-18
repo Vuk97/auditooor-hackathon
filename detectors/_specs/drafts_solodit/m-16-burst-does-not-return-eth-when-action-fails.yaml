@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-16-burst-does-not-return-eth-when-action-fails"
+class_name: "M16BurstDoesNotReturnEthWhenActionFails"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32339 (Code4rena/Tapioca DAO)"
+help: "[M-16] `burst()` does not return eth when action fails"
+wiki_title: "[M-16] `burst()` does not return eth when action fails"
+wiki_description: |
+    When executing `Magnetar.burst()`, the user can specify `allowFailure = true`. If it fails, it ignores the current `_action` and execute another `_action`.
+    
+    `burst()` -> `_executeCall(_allowFailure)`.
+    
+    ```solidity
+        function _executeCall(address _target, bytes calldata _actionCalldata, uint256 _a
+wiki_exploit_scenario: |
+    Per Solodit #32339: When executing `Magnetar.burst()`, the user can specify `allowFailure = true`. If it fails, it ignores the current `_action` and execute another `_action`.
+    
+    `burst()` -> `_executeCall(_allowFailure)`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M16BurstDoesNotReturnEthWhenActionFails"
+solodit_id: "32339"
+solodit_slug: "m-16-burst-does-not-return-eth-when-action-fails-code4rena-tapioca-dao-tapioca-dao-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal action;"
+fn_name_regex: ".*(burst|eth|rescueEth|action).*"
+read_var_regex: ".*(action|burst|eth).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "burst"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return action > 0;"

@@ -1,0 +1,19 @@
+id: atoken-transferfrom-requires-holder-auth
+title: "aToken transfer_from requires holder auth, breaking allowance semantics"
+severity: Medium
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.11"
+bug_class: authorization
+indicators:
+  - "`transfer_from(spender, from, to, amount)` calls `from.require_auth()` instead of `spender.require_auth()`"
+  - "allowance model broken: only `from` can move their own funds"
+victim: "DEX integrators: cannot pull aTokens via standard allowance."
+exploit_precondition: "Integrator uses `transfer_from` with a pre-approved allowance."
+real_world_example: |
+  Halborn 7.11 (MEDIUM): ATokenContract `transfer_from` requires holder auth, breaking allowance-based transfers.
+suggested_remediation: "Authenticate `spender`, check allowance >= amount, then execute transfer."
+cross_refs:
+  - missing-require-auth-on-privileged-entrypoint

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "zero-targetblockutilization-disables-fee-market"
+class_name: "ZeroTargetblockutilizationDisablesFeeMarket"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit All in Bits - Zellic Audit Report"
+help: |
+    The UpdateBaseGasPrice computes the following: baseGasPrice = someValue / (MaxGas \* TargetBlockUtilization) Currently, at the time of writing, ValidateBasic allows TargetBlockUtil
+wiki_title: "Zero TargetBlockUtilization disables fee market"
+wiki_description: |
+    The UpdateBaseGasPrice computes the following: baseGasPrice = someValue / (MaxGas \* TargetBlockUtilization) Currently, at the time of writing, ValidateBasic allows TargetBlockUtilization = 0. A governance-param change to zero triggers a divide-by-zero panic every block. The panic is caught by defer
+wiki_exploit_scenario: |
+    Per audit finding: The UpdateBaseGasPrice computes the following: baseGasPrice = someValue / (MaxGas \* TargetBlockUtilization) Currently, at the time of writing, ValidateBasic allows TargetBlockUtilization = 0. A gover
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ZeroTargetblockutilizationDisablesFeeMarket"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(baseGasPrice|someValue|gasPrice).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "baseGasPrice"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

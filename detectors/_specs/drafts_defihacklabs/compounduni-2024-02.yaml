@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "compounduni-2024-02"
+class_name: "Compounduni202402"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-02/CompoundUni_exp.sol"
+help: "CompoundUni 2024-02 — flashloan exploit (~439537 US$)"
+wiki_title: "CompoundUni (2024-02) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-02): CompoundUni lost ~439537 US$. Bug class: flashloan. Attack tx: 0xaee0f8d1235584a3212f233b655f87b89f22f1d4890782447c4ef742b37af58d.
+wiki_exploit_scenario: |
+    Attacker (0xe000008459b74a91e306a47c808061dfa372000e) exploits CompoundUni via flashloan: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Compounduni202402"
+trigger_sig_regex: ".*(receiveFlashLoan).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function receiveFlashLoan(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.receiveFlashLoan(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

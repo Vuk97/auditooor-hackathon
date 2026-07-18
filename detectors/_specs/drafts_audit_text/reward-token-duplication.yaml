@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "reward-token-duplication"
+class_name: "RewardTokenDuplication"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Smart Vault - Zellic Audit Report"
+help: |
+    The reward-token list is managed with array, which allows duplicate tokens. function addTokenToRewardList(IERC20 rewardToken) external onlyManager { _checkIsNotZeroAddress(address(
+wiki_title: "Reward-token duplication"
+wiki_description: |
+    The reward-token list is managed with array, which allows duplicate tokens. function addTokenToRewardList(IERC20 rewardToken) external onlyManager { _checkIsNotZeroAddress(address(rewardToken)); _updateAllLastRewardPerToken(); _rewardTokenList.push(rewardToken); emit RewardTokenAdded(rewardToken); }
+wiki_exploit_scenario: |
+    Per audit finding: The reward-token list is managed with array, which allows duplicate tokens. function addTokenToRewardList(IERC20 rewardToken) external onlyManager { _checkIsNotZeroAddress(address(rewardToken)); _upda
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RewardTokenDuplication"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addTokenToRewardList|rewardToken|onlyManager).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "addTokenToRewardList"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

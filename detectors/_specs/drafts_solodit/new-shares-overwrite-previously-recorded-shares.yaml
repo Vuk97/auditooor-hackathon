@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "new-shares-overwrite-previously-recorded-shares"
+class_name: "NewSharesOverwritePreviouslyRecordedShares"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56555 (Zokyo/Spool)"
+help: "New shares overwrite previously recorded shares."
+wiki_title: "New shares overwrite previously recorded shares."
+wiki_description: |
+    **Description**
+    
+    line 186, 189, function _saveUserShares().
+    Shares and proportionateDeposit should be added to balances, instead of just being assigned.
+    Since a user is able to perform transfer shares without withdrawing them, it is possible that a
+    user calls vault.withdrawFast() several times witho
+wiki_exploit_scenario: |
+    Per Solodit #56555: **Description**
+    
+    line 186, 189, function _saveUserShares().
+    Shares and proportionateDeposit should be added to balances, instead of just being assigned.
+    Since a user is able to perform transfer shares
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NewSharesOverwritePreviouslyRecordedShares"
+solodit_id: "56555"
+solodit_slug: "new-shares-overwrite-previously-recorded-shares-zokyo-none-spool-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(proportionateDeposit|withdrawFast|executeWithdraw|vaultWithdraw).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "proportionateDeposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

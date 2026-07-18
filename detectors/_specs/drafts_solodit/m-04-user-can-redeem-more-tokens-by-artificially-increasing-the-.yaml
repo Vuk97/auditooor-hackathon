@@ -1,0 +1,33 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-04-user-can-redeem-more-tokens-by-artificially-increasing-the-"
+class_name: "M04UserCanRedeemMoreTokensByArtificiallyIncreasingThe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #4083 (Code4rena/Yield)"
+help: "[M-04] User can redeem more tokens by artificially increasing the chi accrual"
+wiki_title: "[M-04] User can redeem more tokens by artificially increasing the chi accrual"
+wiki_description: |
+    A user can artificially increase the chi accrual (after maturity) by flash borrow on Compound, which affects the exchange rate used by the chi oracle. As a result, the user redeems more underlying tokens with the same amount of fyTokens since the accrual is larger than before.
+    
+    The `exchangeRateSto
+wiki_exploit_scenario: |
+    Per Solodit #4083: A user can artificially increase the chi accrual (after maturity) by flash borrow on Compound, which affects the exchange rate used by the chi oracle. As a result, the user redeems more underlying to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04UserCanRedeemMoreTokensByArtificiallyIncreasingThe"
+solodit_id: "4083"
+solodit_slug: |
+    m-04-user-can-redeem-more-tokens-by-artificially-increasing-the-chi-accrual-code4rena-yield-yield-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(exchangeRateStored|totalBorrows|CToken|chi).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

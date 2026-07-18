@@ -1,0 +1,25 @@
+id: missing-require-auth-on-privileged-entrypoint
+title: "Missing require_auth() on privileged Soroban entry point"
+severity: Critical
+language: rust
+platform: soroban
+source: "halborn-2025-09 | k2-v12 | watchpug-rev3"
+source_ids:
+  - "7.1"
+  - "44834"
+  - "44869"
+  - "WP-M8"
+bug_class: authorization
+indicators:
+  - "function takes `caller: Address` parameter and compares it to stored admin/pool address but never calls `caller.require_auth()`"
+  - "admin/pool-gated entrypoint (mint_scaled, burn_scaled, set_admin, set_config, upgrade) lacks `require_auth` while mutating storage"
+  - "authority check of the form `if caller != state.pool_address { return Err(..) }` with no subsequent `caller.require_auth()`"
+  - "helper like `admin::require_admin(&env, &caller)` used alone without a companion `caller.require_auth()` call"
+victim: "All protocol users: any address can spoof the admin/pool to mint unbacked tokens, rotate admin, change oracle whitelists, pause/unpause, or drain reserves."
+exploit_precondition: "Attacker knows or can read the stored admin/pool address (public on-chain). No auth signature required because the callee never calls require_auth."
+real_world_example: |
+  Halborn 7.1 (CRITICAL): `AToken::mint_scaled(caller, ...)` only checks `if caller != state.pool_address { return Err(TokenError::TransferFailed) }` with no `caller.require_auth()`. PoC showed `env.mock_auths(&[])` followed by `client.add_asset(&admin, &asset)` succeeded.
+suggested_remediation: "Always call `caller.require_auth()` (or `require_auth_for_args`) before any state mutation on privileged paths. Better: derive privileged addresses from storage and drop the caller parameter."
+cross_refs:
+  - public-initializer-first-caller-takeover
+  - missing-self-authorize-as-current-contract

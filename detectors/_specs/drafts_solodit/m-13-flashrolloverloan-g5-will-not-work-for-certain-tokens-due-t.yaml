@@ -1,0 +1,45 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-13-flashrolloverloan-g5-will-not-work-for-certain-tokens-due-t"
+class_name: "M13FlashrolloverloanG5WillNotWorkForCertainTokensDueT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32390 (Sherlock/Teller Finance)"
+help: |
+    M-13: `FlashRolloverLoan_G5` will not work for certain tokens due to not setting the approval to `0` after repaying a loan
+wiki_title: |
+    M-13: `FlashRolloverLoan_G5` will not work for certain tokens due to not setting the approval to `0` after repaying a loan
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-04-teller-finance-judging/issues/140 
+    
+    ## Found by 
+    0x73696d616f, EgisSecurity, MaslarovK.eth, givn, merlin, mgf15
+    ## Summary
+    
+    `FlashRolloverLoan_G5::_repayLoanFull()` approves `TELLER_V2` for `_repayAmount`, but `TELLER_V2` always pulls the principal a
+wiki_exploit_scenario: |
+    Per Solodit #32390: Source: https://github.com/sherlock-audit/2024-04-teller-finance-judging/issues/140 
+    
+    ## Found by 
+    0x73696d616f, EgisSecurity, MaslarovK.eth, givn, merlin, mgf15
+    ## Summary
+    
+    `FlashRolloverLoan_G5::_re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M13FlashrolloverloanG5WillNotWorkForCertainTokensDueT"
+solodit_id: "32390"
+solodit_slug: |
+    m-13-flashrolloverloan_g5-will-not-work-for-certain-tokens-due-to-not-setting-the-approval-to-0-after-repaying-a-loan-sherlock-teller-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(TELLER_V2|FlashRolloverLoan_G5|ERC20|repay).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

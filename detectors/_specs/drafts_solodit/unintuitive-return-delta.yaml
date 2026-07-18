@@ -1,0 +1,32 @@
+skeleton: "paired_function_divergence"
+name: "unintuitive-return-delta"
+class_name: "UnintuitiveReturnDelta"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49306 (OpenZeppelin/Uniswap Hooks Library Milestone 1 Audit)"
+help: "Unintuitive Return Delta"
+wiki_title: "Unintuitive Return Delta"
+wiki_description: |
+    The [`BaseCustomCurve` hook](https://github.com/OpenZeppelin/uniswap-hooks/blob/f051c147dbf296b2b854de92970905a880cd1d51/src/base/BaseCustomCurve.sol#L31) allows users to add and remove liquidity for a particular pool, but only via the hook itself. It also only allows swapping with the available liq
+wiki_exploit_scenario: |
+    Per Solodit #49306: The [`BaseCustomCurve` hook](https://github.com/OpenZeppelin/uniswap-hooks/blob/f051c147dbf296b2b854de92970905a880cd1d51/src/base/BaseCustomCurve.sol#L31) allows users to add and remove liquidity for
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnintuitiveReturnDelta"
+solodit_id: "49306"
+solodit_slug: "unintuitive-return-delta-openzeppelin-none-uniswap-hooks-library-milestone-1-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity|removeLiquidity).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

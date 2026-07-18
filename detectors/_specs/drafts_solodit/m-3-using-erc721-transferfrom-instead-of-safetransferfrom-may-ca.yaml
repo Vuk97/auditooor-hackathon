@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "m-3-using-erc721-transferfrom-instead-of-safetransferfrom-may-ca"
+class_name: "M3UsingErc721TransferfromInsteadOfSafetransferfromMayCa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3595 (Sherlock/FrankenDAO)"
+help: |
+    M-3: Using `ERC721.transferFrom()` instead of `safeTransferFrom()` may cause the user's NFT to be frozen in a contract that does not support ERC721
+wiki_title: |
+    M-3: Using `ERC721.transferFrom()` instead of `safeTransferFrom()` may cause the user's NFT to be frozen in a contract that does not support ERC721
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-11-frankendao-judging/issues/55 
+    
+    ## Found by 
+    saian, rvierdiiev, WATCHPUG, Tomo, Bnke0x0, Nyx
+    
+    ## Summary
+    
+    There are certain smart contracts that do not support ERC721, using `transferFrom()` may result in the NFT being sent to such contracts.
+    
+    ## Vuln
+wiki_exploit_scenario: |
+    Per Solodit #3595: Source: https://github.com/sherlock-audit/2022-11-frankendao-judging/issues/55 
+    
+    ## Found by 
+    saian, rvierdiiev, WATCHPUG, Tomo, Bnke0x0, Nyx
+    
+    ## Summary
+    
+    There are certain smart contracts that do not
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M3UsingErc721TransferfromInsteadOfSafetransferfromMayCa"
+solodit_id: "3595"
+solodit_slug: |
+    m-3-using-erc721transferfrom-instead-of-safetransferfrom-may-cause-the-users-nft-to-be-frozen-in-a-contract-that-does-not-support-erc721-sherlock-3d-frankenpunks-frankendao-git
+solodit_quality: "3"
+solodit_rarity: "5"
+solodit_tags: "transferFrom vs safeTransferFrom, NFT, ERC721"
+state_decl: "uint256 internal safetransferfrom;"
+fn_name_regex: ".*(transferFrom|unstake|safeTransferFrom).*"
+read_var_regex: ".*(safeTransferFrom|transferFrom|unstake).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return safetransferfrom > 0;"

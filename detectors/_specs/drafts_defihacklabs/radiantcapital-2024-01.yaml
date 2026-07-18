@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "radiantcapital-2024-01"
+class_name: "Radiantcapital202401"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-01/RadiantCapital_exp.sol"
+help: "RadiantCapital 2024-01 — flashloan exploit (~$4,5M)"
+wiki_title: "RadiantCapital (2024-01) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-01): RadiantCapital lost ~$4,5M. Bug class: flashloan. Attack tx: 0x1ce7e9a9e3b6dd3293c9067221ac3260858ce119ecb7ca860eac28b2474c7c9b.
+wiki_exploit_scenario: |
+    Attacker (0x826d5f4d8084980366f975e10db6c4cf1f9dde6d) exploits RadiantCapital via flashloan: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Radiantcapital202401"
+trigger_sig_regex: ".*(executeOperation).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function executeOperation(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.executeOperation(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

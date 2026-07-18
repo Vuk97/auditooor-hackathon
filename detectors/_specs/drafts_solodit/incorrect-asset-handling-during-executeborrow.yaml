@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-asset-handling-during-executeborrow"
+class_name: "IncorrectAssetHandlingDuringExecuteborrow"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #51948 (Halborn/Finance Contracts)"
+help: "Incorrect asset handling during executeBorrow"
+wiki_title: "Incorrect asset handling during executeBorrow"
+wiki_description: |
+    ##### Description
+    
+    During the `_executeBorrow` function in the `LendingPool` contract, there is a potential issue when `releaseUnderlying` is set to `true`. If the underlying asset is the wrapped HBAR ( `_whbarToken` ), the unwrapping process should be carefully managed. Currently, the code unwraps
+wiki_exploit_scenario: |
+    Per Solodit #51948: ##### Description
+    
+    During the `_executeBorrow` function in the `LendingPool` contract, there is a potential issue when `releaseUnderlying` is set to `true`. If the underlying asset is the wrapped HBAR
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectAssetHandlingDuringExecuteborrow"
+solodit_id: "51948"
+solodit_slug: "incorrect-asset-handling-during-executeborrow-halborn-bonzo-finance-contracts-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal releaseunderlying;"
+fn_name_regex: ".*(LendingPool|releaseUnderlying|transferUnderlyingTo).*"
+read_var_regex: ".*(releaseUnderlying|transferUnderlyingTo).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LendingPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return releaseunderlying > 0;"

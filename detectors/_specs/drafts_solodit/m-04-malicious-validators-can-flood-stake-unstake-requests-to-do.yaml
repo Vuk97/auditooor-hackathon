@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-04-malicious-validators-can-flood-stake-unstake-requests-to-do"
+class_name: "M04MaliciousValidatorsCanFloodStakeUnstakeRequestsToDo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65100 (Code4rena/Recall)"
+help: |
+    [M-04] Malicious validators can flood `stake/unstake` requests to DoS `confirmChange` preventing other validators from claiming their collateral
+wiki_title: |
+    [M-04] Malicious validators can flood `stake/unstake` requests to DoS `confirmChange` preventing other validators from claiming their collateral
+wiki_description: |
+    Subnets using `permissionMode.collateral` uses staked collateral to determine validators power. Validators can stake and unstake their collateral.
+    
+    When a subnet gets bootstrapped (i.e. reached the `minActivationCollateral` to activate the subnet) validators unstaking requires the request to be re
+wiki_exploit_scenario: |
+    Per Solodit #65100: Subnets using `permissionMode.collateral` uses staked collateral to determine validators power. Validators can stake and unstake their collateral.
+    
+    When a subnet gets bootstrapped (i.e. reached the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04MaliciousValidatorsCanFloodStakeUnstakeRequestsToDo"
+solodit_id: "65100"
+solodit_slug: |
+    m-04-malicious-validators-can-flood-stakeunstake-requests-to-dos-confirmchange-preventing-other-validators-from-claiming-their-collateral-code4rena-recall-recall-git
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "DOS"
+state_decl: "uint256 internal minactivationcollateral;"
+fn_name_regex: ".*(minActivationCollateral|confirmChange).*"
+read_var_regex: ".*(minActivationCollateral).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "minActivationCollateral"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return minactivationcollateral > 0;"

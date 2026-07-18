@@ -1,0 +1,44 @@
+skeleton: "state_write_without_paired_write"
+name: "point-position-is-not-updated-for-stack-slots-in-removestackposi"
+class_name: "PointPositionIsNotUpdatedForStackSlotsInRemovestackposi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7309 (Spearbit/Astaria)"
+help: "Point.position is not updated for stack slots in_removeStackPosition"
+wiki_title: "Point.position is not updated for stack slots in_removeStackPosition"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - LienToken.sol#L402
+    - LienToken.sol#L809
+    
+    ## Description
+    In `_createLien`, when a new stack slot is created, the `newSlot.point.position` is set to `uint8(params.stack.length)`, which would be its index in the stack. When `_removeStackPosition` is called to remo
+wiki_exploit_scenario: |
+    Per Solodit #7309: ## Severity: Medium Risk
+    
+    ## Context
+    - LienToken.sol#L402
+    - LienToken.sol#L809
+    
+    ## Description
+    In `_createLien`, when a new stack slot is created, the `newSlot.point.position` is set to `uint8(params.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PointPositionIsNotUpdatedForStackSlotsInRemovestackposi"
+solodit_id: "7309"
+solodit_slug: "pointposition-is-not-updated-for-stack-slots-in_removestackposition-spearbit-astaria-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(AddLien|LienStackUpdated|fa175c).*"
+primary_var_regex: ".*(fa175c).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

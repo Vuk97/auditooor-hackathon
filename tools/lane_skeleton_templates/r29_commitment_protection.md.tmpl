@@ -1,0 +1,31 @@
+<!--
+Skeleton: R29 Commitment & Protection Analysis (Rule 29, pre-submit Check #94).
+Required for any HIGH+ cooperative / multi-party-exit / commitment-bearing
+finding (cooperative-exit, Lightning HTLC, Curve gauge-vote, ERC-4626
+multi-party redemption, statechain transfer, ANY flow where a victim's
+funds become irrecoverable at a specific commit point and an out-of-protocol
+path is required to recover).
+
+Placeholder syntax: <<key|default|description>>. Fill each <<...>> in.
+Sections without placeholders are pre-populated and may be left as-is.
+-->
+
+## Commitment & Protection Analysis
+
+Commitment & Protection Analysis:
+- Commitment point: <<commitment_point_fileline|<file:line>|file:line where funds become irrecoverable for the victim. Distinguish reversible state transitions (user can cancel) from irreversible commits (out-of-protocol path required to recover).>>
+- Reversibility classification: <<reversibility|irreversible|one of: reversible-by-victim | reversible-by-protocol | irreversible. If irreversible, cite the source line that confirms no in-protocol cancel/rollback path exists.>>
+- Validation gap class: <<gap_class|POST-commit|POST-commit (NEW attack surface that only fires AFTER the irreversible commit; typically Critical/High) | PRE-commit (exposes an existing risk the user is already entering knowingly; typically Medium-or-drop)>>
+- Protection cardinality: <<protection_cardinality|N=1 (sole protection is the contested gap)|Enumerate ALL independent guards between the bug and the impact. If N>1 fully-covering guards exist, walk back severity or drop. If the gap is the SOLE protection, severity claim stronger.>>
+- Sibling-guard enumeration: <<sibling_guards|none identified|For each sibling guard (if any), list its file:line and explain whether it fully covers the contested path or only partially (asymmetric coverage / conditional-bypass / out-of-envelope failure).>>
+- Out-of-protocol recovery cost: <<recovery_cost|none in-protocol|Describe what (if any) recovery path exists outside the protocol. "Forced to chain-watch and dispute via L1 settlement layer" / "Must contact protocol team for manual refund" / "No recovery path - funds permanently lost".>>
+- Verdict: <<verdict|commitment-analysis-complete|commitment-analysis-complete | no-commitment-point-citation | no-gap-class | no-protection-cardinality>>
+
+<!-- WALK-BACK / OVERRIDE GUIDANCE (delete this comment block before paste):
+- When `Validation gap class: PRE-commit`, walk back severity to Medium or
+  drop entirely - the user is entering the risk knowingly.
+- When `Protection cardinality: N>1 fully-covering guards`, walk back
+  severity OR add `<!-- r29-rebuttal: <reason up to 200 chars> -->`
+  citing why the sibling guards do not fully cover the contested path
+  (asymmetric coverage, conditional-bypass, out-of-envelope failure modes).
+-->

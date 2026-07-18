@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-curve-mapping"
+class_name: "IncorrectCurveMapping"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Session Token - Zellic Audit Report"
+help: |
+    In the original BLS signature paper ↗, the authors construct a hash function called MapToGrouph′ in order to hash a message to an arbitrary point of G2 . This point is later used b
+wiki_title: "Incorrect curve mapping"
+wiki_description: |
+    In the original BLS signature paper ↗, the authors construct a hash function called MapToGrouph′ in order to hash a message to an arbitrary point of G2 . This point is later used by the signature algo- rithms to create the signature. The function construction from the paper ensures that the security
+wiki_exploit_scenario: |
+    Per audit finding: In the original BLS signature paper ↗, the authors construct a hash function called MapToGrouph′ in order to hash a message to an arbitrary point of G2 . This point is later used by the signature algo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectCurveMapping"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(mapToG2|foundValidPoint|tryAndIncMapTo).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "mapToG2"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

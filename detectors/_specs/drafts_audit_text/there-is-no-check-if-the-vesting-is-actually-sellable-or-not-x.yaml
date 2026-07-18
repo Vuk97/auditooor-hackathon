@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "there-is-no-check-if-the-vesting-is-actually-sellable-or-not-x"
+class_name: "ThereIsNoCheckIfTheVestingIsActuallySellableOrNotX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-secondswap"
+help: |
+    [L-07] There is no check if the vesting is actually sellable or not Setting the value of maxSellPercent in a none sellable vesting is useless and will only make tokenIssuer lose ga
+wiki_title: |
+    There is no check if the vesting is actually sellable or not Setting the value of maxSellPercent in a none sellable vesting is useless and will only make tokenI
+wiki_description: |
+    [L-07] There is no check if the vesting is actually sellable or not Setting the value of maxSellPercent in a none sellable vesting is useless and will only make tokenIssuer lose gas. Therefore, it is better to check if the vesting is sellable first before making any change to the maxSellPercent valu
+wiki_exploit_scenario: |
+    Per audit finding: [L-07] There is no check if the vesting is actually sellable or not Setting the value of maxSellPercent in a none sellable vesting is useless and will only make tokenIssuer lose gas. Therefore, it is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ThereIsNoCheckIfTheVestingIsActuallySellableOrNotX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxSellPercent|tokenIssuer|setMaxSellPercent).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "maxSellPercent"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

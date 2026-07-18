@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "h-02-attacker-can-drain-all-eth-from-auctiondemo-when-block-time"
+class_name: "H02AttackerCanDrainAllEthFromAuctiondemoWhenBlockTime"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29523 (Code4rena/NextGen)"
+help: "[H-02] Attacker can drain all ETH from `AuctionDemo` when `block.timestamp == auctionEndTime`"
+wiki_title: "[H-02] Attacker can drain all ETH from `AuctionDemo` when `block.timestamp == auctionEndTime`"
+wiki_description: |
+    It’s possible to drain all ETH from the `AuctionDemo` contract. There are two bugs that make it possible when they're exploited together.
+    
+    ### First bug:
+    
+    In `AuctionDemo` there are two phases of an auction:
+    
+    1. Before `minter.getAuctionEndTime(_tokenid)`, when users can call `participateToAuction`
+wiki_exploit_scenario: |
+    Per Solodit #29523: It’s possible to drain all ETH from the `AuctionDemo` contract. There are two bugs that make it possible when they're exploited together.
+    
+    ### First bug:
+    
+    In `AuctionDemo` there are two phases of an
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02AttackerCanDrainAllEthFromAuctiondemoWhenBlockTime"
+solodit_id: "29523"
+solodit_slug: |
+    h-02-attacker-can-drain-all-eth-from-auctiondemo-when-blocktimestamp-auctionendtime-code4rena-nextgen-nextgen-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cancelbid;"
+fn_name_regex: ".*(AuctionDemo|participateToAuction|cancelBid|claimAuction).*"
+read_var_regex: ".*(cancelBid|claimAuction|participateToAuction).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "AuctionDemo"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cancelbid > 0;"

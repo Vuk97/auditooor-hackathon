@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-05-ambireaccount-implementation-can-be-destroyed-by-privileges"
+class_name: "M05AmbireaccountImplementationCanBeDestroyedByPrivileges"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25879 (Code4rena/Ambire)"
+help: "[M-05] AmbireAccount implementation can be destroyed by privileges"
+wiki_title: "[M-05] AmbireAccount implementation can be destroyed by privileges"
+wiki_description: |
+    The `AmbireAccount` implementation can be destroyed, resulting in the bricking of all associated wallets.
+    
+    The `AmbireAccount` contract has a constructor that sets up privileges. These are essentially addresses that have control over the wallet.
+    
+    ```solidity
+    58: 	constructor(address[] memory addrs)
+wiki_exploit_scenario: |
+    Per Solodit #25879: The `AmbireAccount` implementation can be destroyed, resulting in the bricking of all associated wallets.
+    
+    The `AmbireAccount` contract has a constructor that sets up privileges. These are essentiall
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05AmbireaccountImplementationCanBeDestroyedByPrivileges"
+solodit_id: "25879"
+solodit_slug: "m-05-ambireaccount-implementation-can-be-destroyed-by-privileges-code4rena-ambire-ambire-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal selfdestruct;"
+fn_name_regex: ".*(AmbireAccount|selfdestruct).*"
+read_var_regex: ".*(selfdestruct).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "AmbireAccount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return selfdestruct > 0;"

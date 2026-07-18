@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "v1-addl1l2messagehashes-allows-l1-l2-messages-to-be-censored-and"
+class_name: "V1Addl1l2messagehashesAllowsL1L2MessagesToBeCensoredAnd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32562 (OpenZeppelin/Linea V2 Audit)"
+help: "V1 addL1L2MessageHashes Allows L1 → L2 Messages to Be Censored and May Prevent Finalization"
+wiki_title: "V1 addL1L2MessageHashes Allows L1 → L2 Messages to Be Censored and May Prevent Finalization"
+wiki_description: |
+    Due to the V1 method for processing L1 messages (`addL1L2MessageHashes`) still existing on L2 and being callable by the operator after the upgrade, two issues arise:
+    
+    
+    1. The rolling hash mechanism can be circumvented and messages can be added while skipping (censoring) others by calling `addL1L2Mes
+wiki_exploit_scenario: |
+    Per Solodit #32562: Due to the V1 method for processing L1 messages (`addL1L2MessageHashes`) still existing on L2 and being callable by the operator after the upgrade, two issues arise:
+    
+    
+    1. The rolling hash mechanism ca
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "V1Addl1l2messagehashesAllowsL1L2MessagesToBeCensoredAnd"
+solodit_id: "32562"
+solodit_slug: |
+    v1-addl1l2messagehashes-allows-l1-l2-messages-to-be-censored-and-may-prevent-finalization-openzeppelin-none-linea-v2-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(addL1L2MessageHashes|lastAnchoredL1MessageNumber).*"
+primary_var_regex: ".*(addL1L2MessageHashes|lastAnchoredL1MessageNumber).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

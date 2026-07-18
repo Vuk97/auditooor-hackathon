@@ -1,0 +1,57 @@
+skeleton: "name_match_missing_call"
+name: "h-15-the-difference-between-gasleft-and-gasaftertransfer-is-grea"
+class_name: "H15TheDifferenceBetweenGasleftAndGasaftertransferIsGrea"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26049 (Code4rena/Maia DAO Ecosystem)"
+help: |
+    [H-15] The difference between `gasLeft` and `gasAfterTransfer` is greater than `TRANSFER_OVERHEAD`, causing `anyExecute` to always fail
+wiki_title: |
+    [H-15] The difference between `gasLeft` and `gasAfterTransfer` is greater than `TRANSFER_OVERHEAD`, causing `anyExecute` to always fail
+wiki_description: |
+    In `_payExecutionGas`,  there is the following code:
+    
+    ```solidity
+    ///Save gas left
+    	uint256 gasLeft = gasleft();
+    	.
+    	.
+    	. 
+    	.
+    //Transfer gas remaining to recipient
+    	SafeTransferLib.safeTransferETH(_recipient, gasRemaining - minExecCost);
+    	//Save Gas
+    	uint256 gasAfterTransfer = gasleft();
+    	//Check i
+wiki_exploit_scenario: |
+    Per Solodit #26049: In `_payExecutionGas`,  there is the following code:
+    
+    ```solidity
+    ///Save gas left
+    	uint256 gasLeft = gasleft();
+    	.
+    	.
+    	. 
+    	.
+    //Transfer gas remaining to recipient
+    	SafeTransferLib.safeTransferETH(_r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H15TheDifferenceBetweenGasleftAndGasaftertransferIsGrea"
+solodit_id: "26049"
+solodit_slug: |
+    h-15-the-difference-between-gasleft-and-gasaftertransfer-is-greater-than-transfer_overhead-causing-anyexecute-to-always-fail-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal anyexecute;"
+fn_name_regex: ".*(gasLeft|gasAfterTransfer|TRANSFER_OVERHEAD|anyExecute).*"
+read_var_regex: ".*(anyExecute|gasAfterTransfer|gasLeft).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "gasLeft"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return anyexecute > 0;"

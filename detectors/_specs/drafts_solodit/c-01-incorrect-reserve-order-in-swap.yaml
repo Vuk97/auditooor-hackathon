@@ -1,0 +1,55 @@
+skeleton: "paired_function_divergence"
+name: "c-01-incorrect-reserve-order-in-swap"
+class_name: "C01IncorrectReserveOrderInSwap"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53301 (Pashov Audit Group/Gacha_2025-01-27)"
+help: "[C-01] Incorrect reserve order in `_swap()`"
+wiki_title: "[C-01] Incorrect reserve order in `_swap()`"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    In the `GachaTickets::_swap` function, reserves are retrieved from the UniswapV2Pair contract as follows:
+    
+    ```solidity
+    address pair = factory.getPair($.paymentToken, token);
+    (uint256 wethReserve, uint256 tokenReserve, ) = IUniswa
+wiki_exploit_scenario: |
+    Per Solodit #53301: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    In the `GachaTickets::_swap` function, reserves are retrieved from the UniswapV2Pair contract as follows:
+    
+    ```solidity
+    address pa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01IncorrectReserveOrderInSwap"
+solodit_id: "53301"
+solodit_slug: "c-01-incorrect-reserve-order-in-_swap-pashov-audit-group-none-gacha_2025-01-27-markdown"
+solodit_quality: "5"
+solodit_rarity: "2"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(getReserves|minToken|minTokens).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

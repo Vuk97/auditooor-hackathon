@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "price-feed-may-be-gamed-if-insufficient-rounds-are-captured"
+class_name: "PriceFeedMayBeGamedIfInsufficientRoundsAreCaptured"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Cultured - Zellic Audit Report"
+help: |
+    The VaultPriceFeed ensures that the indexToken is priced accurately depending on necessary pric- ing mechanisms. In the case that we use the standard Chainlink-style price-feed agg
+wiki_title: "Price feed may be gamed if insufficient rounds are captured"
+wiki_description: |
+    The VaultPriceFeed ensures that the indexToken is priced accurately depending on necessary pric- ing mechanisms. In the case that we use the standard Chainlink-style price-feed aggregator, it is possible to game positions with no round data registered. The primary pricing mechanism uses Chainlink-st
+wiki_exploit_scenario: |
+    Per audit finding: The VaultPriceFeed ensures that the indexToken is priced accurately depending on necessary pric- ing mechanisms. In the case that we use the standard Chainlink-style price-feed aggregator, it is possi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PriceFeedMayBeGamedIfInsufficientRoundsAreCaptured"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(indexToken|roundId|priceFeed).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "indexToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

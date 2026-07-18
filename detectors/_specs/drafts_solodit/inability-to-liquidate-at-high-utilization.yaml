@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "inability-to-liquidate-at-high-utilization"
+class_name: "InabilityToLiquidateAtHighUtilization"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49452 (MixBytes/Liquorice)"
+help: "Inability to liquidate at high utilization"
+wiki_title: "Inability to liquidate at high utilization"
+wiki_description: |
+    ##### Description
+    The liquidation function reverts if there aren’t enough funds in the pool to perform the transfer:
+    ```solidity
+    function _liquidation
+        ...
+        (uint256 withdrawnLockedAmount, uint256 lockedAmountToTransfer,) =
+        _withdrawAsset(
+            _withdrawal[i].asset, 
+            _withdrawal
+wiki_exploit_scenario: |
+    Per Solodit #49452: ##### Description
+    The liquidation function reverts if there aren’t enough funds in the pool to perform the transfer:
+    ```solidity
+    function _liquidation
+        ...
+        (uint256 withdrawnLockedAmount, uint2
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InabilityToLiquidateAtHighUtilization"
+solodit_id: "49452"
+solodit_slug: "inability-to-liquidate-at-high-utilization-mixbytes-none-liquorice-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(CollateralToken).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "CollateralToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

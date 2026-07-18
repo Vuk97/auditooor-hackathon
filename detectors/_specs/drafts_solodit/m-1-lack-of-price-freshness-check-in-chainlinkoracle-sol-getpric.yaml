@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "m-1-lack-of-price-freshness-check-in-chainlinkoracle-sol-getpric"
+class_name: "M1LackOfPriceFreshnessCheckInChainlinkoracleSolGetpric"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3357 (Sherlock/Sentiment)"
+help: |
+    M-1: Lack of price freshness check in `ChainlinkOracle.sol#getPrice()` allows a stale price to be used
+wiki_title: |
+    M-1: Lack of price freshness check in `ChainlinkOracle.sol#getPrice()` allows a stale price to be used
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-08-sentiment-judging/tree/main/002-M 
+    ## Found by 
+    defsec, icedpeachtea, oyc\_109, Lambda, 0xNineDec, Avci, ladboy233, JohnSmith, jonatascm, Ruhum, csanuragjain, PwnPatrol, WATCHPUG, 0xNazgul, xiaoming90, 0x52, 0xf15ers, ellahi, pashov, rbserver, GalloD
+wiki_exploit_scenario: |
+    Per Solodit #3357: Source: https://github.com/sherlock-audit/2022-08-sentiment-judging/tree/main/002-M 
+    ## Found by 
+    defsec, icedpeachtea, oyc\_109, Lambda, 0xNineDec, Avci, ladboy233, JohnSmith, jonatascm, Ruhum, csanu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1LackOfPriceFreshnessCheckInChainlinkoracleSolGetpric"
+solodit_id: "3357"
+solodit_slug: |
+    m-1-lack-of-price-freshness-check-in-chainlinkoraclesolgetprice-allows-a-stale-price-to-be-used-sherlock-sentiment-sentiment-git
+solodit_quality: "3"
+solodit_rarity: "5"
+solodit_tags: "Storage Gap, Stale Price"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(ChainlinkOracle|updatedAt|Heartbeat).*"
+primary_var_regex: ".*(updatedAt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

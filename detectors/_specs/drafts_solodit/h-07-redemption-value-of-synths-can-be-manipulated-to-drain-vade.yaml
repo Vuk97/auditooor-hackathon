@@ -1,0 +1,47 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-07-redemption-value-of-synths-can-be-manipulated-to-drain-vade"
+class_name: "H07RedemptionValueOfSynthsCanBeManipulatedToDrainVade"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42422 (Code4rena/Vader Protocol)"
+help: |
+    [H-07] Redemption value of synths can be manipulated to drain `VaderPoolV2` of all native assets in the associated pair
+wiki_title: |
+    [H-07] Redemption value of synths can be manipulated to drain `VaderPoolV2` of all native assets in the associated pair
+wiki_description: |
+    _Submitted by TomFrenchBlockchain, also found by certora_
+    
+    Draining of funds from `VaderPoolV2`.
+    
+    #### Proof of Concept
+    
+    See the `VaderPool.mintSynth` function:
+    <https://github.com/code-423n4/2021-12-vader/blob/fd2787013608438beae361ce1bb6d9ffba466c45/contracts/dex-v2/pool/VaderPoolV2.sol#L153-L194>
+wiki_exploit_scenario: |
+    Per Solodit #42422: _Submitted by TomFrenchBlockchain, also found by certora_
+    
+    Draining of funds from `VaderPoolV2`.
+    
+    #### Proof of Concept
+    
+    See the `VaderPool.mintSynth` function:
+    <https://github.com/code-423n4/2021-12-
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H07RedemptionValueOfSynthsCanBeManipulatedToDrainVade"
+solodit_id: "42422"
+solodit_slug: |
+    h-07-redemption-value-of-synths-can-be-manipulated-to-drain-vaderpoolv2-of-all-native-assets-in-the-associated-pair-code4rena-vader-protocol-vader-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(VaderPoolV2|nativeAsset|foreignAsset).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

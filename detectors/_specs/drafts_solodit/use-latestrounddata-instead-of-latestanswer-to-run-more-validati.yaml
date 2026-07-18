@@ -1,0 +1,35 @@
+skeleton: "state_write_without_paired_write"
+name: "use-latestrounddata-instead-of-latestanswer-to-run-more-validati"
+class_name: "UseLatestrounddataInsteadOfLatestanswerToRunMoreValidati"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #50385 (Halborn/Ocean Protocol H2O System and Action)"
+help: "USE LATESTROUNDDATA INSTEAD OF LATESTANSWER TO RUN MORE VALIDATIONS"
+wiki_title: "USE LATESTROUNDDATA INSTEAD OF LATESTANSWER TO RUN MORE VALIDATIONS"
+wiki_description: |
+    ##### Description
+    
+    Chainlink contract are calling latestAnswer to get the asset prices. The latestAnswer is deprecated. Freshness of the returned price should be checked, since it affects an account's health (and therefore liquidations). Stale prices that do not reflect the current market price anym
+wiki_exploit_scenario: |
+    Per Solodit #50385: ##### Description
+    
+    Chainlink contract are calling latestAnswer to get the asset prices. The latestAnswer is deprecated. Freshness of the returned price should be checked, since it affects an account's
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UseLatestrounddataInsteadOfLatestanswerToRunMoreValidati"
+solodit_id: "50385"
+solodit_slug: |
+    use-latestrounddata-instead-of-latestanswer-to-run-more-validations-halborn-ocean-protocol-ocean-protocol-h2o-system-and-action-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(latestAnswer|latestRoundData|chainlinkAggregator|medianPrice).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

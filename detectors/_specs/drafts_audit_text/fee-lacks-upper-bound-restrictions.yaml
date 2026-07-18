@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "fee-lacks-upper-bound-restrictions"
+class_name: "FeeLacksUpperBoundRestrictions"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Trillion EVM cross chain contract - Zellic Audit Report"
+help: |
+    Fee's in the token bridge contract accrue through native token transfers. An admin set fee minimum is required to transact with the bridge. Although the fee cannot be zero, it can
+wiki_title: "Fee lacks upper bound restrictions"
+wiki_description: |
+    Fee's in the token bridge contract accrue through native token transfers. An admin set fee minimum is required to transact with the bridge. Although the fee cannot be zero, it can be set arbitrarily high in the setFee() function.
+wiki_exploit_scenario: |
+    Per audit finding: Fee's in the token bridge contract accrue through native token transfers. An admin set fee minimum is required to transact with the bridge. Although the fee cannot be zero, it can be set arbitrarily h
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FeeLacksUpperBoundRestrictions"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setFee).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setFee"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

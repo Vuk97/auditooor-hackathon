@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "c-lienrequest-strategy-vault-is-not-checked-to-be-a-registered-v"
+class_name: "CLienrequestStrategyVaultIsNotCheckedToBeARegisteredV"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7300 (Spearbit/Astaria)"
+help: "c.lienRequest.strategy.vault is not checked to be a registered vault when commitToLiens is called"
+wiki_title: "c.lienRequest.strategy.vault is not checked to be a registered vault when commitToLiens is called"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    AstariaRouter.sol#L680-L683
+    
+    ## Description
+    From when `commitToLiens` is called till when we end up calling `IVaultImplementation(c.lienRequest.strategy.vault).commitToLien( ... )` and after the value of `c.lienRequest.strategy.vault` is not checked whether it is a
+wiki_exploit_scenario: |
+    Per Solodit #7300: ## Severity: High Risk
+    
+    ## Context
+    AstariaRouter.sol#L680-L683
+    
+    ## Description
+    From when `commitToLiens` is called till when we end up calling `IVaultImplementation(c.lienRequest.strategy.vault).commi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CLienrequestStrategyVaultIsNotCheckedToBeARegisteredV"
+solodit_id: "7300"
+solodit_slug: |
+    clienrequeststrategyvault-is-not-checked-to-be-a-registered-vault-when-committoliens-is-spearbit-astaria-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal committolien;"
+fn_name_regex: ".*(commitToLiens|totalBorrowed|AstariaRouter|commitToLien).*"
+write_var_regex: ".*(commitToLien|commitToLiens|totalBorrowed).*"
+guard_var_regex: ".*(commitToLien|commitToLiens|totalBorrowed).*"
+vuln_fn_name: "commitToLiens"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "committolien = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

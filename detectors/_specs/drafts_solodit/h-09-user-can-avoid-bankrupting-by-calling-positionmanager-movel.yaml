@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "h-09-user-can-avoid-bankrupting-by-calling-positionmanager-movel"
+class_name: "H09UserCanAvoidBankruptingByCallingPositionmanagerMovel"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20077 (Code4rena/Ajna Protocol)"
+help: |
+    [H-09] User can avoid bankrupting by calling `PositionManager.moveLiquidity` where to index is bankrupted index
+wiki_title: |
+    [H-09] User can avoid bankrupting by calling `PositionManager.moveLiquidity` where to index is bankrupted index
+wiki_description: |
+    Bucket could become insolvent and in that case all LP within the bucket are zeroed out (lenders lose all their LP). Because of that, `PositionManager.reedemPositions` [will not allow to redeem index that is bankrupted](https://github.com/code-423n4/2023-05-ajna/blob/main/ajna-core/src/PositionManag
+wiki_exploit_scenario: |
+    Per Solodit #20077: Bucket could become insolvent and in that case all LP within the bucket are zeroed out (lenders lose all their LP). Because of that, `PositionManager.reedemPositions` [will not allow to redeem index
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H09UserCanAvoidBankruptingByCallingPositionmanagerMovel"
+solodit_id: "20077"
+solodit_slug: |
+    h-09-user-can-avoid-bankrupting-by-calling-positionmanagermoveliquidity-where-to-index-is-bankrupted-index-code4rena-ajna-protocol-ajna-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(reedemPositions|moveLiquidity|mayInteract|tokenId).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "reedemPositions"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

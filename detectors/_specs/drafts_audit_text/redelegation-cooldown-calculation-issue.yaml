@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "redelegation-cooldown-calculation-issue"
+class_name: "RedelegationCooldownCalculationIssue"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Mitosis (May) - Zellic Audit Report"
+help: |
+    There is an issue in the redelegation logic of the ValidatorStaking contract. In the _checkRedelegationCooldown function, data for a custom error is calculated even when the valida
+wiki_title: "Redelegation cooldown calculation issue"
+wiki_description: |
+    There is an issue in the redelegation logic of the ValidatorStaking contract. In the _checkRedelegationCooldown function, data for a custom error is calculated even when the validation check passes, which indicates a potential underflow/overflow error. See the original implementation using the requi
+wiki_exploit_scenario: |
+    Per audit finding: There is an issue in the redelegation logic of the ValidatorStaking contract. In the _checkRedelegationCooldown function, data for a custom error is calculated even when the validation check passes, w
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RedelegationCooldownCalculationIssue"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(valAddr|lastRedelegationTime|redelegationCooldown).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "valAddr"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "clob-order-amendment-bypasses-tick-spacing-for-price"
+class_name: "ClobOrderAmendmentBypassesTickSpacingForPrice"
+wave: "12"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "corpus slice slice_ae"
+help: |
+    amend doesn't call assertLimitPriceInBounds on price changes; user amends price to 6.150000001e18 to queue-jump existing 6.15e18 orders.
+wiki_title: "CLOB Order Amendment Bypasses Tick-Spacing for Price"
+wiki_description: |
+    amend doesn't call assertLimitPriceInBounds on price changes; user amends price to 6.150000001e18 to queue-jump existing 6.15e18 orders.
+wiki_exploit_scenario: |
+    Attacker exploits CLOB Order Amendment Bypasses Tick-Spacing for Price as described: amend doesn't call assertLimitPriceInBounds on price changes; user amends price to 6.150000001e18 to queue-jump existing 6.15e18 orders.
+wiki_recommendation: "amend functions that modify order price without tick-spacing validation."
+contract_name: "ClobOrderAmendmentBypassesTickSpacingForPrice"
+state_decl: "mapping(address => uint256) internal balances;"
+fn_name_regex: ".*(clob|order|amendment).*"
+write_var_regex: ".*"
+guard_var_regex: ".*"
+vuln_fn_name: "setParam"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balances[msg.sender] = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

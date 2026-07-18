@@ -1,0 +1,40 @@
+skeleton: "paired_function_divergence"
+name: "swapper-can-lose-all-thusdamount-if-price-feed-is-down"
+class_name: "SwapperCanLoseAllThusdamountIfPriceFeedIsDown"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54692 (Cantina/Threshold)"
+help: "Swapper can lose all thusdAmount if Price Feed is down"
+wiki_title: "Swapper can lose all thusdAmount if Price Feed is down "
+wiki_description: |
+    ## Context
+    **BAMM.sol#L256-L271**
+    
+    ## Description
+    The swap function is meant to allow purchasing of collateral as a way to automate auto-compounding of collateral into more THUSD. To allow the swap, `getSwapCollateralAmount` will query the Chainlink Price Feed for the Collateral / USD pair and use t
+wiki_exploit_scenario: |
+    Per Solodit #54692: ## Context
+    **BAMM.sol#L256-L271**
+    
+    ## Description
+    The swap function is meant to allow purchasing of collateral as a way to automate auto-compounding of collateral into more THUSD. To allow the swap, `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwapperCanLoseAllThusdamountIfPriceFeedIsDown"
+solodit_id: "54692"
+solodit_slug: "swapper-can-lose-all-thusdamount-if-price-feed-is-down-cantina-none-threshold-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(collateralAmount|getSwapCollateralAmount|minReturn).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

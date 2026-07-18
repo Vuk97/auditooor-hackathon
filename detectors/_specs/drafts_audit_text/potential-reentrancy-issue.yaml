@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "potential-reentrancy-issue"
+class_name: "PotentialReentrancyIssue"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Wasabi Perps - Zellic Audit Report"
+help: |
+    The WasabiVault::_withdraw function does not follow the checks-effects-interactions pattern, and contains a potential reentrancy issue. function _withdraw( address caller, address
+wiki_title: "Potential reentrancy issue"
+wiki_description: |
+    The WasabiVault::_withdraw function does not follow the checks-effects-interactions pattern, and contains a potential reentrancy issue. function _withdraw( address caller, address receiver, address owner, uint256 assets, uint256 shares ) internal virtual override { if (caller != owner) { _spendAllow
+wiki_exploit_scenario: |
+    Per audit finding: The WasabiVault::_withdraw function does not follow the checks-effects-interactions pattern, and contains a potential reentrancy issue. function _withdraw( address caller, address receiver, address ow
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialReentrancyIssue"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalAssetValue).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalAssetValue"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

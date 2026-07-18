@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "attacker-can-manipulate-the-amount-of-output-tokens-of-users-in-"
+class_name: "AttackerCanManipulateTheAmountOfOutputTokensOfUsersIn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49967 (Codehawks/Part 2)"
+help: "Attacker can manipulate the amount of output tokens of users in ZlpVault"
+wiki_title: "Attacker can manipulate the amount of output tokens of users in ZlpVault"
+wiki_description: |
+    ### Summary
+    
+    The swap rate calculation in **`VaultRouterBranch::getIndexTokenSwapRate` and `VaultRouterBranch::getVaultAssetSwapRate`** depends on `getVaultCreditCapacity`. When **credit capacity is low**, users receive a **large number of index tokens** per unit of collateral. This creates an issue
+wiki_exploit_scenario: |
+    Per Solodit #49967: ### Summary
+    
+    The swap rate calculation in **`VaultRouterBranch::getIndexTokenSwapRate` and `VaultRouterBranch::getVaultAssetSwapRate`** depends on `getVaultCreditCapacity`. When **credit capacity is l
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AttackerCanManipulateTheAmountOfOutputTokensOfUsersIn"
+solodit_id: "49967"
+solodit_slug: "attacker-can-manipulate-the-amount-of-output-tokens-of-users-in-zlpvault-codehawks-zaros-part-2-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assetsin;"
+fn_name_regex: ".*(getVaultCreditCapacity|getVaultAssetSwapRate|sharesOut|assetsIn).*"
+read_var_regex: ".*(assetsIn|assetsOut|getIndexTokenSwapRate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getVaultCreditCapacity"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assetsin > 0;"

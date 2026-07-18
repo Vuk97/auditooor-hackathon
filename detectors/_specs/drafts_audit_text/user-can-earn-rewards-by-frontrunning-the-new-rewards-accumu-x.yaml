@@ -1,0 +1,27 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "user-can-earn-rewards-by-frontrunning-the-new-rewards-accumu-x"
+class_name: "UserCanEarnRewardsByFrontrunningTheNewRewardsAccumuX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-01-liquid-ron"
+help: |
+    Aamir , also found by 0rpse 0x0dd 0xrex gesha17 ilchovski KupiaSec , and spuriousdragon LiquidProxy.sol#L39 Finding Description and Impact The Ron staking contract let us earn rewa
+wiki_title: |
+    User can earn rewards by frontrunning the new rewards accumulation in Ron staking without actually delegating his tokens
+wiki_description: |
+    Aamir , also found by 0rpse 0x0dd 0xrex gesha17 ilchovski KupiaSec , and spuriousdragon LiquidProxy.sol#L39 Finding Description and Impact The Ron staking contract let us earn rewards by delegating our tokens to a validator. But you will only earn rewards on the lowest balance of the day ( source ).
+wiki_exploit_scenario: |
+    Per audit finding: Aamir , also found by 0rpse 0x0dd 0xrex gesha17 ilchovski KupiaSec , and spuriousdragon LiquidProxy.sol#L39 Finding Description and Impact The Ron staking contract let us earn rewards by delegating ou
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UserCanEarnRewardsByFrontrunningTheNewRewardsAccumuX"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(getTotalRewards|totalAssets|getTotalStaked).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

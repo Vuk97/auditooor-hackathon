@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_require"
+name: "relayer-could-lose-funds"
+class_name: "RelayerCouldLoseFunds"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7152 (Spearbit/Connext)"
+help: "Relayer could lose funds"
+wiki_title: "Relayer could lose funds"
+wiki_description: |
+    ## Security Assessment Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `BridgeFacet.sol#L828-L835`
+    
+    ## Description
+    The `xReceive` function on the receiver side can contain unreliable code which the Relayer is unaware of. In the future, more relayers will participate in completing the transaction.
+wiki_exploit_scenario: |
+    Per Solodit #7152: ## Security Assessment Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `BridgeFacet.sol#L828-L835`
+    
+    ## Description
+    The `xReceive` function on the receiver side can contain unreliable code which the Re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RelayerCouldLoseFunds"
+solodit_id: "7152"
+solodit_slug: "relayer-could-lose-funds-spearbit-connext-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal withdraw;"
+fn_name_regex: ".*(xReceive|withdraw).*"
+write_var_regex: ".*(withdraw|xReceive).*"
+guard_var_regex: ".*(withdraw|xReceive).*"
+vuln_fn_name: "xReceive"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "withdraw = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

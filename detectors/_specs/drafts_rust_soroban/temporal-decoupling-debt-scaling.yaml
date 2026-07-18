@@ -1,0 +1,19 @@
+id: temporal-decoupling-debt-scaling
+title: "Temporal decoupling in debt scaling allows stale total-debt calculations"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44471"
+bug_class: precision-loss
+indicators:
+  - "`total_debt(reserve) = total_scaled_debt * borrow_index` where `borrow_index` read from a different snapshot than `total_scaled_debt`"
+  - "no atomic read of both values under a single state snapshot"
+victim: "Protocol: transient views report wrong totals."
+exploit_precondition: "Two reads separated by an update."
+real_world_example: |
+  V12 #44471 (Low): Temporal decoupling in debt scaling.
+suggested_remediation: "Read both values atomically, or recompute index inside the same helper."
+cross_refs:
+  - scaled-share-rounding-mismatch

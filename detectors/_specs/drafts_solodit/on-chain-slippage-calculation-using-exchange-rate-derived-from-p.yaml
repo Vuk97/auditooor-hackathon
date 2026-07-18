@@ -1,0 +1,33 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "on-chain-slippage-calculation-using-exchange-rate-derived-from-p"
+class_name: "OnChainSlippageCalculationUsingExchangeRateDerivedFromP"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31302 (Cyfrin/Thermae)"
+help: |
+    On-chain slippage calculation using exchange rate derived from `pool.slot0` can be easily manipulated
+wiki_title: |
+    On-chain slippage calculation using exchange rate derived from `pool.slot0` can be easily manipulated
+wiki_description: |
+    **Description:** [On-chain slippage calculation](https://dacian.me/defi-slippage-attacks#heading-on-chain-slippage-calculation-can-be-manipulated) using price from [`pool.slot0` can be easily manipulated](https://solodit.xyz/issues/h-4-no-slippage-protection-during-repayment-due-to-dynamic-slippage-
+wiki_exploit_scenario: |
+    Per Solodit #31302: **Description:** [On-chain slippage calculation](https://dacian.me/defi-slippage-attacks#heading-on-chain-slippage-calculation-can-be-manipulated) using price from [`pool.slot0` can be easily manipula
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OnChainSlippageCalculationUsingExchangeRateDerivedFromP"
+solodit_id: "31302"
+solodit_slug: |
+    on-chain-slippage-calculation-using-exchange-rate-derived-from-poolslot0-can-be-easily-manipulated-cyfrin-none-cyfrin-thermae-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(maxSlippageStart|maxSlippageFinish|minAmountReceivedStart|minAmountReceivedFinish).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

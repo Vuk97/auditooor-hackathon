@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "h-4-an-attacker-can-hijack-the-curatedvault-s-matured-yield"
+class_name: "H4AnAttackerCanHijackTheCuratedvaultSMaturedYield"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41814 (Sherlock/ZeroLend One)"
+help: "H-4: An attacker can hijack the `CuratedVault`'s matured yield"
+wiki_title: "H-4: An attacker can hijack the `CuratedVault`'s matured yield"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-06-new-scope-judging/issues/199 
+    
+    ## Found by 
+    0xAlix2, 0xc0ffEE, A2-security, JCN, Obsidian, TessKimy, Varun\_05, dhank, ether\_sky, iamnmt, trachev, zarkk01
+    ### Summary
+    
+    `CuratedVault#totalAssets` does not update pool's `liquidityIndex` at the beginni
+wiki_exploit_scenario: |
+    Per Solodit #41814: Source: https://github.com/sherlock-audit/2024-06-new-scope-judging/issues/199 
+    
+    ## Found by 
+    0xAlix2, 0xc0ffEE, A2-security, JCN, Obsidian, TessKimy, Varun\_05, dhank, ether\_sky, iamnmt, trachev, za
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H4AnAttackerCanHijackTheCuratedvaultSMaturedYield"
+solodit_id: "41814"
+solodit_slug: "h-4-an-attacker-can-hijack-the-curatedvaults-matured-yield-sherlock-zerolend-one-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(flashLoanAmount|liquidityIndex|totalAssets).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

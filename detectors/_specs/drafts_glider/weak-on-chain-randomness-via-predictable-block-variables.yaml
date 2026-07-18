@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "weak-on-chain-randomness-via-predictable-block-variables"
+class_name: "WeakOnChainRandomnessViaPredictableBlockVariables"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: miner-controllable-randomness-via-block-variables"
+help: "Weak On-Chain Randomness via Predictable Block Variables"
+wiki_title: "Weak On-Chain Randomness via Predictable Block Variables"
+wiki_description: |
+    Detects modulo operations that use miner/validator-controllable or predictable block/tx globals as entropy sources (tx.origin, block.coinbase, tx.gasprice, block.timestamp, block.number). This enables prediction or manipulation attacks in lotteries, NFT mints, games, etc.
+wiki_exploit_scenario: |
+    Per Glider query tags [randomness, predictability, miner-exploitable, validator-exploitable, swc-120, nfts, lottery]: Detects modulo operations that use miner/validator-controllable or predictable block/tx globals as entropy sources (tx.origin, block.coinbase, tx.gasprice, block.timestamp, block.number). This enables
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "WeakOnChainRandomnessViaPredictableBlockVariables"
+fn_name_regex: ".*(weak).*"
+read_var_regex: ".*(weak).*"
+required_call_regex: ".*(accrue|update|sync|validate|check).*"
+guarded_helper_name: "_guard"
+vuln_fn_name: "weakFn"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return weak > 0;"
+state_decl: "uint256 internal weak;"

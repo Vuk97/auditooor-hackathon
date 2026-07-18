@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "m-06-improper-parallel-time-system"
+class_name: "M06ImproperParallelTimeSystem"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31922 (Code4rena/Canto)"
+help: "[M-06] Improper parallel time system"
+wiki_title: "[M-06] Improper parallel time system"
+wiki_description: |
+    The `LendingLedger` system will employ a distinct time system from the `VotingEscrow` and `GaugeController` implementations whereby rewards are denoted per block rather than based on time.
+    
+    From an implementation perspective, there is no real reason to implement this distinction as the `LendingLedg
+wiki_exploit_scenario: |
+    Per Solodit #31922: The `LendingLedger` system will employ a distinct time system from the `VotingEscrow` and `GaugeController` implementations whereby rewards are denoted per block rather than based on time.
+    
+    From an i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06ImproperParallelTimeSystem"
+solodit_id: "31922"
+solodit_slug: "m-06-improper-parallel-time-system-code4rena-canto-canto-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal averageblocktime;"
+fn_name_regex: ".*(LendingLedger|VotingEscrow|GaugeController|epochTime).*"
+read_var_regex: ".*(averageBlockTime|epochTime|points_total).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LendingLedger"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return averageblocktime > 0;"

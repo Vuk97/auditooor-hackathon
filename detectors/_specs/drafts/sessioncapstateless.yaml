@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "sessioncapstateless"
+class_name: "Sessioncapstateless"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ad"
+help: |
+    Session key `maxAmount` not tracked across transactions; holder can drain wallet by calling `maxAmount` repeatedly across UOs.
+wiki_title: "SessionCapStateless"
+wiki_description: |
+    Session key `maxAmount` not tracked across transactions; holder can drain wallet by calling `maxAmount` repeatedly across UOs.
+wiki_exploit_scenario: |
+    Attacker exploits SessionCapStateless as described: Session key `maxAmount` not tracked across transactions; holder can drain wallet by calling `maxAmount` repeatedly across UOs.
+wiki_recommendation: "function checking `<= maxAmount` without decrementing/recording cumulative amount in storage."
+contract_name: "Sessioncapstateless"
+state_decl: "uint256 internal maxamount;"
+fn_name_regex: ".*(maxAmount).*"
+read_var_regex: ".*(maxAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "maxAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return maxamount > 0;"

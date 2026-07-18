@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "improper-settlement-calculation"
+class_name: "ImproperSettlementCalculation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #48378 (OtterSec/Vertex Protocol)"
+help: "Improper Settlement Calculation"
+wiki_title: "Improper Settlement Calculation"
+wiki_description: |
+    ## PerpEngine Settlement State Calculation
+    
+    In PerpEngine, `getSettlementState` is used to calculate the amount that users can settle at that time by calculating the total profit/loss that they made in the perp market.
+    
+    ## Code Snippet
+    ```solidity
+    contracts/PerpEngine.sol
+    (int256 ammBaseX18, int256
+wiki_exploit_scenario: |
+    Per Solodit #48378: ## PerpEngine Settlement State Calculation
+    
+    In PerpEngine, `getSettlementState` is used to calculate the amount that users can settle at that time by calculating the total profit/loss that they made i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ImproperSettlementCalculation"
+solodit_id: "48378"
+solodit_slug: "improper-settlement-calculation-ottersec-none-vertex-protocol-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ammbase;"
+fn_name_regex: ".*(getSettlementState|ammBase|ammQuote).*"
+read_var_regex: ".*(ammBase|ammQuote|getSettlementState).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getSettlementState"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ammbase > 0;"

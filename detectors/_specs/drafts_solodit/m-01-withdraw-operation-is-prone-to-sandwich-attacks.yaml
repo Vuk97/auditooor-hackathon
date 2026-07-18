@@ -1,0 +1,51 @@
+skeleton: "paired_function_divergence"
+name: "m-01-withdraw-operation-is-prone-to-sandwich-attacks"
+class_name: "M01WithdrawOperationIsProneToSandwichAttacks"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58277 (Pashov Audit Group/Hyperbloom_2025-06-24)"
+help: "[M-01] `withdraw` operation is prone to sandwich attacks"
+wiki_title: "[M-01] `withdraw` operation is prone to sandwich attacks"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    Inside `withdraw` operation of `StrategyPassiveManagerHyperswap` and `StrategyPassiveManagerKittenswap`, `_onlyCalmPeriods` will be checked only when `calmAction` is false and `lastDeposit` is equal to `block.timestamp`.
+    
+    ```so
+wiki_exploit_scenario: |
+    Per Solodit #58277: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    Inside `withdraw` operation of `StrategyPassiveManagerHyperswap` and `StrategyPassiveManagerKittenswap`, `_onlyCalmPeriods` wil
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01WithdrawOperationIsProneToSandwichAttacks"
+solodit_id: "58277"
+solodit_slug: |
+    m-01-withdraw-operation-is-prone-to-sandwich-attacks-pashov-audit-group-none-hyperbloom_2025-06-24-markdown
+solodit_quality: "4.5"
+solodit_rarity: "5"
+solodit_tags: "Sandwich Attack"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(calmAction|lastDeposit|withdraw).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

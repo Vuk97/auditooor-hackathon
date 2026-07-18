@@ -1,0 +1,51 @@
+skeleton: "paired_function_divergence"
+name: "m-02-abuse-of-permit-functionality-to-block-legitimate-transacti"
+class_name: "M02AbuseOfPermitFunctionalityToBlockLegitimateTransacti"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37839 (Pashov Audit Group/SushiSwap)"
+help: "[M-02] Abuse of permit functionality to block legitimate transactions"
+wiki_title: "[M-02] Abuse of permit functionality to block legitimate transactions"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `removeLiquidityWithPermit` function in the `SushiSwapV2Router02` contract allows users to remove liquidity from a liquidity pool by leveraging the `permit` function to approve the transfer of liquidity tokens.
+    
+    However, th
+wiki_exploit_scenario: |
+    Per Solodit #37839: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `removeLiquidityWithPermit` function in the `SushiSwapV2Router02` contract allows users to remove liquidity from a liquidit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02AbuseOfPermitFunctionalityToBlockLegitimateTransacti"
+solodit_id: "37839"
+solodit_slug: |
+    m-02-abuse-of-permit-functionality-to-block-legitimate-transactions-pashov-audit-group-none-sushiswap-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(permit|removeLiquidityWithPermit).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "trst-h-1-attacker-can-freeze-profit-withdrawals-from-v3-vaults"
+class_name: "TrstH1AttackerCanFreezeProfitWithdrawalsFromV3Vaults"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18876 (Trust Security/Ninja Yield Farming )"
+help: "TRST-H-1 Attacker can freeze profit withdrawals from V3 vaults"
+wiki_title: "TRST-H-1 Attacker can freeze profit withdrawals from V3 vaults"
+wiki_description: |
+    **Description:**
+    Users of Ninja can use Vault's `withdrawProfit()` to withdraw profits. It starts with the 
+    following check:
+     
+    ```solidity 
+       if (block.timestamp <= lastProfitTime) {
+          revert NYProfitTakingVault__ProfitTimeOutOfBounds();
+          }
+    
+    ```
+    If attacker can front-run user's `withdrawPr
+wiki_exploit_scenario: |
+    Per Solodit #18876: **Description:**
+    Users of Ninja can use Vault's `withdrawProfit()` to withdraw profits. It starts with the 
+    following check:
+     
+    ```solidity 
+       if (block.timestamp <= lastProfitTime) {
+          revert NYP
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstH1AttackerCanFreezeProfitWithdrawalsFromV3Vaults"
+solodit_id: "18876"
+solodit_slug: |
+    trst-h-1-attacker-can-freeze-profit-withdrawals-from-v3-vaults-trust-security-none-ninja-yield-farming-v3-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal harvest;"
+fn_name_regex: ".*(withdrawProfit|harvest).*"
+write_var_regex: ".*(harvest|withdrawProfit).*"
+guard_var_regex: ".*(harvest|withdrawProfit).*"
+vuln_fn_name: "withdrawProfit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "harvest = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

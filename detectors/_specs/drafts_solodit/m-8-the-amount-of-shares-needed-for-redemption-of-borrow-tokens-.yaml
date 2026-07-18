@@ -1,0 +1,49 @@
+skeleton: "paired_function_divergence"
+name: "m-8-the-amount-of-shares-needed-for-redemption-of-borrow-tokens-"
+class_name: "M8TheAmountOfSharesNeededForRedemptionOfBorrowTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52760 (Sherlock/Peapods)"
+help: |
+    M-8: The amount of shares needed for redemption of borrow tokens is underquoted during the removal of leverage process leading to reverting.
+wiki_title: |
+    M-8: The amount of shares needed for redemption of borrow tokens is underquoted during the removal of leverage process leading to reverting.
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/256 
+    
+    ## Found by 
+    X77, ZoA, ck, globalace, pkqs90
+    
+    ### Summary
+    
+    When removing leverage, some additional borrow amount is acquired in the `LeverageManager._acquireBorrowTokenForRepayment` function. The amount needed is
+wiki_exploit_scenario: |
+    Per Solodit #52760: Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/256 
+    
+    ## Found by 
+    X77, ZoA, ck, globalace, pkqs90
+    
+    ### Summary
+    
+    When removing leverage, some additional borrow amount
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M8TheAmountOfSharesNeededForRedemptionOfBorrowTokens"
+solodit_id: "52760"
+solodit_slug: |
+    m-8-the-amount-of-shares-needed-for-redemption-of-borrow-tokens-is-underquoted-during-the-removal-of-leverage-process-leading-to-reverting-sherlock-peapods-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(convertToShares).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

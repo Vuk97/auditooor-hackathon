@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "usdt-allowance-quirk-34"
+class_name: "UsdtAllowanceQuirk34"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Megapot v2 - Zellic Audit Report"
+help: |
+    The function runJackpot used to start the jackpot flow and eventually gather randomness for finding the winning tickets does so by calling into the ScaledEntropyProvider. The Scale
+wiki_title: "USDT allowance quirk                                                                 34"
+wiki_description: |
+    The function runJackpot used to start the jackpot flow and eventually gather randomness for finding the winning tickets does so by calling into the ScaledEntropyProvider. The ScaledEntropyProvider is a contract meant for use not only by Megapot but by all users. It acts as an abstraction layer over
+wiki_exploit_scenario: |
+    Per audit finding: The function runJackpot used to start the jackpot flow and eventually gather randomness for finding the winning tickets does so by calling into the ScaledEntropyProvider. The ScaledEntropyProvider is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsdtAllowanceQuirk34"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(runJackpot|noEmergencyMode|entropyGasLimit).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "runJackpot"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

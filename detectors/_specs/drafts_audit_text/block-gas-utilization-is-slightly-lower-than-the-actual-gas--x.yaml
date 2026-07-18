@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "block-gas-utilization-is-slightly-lower-than-the-actual-gas--x"
+class_name: "BlockGasUtilizationIsSlightlyLowerThanTheActualGasX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-11-mantra-chain"
+help: |
+    berndartmueller Finding description and impact xfeemarket implements a custom PostHandler() for skip-mev’s feemarket. At almost the very end of the execution, the feemarket’s state
+wiki_title: |
+    Block gas utilization is slightly lower than the actual gas utilization due to the gas snapshot being taken too early, resulting in an inaccurate base fee calcu
+wiki_description: |
+    berndartmueller Finding description and impact xfeemarket implements a custom PostHandler() for skip-mev’s feemarket. At almost the very end of the execution, the feemarket’s state is updated with the consumed gas amount so that the current block’s gas utilization and, thus, the base fee can be calc
+wiki_exploit_scenario: |
+    Per audit finding: berndartmueller Finding description and impact xfeemarket implements a custom PostHandler() for skip-mev’s feemarket. At almost the very end of the execution, the feemarket’s state is updated with the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BlockGasUtilizationIsSlightlyLowerThanTheActualGasX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(feeGas|feeTx|gasDiff).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "feeGas"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

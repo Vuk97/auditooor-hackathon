@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "ngp-2025-09"
+class_name: "Ngp202509"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-09/NGP_exp.sol"
+help: "NGP 2025-09 — swap exploit (2M USDT)"
+wiki_title: "NGP (2025-09) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-09): NGP lost 2M USDT. Bug class: swap. Attack tx: 0xc2066e0dff1a8a042057387d7356ad7ced76ab90904baa1e0b5ecbc2434df8e1.
+wiki_exploit_scenario: |
+    Attacker (0x0305ddd42887676ec593b39ace691b772eb3c876) exploits NGP via swap: the victim contract 0xd2f26200cd524db097cf4ab7cc2e5c38ab6ae5c9 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Ngp202509"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

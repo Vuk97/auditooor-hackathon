@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "investors-can-steal-tokens-from-other-investors-since-standardto"
+class_name: "InvestorsCanStealTokensFromOtherInvestorsSinceStandardto"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #64373 (Cyfrin/Securitize Dstoken Rebasing)"
+help: |
+    Investors can steal tokens from other investors since `StandardToken::transferFrom` never checks spending approvals
+wiki_title: |
+    Investors can steal tokens from other investors since `StandardToken::transferFrom` never checks spending approvals
+wiki_description: |
+    **Description:** Investors can steal tokens from other investors since `StandardToken::transferFrom` never checks spending approvals.
+    
+    **Proof of Concept:** Add PoC to `test/dstoken-regulated.test.ts`:
+    ```javascript
+      describe('TransferFrom', function () {
+        it('Investors can steal tokens from oth
+wiki_exploit_scenario: |
+    Per Solodit #64373: **Description:** Investors can steal tokens from other investors since `StandardToken::transferFrom` never checks spending approvals.
+    
+    **Proof of Concept:** Add PoC to `test/dstoken-regulated.test.ts`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InvestorsCanStealTokensFromOtherInvestorsSinceStandardto"
+solodit_id: "64373"
+solodit_slug: |
+    investors-can-steal-tokens-from-other-investors-since-standardtokentransferfrom-never-checks-spending-approvals-cyfrin-none-securitize-dstoken-rebasing-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal transferfrom;"
+fn_name_regex: ".*(transferFrom).*"
+read_var_regex: ".*(transferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return transferfrom > 0;"

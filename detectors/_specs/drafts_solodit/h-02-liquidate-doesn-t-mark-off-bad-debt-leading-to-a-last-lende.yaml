@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-02-liquidate-doesn-t-mark-off-bad-debt-leading-to-a-last-lende"
+class_name: "H02LiquidateDoesnTMarkOffBadDebtLeadingToALastLende"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #24829 (Code4rena/Frax Finance)"
+help: |
+    [H-02] `liquidate()` doesn't mark off bad debt, leading to a 'last lender to withdraw loses' scenario
+wiki_title: |
+    [H-02] `liquidate()` doesn't mark off bad debt, leading to a 'last lender to withdraw loses' scenario
+wiki_description: |
+    _Submitted by 0xA5DF, also found by cccz and Lambda_
+    
+    When there's bad debt which wasn't marked off yet, the `totalAssets.amount` is higher than the actual (solvent) amount the pair has, meaning that lenders who redeem their tokens earlier will get more in return, at the expense of lenders who leave
+wiki_exploit_scenario: |
+    Per Solodit #24829: _Submitted by 0xA5DF, also found by cccz and Lambda_
+    
+    When there's bad debt which wasn't marked off yet, the `totalAssets.amount` is higher than the actual (solvent) amount the pair has, meaning that
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02LiquidateDoesnTMarkOffBadDebtLeadingToALastLende"
+solodit_id: "24829"
+solodit_slug: |
+    h-02-liquidate-doesnt-mark-off-bad-debt-leading-to-a-last-lender-to-withdraw-loses-scenario-code4rena-frax-finance-frax-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidate;"
+fn_name_regex: ".*(liquidate|liquidateClean).*"
+read_var_regex: ".*(liquidate|liquidateClean).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return liquidate > 0;"

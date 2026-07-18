@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "dos-of-launchpad-graduation-via-addliquidity-with-1-wei-donation"
+class_name: "DosOfLaunchpadGraduationViaAddliquidityWith1WeiDonation"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-08-gte-perps-and-launchpad"
+help: |
+    gizzy , also found by 0xShitgem IvanAlexandur levantequarini mrMorningstar Pelz pro_king r1ver , and serial-coder launchpad/Launchpad.sol #L500 An attacker can prevent Launchpad to
+wiki_title: "DOS of Launchpad Graduation via addLiquidity with 1 Wei donation"
+wiki_description: |
+    gizzy , also found by 0xShitgem IvanAlexandur levantequarini mrMorningstar Pelz pro_king r1ver , and serial-coder launchpad/Launchpad.sol #L500 An attacker can prevent Launchpad token graduation by front-running with a small donation to the target pair and calling sync() . This causes the router’s a
+wiki_exploit_scenario: |
+    Per audit finding: gizzy , also found by 0xShitgem IvanAlexandur levantequarini mrMorningstar Pelz pro_king r1ver , and serial-coder launchpad/Launchpad.sol #L500 An attacker can prevent Launchpad token graduation by fr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DosOfLaunchpadGraduationViaAddliquidityWith1WeiDonation"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

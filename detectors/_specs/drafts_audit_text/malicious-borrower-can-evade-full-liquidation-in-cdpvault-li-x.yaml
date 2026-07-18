@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "malicious-borrower-can-evade-full-liquidation-in-cdpvault-li-x"
+class_name: "MaliciousBorrowerCanEvadeFullLiquidationInCdpvaultLiX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-loopfi"
+help: |
+    0xbepresent , also found by Spearmint and Evo Impact In the CDPVault::liquidatePosition function, a liquidator can repay the total debt of a position to liquidate it, this can be a
+wiki_title: |
+    Malicious borrower can evade full liquidation in CDPVault::liquidatePosition by repaying small amounts of debt
+wiki_description: |
+    0xbepresent , also found by Spearmint and Evo Impact In the CDPVault::liquidatePosition function, a liquidator can repay the total debt of a position to liquidate it, this can be achieved by calling the CDPVault::virtualDebt function to obtain the total debt and then call CDPVault::liquidatePosition
+wiki_exploit_scenario: |
+    Per audit finding: 0xbepresent , also found by Spearmint and Evo Impact In the CDPVault::liquidatePosition function, a liquidator can repay the total debt of a position to liquidate it, this can be achieved by calling t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousBorrowerCanEvadeFullLiquidationInCdpvaultLiX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(liquidatePosition|virtualDebt|newDebt).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidatePosition"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,26 @@
+skeleton: "state_write_without_paired_write"
+name: "centralization-risk-in-setpyth-function-15"
+class_name: "CentralizationRiskInSetpythFunction15"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Yei Finance Oracle - Zellic Audit Report"
+help: |
+    The latestAnswer function in Oracle.sol retrieves price data from the Pyth network’s contract us- ing the getPriceUnsafe function. It is implemented as follows: function latestAnsw
+wiki_title: "Centralization risk in setPyth function                           15"
+wiki_description: |
+    The latestAnswer function in Oracle.sol retrieves price data from the Pyth network’s contract us- ing the getPriceUnsafe function. It is implemented as follows: function latestAnswer() public view override returns (int256) { PythStructs.Price memory price = pyth.getPriceUnsafe(pythID); return int256
+wiki_exploit_scenario: |
+    Per audit finding: The latestAnswer function in Oracle.sol retrieves price data from the Pyth network’s contract us- ing the getPriceUnsafe function. It is implemented as follows: function latestAnswer() public view ove
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CentralizationRiskInSetpythFunction15"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(latestAnswer|getPriceUnsafe|pythID).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

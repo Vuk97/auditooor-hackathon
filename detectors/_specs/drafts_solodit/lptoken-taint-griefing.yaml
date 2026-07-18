@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "lptoken-taint-griefing"
+class_name: "LptokenTaintGriefing"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29920 (MixBytes/Conic Finance)"
+help: "LpToken taint griefing"
+wiki_title: "LpToken taint griefing"
+wiki_description: |
+    ##### Description
+    
+    The [LpToken](https://github.com/ConicFinance/protocol/blob/7a66d26ef84f93059a811a189655e17c11d95f5c/contracts/LpToken.sol) cannot be minted or burned by a user if someone has transferred an amount of LpToken to them greater than `controller.getMinimumTaintedTransferAmount(token)`
+wiki_exploit_scenario: |
+    Per Solodit #29920: ##### Description
+    
+    The [LpToken](https://github.com/ConicFinance/protocol/blob/7a66d26ef84f93059a811a189655e17c11d95f5c/contracts/LpToken.sol) cannot be minted or burned by a user if someone has trans
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LptokenTaintGriefing"
+solodit_id: "29920"
+solodit_slug: "lptoken-taint-griefing-mixbytes-none-conic-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getMinimumTaintedTransferAmount|isAllowedMultipleDepositsWithdraws).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "getMinimumTaintedTransferAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

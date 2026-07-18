@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "trst-h-5-the-attacker-can-use-larger-dust-when-opening-a-positio"
+class_name: "TrstH5TheAttackerCanUseLargerDustWhenOpeningAPositio"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19049 (Trust Security/Stella)"
+help: "TRST-H-5 The attacker can use larger dust when opening a position to perform griefing attacks"
+wiki_title: "TRST-H-5 The attacker can use larger dust when opening a position to perform griefing attacks"
+wiki_description: |
+    **Description:**
+    When opening a position, unused assets are sent to **dustVault** as dust, but since these dust 
+    are not subtracted from **inputAmt**, they are included in the calculation of 
+    **positionOpenUSDValueE36**, resulting in a small **netPnLE36**, which can be used by an 
+    attacker to perfor
+wiki_exploit_scenario: |
+    Per Solodit #19049: **Description:**
+    When opening a position, unused assets are sent to **dustVault** as dust, but since these dust 
+    are not subtracted from **inputAmt**, they are included in the calculation of 
+    **positi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstH5TheAttackerCanUseLargerDustWhenOpeningAPositio"
+solodit_id: "19049"
+solodit_slug: |
+    trst-h-5-the-attacker-can-use-larger-dust-when-opening-a-position-to-perform-griefing-attacks-trust-security-none-stella-markdown_
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Grief Attack"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(dustVault|inputAmt|positionOpenUSDValueE36|netPnLE36).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "dustVault"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

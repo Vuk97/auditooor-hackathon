@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "rounding-error-in-the-redeem-mechanism"
+class_name: "RoundingErrorInTheRedeemMechanism"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Valorem - Zellic Audit Report"
+help: |
+    During the redeem process, the _getAmountExercised function is called. function _getAmountExercised(OptionLotClaimIndex storage claimIndex, OptionsDayBucket storage claimBucketInfo
+wiki_title: "Rounding error in the redeem mechanism"
+wiki_description: |
+    During the redeem process, the _getAmountExercised function is called. function _getAmountExercised(OptionLotClaimIndex storage claimIndex, OptionsDayBucket storage claimBucketInfo) internal view returns (uint256 _exercised, uint256 _unexercised) { /) The ratio of exercised to written options in the
+wiki_exploit_scenario: |
+    Per audit finding: During the redeem process, the _getAmountExercised function is called. function _getAmountExercised(OptionLotClaimIndex storage claimIndex, OptionsDayBucket storage claimBucketInfo) internal view retu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RoundingErrorInTheRedeemMechanism"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimIndex|claimBucketInfo|mulDivDown).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimIndex"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

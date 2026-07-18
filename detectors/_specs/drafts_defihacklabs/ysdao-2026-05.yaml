@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "ysdao-2026-05"
+class_name: "Ysdao202605"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-05/YSDAO_exp.sol"
+help: "YSDAO 2026-05 — flashloan exploit (~19.49K USDT)"
+wiki_title: "YSDAO (2026-05) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-05): YSDAO lost ~19.49K USDT. Bug class: flashloan. Attack tx: 0x91f26d96373bbec6a6a8517c7be995a739d65f20fed589d53bc47d8140f91907.
+wiki_exploit_scenario: |
+    Attacker (0x8114650Cfd2617CD05C59898De7C620ae413b460) exploits YSDAO via flashloan: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Ysdao202605"
+trigger_sig_regex: ".*(pancakeCall).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function pancakeCall(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.pancakeCall(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

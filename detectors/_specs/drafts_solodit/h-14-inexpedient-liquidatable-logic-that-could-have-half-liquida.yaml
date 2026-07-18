@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "h-14-inexpedient-liquidatable-logic-that-could-have-half-liquida"
+class_name: "H14InexpedientLiquidatableLogicThatCouldHaveHalfLiquida"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20237 (Code4rena/Polynomial Protocol)"
+help: |
+    [H-14] Inexpedient liquidatable logic that could have half liquidable position turns fully liquidable instantly
+wiki_title: |
+    [H-14] Inexpedient liquidatable logic that could have half liquidable position turns fully liquidable instantly
+wiki_description: |
+    In ShortCollateral.sol, the slash logic of `maxLiquidatableDebt()` is specifically too harsh to the barely unhealthy positions because `maxDebt` will be half of the position to be liquidated if `0.95e18 <= safetyRatio <= 1e18`.
+    
+    Additionally, once a position turns liquidatable, the position is deem
+wiki_exploit_scenario: |
+    Per Solodit #20237: In ShortCollateral.sol, the slash logic of `maxLiquidatableDebt()` is specifically too harsh to the barely unhealthy positions because `maxDebt` will be half of the position to be liquidated if `0.95
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H14InexpedientLiquidatableLogicThatCouldHaveHalfLiquida"
+solodit_id: "20237"
+solodit_slug: |
+    h-14-inexpedient-liquidatable-logic-that-could-have-half-liquidable-position-turns-fully-liquidable-instantly-code4rena-polynomial-protocol-polynomial-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liqratio;"
+fn_name_regex: ".*(maxLiquidatableDebt|maxDebt|liqRatio).*"
+read_var_regex: ".*(liqRatio|maxDebt|maxLiquidatableDebt).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "maxLiquidatableDebt"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return liqratio > 0;"

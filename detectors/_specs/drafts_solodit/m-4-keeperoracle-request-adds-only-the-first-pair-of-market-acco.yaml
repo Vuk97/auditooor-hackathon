@@ -1,0 +1,47 @@
+skeleton: "paired_function_divergence"
+name: "m-4-keeperoracle-request-adds-only-the-first-pair-of-market-acco"
+class_name: "M4KeeperoracleRequestAddsOnlyTheFirstPairOfMarketAcco"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28955 (Sherlock/Perennial V2 Update #1)"
+help: |
+    M-4: `KeeperOracle.request` adds only the first pair of market+account addresses per oracle version to callback list, ignoring all the subsequent ones
+wiki_title: |
+    M-4: `KeeperOracle.request` adds only the first pair of market+account addresses per oracle version to callback list, ignoring all the subsequent ones
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-10-perennial-judging/issues/25 
+    
+    ## Found by 
+    bin2chen, panprog, rvierdiiev
+    ## Summary
+    
+    The new feature introduced in 2.1 is the callback called for all markets and market+account pairs which requested the oracle version. These callbacks are called once
+wiki_exploit_scenario: |
+    Per Solodit #28955: Source: https://github.com/sherlock-audit/2023-10-perennial-judging/issues/25 
+    
+    ## Found by 
+    bin2chen, panprog, rvierdiiev
+    ## Summary
+    
+    The new feature introduced in 2.1 is the callback called for all
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M4KeeperoracleRequestAddsOnlyTheFirstPairOfMarketAcco"
+solodit_id: "28955"
+solodit_slug: |
+    m-4-keeperoraclerequest-adds-only-the-first-pair-of-marketaccount-addresses-per-oracle-version-to-callback-list-ignoring-all-the-subsequent-ones-sherlock-perennial-v2-update-1-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

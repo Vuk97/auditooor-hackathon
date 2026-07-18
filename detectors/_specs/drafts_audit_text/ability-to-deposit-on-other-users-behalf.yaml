@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "ability-to-deposit-on-other-users-behalf"
+class_name: "AbilityToDepositOnOtherUsersBehalf"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Cega - Zellic Audit Report"
+help: |
+    When a user calls addToDepositQueue(), they are required to pass the address of a receiver as the second argument. The function pulls an amount of asset tokens from the receiver vi
+wiki_title: "Ability to deposit on other users’ behalf"
+wiki_description: |
+    When a user calls addToDepositQueue(), they are required to pass the address of a receiver as the second argument. The function pulls an amount of asset tokens from the receiver via the use of safeTransferFrom(): function addToDepositQueue(uint256 amount, address receiver) public { require(isDeposit
+wiki_exploit_scenario: |
+    Per audit finding: When a user calls addToDepositQueue(), they are required to pass the address of a receiver as the second argument. The function pulls an amount of asset tokens from the receiver via the use of safeTra
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AbilityToDepositOnOtherUsersBehalf"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addToDepositQueue|safeTransferFrom|isDepositQueueOpen).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "addToDepositQueue"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

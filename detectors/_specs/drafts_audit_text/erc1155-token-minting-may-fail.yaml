@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "erc1155-token-minting-may-fail"
+class_name: "Erc1155TokenMintingMayFail"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Scroll - 05.26.23 Zellic Audit Report"
+help: |
+    When an ERC1155 token is transferred from L1ERC1155Gateway to the L2ERC1155Gateway, the finalizeDepositERC1155 or finalizeBatchDepositERC1155 functions are called. These, in turn,
+wiki_title: "ERC1155 token minting may fail"
+wiki_description: |
+    When an ERC1155 token is transferred from L1ERC1155Gateway to the L2ERC1155Gateway, the finalizeDepositERC1155 or finalizeBatchDepositERC1155 functions are called. These, in turn, call the mint or batchMint functions of the underlying ERC1155 contract. A particular detail of both of these functions
+wiki_exploit_scenario: |
+    Per audit finding: When an ERC1155 token is transferred from L1ERC1155Gateway to the L2ERC1155Gateway, the finalizeDepositERC1155 or finalizeBatchDepositERC1155 functions are called. These, in turn, call the mint or bat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Erc1155TokenMintingMayFail"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

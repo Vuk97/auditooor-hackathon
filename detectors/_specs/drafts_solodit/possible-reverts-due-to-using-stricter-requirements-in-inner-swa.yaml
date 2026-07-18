@@ -1,0 +1,35 @@
+skeleton: "paired_function_divergence"
+name: "possible-reverts-due-to-using-stricter-requirements-in-inner-swa"
+class_name: "PossibleRevertsDueToUsingStricterRequirementsInInnerSwa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18414 (Cyfrin/Sudoswap)"
+help: "Possible reverts due to using stricter requirements in inner swap"
+wiki_title: "Possible reverts due to using stricter requirements in inner swap"
+wiki_description: |
+    **Description:**
+    `VeryFastRouter::swap` relies on the internal functions `VeryFastRouter::_findMaxFillableAmtForSell` and `VeryFastRouter::_findMaxFillableAmtForBuy` to find the maximum possible amount of tokens to be swapped.
+    The output is supposed to be the _actual_ cost of the swap, and it is use
+wiki_exploit_scenario: |
+    Per Solodit #18414: **Description:**
+    `VeryFastRouter::swap` relies on the internal functions `VeryFastRouter::_findMaxFillableAmtForSell` and `VeryFastRouter::_findMaxFillableAmtForBuy` to find the maximum possible amoun
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleRevertsDueToUsingStricterRequirementsInInnerSwa"
+solodit_id: "18414"
+solodit_slug: "possible-reverts-due-to-using-stricter-requirements-in-inner-swap-cyfrin-sudoswap-markdown_"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(maxExpectedTokenInput|minExpectedTokenOutput).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

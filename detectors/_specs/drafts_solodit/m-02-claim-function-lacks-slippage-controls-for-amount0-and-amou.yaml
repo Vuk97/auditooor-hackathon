@@ -1,0 +1,33 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-02-claim-function-lacks-slippage-controls-for-amount0-and-amou"
+class_name: "M02ClaimFunctionLacksSlippageControlsForAmount0AndAmou"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35757 (Code4rena/Vultisig)"
+help: |
+    [M-02] `claim` function lacks slippage controls for `amount0` and `amount1` returned by `pool.burn` function call
+wiki_title: |
+    [M-02] `claim` function lacks slippage controls for `amount0` and `amount1` returned by `pool.burn` function call
+wiki_description: |
+    Because the `claim` function does not have slippage controls for `amount0` and `amount1` returned by the `pool.burn` function call, the `claim` function call can suffer from price manipulation on the associated Uniswap v3 pool. If a price manipulation frontruns the `claim` transaction, the claimed
+wiki_exploit_scenario: |
+    Per Solodit #35757: Because the `claim` function does not have slippage controls for `amount0` and `amount1` returned by the `pool.burn` function call, the `claim` function call can suffer from price manipulation on the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02ClaimFunctionLacksSlippageControlsForAmount0AndAmou"
+solodit_id: "35757"
+solodit_slug: |
+    m-02-claim-function-lacks-slippage-controls-for-amount0-and-amount1-returned-by-poolburn-function-call-code4rena-vultisig-vultisig-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(claim|amount0|amount1|decreaseLiquidity).*"
+required_sibling_regex: ".*amount0.*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

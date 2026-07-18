@@ -1,0 +1,40 @@
+skeleton: "state_write_without_paired_write"
+name: "chainlinkoraclewrapper-latestrounddata-might-return-stale-result"
+class_name: "ChainlinkoraclewrapperLatestrounddataMightReturnStaleResult"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #13303 (ConsenSys/Fei Protocol v2 Phase 1)"
+help: "ChainlinkOracleWrapper - latestRoundData might return stale results"
+wiki_title: "ChainlinkOracleWrapper - latestRoundData might return stale results"
+wiki_description: |
+    #### Description
+    
+    
+    The oracle wrapper calls out to a chainlink oracle receiving the `latestRoundData()`. It then checks freshness by verifying that the answer is indeed for the last known round. The returned `updatedAt` timestamp is not checked.
+    
+    
+    If there is a problem with chainlink starting a new
+wiki_exploit_scenario: |
+    Per Solodit #13303: #### Description
+    
+    
+    The oracle wrapper calls out to a chainlink oracle receiving the `latestRoundData()`. It then checks freshness by verifying that the answer is indeed for the last known round. The r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainlinkoraclewrapperLatestrounddataMightReturnStaleResult"
+solodit_id: "13303"
+solodit_slug: |
+    chainlinkoraclewrapper-latestrounddata-might-return-stale-results-consensys-fei-protocol-v2-phase-1-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(latestRoundData|updatedAt).*"
+primary_var_regex: ".*(latestRoundData|updatedAt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

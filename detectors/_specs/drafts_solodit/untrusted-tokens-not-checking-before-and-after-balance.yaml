@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_require"
+name: "untrusted-tokens-not-checking-before-and-after-balance"
+class_name: "UntrustedTokensNotCheckingBeforeAndAfterBalance"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52693 (Halborn/Moonscape)"
+help: "UNTRUSTED TOKENS NOT CHECKING BEFORE AND AFTER BALANCE"
+wiki_title: "UNTRUSTED TOKENS NOT CHECKING BEFORE AND AFTER BALANCE"
+wiki_description: |
+    ##### Description
+    
+    None
+    
+    Code Location
+    -------------
+    
+    #### contracts/defi/MoonscapeDefi.sol
+    
+    ```
+        function _safeTransfer(address _token, address _to, uint256 _amount) internal {
+            if (_token != address(0)) {
+                IERC20 _rewardToken = IERC20(_token);
+    
+                uint256 _balance = _
+wiki_exploit_scenario: |
+    Per Solodit #52693: ##### Description
+    
+    None
+    
+    Code Location
+    -------------
+    
+    #### contracts/defi/MoonscapeDefi.sol
+    
+    ```
+        function _safeTransfer(address _token, address _to, uint256 _amount) internal {
+            if (_token
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UntrustedTokensNotCheckingBeforeAndAfterBalance"
+solodit_id: "52693"
+solodit_slug: "untrusted-tokens-not-checking-before-and-after-balance-halborn-seascape-moonscape-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(balanceOf|addTokenStaking|stakeAddress|rewardPool).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "balanceOf"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

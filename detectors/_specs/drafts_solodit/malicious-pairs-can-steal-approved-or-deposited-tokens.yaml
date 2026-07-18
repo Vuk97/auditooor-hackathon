@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "malicious-pairs-can-steal-approved-or-deposited-tokens"
+class_name: "MaliciousPairsCanStealApprovedOrDepositedTokens"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #17650 (TrailOfBits/Advanced Blockchain)"
+help: "Malicious pairs can steal approved or deposited tokens"
+wiki_title: "Malicious pairs can steal approved or deposited tokens"
+wiki_description: |
+    ## Data Validation
+    **Target:** blacksmith/contracts/Vault.sol
+    
+    **Difficulty:** Low
+    
+    ## Description
+    The LendingPair token flow may allow malicious pools to steal users’ tokens when users are interacting with tokens deposited into the vault. To add funds from the vault, a user must deposit funds and t
+wiki_exploit_scenario: |
+    Per Solodit #17650: ## Data Validation
+    **Target:** blacksmith/contracts/Vault.sol
+    
+    **Difficulty:** Low
+    
+    ## Description
+    The LendingPair token flow may allow malicious pools to steal users’ tokens when users are interactin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousPairsCanStealApprovedOrDepositedTokens"
+solodit_id: "17650"
+solodit_slug: "malicious-pairs-can-steal-approved-or-deposited-tokens-trailofbits-advanced-blockchain-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(token).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

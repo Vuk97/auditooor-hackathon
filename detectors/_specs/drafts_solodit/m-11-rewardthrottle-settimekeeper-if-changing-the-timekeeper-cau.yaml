@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "m-11-rewardthrottle-settimekeeper-if-changing-the-timekeeper-cau"
+class_name: "M11RewardthrottleSettimekeeperIfChangingTheTimekeeperCau"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16089 (Code4rena/Malt Protocol)"
+help: |
+    [M-11] RewardThrottle.setTimekeeper: If changing the timekeeper causes the epoch to change, it will mess up the system
+wiki_title: |
+    [M-11] RewardThrottle.setTimekeeper: If changing the timekeeper causes the epoch to change, it will mess up the system
+wiki_description: |
+    RewardThrottle.setTimekeeper allows POOL_UPDATER_ROLE to update the timekeeper when RewardThrottle is active:
+    
+    ```solidity
+      function setTimekeeper(address _timekeeper)
+        external
+        onlyRoleMalt(POOL_UPDATER_ROLE, "Must have pool updater privs")
+      {
+        require(_timekeeper != address(0), "Not a
+wiki_exploit_scenario: |
+    Per Solodit #16089: RewardThrottle.setTimekeeper allows POOL_UPDATER_ROLE to update the timekeeper when RewardThrottle is active:
+    
+    ```solidity
+      function setTimekeeper(address _timekeeper)
+        external
+        onlyRoleMalt(
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11RewardthrottleSettimekeeperIfChangingTheTimekeeperCau"
+solodit_id: "16089"
+solodit_slug: |
+    m-11-rewardthrottlesettimekeeper-if-changing-the-timekeeper-causes-the-epoch-to-change-it-will-mess-up-the-system-code4rena-malt-protocol-malt-protocol-versus-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal settimekeeper;"
+fn_name_regex: ".*(setTimekeeper|MaltDAO).*"
+write_var_regex: ".*(setTimekeeper).*"
+guard_var_regex: ".*(setTimekeeper).*"
+vuln_fn_name: "setTimekeeper"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "settimekeeper = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "liquidations-fail-with-division-by-zero-errors"
+class_name: "LiquidationsFailWithDivisionByZeroErrors"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26294 (SigmaPrime/Term Finance)"
+help: "Liquidations fail with \"Division by Zero\" errors"
+wiki_title: "Liquidations fail with \"Division by Zero\" errors"
+wiki_description: |
+    ## Description
+    
+    Complete liquidations always fail with a "Division by Zero" error due to the calculations referring to the repaid balance. At the end of `batchLiquidation()`, a function `_withinNetExposureCapOnLiquidation()` is called, which uses the following in its calculations:
+    
+    ```solidity
+    uint2
+wiki_exploit_scenario: |
+    Per Solodit #26294: ## Description
+    
+    Complete liquidations always fail with a "Division by Zero" error due to the calculations referring to the repaid balance. At the end of `batchLiquidation()`, a function `_withinNetExp
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LiquidationsFailWithDivisionByZeroErrors"
+solodit_id: "26294"
+solodit_slug: "liquidations-fail-with-division-by-zero-errors-sigmaprime-none-term-finance-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal batchliquidation;"
+fn_name_regex: ".*(batchLiquidation|getBorrowerRepurchaseObligation|netExposureCapOnLiquidation|e883f0e).*"
+read_var_regex: ".*(batchLiquidation|e883f0e|getBorrowerRepurchaseObligation).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "batchLiquidation"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return batchliquidation > 0;"

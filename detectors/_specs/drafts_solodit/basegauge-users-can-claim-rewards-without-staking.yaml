@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "basegauge-users-can-claim-rewards-without-staking"
+class_name: "BasegaugeUsersCanClaimRewardsWithoutStaking"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57156 (Codehawks/Core Contracts)"
+help: "`BaseGauge` users can claim rewards without staking"
+wiki_title: "`BaseGauge` users can claim rewards without staking"
+wiki_description: |
+    ## Summary
+    
+    The `BaseGauge::earned()` function incorrectly calculates rewards based on user's veRAAC balance and total staked amount, rather than the user's staked amount. This allows users with veRAAC tokens to claim rewards without staking, effectively stealing rewards from legitimate stakers.
+    
+    ##
+wiki_exploit_scenario: |
+    Per Solodit #57156: ## Summary
+    
+    The `BaseGauge::earned()` function incorrectly calculates rewards based on user's veRAAC balance and total staked amount, rather than the user's staked amount. This allows users with veRAA
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BasegaugeUsersCanClaimRewardsWithoutStaking"
+solodit_id: "57156"
+solodit_slug: |
+    basegauge-users-can-claim-rewards-without-staking-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal earned;"
+fn_name_regex: ".*(earned|getUserWeight|BaseGauge).*"
+read_var_regex: ".*(earned|getUserWeight).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "earned"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return earned > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "potential-asset-manipulation-via-read-only-reentrancy-in-bas-x"
+class_name: "PotentialAssetManipulationViaReadOnlyReentrancyInBasX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Cove - Zellic Audit Report"
+help: |
+    When calling proRataRedeem(), BasketToken.totalAssets() could be affected by read-only reen- trancy. // Interactions for (uint256 i = 0; i < assetsLength;) { address asset = assets
+wiki_title: "Potential asset manipulation via read-only reentrancy in BasketMan-"
+wiki_description: |
+    When calling proRataRedeem(), BasketToken.totalAssets() could be affected by read-only reen- trancy. // Interactions for (uint256 i = 0; i < assetsLength;) { address asset = assets[i]; // nosemgrep: solidity.performance.state-variable-read-in-a-loop.state- variable-read-in-a-loop uint256 balance = s
+wiki_exploit_scenario: |
+    Per audit finding: When calling proRataRedeem(), BasketToken.totalAssets() could be affected by read-only reen- trancy. // Interactions for (uint256 i = 0; i < assetsLength;) { address asset = assets[i]; // nosemgrep: s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialAssetManipulationViaReadOnlyReentrancyInBasX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(proRataRedeem|totalAssets|assetsLength).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "proRataRedeem"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

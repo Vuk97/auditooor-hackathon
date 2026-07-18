@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-06-ownedtokensindex-is-shared-by-different-owners-as-a-result-"
+class_name: "M06OwnedtokensindexIsSharedByDifferentOwnersAsAResult"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24909 (Code4rena/Timeswap)"
+help: |
+    [M-06] `_ownedTokensIndex` is SHARED by different owners, as a result, `_removeTokenFromAllTokensEnumeration` might remove the wrong tokenId.
+wiki_title: |
+    [M-06] `_ownedTokensIndex` is SHARED by different owners, as a result, `_removeTokenFromAllTokensEnumeration` might remove the wrong tokenId.
+wiki_description: |
+    The data structure `_ownedTokensIndex` is SHARED by different owners, as a result, `_removeTokenFromAllTokensEnumeration()` might remove the wrong tokenId.
+    
+    ### Proof of Concept
+    
+    `_ownedTokensIndex` is used to map from token ID to index of the owner tokens list, unfortunately, all owners share the
+wiki_exploit_scenario: |
+    Per Solodit #24909: The data structure `_ownedTokensIndex` is SHARED by different owners, as a result, `_removeTokenFromAllTokensEnumeration()` might remove the wrong tokenId.
+    
+    ### Proof of Concept
+    
+    `_ownedTokensIndex`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06OwnedtokensindexIsSharedByDifferentOwnersAsAResult"
+solodit_id: "24909"
+solodit_slug: |
+    m-06-_ownedtokensindex-is-shared-by-different-owners-as-a-result-_removetokenfromalltokensenumeration-might-remove-the-wrong-tokenid-code4rena-timeswap-timeswap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ownedtokensindex;"
+fn_name_regex: ".*(tokenIndex|ownedTokensIndex).*"
+read_var_regex: ".*(ownedTokensIndex|tokenIndex).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tokenIndex"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ownedtokensindex > 0;"

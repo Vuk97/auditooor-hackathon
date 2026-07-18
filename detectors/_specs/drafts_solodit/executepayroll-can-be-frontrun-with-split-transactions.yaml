@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "executepayroll-can-be-frontrun-with-split-transactions"
+class_name: "ExecutepayrollCanBeFrontrunWithSplitTransactions"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #54844 (Cantina/Parcel)"
+help: "executePayroll() can be frontrun with split transactions"
+wiki_title: "executePayroll() can be frontrun with split transactions "
+wiki_description: |
+    ## Payroll Manager Security Analysis
+    
+    ## Context
+    - **Files**: `PayrollManager.sol#L139-L244`, `AllowanceModule.sol#L56`
+    
+    ## Description
+    The function `executePayroll()` executes multiple transactions in one go, but it can be front-run to execute a subset of the transactions. Note this requires carefu
+wiki_exploit_scenario: |
+    Per Solodit #54844: ## Payroll Manager Security Analysis
+    
+    ## Context
+    - **Files**: `PayrollManager.sol#L139-L244`, `AllowanceModule.sol#L56`
+    
+    ## Description
+    The function `executePayroll()` executes multiple transactions i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExecutepayrollCanBeFrontrunWithSplitTransactions"
+solodit_id: "54844"
+solodit_slug: "executepayroll-can-be-frontrun-with-split-transactions-cantina-none-parcel-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal exectransactionfromgnosis;"
+fn_name_regex: ".*(executePayroll|execTransactionFromGnosis).*"
+write_var_regex: ".*(execTransactionFromGnosis|executePayroll).*"
+guard_var_regex: ".*(execTransactionFromGnosis|executePayroll).*"
+vuln_fn_name: "executePayroll"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "exectransactionfromgnosis = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

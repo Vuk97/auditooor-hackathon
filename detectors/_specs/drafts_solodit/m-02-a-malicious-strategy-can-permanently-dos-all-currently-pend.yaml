@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-02-a-malicious-strategy-can-permanently-dos-all-currently-pend"
+class_name: "M02AMaliciousStrategyCanPermanentlyDosAllCurrentlyPend"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20059 (Code4rena/EigenLayer)"
+help: "[M-02] A malicious strategy can permanently DoS all currently pending withdrawals that contain it"
+wiki_title: "[M-02] A malicious strategy can permanently DoS all currently pending withdrawals that contain it"
+wiki_description: |
+    In order to withdraw funds from the project a user has to:
+    
+    1.  queue a withdrawal (via `queueWithdrawal`).
+    2.  complete a withdrawal (via `completeQueuedWithdrawal(s)`).
+    
+    Queuing a withdrawal, via `queueWithdrawal` modifies all internal accounting to reflect this:
+    
+    <https://github.com/code-423n4/2
+wiki_exploit_scenario: |
+    Per Solodit #20059: In order to withdraw funds from the project a user has to:
+    
+    1.  queue a withdrawal (via `queueWithdrawal`).
+    2.  complete a withdrawal (via `completeQueuedWithdrawal(s)`).
+    
+    Queuing a withdrawal, via `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02AMaliciousStrategyCanPermanentlyDosAllCurrentlyPend"
+solodit_id: "20059"
+solodit_slug: |
+    m-02-a-malicious-strategy-can-permanently-dos-all-currently-pending-withdrawals-that-contain-it-code4rena-eigenlayer-eigenlayer-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cancelwithdrawl;"
+fn_name_regex: ".*(queueWithdrawal|completeQueuedWithdrawal|cancelWithdrawl|withdraw).*"
+read_var_regex: ".*(cancelWithdrawl|completeQueuedWithdrawal|queueWithdrawal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "queueWithdrawal"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cancelwithdrawl > 0;"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "swelllib-bot-can-subtly-rug-pull-withdrawals-by-setting-processe"
+class_name: "SwelllibBotCanSubtlyRugPullWithdrawalsBySettingProcesse"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31979 (Cyfrin/Swell Barracuda)"
+help: |
+    `SwellLib.BOT` can subtly rug-pull withdrawals by setting `_processedRate = 0` when calling `swEXIT::processWithdrawals`
+wiki_title: |
+    `SwellLib.BOT` can subtly rug-pull withdrawals by setting `_processedRate = 0` when calling `swEXIT::processWithdrawals`
+wiki_description: |
+    **Description:** When users create a withdrawal request, their `swETH` is [burned](https://github.com/SwellNetwork/v3-contracts-lst/blob/a95ea7942ba895ae84845ab7fec1163d667bee38/contracts/implementations/swEXIT.sol#L202-L205) then the current exchange rate `rateWhenCreated` is [fetched](https://gith
+wiki_exploit_scenario: |
+    Per Solodit #31979: **Description:** When users create a withdrawal request, their `swETH` is [burned](https://github.com/SwellNetwork/v3-contracts-lst/blob/a95ea7942ba895ae84845ab7fec1163d667bee38/contracts/implementati
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwelllibBotCanSubtlyRugPullWithdrawalsBySettingProcesse"
+solodit_id: "31979"
+solodit_slug: |
+    swelllibbot-can-subtly-rug-pull-withdrawals-by-setting-_processedrate-0-when-calling-swexitprocesswithdrawals-cyfrin-none-cyfrin-swell-barracuda-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ratewhencreated;"
+fn_name_regex: ".*(swETH|rateWhenCreated).*"
+read_var_regex: ".*(rateWhenCreated|swETH).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swETH"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ratewhencreated > 0;"

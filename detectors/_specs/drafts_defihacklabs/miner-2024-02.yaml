@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "miner-2024-02"
+class_name: "Miner202402"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-02/Miner_exp.sol"
+help: "Miner 2024-02 — swap exploit (~140 $ETH)"
+wiki_title: "Miner (2024-02) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-02): Miner lost ~140 $ETH. Bug class: swap. Attack tx: 0x75e3aeb00df69882a1b15d424e5e642650326ca3b923d7fd1922d57c51bc2c78.
+wiki_exploit_scenario: |
+    Attacker (0xea75aec151f968b8de3789ca201a2a3a7faeefba) exploits Miner via swap: the victim contract 0x732276168b421d4792e743711e1a48172ea574a2 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Miner202402"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

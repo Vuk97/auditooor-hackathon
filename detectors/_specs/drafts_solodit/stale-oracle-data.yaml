@@ -1,0 +1,38 @@
+skeleton: "state_write_without_paired_write"
+name: "stale-oracle-data"
+class_name: "StaleOracleData"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #60652 (Quantstamp/Block)"
+help: "Stale Oracle Data"
+wiki_title: "Stale Oracle Data"
+wiki_description: |
+    **Update**
+    Addressed in: `86d0d8895e42e37525b841eb29022365f872963d` and `1164b56be2cbe6850b16ce955356f4b52abb8860`. The client added additional checks for chainlink feed.
+    
+    **File(s) affected:**`Utils.sol`
+    
+    **Description:** The protocol just calls `latestRoundData()` to get the ether price from the C
+wiki_exploit_scenario: |
+    Per Solodit #60652: **Update**
+    Addressed in: `86d0d8895e42e37525b841eb29022365f872963d` and `1164b56be2cbe6850b16ce955356f4b52abb8860`. The client added additional checks for chainlink feed.
+    
+    **File(s) affected:**`Utils.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StaleOracleData"
+solodit_id: "60652"
+solodit_slug: "stale-oracle-data-quantstamp-block-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(latestRoundData|timestamp|answeredInRound|roundID).*"
+primary_var_regex: ".*(answeredInRound|latestRoundData|roundID).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

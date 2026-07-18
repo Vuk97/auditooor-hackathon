@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "m-02-rebalance-will-fail-due-to-low-precision-of-percentages"
+class_name: "M02RebalanceWillFailDueToLowPrecisionOfPercentages"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25595 (Code4rena/Union Finance)"
+help: "[M-02] Rebalance will fail due to low precision of percentages"
+wiki_title: "[M-02] Rebalance will fail due to low precision of percentages"
+wiki_description: |
+    _Submitted by cmichel, also found by hyh_
+    
+    The `AssetManager.rebalance` function has a check at the end to ensure that all tokens are deposited again:
+    
+    ```solidity
+    require(token.balanceOf(address(this)) == 0, "AssetManager: there are remaining funds in the fund pool");
+    ```
+    
+    The idea is that the last
+wiki_exploit_scenario: |
+    Per Solodit #25595: _Submitted by cmichel, also found by hyh_
+    
+    The `AssetManager.rebalance` function has a check at the end to ensure that all tokens are deposited again:
+    
+    ```solidity
+    require(token.balanceOf(address(this
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02RebalanceWillFailDueToLowPrecisionOfPercentages"
+solodit_id: "25595"
+solodit_slug: |
+    m-02-rebalance-will-fail-due-to-low-precision-of-percentages-code4rena-union-finance-union-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal percentages;"
+fn_name_regex: ".*(remainingTokens|percentages).*"
+write_var_regex: ".*(percentages|remainingTokens).*"
+guard_var_regex: ".*(percentages|remainingTokens).*"
+vuln_fn_name: "remainingTokens"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "percentages = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

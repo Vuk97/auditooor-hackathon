@@ -1,0 +1,33 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-07-positionaction4626-ondecreaselever-wrongly-updates-tokenout"
+class_name: "M07Positionaction4626OndecreaseleverWronglyUpdatesTokenout"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49044 (Code4rena/LoopFi)"
+help: |
+    [M-07] `PositionAction4626::_onDecreaseLever` wrongly updates `tokenOut` forcing user's funds to be stuck in the position action contract
+wiki_title: |
+    [M-07] `PositionAction4626::_onDecreaseLever` wrongly updates `tokenOut` forcing user's funds to be stuck in the position action contract
+wiki_description: |
+    Users can use `PositionAction::decreaseLever` to decrease the leverage of their positions when the collateral is an ERC4626, that position action interacts with `PositionAction4626::_onDecreaseLever`. With that, the protocol gives the ability to join/exit Balancer pools, leveraging down an ERC4626
+wiki_exploit_scenario: |
+    Per Solodit #49044: Users can use `PositionAction::decreaseLever` to decrease the leverage of their positions when the collateral is an ERC4626, that position action interacts with `PositionAction4626::_onDecreaseLever`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07Positionaction4626OndecreaseleverWronglyUpdatesTokenout"
+solodit_id: "49044"
+solodit_slug: |
+    m-07-positionaction4626_ondecreaselever-wrongly-updates-tokenout-forcing-users-funds-to-be-stuck-in-the-position-action-contract-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(tokenOut|auxAction).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

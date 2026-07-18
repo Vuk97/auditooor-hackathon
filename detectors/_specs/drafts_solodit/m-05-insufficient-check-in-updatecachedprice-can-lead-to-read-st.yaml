@@ -1,0 +1,45 @@
+skeleton: "state_write_without_paired_write"
+name: "m-05-insufficient-check-in-updatecachedprice-can-lead-to-read-st"
+class_name: "M05InsufficientCheckInUpdatecachedpriceCanLeadToReadSt"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62855 (Shieldify/Etherspot Gastankpaymastermodule Extended)"
+help: "[M-05] Insufficient Check in `updateCachedPrice()` Can Lead to Read Stale Prices as Valid Prices"
+wiki_title: "[M-05] Insufficient Check in `updateCachedPrice()` Can Lead to Read Stale Prices as Valid Prices"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    In `GasTankPaymaster`, when updating the price of a trading asset, in case the price was already new, and the time passed from the last update does not exceed the MaxAge, we return the current cached price.
+    
+    This is an acceptable behaviour, and in case we p
+wiki_exploit_scenario: |
+    Per Solodit #62855: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    In `GasTankPaymaster`, when updating the price of a trading asset, in case the price was already new, and the time passed from the last update does not excee
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05InsufficientCheckInUpdatecachedpriceCanLeadToReadSt"
+solodit_id: "62855"
+solodit_slug: |
+    m-05-insufficient-check-in-updatecachedprice-can-lead-to-read-stale-prices-as-valid-prices-shieldify-none-etherspot-gastankpaymastermodule-extended-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(GasTankPaymaster|cachedAge|maxAge|cacheAge).*"
+primary_var_regex: ".*(cacheAge|cachedAge|cachedTokenPrice).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

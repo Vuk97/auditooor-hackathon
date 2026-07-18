@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "ast-2025-01"
+class_name: "Ast202501"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-01/Ast_exp.sol"
+help: "Ast 2025-01 — swap exploit (65K US$)"
+wiki_title: "Ast (2025-01) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-01): Ast lost 65K US$. Bug class: swap. Attack tx: 0x80dd9362d211722b578af72d551f0a68e0dc1b1e077805353970b2f65e793927.
+wiki_exploit_scenario: |
+    Attacker (0x56f77AdC522BFfebB3AF0669564122933AB5EA4f) exploits Ast via swap: the victim contract 0xc10E0319337c7F83342424Df72e73a70A29579B2 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Ast202501"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

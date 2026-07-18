@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "m-04-add-premium-doesn-t-collect-fees"
+class_name: "M04AddPremiumDoesnTCollectFees"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29701 (Code4rena/Particle Protocol)"
+help: "[M-04] Add premium doesn't collect fees"
+wiki_title: "[M-04] Add premium doesn't collect fees"
+wiki_description: |
+    Fees are applied to premiums when a new position is opened, but the same mechanism is not enforced when margin is added to an existing position.
+    
+    ### Impact
+    
+    When a new position is created in the LAMM protocol, fees are collected in favor of the LP owner that provides the liquidity for the position
+wiki_exploit_scenario: |
+    Per Solodit #29701: Fees are applied to premiums when a new position is opened, but the same mechanism is not enforced when margin is added to an existing position.
+    
+    ### Impact
+    
+    When a new position is created in the LAM
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04AddPremiumDoesnTCollectFees"
+solodit_id: "29701"
+solodit_slug: "m-04-add-premium-doesnt-collect-fees-code4rena-particle-protocol-particle-protocol-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addpremium;"
+fn_name_regex: ".*(amountFromBorrowed|marginFrom|addPremium|marginTo).*"
+write_var_regex: ".*(addPremium|amountFromBorrowed|collateralTo).*"
+guard_var_regex: ".*(addPremium|amountFromBorrowed|collateralTo).*"
+vuln_fn_name: "amountFromBorrowed"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "addpremium = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

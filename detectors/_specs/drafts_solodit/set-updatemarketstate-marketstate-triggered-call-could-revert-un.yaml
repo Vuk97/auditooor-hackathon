@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "set-updatemarketstate-marketstate-triggered-call-could-revert-un"
+class_name: "SetUpdatemarketstateMarketstateTriggeredCallCouldRevertUn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54812 (Cantina/Cozy Finance)"
+help: "Set.updateMarketState(MarketState.TRIGGERED) call could revert under speciﬁc conditions"
+wiki_title: "Set.updateMarketState(MarketState.TRIGGERED) call could revert under speciﬁc conditions "
+wiki_description: |
+    ## Context: Backstop.sol#L68
+    
+    ## Description
+    Under the following conditions:
+    - Shortfall
+    - Approved set by backstop
+    - Backstop with 0 asset balance
+    - Revert on zero value token used as asset revert-on-zero-value-transfers
+    
+    Trigger contract will never be able to call `Set.updateMarketState(MarketStat
+wiki_exploit_scenario: |
+    Per Solodit #54812: ## Context: Backstop.sol#L68
+    
+    ## Description
+    Under the following conditions:
+    - Shortfall
+    - Approved set by backstop
+    - Backstop with 0 asset balance
+    - Revert on zero value token used as asset revert-on
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SetUpdatemarketstateMarketstateTriggeredCallCouldRevertUn"
+solodit_id: "54812"
+solodit_slug: |
+    setupdatemarketstatemarketstatetriggered-call-could-revert-under-specific-conditions-cantina-none-cozy-finance-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance_;"
+fn_name_regex: ".*(safeTransfer|balance_).*"
+read_var_regex: ".*(balance_|safeTransfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeTransfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance_ > 0;"

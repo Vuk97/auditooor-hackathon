@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "impossible-quorum-in-dao-governance"
+class_name: "ImpossibleQuorumInDaoGovernance"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: impossible-quorum"
+help: "Impossible Quorum in DAO Governance"
+wiki_title: "Impossible Quorum in DAO Governance"
+wiki_description: |
+    Detects DAO governance contracts where quorum can become permanently unreachable due to static values or mismatched calculations in denominators. This occurs when quorum calculations use totalSupply or totalPower that includes static values (e.g., fixed NFT power) while actual voting power can decre
+wiki_exploit_scenario: |
+    Per Glider query tags [DAO, Governance, Quorum, Voting Power, Access Control]: Detects DAO governance contracts where quorum can become permanently unreachable due to static values or mismatched calculations in denominators. This occurs when quorum calculations use totalSupply o
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "ImpossibleQuorumInDaoGovernance"
+fn_name_regex: ".*(totalSupply).*"
+read_var_regex: ".*(totalsuppl).*"
+required_call_regex: ".*(accrue|update|sync|validate|check).*"
+guarded_helper_name: "_guard"
+vuln_fn_name: "totalSupply"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return totalsuppl > 0;"
+state_decl: "uint256 internal totalsuppl;"

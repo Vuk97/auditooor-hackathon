@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-04-iswrappedfcash-check-is-a-gas-bomb"
+class_name: "M04IswrappedfcashCheckIsAGasBomb"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25095 (Code4rena/Notional)"
+help: "[M-04] `IsWrappedFcash` check is a gas bomb"
+wiki_title: "[M-04] `IsWrappedFcash` check is a gas bomb"
+wiki_description: |
+    _Submitted by jonah1005_
+    
+    In the `_isWrappedFCash` check, the `notionalTradeModule` check whether the component is a wrappedCash with the following logic.
+    
+    ```solidity
+            try IWrappedfCash(_fCashPosition).getDecodedID() returns(uint16 _currencyId, uint40 _maturity){
+                try wrappedfCash
+wiki_exploit_scenario: |
+    Per Solodit #25095: _Submitted by jonah1005_
+    
+    In the `_isWrappedFCash` check, the `notionalTradeModule` check whether the component is a wrappedCash with the following logic.
+    
+    ```solidity
+            try IWrappedfCash(_fCash
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04IswrappedfcashCheckIsAGasBomb"
+solodit_id: "25095"
+solodit_slug: "m-04-iswrappedfcash-check-is-a-gas-bomb-code4rena-notional-notional-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ceth;"
+fn_name_regex: ".*(notionalTradeModule|getDecodedID|ceth|CETH).*"
+read_var_regex: ".*(ceth|getDecodedID|notionalTradeModule).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "notionalTradeModule"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ceth > 0;"

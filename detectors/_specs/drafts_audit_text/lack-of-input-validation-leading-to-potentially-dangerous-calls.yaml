@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-input-validation-leading-to-potentially-dangerous-calls"
+class_name: "LackOfInputValidationLeadingToPotentiallyDangerousCalls"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit SyncSwap - Zellic Audit Report"
+help: |
+    Multiple functions contain commented-out assertions that originally performed input validation. Due to the resulting lack of validation, it is possible to cause the SyncSwap pool c
+wiki_title: "Lack of input validation leading to potentially dangerous calls"
+wiki_description: |
+    Multiple functions contain commented-out assertions that originally performed input validation. Due to the resulting lack of validation, it is possible to cause the SyncSwap pool contracts to invoke another contract with incorrect parameters via the ICallback interface. For instance, the burnSingle
+wiki_exploit_scenario: |
+    Per audit finding: Multiple functions contain commented-out assertions that originally performed input validation. Due to the resulting lack of validation, it is possible to cause the SyncSwap pool contracts to invoke a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfInputValidationLeadingToPotentiallyDangerousCalls"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(burnSingle|tokenOut|nonReentrant).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "burnSingle"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

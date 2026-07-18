@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "h-03-sharebalance-bloating-eventually-blocks-curator-rewards-dis"
+class_name: "H03SharebalanceBloatingEventuallyBlocksCuratorRewardsDis"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41089 (Code4rena/Phi)"
+help: "[H-03] `shareBalance` bloating eventually blocks curator rewards distribution"
+wiki_title: "[H-03] `shareBalance` bloating eventually blocks curator rewards distribution"
+wiki_description: |
+    Cred curator share balances are tracked by the following data structure in the `Cred`:
+    
+    ```solidity
+        mapping(uint256 credId => EnumerableMap.AddressToUintMap balance) private shareBalance;
+    ```
+    
+    There may be `MAX_SUPPLY = 999` maximum curators of a cred. However, when a curator sells all their sh
+wiki_exploit_scenario: |
+    Per Solodit #41089: Cred curator share balances are tracked by the following data structure in the `Cred`:
+    
+    ```solidity
+        mapping(uint256 credId => EnumerableMap.AddressToUintMap balance) private shareBalance;
+    ```
+    
+    Th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03SharebalanceBloatingEventuallyBlocksCuratorRewardsDis"
+solodit_id: "41089"
+solodit_slug: "h-03-sharebalance-bloating-eventually-blocks-curator-rewards-distribution-code4rena-phi-phi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getcuratoraddresses;"
+fn_name_regex: ".*(Cred|CuratorRewardsDistributor|EnumerableMap|getCuratorAddresses).*"
+read_var_regex: ".*(getCuratorAddresses).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Cred"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getcuratoraddresses > 0;"

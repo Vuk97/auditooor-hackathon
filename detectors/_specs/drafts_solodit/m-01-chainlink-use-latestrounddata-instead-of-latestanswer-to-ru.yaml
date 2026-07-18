@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "m-01-chainlink-use-latestrounddata-instead-of-latestanswer-to-ru"
+class_name: "M01ChainlinkUseLatestrounddataInsteadOfLatestanswerToRu"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42244 (Code4rena/Wild Credit)"
+help: "[M-01] Chainlink - Use `latestRoundData` instead of `latestAnswer` to run more validations"
+wiki_title: "[M-01] Chainlink - Use `latestRoundData` instead of `latestAnswer` to run more validations"
+wiki_description: |
+    _Submitted by a_delamo, also found by 0xRajeev, cmichel, greiart, and shw_
+    
+    `UniswapV3Oracle.sol` is calling `latestAnswer` to get the last WETH price. This method will return the last value, but you won't be able to check if the data is fresh.
+    On the other hand, calling the method `latestRoundData`
+wiki_exploit_scenario: |
+    Per Solodit #42244: _Submitted by a_delamo, also found by 0xRajeev, cmichel, greiart, and shw_
+    
+    `UniswapV3Oracle.sol` is calling `latestAnswer` to get the last WETH price. This method will return the last value, but you
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01ChainlinkUseLatestrounddataInsteadOfLatestanswerToRu"
+solodit_id: "42244"
+solodit_slug: |
+    m-01-chainlink-use-latestrounddata-instead-of-latestanswer-to-run-more-validations-code4rena-wild-credit-wild-credit-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(latestAnswer|latestRoundData).*"
+primary_var_regex: ".*(latestAnswer|latestRoundData).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

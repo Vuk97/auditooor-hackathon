@@ -1,0 +1,26 @@
+skeleton: "state_write_without_paired_write"
+name: "the-islong-flag-for-a-position-is-not-reset-to-false-during--x"
+class_name: "TheIslongFlagForAPositionIsNotResetToFalseDuringX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit GTE Perps - Zellic Audit Report"
+help: |
+    ring liquidation, preventing users from opening long positions 14 3.3. The _gtlHook is not triggered when a GTL limit order is fully filled, resulting in inflated GTL totalAssets 1
+wiki_title: "The isLong flag for a position is not reset to false during liquidation, preventing"
+wiki_description: |
+    ring liquidation, preventing users from opening long positions 14 3.3. The _gtlHook is not triggered when a GTL limit order is fully filled, resulting in inflated GTL totalAssets 16
+wiki_exploit_scenario: |
+    Per audit finding: ring liquidation, preventing users from opening long positions 14 3.3. The _gtlHook is not triggered when a GTL limit order is fully filled, resulting in inflated GTL totalAssets 16
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheIslongFlagForAPositionIsNotResetToFalseDuringX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(totalAssets|isLong).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

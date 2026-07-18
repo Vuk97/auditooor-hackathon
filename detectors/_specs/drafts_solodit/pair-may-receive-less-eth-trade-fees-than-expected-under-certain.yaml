@@ -1,0 +1,54 @@
+skeleton: "paired_function_divergence"
+name: "pair-may-receive-less-eth-trade-fees-than-expected-under-certain"
+class_name: "PairMayReceiveLessEthTradeFeesThanExpectedUnderCertain"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18294 (Spearbit/Sudoswap LSSVM2)"
+help: "Pair may receive less ETH trade fees than expected under certain conditions"
+wiki_title: "Pair may receive less ETH trade fees than expected under certain conditions"
+wiki_description: |
+    ## Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    LSSVMPairETH.sol#L48-L55
+    
+    ## Description
+    Depending on the values of protocol fee and royalties, if `_feeRecipient == _assetRecipient`, the pair will receive less trade fees than expected.
+    
+    Assume a scenario where:
+    - `inputAmount == 100
+wiki_exploit_scenario: |
+    Per Solodit #18294: ## Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    LSSVMPairETH.sol#L48-L55
+    
+    ## Description
+    Depending on the values of protocol fee and royalties, if `_feeRecipient == _assetRecipient`,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PairMayReceiveLessEthTradeFeesThanExpectedUnderCertain"
+solodit_id: "18294"
+solodit_slug: |
+    pair-may-receive-less-eth-trade-fees-than-expected-under-certain-conditions-spearbit-sudoswap-lssvm2-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

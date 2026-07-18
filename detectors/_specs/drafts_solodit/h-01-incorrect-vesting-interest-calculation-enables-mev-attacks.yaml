@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "h-01-incorrect-vesting-interest-calculation-enables-mev-attacks"
+class_name: "H01IncorrectVestingInterestCalculationEnablesMevAttacks"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #58543 (Pashov Audit Group/LoopVaults_2025-04-30)"
+help: "[H-01] Incorrect vesting interest calculation enables MEV attacks"
+wiki_title: "[H-01] Incorrect vesting interest calculation enables MEV attacks"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    Given that the value of the positions is updated only when `updateInterval` time has passed, the interest is vested to prevent MEV attacks.
+    
+    However, the implementation of `_vestingInterest()` is incorrect, as it returns 0 when
+wiki_exploit_scenario: |
+    Per Solodit #58543: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    Given that the value of the positions is updated only when `updateInterval` time has passed, the interest is vested to prevent M
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01IncorrectVestingInterestCalculationEnablesMevAttacks"
+solodit_id: "58543"
+solodit_slug: |
+    h-01-incorrect-vesting-interest-calculation-enables-mev-attacks-pashov-audit-group-none-loopvaults_2025-04-30-markdown
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal totalassets;"
+fn_name_regex: ".*(updateInterval|vestingDuration|totalAssets).*"
+read_var_regex: ".*(totalAssets|updateInterval|vestingDuration).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateInterval"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return totalassets > 0;"

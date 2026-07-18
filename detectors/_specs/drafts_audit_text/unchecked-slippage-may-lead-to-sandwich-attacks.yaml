@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unchecked-slippage-may-lead-to-sandwich-attacks"
+class_name: "UncheckedSlippageMayLeadToSandwichAttacks"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit IBC Eureka - Zellic Audit Report"
+help: |
+    The swapAndTransfer function in EurekaHandler allows users to swap a token to another token before transferring the output token via ics20. The swap is performed on the swapRouter
+wiki_title: "Unchecked slippage may lead to sandwich attacks"
+wiki_description: |
+    The swapAndTransfer function in EurekaHandler allows users to swap a token to another token before transferring the output token via ics20. The swap is performed on the swapRouter using a low level call with the calldata swapCalldata. It is unclear how swapCalldata is created as it directly comes fr
+wiki_exploit_scenario: |
+    Per audit finding: The swapAndTransfer function in EurekaHandler allows users to swap a token to another token before transferring the output token via ics20. The swap is performed on the swapRouter using a low level ca
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UncheckedSlippageMayLeadToSandwichAttacks"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(swapAndTransfer|swapRouter|swapCalldata).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "swapAndTransfer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

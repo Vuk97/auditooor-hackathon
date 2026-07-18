@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-8-multiinvoker-latest-will-return-latestprice-0-when-latest-or"
+class_name: "M8MultiinvokerLatestWillReturnLatestprice0WhenLatestOr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28959 (Sherlock/Perennial V2 Update #1)"
+help: |
+    M-8: `MultiInvoker._latest` will return `latestPrice = 0` when latest oracle version is invalid causing liquidation to send 0 fee to liquidator or incorrect order execution
+wiki_title: |
+    M-8: `MultiInvoker._latest` will return `latestPrice = 0` when latest oracle version is invalid causing liquidation to send 0 fee to liquidator or incorrect ord
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-10-perennial-judging/issues/31 
+    
+    ## Found by 
+    panprog
+    ## Summary
+    
+    There was a slight change of oracle versions handling in 2.1: now each requested oracle version must be commited, either as valid or invalid. This means that now the latest version can be
+wiki_exploit_scenario: |
+    Per Solodit #28959: Source: https://github.com/sherlock-audit/2023-10-perennial-judging/issues/31 
+    
+    ## Found by 
+    panprog
+    ## Summary
+    
+    There was a slight change of oracle versions handling in 2.1: now each requested oracle
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M8MultiinvokerLatestWillReturnLatestprice0WhenLatestOr"
+solodit_id: "28959"
+solodit_slug: |
+    m-8-multiinvoker_latest-will-return-latestprice-0-when-latest-oracle-version-is-invalid-causing-liquidation-to-send-0-fee-to-liquidator-or-incorrect-order-execution-sherlock-perennial-v2-update-1-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal canexecuteorder;"
+fn_name_regex: ".*(Market|MultiInvoker|TriggerOrder|canExecuteOrder).*"
+read_var_regex: ".*(canExecuteOrder|latestPrice).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Market"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return canexecuteorder > 0;"

@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "tradingaccount-getaccountmarginrequirementusdandunrealizedpnlusd"
+class_name: "TradingaccountGetaccountmarginrequirementusdandunrealizedpnlusd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34836 (Cyfrin/Zaros)"
+help: |
+    `TradingAccount::getAccountMarginRequirementUsdAndUnrealizedPnlUsd` uses incorrect price during order settlement
+wiki_title: |
+    `TradingAccount::getAccountMarginRequirementUsdAndUnrealizedPnlUsd` uses incorrect price during order settlement
+wiki_description: |
+    **Description:** During order settlement `SettlementBranch::_fillOrder` uses an off-chain price provided by the keeper:
+    
+    ```solidity
+    File: SettlementBranch.sol
+    120:         ctx.fillPrice = perpMarket.getMarkPrice(
+    121:             ctx.sizeDelta, settlementConfiguration.verifyOffchainPrice(priceData,
+wiki_exploit_scenario: |
+    Per Solodit #34836: **Description:** During order settlement `SettlementBranch::_fillOrder` uses an off-chain price provided by the keeper:
+    
+    ```solidity
+    File: SettlementBranch.sol
+    120:         ctx.fillPrice = perpMarket.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TradingaccountGetaccountmarginrequirementusdandunrealizedpnlusd"
+solodit_id: "34836"
+solodit_slug: |
+    tradingaccountgetaccountmarginrequirementusdandunrealizedpnlusd-uses-incorrect-price-during-order-settlement-cyfrin-none-cyfrinzaros-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal targetmarketid;"
+fn_name_regex: ".*(targetMarketId).*"
+write_var_regex: ".*(targetMarketId).*"
+guard_var_regex: ".*(targetMarketId).*"
+vuln_fn_name: "targetMarketId"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "targetmarketid = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

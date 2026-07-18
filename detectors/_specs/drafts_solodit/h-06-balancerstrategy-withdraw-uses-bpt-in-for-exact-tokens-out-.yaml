@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-06-balancerstrategy-withdraw-uses-bpt-in-for-exact-tokens-out-"
+class_name: "H06BalancerstrategyWithdrawUsesBptInForExactTokensOut"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27496 (Code4rena/Tapioca DAO)"
+help: |
+    [H-06] BalancerStrategy `_withdraw` uses `BPT_IN_FOR_EXACT_TOKENS_OUT` which can be attack to cause loss to all depositors
+wiki_title: |
+    [H-06] BalancerStrategy `_withdraw` uses `BPT_IN_FOR_EXACT_TOKENS_OUT` which can be attack to cause loss to all depositors
+wiki_description: |
+    Withdrawals can be manipulated to cause complete loss of all tokens.
+    
+    The BalancerStrategy accounts for user deposits in terms of the BPT shares they contributed, however, for withdrawals, it estimates the amount of BPT to burn based on the amount of ETH to withdraw, which can be manipulated to cau
+wiki_exploit_scenario: |
+    Per Solodit #27496: Withdrawals can be manipulated to cause complete loss of all tokens.
+    
+    The BalancerStrategy accounts for user deposits in terms of the BPT shares they contributed, however, for withdrawals, it estimat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06BalancerstrategyWithdrawUsesBptInForExactTokensOut"
+solodit_id: "27496"
+solodit_slug: |
+    h-06-balancerstrategy-_withdraw-uses-bpt_in_for_exact_tokens_out-which-can-be-attack-to-cause-loss-to-all-depositors-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(EXACT_TOKENS_IN_FOR_BPT_OUT|BPT_IN_FOR_EXACT_TOKENS_OUT).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "EXACT_TOKENS_IN_FOR_BPT_OUT"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

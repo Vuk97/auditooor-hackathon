@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "m-10-fee-calculation-is-slightly-off"
+class_name: "M10FeeCalculationIsSlightlyOff"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19847 (Code4rena/Kuiper)"
+help: "[M-10] Fee calculation is slightly off"
+wiki_title: "[M-10] Fee calculation is slightly off"
+wiki_description: |
+    _Submitted by gzeon_
+    
+    The fee calculation
+    ```solidity
+    uint256 timeDiff = (block.timestamp - lastFee);
+    uint256 feePct = timeDiff * licenseFee / ONE_YEAR;
+    uint256 fee = startSupply * feePct / (BASE - feePct);
+    ```
+    tries to calculate a fee such that fee/(supply+fee) = %fee using a simple interest formul
+wiki_exploit_scenario: |
+    Per Solodit #19847: _Submitted by gzeon_
+    
+    The fee calculation
+    ```solidity
+    uint256 timeDiff = (block.timestamp - lastFee);
+    uint256 feePct = timeDiff * licenseFee / ONE_YEAR;
+    uint256 fee = startSupply * feePct / (BASE - fe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10FeeCalculationIsSlightlyOff"
+solodit_id: "19847"
+solodit_slug: "m-10-fee-calculation-is-slightly-off-code4rena-kuiper-kuiper-contest-git_"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal medium;"
+fn_name_regex: ".*(medium).*"
+read_var_regex: ".*(medium).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "medium"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return medium > 0;"

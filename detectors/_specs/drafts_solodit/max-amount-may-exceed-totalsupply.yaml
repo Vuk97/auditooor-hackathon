@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "max-amount-may-exceed-totalsupply"
+class_name: "MaxAmountMayExceedTotalsupply"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #55949 (Zokyo/Blockbank)"
+help: "Max amount may exceed totalSupply"
+wiki_title: "Max amount may exceed totalSupply"
+wiki_description: |
+    **Description**
+    
+    Although these functions can be called only by an authorized person, the total of
+    maxAmounts should be calculated in order not to exceed totalSupply or balance of
+    _lgePairAddress .
+    Also notice, that max amount for each round is a limit for each recipient, but not a total limit
+    for a
+wiki_exploit_scenario: |
+    Per Solodit #55949: **Description**
+    
+    Although these functions can be called only by an authorized person, the total of
+    maxAmounts should be calculated in order not to exceed totalSupply or balance of
+    _lgePairAddress .
+    Al
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaxAmountMayExceedTotalsupply"
+solodit_id: "55949"
+solodit_slug: "max-amount-may-exceed-totalsupply-zokyo-none-blockbank-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

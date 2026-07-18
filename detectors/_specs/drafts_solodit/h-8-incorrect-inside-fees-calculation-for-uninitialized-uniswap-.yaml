@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "h-8-incorrect-inside-fees-calculation-for-uninitialized-uniswap-"
+class_name: "H8IncorrectInsideFeesCalculationForUninitializedUniswap"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #63174 (Sherlock/Ammplify)"
+help: |
+    H-8: Incorrect inside fees calculation for uninitialized uniswap ticks causes positions funds being stuck in the contract and allows to steal all taker collateral and collected fee
+wiki_title: |
+    H-8: Incorrect inside fees calculation for uninitialized uniswap ticks causes positions funds being stuck in the contract and allows to steal all taker collater
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-09-ammplify-judging/issues/422 
+    
+    ## Found by 
+    panprog
+    
+    ### Summary
+    
+    `PoolLib.getInsideFees` calculates inside fees when current price is inside the position range as:
+    ```solidity
+            (, , uint256 lowerFeeGrowthOutside0X128, uint256 lowerFeeGrowthOu
+wiki_exploit_scenario: |
+    Per Solodit #63174: Source: https://github.com/sherlock-audit/2025-09-ammplify-judging/issues/422 
+    
+    ## Found by 
+    panprog
+    
+    ### Summary
+    
+    `PoolLib.getInsideFees` calculates inside fees when current price is inside the posi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H8IncorrectInsideFeesCalculationForUninitializedUniswap"
+solodit_id: "63174"
+solodit_slug: |
+    h-8-incorrect-inside-fees-calculation-for-uninitialized-uniswap-ticks-causes-positions-funds-being-stuck-in-the-contract-and-allows-to-steal-all-taker-collateral-and-collected-fees-sherlock-ammplify-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal feegrowthglobal;"
+fn_name_regex: ".*(lowerFeeGrowthOutside|feeGrowthInside|feeGrowthGlobal|ticks).*"
+read_var_regex: ".*(feeGrowthGlobal|feeGrowthInside|lowerFeeGrowthOutside).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "lowerFeeGrowthOutside"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return feegrowthglobal > 0;"

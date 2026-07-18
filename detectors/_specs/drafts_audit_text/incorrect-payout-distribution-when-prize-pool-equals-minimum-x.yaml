@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-payout-distribution-when-prize-pool-equals-minimum-x"
+class_name: "IncorrectPayoutDistributionWhenPrizePoolEqualsMinimumX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Megapot v2 - Zellic Audit Report"
+help: |
+    The JackpotWinningManager::calculateAndStoreDrawingUserWinnings function contains a logic flaw where tier-based premium payouts are eliminated in the rare edge case when the prize
+wiki_title: "Incorrect payout distribution when prize pool equals minimum payout alloca-"
+wiki_description: |
+    The JackpotWinningManager::calculateAndStoreDrawingUserWinnings function contains a logic flaw where tier-based premium payouts are eliminated in the rare edge case when the prize pool exactly equals the minimum payout allocation. While the likelihood of this occurring is very low, when it happens,
+wiki_exploit_scenario: |
+    Per audit finding: The JackpotWinningManager::calculateAndStoreDrawingUserWinnings function contains a logic flaw where tier-based premium payouts are eliminated in the rare edge case when the prize pool exactly equals
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectPayoutDistributionWhenPrizePoolEqualsMinimumX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(minPayout|onlyJackpot|totalPayout).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "minPayout"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

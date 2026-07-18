@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "uniswap-mint-reverts-when-exactly-one-of-the-second-token-is-x"
+class_name: "UniswapMintRevertsWhenExactlyOneOfTheSecondTokenIsX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Beefy UniswapV3 - Zellic Audit Report"
+help: |
+    When minting liquidity on a Uniswap V3 pool, the amount of tokens required are not transferred be- forehand, but instead the Uniswap pool calls the uniswapV3MintCallback callback a
+wiki_title: "Uniswap mint reverts when exactly one of the second token is owed"
+wiki_description: |
+    When minting liquidity on a Uniswap V3 pool, the amount of tokens required are not transferred be- forehand, but instead the Uniswap pool calls the uniswapV3MintCallback callback and passes it the amount of tokens that need to be transferred. This callback is implemented as follows. function uniswap
+wiki_exploit_scenario: |
+    Per audit finding: When minting liquidity on a Uniswap V3 pool, the amount of tokens required are not transferred be- forehand, but instead the Uniswap pool calls the uniswapV3MintCallback callback and passes it the amo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UniswapMintRevertsWhenExactlyOneOfTheSecondTokenIsX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(uniswapV3MintCallback|lpToken0|safeTransfer).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "uniswapV3MintCallback"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "inactive-variable-depositor-locks-protocol-fees"
+class_name: "InactiveVariableDepositorLocksProtocolFees"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Lido Fixed Income - Zellic Audit Report"
+help: |
+    The variable appliedProtocolFee is increased whenever protocol fees are charged, and the pro- tocolFeeReceiver can withdraw them using various withdraw procedures throughout the va
+wiki_title: "Inactive variable depositor locks protocol fees"
+wiki_description: |
+    The variable appliedProtocolFee is increased whenever protocol fees are charged, and the pro- tocolFeeReceiver can withdraw them using various withdraw procedures throughout the vault life cycle. However, if a variable-side depositor requests a withdraw during the vault's lifetime, the protocol fee
+wiki_exploit_scenario: |
+    Per audit finding: The variable appliedProtocolFee is increased whenever protocol fees are charged, and the pro- tocolFeeReceiver can withdraw them using various withdraw procedures throughout the vault life cycle. Howe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InactiveVariableDepositorLocksProtocolFees"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(appliedProtocolFee|tocolFeeReceiver|finalizeVaultOngoingVariableWith).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "appliedProtocolFee"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

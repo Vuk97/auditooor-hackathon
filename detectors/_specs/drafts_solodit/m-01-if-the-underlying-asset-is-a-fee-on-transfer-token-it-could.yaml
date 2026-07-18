@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-01-if-the-underlying-asset-is-a-fee-on-transfer-token-it-could"
+class_name: "M01IfTheUnderlyingAssetIsAFeeOnTransferTokenItCould"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26370 (Code4rena/PoolTogether)"
+help: |
+    [M-01] If the underlying asset is a fee on transfer token, it could break the internal accounting of the vault
+wiki_title: |
+    [M-01] If the underlying asset is a fee on transfer token, it could break the internal accounting of the vault
+wiki_description: |
+    The `Vault._deposit` function is used by the users to deposit `_assets` to the vault and mint vault shares to the `recipient` address. The amount of `_assets` are transferred to the `Vault` as follows:
+    
+          SafeERC20.safeTransferFrom(
+            _asset,
+            _caller,
+            address(this),
+wiki_exploit_scenario: |
+    Per Solodit #26370: The `Vault._deposit` function is used by the users to deposit `_assets` to the vault and mint vault shares to the `recipient` address. The amount of `_assets` are transferred to the `Vault` as follow
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01IfTheUnderlyingAssetIsAFeeOnTransferTokenItCould"
+solodit_id: "26370"
+solodit_slug: |
+    m-01-if-the-underlying-asset-is-a-fee-on-transfer-token-it-could-break-the-internal-accounting-of-the-vault-code4rena-pooltogether-pooltogether-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Weird ERC20, Fee On Transfer, ERC4626"
+state_decl: "uint256 internal deposited;"
+fn_name_regex: ".*(recipient|Vault|shares|deposited).*"
+read_var_regex: ".*(deposited|recipient|redeemer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "recipient"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposited > 0;"

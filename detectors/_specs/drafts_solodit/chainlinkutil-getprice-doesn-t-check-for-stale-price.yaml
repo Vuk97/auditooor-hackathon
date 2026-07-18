@@ -1,0 +1,30 @@
+skeleton: "state_write_without_paired_write"
+name: "chainlinkutil-getprice-doesn-t-check-for-stale-price"
+class_name: "ChainlinkutilGetpriceDoesnTCheckForStalePrice"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34828 (Cyfrin/Zaros)"
+help: "`ChainlinkUtil::getPrice` doesn't check for stale price"
+wiki_title: "`ChainlinkUtil::getPrice` doesn't check for stale price"
+wiki_description: |
+    **Description:** [`ChainlinkUtil::getPrice`](https://github.com/zaros-labs/zaros-core-audit/blob/de09d030c780942b70f1bebcb2d245214144acd2/src/external/chainlink/ChainlinkUtil.sol#L32-L33) doesn't [check for stale prices](https://medium.com/zaros-labs/chainlink-oracle-defi-attacks-93b6cb6541bf#99af).
+wiki_exploit_scenario: |
+    Per Solodit #34828: **Description:** [`ChainlinkUtil::getPrice`](https://github.com/zaros-labs/zaros-core-audit/blob/de09d030c780942b70f1bebcb2d245214144acd2/src/external/chainlink/ChainlinkUtil.sol#L32-L33) doesn't [che
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainlinkutilGetpriceDoesnTCheckForStalePrice"
+solodit_id: "34828"
+solodit_slug: "chainlinkutilgetprice-doesnt-check-for-stale-price-cyfrin-none-cyfrinzaros-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(updatedAt|latestRoundData).*"
+primary_var_regex: ".*(latestRoundData|updatedAt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

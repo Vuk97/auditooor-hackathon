@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "strict-fok-orders-may-prevent-valid-trades-in-gterouter-the--x"
+class_name: "StrictFokOrdersMayPreventValidTradesInGterouterTheX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-07-gte-spot-clob-and-router"
+help: |
+    [L-06] Strict FOK orders may prevent valid trades in GTERouter The router’s use of strict FILL_OR_KILL orders unnecessarily fails valid partial executions, causing missed trading o
+wiki_title: |
+    Strict FOK orders may prevent valid trades in GTERouter The router’s use of strict FILL_OR_KILL orders unnecessarily fails valid partial executions, causing mis
+wiki_description: |
+    [L-06] Strict FOK orders may prevent valid trades in GTERouter The router’s use of strict FILL_OR_KILL orders unnecessarily fails valid partial executions, causing missed trading opportunities when residual funds remain. Finding description and impact When hop type is CLOB_FILL , GTERouter executes
+wiki_exploit_scenario: |
+    Per audit finding: [L-06] Strict FOK orders may prevent valid trades in GTERouter The router’s use of strict FILL_OR_KILL orders unnecessarily fails valid partial executions, causing missed trading opportunities when re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StrictFokOrdersMayPreventValidTradesInGterouterTheX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(fillArgs|fillOrderType|executeRoute).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "fillArgs"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

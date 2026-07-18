@@ -1,0 +1,27 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "futureswap-2026-01"
+class_name: "Futureswap202601"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-01/futureswap_exp.sol"
+help: |
+    futureswap 2026-01 — flashloan exploit (~394,742.852305 USDC.e (+ 67.5743 WETH drained from victim inventory))
+wiki_title: "futureswap (2026-01) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-01): futureswap lost ~394,742.852305 USDC.e (+ 67.5743 WETH drained from victim inventory). Bug class: flashloan. Attack tx: unknown.
+wiki_exploit_scenario: |
+    Attacker (unknown) exploits futureswap via flashloan: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Futureswap202601"
+trigger_sig_regex: ".*(executeOperation).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function executeOperation(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.executeOperation(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

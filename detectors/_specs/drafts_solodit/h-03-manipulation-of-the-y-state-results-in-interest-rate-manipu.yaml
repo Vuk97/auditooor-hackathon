@@ -1,0 +1,39 @@
+skeleton: "paired_function_divergence"
+name: "h-03-manipulation-of-the-y-state-results-in-interest-rate-manipu"
+class_name: "H03ManipulationOfTheYStateResultsInInterestRateManipu"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25633 (Code4rena/Timeswap)"
+help: "[H-03] Manipulation of the Y State Results in Interest Rate Manipulation"
+wiki_title: "[H-03] Manipulation of the Y State Results in Interest Rate Manipulation"
+wiki_description: |
+    _Submitted by Rhynorater, also found by harleythedog, hyh, and WatchPug_
+    
+    Due to lack of constraints on user input in the `TimeswapPair.sol#mint` function, an attacker can arbitrarily modify the interest rate while only paying a minimal amount of Asset Token and Collateral Token.
+    
+    Disclosure: This i
+wiki_exploit_scenario: |
+    Per Solodit #25633: _Submitted by Rhynorater, also found by harleythedog, hyh, and WatchPug_
+    
+    Due to lack of constraints on user input in the `TimeswapPair.sol#mint` function, an attacker can arbitrarily modify the inter
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03ManipulationOfTheYStateResultsInInterestRateManipu"
+solodit_id: "25633"
+solodit_slug: |
+    h-03-manipulation-of-the-y-state-results-in-interest-rate-manipulation-code4rena-timeswap-timeswap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

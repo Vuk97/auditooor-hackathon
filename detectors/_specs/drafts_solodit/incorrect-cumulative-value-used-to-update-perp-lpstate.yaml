@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-cumulative-value-used-to-update-perp-lpstate"
+class_name: "IncorrectCumulativeValueUsedToUpdatePerpLpstate"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #48390 (OtterSec/Vertex Protocol)"
+help: "Incorrect Cumulative Value Used To Update Perp LpState"
+wiki_title: "Incorrect Cumulative Value Used To Update Perp LpState"
+wiki_description: |
+    ## PerpEngineState Contract Update
+    
+    In the `PerpEngineState` contract, the `updateStates` function updates the base balance of `lpState` (pool) by using the `updateBalance` function. For this, it requires a `lastCumulativeFundingX18` so that `lpState` holds a `lastCumulativeFundingX18` value.
+    
+    ### C
+wiki_exploit_scenario: |
+    Per Solodit #48390: ## PerpEngineState Contract Update
+    
+    In the `PerpEngineState` contract, the `updateStates` function updates the base balance of `lpState` (pool) by using the `updateBalance` function. For this, it requ
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectCumulativeValueUsedToUpdatePerpLpstate"
+solodit_id: "48390"
+solodit_slug: "incorrect-cumulative-value-used-to-update-perp-lpstate-ottersec-none-vertex-protocol-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lastcumulativefundingx18;"
+fn_name_regex: ".*(PerpEngineState|updateStates|lpState|updateBalance).*"
+write_var_regex: ".*(lastCumulativeFundingX18|lpState|updateBalance).*"
+guard_var_regex: ".*(lastCumulativeFundingX18|lpState|updateBalance).*"
+vuln_fn_name: "PerpEngineState"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "lastcumulativefundingx18 = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

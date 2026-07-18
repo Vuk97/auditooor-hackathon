@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "small-amounts-can-be-withdrawn-without-penalties-from-tockenlock"
+class_name: "SmallAmountsCanBeWithdrawnWithoutPenaltiesFromTockenlock"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27768 (MixBytes/Prisma Finance)"
+help: "Small amounts can be withdrawn without penalties from TockenLocker"
+wiki_title: "Small amounts can be withdrawn without penalties from TockenLocker"
+wiki_description: |
+    ##### Description
+    - https://github.com/prisma-fi/prisma-contracts/blob/c0122d27677cd4e1aaee7f1e21f807ccadf46ac8/contracts/dao/TokenLocker.sol#L806
+    
+    There's a rounding error in the penalty calculation:
+    ```
+    uint256 penaltyOnAmount = (lockAmount * weeksToUnlock) / MAX_LOCK_WEEKS;
+    ```
+    
+    The penalty becom
+wiki_exploit_scenario: |
+    Per Solodit #27768: ##### Description
+    - https://github.com/prisma-fi/prisma-contracts/blob/c0122d27677cd4e1aaee7f1e21f807ccadf46ac8/contracts/dao/TokenLocker.sol#L806
+    
+    There's a rounding error in the penalty calculation:
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SmallAmountsCanBeWithdrawnWithoutPenaltiesFromTockenlock"
+solodit_id: "27768"
+solodit_slug: |
+    small-amounts-can-be-withdrawn-without-penalties-from-tockenlocker-mixbytes-none-prisma-finance-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(AllocationVesting).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "AllocationVesting"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

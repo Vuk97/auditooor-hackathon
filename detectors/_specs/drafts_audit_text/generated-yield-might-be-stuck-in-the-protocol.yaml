@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "generated-yield-might-be-stuck-in-the-protocol"
+class_name: "GeneratedYieldMightBeStuckInTheProtocol"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Bloom Trading - Zellic Audit Report"
+help: |
+    On Blast, USDB is a rebasing token, and the default mode is automatic for both EOAs and contracts. This means that the USDB balance of EOAs and contracts will increase with time. I
+wiki_title: "Generated yield might be stuck in the protocol"
+wiki_description: |
+    On Blast, USDB is a rebasing token, and the default mode is automatic for both EOAs and contracts. This means that the USDB balance of EOAs and contracts will increase with time. In the contracts TradingStorage, VaultManager, and VeTranche, the default mode is automatic too. Therefore, any USDB in t
+wiki_exploit_scenario: |
+    Per audit finding: On Blast, USDB is a rebasing token, and the default mode is automatic for both EOAs and contracts. This means that the USDB balance of EOAs and contracts will increase with time. In the contracts Trad
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GeneratedYieldMightBeStuckInTheProtocol"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

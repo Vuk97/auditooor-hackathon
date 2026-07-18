@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-4-all-transactions-to-claim-assets-from-the-vault-will-revert-"
+class_name: "M4AllTransactionsToClaimAssetsFromTheVaultWillRevert"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31176 (Sherlock/Perennial V2 Update #2)"
+help: |
+    M-4: All transactions to claim assets from the vault will revert in some situations due to double subtraction of the claimed assets in market position allocations calculation.
+wiki_title: |
+    M-4: All transactions to claim assets from the vault will revert in some situations due to double subtraction of the claimed assets in market position allocatio
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-02-perennial-v2-3-judging/issues/11 
+    
+    ## Found by 
+    panprog
+    ## Summary
+    
+    When assets are claimed from the vault (`Vault.update(0,0,x)` called), the vault rebalances its collateral. There is an issue with market positions allocation calculations: the asset
+wiki_exploit_scenario: |
+    Per Solodit #31176: Source: https://github.com/sherlock-audit/2024-02-perennial-v2-3-judging/issues/11 
+    
+    ## Found by 
+    panprog
+    ## Summary
+    
+    When assets are claimed from the vault (`Vault.update(0,0,x)` called), the vault r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M4AllTransactionsToClaimAssetsFromTheVaultWillRevert"
+solodit_id: "31176"
+solodit_slug: |
+    m-4-all-transactions-to-claim-assets-from-the-vault-will-revert-in-some-situations-due-to-double-subtraction-of-the-claimed-assets-in-market-position-allocations-calculation-sherlock-perennial-v2-update-2-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assets;"
+fn_name_regex: ".*(assets|minAssets|minPosition|ineligable).*"
+read_var_regex: ".*(assets|ineligable|minAssets).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "assets"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assets > 0;"

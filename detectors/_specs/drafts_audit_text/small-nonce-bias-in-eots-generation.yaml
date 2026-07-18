@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "small-nonce-bias-in-eots-generation"
+class_name: "SmallNonceBiasInEotsGeneration"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Babylon Genesis Chain - Zellic Audit Report"
+help: |
+    The eotsmanager's GenerateRandomness ↗ function, which generates nonces for extractable one- time signatures (EOTS), uses SetByteSlice without checking the return value, which indi
+wiki_title: "Small nonce bias in EOTS generation"
+wiki_description: |
+    The eotsmanager's GenerateRandomness ↗ function, which generates nonces for extractable one- time signatures (EOTS), uses SetByteSlice without checking the return value, which indicates when an overflow modulo the Secp256k1 group order n occurs. func GenerateRandomness(key []byte, chainID []byte, he
+wiki_exploit_scenario: |
+    Per audit finding: The eotsmanager's GenerateRandomness ↗ function, which generates nonces for extractable one- time signatures (EOTS), uses SetByteSlice without checking the return value, which indicates when an overfl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SmallNonceBiasInEotsGeneration"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(chainID|randPre|randScalar).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "chainID"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

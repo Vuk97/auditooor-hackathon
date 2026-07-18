@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "m-01-no-default-liquidationthresholdpercent"
+class_name: "M01NoDefaultLiquidationthresholdpercent"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42153 (Code4rena/Marginswap)"
+help: "[M-01] No default `liquidationThresholdPercent`"
+wiki_title: "[M-01] No default `liquidationThresholdPercent`"
+wiki_description: |
+    The `IsolatedMarginTrading` contract does not define a default `liquidationThresholdPercent` which means it is set to 0. The `belowMaintenanceThreshold` function uses this value and anyone could be liquidated due to `100 * holdings >= liquidationThresholdPercent * loan = 0` being always true.
+    
+    Anyo
+wiki_exploit_scenario: |
+    Per Solodit #42153: The `IsolatedMarginTrading` contract does not define a default `liquidationThresholdPercent` which means it is set to 0. The `belowMaintenanceThreshold` function uses this value and anyone could be l
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01NoDefaultLiquidationthresholdpercent"
+solodit_id: "42153"
+solodit_slug: "m-01-no-default-liquidationthresholdpercent-code4rena-marginswap-marginswap-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal belowmaintenancethreshold;"
+fn_name_regex: ".*(IsolatedMarginTrading|liquidationThresholdPercent|belowMaintenanceThreshold|CrossMarginTrading).*"
+read_var_regex: ".*(belowMaintenanceThreshold|liquidationThresholdPercent).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "IsolatedMarginTrading"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return belowmaintenancethreshold > 0;"

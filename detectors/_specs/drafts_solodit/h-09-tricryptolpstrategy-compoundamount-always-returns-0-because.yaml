@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "h-09-tricryptolpstrategy-compoundamount-always-returns-0-because"
+class_name: "H09TricryptolpstrategyCompoundamountAlwaysReturns0Because"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27499 (Code4rena/Tapioca DAO)"
+help: "[H-09] `TricryptoLPStrategy.compoundAmount` always returns 0 because it's using staticall vs call"
+wiki_title: "[H-09] `TricryptoLPStrategy.compoundAmount` always returns 0 because it's using staticall vs call"
+wiki_description: |
+    [`compoundAmount`](https://github.com/Tapioca-DAO/tapioca-yieldbox-strategies-audit/blob/05ba7108a83c66dada98bc5bc75cf18004f2a49b/contracts/curve/TricryptoLPStrategy.sol#L104-L107) will always try to sell 0 tokens because the `staticall` will revert since the function changes storage in `checkpoint
+wiki_exploit_scenario: |
+    Per Solodit #27499: [`compoundAmount`](https://github.com/Tapioca-DAO/tapioca-yieldbox-strategies-audit/blob/05ba7108a83c66dada98bc5bc75cf18004f2a49b/contracts/curve/TricryptoLPStrategy.sol#L104-L107) will always try to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H09TricryptolpstrategyCompoundamountAlwaysReturns0Because"
+solodit_id: "27499"
+solodit_slug: |
+    h-09-tricryptolpstrategycompoundamount-always-returns-0-because-its-using-staticall-vs-call-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal checkpoint;"
+fn_name_regex: ".*(compoundAmount|staticall|checkpoint).*"
+read_var_regex: ".*(checkpoint|compoundAmount|staticall).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "compoundAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return checkpoint > 0;"

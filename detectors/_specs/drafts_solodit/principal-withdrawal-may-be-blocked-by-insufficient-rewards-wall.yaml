@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "principal-withdrawal-may-be-blocked-by-insufficient-rewards-wall"
+class_name: "PrincipalWithdrawalMayBeBlockedByInsufficientRewardsWall"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57929 (MixBytes/DIA)"
+help: |
+    Principal withdrawal may be blocked by insufficient rewards wallet balance in `DIAWhitelistedStaking`
+wiki_title: |
+    Principal withdrawal may be blocked by insufficient rewards wallet balance in `DIAWhitelistedStaking`
+wiki_description: |
+    ##### Description
+    The `unstake()` and `unstakePrincipal()` functions in `DIAWhitelistedStaking` require mandatory reward payments from the external `rewardsWallet` before allowing principal withdrawal. When `rewardsWallet` has insufficient token balance or revoked allowances, the `safeTransferFrom()
+wiki_exploit_scenario: |
+    Per Solodit #57929: ##### Description
+    The `unstake()` and `unstakePrincipal()` functions in `DIAWhitelistedStaking` require mandatory reward payments from the external `rewardsWallet` before allowing principal withdrawal
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PrincipalWithdrawalMayBeBlockedByInsufficientRewardsWall"
+solodit_id: "57929"
+solodit_slug: |
+    principal-withdrawal-may-be-blocked-by-insufficient-rewards-wallet-balance-in-diawhitelistedstaking-mixbytes-none-dia-markdown
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: ""
+state_decl: "uint256 internal requestunstake;"
+fn_name_regex: ".*(unstake|unstakePrincipal|DIAWhitelistedStaking|rewardsWallet).*"
+write_var_regex: ".*(requestUnstake|requestUnstakeWithoutClaim|rewardsWallet).*"
+guard_var_regex: ".*(requestUnstake|requestUnstakeWithoutClaim|rewardsWallet).*"
+vuln_fn_name: "unstake"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "requestunstake = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

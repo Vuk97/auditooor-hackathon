@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "h-19-withdraweth-in-giantpoolbase-don-t-call-distributeethreward"
+class_name: "H19WithdrawethInGiantpoolbaseDonTCallDistributeethreward"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #5906 (Code4rena/Stakehouse Protocol)"
+help: |
+    [H-19] withdrawETH() in GiantPoolBase don’t call _distributeETHRewardsToUserForToken() or _onWithdraw() which would make users to lose their remaining rewards
+wiki_title: |
+    [H-19] withdrawETH() in GiantPoolBase don’t call _distributeETHRewardsToUserForToken() or _onWithdraw() which would make users to lose their remaining rewards 
+wiki_description: |
+    ## Lines of code
+    
+    https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/GiantPoolBase.sol#L50-L64
+    https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/GiantMevAndFeesP
+wiki_exploit_scenario: |
+    Per Solodit #5906: ## Lines of code
+    
+    https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/GiantPoolBase.sol#L50-L64
+    https://github.com/code-423n4/2022-1
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H19WithdrawethInGiantpoolbaseDonTCallDistributeethreward"
+solodit_id: "5906"
+solodit_slug: |
+    h-19-withdraweth-in-giantpoolbase-dont-call-_distributeethrewardstouserfortoken-or-_onwithdraw-which-would-make-users-to-lose-their-remaining-rewards-code4rena-stakehouse-protocol-lsd-network-stakehouse-contest-git
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: "Don't update state"
+state_decl: "uint256 internal claimrewards;"
+fn_name_regex: ".*(GiantMevAndFeesPool|withdrawETH|GiantPoolBase|lpTokenETH).*"
+write_var_regex: ".*(claimRewards|lpTokenETH|user1).*"
+guard_var_regex: ".*(claimRewards|lpTokenETH|user1).*"
+vuln_fn_name: "GiantMevAndFeesPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "claimrewards = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

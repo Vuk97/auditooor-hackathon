@@ -1,0 +1,32 @@
+skeleton: "state_write_without_paired_write"
+name: "chainlinkutil-getprice-doesn-t-check-if-l2-sequencer-is-down"
+class_name: "ChainlinkutilGetpriceDoesnTCheckIfL2SequencerIsDown"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34829 (Cyfrin/Zaros)"
+help: "`ChainlinkUtil::getPrice` doesn't check if L2 Sequencer is down"
+wiki_title: "`ChainlinkUtil::getPrice` doesn't check if L2 Sequencer is down"
+wiki_description: |
+    **Description:** When using Chainlink with L2 chains like Arbitrum, smart contracts must [check whether the L2 Sequencer is down](https://medium.com/zaros-labs/chainlink-oracle-defi-attacks-93b6cb6541bf#0faf) to avoid stale pricing data that appears fresh.
+    
+    **Impact:** Code will execute with prices
+wiki_exploit_scenario: |
+    Per Solodit #34829: **Description:** When using Chainlink with L2 chains like Arbitrum, smart contracts must [check whether the L2 Sequencer is down](https://medium.com/zaros-labs/chainlink-oracle-defi-attacks-93b6cb6541
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainlinkutilGetpriceDoesnTCheckIfL2SequencerIsDown"
+solodit_id: "34829"
+solodit_slug: "chainlinkutilgetprice-doesnt-check-if-l2-sequencer-is-down-cyfrin-none-cyfrinzaros-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getPrice).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

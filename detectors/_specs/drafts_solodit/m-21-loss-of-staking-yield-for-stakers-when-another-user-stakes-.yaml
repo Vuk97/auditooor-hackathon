@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-21-loss-of-staking-yield-for-stakers-when-another-user-stakes-"
+class_name: "M21LossOfStakingYieldForStakersWhenAnotherUserStakes"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16031 (Code4rena/Reserve)"
+help: "[M-21] Loss of staking yield for stakers when another user stakes in pause/frozen state"
+wiki_title: "[M-21] Loss of staking yield for stakers when another user stakes in pause/frozen state"
+wiki_description: |
+    It is possible for a user to steal the yield from other stakers by staking when the system is paused or frozen.
+    
+    This is because staking is allowed while paused/frozen, but `_payoutRewards()` is not called during so. Staking rewards are not paid out to current stakers when a new staker stakes, so t
+wiki_exploit_scenario: |
+    Per Solodit #16031: It is possible for a user to steal the yield from other stakers by staking when the system is paused or frozen.
+    
+    This is because staking is allowed while paused/frozen, but `_payoutRewards()` is not
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M21LossOfStakingYieldForStakersWhenAnotherUserStakes"
+solodit_id: "16031"
+solodit_slug: |
+    m-21-loss-of-staking-yield-for-stakers-when-another-user-stakes-in-pausefrozen-state-code4rena-reserve-reserve-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rsrAmount|pausedOrFrozen|stRSR|advanceTime).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "rsrAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

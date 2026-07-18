@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "stale-balance-in-remove-pods-loop"
+class_name: "StaleBalanceInRemovePodsLoop"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_aa"
+help: |
+    `_removeAllPods` caches balance once before loop; rogue pod can hijack execution and change balance between loop iterations, leaving valid pod with stale removal delta.
+wiki_title: "stale-balance-in-remove-pods-loop"
+wiki_description: |
+    `_removeAllPods` caches balance once before loop; rogue pod can hijack execution and change balance between loop iterations, leaving valid pod with stale removal delta.
+wiki_exploit_scenario: |
+    Attacker exploits stale-balance-in-remove-pods-loop as described: `_removeAllPods` caches balance once before loop; rogue pod can hijack execution and change balance between loop iterations, leaving valid pod with stale removal delta.
+wiki_recommendation: |
+    `uint256 balance = balanceOf(account)` before a loop that calls external `updateBalances` — balance variable not re-read after each external call.
+contract_name: "StaleBalanceInRemovePodsLoop"
+state_decl: "uint256 internal updatebalances;"
+fn_name_regex: ".*(updateBalances).*"
+read_var_regex: ".*(updateBalances).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateBalances"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return updatebalances > 0;"

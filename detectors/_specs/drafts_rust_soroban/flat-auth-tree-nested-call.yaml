@@ -1,0 +1,21 @@
+id: flat-auth-tree-nested-call
+title: "Soroban auth tree is flat but callee performs nested sub-invocation"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44839"
+  - "44840"
+bug_class: authorization
+indicators:
+  - "`authorize_as_current_contract` input contains two sibling `SubContractInvocation` entries when one is actually nested under the other at runtime"
+  - "adapter calls `pool.swap(...)` whose body pulls tokens via `from_token.transfer(adapter, pool, amount)` but authorization for that transfer is a sibling rather than a child of the swap entry"
+  - "sub_invocations: vec![] on an auth entry whose target contract internally calls more auth-requiring functions"
+victim: "Liquidators and swap users: Aquarius/Soroswap-routed swaps revert in production, blocking collateral swaps and flash-liquidation flows."
+exploit_precondition: "Swap is routed through an adapter that delegates to a pool/router that pulls tokens. Not triggerable in tests that use `mock_all_auths`."
+real_world_example: |
+  V12 #44839 (High): `AquariusSwapAdapter::execute_swap` builds a flat tree with `pool.swap` and `from_token.transfer` as siblings; real pool call graph has the transfer nested under `swap`, so Soroban rejects auth with Auth InvalidAction.
+suggested_remediation: "Nest `from_token.transfer` inside `pool.swap`'s `sub_invocations: vec![...]` to match the actual runtime call graph."
+cross_refs:
+  - missing-self-authorize-as-current-contract

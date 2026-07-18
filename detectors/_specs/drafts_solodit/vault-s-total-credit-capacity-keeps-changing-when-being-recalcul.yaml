@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "vault-s-total-credit-capacity-keeps-changing-when-being-recalcul"
+class_name: "VaultSTotalCreditCapacityKeepsChangingWhenBeingRecalcul"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49945 (Codehawks/Part 2)"
+help: |
+    Vault's total credit capacity keeps changing when being recalculated even though there is no market activity
+wiki_title: |
+    Vault's total credit capacity keeps changing when being recalculated even though there is no market activity
+wiki_description: |
+    ## Summary
+    
+    Circular dependency between calculations of market's `totalDelegatedCreditUsd` and vault's `depositedUsdc` will lead to inconsistent calculation result for every `Vault.recalculateVaultsCreditCapacity` function call.
+    
+    ## Vulnerability Details
+    
+    ### Root Cause Analysis
+    
+    Circular dependency
+wiki_exploit_scenario: |
+    Per Solodit #49945: ## Summary
+    
+    Circular dependency between calculations of market's `totalDelegatedCreditUsd` and vault's `depositedUsdc` will lead to inconsistent calculation result for every `Vault.recalculateVaultsCr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VaultSTotalCreditCapacityKeepsChangingWhenBeingRecalcul"
+solodit_id: "49945"
+solodit_slug: |
+    vaults-total-credit-capacity-keeps-changing-when-being-recalculated-even-though-there-is-no-market-activity-codehawks-zaros-part-2-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositedusdc;"
+fn_name_regex: ".*(totalDelegatedCreditUsd|depositedUsdc|totalCreditCapacityUsd).*"
+read_var_regex: ".*(depositedUsdc|totalCreditCapacityUsd|totalDelegatedCreditUsd).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalDelegatedCreditUsd"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return depositedusdc > 0;"

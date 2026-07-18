@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "m-01-auction-tokens-with-approval-race-protection-or-not-returni"
+class_name: "M01AuctionTokensWithApprovalRaceProtectionOrNotReturni"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20601 (Pashov Audit Group/Ipnft)"
+help: |
+    [M-01] Auction tokens with approval race protection or not returning a `bool` on `approve` are incompatible with `VestedCrowdSale`
+wiki_title: |
+    [M-01] Auction tokens with approval race protection or not returning a `bool` on `approve` are incompatible with `VestedCrowdSale`
+wiki_description: |
+    **Impact:**
+    High, as sale won't be possible to be settled
+    
+    **Likelihood:**
+    Low, as such tokens are rare, but they do exist
+    
+    **Description**
+    
+    Some tokens, for example [USDT](https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7) (not a good example because auction tokens have to have
+wiki_exploit_scenario: |
+    Per Solodit #20601: **Impact:**
+    High, as sale won't be possible to be settled
+    
+    **Likelihood:**
+    Low, as such tokens are rare, but they do exist
+    
+    **Description**
+    
+    Some tokens, for example [USDT](https://etherscan.io/token/
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01AuctionTokensWithApprovalRaceProtectionOrNotReturni"
+solodit_id: "20601"
+solodit_slug: |
+    m-01-auction-tokens-with-approval-race-protection-or-not-returning-a-bool-on-approve-are-incompatible-with-vestedcrowdsale-pashov-none-ipnft-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal approve;"
+fn_name_regex: ".*(VestedCrowdSale|increaseAllowance|currentAllowance|USDT).*"
+write_var_regex: ".*(approve|currentAllowance|forceApprove).*"
+guard_var_regex: ".*(approve|currentAllowance|forceApprove).*"
+vuln_fn_name: "VestedCrowdSale"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "approve = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

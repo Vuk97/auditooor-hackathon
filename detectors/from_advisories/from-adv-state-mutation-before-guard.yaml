@@ -1,0 +1,20 @@
+pattern: from-adv-state-mutation-before-guard
+source: advisory-seed-corpus/state_mutation_before_guard
+severity: MEDIUM
+confidence: MEDIUM
+backend: regex
+tags: [ordering-validation-toctou]
+
+# CLASS-LEVEL mechanism detector auto-derived from 1 advisory seed(s).
+# Mechanism matched, not any instance. Anti-overfit verified by advisory-seed-to-dsl.py.
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-hhm7-qrv5-h4r6
+
+preconditions: []
+
+match:
+  - function.kind: external_or_public
+  - function.body_contains_regex: "(?s)\\.(?:insert|push)\\s*\\([^;]*\\)\\s*;[\\s\\S]{0,200}?(?:check_|validate_|ensure_|reject|duplicate)\\w*\\s*\\("
+
+help: "State index/map is mutated BEFORE the validity/rejection guard for the same untrusted content runs in the same function - a rejected item leaves a poisoned index entry (TOCTOU / ordering)."
+wiki_title: "State Mutation Before Guard"
+wiki_description: "State index/map is mutated BEFORE the validity/rejection guard for the same untrusted content runs in the same function - a rejected item leaves a poisoned index entry (TOCTOU / ordering)."

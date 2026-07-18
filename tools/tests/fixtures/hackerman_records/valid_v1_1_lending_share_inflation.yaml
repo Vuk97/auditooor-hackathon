@@ -1,0 +1,37 @@
+schema_version: auditooor.hackerman_record.v1.1
+record_id: solodit:euler-2024-10-15:42:a1b2c3d4
+source_audit_ref: solodit:euler-2024-10-15:42
+target_domain: lending
+target_language: solidity
+target_repo: euler-xyz/euler-vault-kit
+target_component: EVault.deposit
+function_shape:
+  raw_signature: "function deposit(uint256 assets, address receiver) external returns (uint256 shares)"
+  shape_tags:
+    - external-nonpayable-share-mint-after-asset-transfer
+    - erc4626-preview-vs-actual-rounding
+bug_class: share-inflation
+attack_class: first-deposit-share-inflation
+attacker_role: unprivileged
+attacker_action_sequence: "Step 1: seed the vault with dust. Step 2: donate assets directly. Step 3: front-run victim deposit and redeem inflated shares."
+required_preconditions:
+  - empty or near-empty vault
+  - share price derived from live token balance
+impact_class: theft
+impact_actor: depositor-class
+impact_dollar_class: "$100K-$1M"
+fix_pattern: seed virtual shares and compute shares from internal accounting
+fix_anti_pattern_avoided: using raw token balance as the sole exchange-rate source
+severity_at_finding: high
+year: 2024
+cross_language_analogues:
+  - target_language: go
+    pattern_translation: module mints claim units from a mutable bank balance instead of internal supply accounting
+related_records:
+  - solodit:other-vault-2023:7:ffffeeee
+verification_tier: tier-2-verified-public-archive
+record_source_url: https://solodit.cyfrin.io/finding/euler-2024-10-15-42
+cve_id: CVE-2024-12345
+ghsa_id: GHSA-abcd-1234-wxyz
+record_extensions:
+  experimental.shape_subtype: erc4626-preview

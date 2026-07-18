@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-message-validation-may-allow-griefing"
+class_name: "MissingMessageValidationMayAllowGriefing"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Hyperliquid - Zellic Audit Report"
+help: |
+    The finalizeWithdrawals function does not check that the given message corresponds to an existing withdrawal request. Since the uninitialized values of the corresponding withdrawal
+wiki_title: "Missing message validation may allow griefing"
+wiki_description: |
+    The finalizeWithdrawals function does not check that the given message corresponds to an existing withdrawal request. Since the uninitialized values of the corresponding withdrawal data will be zero, the call to checkDisputePeriod will pass: function checkDisputePeriod(uint64 time, uint64 blockNumbe
+wiki_exploit_scenario: |
+    Per audit finding: The finalizeWithdrawals function does not check that the given message corresponds to an existing withdrawal request. Since the uninitialized values of the corresponding withdrawal data will be zero,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingMessageValidationMayAllowGriefing"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(finalizeWithdrawals|checkDisputePeriod|blockNumber).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "finalizeWithdrawals"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

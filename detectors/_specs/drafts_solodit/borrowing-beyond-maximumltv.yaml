@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "borrowing-beyond-maximumltv"
+class_name: "BorrowingBeyondMaximumltv"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49442 (MixBytes/Liquorice)"
+help: "Borrowing beyond `MaximumLTV`"
+wiki_title: "Borrowing beyond `MaximumLTV`"
+wiki_description: |
+    ##### Description
+    `LendingPool.borrow()` has a limit up to `TypeofLTV.MaximumLTV` (set at `80%` in the project tests). However, `LendingPool.withdraw()` allows withdrawals up to `TypeofLTV.LiquidationThreshold` (set at `90%` in the tests).
+    
+    An attacker could call `borrow() + withdraw()` in a single
+wiki_exploit_scenario: |
+    Per Solodit #49442: ##### Description
+    `LendingPool.borrow()` has a limit up to `TypeofLTV.MaximumLTV` (set at `80%` in the project tests). However, `LendingPool.withdraw()` allows withdrawals up to `TypeofLTV.Liquidation
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BorrowingBeyondMaximumltv"
+solodit_id: "49442"
+solodit_slug: "borrowing-beyond-maximumltv-mixbytes-none-liquorice-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrow;"
+fn_name_regex: ".*(MaximumLTV|borrow|withdraw).*"
+read_var_regex: ".*(borrow|withdraw).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "MaximumLTV"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borrow > 0;"

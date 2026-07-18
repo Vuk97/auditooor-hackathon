@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "bptoracle-makes-assumptions-on-the-usd-price-decimals"
+class_name: "BptoracleMakesAssumptionsOnTheUsdPriceDecimals"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40773 (Cantina/OpalProtocol)"
+help: "Bptoracle makes assumptions on the usd price decimals"
+wiki_title: "Bptoracle makes assumptions on the usd price decimals "
+wiki_description: |
+    ## BPTOracle.sol#L245
+    
+    ## Description
+    The `getUSDPrice` function in `BPTOracle` retrieves the USD price of an asset from the price feed. This function makes the assumption that the returned price is based on 8 decimals. The function lacks a check to ensure that the returned price is based on 8 decim
+wiki_exploit_scenario: |
+    Per Solodit #40773: ## BPTOracle.sol#L245
+    
+    ## Description
+    The `getUSDPrice` function in `BPTOracle` retrieves the USD price of an asset from the price feed. This function makes the assumption that the returned price is b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BptoracleMakesAssumptionsOnTheUsdPriceDecimals"
+solodit_id: "40773"
+solodit_slug: "bptoracle-makes-assumptions-on-the-usd-price-decimals-cantina-none-opalprotocol-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getUSDPrice|BPTOracle).*"
+primary_var_regex: ".*(getUSDPrice).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_require"
+name: "missing-length-check-for-proof-fixed"
+class_name: "MissingLengthCheckForProofFixed"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26829 (ConsenSys/Linea Plonk Verifier)"
+help: "Missing Length Check for proof ✓ Fixed"
+wiki_title: "Missing Length Check for proof ✓ Fixed"
+wiki_description: |
+    #### Description
+    
+    
+    The `Verify` function has the following signature:
+    
+    
+    
+    ```
+    function Verify(bytes memory proof, uint256[] memory public_inputs)
+    
+    ```
+    Here, `proof` is a dynamically sized array of bytes (padded upto the nearest word). The function `derive_gamma(aproof, pub_inputs)` uses this array an
+wiki_exploit_scenario: |
+    Per Solodit #26829: #### Description
+    
+    
+    The `Verify` function has the following signature:
+    
+    
+    
+    ```
+    function Verify(bytes memory proof, uint256[] memory public_inputs)
+    
+    ```
+    Here, `proof` is a dynamically sized array of byte
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingLengthCheckForProofFixed"
+solodit_id: "26829"
+solodit_slug: "missing-length-check-for-proof-fixed-consensys-none-linea-plonk-verifier-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calldata;"
+fn_name_regex: ".*(Verify|proof|derive_gamma|calldata).*"
+write_var_regex: ".*(calldata|derive_gamma|memory).*"
+guard_var_regex: ".*(calldata|derive_gamma|memory).*"
+vuln_fn_name: "Verify"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "calldata = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

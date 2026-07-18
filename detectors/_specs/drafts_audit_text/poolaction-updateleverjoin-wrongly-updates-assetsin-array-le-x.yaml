@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "poolaction-updateleverjoin-wrongly-updates-assetsin-array-le-x"
+class_name: "PoolactionUpdateleverjoinWronglyUpdatesAssetsinArrayLeX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-loopfi"
+help: |
+    0xAlix2 , also found by NexusAudits Users can use PositionAction4626 to interact with the corresponding vault using their opened positions. PositionAction4626 allows users to depos
+wiki_title: |
+    PoolAction::updateLeverJoin wrongly updates assetsIn array, leading to PositionAction4626::_onIncreaseLever to always revert
+wiki_description: |
+    0xAlix2 , also found by NexusAudits Users can use PositionAction4626 to interact with the corresponding vault using their opened positions. PositionAction4626 allows users to deposit/withdraw/leverage their positions, increaseLever enables users to increase their positions’ collateral and debt. For
+wiki_exploit_scenario: |
+    Per audit finding: 0xAlix2 , also found by NexusAudits Users can use PositionAction4626 to interact with the corresponding vault using their opened positions. PositionAction4626 allows users to deposit/withdraw/leverage
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PoolactionUpdateleverjoinWronglyUpdatesAssetsinArrayLeX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(increaseLever|updateLeverJoin|assetIndex).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "increaseLever"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

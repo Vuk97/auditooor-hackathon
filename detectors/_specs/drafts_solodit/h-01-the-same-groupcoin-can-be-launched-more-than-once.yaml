@@ -1,0 +1,48 @@
+skeleton: "paired_function_divergence"
+name: "h-01-the-same-groupcoin-can-be-launched-more-than-once"
+class_name: "H01TheSameGroupcoinCanBeLaunchedMoreThanOnce"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41351 (Pashov Audit Group/Groupcoin)"
+help: "[H-01] The same Groupcoin can be launched more than once"
+wiki_title: "[H-01] The same Groupcoin can be launched more than once"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    In `launchGroupCoinToUniswapV3`, there is no validation that the Groupcoin hasn't already been launched. Under normal circumstances, this is not a problem because it's not possible to create multiple pools with the same token pai
+wiki_exploit_scenario: |
+    Per Solodit #41351: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    In `launchGroupCoinToUniswapV3`, there is no validation that the Groupcoin hasn't already been launched. Under normal circumstanc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01TheSameGroupcoinCanBeLaunchedMoreThanOnce"
+solodit_id: "41351"
+solodit_slug: "h-01-the-same-groupcoin-can-be-launched-more-than-once-pashov-audit-group-none-groupcoin-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(launchGroupCoinToUniswapV3|setUniswapConfig|totalSupply).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

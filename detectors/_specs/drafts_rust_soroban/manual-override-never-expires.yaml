@@ -1,0 +1,21 @@
+id: manual-override-never-expires
+title: "Manual price override stored without expiry can brick pricing permanently"
+severity: Info
+language: rust
+platform: soroban
+source: "halborn-2025-09 | k2-v12"
+source_ids:
+  - "7.36"
+  - "44866"
+bug_class: oracle-cascade
+indicators:
+  - "`set_manual_override(asset, price)` stores price without a `expiry: Option<u64>` field"
+  - "read path unconditionally prefers manual override over live feed"
+  - "no auto-expiry check in `get_price`"
+victim: "Protocol users: governance forgets to remove the override and the protocol runs permanently on a stale price."
+exploit_precondition: "Admin sets override during emergency, then forgets to unset."
+real_world_example: |
+  Halborn 7.36 (INFO): Manual override prices never expire and can leave the protocol permanently mispriced.
+suggested_remediation: "Require `expiry: u64` on every override; fall back to live feed after expiry."
+cross_refs:
+  - expired-override-bricks-price-reads

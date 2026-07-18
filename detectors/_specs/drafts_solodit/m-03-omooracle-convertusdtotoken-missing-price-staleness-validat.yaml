@@ -1,0 +1,47 @@
+skeleton: "state_write_without_paired_write"
+name: "m-03-omooracle-convertusdtotoken-missing-price-staleness-validat"
+class_name: "M03OmooracleConvertusdtotokenMissingPriceStalenessValidat"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53333 (Pashov Audit Group/Omo_2025-01-25)"
+help: "[M-03] `OmoOracle.convertUSDToToken()` : missing price staleness validation"
+wiki_title: "[M-03] `OmoOracle.convertUSDToToken()` : missing price staleness validation"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `OmoOracle.convertUSDToToken()` function fetches the price of `toToken` from the price feed but does not check if the price is fresh, which would result in using a stale price of the `quoteToken` leading to incorrect valuat
+wiki_exploit_scenario: |
+    Per Solodit #53333: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `OmoOracle.convertUSDToToken()` function fetches the price of `toToken` from the price feed but does not check if the price
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03OmooracleConvertusdtotokenMissingPriceStalenessValidat"
+solodit_id: "53333"
+solodit_slug: |
+    m-03-omooracleconvertusdtotoken-missing-price-staleness-validation-pashov-audit-group-none-omo_2025-01-25-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(toToken|quoteToken|getUSDValue).*"
+primary_var_regex: ".*(getUSDValue|quoteToken|toToken).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

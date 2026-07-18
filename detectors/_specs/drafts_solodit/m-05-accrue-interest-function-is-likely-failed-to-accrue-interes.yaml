@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "m-05-accrue-interest-function-is-likely-failed-to-accrue-interes"
+class_name: "M05AccrueInterestFunctionIsLikelyFailedToAccrueInteres"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28979 (Code4rena/Beta Finance)"
+help: "[M-05] accrue interest function is likely failed to accrue interest for token with low decimal"
+wiki_title: "[M-05] accrue interest function is likely failed to accrue interest for token with low decimal"
+wiki_description: |
+    Loss of precision is too high when accruing interest
+    
+    ### Proof of Concept
+    
+    When interest accrues, [we are calling](https://github.com/code-423n4/2023-11-betafinance/blob/0f1bb077afe8e8e03093c8f26dc0b7a2983c3e47/Omni_Protocol/src/OmniToken.sol#L104)
+    
+    ```solidity
+    uint256 interestAmount;
+    {
+    	uint256 i
+wiki_exploit_scenario: |
+    Per Solodit #28979: Loss of precision is too high when accruing interest
+    
+    ### Proof of Concept
+    
+    When interest accrues, [we are calling](https://github.com/code-423n4/2023-11-betafinance/blob/0f1bb077afe8e8e03093c8f26dc0
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05AccrueInterestFunctionIsLikelyFailedToAccrueInteres"
+solodit_id: "28979"
+solodit_slug: |
+    m-05-accrue-interest-function-is-likely-failed-to-accrue-interest-for-token-with-low-decimal-code4rena-beta-finance-beta-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(interestAmount|interestRate|getInterestRate|trancheIndex).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "interestAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

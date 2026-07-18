@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "drlvaultv3-2025-11"
+class_name: "Drlvaultv3202511"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-11/DRLVaultV3_exp.sol"
+help: "DRLVaultV3 2025-11 — swap exploit (100K USDT)"
+wiki_title: "DRLVaultV3 (2025-11) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-11): DRLVaultV3 lost 100K USDT. Bug class: swap. Attack tx: 0xe3eab35b288c086afa9b86a97ab93c7bb61d21b1951a156d2a8f6f5d5715c475.
+wiki_exploit_scenario: |
+    Attacker (0xC0ffeEBABE5D496B2DDE509f9fa189C25cF29671) exploits DRLVaultV3 via swap: the victim contract 0x6A06707ab339BEE00C6663db17DdB422301ff5e8 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Drlvaultv3202511"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

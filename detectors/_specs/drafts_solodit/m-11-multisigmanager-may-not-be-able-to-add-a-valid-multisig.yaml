@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-11-multisigmanager-may-not-be-able-to-add-a-valid-multisig"
+class_name: "M11MultisigmanagerMayNotBeAbleToAddAValidMultisig"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #8838 (Code4rena/GoGoPool)"
+help: "[M-11] MultisigManager may not be able to add a valid Multisig"
+wiki_title: "[M-11] MultisigManager may not be able to add a valid Multisig"
+wiki_description: |
+    When more than 10 mulitsig, it is impossible to modify or delete the old ones, making it impossible to create new valid ones.
+    
+    ### Proof of Concept
+    
+    MultisigManager limits the number of Multisig to 10, which cannot be deleted or replaced after they have been disabled.<br>
+    This will have a problem,
+wiki_exploit_scenario: |
+    Per Solodit #8838: When more than 10 mulitsig, it is impossible to modify or delete the old ones, making it impossible to create new valid ones.
+    
+    ### Proof of Concept
+    
+    MultisigManager limits the number of Multisig to 1
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11MultisigmanagerMayNotBeAbleToAddAValidMultisig"
+solodit_id: "8838"
+solodit_slug: "m-11-multisigmanager-may-not-be-able-to-add-a-valid-multisig-code4rena-gogopool-gogopool-contest-git"
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(registerMultisig|onlyGuardian|multisigIndex|getIndexOf).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "registerMultisig"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

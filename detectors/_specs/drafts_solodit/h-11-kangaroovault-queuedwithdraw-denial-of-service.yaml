@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-11-kangaroovault-queuedwithdraw-denial-of-service"
+class_name: "H11KangaroovaultQueuedwithdrawDenialOfService"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20234 (Code4rena/Polynomial Protocol)"
+help: "[H-11] KangarooVault `QueuedWithdraw` Denial of Service"
+wiki_title: "[H-11] KangarooVault `QueuedWithdraw` Denial of Service"
+wiki_description: |
+    When the `KangarooVault` has an open position, any withdrawals that are initiated, are queued.
+    
+    `QueuedWithdrawals` work in two steps.
+    
+    1.  A user initialtes the Withdrawal via `initiateWithdrawal` (`KangarooVault.sol#L215`). This burns the `VaultToken` and `if (positionData.positionId != 0)` (`Kan
+wiki_exploit_scenario: |
+    Per Solodit #20234: When the `KangarooVault` has an open position, any withdrawals that are initiated, are queued.
+    
+    `QueuedWithdrawals` work in two steps.
+    
+    1.  A user initialtes the Withdrawal via `initiateWithdrawal` (
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H11KangaroovaultQueuedwithdrawDenialOfService"
+solodit_id: "20234"
+solodit_slug: |
+    h-11-kangaroovault-queuedwithdraw-denial-of-service-code4rena-polynomial-protocol-polynomial-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal initiatewithdrawal;"
+fn_name_regex: ".*(KangarooVault|QueuedWithdrawals|initiateWithdrawal|VaultToken).*"
+read_var_regex: ".*(initiateWithdrawal|minWithdrawDelay|processWithdrawalQueue).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "KangarooVault"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return initiatewithdrawal > 0;"

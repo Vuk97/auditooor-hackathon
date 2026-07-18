@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "anyone-can-deploy-cover-right-tokens"
+class_name: "AnyoneCanDeployCoverRightTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #50748 (Halborn/SCProtection)"
+help: "ANYONE CAN DEPLOY COVER RIGHT TOKENS"
+wiki_title: "ANYONE CAN DEPLOY COVER RIGHT TOKENS"
+wiki_description: |
+    ##### Description
+    
+    Anyone can call `deployCRToken` under `CoverRightTokenFactory` which does deploy a new `CoverRight` Token. On the `PolicyCenter` contract, the `_getCRTokenAddress` function is used to retrieve this token address back using only the `_poolId`, `_expiry` and `_generation` values. Th
+wiki_exploit_scenario: |
+    Per Solodit #50748: ##### Description
+    
+    Anyone can call `deployCRToken` under `CoverRightTokenFactory` which does deploy a new `CoverRight` Token. On the `PolicyCenter` contract, the `_getCRTokenAddress` function is used
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyoneCanDeployCoverRightTokens"
+solodit_id: "50748"
+solodit_slug: "anyone-can-deploy-cover-right-tokens-halborn-degis-scprotection-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal buycover;"
+fn_name_regex: ".*(deployCRToken|CoverRightTokenFactory|CoverRight|PolicyCenter).*"
+write_var_regex: ".*(buyCover|claimPayout|deployCRToken).*"
+guard_var_regex: ".*(buyCover|claimPayout|deployCRToken).*"
+vuln_fn_name: "deployCRToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "buycover = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

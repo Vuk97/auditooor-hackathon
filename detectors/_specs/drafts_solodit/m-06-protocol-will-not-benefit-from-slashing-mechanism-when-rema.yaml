@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-06-protocol-will-not-benefit-from-slashing-mechanism-when-rema"
+class_name: "M06ProtocolWillNotBenefitFromSlashingMechanismWhenRema"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20179 (Code4rena/Stader Labs)"
+help: |
+    [M-06] Protocol will not benefit from slashing mechanism when remaining penalty bigger than `minThreshold`
+wiki_title: |
+    [M-06] Protocol will not benefit from slashing mechanism when remaining penalty bigger than `minThreshold`
+wiki_description: |
+    During the withdraw process, the function `settleFunds()` get called. This function first calculates the `operatorShare` and the `penaltyAmount`. If the `operatorShare` < `penaltyAmount`, the function calls `slashValidatorSD` in order to slash the operator and start new auction to cover the loss.
+wiki_exploit_scenario: |
+    Per Solodit #20179: During the withdraw process, the function `settleFunds()` get called. This function first calculates the `operatorShare` and the `penaltyAmount`. If the `operatorShare` < `penaltyAmount`, the functio
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06ProtocolWillNotBenefitFromSlashingMechanismWhenRema"
+solodit_id: "20179"
+solodit_slug: |
+    m-06-protocol-will-not-benefit-from-slashing-mechanism-when-remaining-penalty-bigger-than-minthreshold-code4rena-stader-labs-stader-labs-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal operatorshare;"
+fn_name_regex: ".*(settleFunds|operatorShare|penaltyAmount|slashValidatorSD).*"
+read_var_regex: ".*(operatorShare|penaltyAmount|settleFunds).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "settleFunds"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return operatorshare > 0;"

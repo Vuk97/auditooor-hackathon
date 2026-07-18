@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "admins-might-donate-fees-on-panic-and-setpositionwidth-40"
+class_name: "AdminsMightDonateFeesOnPanicAndSetpositionwidth40"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Beefy UniswapV3 - Zellic Audit Report"
+help: |
+    A general issue with using the current Uniswap price as a price oracle is that these prices can be manipulated by an attacker during their transaction, possibly using flash loans.
+wiki_title: "Admins might donate fees on panic and setPositionWidth                          40"
+wiki_description: |
+    A general issue with using the current Uniswap price as a price oracle is that these prices can be manipulated by an attacker during their transaction, possibly using flash loans. To protect against such price manipulation, deposits are only allowed during a calm period in which prices have not rece
+wiki_exploit_scenario: |
+    Per audit finding: A general issue with using the current Uniswap price as a price oracle is that these prices can be manipulated by an attacker during their transaction, possibly using flash loans. To protect against s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AdminsMightDonateFeesOnPanicAndSetpositionwidth40"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onlyCalmPeriods|currentTick|twapTick).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "onlyCalmPeriods"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "onch-6-infinite-voting-power"
+class_name: "Onch6InfiniteVotingPower"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53461 (Hexens/1Inch)"
+help: "[ONCH-6] Infinite voting power"
+wiki_title: "[ONCH-6] Infinite voting power"
+wiki_description: |
+    **Severity:** Critical
+    
+    **Path:** ERC20Pods.sol:_updateBalances#L115-L132
+    
+    **Description:** 
+    
+    The 1INCH staking contract `St1inch.sol` implements `ERC20Pods.sol` and therefore supports attaching pods for delegating voting power, such as the pod `PowerPod.sol`. A user can add a pod for themselves by
+wiki_exploit_scenario: |
+    Per Solodit #53461: **Severity:** Critical
+    
+    **Path:** ERC20Pods.sol:_updateBalances#L115-L132
+    
+    **Description:** 
+    
+    The 1INCH staking contract `St1inch.sol` implements `ERC20Pods.sol` and therefore supports attaching pods
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Onch6InfiniteVotingPower"
+solodit_id: "53461"
+solodit_slug: "onch-6-infinite-voting-power-hexens-none-1inch-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addPod|updateBalances).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "addPod"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

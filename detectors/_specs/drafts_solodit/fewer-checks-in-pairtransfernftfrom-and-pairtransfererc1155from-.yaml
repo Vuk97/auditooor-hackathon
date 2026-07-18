@@ -1,0 +1,47 @@
+skeleton: "paired_function_divergence"
+name: "fewer-checks-in-pairtransfernftfrom-and-pairtransfererc1155from-"
+class_name: "FewerChecksInPairtransfernftfromAndPairtransfererc1155from"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18300 (Spearbit/Sudoswap LSSVM2)"
+help: "Fewer checks in pairTransferNFTFrom() and pairTransferERC1155From() than in pairTransferERC20From()"
+wiki_title: "Fewer checks in pairTransferNFTFrom() and pairTransferERC1155From() than in pairTransferERC20From()"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - LSSVMRouter.sol#L491-L543
+    - VeryFastRouter.sol#L344-L407
+    
+    ## Description
+    The functions `pairTransferNFTFrom()` and `pairTransferERC1155From()` don't verify that the correct type of pair is used, whereas `pairTransferERC20From()` does. This means actions could b
+wiki_exploit_scenario: |
+    Per Solodit #18300: ## Severity: Medium Risk
+    
+    ## Context
+    - LSSVMRouter.sol#L491-L543
+    - VeryFastRouter.sol#L344-L407
+    
+    ## Description
+    The functions `pairTransferNFTFrom()` and `pairTransferERC1155From()` don't verify that
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FewerChecksInPairtransfernftfromAndPairtransfererc1155from"
+solodit_id: "18300"
+solodit_slug: |
+    fewer-checks-in-pairtransfernftfrom-and-pairtransfererc1155from-than-in-pairtransfer-spearbit-sudoswap-lssvm2-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(pairTransferERC1155From|pairTransferERC20From|pairTransferNFTFrom).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

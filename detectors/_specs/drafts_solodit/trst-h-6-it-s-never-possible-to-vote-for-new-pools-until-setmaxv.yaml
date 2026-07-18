@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "trst-h-6-it-s-never-possible-to-vote-for-new-pools-until-setmaxv"
+class_name: "TrstH6ItSNeverPossibleToVoteForNewPoolsUntilSetmaxv"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18949 (Trust Security/Satin.Exchange)"
+help: "TRST-H-6 It’s never possible to vote for new pools until setMaxVotesForPool() is called"
+wiki_title: "TRST-H-6 It’s never possible to vote for new pools until setMaxVotesForPool() is called"
+wiki_description: |
+    **Description:**
+    The function `_vote()` allows voting on a pool only when the current amount of votes plus the 
+    new votes is lower or equal to the value returned by `_calculateMaxVotePossible()`:
+    ```solidity
+            require(_poolWeights <= _calculateMaxVotePossible(_pool), "Max votes exceeded");
+    ```
+wiki_exploit_scenario: |
+    Per Solodit #18949: **Description:**
+    The function `_vote()` allows voting on a pool only when the current amount of votes plus the 
+    new votes is lower or equal to the value returned by `_calculateMaxVotePossible()`:
+    ```s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstH6ItSNeverPossibleToVoteForNewPoolsUntilSetmaxv"
+solodit_id: "18949"
+solodit_slug: |
+    trst-h-6-its-never-possible-to-vote-for-new-pools-until-setmaxvotesforpool-is-called-trust-security-none-satinexchange-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal creategauge;"
+fn_name_regex: ".*(createGauge|createGauge4Pool).*"
+write_var_regex: ".*(createGauge|createGauge4Pool).*"
+guard_var_regex: ".*(createGauge|createGauge4Pool).*"
+vuln_fn_name: "createGauge"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "creategauge = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

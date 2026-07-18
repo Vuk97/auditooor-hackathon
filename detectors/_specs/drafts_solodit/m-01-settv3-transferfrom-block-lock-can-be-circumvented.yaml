@@ -1,0 +1,40 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-01-settv3-transferfrom-block-lock-can-be-circumvented"
+class_name: "M01Settv3TransferfromBlockLockCanBeCircumvented"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42293 (Code4rena/BadgerDAO)"
+help: "[M-01] `SettV3.transferFrom` block lock can be circumvented"
+wiki_title: "[M-01] `SettV3.transferFrom` block lock can be circumvented"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `SettV3.transferFrom` implements a `_blockLocked` call to prevent users to call several functions at once, for example, `deposit` and then `transfer`ring the tokens.
+    
+    ```solidity
+    function _blockLocked() internal view {
+        require(blockLock[msg.sender] < block.number, "bl
+wiki_exploit_scenario: |
+    Per Solodit #42293: _Submitted by cmichel_
+    
+    The `SettV3.transferFrom` implements a `_blockLocked` call to prevent users to call several functions at once, for example, `deposit` and then `transfer`ring the tokens.
+    
+    ```so
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01Settv3TransferfromBlockLockCanBeCircumvented"
+solodit_id: "42293"
+solodit_slug: "m-01-settv3transferfrom-block-lock-can-be-circumvented-code4rena-badgerdao-badgerdao-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(deposit|transfer|transferFrom|withdraw).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

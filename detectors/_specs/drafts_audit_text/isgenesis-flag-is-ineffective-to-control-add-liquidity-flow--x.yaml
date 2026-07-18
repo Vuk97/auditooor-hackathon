@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "isgenesis-flag-is-ineffective-to-control-add-liquidity-flow--x"
+class_name: "IsgenesisFlagIsIneffectiveToControlAddLiquidityFlowX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-05-blackhole"
+help: |
+    maxzuvex Finding description The check that prevents external liquidity additions to “Genesis Pool” pairs before their official launch are insufficient. The RouterV2.addLiquidity()
+wiki_title: "isGenesis flag is ineffective to control add liquidity flow in RouterV2.addLiquidity()"
+wiki_description: |
+    maxzuvex Finding description The check that prevents external liquidity additions to “Genesis Pool” pairs before their official launch are insufficient. The RouterV2.addLiquidity() check can be bypassed once any LP tokens exist (even dust) and Pair.mint() also has no isGenesis check at all, letting
+wiki_exploit_scenario: |
+    Per audit finding: maxzuvex Finding description The check that prevents external liquidity additions to “Genesis Pool” pairs before their official launch are insufficient. The RouterV2.addLiquidity() check can be bypass
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IsgenesisFlagIsIneffectiveToControlAddLiquidityFlowX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

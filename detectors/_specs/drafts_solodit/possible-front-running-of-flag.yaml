@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "possible-front-running-of-flag"
+class_name: "PossibleFrontRunningOfFlag"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27154 (Cyfrin/Streamr)"
+help: "Possible front running of `flag()`"
+wiki_title: "Possible front running of `flag()`"
+wiki_description: |
+    **Severity:** Medium
+    
+    **Description:** The `target` might call `unstake()/forceUnstake()` before a flagger calls `flag()` to avoid a possible fund loss. Also, there would be no slash during the unstaking for `target` when it meets the `penaltyPeriodSeconds` requirement.
+    
+    ```solidity
+    File: contracts\
+wiki_exploit_scenario: |
+    Per Solodit #27154: **Severity:** Medium
+    
+    **Description:** The `target` might call `unstake()/forceUnstake()` before a flagger calls `flag()` to avoid a possible fund loss. Also, there would be no slash during the unstak
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleFrontRunningOfFlag"
+solodit_id: "27154"
+solodit_slug: "possible-front-running-of-flag-cyfrin-none-cyfrin-streamr-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal flag;"
+fn_name_regex: ".*(target|flag|penaltyPeriodSeconds|Flagged).*"
+read_var_regex: ".*(flag|penaltyPeriodSeconds|target).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "target"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return flag > 0;"

@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "trst-m-4-deposits-of-fee-on-transfer-tokens-will-favor-later-dep"
+class_name: "TrstM4DepositsOfFeeOnTransferTokensWillFavorLaterDep"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19031 (Trust Security/Orbital Finance)"
+help: |
+    TRST-M-4 Deposits of fee-on-transfer tokens will favor later depositors, making earlier investors lose funds
+wiki_title: |
+    TRST-M-4 Deposits of fee-on-transfer tokens will favor later depositors, making earlier investors lose funds
+wiki_description: |
+    **Description:**
+    When deposits are processed, the percentage of **Denominator** minted to the depositor is 
+    linear to the contribution, compared to the current balance. 
+    ```solidity
+             uint256 T = vlt.virtualTotalBalance(); //will be at least 1
+             uint256 D = vlt.D();
+             if (functi
+wiki_exploit_scenario: |
+    Per Solodit #19031: **Description:**
+    When deposits are processed, the percentage of **Denominator** minted to the depositor is 
+    linear to the contribution, compared to the current balance. 
+    ```solidity
+             uint256 T
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM4DepositsOfFeeOnTransferTokensWillFavorLaterDep"
+solodit_id: "19031"
+solodit_slug: |
+    trst-m-4-deposits-of-fee-on-transfer-tokens-will-favor-later-depositors-making-earlier-investors-lose-funds-trust-security-none-orbital-finance-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Fee On Transfer"
+state_decl: "uint256 internal safetransferfrom;"
+fn_name_regex: ".*(safeTransferFrom).*"
+read_var_regex: ".*(safeTransferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeTransferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return safetransferfrom > 0;"

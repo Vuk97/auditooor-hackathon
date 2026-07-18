@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "m-17-loan-hash-does-not-contain-protocolfee"
+class_name: "M17LoanHashDoesNotContainProtocolfee"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35236 (Code4rena/Gondi)"
+help: "[M-17] `loan.hash()` does not contain `protocolFee`"
+wiki_title: "[M-17] `loan.hash()` does not contain `protocolFee`"
+wiki_description: |
+    The current `IMultiSourceLoan.loop.hash()` does not contain `protocolFee`:
+    
+    ```solidity
+        function emitLoan(LoanExecutionData calldata _loanExecutionData)
+            external
+            nonReentrant
+            returns (uint256, Loan memory)
+        {
+    ...
+    @>      _loans[loanId] = loan.hash();
+            emit Loan
+wiki_exploit_scenario: |
+    Per Solodit #35236: The current `IMultiSourceLoan.loop.hash()` does not contain `protocolFee`:
+    
+    ```solidity
+        function emitLoan(LoanExecutionData calldata _loanExecutionData)
+            external
+            nonReentrant
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M17LoanHashDoesNotContainProtocolfee"
+solodit_id: "35236"
+solodit_slug: "m-17-loanhash-does-not-contain-protocolfee-code4rena-gondi-gondi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal protocolfee;"
+fn_name_regex: ".*(protocolFee|revert|repayLoan).*"
+write_var_regex: ".*(protocolFee|repayLoan|revert).*"
+guard_var_regex: ".*(protocolFee|repayLoan|revert).*"
+vuln_fn_name: "protocolFee"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "protocolfee = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

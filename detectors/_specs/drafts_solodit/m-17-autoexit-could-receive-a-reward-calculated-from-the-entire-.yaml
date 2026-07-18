@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-17-autoexit-could-receive-a-reward-calculated-from-the-entire-"
+class_name: "M17AutoexitCouldReceiveARewardCalculatedFromTheEntire"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32283 (Code4rena/Revert Lend)"
+help: |
+    [M-17] `AutoExit` could receive a reward calculated from the entire position's fund even if `onlyFee` is true in `AutoExit.execute()`
+wiki_title: |
+    [M-17] `AutoExit` could receive a reward calculated from the entire position's fund even if `onlyFee` is true in `AutoExit.execute()`
+wiki_description: |
+    <https://github.com/code-423n4/2024-03-revert-lend/blob/main/src/automators/AutoExit.sol#L100-L214>
+    
+    <https://github.com/code-423n4/2024-03-revert-lend/blob/main/src/automators/Automator.sol#L193-L215>
+    
+    ### Impact
+    
+    The owner of the NFT could end up paying more rewards to `AutoExit` than anticipated
+wiki_exploit_scenario: |
+    Per Solodit #32283: <https://github.com/code-423n4/2024-03-revert-lend/blob/main/src/automators/AutoExit.sol#L100-L214>
+    
+    <https://github.com/code-423n4/2024-03-revert-lend/blob/main/src/automators/Automator.sol#L193-L21
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M17AutoexitCouldReceiveARewardCalculatedFromTheEntire"
+solodit_id: "32283"
+solodit_slug: |
+    m-17-autoexit-could-receive-a-reward-calculated-from-the-entire-positions-fund-even-if-onlyfee-is-true-in-autoexitexecute-code4rena-revert-lend-revert-lend-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal onlyfee;"
+fn_name_regex: ".*(AutoExit|onlyFee).*"
+read_var_regex: ".*(onlyFee).*"
+required_call_regex: ".*collect.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "AutoExit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return onlyfee > 0;"

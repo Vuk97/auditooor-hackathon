@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "ufarm1-1-the-approve-top-up-role-can-replay-the-same-deposit-wit"
+class_name: "Ufarm11TheApproveTopUpRoleCanReplayTheSameDepositWit"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62438 (Hexens/Ufarm)"
+help: "[UFARM1-1] The approve top-up role can replay the same deposit/withdrawal request"
+wiki_title: "[UFARM1-1] The approve top-up role can replay the same deposit/withdrawal request"
+wiki_description: |
+    **Severity:** High
+    
+    **Path:** contracts/main/contracts/pool/UFarmPool.sol#L404-L415
+    contracts/main/contracts/pool/UFarmPool.sol#L451-L461
+    
+    **Description:** The `UFarmPool::approveDeposits()` function allows the approve top-up role (`Permissions.Pool.ApprovePoolTopup` & `Permissions.Fund.ApprovePoolT
+wiki_exploit_scenario: |
+    Per Solodit #62438: **Severity:** High
+    
+    **Path:** contracts/main/contracts/pool/UFarmPool.sol#L404-L415
+    contracts/main/contracts/pool/UFarmPool.sol#L451-L461
+    
+    **Description:** The `UFarmPool::approveDeposits()` function
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Ufarm11TheApproveTopUpRoleCanReplayTheSameDepositWit"
+solodit_id: "62438"
+solodit_slug: |
+    ufarm1-1-the-approve-top-up-role-can-replay-the-same-depositwithdrawal-request-hexens-none-ufarm-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositqueue;"
+fn_name_regex: ".*(depositQueue|sendQuexRequest|validateDepositRequest|quexCallback).*"
+write_var_regex: ".*(depositQueue|quexCallback|sendQuexRequest).*"
+guard_var_regex: ".*(depositQueue|quexCallback|sendQuexRequest).*"
+vuln_fn_name: "depositQueue"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "depositqueue = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

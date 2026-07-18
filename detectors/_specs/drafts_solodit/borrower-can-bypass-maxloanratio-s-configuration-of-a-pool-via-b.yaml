@@ -1,0 +1,38 @@
+skeleton: "paired_function_divergence"
+name: "borrower-can-bypass-maxloanratio-s-configuration-of-a-pool-via-b"
+class_name: "BorrowerCanBypassMaxloanratioSConfigurationOfAPoolViaB"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #34493 (Codehawks/Beedle - Oracle free perpetual lending)"
+help: "Borrower can bypass maxLoanRatio's configuration of a pool via buyLoan()"
+wiki_title: "Borrower can bypass maxLoanRatio's configuration of a pool via buyLoan()"
+wiki_description: |
+    ## Summary
+    In [buyLoan()](https://github.com/Cyfrin/2023-07-beedle/blob/main/src/Lender.sol#L465), there is no validation if the `loanRation < pool.maxLoanRatio`. Therefore, a lender can be given a loan with higher LTV than his pool which he doesn't want at all.
+    
+    ## Vulnerability Details
+    Since [buyL
+wiki_exploit_scenario: |
+    Per Solodit #34493: ## Summary
+    In [buyLoan()](https://github.com/Cyfrin/2023-07-beedle/blob/main/src/Lender.sol#L465), there is no validation if the `loanRation < pool.maxLoanRatio`. Therefore, a lender can be given a lo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BorrowerCanBypassMaxloanratioSConfigurationOfAPoolViaB"
+solodit_id: "34493"
+solodit_slug: |
+    borrower-can-bypass-maxloanratios-configuration-of-a-pool-via-buyloan-codehawks-beedle-oracle-free-perpetual-lending-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(borrower|buyLoan|loanToken).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

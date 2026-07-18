@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "failed-transactions-cause-a-drift-in-target-balance"
+class_name: "FailedTransactionsCauseADriftInTargetBalance"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58924 (Quantstamp/Datachain - App for Liquidity)"
+help: "Failed transactions cause a drift in target balance"
+wiki_title: "Failed transactions cause a drift in target balance"
+wiki_description: |
+    **Update**
+    Marked as "Fixed" by the client. Addressed in: `887ce3444bbbe82c27a339b902db3e11c5389665`. The client provided the following explanation:
+    
+    > We added recv and withdrawConfirm error handlers to the IPool interface and implemented delta recovery mechanisms in the Pool. In cases where the 't
+wiki_exploit_scenario: |
+    Per Solodit #58924: **Update**
+    Marked as "Fixed" by the client. Addressed in: `887ce3444bbbe82c27a339b902db3e11c5389665`. The client provided the following explanation:
+    
+    > We added recv and withdrawConfirm error handlers
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FailedTransactionsCauseADriftInTargetBalance"
+solodit_id: "58924"
+solodit_slug: "failed-transactions-cause-a-drift-in-target-balance-quantstamp-datachain-app-for-liquidity-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawConfirm|peerPoolInfo|lastKnownBalance|totalFailedTransfers).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "withdrawConfirm"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

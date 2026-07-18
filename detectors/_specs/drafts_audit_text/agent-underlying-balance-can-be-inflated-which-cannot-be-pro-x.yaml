@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "agent-underlying-balance-can-be-inflated-which-cannot-be-pro-x"
+class_name: "AgentUnderlyingBalanceCanBeInflatedWhichCannotBeProX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-08-flare-fasset"
+help: |
+    farman1094 Finding Description This issue is agent can make the payment to one of his another address, and later use this amount to top-up himself. According to the protocol, this
+wiki_title: "Agent underlying balance can be inflated, which cannot be prove-able to challenge it as illegal."
+wiki_description: |
+    farman1094 Finding Description This issue is agent can make the payment to one of his another address, and later use this amount to top-up himself. According to the protocol, this shouldn’t be happening or should be considered illegal. But the agent can able to done it that way it wouldn’t be provab
+wiki_exploit_scenario: |
+    Per audit finding: farman1094 Finding Description This issue is agent can make the payment to one of his another address, and later use this amount to top-up himself. According to the protocol, this shouldn’t be happeni
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AgentUnderlyingBalanceCanBeInflatedWhichCannotBeProX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(newRedemptionRequestId|nextRequestId|randomizedIdSkip).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "newRedemptionRequestId"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,51 @@
+skeleton: "paired_function_divergence"
+name: "c-05-attacker-can-steal-bids-and-rent-tokens-from-bunnihook"
+class_name: "C05AttackerCanStealBidsAndRentTokensFromBunnihook"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #43544 (Pashov Audit Group/Bunni-August)"
+help: "[C-05] Attacker can steal bids and rent tokens from BunniHook"
+wiki_title: "[C-05] Attacker can steal bids and rent tokens from BunniHook"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    In the rebalance mechanism when BunniHook receives tokens function `rebalanceOrderPostHook()` is called and in this function, code transfers the received amounts which is one of the pool tokens to the BunniHub.
+    
+    ```solidity
+wiki_exploit_scenario: |
+    Per Solodit #43544: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    In the rebalance mechanism when BunniHook receives tokens function `rebalanceOrderPostHook()` is called and in this function, code
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C05AttackerCanStealBidsAndRentTokensFromBunnihook"
+solodit_id: "43544"
+solodit_slug: |
+    c-05-attacker-can-steal-bids-and-rent-tokens-from-bunnihook-pashov-audit-group-none-bunni-august-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(rebalanceOrderPostHook).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

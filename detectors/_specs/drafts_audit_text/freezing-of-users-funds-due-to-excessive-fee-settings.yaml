@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "freezing-of-users-funds-due-to-excessive-fee-settings"
+class_name: "FreezingOfUsersFundsDueToExcessiveFeeSettings"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit StakeKit - Zellic Audit Report"
+help: |
+    In AllocatorVaultV1, fees are set through the configureVault function. Currently, the MAX_BPS is configured as MAX_BPS = 10_000, which represents 100%. function configureVault(Allo
+wiki_title: "Freezing of users' funds due to excessive fee settings"
+wiki_description: |
+    In AllocatorVaultV1, fees are set through the configureVault function. Currently, the MAX_BPS is configured as MAX_BPS = 10_000, which represents 100%. function configureVault(AllocatorVaultConfig memory _config) public onlyRole(DEFAULT_ADMIN_ROLE) { require(_config.depositFee <= MAX_BPS, "Deposit f
+wiki_exploit_scenario: |
+    Per audit finding: In AllocatorVaultV1, fees are set through the configureVault function. Currently, the MAX_BPS is configured as MAX_BPS = 10_000, which represents 100%. function configureVault(AllocatorVaultConfig mem
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FreezingOfUsersFundsDueToExcessiveFeeSettings"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(configureVault|onlyRole|depositFee).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "configureVault"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

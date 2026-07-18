@@ -1,0 +1,30 @@
+skeleton: "name_match_missing_require"
+name: "missing-source-validation-in-ccip-message-handling"
+class_name: "MissingSourceValidationInCcipMessageHandling"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #55536 (Cyfrin/Yieldfi)"
+help: "Missing source validation in CCIP message handling"
+wiki_title: "Missing source validation in CCIP message handling"
+wiki_description: |
+    **Description:** YieldFi integrates with Chainlink CCIP to facilitate cross-chain transfers of its yield tokens (`YToken`). This functionality is handled by the `BridgeCCIP` contract, which manages token accounting for these transfers.
+    
+    However, in the [`BridgeCCIP::_ccipReceive`](https://github.com
+wiki_exploit_scenario: |
+    Per Solodit #55536: **Description:** YieldFi integrates with Chainlink CCIP to facilitate cross-chain transfers of its yield tokens (`YToken`). This functionality is handled by the `BridgeCCIP` contract, which manages to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingSourceValidationInCcipMessageHandling"
+solodit_id: "55536"
+solodit_slug: "missing-source-validation-in-ccip-message-handling-cyfrin-none-yieldfi-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(YToken|BridgeCCIP|Any2EVMMessage).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "YToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

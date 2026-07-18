@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-12-erc-20-deposit-cctxs-are-refunded-to-the-eoa-instead-of-an-"
+class_name: "M12Erc20DepositCctxsAreRefundedToTheEoaInsteadOfAn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36941 (Code4rena/ZetaChain)"
+help: "[M-12] ERC-20 deposit cctxs are refunded to the EOA instead of an intermediary contract"
+wiki_title: "[M-12] ERC-20 deposit cctxs are refunded to the EOA instead of an intermediary contract"
+wiki_description: |
+    The EOA is set as the beneficiary of a failed and refunded inbound ERC-20 deposit cctx, instead of a potential intermediary contract. Funds can be stolen from this intermediary contract.
+    
+    Additionally, but less severe, the [`zContext`'s `origin`](https://github.com/code-423n4/2023-11-zetachain/blob
+wiki_exploit_scenario: |
+    Per Solodit #36941: The EOA is set as the beneficiary of a failed and refunded inbound ERC-20 deposit cctx, instead of a potential intermediary contract. Funds can be stolen from this intermediary contract.
+    
+    Additionall
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12Erc20DepositCctxsAreRefundedToTheEoaInsteadOfAn"
+solodit_id: "36941"
+solodit_slug: |
+    m-12-erc-20-deposit-cctxs-are-refunded-to-the-eoa-instead-of-an-intermediary-contract-code4rena-zetachain-zetachain-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal origin;"
+fn_name_regex: ".*(zContext|origin|Deposited|GetInboundVoteMsgForDepositedEvent).*"
+read_var_regex: ".*(origin|zContext).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "zContext"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return origin > 0;"

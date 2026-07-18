@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-zero-check-on-vaultaddress-in-depositandstake"
+class_name: "MissingZeroCheckOnVaultaddressInDepositandstake"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Steer - Zellic Audit Report"
+help: |
+    The following assertion in SteerPeriphery’s depositAndStake function can be bypassed if the vaultAddress parameter is 0 and the poolId is not registered in StakingRewards: require(
+wiki_title: "Missing zero check on vaultAddress in depositAndStake"
+wiki_description: |
+    The following assertion in SteerPeriphery’s depositAndStake function can be bypassed if the vaultAddress parameter is 0 and the poolId is not registered in StakingRewards: require( IStakingRewards(stakingRewards).getPool(poolId).stakingToken =) vaultAddress, "Incorrect pool id" );
+wiki_exploit_scenario: |
+    Per audit finding: The following assertion in SteerPeriphery’s depositAndStake function can be bypassed if the vaultAddress parameter is 0 and the poolId is not registered in StakingRewards: require( IStakingRewards(sta
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingZeroCheckOnVaultaddressInDepositandstake"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositAndStake|vaultAddress|poolId).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "depositAndStake"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

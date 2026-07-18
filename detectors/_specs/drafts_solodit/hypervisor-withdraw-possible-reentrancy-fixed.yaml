@@ -1,0 +1,44 @@
+skeleton: "state_write_without_paired_write"
+name: "hypervisor-withdraw-possible-reentrancy-fixed"
+class_name: "HypervisorWithdrawPossibleReentrancyFixed"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #13285 (ConsenSys/Gamma)"
+help: "Hypervisor.withdraw - Possible reentrancy ✓ Fixed"
+wiki_title: "Hypervisor.withdraw - Possible reentrancy ✓ Fixed"
+wiki_description: |
+    #### Resolution
+    
+    
+    
+    Fixed in [GammaStrategies/[email protected]`9a7a3dd`](https://github.com/GammaStrategies/hypervisor/commit/9a7a3dd88e8e8b106bf5d0e4c56e879442a72181) by implementing the auditor’s recommendation.
+    
+    
+    #### Description
+    
+    
+    `Hypervisor.withdraw` can be used by a liquidity provider to with
+wiki_exploit_scenario: |
+    Per Solodit #13285: #### Resolution
+    
+    
+    
+    Fixed in [GammaStrategies/[email protected]`9a7a3dd`](https://github.com/GammaStrategies/hypervisor/commit/9a7a3dd88e8e8b106bf5d0e4c56e879442a72181) by implementing the auditor’s re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "HypervisorWithdrawPossibleReentrancyFixed"
+solodit_id: "13285"
+solodit_slug: "hypervisorwithdraw-possible-reentrancy-fixed-consensys-gamma-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(Hypervisor|shares|deposit|totalSupply).*"
+primary_var_regex: ".*(deposit|shares|totalSupply).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

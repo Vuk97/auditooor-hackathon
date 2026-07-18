@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_call"
+name: "m-01-join-signature-lacks-domain-separation-leading-to-cross-dep"
+class_name: "M01JoinSignatureLacksDomainSeparationLeadingToCrossDep"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62740 (Shieldify/Soulsclub Revolver)"
+help: "[M-01] Join Signature Lacks Domain Separation Leading to Cross-Deployment/Chain Replay"
+wiki_title: "[M-01] Join Signature Lacks Domain Separation Leading to Cross-Deployment/Chain Replay"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    In the `joinGame()` function in `Revolver`, the signed payload omits any domain/session fields:
+    
+    ```solidity
+    // Verify signature - hash uid with msg.sender address (signature format unchanged)
+    bytes32 messageHash = keccak256(
+        abi.encodePacked(uid, msg.s
+wiki_exploit_scenario: |
+    Per Solodit #62740: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    In the `joinGame()` function in `Revolver`, the signed payload omits any domain/session fields:
+    
+    ```solidity
+    // Verify signature - hash uid with msg.sender a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01JoinSignatureLacksDomainSeparationLeadingToCrossDep"
+solodit_id: "62740"
+solodit_slug: |
+    m-01-join-signature-lacks-domain-separation-leading-to-cross-deploymentchain-replay-shieldify-none-soulsclub-revolver-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal basestake;"
+fn_name_regex: ".*(joinGame|Revolver|currentRoundId|baseStake).*"
+read_var_regex: ".*(baseStake|cellId|currentRoundId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "joinGame"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return basestake > 0;"

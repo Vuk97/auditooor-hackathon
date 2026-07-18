@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "deprecated-safeapprove-usage"
+class_name: "DeprecatedSafeapproveUsage"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider AST: open-zeppelins-deprecated-safe-approve-function-is"
+help: "Deprecated safeApprove() Usage"
+wiki_title: "Deprecated safeApprove() Usage"
+wiki_description: |
+    Detects usage of OpenZeppelin's deprecated safeApprove() function which reverts when current allowance is non-zero, blocking subsequent approvals. This is especially problematic in loops, functions called multiple times, or contracts that reuse token approvals. The function contains a require check 
+wiki_exploit_scenario: |
+    Tags [ERC20, SafeERC20, Deprecated, Approval, OpenZeppelin]: Detects usage of OpenZeppelin's deprecated safeApprove() function which reverts when current allowance is non-zero, blocking subsequent approvals. This is especially problematic in loops, functions ca
+wiki_recommendation: "Apply the access check implied by the Glider query filter."
+contract_name: "DeprecatedSafeapproveUsage"
+fn_name_regex: ".*"
+read_var_regex: ".*deprecated.*"
+required_call_regex: ".*(validate|check|verify|require).*"
+guarded_helper_name: "_validateGuard"
+vuln_fn_name: "deprecatedFn"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deprecated > 0;"
+state_decl: "uint256 internal deprecated;"

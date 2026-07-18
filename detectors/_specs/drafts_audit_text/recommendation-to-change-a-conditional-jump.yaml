@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "recommendation-to-change-a-conditional-jump"
+class_name: "RecommendationToChangeAConditionalJump"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "hexens audit Hexens_Polygon_zkEVM_PUBLIC_27.02.23"
+help: |
+    While analysing the zkEVM ROM opcodes and the appropriate PIL representation in the state machines it has been noticed that some of the conditional jumps differ in their operationa
+wiki_title: "RECOMMENDATION TO CHANGE A CONDITIONAL JUMP"
+wiki_description: |
+    While analysing the zkEVM ROM opcodes and the appropriate PIL representation in the state machines it has been noticed that some of the conditional jumps differ in their operational register size: ● JMPN (jump negative) pol jmpnCondValue = JMPN*(isNeg*2**32 + op0); ● JMPZ (jump zero) and JMPNZ (jump
+wiki_exploit_scenario: |
+    Per audit finding: While analysing the zkEVM ROM opcodes and the appropriate PIL representation in the state machines it has been noticed that some of the conditional jumps differ in their operational register size: ● J
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RecommendationToChangeAConditionalJump"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(zkEVM|jmpnCondValue|isNeg).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "zkEVM"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

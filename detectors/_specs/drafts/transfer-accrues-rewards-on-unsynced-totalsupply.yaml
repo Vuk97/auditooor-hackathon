@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "transfer-accrues-rewards-on-unsynced-totalsupply"
+class_name: "TransferAccruesRewardsOnUnsyncedTotalsupply"
+wave: "12"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "corpus slice code4arena_slice_ac"
+help: |
+    `transfer`/`transferFrom` accrues per-share rewards using pre-accrual `totalSupply`, causing incorrect attribution.
+wiki_title: "Transfer-Accrues-Rewards-On-Unsynced-TotalSupply"
+wiki_description: |
+    `transfer`/`transferFrom` accrues per-share rewards using pre-accrual `totalSupply`, causing incorrect attribution.
+wiki_exploit_scenario: |
+    Attacker exploits Transfer-Accrues-Rewards-On-Unsynced-TotalSupply as described: `transfer`/`transferFrom` accrues per-share rewards using pre-accrual `totalSupply`, causing incorrect attribution.
+wiki_recommendation: "ERC-4626 share transfer hook that touches rewards before syncing totalSupply."
+contract_name: "TransferAccruesRewardsOnUnsyncedTotalsupply"
+state_decl: "uint256 internal totalsupply;"
+fn_name_regex: ".*(transfer|transferFrom|totalSupply).*"
+read_var_regex: ".*(totalSupply|transfer|transferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return totalsupply > 0;"

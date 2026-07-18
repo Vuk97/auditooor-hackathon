@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-usage-of-mintusx-in-rebalancebyminting"
+class_name: "IncorrectUsageOfMintusxInRebalancebyminting"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Private Transfer With USX - Zellic Audit Report"
+help: |
+    The rebalanceByMinting flow calls mintUSX after approving USDC: IERC20(USDC).forceApprove(USX, amountUSDC); IUSX(USX).mintUSX(address(this), amountUSDC); However, mintUSX in USX.so
+wiki_title: "Incorrect usage of mintUSX in rebalanceByMinting"
+wiki_description: |
+    The rebalanceByMinting flow calls mintUSX after approving USDC: IERC20(USDC).forceApprove(USX, amountUSDC); IUSX(USX).mintUSX(address(this), amountUSDC); However, mintUSX in USX.sol does not accept USDC as input and is restricted to the treasury role. function mintUSX(address _to, uint256 _amount) p
+wiki_exploit_scenario: |
+    Per audit finding: The rebalanceByMinting flow calls mintUSX after approving USDC: IERC20(USDC).forceApprove(USX, amountUSDC); IUSX(USX).mintUSX(address(this), amountUSDC); However, mintUSX in USX.sol does not accept US
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectUsageOfMintusxInRebalancebyminting"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rebalanceByMinting|mintUSX|forceApprove).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rebalanceByMinting"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

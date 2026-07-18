@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "h-02-users-are-incorrectly-refunded-when-liquidity-is-insufficie"
+class_name: "H02UsersAreIncorrectlyRefundedWhenLiquidityIsInsufficie"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45236 (Code4rena/Superposition)"
+help: "[H-02] Users are incorrectly refunded when liquidity is insufficient"
+wiki_title: "[H-02] Users are incorrectly refunded when liquidity is insufficient"
+wiki_description: |
+    In `swap_2_internal`, if the first pool doesn't have enough liquidity, `amount_in` could be less than `original_amount`, and as expected, `amount_in` is taken from swapper. But the function still refunds `original_amount - amount_in` to the user if `original_amount` is more than `amount_in`.
+    
+    From
+wiki_exploit_scenario: |
+    Per Solodit #45236: In `swap_2_internal`, if the first pool doesn't have enough liquidity, `amount_in` could be less than `original_amount`, and as expected, `amount_in` is taken from swapper. But the function still ref
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02UsersAreIncorrectlyRefundedWhenLiquidityIsInsufficie"
+solodit_id: "45236"
+solodit_slug: |
+    h-02-users-are-incorrectly-refunded-when-liquidity-is-insufficient-code4rena-superposition-superposition-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount_in;"
+fn_name_regex: ".*(swap_2_internal|amount_in|original_amount|swap_2_internal_erc20).*"
+read_var_regex: ".*(amount_in|original_amount|swap_2_internal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swap_2_internal"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount_in > 0;"

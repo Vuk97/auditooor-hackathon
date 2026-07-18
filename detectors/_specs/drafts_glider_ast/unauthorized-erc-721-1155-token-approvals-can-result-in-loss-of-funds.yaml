@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "unauthorized-erc-721-1155-token-approvals-can-result-in-loss-of-funds"
+class_name: "UnauthorizedErc7211155TokenApprovalsCanResultInLossOfFunds"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider AST: set-approval-for-all-can-be-called-by-anyone"
+help: "Unauthorized ERC-721/1155 token approvals can result in loss of funds"
+wiki_title: "Unauthorized ERC-721/1155 token approvals can result in loss of funds"
+wiki_description: |
+    Contracts can inherit the ERC-721 or ERC-1155 contracts. These contracts must protect their tokens from theft. This query looks for cases where any user can make an unauthorized call to _setApprovalForAll(), which would allow the attacker to become an operator and steal tokens from the NFT owner.
+wiki_exploit_scenario: |
+    Tags [ERC-721, ERC-1155, Access control]: Contracts can inherit the ERC-721 or ERC-1155 contracts. These contracts must protect their tokens from theft. This query looks for cases where any user can make an unauthorized call to _setApprovalFo
+wiki_recommendation: "Apply the access check implied by the Glider query filter."
+contract_name: "UnauthorizedErc7211155TokenApprovalsCanResultInLossOfFunds"
+fn_name_regex: ".*"
+read_var_regex: ".*unauthorized.*"
+required_call_regex: ".*msgsender.*"
+guarded_helper_name: "_onlyOwner"
+vuln_fn_name: "adapterFn"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return unauthorized > 0;"
+state_decl: "uint256 internal unauthorized;"

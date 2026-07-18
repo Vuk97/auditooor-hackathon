@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "cannot-withdraw-tokens-from-all-strategies-in-multistrategyv-x"
+class_name: "CannotWithdrawTokensFromAllStrategiesInMultistrategyvX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-bakerfi-invitational"
+help: |
+    klau5 Finding description and impact When even one third party integrated with MultiStrategyVault is paused, withdrawals become impossible from all Strategies. There is no way to r
+wiki_title: "Cannot withdraw tokens from all strategies in MultiStrategyVault when one third party is paused"
+wiki_description: |
+    klau5 Finding description and impact When even one third party integrated with MultiStrategyVault is paused, withdrawals become impossible from all Strategies. There is no way to remove the paused third party (Strategy). Proof of Concept Third parties integrated with this project can be paused accor
+wiki_exploit_scenario: |
+    Per audit finding: klau5 Finding description and impact When even one third party integrated with MultiStrategyVault is paused, withdrawals become impossible from all Strategies. There is no way to remove the paused thi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CannotWithdrawTokensFromAllStrategiesInMultistrategyvX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalAssets|removeStrategy|totalDeployed).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "totalAssets"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

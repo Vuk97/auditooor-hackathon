@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "lendingpool-getuserdebt-returns-outdated-value-and-can-lead-to-l"
+class_name: "LendingpoolGetuserdebtReturnsOutdatedValueAndCanLeadToL"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57197 (Codehawks/Core Contracts)"
+help: "LendingPool.getUserDebt returns outdated value and can lead to liquidation failure"
+wiki_title: "LendingPool.getUserDebt returns outdated value and can lead to liquidation failure"
+wiki_description: |
+    ## Summary
+    
+    In lending pool, user's debt gets accrued over time. Since `LendingPool.getUserDebt`is a view function, it cannot update reserve state, so fundamentally it will return obsolete value. This might result in liquidation failure from StabilityPool.
+    
+    ## Vulnerability Details
+    
+    ### Root Cause A
+wiki_exploit_scenario: |
+    Per Solodit #57197: ## Summary
+    
+    In lending pool, user's debt gets accrued over time. Since `LendingPool.getUserDebt`is a view function, it cannot update reserve state, so fundamentally it will return obsolete value. This
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LendingpoolGetuserdebtReturnsOutdatedValueAndCanLeadToL"
+solodit_id: "57197"
+solodit_slug: |
+    lendingpoolgetuserdebt-returns-outdated-value-and-can-lead-to-liquidation-failure-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal userdebt;"
+fn_name_regex: ".*(userDebt).*"
+read_var_regex: ".*(userDebt).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "userDebt"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return userdebt > 0;"

@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "temporary-failed-l1-to-l2-token-transfers-might-lock-tokens-in-l"
+class_name: "TemporaryFailedL1ToL2TokenTransfersMightLockTokensInL"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40343 (Cantina/Wonderland)"
+help: |
+    Temporary failed L1 to L2 token transfers might lock tokens in L1 if replayed after migrating to native USDC
+wiki_title: |
+    Temporary failed L1 to L2 token transfers might lock tokens in L1 if replayed after migrating to native USDC 
+wiki_description: |
+    ## L2OpUSDCBridgeAdapter Overview
+    
+    ## Context
+    L2OpUSDCBridgeAdapter.sol#L205
+    
+    ## Description
+    The current system uses a well-known token bridging mechanism, locking tokens on one chain and minting them on the other. The `L2OpUSDCBridgeAdapter` contract is assigned the minter role within the bridged U
+wiki_exploit_scenario: |
+    Per Solodit #40343: ## L2OpUSDCBridgeAdapter Overview
+    
+    ## Context
+    L2OpUSDCBridgeAdapter.sol#L205
+    
+    ## Description
+    The current system uses a well-known token bridging mechanism, locking tokens on one chain and minting them
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TemporaryFailedL1ToL2TokenTransfersMightLockTokensInL"
+solodit_id: "40343"
+solodit_slug: |
+    temporary-failed-l1-to-l2-token-transfers-might-lock-tokens-in-l1-if-replayed-after-migrating-to-native-usdc-cantina-none-wonderland-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ismessagingdisabled;"
+fn_name_regex: ".*(L2OpUSDCBridgeAdapter|L1OpUSDCBridgeAdapter|isMessagingDisabled|Active).*"
+read_var_regex: ".*(isMessagingDisabled|messengerStatus|receiveMigrateToNative).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "L2OpUSDCBridgeAdapter"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ismessagingdisabled > 0;"

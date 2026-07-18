@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-18-reentrancy-attack-possible-on-rootbridgeagent-retrysettleme"
+class_name: "H18ReentrancyAttackPossibleOnRootbridgeagentRetrysettleme"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26052 (Code4rena/Maia DAO Ecosystem)"
+help: |
+    [H-18] Reentrancy attack possible on `RootBridgeAgent.retrySettlement()` with missing access control for `RootBridgeAgentFactory.createBridgeAgent()`
+wiki_title: |
+    [H-18] Reentrancy attack possible on `RootBridgeAgent.retrySettlement()` with missing access control for `RootBridgeAgentFactory.createBridgeAgent()`
+wiki_description: |
+    `RootBridgeAgent.retrySettlement()` is lacking a `lock` modifier to prevent reentrancy and `RootBridgeAgentFactory.createBridgeAgent()` is missing access control. Both issues combined allow anyone to re-enter `retrySettlement()` and trigger the same settlement repeatedly.
+    
+    ### Impact
+    
+    An attacker c
+wiki_exploit_scenario: |
+    Per Solodit #26052: `RootBridgeAgent.retrySettlement()` is lacking a `lock` modifier to prevent reentrancy and `RootBridgeAgentFactory.createBridgeAgent()` is missing access control. Both issues combined allow anyone to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H18ReentrancyAttackPossibleOnRootbridgeagentRetrysettleme"
+solodit_id: "26052"
+solodit_slug: |
+    h-18-reentrancy-attack-possible-on-rootbridgeagentretrysettlement-with-missing-access-control-for-rootbridgeagentfactorycreatebridgeagent-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal createbridgeagent;"
+fn_name_regex: ".*(lock|retrySettlement|RootBridgeAgentFactory|createBridgeAgent).*"
+read_var_regex: ".*(createBridgeAgent|lock|retrySettlement).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "lock"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return createbridgeagent > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "out-of-bounds-read-in-getprices"
+class_name: "OutOfBoundsReadInGetprices"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero Core - Zellic Audit Report"
+help: |
+    The __getPrices function uses the MLOAD instruction to read dstNativeAmt from _ada- pterParameters+66 when txType =) 2: if (txType == 2) { uint dstNativeAmt; assembly { dstNativeAm
+wiki_title: "Out-of-bounds read in __getPrices"
+wiki_description: |
+    The __getPrices function uses the MLOAD instruction to read dstNativeAmt from _ada- pterParameters+66 when txType =) 2: if (txType == 2) { uint dstNativeAmt; assembly { dstNativeAmt :) mload(add(_adapterParameters, 66)) } require(dstConfig.dstNativeAmtCap >) dstNativeAmt, “Relayer: dstNativeAmt too
+wiki_exploit_scenario: |
+    Per audit finding: The __getPrices function uses the MLOAD instruction to read dstNativeAmt from _ada- pterParameters+66 when txType =) 2: if (txType == 2) { uint dstNativeAmt; assembly { dstNativeAmt :) mload(add(_adap
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OutOfBoundsReadInGetprices"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(dstNativeAmt|pterParameters|txType).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "dstNativeAmt"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

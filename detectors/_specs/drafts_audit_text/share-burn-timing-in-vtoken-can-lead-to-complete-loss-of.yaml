@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "share-burn-timing-in-vtoken-can-lead-to-complete-loss-of"
+class_name: "ShareBurnTimingInVtokenCanLeadToCompleteLossOf"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Voyage - Zellic Audit Report"
+help: |
+    In general, the ERC4626 vault uses the current ratio of total shares to total assets for pricing conversion from assets to shares for deposits and conversions from shares to assets
+wiki_title: "Share burn timing in Vtoken can lead to complete loss of"
+wiki_description: |
+    In general, the ERC4626 vault uses the current ratio of total shares to total assets for pricing conversion from assets to shares for deposits and conversions from shares to assets for withdrawals. The VToken vault in Voyage implements a novel two-step withdrawal process. Users first call withdraw(…
+wiki_exploit_scenario: |
+    Per audit finding: In general, the ERC4626 vault uses the current ratio of total shares to total assets for pricing conversion from assets to shares for deposits and conversions from shares to assets for withdrawals. Th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ShareBurnTimingInVtokenCanLeadToCompleteLossOf"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(pushWithdraw|totalUnbonding|previewWithdraw).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "pushWithdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

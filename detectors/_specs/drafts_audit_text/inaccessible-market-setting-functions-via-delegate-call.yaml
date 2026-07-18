@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "inaccessible-market-setting-functions-via-delegate-call"
+class_name: "InaccessibleMarketSettingFunctionsViaDelegateCall"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit GTE Perps - Zellic Audit Report"
+help: |
+    The setMaxLimitsPerTx, setMaxLimitsExempt, and setMinLimitOrderAmountInBase functions in PerpCLOB are designed to be called via the delegate call to modify the PerpBook's MarketSet
+wiki_title: "Inaccessible market-setting functions via delegate call"
+wiki_description: |
+    The setMaxLimitsPerTx, setMaxLimitsExempt, and setMinLimitOrderAmountInBase functions in PerpCLOB are designed to be called via the delegate call to modify the PerpBook's MarketSettings. However, the PerpCLOBCaller contract does not implement wrapper functions to delegate these calls, making them in
+wiki_exploit_scenario: |
+    Per audit finding: The setMaxLimitsPerTx, setMaxLimitsExempt, and setMinLimitOrderAmountInBase functions in PerpCLOB are designed to be called via the delegate call to modify the PerpBook's MarketSettings. However, the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InaccessibleMarketSettingFunctionsViaDelegateCall"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setMaxLimitsPerTx|setMaxLimitsExempt|setMinLimitOrderAmountInBase).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setMaxLimitsPerTx"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

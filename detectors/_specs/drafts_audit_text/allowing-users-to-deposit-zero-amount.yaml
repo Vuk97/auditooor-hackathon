@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "allowing-users-to-deposit-zero-amount"
+class_name: "AllowingUsersToDepositZeroAmount"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Hydrogen Labs Rover - Zellic Audit Report"
+help: |
+    In StakeManager, the depositBTC function is used to deposit users' funds. However, this function does not check if msg.value is zero. So, a user could call this function with zero
+wiki_title: "Allowing users to deposit zero amount"
+wiki_description: |
+    In StakeManager, the depositBTC function is used to deposit users' funds. However, this function does not check if msg.value is zero. So, a user could call this function with zero amount of msg.value.
+wiki_exploit_scenario: |
+    Per audit finding: In StakeManager, the depositBTC function is used to deposit users' funds. However, this function does not check if msg.value is zero. So, a user could call this function with zero amount of msg.value.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AllowingUsersToDepositZeroAmount"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositBTC).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "depositBTC"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

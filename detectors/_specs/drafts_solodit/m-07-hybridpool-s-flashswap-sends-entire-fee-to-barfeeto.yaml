@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-07-hybridpool-s-flashswap-sends-entire-fee-to-barfeeto"
+class_name: "M07HybridpoolSFlashswapSendsEntireFeeToBarfeeto"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24648 (Code4rena/Sushi)"
+help: "[M-07] `HybridPool`'s `flashSwap` sends entire fee to `barFeeTo`"
+wiki_title: "[M-07] `HybridPool`'s `flashSwap` sends entire fee to `barFeeTo`"
+wiki_description: |
+    _Submitted by cmichel, also found by 0xsanson_
+    
+    The `HybridPool.flashSwap` function sends the entire trade fees `fee` to the `barFeeTo`.
+    It should only send `barFee * fee` to the `barFeeTo` address.
+    
+    #### Impact
+    LPs are not getting paid at all when this function is used.
+    There is no incentive to pro
+wiki_exploit_scenario: |
+    Per Solodit #24648: _Submitted by cmichel, also found by 0xsanson_
+    
+    The `HybridPool.flashSwap` function sends the entire trade fees `fee` to the `barFeeTo`.
+    It should only send `barFee * fee` to the `barFeeTo` address.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07HybridpoolSFlashswapSendsEntireFeeToBarfeeto"
+solodit_id: "24648"
+solodit_slug: "m-07-hybridpools-flashswap-sends-entire-fee-to-barfeeto-code4rena-sushi-sushi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal barfeeto;"
+fn_name_regex: ".*(fee|barFeeTo|flashSwap|swap).*"
+read_var_regex: ".*(barFeeTo|fee|flashSwap).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "fee"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return barfeeto > 0;"

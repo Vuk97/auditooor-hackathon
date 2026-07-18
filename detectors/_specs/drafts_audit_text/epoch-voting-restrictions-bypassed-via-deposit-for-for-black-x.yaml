@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "epoch-voting-restrictions-bypassed-via-deposit-for-for-black-x"
+class_name: "EpochVotingRestrictionsBypassedViaDepositForForBlackX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-05-blackhole"
+help: |
+    rayss Finding description and impact The vote function in VoterV3.sol restricts voting after the epoch ends, allowing only whitelisted tokenIds (NFTs) or those meeting specific con
+wiki_title: "Epoch voting restrictions bypassed via deposit_for() for blacklisted/non-whitelisted tokenID s"
+wiki_description: |
+    rayss Finding description and impact The vote function in VoterV3.sol restricts voting after the epoch ends, allowing only whitelisted tokenIds (NFTs) or those meeting specific conditions (i.e., IAutoVotingEscrowManager(avm).tokenIdToAVMId(_tokenId) == 0 ) to continue voting. However, this restricti
+wiki_exploit_scenario: |
+    Per audit finding: rayss Finding description and impact The vote function in VoterV3.sol restricts voting after the epoch ends, allowing only whitelisted tokenIds (NFTs) or those meeting specific conditions (i.e., IAuto
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EpochVotingRestrictionsBypassedViaDepositForForBlackX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(tokenIds|tokenIdToAVMId|balanceOfNFT).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "tokenIds"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

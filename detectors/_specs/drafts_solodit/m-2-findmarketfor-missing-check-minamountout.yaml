@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "m-2-findmarketfor-missing-check-minamountout"
+class_name: "M2FindmarketforMissingCheckMinamountout"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3526 (Sherlock/Bond Protocol)"
+help: "M-2: findMarketFor() missing check minAmountOut_"
+wiki_title: "M-2: findMarketFor() missing check minAmountOut_"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-11-bond-judging/issues/38 
+    
+    ## Found by 
+    bin2chen
+    
+    ## Summary
+    BondAggregator#findMarketFor() minAmountOut_ does not actually take effect，may return a market's "payout" smaller than minAmountOut_ , Causes users to waste gas calls to purchase
+    
+    ## Vulnerab
+wiki_exploit_scenario: |
+    Per Solodit #3526: Source: https://github.com/sherlock-audit/2022-11-bond-judging/issues/38 
+    
+    ## Found by 
+    bin2chen
+    
+    ## Summary
+    BondAggregator#findMarketFor() minAmountOut_ does not actually take effect，may return a mar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2FindmarketforMissingCheckMinamountout"
+solodit_id: "3526"
+solodit_slug: "m-2-findmarketfor-missing-check-minamountout_-sherlock-bond-bond-protocol-git"
+solodit_quality: "3"
+solodit_rarity: "4"
+solodit_tags: "MinOut/MaxIn Validation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(findMarketFor|maxPayout|payoutFor|highestOut).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "findMarketFor"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

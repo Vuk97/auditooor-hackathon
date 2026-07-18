@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "h-11-rubiconmarket-checks-slippage-incorrectly"
+class_name: "H11RubiconmarketChecksSlippageIncorrectly"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #48950 (Code4rena/Rubicon)"
+help: "[H-11] `RubiconMarket` checks slippage incorrectly"
+wiki_title: "[H-11] `RubiconMarket` checks slippage incorrectly"
+wiki_description: |
+    `RubiconMarket` checks slippage incorrectly, user can loose funds because of that.
+    
+    ### Proof of Concept
+    
+    `RubiconMarket.sellAllAmount` function has price protection. User should provide `min_fill_amount` param to that function in order to limit minimum amount they would like to receive.
+    <br><https
+wiki_exploit_scenario: |
+    Per Solodit #48950: `RubiconMarket` checks slippage incorrectly, user can loose funds because of that.
+    
+    ### Proof of Concept
+    
+    `RubiconMarket.sellAllAmount` function has price protection. User should provide `min_fill_am
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H11RubiconmarketChecksSlippageIncorrectly"
+solodit_id: "48950"
+solodit_slug: "h-11-rubiconmarket-checks-slippage-incorrectly-code4rena-rubicon-rubicon-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(min_fill_amount).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

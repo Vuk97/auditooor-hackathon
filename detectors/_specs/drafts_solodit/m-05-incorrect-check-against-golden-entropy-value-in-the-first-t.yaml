@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "m-05-incorrect-check-against-golden-entropy-value-in-the-first-t"
+class_name: "M05IncorrectCheckAgainstGoldenEntropyValueInTheFirstT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37925 (Code4rena/TraitForge)"
+help: "[M-05] Incorrect check against golden entropy value in the first two batches"
+wiki_title: "[M-05] Incorrect check against golden entropy value in the first two batches"
+wiki_description: |
+    Entropy is stored in `uint256` slots, with each slot able to contain 13 concatenated entropies. Entropies are generated in three passes, and there is a *golden entropy* value `999999` that should not be generated in the first two passes, [as specified in the documentation](https://github.com/TraitF
+wiki_exploit_scenario: |
+    Per Solodit #37925: Entropy is stored in `uint256` slots, with each slot able to contain 13 concatenated entropies. Entropies are generated in three passes, and there is a *golden entropy* value `999999` that should not
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05IncorrectCheckAgainstGoldenEntropyValueInTheFirstT"
+solodit_id: "37925"
+solodit_slug: |
+    m-05-incorrect-check-against-golden-entropy-value-in-the-first-two-batches-code4rena-traitforge-traitforge-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal writeentropybatch1;"
+fn_name_regex: ".*(writeEntropyBatch1|writeEntropyBatch2).*"
+write_var_regex: ".*(writeEntropyBatch1|writeEntropyBatch2).*"
+guard_var_regex: ".*(writeEntropyBatch1|writeEntropyBatch2).*"
+vuln_fn_name: "writeEntropyBatch1"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "writeentropybatch1 = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

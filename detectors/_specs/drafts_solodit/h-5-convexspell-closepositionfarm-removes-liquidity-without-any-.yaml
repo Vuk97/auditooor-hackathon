@@ -1,0 +1,45 @@
+skeleton: "paired_function_divergence"
+name: "h-5-convexspell-closepositionfarm-removes-liquidity-without-any-"
+class_name: "H5ConvexspellClosepositionfarmRemovesLiquidityWithoutAny"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18485 (Sherlock/Blueberry Update)"
+help: "H-5: ConvexSpell#closePositionFarm removes liquidity without any slippage protection"
+wiki_title: "H-5: ConvexSpell#closePositionFarm removes liquidity without any slippage protection"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-04-blueberry-judging/issues/124 
+    
+    ## Found by 
+    0x52, Breeje, Ch\_301, n1punp
+    ## Summary
+    
+    ConvexSpell#closePositionFarm removes liquidity without any slippage protection allowing withdraws to be sandwiched and stolen. Curve liquidity has historically bee
+wiki_exploit_scenario: |
+    Per Solodit #18485: Source: https://github.com/sherlock-audit/2023-04-blueberry-judging/issues/124 
+    
+    ## Found by 
+    0x52, Breeje, Ch\_301, n1punp
+    ## Summary
+    
+    ConvexSpell#closePositionFarm removes liquidity without any slip
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H5ConvexspellClosepositionfarmRemovesLiquidityWithoutAny"
+solodit_id: "18485"
+solodit_slug: |
+    h-5-convexspellclosepositionfarm-removes-liquidity-without-any-slippage-protection-sherlock-none-blueberry-update-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Slippage, Sandwich Attack, Flash Loan"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

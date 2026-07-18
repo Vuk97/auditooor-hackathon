@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "pendingltv-asset-will-be-set-to-0-if-2-consecutive-calls-to-setr"
+class_name: "PendingltvAssetWillBeSetTo0If2ConsecutiveCallsToSetr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40503 (Cantina/AAVE)"
+help: |
+    _pendingltv[asset] will be set to 0 if 2 consecutive calls to setreservefreeze(asset, true) are executed
+wiki_title: |
+    _pendingltv[asset] will be set to 0 if 2 consecutive calls to setreservefreeze(asset, true) are executed 
+wiki_description: |
+    ## Context
+    **File:** PoolConfigurator.sol  
+    **Line:** 228  
+    
+    ## Description
+    The function `setReserveFreeze()` was modified in this 3.1 update to set LTV to 0 on freeze, or revert to the previous value in case of unfreezing:
+    
+    ```solidity
+    function setReserveFreeze(
+        address asset,
+        bool freeze
+    )
+wiki_exploit_scenario: |
+    Per Solodit #40503: ## Context
+    **File:** PoolConfigurator.sol  
+    **Line:** 228  
+    
+    ## Description
+    The function `setReserveFreeze()` was modified in this 3.1 update to set LTV to 0 on freeze, or revert to the previous value
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PendingltvAssetWillBeSetTo0If2ConsecutiveCallsToSetr"
+solodit_id: "40503"
+solodit_slug: |
+    pendingltvasset-will-be-set-to-0-if-2-consecutive-calls-to-setreservefreezeasset-true-are-executed-cantina-none-aave-pdf
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal onlyriskorpooloremergencyadmins;"
+fn_name_regex: ".*(setReserveFreeze|onlyRiskOrPoolOrEmergencyAdmins).*"
+read_var_regex: ".*(onlyRiskOrPoolOrEmergencyAdmins|setReserveFreeze).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setReserveFreeze"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return onlyriskorpooloremergencyadmins > 0;"

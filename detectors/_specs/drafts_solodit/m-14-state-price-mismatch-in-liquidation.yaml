@@ -1,0 +1,34 @@
+skeleton: "state_write_without_paired_write"
+name: "m-14-state-price-mismatch-in-liquidation"
+class_name: "M14StatePriceMismatchInLiquidation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65041 (Code4rena/Panoptic)"
+help: "[M-14] State-price mismatch in liquidation"
+wiki_title: "[M-14] State-price mismatch in liquidation"
+wiki_description: |
+    In `PanopticPool._liquidate`, the protocol evaluates the liquidatee’s collateral and debt to determine the liquidation bonus and potential protocol loss. However, there is a fundamental accounting mismatch in how these values are calculated:
+    
+    **1. Stale asset valuation**:
+    
+    When a liquidator calls
+wiki_exploit_scenario: |
+    Per Solodit #65041: In `PanopticPool._liquidate`, the protocol evaluates the liquidatee’s collateral and debt to determine the liquidation bonus and potential protocol loss. However, there is a fundamental accounting m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14StatePriceMismatchInLiquidation"
+solodit_id: "65041"
+solodit_slug: "m-14-state-price-mismatch-in-liquidation-code4rena-panoptic-panoptic-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getMargin|RiskEngine|assetsAndInterest|CollateralTracker).*"
+primary_var_regex: ".*(assetsAndInterest|convertToAssets|getMargin).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

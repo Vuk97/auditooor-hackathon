@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "erroneous-check-for-max-taker-orders"
+class_name: "ErroneousCheckForMaxTakerOrders"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Tristero - Zellic Audit Report"
+help: |
+    The following line of code is the check in the placeTaker function that ensures the maximum number of open taker orders is not exceeded: require((selected_pair.index.taker_tail-sel
+wiki_title: "Erroneous check for max taker orders"
+wiki_description: |
+    The following line of code is the check in the placeTaker function that ensures the maximum number of open taker orders is not exceeded: require((selected_pair.index.taker_tail-selected_pair.index.taker_head) < max_orders, ”!takerStack”); However, the distance between indexes of the head and tail of
+wiki_exploit_scenario: |
+    Per audit finding: The following line of code is the check in the placeTaker function that ensures the maximum number of open taker orders is not exceeded: require((selected_pair.index.taker_tail-selected_pair.index.tak
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ErroneousCheckForMaxTakerOrders"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(placeTaker|takerStack).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "placeTaker"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

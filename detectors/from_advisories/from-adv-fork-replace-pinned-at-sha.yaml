@@ -1,0 +1,21 @@
+pattern: from-adv-fork-replace-pinned-at-sha
+source: advisory-seed-corpus/fork_replace_pinned_at_sha
+severity: HIGH
+confidence: MEDIUM
+backend: regex
+tags: [fork-divergence-missing-upstream-fix]
+
+# CLASS-LEVEL mechanism detector auto-derived from 2 advisory seed(s).
+# Mechanism matched, not any instance. Anti-overfit verified by advisory-seed-to-dsl.py.
+# advisory: cometbft/cometbft #5757/#5753/#5711/#5629/#5718 (silently-shipped blocksync hardening, no GHSA) | fork-pin 904204b11c9e 
+# advisory: cosmos/ibc-go 120/125 commits behind v8.5.x/v8.6.x; 5 missing patches touch wired modules | fork-pin 8733b3edf43a (dydxp
+
+preconditions: []
+
+match:
+  - file.glob: go.mod
+  - file.body_contains_regex: "replace\\s+[\\w./-]+\\s*=>\\s*github\\.com/[\\w-]+/[\\w.-]+\\s+v[\\w.+-]*?[0-9a-f]{12}\\b"
+
+help: "go.mod pins a forked upstream at a frozen pseudo-version (date-SHA). If the fork HEAD == audit-pin, upstream security fixes shipped after the pin are not backported - fork-divergence. Triage: diff fork vs upstream since merge-base for fix/panic/consensus/cve/dos/overflow/nil/race commits absent from the fork."
+wiki_title: "Fork Replace Pinned At Sha"
+wiki_description: "go.mod pins a forked upstream at a frozen pseudo-version (date-SHA). If the fork HEAD == audit-pin, upstream security fixes shipped after the pin are not backported - fork-divergence. Triage: diff fork vs upstream since merge-base for fix/panic/consensus/cve/dos/overflow/nil/race commits absent from the fork."

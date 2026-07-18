@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_call"
+name: "c-01-incorrect-variable-used-when-calculating-supply"
+class_name: "C01IncorrectVariableUsedWhenCalculatingSupply"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36336 (Pashov Audit Group/Lucidly)"
+help: "[C-01] Incorrect variable used when calculating supply"
+wiki_title: "[C-01] Incorrect variable used when calculating supply"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    When calculating the intermediate `_r` in the `_calculateSupply` function in the pool contract, the function uses the following logic.
+    
+    ```solidity
+    _r = FixedPointMathLib.rawDiv(
+        FixedPointMathLib.rawMul(_s, _sp), _s);
+        //
+wiki_exploit_scenario: |
+    Per Solodit #36336: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    When calculating the intermediate `_r` in the `_calculateSupply` function in the pool contract, the function uses the following l
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01IncorrectVariableUsedWhenCalculatingSupply"
+solodit_id: "36336"
+solodit_slug: "c-01-incorrect-variable-used-when-calculating-supply-pashov-audit-group-none-lucidly-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rawDiv|rawMul|yETH).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rawDiv"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

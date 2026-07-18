@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "markets-entered-automatically-can-be-exited"
+class_name: "MarketsEnteredAutomaticallyCanBeExited"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Takara Lend Contracts - Zellic Audit Report"
+help: |
+    In the Comptroller contract, enterAllMarkets is a newly added function that enters all of the non- deprecated markets upon request from a TToken contract: function enterAllMarkets(
+wiki_title: "Markets entered automatically can be exited"
+wiki_description: |
+    In the Comptroller contract, enterAllMarkets is a newly added function that enters all of the non- deprecated markets upon request from a TToken contract: function enterAllMarkets(address account) public override returns (uint256[] memory) { address[] memory assetsAddresses = new address[](allMarket
+wiki_exploit_scenario: |
+    Per audit finding: In the Comptroller contract, enterAllMarkets is a newly added function that enters all of the non- deprecated markets upon request from a TToken contract: function enterAllMarkets(address account) pub
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MarketsEnteredAutomaticallyCanBeExited"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(enterAllMarkets|assetsAddresses|allMarkets).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "enterAllMarkets"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

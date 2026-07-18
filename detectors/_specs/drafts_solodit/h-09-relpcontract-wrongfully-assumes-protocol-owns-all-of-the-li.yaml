@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "h-09-relpcontract-wrongfully-assumes-protocol-owns-all-of-the-li"
+class_name: "H09RelpcontractWrongfullyAssumesProtocolOwnsAllOfTheLi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29462 (Code4rena/Dopex)"
+help: "[H-09] `ReLPContract` wrongfully assumes protocol owns all of the liquidity in the UniswapV2 pool"
+wiki_title: "[H-09] `ReLPContract` wrongfully assumes protocol owns all of the liquidity in the UniswapV2 pool"
+wiki_description: |
+    Possible full DoS for `ReLPContract`
+    
+    ### Proof of Concept
+    
+    When taking out a `bond` in `RdpxV2Core` if `isReLPActive == true`, a call to `ReLPContract#reLP` is made which 're-LPs the pool\` (takes out an amount of RDPX, while still perfectly maintaining the token ratio of the pool).
+    
+    ```solidity
+wiki_exploit_scenario: |
+    Per Solodit #29462: Possible full DoS for `ReLPContract`
+    
+    ### Proof of Concept
+    
+    When taking out a `bond` in `RdpxV2Core` if `isReLPActive == true`, a call to `ReLPContract#reLP` is made which 're-LPs the pool\` (takes o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H09RelpcontractWrongfullyAssumesProtocolOwnsAllOfTheLi"
+solodit_id: "29462"
+solodit_slug: |
+    h-09-relpcontract-wrongfully-assumes-protocol-owns-all-of-the-liquidity-in-the-uniswapv2-pool-code4rena-dopex-dopex-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(bond|lpToRemove).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

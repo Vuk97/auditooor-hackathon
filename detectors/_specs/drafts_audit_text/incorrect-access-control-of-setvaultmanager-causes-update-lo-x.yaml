@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-access-control-of-setvaultmanager-causes-update-lo-x"
+class_name: "IncorrectAccessControlOfSetvaultmanagerCausesUpdateLoX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    The setVaultManager function is used in VeTranche to update the address of the vault manager contract: function setVaultManager(address _vaultManager) external onlyManager { requir
+wiki_title: "Incorrect access control of setVaultManager causes update lockout"
+wiki_description: |
+    The setVaultManager function is used in VeTranche to update the address of the vault manager contract: function setVaultManager(address _vaultManager) external onlyManager { require(_vaultManager != address(0), "ADDRESS_INVALID"); vaultManager = IVaultManager(_vaultManager); } This function is onlyM
+wiki_exploit_scenario: |
+    Per audit finding: The setVaultManager function is used in VeTranche to update the address of the vault manager contract: function setVaultManager(address _vaultManager) external onlyManager { require(_vaultManager != a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectAccessControlOfSetvaultmanagerCausesUpdateLoX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setVaultManager|onlyManager|vaultManager).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setVaultManager"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "error-in-condition"
+class_name: "ErrorInCondition"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #55914 (Zokyo/Ellufa)"
+help: "Error in condition"
+wiki_title: "Error in condition"
+wiki_description: |
+    **Description**
+    updateTokenShares(uint8), line 615
+    Condition “_value >= 0” contains a mistake - it should be “_value > 0”, because uint8 is an
+    unsigned type and the purpose of the condition is to prevent 0 amount transactions.
+    **Recommendation**:
+    Correct the condition.
+wiki_exploit_scenario: |
+    Per Solodit #55914: **Description**
+    updateTokenShares(uint8), line 615
+    Condition “_value >= 0” contains a mistake - it should be “_value > 0”, because uint8 is an
+    unsigned type and the purpose of the condition is to prev
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ErrorInCondition"
+solodit_id: "55914"
+solodit_slug: "error-in-condition-zokyo-none-ellufa-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateTokenShares).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateTokenShares"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

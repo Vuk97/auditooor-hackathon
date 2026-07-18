@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "unsafe-token-transfers-in-vaultv3-can-lead-to-state-inconsistenc"
+class_name: "UnsafeTokenTransfersInVaultv3CanLeadToStateInconsistenc"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49410 (Cyfrin/D)"
+help: "Unsafe token transfers in `VaultV3` can lead to state inconsistencies"
+wiki_title: "Unsafe token transfers in `VaultV3` can lead to state inconsistencies"
+wiki_description: |
+    **Description:** The `VaultV3` contract doesn't validate the success of token transfers in both `custodyFunds()` and `returnFunds()` functions. State changes occur before or regardless of transfer success, which can lead to vault state inconsistencies.
+    
+    ```solidity
+    function custodyFunds() external o
+wiki_exploit_scenario: |
+    Per Solodit #49410: **Description:** The `VaultV3` contract doesn't validate the success of token transfers in both `custodyFunds()` and `returnFunds()` functions. State changes occur before or regardless of transfer suc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnsafeTokenTransfersInVaultv3CanLeadToStateInconsistenc"
+solodit_id: "49410"
+solodit_slug: "unsafe-token-transfers-in-vaultv3-can-lead-to-state-inconsistencies-cyfrin-none-d-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal custodyfunds;"
+fn_name_regex: ".*(VaultV3|custodyFunds|returnFunds).*"
+write_var_regex: ".*(custodyFunds|returnFunds).*"
+guard_var_regex: ".*(custodyFunds|returnFunds).*"
+vuln_fn_name: "VaultV3"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "custodyfunds = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

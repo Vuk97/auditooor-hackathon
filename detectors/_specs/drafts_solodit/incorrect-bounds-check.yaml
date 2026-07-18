@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-bounds-check"
+class_name: "IncorrectBoundsCheck"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #47357 (OtterSec/Stargate V2)"
+help: "Incorrect Bounds Check"
+wiki_title: "Incorrect Bounds Check"
+wiki_description: |
+    ## BusLib::ride Capacity Check
+    
+    Within `BusLib::ride`, a check exists to verify if a bus is at full capacity before permitting a passenger to board. However, the condition employed for this assessment is `ticketId - _bus.headTicketId >= _busCapacity`. This condition examines whether the disparity be
+wiki_exploit_scenario: |
+    Per Solodit #47357: ## BusLib::ride Capacity Check
+    
+    Within `BusLib::ride`, a check exists to verify if a bus is at full capacity before permitting a passenger to board. However, the condition employed for this assessment
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectBoundsCheck"
+solodit_id: "47357"
+solodit_slug: "incorrect-bounds-check-ottersec-none-stargate-v2-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal checktickets;"
+fn_name_regex: ".*(ticketId|headTicketId|ride|hashChain).*"
+read_var_regex: ".*(checkTickets|hashChain|headTicketId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ticketId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return checktickets > 0;"

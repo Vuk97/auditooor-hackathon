@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "wrong-nullifier-computation-73"
+class_name: "WrongNullifierComputation73"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Singularity - Zellic Audit Report"
+help: |
+    The DarkpoolAssetManager’s joinSplit, join, and swap functions each invalidate two input notes by marking the respective nullifiers as used, preventing them from being spent a seco
+wiki_title: "Wrong nullifier computation                                                      73"
+wiki_description: |
+    The DarkpoolAssetManager’s joinSplit, join, and swap functions each invalidate two input notes by marking the respective nullifiers as used, preventing them from being spent a second time later. However, it is not ensured that the two nullifiers that are invalidated are distinct. Take the example of
+wiki_exploit_scenario: |
+    Per audit finding: The DarkpoolAssetManager’s joinSplit, join, and swap functions each invalidate two input notes by marking the respective nullifiers as used, preventing them from being spent a second time later. Howev
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrongNullifierComputation73"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(joinSplit|noteIsNotCreated|nullifierIsNotUsed).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "joinSplit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

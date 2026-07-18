@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-04-an-edge-case-in-amplifier-allows-user-to-stake-after-end-ti"
+class_name: "M04AnEdgeCaseInAmplifierAllowsUserToStakeAfterEndTi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16044 (Code4rena/Mute.io)"
+help: |
+    [M-04] An edge case in amplifier allows user to stake after end time, causing reward to be locked in the contract
+wiki_title: |
+    [M-04] An edge case in amplifier allows user to stake after end time, causing reward to be locked in the contract
+wiki_description: |
+    Observe that if nobody has staked after the period has ended, it's still possible for a single user to stake even though the period has ended.<br>
+    <https://github.com/code-423n4/2023-03-mute/blob/main/contracts/amplifier/MuteAmplifier.sol#L208-L212>
+    
+                if (firstStakeTime == 0) {
+wiki_exploit_scenario: |
+    Per Solodit #16044: Observe that if nobody has staked after the period has ended, it's still possible for a single user to stake even though the period has ended.<br>
+    <https://github.com/code-423n4/2023-03-mute/blob/mai
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04AnEdgeCaseInAmplifierAllowsUserToStakeAfterEndTi"
+solodit_id: "16044"
+solodit_slug: |
+    m-04-an-edge-case-in-amplifier-allows-user-to-stake-after-end-time-causing-reward-to-be-locked-in-the-contract-code4rena-muteio-mute-switch-versus-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(firstStakeTime|endTime|totalCurrentStake|totalStake).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "firstStakeTime"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "h-01-incorrect-user-accounting-in-withdraw-method"
+class_name: "H01IncorrectUserAccountingInWithdrawMethod"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19123 (Pashov Audit Group/Yield Ninja)"
+help: "[H-01] Incorrect user accounting in `withdraw` method"
+wiki_title: "[H-01] Incorrect user accounting in `withdraw` method"
+wiki_description: |
+    **Proof of Concept**
+    
+    The `withdraw` method in `NYProfitTakingVaultBaseV1` does incorrect user accounting in the following line:
+    
+    ```solidity
+    user.amount = user.amount - _shares;
+    ```
+    
+    In the `deposit` method we use the `user.amount` to store the amount of `underlying` tokens deposited, but in `withd
+wiki_exploit_scenario: |
+    Per Solodit #19123: **Proof of Concept**
+    
+    The `withdraw` method in `NYProfitTakingVaultBaseV1` does incorrect user accounting in the following line:
+    
+    ```solidity
+    user.amount = user.amount - _shares;
+    ```
+    
+    In the `deposit`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01IncorrectUserAccountingInWithdrawMethod"
+solodit_id: "19123"
+solodit_slug: "h-01-incorrect-user-accounting-in-withdraw-method-pashov-none-yield-ninja-markdown_"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(withdraw|NYProfitTakingVaultBaseV1|deposit|underlying).*"
+read_var_regex: ".*(deposit|shares|underlying).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposit > 0;"

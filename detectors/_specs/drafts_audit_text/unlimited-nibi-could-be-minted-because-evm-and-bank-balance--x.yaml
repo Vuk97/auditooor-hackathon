@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "unlimited-nibi-could-be-minted-because-evm-and-bank-balance--x"
+class_name: "UnlimitedNibiCouldBeMintedBecauseEvmAndBankBalanceX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-11-nibiru"
+help: |
+    0x007 NibiruBankKeeper.SyncStateDBWithAccount function in bank_extension.go is responsible for synchronizing the EVM state database ( StateDB ) with the corresponding bank account
+wiki_title: "Unlimited Nibi could be minted because evm and bank balance are not synced when staking"
+wiki_description: |
+    0x007 NibiruBankKeeper.SyncStateDBWithAccount function in bank_extension.go is responsible for synchronizing the EVM state database ( StateDB ) with the corresponding bank account balance whenever the balance is updated. However, this function is not invoked by all operations that modify bank balanc
+wiki_exploit_scenario: |
+    Per audit finding: 0x007 NibiruBankKeeper.SyncStateDBWithAccount function in bank_extension.go is responsible for synchronizing the EVM state database ( StateDB ) with the corresponding bank account balance whenever the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnlimitedNibiCouldBeMintedBecauseEvmAndBankBalanceX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(balanceWei|bankKeeper|setBalance).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "balanceWei"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

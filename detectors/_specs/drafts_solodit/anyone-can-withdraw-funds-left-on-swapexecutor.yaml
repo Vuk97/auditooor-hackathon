@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "anyone-can-withdraw-funds-left-on-swapexecutor"
+class_name: "AnyoneCanWithdrawFundsLeftOnSwapexecutor"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27748 (MixBytes/Barter DAO)"
+help: "Anyone can withdraw funds left on `SwapExecutor`"
+wiki_title: "Anyone can withdraw funds left on `SwapExecutor`"
+wiki_description: |
+    ##### Description
+    
+    Funds left on the `SwapExecutor` can be withdrawn by anyone who specifies a transfer call in the swaps.
+    
+    There are multiple reasons why funds may be left on the `SwapExecutor`:
+    1. A user may not set the `tokenRatio` to 100% in a swap.
+    
+    ```
+    uint256 poolSwapAmount = (balanceToSwap *
+wiki_exploit_scenario: |
+    Per Solodit #27748: ##### Description
+    
+    Funds left on the `SwapExecutor` can be withdrawn by anyone who specifies a transfer call in the swaps.
+    
+    There are multiple reasons why funds may be left on the `SwapExecutor`:
+    1. A
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyoneCanWithdrawFundsLeftOnSwapexecutor"
+solodit_id: "27748"
+solodit_slug: "anyone-can-withdraw-funds-left-on-swapexecutor-mixbytes-none-barter-dao-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal tokenratio;"
+fn_name_regex: ".*(SwapExecutor|tokenRatio|SwapFacade|tokenToTransfer).*"
+read_var_regex: ".*(tokenRatio|tokenToTransfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SwapExecutor"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tokenratio > 0;"

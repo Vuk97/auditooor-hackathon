@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "renouncing-ownership-may-leave-vault-and-fee-calculator-in-an-un"
+class_name: "RenouncingOwnershipMayLeaveVaultAndFeeCalculatorInAnUn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58299 (Spearbit/Aera Contracts v3)"
+help: "Renouncing Ownership May Leave Vault and Fee Calculator in an Unmanageable State"
+wiki_title: "Renouncing Ownership May Leave Vault and Fee Calculator in an Unmanageable State"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    (No context files were provided by the reviewers)
+    
+    ## Description
+    The current design allows ownership of `MultiDepositorVault` (and possibly `FeeVault`) to be renounced using the inherited `renounceOwnership()` function from `Auth2Step`. This was previously a val
+wiki_exploit_scenario: |
+    Per Solodit #58299: ## Severity: Medium Risk
+    
+    ## Context
+    (No context files were provided by the reviewers)
+    
+    ## Description
+    The current design allows ownership of `MultiDepositorVault` (and possibly `FeeVault`) to be reno
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RenouncingOwnershipMayLeaveVaultAndFeeCalculatorInAnUn"
+solodit_id: "58299"
+solodit_slug: |
+    renouncing-ownership-may-leave-vault-and-fee-calculator-in-an-unmanageable-state-spearbit-none-aera-contracts-v3-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal canrenounceownership;"
+fn_name_regex: ".*(MultiDepositorVault|FeeVault|renounceOwnership|Auth2Step).*"
+write_var_regex: ".*(canRenounceOwnership|renounce|renounceOwnership).*"
+guard_var_regex: ".*(canRenounceOwnership|renounce|renounceOwnership).*"
+vuln_fn_name: "MultiDepositorVault"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "canrenounceownership = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

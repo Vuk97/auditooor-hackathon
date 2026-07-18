@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "h-01-incorrect-amounts-of-eth-are-transferred-to-the-dao-treasur"
+class_name: "H01IncorrectAmountsOfEthAreTransferredToTheDaoTreasur"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30088 (Code4rena/Collective)"
+help: |
+    [H-01] Incorrect amounts of ETH are transferred to the DAO treasury in `ERC20TokenEmitter::buyToken()`, causing a value leak in every transaction
+wiki_title: |
+    [H-01] Incorrect amounts of ETH are transferred to the DAO treasury in `ERC20TokenEmitter::buyToken()`, causing a value leak in every transaction
+wiki_description: |
+    While users buying governance tokens with `ERC20TokenEmitter::buyToken` function, some portion of the provided ETH is reserved for creators according to the [`creatorRateBps`](https://github.com/code-423n4/2023-12-revolutionprotocol/blob/d42cc62b873a1b2b44f57310f9d4bbfdd875e8d6/packages/revolution/
+wiki_exploit_scenario: |
+    Per Solodit #30088: While users buying governance tokens with `ERC20TokenEmitter::buyToken` function, some portion of the provided ETH is reserved for creators according to the [`creatorRateBps`](https://github.com/code
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01IncorrectAmountsOfEthAreTransferredToTheDaoTreasur"
+solodit_id: "30088"
+solodit_slug: |
+    h-01-incorrect-amounts-of-eth-are-transferred-to-the-dao-treasury-in-erc20tokenemitterbuytoken-causing-a-value-leak-in-every-transaction-code4rena-collective-collective-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal buytoken;"
+fn_name_regex: ".*(creatorRateBps|entropyRateBps|ERC20Emitter|buyToken).*"
+read_var_regex: ".*(buyToken|creatorRateBps|entropyRateBps).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "creatorRateBps"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return buytoken > 0;"

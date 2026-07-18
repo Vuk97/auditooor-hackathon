@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "ability-to-force-tests-to-fail-with-gas-limit"
+class_name: "AbilityToForceTestsToFailWithGasLimit"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Ante - Zellic Audit Report"
+help: |
+    It is possible for attackers to force tests to fails by setting the gas limit to a very specific value to where: • it is low enough that the inner call to checkTestPasses runs out
+wiki_title: "Ability to force tests to fail with gas limit"
+wiki_description: |
+    It is possible for attackers to force tests to fails by setting the gas limit to a very specific value to where: • it is low enough that the inner call to checkTestPasses runs out of gas, but • it is high enough that the outer checkTest/checkTestNoRevert functions finish ex- ecuting. This is possibl
+wiki_exploit_scenario: |
+    Per audit finding: It is possible for attackers to force tests to fails by setting the gas limit to a very specific value to where: • it is low enough that the inner call to checkTestPasses runs out of gas, but • it is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AbilityToForceTestsToFailWithGasLimit"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(checkTestPasses|checkTest|checkTestNoRevert).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "checkTestPasses"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

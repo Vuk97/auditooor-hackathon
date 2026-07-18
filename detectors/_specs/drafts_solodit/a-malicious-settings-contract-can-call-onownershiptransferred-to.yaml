@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "a-malicious-settings-contract-can-call-onownershiptransferred-to"
+class_name: "AMaliciousSettingsContractCanCallOnownershiptransferredTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18289 (Spearbit/Sudoswap LSSVM2)"
+help: "A malicious settings contract can call onOwnershipTransferred() to take over pair"
+wiki_title: "A malicious settings contract can call onOwnershipTransferred() to take over pair"
+wiki_description: |
+    ## Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `StandardSettings.sol#L118-L158`
+    
+    ## Description
+    The function `onOwnershipTransferred()` can be called from a pair via `call()`. This can be done either before `transferOwnership()` or after it. 
+    
+    - If it is called **before** `transferOwnership()`, the settings contract can take over the pair.
+wiki_exploit_scenario: |
+    A malicious settings contract calls `onOwnershipTransferred()` before the pair completes ownership transfer and takes over the pair.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AMaliciousSettingsContractCanCallOnownershiptransferredTo"
+solodit_id: "18289"
+solodit_slug: |
+    a-malicious-settings-contract-can-call-onownershiptransferred-to-take-over-pair-spearbit-sudoswap-lssvm2-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => bool) internal listedPairs;
+        bool internal onOwnershipTransferredHookEnabled;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(call|onOwnershipTransferred|transferOwnership).*"
+forward_fn_name: "addPair"
+inverse_fn_name: "removePair"
+fn_params: "address pair"
+forward_body: "listedPairs[pair] = true; onOwnershipTransferredHookEnabled = true;"
+inverse_body_no_tracker: "delete listedPairs[pair];"
+inverse_body_with_tracker: "delete listedPairs[pair]; onOwnershipTransferredHookEnabled = false;"

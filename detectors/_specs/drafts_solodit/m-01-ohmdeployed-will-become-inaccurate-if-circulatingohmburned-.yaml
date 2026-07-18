@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-01-ohmdeployed-will-become-inaccurate-if-circulatingohmburned-"
+class_name: "M01OhmdeployedWillBecomeInaccurateIfCirculatingohmburned"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18690 (ZachObront/Olympusdao)"
+help: "[M-01] ohmDeployed will become inaccurate if circulatingOhmBurned is used"
+wiki_title: "[M-01] ohmDeployed will become inaccurate if circulatingOhmBurned is used"
+wiki_description: |
+    The OHM deposited to Silo will accure interest over time, which means that the protocol has the potential to withdraw more OHM than is tracked by the `ohmDeployed` value.
+    
+    This is expected, and the Policy performs valid adjustments to account for it:
+    
+    ```solidity
+    if (ohmDeployed < amount_) circulati
+wiki_exploit_scenario: |
+    Per Solodit #18690: The OHM deposited to Silo will accure interest over time, which means that the protocol has the potential to withdraw more OHM than is tracked by the `ohmDeployed` value.
+    
+    This is expected, and the Po
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01OhmdeployedWillBecomeInaccurateIfCirculatingohmburned"
+solodit_id: "18690"
+solodit_slug: |
+    m-01-ohmdeployed-will-become-inaccurate-if-circulatingohmburned-is-used-zachobront-none-olympusdao-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal circulatingohmburned;"
+fn_name_regex: ".*(ohmDeployed|circulatingOhmBurned|maximumToDeploy|update).*"
+read_var_regex: ".*(circulatingOhmBurned|maximumToDeploy|ohmDeployed).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ohmDeployed"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return circulatingohmburned > 0;"

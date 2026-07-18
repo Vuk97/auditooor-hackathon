@@ -1,0 +1,20 @@
+id: dynamic-per-asset-instance-storage-size-cap
+title: "Dynamic per-asset data in instance storage hits size cap and shared archival"
+severity: Medium
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.7"
+bug_class: ttl-archival
+indicators:
+  - "`env.storage().instance().set(&DataKey::Reserves(asset), &vec)` where `vec` grows with number of assets/users"
+  - "instance storage map keyed by asset address when number of assets is unbounded"
+  - "size-bound-dependent operations iterating over instance-stored vectors"
+victim: "Protocol: contract instance grows past Soroban's per-entry size cap, bricking all operations that touch instance storage."
+exploit_precondition: "Admin adds enough reserves or assets that the instance entry exceeds the soft limit."
+real_world_example: |
+  Halborn 7.7 (MEDIUM): Dynamic per-asset data in instance storage hits size caps and shares archival with every other instance entry.
+suggested_remediation: "Use persistent storage with one entry per asset (sharded keys). Keep instance storage for small, bounded metadata only."
+cross_refs:
+  - unbounded-persistent-vector-growth

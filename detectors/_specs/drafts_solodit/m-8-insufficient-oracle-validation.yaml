@@ -1,0 +1,44 @@
+skeleton: "state_write_without_paired_write"
+name: "m-8-insufficient-oracle-validation"
+class_name: "M8InsufficientOracleValidation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18655 (Sherlock/GMX)"
+help: "M-8: Insufficient oracle validation"
+wiki_title: "M-8: Insufficient oracle validation"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-02-gmx-judging/issues/174 
+    
+    ## Found by 
+    Breeje, IllIllI, PRAISE, ShadowForce, rvierdiiev
+    
+    ## Summary
+    
+    Most prices are provided by an off-chain oracle archive via signed prices, but a Chainlink oracle is still used for index prices. These prices are ins
+wiki_exploit_scenario: |
+    Per Solodit #18655: Source: https://github.com/sherlock-audit/2023-02-gmx-judging/issues/174 
+    
+    ## Found by 
+    Breeje, IllIllI, PRAISE, ShadowForce, rvierdiiev
+    
+    ## Summary
+    
+    Most prices are provided by an off-chain oracle ar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M8InsufficientOracleValidation"
+solodit_id: "18655"
+solodit_slug: "m-8-insufficient-oracle-validation-sherlock-none-gmx-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(roundID|startedAt|answeredInRound|priceFeed).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

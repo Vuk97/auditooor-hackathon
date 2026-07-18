@@ -1,0 +1,35 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-32-reentrancy-in-usdo-flashloan-enabling-an-attacker-to-borrow"
+class_name: "H32ReentrancyInUsdoFlashloanEnablingAnAttackerToBorrow"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27522 (Code4rena/Tapioca DAO)"
+help: |
+    [H-32] Reentrancy in `USDO.flashLoan()`, enabling an attacker to borrow unlimited USDO exceeding the max borrow limit
+wiki_title: |
+    [H-32] Reentrancy in `USDO.flashLoan()`, enabling an attacker to borrow unlimited USDO exceeding the max borrow limit
+wiki_description: |
+    Due to an reentrancy attack vector, an attacker can flashLoan an unlimited amount of USDO. For example the attacker can create a malicious contract as the `receiver`, to execute the attack via the `onFlashLoan` callback (line 94 USDO.sol).
+    
+    The exploit works because `USDO.flashLoan()` is missing a
+wiki_exploit_scenario: |
+    Per Solodit #27522: Due to an reentrancy attack vector, an attacker can flashLoan an unlimited amount of USDO. For example the attacker can create a malicious contract as the `receiver`, to execute the attack via the `o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H32ReentrancyInUsdoFlashloanEnablingAnAttackerToBorrow"
+solodit_id: "27522"
+solodit_slug: |
+    h-32-reentrancy-in-usdoflashloan-enabling-an-attacker-to-borrow-unlimited-usdo-exceeding-the-max-borrow-limit-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(receiver|onFlashLoan|High).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "wiselending02-2024-01"
+class_name: "Wiselending02202401"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-01/WiseLending02_exp.sol"
+help: "WiseLending02 2024-01 — oracle exploit (~464K USD$)"
+wiki_title: "WiseLending02 (2024-01) — oracle"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-01): WiseLending02 lost ~464K USD$. Bug class: oracle. Attack tx: 0x04e16a79ff928db2fa88619cdd045cdfc7979a61d836c9c9e585b3d6f6d8bc31.
+wiki_exploit_scenario: |
+    Attacker (0xb90cf1d740b206b6d80854bc525e609dc42b45dc) exploits WiseLending02 via oracle: the victim contract 0x37e49bf3749513a02fa535f0cbc383796e8107e4 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Replace spot-price reads with a TWAP wrapper (e.g., Uniswap V3 OracleLibrary.consult) and require a minimum observation window; sanity-check prices against a reference oracle.
+contract_name: "Wiselending02202401"
+trigger_sig_regex: ".*(getPrice).*"
+required_sibling_regex: ".*(validatePrice).*"
+target_interface_decl: "interface IT { function getPrice(uint256) external; function validatePrice(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "readPrice"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.getPrice(x)"
+sibling_call: "target.validatePrice(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

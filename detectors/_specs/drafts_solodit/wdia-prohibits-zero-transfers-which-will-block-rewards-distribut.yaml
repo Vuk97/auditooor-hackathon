@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "wdia-prohibits-zero-transfers-which-will-block-rewards-distribut"
+class_name: "WdiaProhibitsZeroTransfersWhichWillBlockRewardsDistribut"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57917 (MixBytes/DIA)"
+help: |
+    `WDIA` prohibits zero transfers, which will block rewards distribution to beneficiary address if 100% goes to principal unstaker
+wiki_title: |
+    `WDIA` prohibits zero transfers, which will block rewards distribution to beneficiary address if 100% goes to principal unstaker
+wiki_description: |
+    ##### Description
+    In the `DIAExternalStaking` contract, the `unstake` function distributes rewards between the principal wallet and beneficiary based on the `principalWalletShareBps` parameter. When `principalWalletShareBps` is set to 10000 (100%), all rewards go to the principal unstaker and `reque
+wiki_exploit_scenario: |
+    Per Solodit #57917: ##### Description
+    In the `DIAExternalStaking` contract, the `unstake` function distributes rewards between the principal wallet and beneficiary based on the `principalWalletShareBps` parameter. When `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WdiaProhibitsZeroTransfersWhichWillBlockRewardsDistribut"
+solodit_id: "57917"
+solodit_slug: |
+    wdia-prohibits-zero-transfers-which-will-block-rewards-distribution-to-beneficiary-address-if-100-goes-to-principal-unstaker-mixbytes-none-dia-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claim;"
+fn_name_regex: ".*(DIAExternalStaking|unstake|principalWalletShareBps|requestedUnstakeRewardAmount).*"
+write_var_regex: ".*(claim|principalPayoutWallet|principalWalletShareBps).*"
+guard_var_regex: ".*(claim|principalPayoutWallet|principalWalletShareBps).*"
+vuln_fn_name: "DIAExternalStaking"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "claim = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

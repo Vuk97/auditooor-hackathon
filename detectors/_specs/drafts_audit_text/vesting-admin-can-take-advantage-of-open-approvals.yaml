@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "vesting-admin-can-take-advantage-of-open-approvals"
+class_name: "VestingAdminCanTakeAdvantageOfOpenApprovals"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Solera - Zellic Audit Report"
+help: |
+    The vesting admin has the ability to call the following two functions: function vestingDeposit( address from, uint256 amount ) public nonReentrant onlyRole(VESTING_ADMIN_ROLE) retu
+wiki_title: "Vesting admin can take advantage of open approvals"
+wiki_description: |
+    The vesting admin has the ability to call the following two functions: function vestingDeposit( address from, uint256 amount ) public nonReentrant onlyRole(VESTING_ADMIN_ROLE) returns (uint256) { SafeERC20.safeTransferFrom(IERC20(asset()), from, address(this), amount); _vestingDeposit += amount; emi
+wiki_exploit_scenario: |
+    Per audit finding: The vesting admin has the ability to call the following two functions: function vestingDeposit( address from, uint256 amount ) public nonReentrant onlyRole(VESTING_ADMIN_ROLE) returns (uint256) { Safe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VestingAdminCanTakeAdvantageOfOpenApprovals"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(vestingDeposit|nonReentrant|onlyRole).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "vestingDeposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

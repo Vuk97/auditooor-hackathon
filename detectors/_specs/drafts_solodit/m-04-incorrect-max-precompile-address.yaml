@@ -1,0 +1,34 @@
+skeleton: "state_write_without_paired_write"
+name: "m-04-incorrect-max-precompile-address"
+class_name: "M04IncorrectMaxPrecompileAddress"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30283 (Code4rena/zkSync)"
+help: "[M-04] Incorrect max precompile address"
+wiki_title: "[M-04] Incorrect max precompile address"
+wiki_description: |
+    Two new precompiles have been introduced (`ECADD` and `ECMUL`) without updating the pointer that indicates the current maximum precompile address (`CURRENT_MAX_PRECOMPILE_ADDRESS`), causing these new precompiles to not be considered as precompiles in the system.
+    
+    ### Impact
+    
+    The updated revision of
+wiki_exploit_scenario: |
+    Per Solodit #30283: Two new precompiles have been introduced (`ECADD` and `ECMUL`) without updating the pointer that indicates the current maximum precompile address (`CURRENT_MAX_PRECOMPILE_ADDRESS`), causing these new
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04IncorrectMaxPrecompileAddress"
+solodit_id: "30283"
+solodit_slug: "m-04-incorrect-max-precompile-address-code4rena-zksync-zksync-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(ECADD|ECMUL|CURRENT_MAX_PRECOMPILE_ADDRESS|SHA256).*"
+primary_var_regex: ".*(getCodeHash).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

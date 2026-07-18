@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "h01-users-can-exercise-small-amounts-without-sending-collateral"
+class_name: "H01UsersCanExerciseSmallAmountsWithoutSendingCollateral"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #11369 (OpenZeppelin/ACO Protocol Audit)"
+help: "[H01] Users can exercise small amounts without sending collateral"
+wiki_title: "[H01] Users can exercise small amounts without sending collateral"
+wiki_description: |
+    When exercising option tokens, the [`_exercise` function](https://github.com/AuctusProject/aco/blob/36bcab024c9781d799381f8f973e99fd5b0f4d2d/smart-contracts/contracts/core/ACOToken.sol#L638) calls `_validateAndBurn` to validate that the exercising account is able to transfer in the required amount o
+wiki_exploit_scenario: |
+    Per Solodit #11369: When exercising option tokens, the [`_exercise` function](https://github.com/AuctusProject/aco/blob/36bcab024c9781d799381f8f973e99fd5b0f4d2d/smart-contracts/contracts/core/ACOToken.sol#L638) calls `_v
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01UsersCanExerciseSmallAmountsWithoutSendingCollateral"
+solodit_id: "11369"
+solodit_slug: |
+    h01-users-can-exercise-small-amounts-without-sending-collateral-openzeppelin-aco-protocol-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal exerciseasset;"
+fn_name_regex: ".*(exerciseAsset|getExerciseData|tokenAmount|CALL).*"
+write_var_regex: ".*(exerciseAsset|expectedAmount|getExerciseData).*"
+guard_var_regex: ".*(exerciseAsset|expectedAmount|getExerciseData).*"
+vuln_fn_name: "exerciseAsset"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "exerciseasset = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

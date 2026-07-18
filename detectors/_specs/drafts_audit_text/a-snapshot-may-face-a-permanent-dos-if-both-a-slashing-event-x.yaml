@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "a-snapshot-may-face-a-permanent-dos-if-both-a-slashing-event-x"
+class_name: "ASnapshotMayFaceAPermanentDosIfBothASlashingEventX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-karak"
+help: |
+    KupiaSec Impact The staker can still receive rewards even if their validators are empty. Proof of Concept Let’s consider the following scenario: Alice has a validator whose balance
+wiki_title: |
+    A snapshot may face a permanent DoS if both a slashing event occurs in the NativeVault and the staker’s validator is penalized
+wiki_description: |
+    KupiaSec Impact The staker can still receive rewards even if their validators are empty. Proof of Concept Let’s consider the following scenario: Alice has a validator whose balance is 32 ETH. A slashing event occurs in the NativeVault, resulting in Alice being slashed by 2 ETH, reducing her withdraw
+wiki_exploit_scenario: |
+    Per audit finding: KupiaSec Impact The staker can still receive rewards even if their validators are empty. Proof of Concept Let’s consider the following scenario: Alice has a validator whose balance is 32 ETH. A slashi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ASnapshotMayFaceAPermanentDosIfBothASlashingEventX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(validateSnapshotProofs|nodeOwner|balanceProofs).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "validateSnapshotProofs"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

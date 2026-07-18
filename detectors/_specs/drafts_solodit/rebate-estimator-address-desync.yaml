@@ -1,0 +1,40 @@
+skeleton: "paired_function_divergence"
+name: "rebate-estimator-address-desync"
+class_name: "RebateEstimatorAddressDesync"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #60445 (Quantstamp/OasisSwap)"
+help: "Rebate Estimator Address Desync"
+wiki_title: "Rebate Estimator Address Desync"
+wiki_description: |
+    **Update**
+    Marked as "Fixed" by the client. Addressed in: `61d09e20ba5b567e86c0806174237bbbc2c5c498`.
+    
+    The OasisSwap team removed the `setRebateEstimator()` function. The `getRebate()` function inherit values from the factory contract.
+    
+    **File(s) affected:**`OasisSwapFactory.sol`, `OasisSwapRouter.s
+wiki_exploit_scenario: |
+    Per Solodit #60445: **Update**
+    Marked as "Fixed" by the client. Addressed in: `61d09e20ba5b567e86c0806174237bbbc2c5c498`.
+    
+    The OasisSwap team removed the `setRebateEstimator()` function. The `getRebate()` function inheri
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RebateEstimatorAddressDesync"
+solodit_id: "60445"
+solodit_slug: "rebate-estimator-address-desync-quantstamp-oasisswap-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(getRebate|rebateEstimator|setRebateEstimator).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

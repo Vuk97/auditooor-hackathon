@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-calculation-about-voting-power"
+class_name: "IncorrectCalculationAboutVotingPower"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Metavest - Zellic Audit Report"
+help: |
+    In the function proposeMajorityMetavestAmendment, the totalVotingPower is accumulated from the governing power of the sets. If the allocation contract's govType is all, the calcula
+wiki_title: "Incorrect calculation about voting power"
+wiki_description: |
+    In the function proposeMajorityMetavestAmendment, the totalVotingPower is accumulated from the governing power of the sets. If the allocation contract's govType is all, the calculation uses the total token stream and the total milestone award, which is not changed during the proposal. For other govT
+wiki_exploit_scenario: |
+    Per audit finding: In the function proposeMajorityMetavestAmendment, the totalVotingPower is accumulated from the governing power of the sets. If the allocation contract's govType is all, the calculation uses the total
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectCalculationAboutVotingPower"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(proposeMajorityMetavestAmendment|totalVotingPower|govType).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "proposeMajorityMetavestAmendment"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

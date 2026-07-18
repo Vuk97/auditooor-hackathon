@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "m-01-anyone-can-deploy-a-new-fraxswappair-with-a-low-fee-incurri"
+class_name: "M01AnyoneCanDeployANewFraxswappairWithALowFeeIncurri"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #50065 (Code4rena/IQ AI)"
+help: "[M-01] Anyone can deploy a new `FraxSwapPair` with a Low fee incurring losses to the protocol"
+wiki_title: "[M-01] Anyone can deploy a new `FraxSwapPair` with a Low fee incurring losses to the protocol"
+wiki_description: |
+    <https://github.com/code-423n4/2025-01-iq-ai/blob/b16b866d4c8d3e4a69b37a02c4e396d4b294537e/src/LiquidityManager.sol# L137>
+    
+    When `LiquidityManager::moveLiquidity` function is called then either a new `FraxSwapPair` is created with a fee of `1%` or if a pair already exists then the liquidity is tra
+wiki_exploit_scenario: |
+    Per Solodit #50065: <https://github.com/code-423n4/2025-01-iq-ai/blob/b16b866d4c8d3e4a69b37a02c4e396d4b294537e/src/LiquidityManager.sol# L137>
+    
+    When `LiquidityManager::moveLiquidity` function is called then either a ne
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01AnyoneCanDeployANewFraxswappairWithALowFeeIncurri"
+solodit_id: "50065"
+solodit_slug: |
+    m-01-anyone-can-deploy-a-new-fraxswappair-with-a-low-fee-incurring-losses-to-the-protocol-code4rena-iq-ai-iq-ai-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(fee|moveLiquidity).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

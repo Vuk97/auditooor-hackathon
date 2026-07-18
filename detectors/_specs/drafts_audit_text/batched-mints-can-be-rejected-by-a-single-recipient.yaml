@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "batched-mints-can-be-rejected-by-a-single-recipient"
+class_name: "BatchedMintsCanBeRejectedByASingleRecipient"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Revest Finance - Zellic Audit Report"
+help: |
+    function mintBatchRec(address[] calldata recipients, uint[] calldata quantities, uint id, uint newSupply, bytes memory data) external override onlyRevestController { supply[id] +=
+wiki_title: "Batched mints can be rejected by a single recipient"
+wiki_description: |
+    function mintBatchRec(address[] calldata recipients, uint[] calldata quantities, uint id, uint newSupply, bytes memory data) external override onlyRevestController { supply[id] += newSupply; fnftsCreated += 1; for(uint i = 0; i < quantities.length; i+)) { _mint(recipients[i], id, quantities[i], data
+wiki_exploit_scenario: |
+    Per audit finding: function mintBatchRec(address[] calldata recipients, uint[] calldata quantities, uint id, uint newSupply, bytes memory data) external override onlyRevestController { supply[id] += newSupply; fnftsCrea
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BatchedMintsCanBeRejectedByASingleRecipient"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(mintBatchRec|newSupply|onlyRevestController).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mintBatchRec"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

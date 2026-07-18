@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "buffer-overflows-in-ledger-zxlib"
+class_name: "BufferOverflowsInLedgerZxlib"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Cosmos SDK Sign Mode Textual - Zellic Audit Report"
+help: |
+    Though not specifically in scope, while browsing the ledger-zxlib dependency’s source tree, we observed the following potential bugs. In the pageStringHex function, the outValueLen
+wiki_title: "Buffer overflows in ledger-zxlib"
+wiki_description: |
+    Though not specifically in scope, while browsing the ledger-zxlib dependency’s source tree, we observed the following potential bugs. In the pageStringHex function, the outValueLen and lastChunkLen variables are uint16_t, meaning their maximum values are 65535 (0xffff): __Z_INLINE void pageStringHex
+wiki_exploit_scenario: |
+    Per audit finding: Though not specifically in scope, while browsing the ledger-zxlib dependency’s source tree, we observed the following potential bugs. In the pageStringHex function, the outValueLen and lastChunkLen va
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BufferOverflowsInLedgerZxlib"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(pageStringHex|outValueLen|lastChunkLen).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "pageStringHex"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

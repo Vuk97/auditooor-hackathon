@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "m-14-possible-spamming-attack-in-opening-or-closing-long-or-shor"
+class_name: "M14PossibleSpammingAttackInOpeningOrClosingLongOrShor"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20251 (Code4rena/Polynomial Protocol)"
+help: |
+    [M-14] Possible spamming attack in opening or closing Long or Short Positions in `Exchange.openTrade`
+wiki_title: |
+    [M-14] Possible spamming attack in opening or closing Long or Short Positions in `Exchange.openTrade`
+wiki_description: |
+    One user that wants to open a short position shall not have a long position already opened and viceversa.
+    
+    This is the check for opening a long position:
+    
+            if (params.isLong) {
+                uint256 shortPositions = shortToken.balanceOf(msg.sender);
+                require(shortPositions == 0, "S
+wiki_exploit_scenario: |
+    Per Solodit #20251: One user that wants to open a short position shall not have a long position already opened and viceversa.
+    
+    This is the check for opening a long position:
+    
+            if (params.isLong) {
+                ui
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14PossibleSpammingAttackInOpeningOrClosingLongOrShor"
+solodit_id: "20251"
+solodit_slug: |
+    m-14-possible-spamming-attack-in-opening-or-closing-long-or-short-positions-in-exchangeopentrade-code4rena-polynomial-protocol-polynomial-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(isLong|shortPositions|shortToken|balanceOf).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "isLong"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

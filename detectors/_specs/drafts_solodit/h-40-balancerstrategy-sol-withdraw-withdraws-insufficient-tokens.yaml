@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "h-40-balancerstrategy-sol-withdraw-withdraws-insufficient-tokens"
+class_name: "H40BalancerstrategySolWithdrawWithdrawsInsufficientTokens"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27530 (Code4rena/Tapioca DAO)"
+help: "[H-40] `BalancerStrategy.sol`: `_withdraw` withdraws insufficient tokens"
+wiki_title: "[H-40] `BalancerStrategy.sol`: `_withdraw` withdraws insufficient tokens"
+wiki_description: |
+    The funciton `_withdraw` in the balancer strategy contract is called during withdraw operations to withdraw WETH from the balancer pool. The function calculats the amount to withdraw, and then calls `_vaultWithdraw` function.
+    
+    ```solidity
+    if (amount > queued) {
+                uint256 pricePerShare = p
+wiki_exploit_scenario: |
+    Per Solodit #27530: The funciton `_withdraw` in the balancer strategy contract is called during withdraw operations to withdraw WETH from the balancer pool. The function calculats the amount to withdraw, and then calls
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H40BalancerstrategySolWithdrawWithdrawsInsufficientTokens"
+solodit_id: "27530"
+solodit_slug: |
+    h-40-balancerstrategysol-_withdraw-withdraws-insufficient-tokens-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal exitrequest;"
+fn_name_regex: ".*(pricePerShare|exitRequest|minamountsOut|userData).*"
+read_var_regex: ".*(exitRequest|minamountsOut|pricePerShare).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "pricePerShare"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return exitrequest > 0;"

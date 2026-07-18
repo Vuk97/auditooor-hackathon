@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "some-functions-of-goldilend-will-revert-forever"
+class_name: "SomeFunctionsOfGoldilendWillRevertForever"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30926 (Cyfrin/Goldilocks)"
+help: "Some functions of `Goldilend` will revert forever."
+wiki_title: "Some functions of `Goldilend` will revert forever."
+wiki_description: |
+    **Severity:** High
+    
+    **Description:** `Goldilend.multisigInterestClaim()/apdaoInterestClaim()/sunsetProtocol()` will revert forever because they doesn't withdraw `ibgt` from `ibgtVault` before the transfer.
+    
+    ```solidity
+      function multisigInterestClaim() external {
+        if(msg.sender != multisig) reve
+wiki_exploit_scenario: |
+    Per Solodit #30926: **Severity:** High
+    
+    **Description:** `Goldilend.multisigInterestClaim()/apdaoInterestClaim()/sunsetProtocol()` will revert forever because they doesn't withdraw `ibgt` from `ibgtVault` before the tran
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SomeFunctionsOfGoldilendWillRevertForever"
+solodit_id: "30926"
+solodit_slug: "some-functions-of-goldilend-will-revert-forever-cyfrin-none-cyfrin-goldilocks-v11-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ibgt;"
+fn_name_regex: ".*(ibgt|ibgtVault|Goldilend).*"
+read_var_regex: ".*(ibgt|ibgtVault).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ibgt"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ibgt > 0;"

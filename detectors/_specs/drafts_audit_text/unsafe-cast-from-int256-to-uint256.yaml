@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unsafe-cast-from-int256-to-uint256"
+class_name: "UnsafeCastFromInt256ToUint256"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit GTE Perps - Zellic Audit Report"
+help: |
+    In Solidity, type casting from int256 to uint256 using uint256(...) does not include any bounds or overflow checks. If the result of the int256(orderbookCollateral) + marginDelta c
+wiki_title: "Unsafe cast from int256 to uint256"
+wiki_description: |
+    In Solidity, type casting from int256 to uint256 using uint256(...) does not include any bounds or overflow checks. If the result of the int256(orderbookCollateral) + marginDelta calculation is less than zero, casting it to uint256 will produce a very large positive value. function orderUpdated(int2
+wiki_exploit_scenario: |
+    Per audit finding: In Solidity, type casting from int256 to uint256 using uint256(...) does not include any bounds or overflow checks. If the result of the int256(orderbookCollateral) + marginDelta calculation is less t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnsafeCastFromInt256ToUint256"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(orderbookCollateral|marginDelta|orderUpdated).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "orderbookCollateral"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

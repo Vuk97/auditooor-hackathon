@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "h-02-xnet-call-messages-with-value-0-lead-to-inflated-circulatin"
+class_name: "H02XnetCallMessagesWithValue0LeadToInflatedCirculatin"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #65089 (Code4rena/Recall)"
+help: "[H-02] Xnet call messages with value `> 0` lead to inflated circulating supply of child subnet"
+wiki_title: "[H-02] Xnet call messages with value `> 0` lead to inflated circulating supply of child subnet"
+wiki_description: |
+    <https://github.com/code-423n4/2025-02-recall/blob/ab5f90b9b0322016ecce6dd71c528a935544bec5/contracts/contracts/gateway/router/CheckpointingFacet.sol# L137>
+    
+    ### Finding description and impact
+    
+    One of the main invariants of this protocol (as listed in the contest github page) is:
+    
+    > The total supp
+wiki_exploit_scenario: |
+    Per Solodit #65089: <https://github.com/code-423n4/2025-02-recall/blob/ab5f90b9b0322016ecce6dd71c528a935544bec5/contracts/contracts/gateway/router/CheckpointingFacet.sol# L137>
+    
+    ### Finding description and impact
+    
+    One
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02XnetCallMessagesWithValue0LeadToInflatedCirculatin"
+solodit_id: "65089"
+solodit_slug: |
+    h-02-xnet-call-messages-with-value-0-lead-to-inflated-circulating-supply-of-child-subnet-code4rena-recall-recall-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal circsupply;"
+fn_name_regex: ".*(commitCheckpoint|Call|totalValue|circSupply).*"
+write_var_regex: ".*(circSupply|commitCheckpoint|totalValue).*"
+guard_var_regex: ".*(circSupply|commitCheckpoint|totalValue).*"
+vuln_fn_name: "commitCheckpoint"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "circsupply = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

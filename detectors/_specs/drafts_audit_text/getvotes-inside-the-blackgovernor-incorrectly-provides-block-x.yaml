@@ -1,0 +1,27 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "getvotes-inside-the-blackgovernor-incorrectly-provides-block-x"
+class_name: "GetvotesInsideTheBlackgovernorIncorrectlyProvidesBlockX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-05-blackhole"
+help: |
+    hakunamatata , also found by Egbe Finding description and impact Whenever user is making a proposal inside the BlackGovernor , the contract checks whether their voting power meets
+wiki_title: |
+    getVotes inside the BlackGovernor incorrectly provides block.number instead of block.timestamp , leading to complete DOS of proposal functionality
+wiki_description: |
+    hakunamatata , also found by Egbe Finding description and impact Whenever user is making a proposal inside the BlackGovernor , the contract checks whether their voting power meets the proposal threshold. However, this check is copied from the ThenaFi contracts which is incorrect. I disclosed the vul
+wiki_exploit_scenario: |
+    Per audit finding: hakunamatata , also found by Egbe Finding description and impact Whenever user is making a proposal inside the BlackGovernor , the contract checks whether their voting power meets the proposal thresho
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GetvotesInsideTheBlackgovernorIncorrectlyProvidesBlockX"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(getVotes|getsmNFTPastVotes|proposalThreshold).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "blocking-the-minimal-registrant-in-the-whitelist"
+class_name: "BlockingTheMinimalRegistrantInTheWhitelist"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "hexens audit 1inch_FusionMode_Hexens.1"
+help: |
+    The function register is used to register a new resolver if the voting power meets the threshold requirement, in case the whitelist is full (_whitelist.length() == maxWhitelisted)
+wiki_title: "BLOCKING THE MINIMAL REGISTRANT IN THE WHITELIST"
+wiki_description: |
+    The function register is used to register a new resolver if the voting power meets the threshold requirement, in case the whitelist is full (_whitelist.length() == maxWhitelisted) the function needs to ﬁnd minimal registrant (with minimal voting power) and remove him from the _whitelist set (Address
+wiki_exploit_scenario: |
+    Per audit finding: The function register is used to register a new resolver if the voting power meets the threshold requirement, in case the whitelist is full (_whitelist.length() == maxWhitelisted) the function needs t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BlockingTheMinimalRegistrantInTheWhitelist"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxWhitelisted|votingPowerOf|resolverThreshold).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "maxWhitelisted"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

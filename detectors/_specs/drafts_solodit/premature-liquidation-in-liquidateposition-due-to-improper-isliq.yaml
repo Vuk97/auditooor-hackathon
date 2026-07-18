@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "premature-liquidation-in-liquidateposition-due-to-improper-isliq"
+class_name: "PrematureLiquidationInLiquidatepositionDueToImproperIsliq"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40725 (Cantina/Particle)"
+help: "Premature liquidation in liquidateposition() due to improper isliquidatable validation"
+wiki_title: "Premature liquidation in liquidateposition() due to improper isliquidatable validation "
+wiki_description: |
+    ## Liquidation Logic Issue in ParticlePositionManager.sol
+    
+    ## Context
+    `ParticlePositionManager.sol#L358`
+    
+    ## Description
+    The function `liquidatePosition()` in `ParticlePositionManager.sol` is used to liquidate an open position under two conditions: firstly, if the premium is not enough and secondly,
+wiki_exploit_scenario: |
+    Per Solodit #40725: ## Liquidation Logic Issue in ParticlePositionManager.sol
+    
+    ## Context
+    `ParticlePositionManager.sol#L358`
+    
+    ## Description
+    The function `liquidatePosition()` in `ParticlePositionManager.sol` is used to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PrematureLiquidationInLiquidatepositionDueToImproperIsliq"
+solodit_id: "40725"
+solodit_slug: |
+    premature-liquidation-in-liquidateposition-due-to-improper-isliquidatable-validation-cantina-none-particle-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal isliquidatable;"
+fn_name_regex: ".*(liquidatePosition|tokenFromPremium|tokenFromOwed|isLiquidatable).*"
+read_var_regex: ".*(isLiquidatable|liquidatePosition|liquidationReward).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidatePosition"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return isliquidatable > 0;"

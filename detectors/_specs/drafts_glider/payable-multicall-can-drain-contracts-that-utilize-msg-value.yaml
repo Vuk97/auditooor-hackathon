@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "payable-multicall-can-drain-contracts-that-utilize-msg-value"
+class_name: "PayableMulticallCanDrainContractsThatUtilizeMsgValue"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: payable-multicall-can-drain-contracts-that-utilize"
+help: "Payable Multicall can Drain Contracts that Utilize msg.value"
+wiki_title: "Payable Multicall can Drain Contracts that Utilize msg.value"
+wiki_description: |
+    Using msg.value in a loop (which delegatecall does) makes msg.value be reused across all iterations [1], this introduces an attack vector where a malicious user can leverage the multicall function to only pay for a action once (as msg.value is reused in iteration) or drain the contract where there a
+wiki_exploit_scenario: |
+    Per Glider query tags [Multicall, msg.value, delegatecall]: Using msg.value in a loop (which delegatecall does) makes msg.value be reused across all iterations [1], this introduces an attack vector where a malicious user can leverage the multicall function to 
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "PayableMulticallCanDrainContractsThatUtilizeMsgValue"
+fn_name_regex: ".*(payable).*"
+read_var_regex: ".*(payable).*"
+required_call_regex: ".*(accrue|update|sync|validate|check).*"
+guarded_helper_name: "_guard"
+vuln_fn_name: "payableFn"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return payable > 0;"
+state_decl: "uint256 internal payable;"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "baseconicpool-s-cachedtotalunderlying-and-usdexchangerate-might-"
+class_name: "BaseconicpoolSCachedtotalunderlyingAndUsdexchangerateMight"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29925 (MixBytes/Conic Finance)"
+help: "BaseConicPool's `cachedTotalUnderlying()` and `usdExchangeRate()` might work incorrectly"
+wiki_title: "BaseConicPool's `cachedTotalUnderlying()` and `usdExchangeRate()` might work incorrectly"
+wiki_description: |
+    ##### Description
+    
+    Both `cachedTotalUnderlying()` and `usdExchangeRate()` utilize `_cachedTotalUnderlying` in their computations. The `_cachedTotalUnderlying` variable gets updated in the `withdraw()` function. Note that `underlyingWithdrawn_` could be less than the complete extracted value from cur
+wiki_exploit_scenario: |
+    Per Solodit #29925: ##### Description
+    
+    Both `cachedTotalUnderlying()` and `usdExchangeRate()` utilize `_cachedTotalUnderlying` in their computations. The `_cachedTotalUnderlying` variable gets updated in the `withdraw()`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BaseconicpoolSCachedtotalunderlyingAndUsdexchangerateMight"
+solodit_id: "29925"
+solodit_slug: |
+    baseconicpools-cachedtotalunderlying-and-usdexchangerate-might-work-incorrectly-mixbytes-none-conic-finance-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cachedtotalunderlying;"
+fn_name_regex: ".*(cachedTotalUnderlying|usdExchangeRate|withdraw|underlyingWithdrawn_).*"
+read_var_regex: ".*(cachedTotalUnderlying|totalUnderlying_|underlyingWithdrawn_).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "cachedTotalUnderlying"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cachedtotalunderlying > 0;"

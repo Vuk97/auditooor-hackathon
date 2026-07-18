@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "h-01-borrow-must-accrueinterest-first"
+class_name: "H01BorrowMustAccrueinterestFirst"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25592 (Code4rena/Union Finance)"
+help: "[H-01] `borrow` must `accrueInterest` first"
+wiki_title: "[H-01] `borrow` must `accrueInterest` first"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `UToken.borrow` function first checks the borrowed balance and the old credit limit *before* accruing the actual interest on the market:
+    
+    ```solidity
+    // @audit this uses the old value
+    require(borrowBalanceView(msg.sender) + amount + fee <= maxBorrow, "UToken: amount large
+wiki_exploit_scenario: |
+    Per Solodit #25592: _Submitted by cmichel_
+    
+    The `UToken.borrow` function first checks the borrowed balance and the old credit limit *before* accruing the actual interest on the market:
+    
+    ```solidity
+    // @audit this uses th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01BorrowMustAccrueinterestFirst"
+solodit_id: "25592"
+solodit_slug: "h-01-borrow-must-accrueinterest-first-code4rena-union-finance-union-finance-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accrueinterest;"
+fn_name_regex: ".*(borrowIndex|accrueInterest|maxBorrow|borrow).*"
+write_var_regex: ".*(accrueInterest|borrowIndex|maxBorrow).*"
+guard_var_regex: ".*(accrueInterest|borrowIndex|maxBorrow).*"
+vuln_fn_name: "borrowIndex"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "accrueinterest = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

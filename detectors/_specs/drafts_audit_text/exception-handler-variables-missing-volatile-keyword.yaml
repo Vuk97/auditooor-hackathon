@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "exception-handler-variables-missing-volatile-keyword"
+class_name: "ExceptionHandlerVariablesMissingVolatileKeyword"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Cosmos SDK Sign Mode Textual - Zellic Audit Report"
+help: |
+    Per Ledger, one of the common pitfalls is in the exception handling. Their recommen- dation is When modifying variables within a try / catch / finally context, always declare those
+wiki_title: "Exception handler variables missing volatile keyword"
+wiki_description: |
+    Per Ledger, one of the common pitfalls is in the exception handling. Their recommen- dation is When modifying variables within a try / catch / finally context, always declare those variables volatile. This will prevent the compiler from making invalid as- sumptions when optimizing your code because
+wiki_exploit_scenario: |
+    Per audit finding: Per Ledger, one of the common pitfalls is in the exception handling. Their recommen- dation is When modifying variables within a try / catch / finally context, always declare those variables volatile.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExceptionHandlerVariablesMissingVolatileKeyword"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

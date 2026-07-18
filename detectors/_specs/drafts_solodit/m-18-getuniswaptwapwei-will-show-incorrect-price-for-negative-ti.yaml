@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "m-18-getuniswaptwapwei-will-show-incorrect-price-for-negative-ti"
+class_name: "M18GetuniswaptwapweiWillShowIncorrectPriceForNegativeTi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31129 (Code4rena/Salty.IO)"
+help: |
+    [M-18]  `_getUniswapTwapWei()` will show incorrect price for negative ticks cause it doesn't round up for negative ticks
+wiki_title: |
+    [M-18]  `_getUniswapTwapWei()` will show incorrect price for negative ticks cause it doesn't round up for negative ticks
+wiki_description: |
+    Take a look at <https://github.com/code-423n4/2024-01-salty/blob/f742b554e18ae1a07cb8d4617ec8aa50db037c1c/src/price_feed/CoreUniswapFeed.sol#L49-L75>
+    
+    <details>
+    
+    ```solidity
+    	// Returns amount of token0 * (10**18) given token1
+        function _getUniswapTwapWei( IUniswapV3Pool pool, uint256 twapInterv
+wiki_exploit_scenario: |
+    Per Solodit #31129: Take a look at <https://github.com/code-423n4/2024-01-salty/blob/f742b554e18ae1a07cb8d4617ec8aa50db037c1c/src/price_feed/CoreUniswapFeed.sol#L49-L75>
+    
+    <details>
+    
+    ```solidity
+    	// Returns amount of tok
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18GetuniswaptwapweiWillShowIncorrectPriceForNegativeTi"
+solodit_id: "31129"
+solodit_slug: |
+    m-18-_getuniswaptwapwei-will-show-incorrect-price-for-negative-ticks-cause-it-doesnt-round-up-for-negative-ticks-code4rena-saltyio-saltyio-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal int24;"
+fn_name_regex: ".*(tickCumulatives|int24).*"
+read_var_regex: ".*(int24|tickCumulatives).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tickCumulatives"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return int24 > 0;"

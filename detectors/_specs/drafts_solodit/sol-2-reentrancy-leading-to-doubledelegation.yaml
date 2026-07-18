@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "sol-2-reentrancy-leading-to-doubledelegation"
+class_name: "Sol2ReentrancyLeadingToDoubledelegation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53457 (Hexens/1Inch)"
+help: "2. Reentrancy leading to doubledelegation"
+wiki_title: "2. Reentrancy leading to doubledelegation"
+wiki_description: |
+    **Severity:** Critical
+    
+    **Path:** ERC20Pods.sol#L85-L96
+    
+    **Description:** 
+    
+    In the function `_removeAllPods` contract iterates over the delegated pods
+    and burns the delegation balances via calling `updateBalances` on pods,
+    the bug arises since the balance is saved once on line 87, and an illicit act
+wiki_exploit_scenario: |
+    Per Solodit #53457: **Severity:** Critical
+    
+    **Path:** ERC20Pods.sol#L85-L96
+    
+    **Description:** 
+    
+    In the function `_removeAllPods` contract iterates over the delegated pods
+    and burns the delegation balances via calling `up
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Sol2ReentrancyLeadingToDoubledelegation"
+solodit_id: "53457"
+solodit_slug: "2-reentrancy-leading-to-doubledelegation-hexens-none-1inch-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addpod;"
+fn_name_regex: ".*(updateBalances|addPod|removeAllPods).*"
+write_var_regex: ".*(addPod|removeAllPods|updateBalances).*"
+guard_var_regex: ".*(addPod|removeAllPods|updateBalances).*"
+vuln_fn_name: "updateBalances"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "addpod = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

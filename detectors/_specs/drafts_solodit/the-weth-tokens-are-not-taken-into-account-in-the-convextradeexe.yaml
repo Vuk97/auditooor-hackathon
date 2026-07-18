@@ -1,0 +1,54 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "the-weth-tokens-are-not-taken-into-account-in-the-convextradeexe"
+class_name: "TheWethTokensAreNotTakenIntoAccountInTheConvextradeexe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #13256 (ConsenSys/Brahma Fi)"
+help: "The WETH tokens are not taken into account in the ConvexTradeExecutor.totalFunds function"
+wiki_title: "The WETH tokens are not taken into account in the ConvexTradeExecutor.totalFunds function"
+wiki_description: |
+    #### Description
+    
+    
+    The `totalFunds` function of every executor should include all the funds that belong to the contract:
+    
+    
+    **code/contracts/ConvexTradeExecutor.sol:L21-L23**
+    
+    
+    
+    ```
+    function totalFunds() public view override returns (uint256, uint256) {
+        return ConvexPositionHandler.positionInWant
+wiki_exploit_scenario: |
+    Per Solodit #13256: #### Description
+    
+    
+    The `totalFunds` function of every executor should include all the funds that belong to the contract:
+    
+    
+    **code/contracts/ConvexTradeExecutor.sol:L21-L23**
+    
+    
+    
+    ```
+    function totalFunds
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheWethTokensAreNotTakenIntoAccountInTheConvextradeexe"
+solodit_id: "13256"
+solodit_slug: |
+    the-weth-tokens-are-not-taken-into-account-in-the-convextradeexecutortotalfunds-function-consensys-brahma-fi-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(totalFunds|ConvexTradeExecutor).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "unrestricted-access-to-trackunseenrewards-cause-rewards-loss"
+class_name: "UnrestrictedAccessToTrackunseenrewardsCauseRewardsLoss"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53444 (Cantina/DefiApp)"
+help: "Unrestricted Access to trackUnseenRewards Cause Rewards Loss"
+wiki_title: "Unrestricted Access to trackUnseenRewards Cause Rewards Loss "
+wiki_description: |
+    ## Vulnerability Report on MFDBase.sol - trackUnseenRewards Function
+    
+    ## Context
+    MFDBase.sol#L394
+    
+    ## Summary
+    The `trackUnseenRewards` function can be called by anyone, and it does not update the `rewardPerTokenStored` value for users. A malicious user can exploit this by sending a small amount of t
+wiki_exploit_scenario: |
+    Per Solodit #53444: ## Vulnerability Report on MFDBase.sol - trackUnseenRewards Function
+    
+    ## Context
+    MFDBase.sol#L394
+    
+    ## Summary
+    The `trackUnseenRewards` function can be called by anyone, and it does not update the `rew
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnrestrictedAccessToTrackunseenrewardsCauseRewardsLoss"
+solodit_id: "53444"
+solodit_slug: "unrestricted-access-to-trackunseenrewards-cause-rewards-loss-cantina-none-defiapp-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(trackUnseenRewards|rewardPerTokenStored|rewardPerSecond|lastUpdateTime).*"
+primary_var_regex: ".*(lastUpdateTime|rewardPerSecond|rewardPerTokenStored).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,20 @@
+id: burn-scaled-transfers-full-underlying-on-overshoot
+title: "burn_scaled_and_transfer_to transfers full amount even when user balance is lower"
+severity: Critical
+language: rust
+platform: soroban
+source: "watchpug-rev3"
+source_ids:
+  - "WP-C2"
+bug_class: health-factor
+indicators:
+  - "`if amount > user_scaled_balance { user_scaled_balance = 0 }` but `underlying_transfer(target, amount)` still uses requested amount"
+  - "asymmetric cap between scaled-balance update and underlying transfer"
+victim: "Protocol: attacker requests amount > their balance, burns only their share, but receives the full requested underlying, draining the pool."
+exploit_precondition: "Caller controls `amount` parameter and targets their own `on_behalf_of` balance."
+real_world_example: |
+  WatchPug WP-C2 (Critical): `ATokenContract.burn_scaled_and_transfer_to` resets on_behalf_of balance to zero but transfers full amount.
+suggested_remediation: "Cap underlying transfer to `min(amount, on_behalf_of_balance * index)`."
+cross_refs:
+  - scaled-share-rounding-mismatch
+  - rounding-overshoot-swap-mismatch

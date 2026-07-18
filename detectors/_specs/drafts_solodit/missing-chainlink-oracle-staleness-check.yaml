@@ -1,0 +1,30 @@
+skeleton: "state_write_without_paired_write"
+name: "missing-chainlink-oracle-staleness-check"
+class_name: "MissingChainlinkOracleStalenessCheck"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62351 (Cyfrin/Licredity)"
+help: "Missing Chainlink oracle staleness check"
+wiki_title: "Missing Chainlink oracle staleness check"
+wiki_description: |
+    **Description:** The `getPrice` function in `ChainlinkFeedLibrary` fetches the latest price from a Chainlink feed using `latestRoundData`, but does not check if the returned data is stale. Chainlink feeds can become stale if no new price updates have occurred for a significant period, which may resu
+wiki_exploit_scenario: |
+    Per Solodit #62351: **Description:** The `getPrice` function in `ChainlinkFeedLibrary` fetches the latest price from a Chainlink feed using `latestRoundData`, but does not check if the returned data is stale. Chainlink f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingChainlinkOracleStalenessCheck"
+solodit_id: "62351"
+solodit_slug: "missing-chainlink-oracle-staleness-check-cyfrin-none-licredity-markdown"
+solodit_quality: "5"
+solodit_rarity: "4.5"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getPrice|ChainlinkFeedLibrary|latestRoundData|updatedAt).*"
+primary_var_regex: ".*(answeredInRound|getPrice|latestRoundData).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

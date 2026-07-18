@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "m-18-tapiocaoptionbroker-participate-with-the-approve-authorizat"
+class_name: "M18TapiocaoptionbrokerParticipateWithTheApproveAuthorizat"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32341 (Code4rena/Tapioca DAO)"
+help: |
+    [M-18] `TapiocaOptionBroker.participate()` with the approve authorization, it still cannot be executed
+wiki_title: |
+    [M-18] `TapiocaOptionBroker.participate()` with the approve authorization, it still cannot be executed
+wiki_description: |
+    If the user `isApproved()`, the user can call `TapiocaOptionBroker.participate()`.
+    The code is as follows:
+    
+    ```solidity
+        function participate(uint256 _tOLPTokenID) external whenNotPaused nonReentrant returns (uint256 oTAPTokenID) {
+    ...
+    
+            TWAMLPool memory pool = twAML[lock.sglAssetID];
+wiki_exploit_scenario: |
+    Per Solodit #32341: If the user `isApproved()`, the user can call `TapiocaOptionBroker.participate()`.
+    The code is as follows:
+    
+    ```solidity
+        function participate(uint256 _tOLPTokenID) external whenNotPaused nonReentr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18TapiocaoptionbrokerParticipateWithTheApproveAuthorizat"
+solodit_id: "32341"
+solodit_slug: |
+    m-18-tapiocaoptionbrokerparticipate-with-the-approve-authorization-it-still-cannot-be-executed-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal isapproved;"
+fn_name_regex: ".*(isApproved|owner|participate).*"
+read_var_regex: ".*(isApproved|owner|participate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "isApproved"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return isapproved > 0;"

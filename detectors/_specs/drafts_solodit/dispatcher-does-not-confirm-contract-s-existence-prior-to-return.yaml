@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "dispatcher-does-not-confirm-contract-s-existence-prior-to-return"
+class_name: "DispatcherDoesNotConfirmContractSExistencePriorToReturn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #17070 (TrailOfBits/NuCypher)"
+help: "Dispatcher does not confirm contract’s existence prior to returning"
+wiki_title: "Dispatcher does not confirm contract’s existence prior to returning"
+wiki_description: |
+    ## Description
+    The Dispatcher does not verify that a contract exists at the address it is calling `delegatecall`. Many methods in the NuCypher codebase will make state-altering changes when calls to upgradeable contracts fail. The fallback function in `Dispatcher` will return success if the called a
+wiki_exploit_scenario: |
+    Per Solodit #17070: ## Description
+    The Dispatcher does not verify that a contract exists at the address it is calling `delegatecall`. Many methods in the NuCypher codebase will make state-altering changes when calls to u
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DispatcherDoesNotConfirmContractSExistencePriorToReturn"
+solodit_id: "17070"
+solodit_slug: "dispatcher-does-not-confirm-contracts-existence-prior-to-returning-trailofbits-nucypher-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal delegatecall;"
+fn_name_regex: ".*(delegatecall|Dispatcher|selfdestruct|extcodesize).*"
+read_var_regex: ".*(delegatecall|extcodesize|selfdestruct).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "delegatecall"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return delegatecall > 0;"

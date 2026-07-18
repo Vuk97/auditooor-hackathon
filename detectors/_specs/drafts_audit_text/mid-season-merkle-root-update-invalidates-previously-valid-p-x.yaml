@@ -1,0 +1,27 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "mid-season-merkle-root-update-invalidates-previously-valid-p-x"
+class_name: "MidSeasonMerkleRootUpdateInvalidatesPreviouslyValidPX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-07-lido-finance"
+help: |
+    [L-02] Mid-Season Merkle Root Update Invalidates Previously Valid Proofs Type: Operational / Design Limitation Summary In the VettedGate referral reward system, the on-chain contra
+wiki_title: |
+    Mid-Season Merkle Root Update Invalidates Previously Valid Proofs Type: Operational / Design Limitation Summary In the VettedGate referral reward system, the on
+wiki_description: |
+    [L-02] Mid-Season Merkle Root Update Invalidates Previously Valid Proofs Type: Operational / Design Limitation Summary In the VettedGate referral reward system, the on-chain contract stores a single active merkleRoot and verifies claims with respect to that root. If the root is updated mid-season —
+wiki_exploit_scenario: |
+    Per audit finding: [L-02] Mid-Season Merkle Root Update Invalidates Previously Valid Proofs Type: Operational / Design Limitation Summary In the VettedGate referral reward system, the on-chain contract stores a single a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MidSeasonMerkleRootUpdateInvalidatesPreviouslyValidPX"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(merkleRoot|vettedGate|setTreeParams).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

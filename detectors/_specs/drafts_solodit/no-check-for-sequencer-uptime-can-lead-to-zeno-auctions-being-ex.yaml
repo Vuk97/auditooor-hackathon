@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "no-check-for-sequencer-uptime-can-lead-to-zeno-auctions-being-ex"
+class_name: "NoCheckForSequencerUptimeCanLeadToZenoAuctionsBeingEx"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57199 (Codehawks/Core Contracts)"
+help: |
+    No check for sequencer uptime can lead to Zeno auctions being executed at lower prices or may result in incomplete auctions
+wiki_title: |
+    No check for sequencer uptime can lead to Zeno auctions being executed at lower prices or may result in incomplete auctions
+wiki_description: |
+    ## Summary
+    
+    Since sequencer liveness is not checked and the protocol will be deployed in any EVM-compatible chain including L2s, Zeno tokens will not be completely sold or will be sold at lower prices than intended.
+    
+    ## Vulnerability Details
+    
+    The Zeno tokens are solved via an auction. The price of t
+wiki_exploit_scenario: |
+    Per Solodit #57199: ## Summary
+    
+    Since sequencer liveness is not checked and the protocol will be deployed in any EVM-compatible chain including L2s, Zeno tokens will not be completely sold or will be sold at lower prices
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoCheckForSequencerUptimeCanLeadToZenoAuctionsBeingEx"
+solodit_id: "57199"
+solodit_slug: |
+    no-check-for-sequencer-uptime-can-lead-to-zeno-auctions-being-executed-at-lower-prices-or-may-result-in-incomplete-auctions-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getprice;"
+fn_name_regex: ".*(getPrice|whenActive|totalRemaining).*"
+write_var_regex: ".*(getPrice|totalRemaining|whenActive).*"
+guard_var_regex: ".*(getPrice|totalRemaining|whenActive).*"
+vuln_fn_name: "getPrice"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "getprice = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

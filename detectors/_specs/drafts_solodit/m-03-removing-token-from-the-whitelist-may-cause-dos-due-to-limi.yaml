@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_require"
+name: "m-03-removing-token-from-the-whitelist-may-cause-dos-due-to-limi"
+class_name: "M03RemovingTokenFromTheWhitelistMayCauseDosDueToLimi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32133 (Code4rena/Canto)"
+help: "[M-03] Removing token from the whitelist may cause DoS due to limited USDC amount"
+wiki_title: "[M-03] Removing token from the whitelist may cause DoS due to limited USDC amount"
+wiki_description: |
+    Users won’t be able to withdraw `USDC` tokens from `asdUSDC`.
+    
+    ### Proof of Concept
+    
+    Consider a situation where we have two whitelisted `USDC` versions 1 and 2:
+    ```
+    
+        usdcBalances[usdc1] = 1000
+        usdcBalances[usdc2] = 500
+        asdUSDC total supply = 1500
+    ```
+    
+    After some time, `asdUSDC` owner r
+wiki_exploit_scenario: |
+    Per Solodit #32133: Users won’t be able to withdraw `USDC` tokens from `asdUSDC`.
+    
+    ### Proof of Concept
+    
+    Consider a situation where we have two whitelisted `USDC` versions 1 and 2:
+    ```
+    
+        usdcBalances[usdc1] = 1000
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03RemovingTokenFromTheWhitelistMayCauseDosDueToLimi"
+solodit_id: "32133"
+solodit_slug: |
+    m-03-removing-token-from-the-whitelist-may-cause-dos-due-to-limited-usdc-amount-code4rena-canto-canto-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal asdusdc;"
+fn_name_regex: ".*(USDC|asdUSDC|usdc2|usdc1).*"
+write_var_regex: ".*(asdUSDC|usdc1|usdc2).*"
+guard_var_regex: ".*(asdUSDC|usdc1|usdc2).*"
+vuln_fn_name: "USDC"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "asdusdc = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

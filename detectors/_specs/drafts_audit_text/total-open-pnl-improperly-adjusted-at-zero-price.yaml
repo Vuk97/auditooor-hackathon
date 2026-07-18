@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "total-open-pnl-improperly-adjusted-at-zero-price"
+class_name: "TotalOpenPnlImproperlyAdjustedAtZeroPrice"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Ostium - Zellic Audit Report"
+help: |
+    In the updateAccTotalPnl function, the total accumulated PNL is tracked and readjusted for the cur- rent oracle price from the feed: function updateAccTotalPnl( int256 oraclePrice,
+wiki_title: "Total open PNL improperly adjusted at zero price"
+wiki_description: |
+    In the updateAccTotalPnl function, the total accumulated PNL is tracked and readjusted for the cur- rent oracle price from the feed: function updateAccTotalPnl( int256 oraclePrice, uint256 openPrice, uint256 oiNotional, uint16 pairIndex, bool buy, bool open ) external { // [...] if (open) { accTotal
+wiki_exploit_scenario: |
+    Per audit finding: In the updateAccTotalPnl function, the total accumulated PNL is tracked and readjusted for the cur- rent oracle price from the feed: function updateAccTotalPnl( int256 oraclePrice, uint256 openPrice,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TotalOpenPnlImproperlyAdjustedAtZeroPrice"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

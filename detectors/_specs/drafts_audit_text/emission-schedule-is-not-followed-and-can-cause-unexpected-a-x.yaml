@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "emission-schedule-is-not-followed-and-can-cause-unexpected-a-x"
+class_name: "EmissionScheduleIsNotFollowedAndCanCauseUnexpectedAX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-loopfi"
+help: |
+    hash Whenever a new emission schedule is to be followed, i.e., block.timestamp becomes greater than the startOffset of the schedule, the setScheduledRewardsPerSecond function invok
+wiki_title: "Emission schedule is not followed and can cause unexpected allocation of rewards"
+wiki_description: |
+    hash Whenever a new emission schedule is to be followed, i.e., block.timestamp becomes greater than the startOffset of the schedule, the setScheduledRewardsPerSecond function invokes the _massUpdatePools function in order to bring the pools to the latest state. function setScheduledRewardsPerSecond
+wiki_exploit_scenario: |
+    Per audit finding: hash Whenever a new emission schedule is to be followed, i.e., block.timestamp becomes greater than the startOffset of the schedule, the setScheduledRewardsPerSecond function invokes the _massUpdatePo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EmissionScheduleIsNotFollowedAndCanCauseUnexpectedAX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(startOffset|setScheduledRewardsPerSecond|persistRewardsPerSecond).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "startOffset"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

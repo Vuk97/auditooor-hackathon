@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-protocol-owner-can-withdraw-all-funds-from-the-bridge"
+class_name: "TheProtocolOwnerCanWithdrawAllFundsFromTheBridge"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Mina Token Bridge EVM - Zellic Audit Report"
+help: |
+    Users can transfer funds across chains through Bridges installed on Ethereum, EVM-compatible chains, and Mina. When a user transfers funds to a bridge on one chain using the lock f
+wiki_title: "The protocol owner can withdraw all funds from the bridge"
+wiki_description: |
+    Users can transfer funds across chains through Bridges installed on Ethereum, EVM-compatible chains, and Mina. When a user transfers funds to a bridge on one chain using the lock function, a backend system provides a message signed by a validator containing information about the trans- ferred fund's
+wiki_exploit_scenario: |
+    Per audit finding: Users can transfer funds across chains through Bridges installed on Ethereum, EVM-compatible chains, and Mina. When a user transfers funds to a bridge on one chain using the lock function, a backend s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheProtocolOwnerCanWithdrawAllFundsFromTheBridge"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawETH|onlyOwner).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "withdrawETH"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

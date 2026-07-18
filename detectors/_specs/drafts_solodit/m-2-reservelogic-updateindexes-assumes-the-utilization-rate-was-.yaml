@@ -1,0 +1,49 @@
+skeleton: "state_write_without_paired_write"
+name: "m-2-reservelogic-updateindexes-assumes-the-utilization-rate-was-"
+class_name: "M2ReservelogicUpdateindexesAssumesTheUtilizationRateWas"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #55040 (Sherlock/Yieldoor)"
+help: |
+    M-2: `ReserveLogic::_updateIndexes()` assumes the utilization rate was constant the whole time when calculating the new borrows
+wiki_title: |
+    M-2: `ReserveLogic::_updateIndexes()` assumes the utilization rate was constant the whole time when calculating the new borrows
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-02-yieldoor-judging/issues/86 
+    
+    ## Found by 
+    0x73696d616f
+    
+    ### Summary
+    
+    `ReserveLogic::_updateIndexes()` is as [follows](https://github.com/sherlock-audit/2025-02-yieldoor/blob/main/yieldoor/src/libraries/ReserveLogic.sol#L155-L156):
+    ```solidity
+    functio
+wiki_exploit_scenario: |
+    Per Solodit #55040: Source: https://github.com/sherlock-audit/2025-02-yieldoor-judging/issues/86 
+    
+    ## Found by 
+    0x73696d616f
+    
+    ### Summary
+    
+    `ReserveLogic::_updateIndexes()` is as [follows](https://github.com/sherlock-audi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2ReservelogicUpdateindexesAssumesTheUtilizationRateWas"
+solodit_id: "55040"
+solodit_slug: |
+    m-2-reservelogic_updateindexes-assumes-the-utilization-rate-was-constant-the-whole-time-when-calculating-the-new-borrows-sherlock-yieldoor-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(newBorrowingIndex|latestBorrowingIndex).*"
+primary_var_regex: ".*(latestBorrowingIndex|newBorrowingIndex).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

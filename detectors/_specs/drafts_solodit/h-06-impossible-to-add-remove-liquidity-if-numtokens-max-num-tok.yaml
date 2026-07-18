@@ -1,0 +1,65 @@
+skeleton: "paired_function_divergence"
+name: "h-06-impossible-to-add-remove-liquidity-if-numtokens-max-num-tok"
+class_name: "H06ImpossibleToAddRemoveLiquidityIfNumtokensMaxNumTok"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36346 (Pashov Audit Group/Lucidly)"
+help: "[H-06] Impossible to add/remove liquidity if numTokens < MAX_NUM_TOKENS"
+wiki_title: "[H-06] Impossible to add/remove liquidity if numTokens < MAX_NUM_TOKENS"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    ```
+    function addLiquidity(
+            uint256[MAX_NUM_TOKENS] calldata amounts_,
+            uint256 minLpAmount_,
+            address receiver_
+            )
+            external
+            nonReentrant
+            returns (uint256)
+        {
+    ```
+    
+    Here it
+wiki_exploit_scenario: |
+    Per Solodit #36346: **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    ```
+    function addLiquidity(
+            uint256[MAX_NUM_TOKENS] calldata amounts_,
+            uint256 minLpAmount_,
+            address rec
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06ImpossibleToAddRemoveLiquidityIfNumtokensMaxNumTok"
+solodit_id: "36346"
+solodit_slug: |
+    h-06-impossible-to-addremove-liquidity-if-numtokens-max_num_tokens-pashov-audit-group-none-lucidly-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(removeLiquidity).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

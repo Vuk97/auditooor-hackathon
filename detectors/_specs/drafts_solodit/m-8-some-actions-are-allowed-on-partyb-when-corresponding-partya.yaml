@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-8-some-actions-are-allowed-on-partyb-when-corresponding-partya"
+class_name: "M8SomeActionsAreAllowedOnPartybWhenCorrespondingPartya"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21209 (Sherlock/Symmetrical)"
+help: |
+    M-8: Some actions are allowed on partyB when corresponding partyA is liquidated allowing to steal all protocol funds
+wiki_title: |
+    M-8: Some actions are allowed on partyB when corresponding partyA is liquidated allowing to steal all protocol funds
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-06-symmetrical-judging/issues/189 
+    
+    ## Found by 
+    panprog
+    ## Summary
+    
+    `deallocateForPartyB` function doesn't check if partyA is liquidated, allowing partyB to deallocate funds when partyA liquidation process is not finished:
+    
+    https://github.com/sherlock-
+wiki_exploit_scenario: |
+    Per Solodit #21209: Source: https://github.com/sherlock-audit/2023-06-symmetrical-judging/issues/189 
+    
+    ## Found by 
+    panprog
+    ## Summary
+    
+    `deallocateForPartyB` function doesn't check if partyA is liquidated, allowing party
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M8SomeActionsAreAllowedOnPartybWhenCorrespondingPartya"
+solodit_id: "21209"
+solodit_slug: |
+    m-8-some-actions-are-allowed-on-partyb-when-corresponding-partya-is-liquidated-allowing-to-steal-all-protocol-funds-sherlock-none-symmetrical-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal allocatedbalance;"
+fn_name_regex: ".*(deallocateForPartyB|transferAllocation|liquidatePartyA|liquidatePositionsPartyA).*"
+read_var_regex: ".*(allocatedBalance|deallocateForPartyB|liquidatePartyA).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deallocateForPartyB"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return allocatedbalance > 0;"

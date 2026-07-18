@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "h-07-customprecisionmultipliers-would-be-rounded-to-zero-and-bre"
+class_name: "H07CustomprecisionmultipliersWouldBeRoundedToZeroAndBre"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42330 (Code4rena/Boot Finance)"
+help: "[H-07] `customPrecisionMultipliers` would be rounded to zero and break the pool"
+wiki_title: "[H-07] `customPrecisionMultipliers` would be rounded to zero and break the pool"
+wiki_description: |
+    _Submitted by jonah1005_
+    
+    #### Impact
+    
+    `CustomPrecisionMultipliers` are set in the constructor:
+    
+    ```solidity
+    customPrecisionMultipliers[0] = targetPriceStorage.originalPrecisionMultipliers[0].mul(_targetPrice).div(10 ** 18);
+    ```
+    
+    `originalPrecisionMultipliers` equal to 1 if the token's decimal = 18.
+wiki_exploit_scenario: |
+    Per Solodit #42330: _Submitted by jonah1005_
+    
+    #### Impact
+    
+    `CustomPrecisionMultipliers` are set in the constructor:
+    
+    ```solidity
+    customPrecisionMultipliers[0] = targetPriceStorage.originalPrecisionMultipliers[0].mul(_tar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H07CustomprecisionmultipliersWouldBeRoundedToZeroAndBre"
+solodit_id: "42330"
+solodit_slug: |
+    h-07-customprecisionmultipliers-would-be-rounded-to-zero-and-break-the-pool-code4rena-boot-finance-boot-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal originalprecisionmultipliers;"
+fn_name_regex: ".*(CustomPrecisionMultipliers|originalPrecisionMultipliers|customPrecisionMultipliers).*"
+read_var_regex: ".*(originalPrecisionMultipliers).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "CustomPrecisionMultipliers"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return originalprecisionmultipliers > 0;"

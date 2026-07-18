@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "latesttimestamp-create-a-false-sense-of-data-freshness"
+class_name: "LatesttimestampCreateAFalseSenseOfDataFreshness"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52018 (Halborn/EVM Smart Contracts)"
+help: "latestTimestamp create a false sense of data freshness"
+wiki_title: "latestTimestamp create a false sense of data freshness"
+wiki_description: |
+    ##### Description
+    
+    The current implementation of the `latestTimestamp` , `determineTimestamp` and `getTimestamp` functions in the `EACAggregatorCombine` contract can mislead users about the freshness of the data if one of the two aggregators has not updated recently.
+    
+    By returning the latest from th
+wiki_exploit_scenario: |
+    Per Solodit #52018: ##### Description
+    
+    The current implementation of the `latestTimestamp` , `determineTimestamp` and `getTimestamp` functions in the `EACAggregatorCombine` contract can mislead users about the freshness
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LatesttimestampCreateAFalseSenseOfDataFreshness"
+solodit_id: "52018"
+solodit_slug: "latesttimestamp-create-a-false-sense-of-data-freshness-halborn-apro-evm-smart-contracts-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(latestTimestamp|determineTimestamp|getTimestamp|EACAggregatorCombine).*"
+primary_var_regex: ".*(determineTimestamp|getTimestamp|latestTimestamp).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

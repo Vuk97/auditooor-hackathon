@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "missing-contract-existence-check-may-cause-unexpected-behavior"
+class_name: "MissingContractExistenceCheckMayCauseUnexpectedBehavior"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #17199 (TrailOfBits/Parity)"
+help: "Missing contract existence check may cause unexpected behavior"
+wiki_title: "Missing contract existence check may cause unexpected behavior"
+wiki_description: |
+    ## Type: Timing
+    **Target**: GithubHint.sol
+    
+    **Difficulty**: High
+    
+    ## Description
+    `OuterSet` determines the current set of validators by calling its `innerSet`’s `getValidators` function. The lack of a contract existence check allows calls to an invalid address to return successfully instead of throw
+wiki_exploit_scenario: |
+    Per Solodit #17199: ## Type: Timing
+    **Target**: GithubHint.sol
+    
+    **Difficulty**: High
+    
+    ## Description
+    `OuterSet` determines the current set of validators by calling its `innerSet`’s `getValidators` function. The lack of a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingContractExistenceCheckMayCauseUnexpectedBehavior"
+solodit_id: "17199"
+solodit_slug: "missing-contract-existence-check-may-cause-unexpected-behavior-trailofbits-parity-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getvalidator;"
+fn_name_regex: ".*(OuterSet|innerSet|getValidators|getValidator).*"
+read_var_regex: ".*(getValidator|getValidators|innerSet).*"
+required_call_regex: ".*getValidators.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "OuterSet"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getvalidator > 0;"

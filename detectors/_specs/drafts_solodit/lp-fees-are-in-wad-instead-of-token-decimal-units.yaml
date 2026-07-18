@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "lp-fees-are-in-wad-instead-of-token-decimal-units"
+class_name: "LpFeesAreInWadInsteadOfTokenDecimalUnits"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18734 (Spearbit/Primitive)"
+help: "LP fees are in WAD instead of token decimal units"
+wiki_title: "LP fees are in WAD instead of token decimal units"
+wiki_description: |
+    ## Severity: Critical Risk
+    
+    **Context:** Portfolio.sol#L485
+    
+    **Description:** 
+    
+    When swapping, `deltaInput` is in WAD (not token decimals) units. Therefore, `feeAmount` is also in WAD as a percentage of `deltaInput`. When calling `_feeSavingEffects(args.poolId, iteration)` to determine whether to re
+wiki_exploit_scenario: |
+    Per Solodit #18734: ## Severity: Critical Risk
+    
+    **Context:** Portfolio.sol#L485
+    
+    **Description:** 
+    
+    When swapping, `deltaInput` is in WAD (not token decimals) units. Therefore, `feeAmount` is also in WAD as a percentage
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LpFeesAreInWadInsteadOfTokenDecimalUnits"
+solodit_id: "18734"
+solodit_slug: "lp-fees-are-in-wad-instead-of-token-decimal-units-spearbit-none-primitive-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deltainput;"
+fn_name_regex: ".*(deltaInput|feeAmount|syncPositionFees|tokensOwed).*"
+read_var_regex: ".*(deltaInput|feeAmount|syncPositionFees).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deltaInput"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deltainput > 0;"

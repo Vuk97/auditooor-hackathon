@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "tokens-with-callback-support-can-inflate-the-actualamount"
+class_name: "TokensWithCallbackSupportCanInflateTheActualamount"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit SatLayer Pool (Patch) - Zellic Audit Report"
+help: |
+    The depositFor function uses before- and after-balance checks during token transfers to account for the actual amount of transferred tokens. function depositFor(address _token, add
+wiki_title: "Tokens with callback support can inflate the actualAmount"
+wiki_description: |
+    The depositFor function uses before- and after-balance checks during token transfers to account for the actual amount of transferred tokens. function depositFor(address _token, address _for, uint256 _amount) whenNotPaused external { if (_amount == 0) revert DepositAmountCannotBeZero(); if (_for == a
+wiki_exploit_scenario: |
+    Per audit finding: The depositFor function uses before- and after-balance checks during token transfers to account for the actual amount of transferred tokens. function depositFor(address _token, address _for, uint256 _
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokensWithCallbackSupportCanInflateTheActualamount"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositFor|whenNotPaused|tokenAllowlist).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "depositFor"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

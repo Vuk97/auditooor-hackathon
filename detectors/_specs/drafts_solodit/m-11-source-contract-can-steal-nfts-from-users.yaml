@@ -1,0 +1,40 @@
+skeleton: "paired_function_divergence"
+name: "m-11-source-contract-can-steal-nfts-from-users"
+class_name: "M11SourceContractCanStealNftsFromUsers"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5604 (Code4rena/Holograph)"
+help: "[M-11] Source contract can steal NFTs from users"
+wiki_title: "[M-11] Source contract can steal NFTs from users"
+wiki_description: |
+    A source contract can burn and transfer NFTs of users without their permission.
+    
+    ### Proof of Concept
+    
+    Every Holographed ERC721 collection is paired with a source contract, which is the user created contract that's extended by the Holographed ERC721 contract ([HolographFactory.sol#L234-L246](https:
+wiki_exploit_scenario: |
+    Per Solodit #5604: A source contract can burn and transfer NFTs of users without their permission.
+    
+    ### Proof of Concept
+    
+    Every Holographed ERC721 collection is paired with a source contract, which is the user created
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11SourceContractCanStealNftsFromUsers"
+solodit_id: "5604"
+solodit_slug: "m-11-source-contract-can-steal-nfts-from-users-code4rena-holograph-holograph-contest-git"
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Access Control"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(burn|safeTransferFrom|sourceBurn).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "allowed-zero-redeemfresh"
+class_name: "AllowedZeroRedeemfresh"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28470 (MixBytes/C.R.E.A.M. Finance)"
+help: "Allowed zero `redeemFresh`"
+wiki_title: "Allowed zero `redeemFresh`"
+wiki_description: |
+    ##### Description
+    `redeemTokensIn` and `redeemAmountIn` may be both zero: https://github.com/CreamFi/compound-protocol/blob/23a4ae93adc70334553f5a83429a4e967c1eefaa/contracts/CCollateralCapErc20.sol#L559
+    
+    ##### Recommendation
+    Add a check:
+    - append existing require
+    ```solidity=
+    require(redeemTokensIn
+wiki_exploit_scenario: |
+    Per Solodit #28470: ##### Description
+    `redeemTokensIn` and `redeemAmountIn` may be both zero: https://github.com/CreamFi/compound-protocol/blob/23a4ae93adc70334553f5a83429a4e967c1eefaa/contracts/CCollateralCapErc20.sol#L
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AllowedZeroRedeemfresh"
+solodit_id: "28470"
+solodit_slug: "allowed-zero-redeemfresh-mixbytes-none-cream-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal redeemamountin;"
+fn_name_regex: ".*(redeemTokensIn|redeemAmountIn|redeemFresh).*"
+write_var_regex: ".*(redeemAmountIn|redeemTokensIn).*"
+guard_var_regex: ".*(redeemAmountIn|redeemTokensIn).*"
+vuln_fn_name: "redeemTokensIn"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "redeemamountin = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

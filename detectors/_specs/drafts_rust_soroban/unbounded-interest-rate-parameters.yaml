@@ -1,0 +1,20 @@
+id: unbounded-interest-rate-parameters
+title: "Unbounded interest rate parameters allow degenerate curves"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.26"
+bug_class: precision-loss
+indicators:
+  - "`set_interest_rate_params(a, b, c)` with no upper/lower bound check"
+  - "possible to set slope to 0 or astronomical values"
+victim: "Users: degenerate rate curves produce nonsensical borrow rates."
+exploit_precondition: "Admin (or compromised admin) sets extreme parameters."
+real_world_example: |
+  Halborn 7.26 (LOW): Unbounded interest rate parameters allow degenerate curves and mispricing.
+suggested_remediation: "Bound parameters (e.g. slope1 ∈ [0.1%, 50%], kink ∈ [10%, 95%])."
+cross_refs:
+  - unbounded-reserve-factor
+  - out-of-range-reserve-params-truncated

@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "use-call-instead-of-transfer-to-transfer-native-tokens-in-swapcu"
+class_name: "UseCallInsteadOfTransferToTransferNativeTokensInSwapcu"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40879 (Cantina/Sushi)"
+help: "Use .call() instead of .transfer() to transfer native tokens in swapCurve()"
+wiki_title: "Use .call() instead of .transfer() to transfer native tokens in swapCurve() "
+wiki_description: |
+    ## Context: RouteProcessor4.sol#L466
+    
+    ## Description
+    In the `swapCurve()` function, when the swap's output is in native tokens, it is transferred to the `to` address using `.transfer()`.
+    
+    ```solidity
+    if(tokenOut == NATIVE_ADDRESS) {
+        payable(to).transfer(amountOut);
+    } else {
+        // ...
+    }
+    ```
+    
+    How
+wiki_exploit_scenario: |
+    Per Solodit #40879: ## Context: RouteProcessor4.sol#L466
+    
+    ## Description
+    In the `swapCurve()` function, when the swap's output is in native tokens, it is transferred to the `to` address using `.transfer()`.
+    
+    ```solidity
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UseCallInsteadOfTransferToTransferNativeTokensInSwapcu"
+solodit_id: "40879"
+solodit_slug: "use-call-instead-of-transfer-to-transfer-native-tokens-in-swapcurve-cantina-none-sushi-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal swapcurve;"
+fn_name_regex: ".*(swapCurve).*"
+read_var_regex: ".*(swapCurve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swapCurve"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return swapcurve > 0;"

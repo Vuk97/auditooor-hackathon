@@ -1,0 +1,20 @@
+id: post-exit-settlement-erases-rewards
+title: "Post-exit settlement erases pending incentive rewards"
+severity: Medium
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44864"
+bug_class: reward-accounting
+indicators:
+  - "on withdraw/repay full, `user_snapshot` is reset to 0 before pending rewards are settled to the user"
+  - "rewards accrued but never claimable after full exit"
+victim: "Exiting users lose rewards."
+exploit_precondition: "User fully exits a position with pending rewards."
+real_world_example: |
+  V12 #44864 (Medium): Post-exit settlement erases pending incentive rewards.
+suggested_remediation: "Settle pending rewards into claimable balance before resetting snapshot."
+cross_refs:
+  - stale-snapshot-over-claim-rewards
+  - manual-reward-claim-stale-accrued

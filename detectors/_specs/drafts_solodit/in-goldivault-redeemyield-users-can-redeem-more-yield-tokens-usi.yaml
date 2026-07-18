@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "in-goldivault-redeemyield-users-can-redeem-more-yield-tokens-usi"
+class_name: "InGoldivaultRedeemyieldUsersCanRedeemMoreYieldTokensUsi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30928 (Cyfrin/Goldilocks)"
+help: "In `Goldivault.redeemYield()`, users can redeem more yield tokens using reentrancy"
+wiki_title: "In `Goldivault.redeemYield()`, users can redeem more yield tokens using reentrancy"
+wiki_description: |
+    **Severity:** Medium
+    
+    **Description:** Possible reentrancy in `Goldivault.redeemYield()` if `yieldToken` has a `beforeTokenTransfer` hook.
+    
+    - Let's assume `yt.totalSupply = 100, yieldToken.balance = 100` and the user has 20 yt.
+    - The user calls `redeemYield()` with 10 yt.
+    - Then `yt.totalSupply` wil
+wiki_exploit_scenario: |
+    Per Solodit #30928: **Severity:** Medium
+    
+    **Description:** Possible reentrancy in `Goldivault.redeemYield()` if `yieldToken` has a `beforeTokenTransfer` hook.
+    
+    - Let's assume `yt.totalSupply = 100, yieldToken.balance = 1
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InGoldivaultRedeemyieldUsersCanRedeemMoreYieldTokensUsi"
+solodit_id: "30928"
+solodit_slug: |
+    in-goldivaultredeemyield-users-can-redeem-more-yield-tokens-using-reentrancy-cyfrin-none-cyfrin-goldilocks-v11-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal beforetokentransfer;"
+fn_name_regex: ".*(yieldToken|beforeTokenTransfer|redeemYield|nonReentrant).*"
+read_var_regex: ".*(beforeTokenTransfer|nonReentrant|redeemYield).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "yieldToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return beforetokentransfer > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "public-approve-function-allows-to-give-approval-for-any-erc20"
+class_name: "PublicApproveFunctionAllowsToGiveApprovalForAnyErc20"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Voyage - Zellic Audit Report"
+help: |
+    The PeripheryPayments:)approve function does not perform any access control and can be used to invoke approve on any token on behalf of the Voyage contract. function approve( IERC2
+wiki_title: "Public approve function allows to give approval for any ERC20"
+wiki_description: |
+    The PeripheryPayments:)approve function does not perform any access control and can be used to invoke approve on any token on behalf of the Voyage contract. function approve( IERC20 token, address to, uint256 amount ) public payable { token.safeApprove(to, amount); } Furthermore, we have two additio
+wiki_exploit_scenario: |
+    Per audit finding: The PeripheryPayments:)approve function does not perform any access control and can be used to invoke approve on any token on behalf of the Voyage contract. function approve( IERC20 token, address to,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PublicApproveFunctionAllowsToGiveApprovalForAnyErc20"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(safeApprove).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeApprove"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

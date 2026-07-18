@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-02-too-much-fee-charged-when-seaport-is-partially-filled"
+class_name: "M02TooMuchFeeChargedWhenSeaportIsPartiallyFilled"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24873 (Code4rena/LooksRare)"
+help: "[M-02] Too much fee charged when Seaport is partially filled"
+wiki_title: "[M-02] Too much fee charged when Seaport is partially filled"
+wiki_description: |
+    When a user fulfills an order using SeaportProxy, fees are charged in the `\_handleFees` function based on orders.price.
+    
+    ```solidity
+        function _handleFees(
+            BasicOrder[] calldata orders,
+            uint256 feeBp,
+            address feeRecipient
+        ) private {
+            address lastOrderCurrency
+wiki_exploit_scenario: |
+    Per Solodit #24873: When a user fulfills an order using SeaportProxy, fees are charged in the `\_handleFees` function based on orders.price.
+    
+    ```solidity
+        function _handleFees(
+            BasicOrder[] calldata orders,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02TooMuchFeeChargedWhenSeaportIsPartiallyFilled"
+solodit_id: "24873"
+solodit_slug: "m-02-too-much-fee-charged-when-seaport-is-partially-filled-code4rena-looksrare-looksrare-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(feeBp|feeRecipient|lastOrderCurrency|ordersLength).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "feeBp"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

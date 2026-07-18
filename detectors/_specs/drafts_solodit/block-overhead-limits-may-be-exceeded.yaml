@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "block-overhead-limits-may-be-exceeded"
+class_name: "BlockOverheadLimitsMayBeExceeded"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #10313 (OpenZeppelin/zkSync – L1 Diff Audit (February 2023))"
+help: "Block overhead limits may be exceeded"
+wiki_title: "Block overhead limits may be exceeded"
+wiki_description: |
+    In `_getOverheadForTransaction` some overhead values can go over their maximum values if the transaction data or the public data posted (e.g., state changes) are large:
+    
+    
+    * [`_encodingLength`](https://github.com/matter-labs/zksync-2-contracts/blob/3f345ce52bc378c4b5d710c80d817db170775049/ethereum/co
+wiki_exploit_scenario: |
+    Per Solodit #10313: In `_getOverheadForTransaction` some overhead values can go over their maximum values if the transaction data or the public data posted (e.g., state changes) are large:
+    
+    
+    * [`_encodingLength`](https:/
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BlockOverheadLimitsMayBeExceeded"
+solodit_id: "10313"
+solodit_slug: "block-overhead-limits-may-be-exceeded-openzeppelin-zksync-l1-diff-audit-february-2023-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal overheadforcomputation;"
+fn_name_regex: ".*(BOOTLOADER_TX_ENCODING_SPACE|overheadForPublicData|MAX_PUBDATA_PER_BLOCK|overheadForComputation).*"
+read_var_regex: ".*(overheadForComputation|overheadForPublicData).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BOOTLOADER_TX_ENCODING_SPACE"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return overheadforcomputation > 0;"

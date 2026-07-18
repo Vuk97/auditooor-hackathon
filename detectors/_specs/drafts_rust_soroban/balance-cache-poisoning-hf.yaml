@@ -1,0 +1,19 @@
+id: balance-cache-poisoning-hf
+title: "Balance cache poisoning across health factor calculations"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44408"
+bug_class: health-factor
+indicators:
+  - "per-call cache of token balances that survives across mutations within the same tx"
+  - "no cache invalidation after `transfer` / `burn` inside the same call tree"
+victim: "Borrowers: HF computed from stale cached balances."
+exploit_precondition: "Multi-step tx that mutates balances inside a helper that previously cached them."
+real_world_example: |
+  V12 #44408 (Low): Balance cache poisoning across health factor calculations.
+suggested_remediation: "Invalidate balance cache after each mutative call."
+cross_refs:
+  - scaled-share-rounding-mismatch

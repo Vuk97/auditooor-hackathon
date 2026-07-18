@@ -1,0 +1,53 @@
+skeleton: "paired_function_divergence"
+name: "m-02-price-impact-miscalculation-on-partial-closures"
+class_name: "M02PriceImpactMiscalculationOnPartialClosures"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63968 (Pashov Audit Group/Ostium_2025-08-22)"
+help: "[M-02] Price impact miscalculation on partial closures"
+wiki_title: "[M-02] Price impact miscalculation on partial closures"
+wiki_description: |
+    _Resolved_
+    
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When closing a trade via closeTradeMarketCallback, the contract allows a user to specify a percentage of the position to close. The callback correctly applies this percentage when calculating collateral to close, p
+wiki_exploit_scenario: |
+    Per Solodit #63968: _Resolved_
+    
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When closing a trade via closeTradeMarketCallback, the contract allows a user to specify a percentage of the posit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02PriceImpactMiscalculationOnPartialClosures"
+solodit_id: "63968"
+solodit_slug: |
+    m-02-price-impact-miscalculation-on-partial-closures-pashov-audit-group-none-ostium_2025-08-22-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

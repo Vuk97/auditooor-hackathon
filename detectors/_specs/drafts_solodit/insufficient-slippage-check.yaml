@@ -1,0 +1,32 @@
+skeleton: "paired_function_divergence"
+name: "insufficient-slippage-check"
+class_name: "InsufficientSlippageCheck"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49300 (OpenZeppelin/Uniswap Hooks Library Milestone 1 Audit)"
+help: "Insufficient Slippage Check"
+wiki_title: "Insufficient Slippage Check"
+wiki_description: |
+    The [`BaseCustomAccounting` hook](https://github.com/OpenZeppelin/uniswap-hooks/blob/f051c147dbf296b2b854de92970905a880cd1d51/src/base/BaseCustomAccounting.sol#L35) requires users to modify the associated UniswapV4 pool's liquidity only via the hook itself. The liquidity may be modified by using the
+wiki_exploit_scenario: |
+    Per Solodit #49300: The [`BaseCustomAccounting` hook](https://github.com/OpenZeppelin/uniswap-hooks/blob/f051c147dbf296b2b854de92970905a880cd1d51/src/base/BaseCustomAccounting.sol#L35) requires users to modify the associ
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InsufficientSlippageCheck"
+solodit_id: "49300"
+solodit_slug: "insufficient-slippage-check-openzeppelin-none-uniswap-hooks-library-milestone-1-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity|currency0|currency1).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

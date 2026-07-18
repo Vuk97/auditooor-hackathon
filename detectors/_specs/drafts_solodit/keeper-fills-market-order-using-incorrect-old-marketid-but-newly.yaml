@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "keeper-fills-market-order-using-incorrect-old-marketid-but-newly"
+class_name: "KeeperFillsMarketOrderUsingIncorrectOldMarketidButNewly"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34835 (Cyfrin/Zaros)"
+help: |
+    Keeper fills market order using incorrect old `marketId` but newly updated position size when trader updates open order immediately before keeper processes original order
+wiki_title: |
+    Keeper fills market order using incorrect old `marketId` but newly updated position size when trader updates open order immediately before keeper processes orig
+wiki_description: |
+    **Description:** Consider the following scenario:
+    1) A trader creates an order for the BTC market with position size POS_SIZE_A
+    2) Some time passes and the order is not filled by the keeper
+    3) At the same time:
+    3a) The keeper attempts to fill the trader's current open BTC order
+    3b) The trader create
+wiki_exploit_scenario: |
+    Per Solodit #34835: **Description:** Consider the following scenario:
+    1) A trader creates an order for the BTC market with position size POS_SIZE_A
+    2) Some time passes and the order is not filled by the keeper
+    3) At the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "KeeperFillsMarketOrderUsingIncorrectOldMarketidButNewly"
+solodit_id: "34835"
+solodit_slug: |
+    keeper-fills-market-order-using-incorrect-old-marketid-but-newly-updated-position-size-when-trader-updates-open-order-immediately-before-keeper-processes-original-order-cyfrin-none-cyfrinzaros-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(marketId).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "marketId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

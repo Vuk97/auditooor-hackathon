@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "formulaic-error-allows-stakers-to-steal-excess-rewards"
+class_name: "FormulaicErrorAllowsStakersToStealExcessRewards"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Yeet October - Zellic Audit Report"
+help: |
+    The StakingV2 contract tracks total shares staked over reward-bearing epochs. The contract makes formulaic errors due to incorrect units of measurements being used during subtracti
+wiki_title: "Formulaic error allows stakers to steal excess rewards"
+wiki_description: |
+    The StakingV2 contract tracks total shares staked over reward-bearing epochs. The contract makes formulaic errors due to incorrect units of measurements being used during subtraction of earned[msg.sender]. This leads to less rewards being deducted than are withdrawn by the user. The StakeV2._verifyA
+wiki_exploit_scenario: |
+    Per audit finding: The StakingV2 contract tracks total shares staked over reward-bearing epochs. The contract makes formulaic errors due to incorrect units of measurements being used during subtraction of earned[msg.sen
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FormulaicErrorAllowsStakersToStealExcessRewards"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(sharesToWithdraw|amountToWithdraw|rewardIndex).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "sharesToWithdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-ether-transfer"
+class_name: "IncorrectEtherTransfer"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56571 (Zokyo/Shyft)"
+help: "Incorrect Ether transfer"
+wiki_title: "Incorrect Ether transfer"
+wiki_description: |
+    **Description**
+    
+    ShyftStaking.sol, unstake() (line 267), notifyRewardAmount() (line 316),
+    finishPrePurchasersMode() (line 424), _getReward() (line457)
+    After the Istanbul and Berlin updates, sending Eth with transfer() and send() methods is
+    forbidden since it may fail during fallback function call be
+wiki_exploit_scenario: |
+    Per Solodit #56571: **Description**
+    
+    ShyftStaking.sol, unstake() (line 267), notifyRewardAmount() (line 316),
+    finishPrePurchasersMode() (line 424), _getReward() (line457)
+    After the Istanbul and Berlin updates, sending Et
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectEtherTransfer"
+solodit_id: "56571"
+solodit_slug: "incorrect-ether-transfer-zokyo-none-shyft-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(notifyRewardAmount|finishPrePurchasersMode).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "notifyRewardAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

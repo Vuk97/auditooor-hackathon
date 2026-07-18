@@ -1,0 +1,37 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-03-the-use-of-spot-price-by-coresaltyfeed-can-lead-to-price-ma"
+class_name: "H03TheUseOfSpotPriceByCoresaltyfeedCanLeadToPriceMa"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31108 (Code4rena/Salty.IO)"
+help: |
+    [H-03] The use of spot price by CoreSaltyFeed can lead to price manipulation and undesired liquidations
+wiki_title: |
+    [H-03] The use of spot price by CoreSaltyFeed can lead to price manipulation and undesired liquidations
+wiki_description: |
+    When the price moves, Chainlink instantly reports the spot price, while the TWAP slowly changes the price. The spot price of CoreSaltyFeed can be manipulated, allowing an attacker to move the price in a desired direction.
+    
+    ### Vulnerability Details
+    
+    1.  The spot price of `CoreSaltyFeed` can be mani
+wiki_exploit_scenario: |
+    Per Solodit #31108: When the price moves, Chainlink instantly reports the spot price, while the TWAP slowly changes the price. The spot price of CoreSaltyFeed can be manipulated, allowing an attacker to move the price i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03TheUseOfSpotPriceByCoresaltyfeedCanLeadToPriceMa"
+solodit_id: "31108"
+solodit_slug: |
+    h-03-the-use-of-spot-price-by-coresaltyfeed-can-lead-to-price-manipulation-and-undesired-liquidations-code4rena-saltyio-saltyio-git
+solodit_quality: "3"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(CoreSaltyFeed).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

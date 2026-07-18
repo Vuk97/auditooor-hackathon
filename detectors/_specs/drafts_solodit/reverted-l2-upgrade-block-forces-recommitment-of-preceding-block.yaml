@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "reverted-l2-upgrade-block-forces-recommitment-of-preceding-block"
+class_name: "RevertedL2UpgradeBlockForcesRecommitmentOfPrecedingBlock"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32668 (OpenZeppelin/zkSync Upgrade System Audit)"
+help: "Reverted L2 Upgrade Block Forces Recommitment of Preceding Blocks with Incorrect Values"
+wiki_title: "Reverted L2 Upgrade Block Forces Recommitment of Preceding Blocks with Incorrect Values"
+wiki_description: |
+    An L2 upgrade block that has been reverted may prompt the recommitment of the blocks preceding the upgrade. Given that the block height is [enforced based on the previously recorded `l2SystemContractsUpgradeBlockNumber` (prior to being reverted)](https://github.com/matter-labs/zksync-2-contracts/blo
+wiki_exploit_scenario: |
+    Per Solodit #32668: An L2 upgrade block that has been reverted may prompt the recommitment of the blocks preceding the upgrade. Given that the block height is [enforced based on the previously recorded `l2SystemContracts
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RevertedL2UpgradeBlockForcesRecommitmentOfPrecedingBlock"
+solodit_id: "32668"
+solodit_slug: |
+    reverted-l2-upgrade-block-forces-recommitment-of-preceding-blocks-with-incorrect-values-openzeppelin-none-zksync-upgrade-system-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal l2bootloaderbytecodehash;"
+fn_name_regex: ".*(l2SystemContractsUpgradeBlockNumber|l2BootloaderBytecodeHash|l2DefaultAccountBytecodeHash|revertBlocks).*"
+read_var_regex: ".*(l2BootloaderBytecodeHash|l2DefaultAccountBytecodeHash|l2SystemContractsUpgradeBlockNumber).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "l2SystemContractsUpgradeBlockNumber"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return l2bootloaderbytecodehash > 0;"

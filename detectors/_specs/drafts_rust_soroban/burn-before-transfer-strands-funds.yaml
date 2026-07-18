@@ -1,0 +1,19 @@
+id: burn-before-transfer-strands-funds
+title: "Burn-before-transfer strands funds on transfer failure"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44509"
+bug_class: error-handling
+indicators:
+  - "`burn_scaled(amount); token.transfer(to, amount)` where transfer can fail"
+  - "no refund path / no try-catch with rollback"
+victim: "Users: burned but funds stuck."
+exploit_precondition: "External token transfer fails."
+real_world_example: |
+  V12 #44509 (Low): Burn-before-transfer strands funds.
+suggested_remediation: "Transfer first, then burn; or roll back burn on transfer failure."
+cross_refs:
+  - swap-errors-strand-transferred-assets

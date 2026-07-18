@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "the-min-quorum-max-quorum-flips-interpolation"
+class_name: "TheMinQuorumMaxQuorumFlipsInterpolation"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit All in Bits - Zellic Audit Report"
+help: |
+    The quorum is defined as: quorum = min_quorum + (max_quorum - min_quorum) * participationEMA However, validation only enforces each value is in [0, 1]. If min_quorum is set higher
+wiki_title: "The min_quorum > max_quorum flips interpolation"
+wiki_description: |
+    The quorum is defined as: quorum = min_quorum + (max_quorum - min_quorum) * participationEMA However, validation only enforces each value is in [0, 1]. If min_quorum is set higher than max_quorum, the (max - min) term becomes negative and the curve is inverted. Higher participation lowers quorum and
+wiki_exploit_scenario: |
+    Per audit finding: The quorum is defined as: quorum = min_quorum + (max_quorum - min_quorum) * participationEMA However, validation only enforces each value is in [0, 1]. If min_quorum is set higher than max_quorum, the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheMinQuorumMaxQuorumFlipsInterpolation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(participationEMA).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "participationEMA"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

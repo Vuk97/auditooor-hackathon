@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "h-05-malicious-user-can-stake-an-amount-which-causes-zero-cursta"
+class_name: "H05MaliciousUserCanStakeAnAmountWhichCausesZeroCursta"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #32187 (Code4rena/AI Arena)"
+help: |
+    [H-05] Malicious user can stake an amount which causes zero curStakeAtRisk on a loss but equal rewardPoints to a fair user on a win
+wiki_title: |
+    [H-05] Malicious user can stake an amount which causes zero curStakeAtRisk on a loss but equal rewardPoints to a fair user on a win
+wiki_description: |
+    The [\_getStakingFactor()](https://github.com/code-423n4/2024-02-ai-arena/blob/main/src/RankedBattle.sol#L530-L532) function rounds-up the `stakingFactor_` to one if its zero. Additionally, the [\_addResultPoints()](https://github.com/code-423n4/2024-02-ai-arena/blob/main/src/RankedBattle.sol#L439)
+wiki_exploit_scenario: |
+    Per Solodit #32187: The [\_getStakingFactor()](https://github.com/code-423n4/2024-02-ai-arena/blob/main/src/RankedBattle.sol#L530-L532) function rounds-up the `stakingFactor_` to one if its zero. Additionally, the [\_ad
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05MaliciousUserCanStakeAnAmountWhichCausesZeroCursta"
+solodit_id: "32187"
+solodit_slug: |
+    h-05-malicious-user-can-stake-an-amount-which-causes-zero-curstakeatrisk-on-a-loss-but-equal-rewardpoints-to-a-fair-user-on-a-win-code4rena-ai-arena-ai-arena-git
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: ""
+state_decl: "uint256 internal curstakeatrisk;"
+fn_name_regex: ".*(stakingFactor_|curStakeAtRisk).*"
+read_var_regex: ".*(curStakeAtRisk|stakingFactor_).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "stakingFactor_"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return curstakeatrisk > 0;"

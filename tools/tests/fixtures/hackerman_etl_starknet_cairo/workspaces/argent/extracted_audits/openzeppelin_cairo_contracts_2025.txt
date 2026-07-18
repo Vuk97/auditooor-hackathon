@@ -1,0 +1,30 @@
+OpenZeppelin Cairo Contracts 2025 Internal Review
+
+Repository: github.com/OpenZeppelin/cairo-contracts
+
+This document covers the openzeppelin-cairo component library used by StarkNet
+account contracts.
+
+## H-01 multicall isolation bypass in account component allows reentrancy
+
+Severity High
+
+The account component re-uses `tx_info.account_contract_address` across nested
+calls inside the multicall executor. A malicious callee can call back into
+`execute_calls` and observe sibling-call storage writes, defeating multicall
+isolation.
+
+Recommendation: guard the multicall executor with the OpenZeppelin
+ReentrancyGuard Cairo component (reentrancyguard_cpt) and re-derive
+tx_info per nested call.
+
+## M-02 paymaster signature replay across outside_execution windows
+
+Severity Medium
+
+The paymaster nonce is checked but the SNIP-9 outside_execution timestamp
+window is not bound to the chain_id. An attacker who observes a paymaster
+signature on testnet can replay it on mainnet within the validity window.
+
+Mitigation: include chain_id, contract_address, and a strictly-increasing
+nonce inside the Pedersen hash that the StarkCurve signature commits to.

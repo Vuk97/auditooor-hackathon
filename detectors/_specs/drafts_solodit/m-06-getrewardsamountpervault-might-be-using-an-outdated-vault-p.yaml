@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_call"
+name: "m-06-getrewardsamountpervault-might-be-using-an-outdated-vault-p"
+class_name: "M06GetrewardsamountpervaultMightBeUsingAnOutdatedVaultP"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63296 (Pashov Audit Group/Tanssi_2025-04-30)"
+help: "[M-06] `_getRewardsAmountPerVault` might be using an outdated vault power"
+wiki_title: "[M-06] `_getRewardsAmountPerVault` might be using an outdated vault power"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    In Symbiotic, if a vault is slashed in the current epoch, its `activeStake` will be immediately reduced:
+    ```solidity
+    // https://github.com/symbioticfi/core/blob/main/src/contracts/vault/Vault.sol#L237
+                if (slashedAmount
+wiki_exploit_scenario: |
+    Per Solodit #63296: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    In Symbiotic, if a vault is slashed in the current epoch, its `activeStake` will be immediately reduced:
+    ```solidity
+    // https://git
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06GetrewardsamountpervaultMightBeUsingAnOutdatedVaultP"
+solodit_id: "63296"
+solodit_slug: |
+    m-06-_getrewardsamountpervault-might-be-using-an-outdated-vault-power-pashov-audit-group-none-tanssi_2025-04-30-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal activestake;"
+fn_name_regex: ".*(activeStake).*"
+read_var_regex: ".*(activeStake).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "activeStake"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return activestake > 0;"

@@ -1,0 +1,35 @@
+skeleton: "state_write_without_paired_write"
+name: "absence-of-price-staleness-check-in-proposesetprice-function"
+class_name: "AbsenceOfPriceStalenessCheckInProposesetpriceFunction"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51379 (Halborn/Entangle Trillion)"
+help: "Absence of Price Staleness Check in proposeSetPrice Function"
+wiki_title: "Absence of Price Staleness Check in proposeSetPrice Function"
+wiki_description: |
+    ##### Description
+    
+    In the smart contract function `proposeSetPrice`, there is a critical oversight regarding the validation of data freshness, particularly concerning the prices derived from external sources or calculations based on potentially outdated state information. The function calculates a n
+wiki_exploit_scenario: |
+    Per Solodit #51379: ##### Description
+    
+    In the smart contract function `proposeSetPrice`, there is a critical oversight regarding the validation of data freshness, particularly concerning the prices derived from external
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AbsenceOfPriceStalenessCheckInProposesetpriceFunction"
+solodit_id: "51379"
+solodit_slug: |
+    absence-of-price-staleness-check-in-proposesetprice-function-halborn-entangle-labs-entangle-trillion-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(proposeSetPrice|lpTokenFarmBalance|synthTotalSupplyAllChains).*"
+primary_var_regex: ".*(lpTokenFarmBalance|proposeSetPrice|synthTotalSupplyAllChains).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

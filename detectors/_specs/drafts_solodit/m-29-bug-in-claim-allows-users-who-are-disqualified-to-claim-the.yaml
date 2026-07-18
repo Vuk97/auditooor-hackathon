@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-29-bug-in-claim-allows-users-who-are-disqualified-to-claim-the"
+class_name: "M29BugInClaimAllowsUsersWhoAreDisqualifiedToClaimThe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49066 (Code4rena/LoopFi)"
+help: "[M-29] Bug in `claim` allows users who are disqualified to claim their previously earned emissions"
+wiki_title: "[M-29] Bug in `claim` allows users who are disqualified to claim their previously earned emissions"
+wiki_description: |
+    In `ChefIncentivesController.sol`:
+    
+    ```solidity
+    function claim(address _user, address[] memory _tokens) public whenNotPaused {
+      if (eligibilityMode != EligibilityModes.DISABLED) {
+    ->    if (!eligibleDataProvider.isEligibleForRewards(_user)) revert EligibleRequired();
+    ->    checkAndProcessEligibili
+wiki_exploit_scenario: |
+    Per Solodit #49066: In `ChefIncentivesController.sol`:
+    
+    ```solidity
+    function claim(address _user, address[] memory _tokens) public whenNotPaused {
+      if (eligibilityMode != EligibilityModes.DISABLED) {
+    ->    if (!eligibl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M29BugInClaimAllowsUsersWhoAreDisqualifiedToClaimThe"
+solodit_id: "49066"
+solodit_slug: |
+    m-29-bug-in-claim-allows-users-who-are-disqualified-to-claim-their-previously-earned-emissions-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claim;"
+fn_name_regex: ".*(isEligibleForRewards|refresh|claim).*"
+read_var_regex: ".*(claim|isEligibleForRewards|refresh).*"
+required_call_regex: ".*refresh.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "isEligibleForRewards"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claim > 0;"

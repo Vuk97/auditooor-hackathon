@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "rollover-bids-are-set-to-maximum-price-causing-reverts"
+class_name: "RolloverBidsAreSetToMaximumPriceCausingReverts"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26295 (SigmaPrime/Term Finance)"
+help: "Rollover bids are set to maximum price, causing reverts"
+wiki_title: "Rollover bids are set to maximum price, causing reverts"
+wiki_description: |
+    ## Description
+    
+    When processing an auction with at least one rollover bid, the transaction to complete the auction reverts.
+    
+    In `TermAuctionBidLocker._fillRevealedBidsForAuctionClearing()`, all rollover bids have their price set to `type(uint256).max` on line [481]. Rollover bids are submitted with
+wiki_exploit_scenario: |
+    Per Solodit #26295: ## Description
+    
+    When processing an auction with at least one rollover bid, the transaction to complete the auction reverts.
+    
+    In `TermAuctionBidLocker._fillRevealedBidsForAuctionClearing()`, all rollov
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RolloverBidsAreSetToMaximumPriceCausingReverts"
+solodit_id: "26295"
+solodit_slug: "rollover-bids-are-set-to-maximum-price-causing-reverts-sigmaprime-none-term-finance-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal revealedbids;"
+fn_name_regex: ".*(revealedBids).*"
+read_var_regex: ".*(revealedBids).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "revealedBids"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return revealedbids > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "deposits-do-not-check-vault-type"
+class_name: "DepositsDoNotCheckVaultType"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Steer - Zellic Audit Report"
+help: |
+    The deposit function does not check that the vaultAddress parameter is a valid vault. function deposit( address vaultAddress, uint256 amount0Desired, uint256 amount1Desired, uint25
+wiki_title: "Deposits do not check vault type"
+wiki_description: |
+    The deposit function does not check that the vaultAddress parameter is a valid vault. function deposit( address vaultAddress, uint256 amount0Desired, uint256 amount1Desired, uint256 amount0Min, uint256 amount1Min, address to ) external { _deposit( vaultAddress, /) not checked for validity amount0Des
+wiki_exploit_scenario: |
+    Per audit finding: The deposit function does not check that the vaultAddress parameter is a valid vault. function deposit( address vaultAddress, uint256 amount0Desired, uint256 amount1Desired, uint256 amount0Min, uint25
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DepositsDoNotCheckVaultType"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(vaultAddress|amount0Desired|amount1Desired).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "vaultAddress"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

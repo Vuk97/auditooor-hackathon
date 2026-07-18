@@ -1,0 +1,41 @@
+skeleton: "state_write_without_paired_write"
+name: "m-18-status-does-not-update-inside-the-blackgovernor-leading-to-"
+class_name: "M18StatusDoesNotUpdateInsideTheBlackgovernorLeadingTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58352 (Code4rena/Audit 507)"
+help: |
+    [M-18] Status does not update inside the `BlackGovernor` leading to complete distribution of nudge functionality
+wiki_title: |
+    [M-18] Status does not update inside the `BlackGovernor` leading to complete distribution of nudge functionality
+wiki_description: |
+    <https://github.com/code-423n4/2025-05-blackhole/blob/main/contracts/governance/Governor.sol# L308-L330>
+    
+    ### Finding description and impact
+    
+    `MinterUpgradeable` has `nudge` function that is called by the `BlackGovernor` contract. The nudge function then check the `status` of the `BlackGovernor` a
+wiki_exploit_scenario: |
+    Per Solodit #58352: <https://github.com/code-423n4/2025-05-blackhole/blob/main/contracts/governance/Governor.sol# L308-L330>
+    
+    ### Finding description and impact
+    
+    `MinterUpgradeable` has `nudge` function that is called
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18StatusDoesNotUpdateInsideTheBlackgovernorLeadingTo"
+solodit_id: "58352"
+solodit_slug: |
+    m-18-status-does-not-update-inside-the-blackgovernor-leading-to-complete-distribution-of-nudge-functionality-code4rena-audit-507-audit-507-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(MinterUpgradeable|nudge|BlackGovernor|status).*"
+primary_var_regex: ".*(execute|nudge|status).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

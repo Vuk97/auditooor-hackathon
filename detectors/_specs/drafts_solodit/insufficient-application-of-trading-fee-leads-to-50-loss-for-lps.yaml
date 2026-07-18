@@ -1,0 +1,55 @@
+skeleton: "paired_function_divergence"
+name: "insufficient-application-of-trading-fee-leads-to-50-loss-for-lps"
+class_name: "InsufficientApplicationOfTradingFeeLeadsTo50LossForLps"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18284 (Spearbit/Sudoswap LSSVM2)"
+help: "Insufficient application of trading fee leads to 50% loss for LPs in swapTokenForAnyNFTs()"
+wiki_title: "Insufficient application of trading fee leads to 50% loss for LPs in swapTokenForAnyNFTs()"
+wiki_description: |
+    ## Vulnerability Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    - `LSSVMPairERC1155.sol#L114`
+    - `LSSVMPairERC1155.sol#L61-L63`
+    - `LSSVMPairERC721.sol#L51-L59`
+    
+    ## Description
+    The protocol applies a trading fee of `2 * tradeFee` on NFT buys from pairs (to compensate for `0` fees on NFT sells as noted
+wiki_exploit_scenario: |
+    Per Solodit #18284: ## Vulnerability Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    - `LSSVMPairERC1155.sol#L114`
+    - `LSSVMPairERC1155.sol#L61-L63`
+    - `LSSVMPairERC721.sol#L51-L59`
+    
+    ## Description
+    The protocol applies a tra
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InsufficientApplicationOfTradingFeeLeadsTo50LossForLps"
+solodit_id: "18284"
+solodit_slug: |
+    insufficient-application-of-trading-fee-leads-to-50-loss-for-lps-in-swaptokenforanynfts-spearbit-sudoswap-lssvm2-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(tradeFee).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

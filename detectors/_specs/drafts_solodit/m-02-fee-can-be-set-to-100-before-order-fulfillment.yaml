@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_require"
+name: "m-02-fee-can-be-set-to-100-before-order-fulfillment"
+class_name: "M02FeeCanBeSetTo100BeforeOrderFulfillment"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31409 (Pashov Audit Group/Pump)"
+help: "[M-02] Fee can be set to 100% before order fulfillment"
+wiki_title: "[M-02] Fee can be set to 100% before order fulfillment"
+wiki_description: |
+    **Severity**
+    
+    **Impact:**
+    High, as it can mean the order recipient will receive nothing in exchange for his tokens
+    
+    **Likelihood:**
+    Low, as it requires a malicious or compromised admin
+    
+    **Description**
+    
+    The `setFeeRate` method in `PumpV1` currently has no input validation on the `_feeRate` parameter
+wiki_exploit_scenario: |
+    Per Solodit #31409: **Severity**
+    
+    **Impact:**
+    High, as it can mean the order recipient will receive nothing in exchange for his tokens
+    
+    **Likelihood:**
+    Low, as it requires a malicious or compromised admin
+    
+    **Description*
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02FeeCanBeSetTo100BeforeOrderFulfillment"
+solodit_id: "31409"
+solodit_slug: "m-02-fee-can-be-set-to-100-before-order-fulfillment-pashov-none-pump-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal fulfill;"
+fn_name_regex: ".*(setFeeRate|PumpV1|fulfill).*"
+write_var_regex: ".*(fulfill|setFeeRate).*"
+guard_var_regex: ".*(fulfill|setFeeRate).*"
+vuln_fn_name: "setFeeRate"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "fulfill = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

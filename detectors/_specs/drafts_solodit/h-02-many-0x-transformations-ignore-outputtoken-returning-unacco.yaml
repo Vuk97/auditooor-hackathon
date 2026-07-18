@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "h-02-many-0x-transformations-ignore-outputtoken-returning-unacco"
+class_name: "H02Many0xTransformationsIgnoreOutputtokenReturningUnacco"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31759 (ZachObront/Sentiment 0X Aura)"
+help: |
+    [H-02] Many 0x transformations ignore outputToken, returning unaccounted for tokens to account and risking liquidations
+wiki_title: |
+    [H-02] Many 0x transformations ignore outputToken, returning unaccounted for tokens to account and risking liquidations
+wiki_description: |
+    When we call `transformERC20()` on the 0x contract, the following inputs are included as arguments:
+    ```solidity
+    function transformERC20(
+        address inputToken,
+        address outputToken,
+        uint256 inputTokenAmount,
+        uint256 minOutputTokenAmount,
+        Transformation[] calldata transformations
+    ) ex
+wiki_exploit_scenario: |
+    Per Solodit #31759: When we call `transformERC20()` on the 0x contract, the following inputs are included as arguments:
+    ```solidity
+    function transformERC20(
+        address inputToken,
+        address outputToken,
+        uint256 in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02Many0xTransformationsIgnoreOutputtokenReturningUnacco"
+solodit_id: "31759"
+solodit_slug: |
+    h-02-many-0x-transformations-ignore-outputtoken-returning-unaccounted-for-tokens-to-account-and-risking-liquidations-zachobront-none-sentiment-0x-aura-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal inputtoken;"
+fn_name_regex: ".*(transformERC20|outputToken|minOutputTokenAmount|transformations).*"
+read_var_regex: ".*(inputToken|minOutputTokenAmount|outputToken).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transformERC20"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return inputtoken > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "bridge-fee-only-charged-on-convenience-swap"
+class_name: "BridgeFeeOnlyChargedOnConvenienceSwap"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit WOOFi Swap - Zellic Audit Report"
+help: |
+    The function crossSwap is called on WooCrossChainRouterV4 to initiate a cross-chain swap: function crossSwap( uint256 refId, address payable to, SrcInfos memory srcInfos, DstInfos
+wiki_title: "Bridge fee only charged on convenience swap"
+wiki_description: |
+    The function crossSwap is called on WooCrossChainRouterV4 to initiate a cross-chain swap: function crossSwap( uint256 refId, address payable to, SrcInfos memory srcInfos, DstInfos calldata dstInfos, Src1inch calldata src1inch, Dst1inch calldata dst1inch ) external payable whenNotPaused nonReentrant
+wiki_exploit_scenario: |
+    Per audit finding: The function crossSwap is called on WooCrossChainRouterV4 to initiate a cross-chain swap: function crossSwap( uint256 refId, address payable to, SrcInfos memory srcInfos, DstInfos calldata dstInfos, S
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BridgeFeeOnlyChargedOnConvenienceSwap"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(crossSwap|refId|srcInfos).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "crossSwap"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,45 @@
+skeleton: "paired_function_divergence"
+name: "h-04-bypass-the-maximum-pnl-check-to-take-extra-profit"
+class_name: "H04BypassTheMaximumPnlCheckToTakeExtraProfit"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6323 (Code4rena/Tigris Trade)"
+help: "[H-04] Bypass the maximum PnL check to take extra profit"
+wiki_title: "[H-04] Bypass the maximum PnL check to take extra profit"
+wiki_description: |
+    To protect the fund of vault, the protocol has a security mechanism which limits:
+    
+        Maximum PnL is +500%. 
+    
+    source: <https://docs.tigris.trade/protocol/trading-and-fees#limitations>
+    
+    But the implementation is missing to check this limitation while `addToPosition()`, an attacker can exploit it to
+wiki_exploit_scenario: |
+    Per Solodit #6323: To protect the fund of vault, the protocol has a security mechanism which limits:
+    
+        Maximum PnL is +500%. 
+    
+    source: <https://docs.tigris.trade/protocol/trading-and-fees#limitations>
+    
+    But the imple
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04BypassTheMaximumPnlCheckToTakeExtraProfit"
+solodit_id: "6323"
+solodit_slug: |
+    h-04-bypass-the-maximum-pnl-check-to-take-extra-profit-code4rena-tigris-trade-tigris-trade-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addToPosition).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

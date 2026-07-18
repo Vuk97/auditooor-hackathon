@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "lendingpool-getnormalizedincome-returns-stale-liquidity-index"
+class_name: "LendingpoolGetnormalizedincomeReturnsStaleLiquidityIndex"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57181 (Codehawks/Core Contracts)"
+help: "LendingPool::getNormalizedIncome() returns stale liquidity index"
+wiki_title: "LendingPool::getNormalizedIncome() returns stale liquidity index"
+wiki_description: |
+    ## Summary
+    
+    In `LendingPool` the functions that rely on the indexes (liquidity index, usage index) update them before executing state changes, in order to ensure they are working with accurate data. \
+    \
+    On the other hand `LendingPool::getNormalizedIncome()` method does not refresh the liquidity inde
+wiki_exploit_scenario: |
+    Per Solodit #57181: ## Summary
+    
+    In `LendingPool` the functions that rely on the indexes (liquidity index, usage index) update them before executing state changes, in order to ensure they are working with accurate data. \
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LendingpoolGetnormalizedincomeReturnsStaleLiquidityIndex"
+solodit_id: "57181"
+solodit_slug: |
+    lendingpoolgetnormalizedincome-returns-stale-liquidity-index-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(LendingPool|RToken).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

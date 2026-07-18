@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "txs-that-are-too-large-are-rejected-without-error"
+class_name: "TxsThatAreTooLargeAreRejectedWithoutError"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Astria Shared Sequencer April - Zellic Audit Report"
+help: |
+    The Composer component's Collector will collect transactions from rollup nodes and send them to the Executor, which will attempt to construct bundles of transactions to be submitte
+wiki_title: "TXs that are too large are rejected without error"
+wiki_description: |
+    The Composer component's Collector will collect transactions from rollup nodes and send them to the Executor, which will attempt to construct bundles of transactions to be submitted to the Se- quencer. In this case, if one of the rollup transactions is too large, the Executor simply drops the transa
+wiki_exploit_scenario: |
+    Per audit finding: The Composer component's Collector will collect transactions from rollup nodes and send them to the Executor, which will attempt to construct bundles of transactions to be submitted to the Se- quencer
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TxsThatAreTooLargeAreRejectedWithoutError"
+state_decl: "uint256 internal curr_bundle;"
+fn_name_regex: ".*(seq_action|curr_bundle|finished).*"
+read_var_regex: ".*(curr_bundle|finished|seq_action).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "seq_action"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return curr_bundle > 0;"

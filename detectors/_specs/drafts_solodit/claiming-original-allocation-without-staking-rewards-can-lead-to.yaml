@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "claiming-original-allocation-without-staking-rewards-can-lead-to"
+class_name: "ClaimingOriginalAllocationWithoutStakingRewardsCanLeadTo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #46636 (Cantina/Usual)"
+help: "Claiming original allocation without staking rewards can lead to total loss of rewards"
+wiki_title: "Claiming original allocation without staking rewards can lead to total loss of rewards "
+wiki_description: |
+    ## Vulnerability Report: Usual Staking Contract (UsualSP)
+    
+    ## Context
+    - **File**: UsualSP.sol#L235-L251
+    
+    ## Description
+    The Usual staking contract (UsualSP) has a vulnerability where users who claim their original vested allocation without first claiming their staking rewards can lose all accumulate
+wiki_exploit_scenario: |
+    Per Solodit #46636: ## Vulnerability Report: Usual Staking Contract (UsualSP)
+    
+    ## Context
+    - **File**: UsualSP.sol#L235-L251
+    
+    ## Description
+    The Usual staking contract (UsualSP) has a vulnerability where users who claim t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ClaimingOriginalAllocationWithoutStakingRewardsCanLeadTo"
+solodit_id: "46636"
+solodit_slug: |
+    claiming-original-allocation-without-staking-rewards-can-lead-to-total-loss-of-rewards-cantina-none-usual-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(claimOriginalAllocation|claimReward).*"
+primary_var_regex: ".*(claimOriginalAllocation|claimReward).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

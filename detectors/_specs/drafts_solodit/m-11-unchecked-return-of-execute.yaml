@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "m-11-unchecked-return-of-execute"
+class_name: "M11UncheckedReturnOfExecute"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #22008 (Code4rena/Popcorn)"
+help: "[M-11] Unchecked return of `execute()`"
+wiki_title: "[M-11] Unchecked return of `execute()`"
+wiki_description: |
+    Across the `VaultController.sol` there are many external calls to the `AdminProxy.sol` via `execute()`. Looking at the `execute()` function in `AdminProxy.sol`:
+    
+    ```solidity
+    function execute(address target, bytes calldata callData)
+        external
+        onlyOwner 
+        returns (bool success, bytes memory
+wiki_exploit_scenario: |
+    Per Solodit #22008: Across the `VaultController.sol` there are many external calls to the `AdminProxy.sol` via `execute()`. Looking at the `execute()` function in `AdminProxy.sol`:
+    
+    ```solidity
+    function execute(address
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11UncheckedReturnOfExecute"
+solodit_id: "22008"
+solodit_slug: "m-11-unchecked-return-of-execute-code4rena-popcorn-popcorn-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calldata;"
+fn_name_regex: ".*(execute|callData).*"
+write_var_regex: ".*(callData|execute).*"
+guard_var_regex: ".*(callData|execute).*"
+vuln_fn_name: "execute"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "calldata = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

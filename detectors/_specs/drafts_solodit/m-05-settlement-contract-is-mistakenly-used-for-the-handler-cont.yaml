@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-05-settlement-contract-is-mistakenly-used-for-the-handler-cont"
+class_name: "M05SettlementContractIsMistakenlyUsedForTheHandlerCont"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49152 (Code4rena/Chakra)"
+help: |
+    [M-05] Settlement contract is mistakenly used for the handler contract when assigning `ReceivedCrossChainTx` struct
+wiki_title: |
+    [M-05] Settlement contract is mistakenly used for the handler contract when assigning `ReceivedCrossChainTx` struct
+wiki_description: |
+    ### Impact
+    
+    `receive_cross_chain_msg()` is located in the Settlement contract and is called after the Chakra network signature verification process. However, when creating `ReceivedCrossChainTx` struct for the new `receive_cross_txs[txid]`, the contract mistakenly uses `address(this)` instead of `t
+wiki_exploit_scenario: |
+    Per Solodit #49152: ### Impact
+    
+    `receive_cross_chain_msg()` is located in the Settlement contract and is called after the Chakra network signature verification process. However, when creating `ReceivedCrossChainTx` stru
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05SettlementContractIsMistakenlyUsedForTheHandlerCont"
+solodit_id: "49152"
+solodit_slug: |
+    m-05-settlement-contract-is-mistakenly-used-for-the-handler-contract-when-assigning-receivedcrosschaintx-struct-code4rena-chakra-chakra-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal from_handler;"
+fn_name_regex: ".*(receive_cross_chain_msg|ReceivedCrossChainTx|to_handler|from_handler).*"
+read_var_regex: ".*(from_handler|receive_cross_chain_msg|to_handler).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "receive_cross_chain_msg"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return from_handler > 0;"

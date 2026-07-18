@@ -1,0 +1,60 @@
+skeleton: "name_match_missing_call"
+name: "m-08-users-cannot-burn-their-trsy-in-exchange-for-assets-when-re"
+class_name: "M08UsersCannotBurnTheirTrsyInExchangeForAssetsWhenRe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31706 (Pashov Audit Group/Fyde)"
+help: "[M-08] Users cannot burn their TRSY in exchange for assets when RelayerV2.withdraw() is paused"
+wiki_title: "[M-08] Users cannot burn their TRSY in exchange for assets when RelayerV2.withdraw() is paused"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    In RelayerV2.sol, the guard, which is appointed by the keeper, can pause the protocol through `pauseProtocol()`.
+    
+    ```
+      function pauseProtocol() public onlyGuard {
+        paused = true;
+        emit Pause(block.timestamp);
+      }
+    ```
+    
+    When
+wiki_exploit_scenario: |
+    Per Solodit #31706: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    In RelayerV2.sol, the guard, which is appointed by the keeper, can pause the protocol through `pauseProtocol()`.
+    
+    ```
+      function p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08UsersCannotBurnTheirTrsyInExchangeForAssetsWhenRe"
+solodit_id: "31706"
+solodit_slug: |
+    m-08-users-cannot-burn-their-trsy-in-exchange-for-assets-when-relayerv2withdraw-is-paused-pashov-none-fyde-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal governancewithdraw;"
+fn_name_regex: ".*(pauseProtocol|whenNotPaused|withdraw|governanceWithdraw).*"
+read_var_regex: ".*(governanceWithdraw|pauseProtocol|whenNotPaused).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "pauseProtocol"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return governancewithdraw > 0;"

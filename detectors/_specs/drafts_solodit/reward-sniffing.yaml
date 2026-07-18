@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "reward-sniffing"
+class_name: "RewardSniffing"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28529 (MixBytes/NuCypher)"
+help: "Reward sniffing"
+wiki_title: "Reward sniffing"
+wiki_description: |
+    ##### Description
+    User can deposit-withdraw tokens several times (at the same transaction), causing reward sniffing.
+    The emulation of this behavior is presented below:
+    ```python
+    def main():
+        deployer = accounts[0]
+        workerOwner = accounts[1]
+        
+        escrow = deployer.deploy(StakingEscrowMock)
+wiki_exploit_scenario: |
+    Per Solodit #28529: ##### Description
+    User can deposit-withdraw tokens several times (at the same transaction), causing reward sniffing.
+    The emulation of this behavior is presented below:
+    ```python
+    def main():
+        deploy
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RewardSniffing"
+solodit_id: "28529"
+solodit_slug: "reward-sniffing-mixbytes-none-nucypher-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(workerOwner|setAllTokens|workerFraction|enableDeposit).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "workerOwner"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

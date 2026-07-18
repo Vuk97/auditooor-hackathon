@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "boost-delegator-might-not-receive-delegate-fee-in-some"
+class_name: "BoostDelegatorMightNotReceiveDelegateFeeInSome"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Prisma Finance - Zellic Audit Report"
+help: |
+    Participating in Prisma governance requires that a user lock a balance of PRISMA to- kens. Once locked, the tokens give the user lock weight, which is used in determining voting po
+wiki_title: "Boost delegator might not receive delegate fee in some"
+wiki_description: |
+    Participating in Prisma governance requires that a user lock a balance of PRISMA to- kens. Once locked, the tokens give the user lock weight, which is used in determining voting power. Anyone with lock weight has the option to make their boost available for use by other users. This is known as boost
+wiki_exploit_scenario: |
+    Per audit finding: Participating in Prisma governance requires that a user lock a balance of PRISMA to- kens. Once locked, the tokens give the user lock weight, which is used in determining voting power. Anyone with loc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BoostDelegatorMightNotReceiveDelegateFeeInSome"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(feePct|lockWeeks|boostDelegate).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "feePct"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

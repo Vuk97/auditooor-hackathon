@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "pools-can-be-drained-via-the-rebalance-mechanism-by-selectively-"
+class_name: "PoolsCanBeDrainedViaTheRebalanceMechanismBySelectively"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57124 (TrailOfBits/Bunni v2)"
+help: |
+    Pools can be drained via the rebalance mechanism by selectively executing the rebalanceOrderPreHook and the rebalanceOrderPostHook
+wiki_title: |
+    Pools can be drained via the rebalance mechanism by selectively executing the rebalanceOrderPreHook and the rebalanceOrderPostHook
+wiki_description: |
+    ## Diﬃculty: Medium
+    
+    ## Type: Data Validation
+    
+    ### Description
+    Any pool that has an active rebalance order can be drained because the BunniHook does not enforce that a `rebalanceOrderPreHook` and `rebalanceOrderPostHook` need to be executed together.
+    
+    When a rebalance order is fulfilled by using the
+wiki_exploit_scenario: |
+    Per Solodit #57124: ## Diﬃculty: Medium
+    
+    ## Type: Data Validation
+    
+    ### Description
+    Any pool that has an active rebalance order can be drained because the BunniHook does not enforce that a `rebalanceOrderPreHook` and `reb
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PoolsCanBeDrainedViaTheRebalanceMechanismBySelectively"
+solodit_id: "57124"
+solodit_slug: |
+    pools-can-be-drained-via-the-rebalance-mechanism-by-selectively-executing-the-rebalanceorderprehook-and-the-rebalanceorderposthook-trailofbits-none-bunni-v2-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal fulfillorder;"
+fn_name_regex: ".*(rebalanceOrderPreHook|rebalanceOrderPostHook|fulfillOrder).*"
+read_var_regex: ".*(fulfillOrder|rebalanceOrderPostHook|rebalanceOrderPreHook).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rebalanceOrderPreHook"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return fulfillorder > 0;"

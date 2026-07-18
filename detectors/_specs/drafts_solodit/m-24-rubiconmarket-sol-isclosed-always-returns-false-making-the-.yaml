@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "m-24-rubiconmarket-sol-isclosed-always-returns-false-making-the-"
+class_name: "M24RubiconmarketSolIsclosedAlwaysReturnsFalseMakingThe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42602 (Code4rena/Rubicon)"
+help: |
+    [M-24] `RubiconMarket.sol#isClosed()` always returns false, making the market can not be stopped as designed
+wiki_title: |
+    [M-24] `RubiconMarket.sol#isClosed()` always returns false, making the market can not be stopped as designed
+wiki_description: |
+    _Submitted by WatchPug, also found by Ruhum, Chom, Dravee, Hawkeye, MaratCerby, minhquanym, csanuragjain, and fatherOfBlocks_
+    
+    ```solidity
+        function isClosed() public pure returns (bool closed) {
+            return false;
+        }
+    ```
+    
+    > After close, no new buys are allowed.
+    
+    Based on context and commen
+wiki_exploit_scenario: |
+    Per Solodit #42602: _Submitted by WatchPug, also found by Ruhum, Chom, Dravee, Hawkeye, MaratCerby, minhquanym, csanuragjain, and fatherOfBlocks_
+    
+    ```solidity
+        function isClosed() public pure returns (bool closed) {
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M24RubiconmarketSolIsclosedAlwaysReturnsFalseMakingThe"
+solodit_id: "42602"
+solodit_slug: |
+    m-24-rubiconmarketsolisclosed-always-returns-false-making-the-market-can-not-be-stopped-as-designed-code4rena-rubicon-rubicon-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal can_buy;"
+fn_name_regex: ".*(isClosed|can_offer|can_buy|stopped).*"
+read_var_regex: ".*(can_buy|can_offer|isClosed).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "isClosed"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return can_buy > 0;"

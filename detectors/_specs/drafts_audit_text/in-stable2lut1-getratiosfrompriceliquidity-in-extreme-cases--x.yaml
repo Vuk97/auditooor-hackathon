@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "in-stable2lut1-getratiosfrompriceliquidity-in-extreme-cases--x"
+class_name: "InStable2lut1GetratiosfrompriceliquidityInExtremeCasesX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-basin"
+help: |
+    Egis_Security This is one of the edge cases in getRatiosFromPriceLiquidity : if ( price < 0.001083e6 ) { revert ( "LUT: Invalid price" ); } else { return PriceData ( 0.27702e6 0 9.
+wiki_title: "In Stable2LUT1::getRatiosFromPriceLiquidity , in extreme cases, updateReserve will start breaking"
+wiki_description: |
+    Egis_Security This is one of the edge cases in getRatiosFromPriceLiquidity : if ( price < 0.001083e6 ) { revert ( "LUT: Invalid price" ); } else { return PriceData ( 0.27702e6 0 9.646293093274934449e18 0.001083e6 0 2000e18 1e18 ); } The range where the price can be is very large, between 0.27702e6 (
+wiki_exploit_scenario: |
+    Per audit finding: Egis_Security This is one of the edge cases in getRatiosFromPriceLiquidity : if ( price < 0.001083e6 ) { revert ( "LUT: Invalid price" ); } else { return PriceData ( 0.27702e6 0 9.646293093274934449e1
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InStable2lut1GetratiosfrompriceliquidityInExtremeCasesX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getRatiosFromPriceLiquidity|highPrice|lowPrice).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getRatiosFromPriceLiquidity"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

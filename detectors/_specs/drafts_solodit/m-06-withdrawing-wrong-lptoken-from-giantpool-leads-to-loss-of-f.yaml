@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "m-06-withdrawing-wrong-lptoken-from-giantpool-leads-to-loss-of-f"
+class_name: "M06WithdrawingWrongLptokenFromGiantpoolLeadsToLossOfF"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5914 (Code4rena/Stakehouse Protocol)"
+help: "[M-06] Withdrawing wrong LPToken from GiantPool leads to loss of funds"
+wiki_title: "[M-06] Withdrawing wrong LPToken from GiantPool leads to loss of funds"
+wiki_description: |
+    The `GiantPoolBase.withdrawLPTokens` function (<https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/GiantPoolBase.sol#L69>) allows to withdraw LP tokens from a GiantPool by burning an equal amount of GiantLP.
+    
+    This allows a user to
+wiki_exploit_scenario: |
+    Per Solodit #5914: The `GiantPoolBase.withdrawLPTokens` function (<https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/GiantPoolBase.sol#L69>) allows
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06WithdrawingWrongLptokenFromGiantpoolLeadsToLossOfF"
+solodit_id: "5914"
+solodit_slug: |
+    m-06-withdrawing-wrong-lptoken-from-giantpool-leads-to-loss-of-funds-code4rena-stakehouse-protocol-lsd-network-stakehouse-contest-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Validation, Lending Pool"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawLPTokens).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "withdrawLPTokens"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

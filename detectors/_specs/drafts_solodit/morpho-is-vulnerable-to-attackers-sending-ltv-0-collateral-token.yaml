@@ -1,0 +1,55 @@
+skeleton: "name_match_missing_call"
+name: "morpho-is-vulnerable-to-attackers-sending-ltv-0-collateral-token"
+class_name: "MorphoIsVulnerableToAttackersSendingLtv0CollateralToken"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16217 (Spearbit/Morpho)"
+help: |
+    Morpho is vulnerable to attackers sending LTV = 0 collateral tokens, supply/supplyCollateral, borrow and liquidate operations could stop working
+wiki_title: |
+    Morpho is vulnerable to attackers sending LTV = 0 collateral tokens, supply/supplyCollateral, borrow and liquidate operations could stop working
+wiki_description: |
+    ## Severity: Critical Risk
+    
+    ## Context:
+    - **Morpho related context:** 
+      - PositionsManager.sol#L120-L121
+      - PositionsManager.sol#L180
+      - PositionsManager.sol#L213
+      - PositionsManager.sol#L261
+    
+    - **Aave related context:** 
+      - ValidationLogic.sol#L605-L608
+      - SupplyLogic.sol#L146-L156
+      - Supply
+wiki_exploit_scenario: |
+    Per Solodit #16217: ## Severity: Critical Risk
+    
+    ## Context:
+    - **Morpho related context:** 
+      - PositionsManager.sol#L120-L121
+      - PositionsManager.sol#L180
+      - PositionsManager.sol#L213
+      - PositionsManager.sol#L261
+    
+    - *
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MorphoIsVulnerableToAttackersSendingLtv0CollateralToken"
+solodit_id: "16217"
+solodit_slug: |
+    morpho-is-vulnerable-to-attackers-sending-ltv-0-collateral-tokens-supplysupplycollateral-bor-spearbit-morpho-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(supplyCollateral).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "supplyCollateral"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

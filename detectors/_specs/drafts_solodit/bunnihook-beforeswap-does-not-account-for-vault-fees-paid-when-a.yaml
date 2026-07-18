@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "bunnihook-beforeswap-does-not-account-for-vault-fees-paid-when-a"
+class_name: "BunnihookBeforeswapDoesNotAccountForVaultFeesPaidWhenA"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #56980 (Cyfrin/Bunni)"
+help: |
+    `BunniHook::beforeSwap` does not account for vault fees paid when adjusting raw token balances which could result in small losses to liquidity providers
+wiki_title: |
+    `BunniHook::beforeSwap` does not account for vault fees paid when adjusting raw token balances which could result in small losses to liquidity providers
+wiki_description: |
+    **Description:** Unlike during pool deposits, `BunniHook::beforeSwap` does not charge an additional fee on swaps that result in input tokens being moved to/from vaults that charge a fee on such operations. The `BunniHub` handles swaps via the `hookHandleSwap()` function which checks whether tokens s
+wiki_exploit_scenario: |
+    Per Solodit #56980: **Description:** Unlike during pool deposits, `BunniHook::beforeSwap` does not charge an additional fee on swaps that result in input tokens being moved to/from vaults that charge a fee on such operat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BunnihookBeforeswapDoesNotAccountForVaultFeesPaidWhenA"
+solodit_id: "56980"
+solodit_slug: |
+    bunnihookbeforeswap-does-not-account-for-vault-fees-paid-when-adjusting-raw-token-balances-which-could-result-in-small-losses-to-liquidity-providers-cyfrin-none-bunni-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal hookhandleswap;"
+fn_name_regex: ".*(BunniHub|hookHandleSwap|rawBalance|maxRawBalance).*"
+read_var_regex: ".*(hookHandleSwap|maxRawBalance|rawBalance).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BunniHub"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return hookhandleswap > 0;"

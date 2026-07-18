@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incomplete-duplicate-token-check"
+class_name: "IncompleteDuplicateTokenCheck"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit SoSoValue - Zellic Audit Report"
+help: |
+    In the contracts, a token is represented by the following structure: struct Token { string chain; string symbol; string addr; uint8 decimals; uint256 amount; } To convert the addr
+wiki_title: "Incomplete duplicate-token check"
+wiki_description: |
+    In the contracts, a token is represented by the following structure: struct Token { string chain; string symbol; string addr; uint8 decimals; uint256 amount; } To convert the addr field to the type address, the function stringToAddress is used at many places. It converts the hexadecimal string to a
+wiki_exploit_scenario: |
+    Per audit finding: In the contracts, a token is represented by the following structure: struct Token { string chain; string symbol; string addr; uint8 decimals; uint256 amount; } To convert the addr field to the type ad
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncompleteDuplicateTokenCheck"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stringToAddress|strBytes|addrBytes).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "stringToAddress"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

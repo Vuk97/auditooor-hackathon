@@ -1,0 +1,49 @@
+skeleton: "paired_function_divergence"
+name: "propertycheckers-and-settings-not-sufficiently-restricted"
+class_name: "PropertycheckersAndSettingsNotSufficientlyRestricted"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18302 (Spearbit/Sudoswap LSSVM2)"
+help: "PropertyCheckers and Settings not sufficiently restricted"
+wiki_title: "PropertyCheckers and Settings not sufficiently restricted"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context 
+    - `LSSVMPairFactory.sol#L120-L201`
+    - `LSSVMPairFactory.sol#L430-L433`
+    - `LSSVMPairFactory.sol#L485-L492`
+    - `StandardSettingsFactory.sol`
+    - `PropertyCheckerFactory.sol`
+    
+    ## Description
+    The `LSSVMPairFactory` accepts any address for external contracts that contain
+wiki_exploit_scenario: |
+    Per Solodit #18302: ## Severity: Medium Risk
+    
+    ## Context 
+    - `LSSVMPairFactory.sol#L120-L201`
+    - `LSSVMPairFactory.sol#L430-L433`
+    - `LSSVMPairFactory.sol#L485-L492`
+    - `StandardSettingsFactory.sol`
+    - `PropertyCheckerFactory
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PropertycheckersAndSettingsNotSufficientlyRestricted"
+solodit_id: "18302"
+solodit_slug: "propertycheckers-and-settings-not-sufficiently-restricted-spearbit-sudoswap-lssvm2-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

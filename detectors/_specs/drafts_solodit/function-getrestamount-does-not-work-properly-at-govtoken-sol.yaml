@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "function-getrestamount-does-not-work-properly-at-govtoken-sol"
+class_name: "FunctionGetrestamountDoesNotWorkProperlyAtGovtokenSol"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56267 (Zokyo/Govworld)"
+help: "Function getRestAmount does not work properly at GOVToken.sol"
+wiki_title: "Function getRestAmount does not work properly at GOVToken.sol"
+wiki_description: |
+    **Description**
+    
+    The variable totalAmount is re-initialized at each iteration of the loop. This means that it
+    always stores the total amount only for the latest type of vesting.
+    // Returns the amount of vesting tokens still locked
+    function getRestAmount(address sender) public view returns (uint256)
+wiki_exploit_scenario: |
+    Per Solodit #56267: **Description**
+    
+    The variable totalAmount is re-initialized at each iteration of the loop. This means that it
+    always stores the total amount only for the latest type of vesting.
+    // Returns the amount
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FunctionGetrestamountDoesNotWorkProperlyAtGovtokenSol"
+solodit_id: "56267"
+solodit_slug: "function-getrestamount-does-not-work-properly-at-govtokensol-zokyo-none-govworld-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalAmount|getRestAmount|vestingTypes|vestingWallets).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

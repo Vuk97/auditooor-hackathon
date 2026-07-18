@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "inconsistent-normal-ball-range-for-new-subscriptions"
+class_name: "InconsistentNormalBallRangeForNewSubscriptions"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Megapot AutoSub_BatchPurchase - Zellic Audit Report"
+help: |
+    Subscription validation uses the current global normalBallMax instead of the drawing’s snapshotted ballMax. When normalBallMax is lowered after a drawing starts, static picks that
+wiki_title: "Inconsistent normal ball range for new subscriptions"
+wiki_description: |
+    Subscription validation uses the current global normalBallMax instead of the drawing’s snapshotted ballMax. When normalBallMax is lowered after a drawing starts, static picks that exceed the new max are silently converted into a dynamic ticket for the entire subscription. If normalBallMax is later r
+wiki_exploit_scenario: |
+    Per audit finding: Subscription validation uses the current global normalBallMax instead of the drawing’s snapshotted ballMax. When normalBallMax is lowered after a drawing starts, static picks that exceed the new max a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentNormalBallRangeForNewSubscriptions"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(normalBallMax|ballMax).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "normalBallMax"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

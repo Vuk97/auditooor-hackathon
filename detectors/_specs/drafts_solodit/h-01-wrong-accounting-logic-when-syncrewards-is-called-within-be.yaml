@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-01-wrong-accounting-logic-when-syncrewards-is-called-within-be"
+class_name: "H01WrongAccountingLogicWhenSyncrewardsIsCalledWithinBe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25436 (Code4rena/Frax Finance)"
+help: |
+    [H-01] Wrong accounting logic when syncRewards() is called within beforeWithdraw makes withdrawals impossible
+wiki_title: |
+    [H-01] Wrong accounting logic when syncRewards() is called within beforeWithdraw makes withdrawals impossible
+wiki_description: |
+    _Submitted by Lambda, also found by bin2chen and Critical_
+    
+    `sfrxETH.beforeWithdraw` first calls the `beforeWithdraw` of `xERC4626`, which decrements `storedTotalAssets` by the given amount. If the timestamp is greater than the `rewardsCycleEnd`, `syncRewards` is called. However, the problem is that
+wiki_exploit_scenario: |
+    Per Solodit #25436: _Submitted by Lambda, also found by bin2chen and Critical_
+    
+    `sfrxETH.beforeWithdraw` first calls the `beforeWithdraw` of `xERC4626`, which decrements `storedTotalAssets` by the given amount. If the ti
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01WrongAccountingLogicWhenSyncrewardsIsCalledWithinBe"
+solodit_id: "25436"
+solodit_slug: |
+    h-01-wrong-accounting-logic-when-syncrewards-is-called-within-beforewithdraw-makes-withdrawals-impossible-code4rena-frax-finance-frax-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal beforewithdraw;"
+fn_name_regex: ".*(beforeWithdraw|xERC4626|storedTotalAssets|rewardsCycleEnd).*"
+read_var_regex: ".*(beforeWithdraw|lastRewardAmount|nextRewards).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "beforeWithdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return beforewithdraw > 0;"

@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "governance-fees-are-part-of-share-reserves-when-closing-non-matu"
+class_name: "GovernanceFeesArePartOfShareReservesWhenClosingNonMatu"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35854 (Spearbit/Hyperdrive June 2023)"
+help: "Governance fees are part of share reserves when closing non-matured longs"
+wiki_title: "Governance fees are part of share reserves when closing non-matured longs"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    HyperdriveLong.sol#L162
+    
+    ## Description
+    Governance fees are not supposed to be part of the share reserves. When closing non-matured longs, they are part of the shares reserves. The relevant flow of variables in `closeLong` is as follows:
+    
+    ```solidity
+    closeLong(bond
+wiki_exploit_scenario: |
+    Per Solodit #35854: ## Severity: High Risk
+    
+    ## Context
+    HyperdriveLong.sol#L162
+    
+    ## Description
+    Governance fees are not supposed to be part of the share reserves. When closing non-matured longs, they are part of the share
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GovernanceFeesArePartOfShareReservesWhenClosingNonMatu"
+solodit_id: "35854"
+solodit_slug: |
+    governance-fees-are-part-of-share-reserves-when-closing-non-matured-longs-spearbit-none-hyperdrive-june-2023-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal closelong;"
+fn_name_regex: ".*(closeLong|totalGovernanceFee).*"
+read_var_regex: ".*(closeLong|totalGovernanceFee).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "closeLong"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return closelong > 0;"

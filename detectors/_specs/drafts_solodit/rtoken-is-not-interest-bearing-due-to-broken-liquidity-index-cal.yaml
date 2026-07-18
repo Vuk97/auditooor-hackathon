@@ -1,0 +1,35 @@
+skeleton: "state_write_without_paired_write"
+name: "rtoken-is-not-interest-bearing-due-to-broken-liquidity-index-cal"
+class_name: "RtokenIsNotInterestBearingDueToBrokenLiquidityIndexCal"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57190 (Codehawks/Core Contracts)"
+help: "RToken is Not Interest Bearing Due to Broken Liquidity Index Calculation"
+wiki_title: "RToken is Not Interest Bearing Due to Broken Liquidity Index Calculation"
+wiki_description: |
+    ## Summary
+    
+    The RToken is not interest bearing. During the withdrawal process, the amount owed to the user is not properly scaled to include interest. Specifically, the calculation of liquidity index upon burning during the withdrawal process from LendingPool is broken. No interest is calculated or
+wiki_exploit_scenario: |
+    Per Solodit #57190: ## Summary
+    
+    The RToken is not interest bearing. During the withdrawal process, the amount owed to the user is not properly scaled to include interest. Specifically, the calculation of liquidity index
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RtokenIsNotInterestBearingDueToBrokenLiquidityIndexCal"
+solodit_id: "57190"
+solodit_slug: |
+    rtoken-is-not-interest-bearing-due-to-broken-liquidity-index-calculation-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(amount).*"
+primary_var_regex: ".*(amount).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

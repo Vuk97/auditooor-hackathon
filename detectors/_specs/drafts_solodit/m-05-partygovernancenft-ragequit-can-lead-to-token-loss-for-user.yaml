@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-05-partygovernancenft-ragequit-can-lead-to-token-loss-for-user"
+class_name: "M05PartygovernancenftRagequitCanLeadToTokenLossForUser"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29551 (Code4rena/Party Protocol)"
+help: |
+    [M-05] `PartyGovernanceNFT#rageQuit()` can lead to token loss for users when dealing with zero-balance ERC20 during a `rageQuit()`
+wiki_title: |
+    [M-05] `PartyGovernanceNFT#rageQuit()` can lead to token loss for users when dealing with zero-balance ERC20 during a `rageQuit()`
+wiki_description: |
+    Calling Party's `rageQuit()` with a zero-balance ERC20 disregards the `minWithdrawAmounts` array, resulting in the loss of user tokens without compensation.
+    
+    ### Proof of Concept
+    
+    Consider the following scenario illustrating the issue:
+    1. A Party holds `USDC` tokens.
+    2. The entire `USDC` balance is
+wiki_exploit_scenario: |
+    Per Solodit #29551: Calling Party's `rageQuit()` with a zero-balance ERC20 disregards the `minWithdrawAmounts` array, resulting in the loss of user tokens without compensation.
+    
+    ### Proof of Concept
+    
+    Consider the follow
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05PartygovernancenftRagequitCanLeadToTokenLossForUser"
+solodit_id: "29551"
+solodit_slug: |
+    m-05-partygovernancenftragequit-can-lead-to-token-loss-for-users-when-dealing-with-zero-balance-erc20-during-a-ragequit-code4rena-party-protocol-party-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(rageQuit|minWithdrawAmounts|USDC|amount).*"
+read_var_regex: ".*(amount|minWithdrawAmounts|rageQuit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rageQuit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

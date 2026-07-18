@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "gas-is-not-consumed-when-precompile-method-fail-allowing-res-x"
+class_name: "GasIsNotConsumedWhenPrecompileMethodFailAllowingResX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-11-nibiru"
+help: |
+    0x007 Finding description and impact When a precompile method fails (e.g., due to an error), gas is not consumed as the method returns early before invoking the gas consumption log
+wiki_title: "Gas is not consumed when precompile method fail, allowing resource consumption related DOS"
+wiki_description: |
+    0x007 Finding description and impact When a precompile method fails (e.g., due to an error), gas is not consumed as the method returns early before invoking the gas consumption logic. This issue affects all three precompiles in the system: FunToken Wasm Oracle The lack of gas consumption on failure
+wiki_exploit_scenario: |
+    Per audit finding: 0x007 Finding description and impact When a precompile method fails (e.g., due to an error), gas is not consumed as the method returns early before invoking the gas consumption logic. This issue affec
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GasIsNotConsumedWhenPrecompileMethodFailAllowingResX"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(startResult|requiredGas|maxMultistoreCacheCount).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

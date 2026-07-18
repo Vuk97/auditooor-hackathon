@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-12-compoundhandler-topup-using-the-wrong-function-selector-mak"
+class_name: "M12CompoundhandlerTopupUsingTheWrongFunctionSelectorMak"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2101 (Code4rena/Backd)"
+help: |
+    [M-12] `CompoundHandler#topUp()` Using the wrong function selector makes native token `topUp()` always revert
+wiki_title: |
+    [M-12] `CompoundHandler#topUp()` Using the wrong function selector makes native token `topUp()` always revert
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    [compound-finance/CEther.sol#L44-L47](https://github.com/compound-finance/compound-protocol/blob/v2.8.1/contracts/CEther.sol#L44-L47)<br>
+    
+    ```solidity
+    function mint() external payable {
+        (uint err,) = mintInternal(msg.value);
+        requireNoError(err, "mint failed");
+    }
+    ```
+wiki_exploit_scenario: |
+    Per Solodit #2101: _Submitted by WatchPug_
+    
+    [compound-finance/CEther.sol#L44-L47](https://github.com/compound-finance/compound-protocol/blob/v2.8.1/contracts/CEther.sol#L44-L47)<br>
+    
+    ```solidity
+    function mint() external
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12CompoundhandlerTopupUsingTheWrongFunctionSelectorMak"
+solodit_id: "2101"
+solodit_slug: |
+    m-12-compoundhandlertopup-using-the-wrong-function-selector-makes-native-token-topup-always-revert-code4rena-backd-backd-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal mint;"
+fn_name_regex: ".*(mint|CEther|parameter|CToken).*"
+read_var_regex: ".*(mint|parameter|topUp).*"
+required_call_regex: ".*parameter.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mint"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return mint > 0;"

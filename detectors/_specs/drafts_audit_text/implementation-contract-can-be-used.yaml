@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "implementation-contract-can-be-used"
+class_name: "ImplementationContractCanBeUsed"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Lido Fixed Income - Zellic Audit Report"
+help: |
+    During the construction of the VaultFactory, the implementation LidoVault is constructed: constructor(uint256 _protocolFeeBps, uint256 _earlyExitFeeBps) { // [...] vaultContract =
+wiki_title: "Implementation contract can be used"
+wiki_description: |
+    During the construction of the VaultFactory, the implementation LidoVault is constructed: constructor(uint256 _protocolFeeBps, uint256 _earlyExitFeeBps) { // [...] vaultContract = address(new LidoVault()); } However, this implementation contract is fully usable by the first to call initialize on it,
+wiki_exploit_scenario: |
+    Per audit finding: During the construction of the VaultFactory, the implementation LidoVault is constructed: constructor(uint256 _protocolFeeBps, uint256 _earlyExitFeeBps) { // [...] vaultContract = address(new LidoVaul
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ImplementationContractCanBeUsed"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(vaultContract).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "vaultContract"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

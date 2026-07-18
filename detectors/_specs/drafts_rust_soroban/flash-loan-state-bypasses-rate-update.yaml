@@ -1,0 +1,19 @@
+id: flash-loan-state-bypasses-rate-update
+title: "Global flash-loan state allows attackers to bypass interest rate updates on huge borrows"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44598"
+bug_class: reward-accounting
+indicators:
+  - "flash loan sets an `in_flash_loan` flag that causes rate-update helpers to skip"
+  - "huge borrow happens during the flag window without rate refresh"
+victim: "Suppliers: rate doesn't rise to reflect increased demand."
+exploit_precondition: "Flash-loan user performs side actions under the flag."
+real_world_example: |
+  V12 #44598 (Low): Global flash loan state allows attackers to bypass interest rate updates on huge borrows.
+suggested_remediation: "Don't skip rate updates based on a global flag; refresh on every borrow event."
+cross_refs:
+  - global-pause-does-not-stop-flash-loans

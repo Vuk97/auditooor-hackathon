@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-03-setting-deposit-limit-to-zero-stops-all-new-deposits"
+class_name: "M03SettingDepositLimitToZeroStopsAllNewDeposits"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31641 (Pashov Audit Group/Nume)"
+help: "[M-03] Setting deposit limit to zero stops all new deposits"
+wiki_title: "[M-03] Setting deposit limit to zero stops all new deposits"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High, new deposit will be stopped (DoS)
+    
+    **Likelihood:** Low, zero input by mistake or with the intention to cancel/disable deposit limit
+    
+    **Description**
+    
+    Deposit limits are managed with functions `setDepositsLimit()` and `setNftDepositsLimit()`.
+    They set `depositsLimit` a
+wiki_exploit_scenario: |
+    Per Solodit #31641: **Severity**
+    
+    **Impact:** High, new deposit will be stopped (DoS)
+    
+    **Likelihood:** Low, zero input by mistake or with the intention to cancel/disable deposit limit
+    
+    **Description**
+    
+    Deposit limits are
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03SettingDepositLimitToZeroStopsAllNewDeposits"
+solodit_id: "31641"
+solodit_slug: "m-03-setting-deposit-limit-to-zero-stops-all-new-deposits-pashov-none-nume-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositslimit;"
+fn_name_regex: ".*(setDepositsLimit|setNftDepositsLimit|depositsLimit|nftDepositsLimit).*"
+read_var_regex: ".*(depositsLimit|nftDepositsLimit|setDepositsLimit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setDepositsLimit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return depositslimit > 0;"

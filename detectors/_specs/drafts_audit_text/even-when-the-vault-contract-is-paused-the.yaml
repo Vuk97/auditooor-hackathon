@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "even-when-the-vault-contract-is-paused-the"
+class_name: "EvenWhenTheVaultContractIsPausedThe"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-bakerfi-invitational"
+help: |
+    klau5 Finding description and impact When the contract is paused, rebalance is not paused. While users cannot withdraw, performance fees can still be collected from interest. Proof
+wiki_title: "Even when the Vault contract is paused, the"
+wiki_description: |
+    klau5 Finding description and impact When the contract is paused, rebalance is not paused. While users cannot withdraw, performance fees can still be collected from interest. Proof of Concept The rebalance should not be callable when paused (according to the documentation ), but it can still be call
+wiki_exploit_scenario: |
+    Per audit finding: klau5 Finding description and impact When the contract is paused, rebalance is not paused. While users cannot withdraw, performance fees can still be collected from interest. Proof of Concept The reba
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EvenWhenTheVaultContractIsPausedThe"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(nonReentrant|onlyRole|numCommands).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "nonReentrant"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

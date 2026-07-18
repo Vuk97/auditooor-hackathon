@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-15-borrow-rate-calculation-can-cause-vtoken-accrueinterest-to-"
+class_name: "M15BorrowRateCalculationCanCauseVtokenAccrueinterestTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20784 (Code4rena/Venus Protocol)"
+help: |
+    [M-15] Borrow rate calculation can cause VToken.accrueInterest() to revert, DoSing all major functionality
+wiki_title: |
+    [M-15] Borrow rate calculation can cause VToken.accrueInterest() to revert, DoSing all major functionality
+wiki_description: |
+    Borrow rates are calculated dynamically and `VToken.accrueInterest()` [reverts](https://github.com/code-423n4/2023-05-venus/blob/main/contracts/VToken.sol#L695-L696) if the calculated rate is greater than a hard-coded maximum. As `accrueInterest()` is called by most VToken functions, this state cau
+wiki_exploit_scenario: |
+    Per Solodit #20784: Borrow rates are calculated dynamically and `VToken.accrueInterest()` [reverts](https://github.com/code-423n4/2023-05-venus/blob/main/contracts/VToken.sol#L695-L696) if the calculated rate is greater
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15BorrowRateCalculationCanCauseVtokenAccrueinterestTo"
+solodit_id: "20784"
+solodit_slug: |
+    m-15-borrow-rate-calculation-can-cause-vtokenaccrueinterest-to-revert-dosing-all-major-functionality-code4rena-venus-protocol-venus-protocol-isolated-pools-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accrueinterest;"
+fn_name_regex: ".*(accrueInterest|borrowRateMantissa).*"
+read_var_regex: ".*(accrueInterest|borrowRateMantissa).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "accrueInterest"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accrueinterest > 0;"

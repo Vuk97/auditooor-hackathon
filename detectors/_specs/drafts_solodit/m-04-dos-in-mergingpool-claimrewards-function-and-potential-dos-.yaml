@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-04-dos-in-mergingpool-claimrewards-function-and-potential-dos-"
+class_name: "M04DosInMergingpoolClaimrewardsFunctionAndPotentialDos"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32194 (Code4rena/AI Arena)"
+help: |
+    [M-04] DoS in `MergingPool::claimRewards` function and potential DoS in `RankedBattle::claimNRN` function if called after a significant amount of rounds passed
+wiki_title: |
+    [M-04] DoS in `MergingPool::claimRewards` function and potential DoS in `RankedBattle::claimNRN` function if called after a significant amount of rounds passed
+wiki_description: |
+    The `MergingPool::claimRewards` function loop through last claimed round ID to the latest round ID ( <https://github.com/code-423n4/2024-02-ai-arena/blob/main/src/MergingPool.sol#L139> ):
+    
+    ```solidity
+    function claimRewards(
+        string[] calldata modelURIs,
+        string[] calldata modelTypes,
+        uint
+wiki_exploit_scenario: |
+    Per Solodit #32194: The `MergingPool::claimRewards` function loop through last claimed round ID to the latest round ID ( <https://github.com/code-423n4/2024-02-ai-arena/blob/main/src/MergingPool.sol#L139> ):
+    
+    ```solidit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04DosInMergingpoolClaimrewardsFunctionAndPotentialDos"
+solodit_id: "32194"
+solodit_slug: |
+    m-04-dos-in-mergingpoolclaimrewards-function-and-potential-dos-in-rankedbattleclaimnrn-function-if-called-after-a-significant-amount-of-rounds-passed-code4rena-ai-arena-ai-arena-git
+solodit_quality: "5"
+solodit_rarity: "2"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimRewards|modelURIs|modelTypes|customAttributes).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimRewards"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,29 @@
+skeleton: name_match_missing_call
+name: callback-reentrancy-no-guard
+class_name: CallbackReentrancyNoGuard
+wave: 16
+severity: HIGH
+confidence: MEDIUM
+source: "Morpho iter 3 I2.B (PreLiquidation onPreLiquidate reentrancy) + OZ H-01 multicall initiator persistence"
+help: "External function makes a callback to msg.sender or a user-supplied address without a nonReentrant guard — the callback recipient can re-enter"
+wiki_title: "External callback without reentrancy guard"
+wiki_description: "A function that makes an external call to a user-controlled address (callback pattern: onX(), onMorphoX(), executeOperation(), etc.) does NOT carry a nonReentrant modifier. The callback recipient can re-enter the calling contract's external functions during the callback window, potentially reading stale or partially-updated state."
+wiki_exploit_scenario: "A pre-liquidation contract calls liquidator.onPreLiquidate() during a repay callback. The liquidator's onPreLiquidate re-enters preLiquidate() for a second seizure. Because preLiquidate has no nonReentrant modifier, the re-entry succeeds, bypassing per-call close-factor limits and atomically seizing more collateral than intended."
+wiki_recommendation: "Add a nonReentrant modifier (Solmate ReentrancyGuard or OpenZeppelin) to every external function that triggers a callback to a user-controlled address. The guard prevents re-entry during the callback window."
+contract_name: CallbackCaller
+state_decl: |
+    uint256 internal totalSeized;
+    mapping(address => uint256) internal positions;
+fn_name_regex: ".*(liquidate|preLiquidate|execute|redeem|claim|withdraw|repay|supply|deposit).*"
+read_var_regex: ".*(position|balance|total|shares|collateral|amount).*"
+required_call_regex: ".*(nonReentrant|locked|_status|reentrancyGuard).*"
+guarded_helper_name: _nonReentrantCheck
+vuln_fn_name: preLiquidate
+vuln_fn_params: "address target, uint256 amount"
+vuln_fn_mutability: "external"
+vuln_fn_mutability_clean: "external"
+vuln_fn_return: "bool"
+vuln_fn_body: |
+    positions[target] -= amount;
+    totalSeized += amount;
+    return true;

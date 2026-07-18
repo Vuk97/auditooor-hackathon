@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-39-erc4626partnermanager-sol-mints-extra-partnergovernance-tok"
+class_name: "M39Erc4626partnermanagerSolMintsExtraPartnergovernanceTok"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26108 (Code4rena/Maia DAO Ecosystem)"
+help: |
+    [M-39] `ERC4626PartnerManager.sol` mints extra `partnerGovernance` tokens to itself, resulting in over supply of governance token
+wiki_title: |
+    [M-39] `ERC4626PartnerManager.sol` mints extra `partnerGovernance` tokens to itself, resulting in over supply of governance token
+wiki_description: |
+    `ERC4626PartnerManager` mints more tokens than needed when the `bHermesRate` increased.
+    
+    1. I suppose it can break the voting in which this token is used. Because `totalSupply` is increased, more and more tokens are stuck in contract after every increasing of `bHermesRate`.
+    2. The second concern, i
+wiki_exploit_scenario: |
+    Per Solodit #26108: `ERC4626PartnerManager` mints more tokens than needed when the `bHermesRate` increased.
+    
+    1. I suppose it can break the voting in which this token is used. Because `totalSupply` is increased, more and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M39Erc4626partnermanagerSolMintsExtraPartnergovernanceTok"
+solodit_id: "26108"
+solodit_slug: |
+    m-39-erc4626partnermanagersol-mints-extra-partnergovernance-tokens-to-itself-resulting-in-over-supply-of-governance-token-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bhermes;"
+fn_name_regex: ".*(ERC4626PartnerManager|bHermesRate|totalSupply|partnerVault).*"
+read_var_regex: ".*(bHermes|bHermesRate|govToken).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ERC4626PartnerManager"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return bhermes > 0;"

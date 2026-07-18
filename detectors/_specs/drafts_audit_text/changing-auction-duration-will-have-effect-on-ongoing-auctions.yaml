@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "changing-auction-duration-will-have-effect-on-ongoing-auctions"
+class_name: "ChangingAuctionDurationWillHaveEffectOnOngoingAuctions"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-benddao"
+help: |
+    SpicyMeatball Impact Auctions created before the auction duration was changed will have their duration shortened/extended, which may catch their participants off guard. Proof of Co
+wiki_title: "Changing auction duration will have effect on ongoing auctions"
+wiki_description: |
+    SpicyMeatball Impact Auctions created before the auction duration was changed will have their duration shortened/extended, which may catch their participants off guard. Proof of Concept When an isolated position reaches it’s liquidation threshold, users can put it up for auction to pay off the debt
+wiki_exploit_scenario: |
+    Per audit finding: SpicyMeatball Impact Auctions created before the auction duration was changed will have their duration shortened/extended, which may catch their participants off guard. Proof of Concept When an isolat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChangingAuctionDurationWillHaveEffectOnOngoingAuctions"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(auctionDuration|setAssetAuctionParams|auctionEndTimestamp).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "auctionDuration"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

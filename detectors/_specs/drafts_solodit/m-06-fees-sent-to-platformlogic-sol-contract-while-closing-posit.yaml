@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-06-fees-sent-to-platformlogic-sol-contract-while-closing-posit"
+class_name: "M06FeesSentToPlatformlogicSolContractWhileClosingPosit"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44118 (Shieldify/Pearlabs)"
+help: |
+    [M-06] Fees Sent to `PlatformLogic.sol` Contract While Closing Position Do Not Account For Insufficient Adapter Funds
+wiki_title: |
+    [M-06] Fees Sent to `PlatformLogic.sol` Contract While Closing Position Do Not Account For Insufficient Adapter Funds
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    In case a position is closed, function `withdrawClosedSize()` is called to send fees from the `adapter` to the `PlatformLogic.sol` contract, in order to pay fees with it:
+    
+    The problem is that the position may not have enough funds to send to the `PlatformLog
+wiki_exploit_scenario: |
+    Per Solodit #44118: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    In case a position is closed, function `withdrawClosedSize()` is called to send fees from the `adapter` to the `PlatformLogic.sol` contract, in order to pay f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06FeesSentToPlatformlogicSolContractWhileClosingPosit"
+solodit_id: "44118"
+solodit_slug: |
+    m-06-fees-sent-to-platformlogicsol-contract-while-closing-position-do-not-account-for-insufficient-adapter-funds-shieldify-none-pearlabs-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal adapter;"
+fn_name_regex: ".*(withdrawClosedSize|adapter|GmxAdapter).*"
+read_var_regex: ".*(adapter|withdrawClosedSize).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdrawClosedSize"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return adapter > 0;"

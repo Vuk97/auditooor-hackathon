@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "m-22-lagging-median-gas-price-when-the-set-of-observers-changes"
+class_name: "M22LaggingMedianGasPriceWhenTheSetOfObserversChanges"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36951 (Code4rena/ZetaChain)"
+help: "[M-22] Lagging median gas price when the set of observers changes"
+wiki_title: "[M-22] Lagging median gas price when the set of observers changes"
+wiki_description: |
+    The median gas price used within ZetaChain may be inaccurate and lagging, causing outbound transactions to be underpriced and pending in the mempool and gas fees to be underpaid by users.
+    
+    ### Proof of Concept
+    
+    ZetaChain observers, i.e., zetaclients, watch the gas prices of the external chains and
+wiki_exploit_scenario: |
+    Per Solodit #36951: The median gas price used within ZetaChain may be inaccurate and lagging, causing outbound transactions to be underpriced and pending in the mempool and gas fees to be underpaid by users.
+    
+    ### Proof
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M22LaggingMedianGasPriceWhenTheSetOfObserversChanges"
+solodit_id: "36951"
+solodit_slug: "m-22-lagging-median-gas-price-when-the-set-of-observers-changes-code4rena-zetachain-zetachain-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(MsgGasPriceVoter|GasPriceVoter|GasPrice|Prices).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

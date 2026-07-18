@@ -1,0 +1,42 @@
+skeleton: "paired_function_divergence"
+name: "m-04-wrong-init-code-hash"
+class_name: "M04WrongInitCodeHash"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6514 (Code4rena/Numoen)"
+help: "[M-04] Wrong init code hash"
+wiki_title: "[M-04] Wrong init code hash"
+wiki_description: |
+    An init code hash is used to calculate the address of UniswapV2 pair contract. But the init code hash is not same as the latest UniswapV2 repository.
+    
+    ### Proof of Concept
+    
+    UniswapV2Library.pairFor uses the following value as the init code hash of UniswapV2Pair.
+    
+            hex"e18a34eb0e04b04f7a0ac29
+wiki_exploit_scenario: |
+    Per Solodit #6514: An init code hash is used to calculate the address of UniswapV2 pair contract. But the init code hash is not same as the latest UniswapV2 repository.
+    
+    ### Proof of Concept
+    
+    UniswapV2Library.pairFor u
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04WrongInitCodeHash"
+solodit_id: "6514"
+solodit_slug: "m-04-wrong-init-code-hash-code4rena-numoen-numoen-contest-git"
+solodit_quality: "5"
+solodit_rarity: "4.666666666666667"
+solodit_tags: "Uniswap"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

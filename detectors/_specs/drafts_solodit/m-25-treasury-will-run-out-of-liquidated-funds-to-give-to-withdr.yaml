@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_call"
+name: "m-25-treasury-will-run-out-of-liquidated-funds-to-give-to-withdr"
+class_name: "M25TreasuryWillRunOutOfLiquidatedFundsToGiveToWithdr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #45515 (Sherlock/Autonomint Colored Dollar V1)"
+help: |
+    M-25: Treasury will run out of liquidated funds to give to withdrawing users causing withdrawals to fail
+wiki_title: |
+    M-25: Treasury will run out of liquidated funds to give to withdrawing users causing withdrawals to fail
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-11-autonomint-judging/issues/799 
+    
+    ## Found by 
+    John44, Ruhum, almurhasan, pashap9990
+    
+    ### Summary
+    
+    The cached liquidated asset amount is never decreased causing the treasury to believe that it has more funds than it actual does.
+    
+    ### Root Cause
+    
+    In [CD
+wiki_exploit_scenario: |
+    Per Solodit #45515: Source: https://github.com/sherlock-audit/2024-11-autonomint-judging/issues/799 
+    
+    ## Found by 
+    John44, Ruhum, almurhasan, pashap9990
+    
+    ### Summary
+    
+    The cached liquidated asset amount is never decreased
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M25TreasuryWillRunOutOfLiquidatedFundsToGiveToWithdr"
+solodit_id: "45515"
+solodit_slug: |
+    m-25-treasury-will-run-out-of-liquidated-funds-to-give-to-withdrawing-users-causing-withdrawals-to-fail-sherlock-autonomint-colored-dollar-v1-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getliquidatedcollateraltogive;"
+fn_name_regex: ".*(getLiquidatedCollateralToGive|liquidatedCollateralAmountInWei).*"
+read_var_regex: ".*(getLiquidatedCollateralToGive|liquidatedCollateralAmountInWei).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getLiquidatedCollateralToGive"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getliquidatedcollateraltogive > 0;"

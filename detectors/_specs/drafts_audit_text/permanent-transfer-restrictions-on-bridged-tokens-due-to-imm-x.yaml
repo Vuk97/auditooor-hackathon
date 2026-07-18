@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "permanent-transfer-restrictions-on-bridged-tokens-due-to-imm-x"
+class_name: "PermanentTransferRestrictionsOnBridgedTokensDueToImmX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-thorwallet"
+help: |
+    web3km , also found by shaflow2 Severity: High Vulnerability details The TITN protocol recently fixed a problem where users could get around transfer limits by bridging tokens betw
+wiki_title: |
+    Permanent transfer restrictions on bridged tokens due to immutable isBridgedTokenHolder mapping Impact High. Addresses marked as bridged token holders cannot be
+wiki_description: |
+    web3km , also found by shaflow2 Severity: High Vulnerability details The TITN protocol recently fixed a problem where users could get around transfer limits by bridging tokens between different chains. To stop this, a new check was added in _send to make sure that the receiver on the other chain is
+wiki_exploit_scenario: |
+    Per audit finding: web3km , also found by shaflow2 Severity: High Vulnerability details The TITN protocol recently fixed a problem where users could get around transfer limits by bridging tokens between different chains
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PermanentTransferRestrictionsOnBridgedTokensDueToImmX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(isBridgedTokensTransferLocked|isBridgedTokenHolder|arbitrumChainId).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "isBridgedTokensTransferLocked"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

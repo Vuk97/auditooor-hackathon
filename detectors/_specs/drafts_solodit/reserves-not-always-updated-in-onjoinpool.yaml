@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "reserves-not-always-updated-in-onjoinpool"
+class_name: "ReservesNotAlwaysUpdatedInOnjoinpool"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6792 (Spearbit/Sense)"
+help: "Reserves Not Always Updated In onJoinPool()"
+wiki_title: "Reserves Not Always Updated In onJoinPool()"
+wiki_description: |
+    ## Severity: High Risk
+    
+    **Context:** Space.sol#L148-223
+    
+    **Recommendation:** In the ifpart, add something like the following before the call to `_cacheReserves()`:
+    ```
+    reserves[_targeti] += reqAmountsIn[_targeti];
+    ```
+    
+    **Sense:** Addressed in #1.
+    
+    **Spearbit:** Acknowledged.
+wiki_exploit_scenario: |
+    Per Solodit #6792: ## Severity: High Risk
+    
+    **Context:** Space.sol#L148-223
+    
+    **Recommendation:** In the ifpart, add something like the following before the call to `_cacheReserves()`:
+    ```
+    reserves[_targeti] += reqAmounts
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReservesNotAlwaysUpdatedInOnjoinpool"
+solodit_id: "6792"
+solodit_slug: "reserves-not-always-updated-in-onjoinpool-spearbit-sense-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(reqAmountsIn|onJoinPool).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "reqAmountsIn"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

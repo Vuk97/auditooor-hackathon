@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "possible-fee-leeching"
+class_name: "PossibleFeeLeeching"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit WOOFI Stake - Zellic Audit Report"
+help: |
+    The earn function in VaultV2 takes the entire available balance of the want token and deposits it into the strategy, for accruing yield. function earn() public override { if (_isSt
+wiki_title: "Possible fee leeching"
+wiki_description: |
+    The earn function in VaultV2 takes the entire available balance of the want token and deposits it into the strategy, for accruing yield. function earn() public override { if (_isStratActive()) { uint256 balanceAvail = available(); TransferHelper.safeTransfer(want, address(strategy), balanceAvail); s
+wiki_exploit_scenario: |
+    Per audit finding: The earn function in VaultV2 takes the entire available balance of the want token and deposits it into the strategy, for accruing yield. function earn() public override { if (_isStratActive()) { uint2
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleFeeLeeching"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(balanceAvail|safeTransfer|nonReentrant).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "balanceAvail"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

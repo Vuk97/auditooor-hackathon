@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "h-8-remaining-collateral-used-by-erc721pool-is-missed-in-auction"
+class_name: "H8RemainingCollateralUsedByErc721poolIsMissedInAuction"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6294 (Sherlock/Ajna)"
+help: |
+    H-8: Remaining collateral used by ERC721Pool is missed in Auctions take and bucketTake return structures
+wiki_title: |
+    H-8: Remaining collateral used by ERC721Pool is missed in Auctions take and bucketTake return structures
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-ajna-judging/issues/103 
+    
+    ## Found by 
+    hyh
+    
+    ## Summary
+    
+    ERC721Pool's take() and bucketTake() use remaining collateral variable to adjust borrower's collateral ids array after their debt is settled in an auction. In both cases this variable isn't init
+wiki_exploit_scenario: |
+    Per Solodit #6294: Source: https://github.com/sherlock-audit/2023-01-ajna-judging/issues/103 
+    
+    ## Found by 
+    hyh
+    
+    ## Summary
+    
+    ERC721Pool's take() and bucketTake() use remaining collateral variable to adjust borrower's co
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H8RemainingCollateralUsedByErc721poolIsMissedInAuction"
+solodit_id: "6294"
+solodit_slug: |
+    h-8-remaining-collateral-used-by-erc721pool-is-missed-in-auctions-take-and-buckettake-return-structures-sherlock-ajna-ajna-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal borrowertokenids;"
+fn_name_regex: ".*(bucketTokenIds|borrowerTokenIds).*"
+write_var_regex: ".*(borrowerTokenIds|bucketTokenIds).*"
+guard_var_regex: ".*(borrowerTokenIds|bucketTokenIds).*"
+vuln_fn_name: "bucketTokenIds"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "borrowertokenids = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

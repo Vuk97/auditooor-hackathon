@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-24-salt-rewards-rewards-related-to-arbitrage-profits-for-pools"
+class_name: "M24SaltRewardsRewardsRelatedToArbitrageProfitsForPools"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31135 (Code4rena/Salty.IO)"
+help: "[M-24] Salt Rewards - Rewards related to Arbitrage profits for pools can be lost"
+wiki_title: "[M-24] Salt Rewards - Rewards related to Arbitrage profits for pools can be lost"
+wiki_description: |
+    Arbitrage profits are distributed to pools that played a part in generating them. This is distributed via calling the performUpkeep function with upkeep.sol.
+    
+    The process of upkeep is multi step, and any failure in any step does not disable next steps to trigger because each step is wrapped in a tr
+wiki_exploit_scenario: |
+    Per Solodit #31135: Arbitrage profits are distributed to pools that played a part in generating them. This is distributed via calling the performUpkeep function with upkeep.sol.
+    
+    The process of upkeep is multi step, and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M24SaltRewardsRewardsRelatedToArbitrageProfitsForPools"
+solodit_id: "31135"
+solodit_slug: |
+    m-24-salt-rewards-rewards-related-to-arbitrage-profits-for-pools-can-be-lost-code4rena-saltyio-saltyio-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(performUpkeep|onlySameContract|wethBalance|balanceOf).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "performUpkeep"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

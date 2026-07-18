@@ -1,0 +1,34 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m05-user-can-force-the-controller-contract-to-perform-an-undesir"
+class_name: "M05UserCanForceTheControllerContractToPerformAnUndesir"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11231 (OpenZeppelin/Opyn Gamma Protocol Audit)"
+help: "[M05] User can force the Controller contract to perform an undesired external call"
+wiki_title: "[M05] User can force the Controller contract to perform an undesired external call"
+wiki_description: |
+    The [`Controller` contract](https://github.com/opynfinance/GammaProtocol/blob/d151621b33134789b29dc78eb89dad2b557b25b9/contracts/Controller.sol#L27) is the users’ front gate. With it, they can interact with the protocol to either open a new vault, deposit collateral or redeem their oTokens.
+    
+    
+    Beside
+wiki_exploit_scenario: |
+    Per Solodit #11231: The [`Controller` contract](https://github.com/opynfinance/GammaProtocol/blob/d151621b33134789b29dc78eb89dad2b557b25b9/contracts/Controller.sol#L27) is the users’ front gate. With it, they can interac
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05UserCanForceTheControllerContractToPerformAnUndesir"
+solodit_id: "11231"
+solodit_slug: |
+    m05-user-can-force-the-controller-contract-to-perform-an-undesired-external-call-openzeppelin-opyn-gamma-protocol-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(Controller|CallArgs|operate|callFunction).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

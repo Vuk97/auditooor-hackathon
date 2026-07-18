@@ -1,0 +1,31 @@
+skeleton: "state_write_without_paired_write"
+name: "oval-updating-parameters-inside-the-basecontroller-contract-may-"
+class_name: "OvalUpdatingParametersInsideTheBasecontrollerContractMay"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34956 (OpenZeppelin/Across V3 and Oval Incremental Audit)"
+help: "[Oval] Updating Parameters Inside the BaseController Contract May Lead to Undesired Outcomes"
+wiki_title: "[Oval] Updating Parameters Inside the BaseController Contract May Lead to Undesired Outcomes"
+wiki_description: |
+    The [`maxAge()`](https://github.com/UMAprotocol/oval-contracts/blob/297ab25a914171aedaeb01dabf4a829a304cce08/src/DiamondRootOval.sol#L89) parameter has been introduced to controllers in order to limit the staleness of the data returned by the adapters. Stale data could possibly be returned if no "un
+wiki_exploit_scenario: |
+    Per Solodit #34956: The [`maxAge()`](https://github.com/UMAprotocol/oval-contracts/blob/297ab25a914171aedaeb01dabf4a829a304cce08/src/DiamondRootOval.sol#L89) parameter has been introduced to controllers in order to limit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OvalUpdatingParametersInsideTheBasecontrollerContractMay"
+solodit_id: "34956"
+solodit_slug: |
+    oval-updating-parameters-inside-the-basecontroller-contract-may-lead-to-undesired-outcomes-openzeppelin-none-across-v3-and-oval-incremental-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(maxAge|lockWindow|ImmutableController|MutableUnlockersController).*"
+primary_var_regex: ".*(lockWindow|maxAge).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

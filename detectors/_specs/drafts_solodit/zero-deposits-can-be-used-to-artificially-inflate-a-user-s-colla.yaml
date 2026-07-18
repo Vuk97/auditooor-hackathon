@@ -1,0 +1,49 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "zero-deposits-can-be-used-to-artificially-inflate-a-user-s-colla"
+class_name: "ZeroDepositsCanBeUsedToArtificiallyInflateAUserSColla"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61048 (Immunefi/Folks Finance)"
+help: |
+    Zero deposits can be used to artificially inflate a user's collateral value, allowing them to borrow excess funds
+wiki_title: |
+    Zero deposits can be used to artificially inflate a user's collateral value, allowing them to borrow excess funds
+wiki_description: |
+    Report type: Smart Contract
+    
+    
+    Target: https://testnet.snowtrace.io/address/0xf8E94c5Da5f5F23b39399F6679b2eAb29FE3071e
+    
+    Impacts:
+    - Direct theft of any user funds, whether at-rest or in-motion, other than unclaimed yield
+    
+    ## Description
+    ## Brief/Intro
+    A malicious user can leverage null deposits to
+wiki_exploit_scenario: |
+    Per Solodit #61048: Report type: Smart Contract
+    
+    
+    Target: https://testnet.snowtrace.io/address/0xf8E94c5Da5f5F23b39399F6679b2eAb29FE3071e
+    
+    Impacts:
+    - Direct theft of any user funds, whether at-rest or in-motion, other
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ZeroDepositsCanBeUsedToArtificiallyInflateAUserSColla"
+solodit_id: "61048"
+solodit_slug: |
+    zero-deposits-can-be-used-to-artificially-inflate-a-users-collateral-value-allowing-them-to-borrow-excess-funds-immunefi-folks-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(poolId|increaseCollateral|fAmount).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

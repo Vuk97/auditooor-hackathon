@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "reconcile-can-be-called-by-anyone"
+class_name: "ReconcileCanBeCalledByAnyone"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36818 (Spearbit/Fastlane Atlas)"
+help: "reconcile() can be called by anyone"
+wiki_title: "reconcile() can be called by anyone"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - `GasAccounting.sol#L73-L119`
+    - `GasAccounting.sol#L208-L215`
+    - `GasAccounting.sol#L295`
+    - `Atlas.sol#L91`
+    
+    ## Description
+    Anyone can call `reconcile()` because the checks on `lock` and `currentSolver` are done with user-supplied parameters. These check
+wiki_exploit_scenario: |
+    Per Solodit #36818: ## Severity: Medium Risk
+    
+    ## Context
+    - `GasAccounting.sol#L73-L119`
+    - `GasAccounting.sol#L208-L215`
+    - `GasAccounting.sol#L295`
+    - `Atlas.sol#L91`
+    
+    ## Description
+    Anyone can call `reconcile()`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReconcileCanBeCalledByAnyone"
+solodit_id: "36818"
+solodit_slug: "reconcile-can-be-called-by-anyone-spearbit-none-fastlane-atlas-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal currentsolver;"
+fn_name_regex: ".*(reconcile|lock|currentSolver|validateBalances).*"
+read_var_regex: ".*(currentSolver|deposits|lock).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "reconcile"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return currentsolver > 0;"

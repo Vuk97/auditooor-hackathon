@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "an-attacker-can-overflow-the-count-of-messages-in-a-bottom-u-x"
+class_name: "AnAttackerCanOverflowTheCountOfMessagesInABottomUX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-recall"
+help: |
+    sin1st3r__ Overview of how commitBottomUpMsg() works To understand the vulnerability, we need to first discuss how the function LibGateway::commitBottomUpMsg() which is used to com
+wiki_title: |
+    An attacker can overflow the count of messages in a bottom up message batch leading to bottom up checkpoint execution failure and halting
+wiki_description: |
+    sin1st3r__ Overview of how commitBottomUpMsg() works To understand the vulnerability, we need to first discuss how the function LibGateway::commitBottomUpMsg() which is used to commit bottom up msgs to be included in a bottom up msg batch. The created bottom up msg batch will then be included in a b
+wiki_exploit_scenario: |
+    Per audit finding: sin1st3r__ Overview of how commitBottomUpMsg() works To understand the vulnerability, we need to first discuss how the function LibGateway::commitBottomUpMsg() which is used to commit bottom up msgs t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnAttackerCanOverflowTheCountOfMessagesInABottomUX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(commitBottomUpMsg|crossMessage|appStorage).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "commitBottomUpMsg"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

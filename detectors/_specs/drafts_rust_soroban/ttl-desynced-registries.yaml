@@ -1,0 +1,22 @@
+id: ttl-desynced-registries
+title: "Paired registries with different TTL refresh paths desync and corrupt membership"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44858"
+bug_class: ttl-archival
+indicators:
+  - "membership stored in BOTH a sharded key `(REGISTERED, x)` AND a list `LIST` with separate TTL refresh behavior"
+  - "getter for list refreshes list TTL but not per-item registration keys"
+  - "add helper checks sharded key for duplicates but capacity is enforced by list"
+  - "`is_*_registered(x)` refreshes TTL only for sharded entry"
+victim: "Protocol admin flows: `add_asset`/`add_reward_token` misclassifies existing items as new, causing duplicate inserts or `MaxTokensExceeded` errors."
+exploit_precondition: "One side of the paired storage ages out while the other remains live (pre-v23 archival semantics)."
+real_world_example: |
+  V12 #44858 (High, V12-self-invalidated on v23): `IncentivesContract::add_asset` deduplicates only against sharded `(ASSET_REGISTERED, asset)` key; `ASSETS_LIST` is kept alive by getters, producing duplicates after TTL skew.
+suggested_remediation: "Use a single source of truth for membership (the list), OR refresh both TTL domains atomically in every add/check path."
+cross_refs:
+  - ttl-archival-unwrap-or-zero-hides-debt
+  - ttl-missing-extend-on-access

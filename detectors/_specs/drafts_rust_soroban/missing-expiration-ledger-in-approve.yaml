@@ -1,0 +1,19 @@
+id: missing-expiration-ledger-in-approve
+title: "Missing expiration_ledger validation in approve"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44531"
+bug_class: input-validation
+indicators:
+  - "`approve(spender, amount, expiration_ledger)` does not validate `expiration_ledger > env.ledger().sequence()`"
+  - "allowances can be created already expired (or far in past)"
+victim: "Grantor: mistakenly creates non-functional allowance."
+exploit_precondition: "Caller passes past expiration."
+real_world_example: |
+  V12 #44531 (Low): Missing expiration_ledger validation in approve.
+suggested_remediation: "`require!(expiration_ledger > env.ledger().sequence())`."
+cross_refs:
+  - off-by-one-allowance-expiration

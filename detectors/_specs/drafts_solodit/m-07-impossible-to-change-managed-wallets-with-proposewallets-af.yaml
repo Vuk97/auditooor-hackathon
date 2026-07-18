@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "m-07-impossible-to-change-managed-wallets-with-proposewallets-af"
+class_name: "M07ImpossibleToChangeManagedWalletsWithProposewalletsAf"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31118 (Code4rena/Salty.IO)"
+help: "[M-07] Impossible to change managed wallets with `proposeWallets` after first rejection"
+wiki_title: "[M-07] Impossible to change managed wallets with `proposeWallets` after first rejection"
+wiki_description: |
+    <https://github.com/code-423n4/2024-01-salty/blob/main/src/ManagedWallet.sol#L67-L69> 
+    
+    <https://github.com/code-423n4/2024-01-salty/blob/main/src/ManagedWallet.sol#L48-L49>
+    
+    The `receive` function in `ManagedWallet` fails to reset the `proposedMainWallet` address to the zero address (`address(0)`)
+wiki_exploit_scenario: |
+    Per Solodit #31118: <https://github.com/code-423n4/2024-01-salty/blob/main/src/ManagedWallet.sol#L67-L69> 
+    
+    <https://github.com/code-423n4/2024-01-salty/blob/main/src/ManagedWallet.sol#L48-L49>
+    
+    The `receive` function i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07ImpossibleToChangeManagedWalletsWithProposewalletsAf"
+solodit_id: "31118"
+solodit_slug: |
+    m-07-impossible-to-change-managed-wallets-with-proposewallets-after-first-rejection-code4rena-saltyio-saltyio-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal proposewallets;"
+fn_name_regex: ".*(receive|ManagedWallet|proposedMainWallet|proposeWallets).*"
+write_var_regex: ".*(proposeWallets|proposedMainWallet|receive).*"
+guard_var_regex: ".*(proposeWallets|proposedMainWallet|receive).*"
+vuln_fn_name: "receive"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "proposewallets = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

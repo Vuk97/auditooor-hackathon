@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "m-07-attacker-can-steal-rtoken-holders-funds-by-performing-reent"
+class_name: "M07AttackerCanStealRtokenHoldersFundsByPerformingReent"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16017 (Code4rena/Reserve)"
+help: |
+    [M-07] Attacker can steal RToken holders’ funds by performing reentrancy attack during redeem() function token transfers
+wiki_title: |
+    [M-07] Attacker can steal RToken holders’ funds by performing reentrancy attack during redeem() function token transfers
+wiki_description: |
+    ## Lines of code
+    
+    https://github.com/reserve-protocol/protocol/blob/df7ecadc2bae74244ace5e8b39e94bc992903158/contracts/p1/RToken.sol#L439-L514
+    https://github.com/reserve-protocol/protocol/blob/df7ecadc2bae74244ace5e8b39e94bc992903158/contracts/p1/BackingManager.sol#L105-L150
+    
+    
+    ## Vulnerability detai
+wiki_exploit_scenario: |
+    Per Solodit #16017: ## Lines of code
+    
+    https://github.com/reserve-protocol/protocol/blob/df7ecadc2bae74244ace5e8b39e94bc992903158/contracts/p1/RToken.sol#L439-L514
+    https://github.com/reserve-protocol/protocol/blob/df7ecad
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07AttackerCanStealRtokenHoldersFundsByPerformingReent"
+solodit_id: "16017"
+solodit_slug: |
+    m-07-attacker-can-steal-rtoken-holders-funds-by-performing-reentrancy-attack-during-redeem-function-token-transfers-code4rena-reserve-reserve-contest-git
+solodit_quality: "4"
+solodit_rarity: "5"
+solodit_tags: "Reentrancy"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(basketsNeeded|redeem).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

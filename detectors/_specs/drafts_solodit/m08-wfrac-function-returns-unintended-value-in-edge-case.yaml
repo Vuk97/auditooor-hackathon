@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m08-wfrac-function-returns-unintended-value-in-edge-case"
+class_name: "M08WfracFunctionReturnsUnintendedValueInEdgeCase"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11410 (OpenZeppelin/MCDEX Mai Protocol Audit)"
+help: "[M08] wfrac function returns unintended value in edge case"
+wiki_title: "[M08] wfrac function returns unintended value in edge case"
+wiki_description: |
+    The [`wfrac` function](https://github.com/mcdexio/mai-protocol-v2/blob/4b198083ec4ae2d6851e101fc44ea333eaa3cd92/contracts/lib/LibMath.sol#L81) in the `LibMathSigned` library is intended to return `x * y / z`. However, in the case of `(x, y, z) = (1, _INT256_MIN, -1)`, the intended result will not be
+wiki_exploit_scenario: |
+    Per Solodit #11410: The [`wfrac` function](https://github.com/mcdexio/mai-protocol-v2/blob/4b198083ec4ae2d6851e101fc44ea333eaa3cd92/contracts/lib/LibMath.sol#L81) in the `LibMathSigned` library is intended to return `x *
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08WfracFunctionReturnsUnintendedValueInEdgeCase"
+solodit_id: "11410"
+solodit_slug: |
+    m08-wfrac-function-returns-unintended-value-in-edge-case-openzeppelin-mcdex-mai-protocol-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal neg;"
+fn_name_regex: ".*(wfrac|LibMathSigned|neg).*"
+read_var_regex: ".*(neg|wfrac).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "wfrac"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return neg > 0;"

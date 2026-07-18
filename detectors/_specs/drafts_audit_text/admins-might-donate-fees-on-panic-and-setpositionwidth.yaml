@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "admins-might-donate-fees-on-panic-and-setpositionwidth"
+class_name: "AdminsMightDonateFeesOnPanicAndSetpositionwidth"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Beefy UniswapV3 - Zellic Audit Report"
+help: |
+    The strategy contract’s _removeLiquidity function calls the Uniswap pool’s burn function first to burn liquidity, followed by collect to collect any tokens owed by the pool to the
+wiki_title: "Admins might donate fees on panic and setPositionWidth"
+wiki_description: |
+    The strategy contract’s _removeLiquidity function calls the Uniswap pool’s burn function first to burn liquidity, followed by collect to collect any tokens owed by the pool to the strategy. This will also pay out any owed fees. For this reason, calls to _removeLiquidity are usually preceded by a cal
+wiki_exploit_scenario: |
+    Per audit finding: The strategy contract’s _removeLiquidity function calls the Uniswap pool’s burn function first to burn liquidity, followed by collect to collect any tokens owed by the pool to the strategy. This will
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AdminsMightDonateFeesOnPanicAndSetpositionwidth"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(setPositionWidth).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

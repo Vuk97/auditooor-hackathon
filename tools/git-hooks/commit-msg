@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+# auditooor commit-msg hook - context_pack_id line requirement.
+# Managed by tools/install-hooks.sh - do not edit directly.
+#
+# REFUSE (exit 1) when context_pack_id is absent from commit body.
+#
+# Bypass options (in order of specificity):
+#   1. AUDITOOOR_MCP_REQUIRED=0              - blanket bypass (all MCP hooks); audit-logged
+#   2. AUDITOOOR_COMMIT_MSG_BYPASS_PACK_ID=1 - pack-id only bypass; audit-logged
+#   3. <!-- commit-msg-rebuttal: <reason> --> in commit body (<=200 chars non-empty)
+
+set -euo pipefail
+
+AUDITOOOR_MCP_REQUIRED="${AUDITOOOR_MCP_REQUIRED:-1}"
+AUDITOOOR_COMMIT_MSG_BYPASS_PACK_ID="${AUDITOOOR_COMMIT_MSG_BYPASS_PACK_ID:-0}"
+
+COMMIT_MSG_FILE="${1}"
+if [[ -n "${AUDITOOOR_WS_ROOT:-}" ]]; then
+    WS_ROOT="$AUDITOOOR_WS_ROOT"
+else
+    WS_ROOT="$(git rev-parse --show-toplevel)"
+fi
+BYPASS_LOG="$WS_ROOT/.auditooor/bypass_log.jsonl"
+
+# Helper: write an audit-log entry
+_log_bypass() {
+    local reason="$1"
+    mkdir -p "$WS_ROOT/.auditooor"
+    AUDITOOOR_BYPASS_LOG="$BYPASS_LOG" AUDITOOOR_BYPASS_REASON="$reason" \
+    python3 - <<'PYEOF'
+import json, time, os, pathlib
+log = pathlib.Path(os.environ["AUDITOOOR_BYPASS_LOG"])
+log.parent.mkdir(parents=True, exist_ok=True)
+with open(log, "a") as f:
+    json.dump({
+        "event": "bypass",
+        "hook": "commit-msg",
+        "ts": time.time(),
+        "iso": __import__('datetime').datetime.now(__import__('datetime').timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+        "user": os.environ.get("USER", "unknown"),
+        "commit_hash": "pending",
+        "reason": os.environ.get("AUDITOOOR_BYPASS_REASON", ""),
+    }, f)
+    f.write("\n")
+PYEOF
+}
+
+# ------------------------------------------------------------------
+# Bypass path 1: blanket MCP bypass (AUDITOOOR_MCP_REQUIRED=0)
+# ------------------------------------------------------------------
+if [[ "$AUDITOOOR_MCP_REQUIRED" == "0" ]]; then
+    _log_bypass "AUDITOOOR_MCP_REQUIRED=0"
+    echo "[commit-msg] context_pack_id bypass logged (AUDITOOOR_MCP_REQUIRED=0)" >&2
+    exit 0
+fi
+
+# ------------------------------------------------------------------
+# Bypass path 2: pack-id-specific bypass envvar
+# ------------------------------------------------------------------
+if [[ "$AUDITOOOR_COMMIT_MSG_BYPASS_PACK_ID" == "1" ]]; then
+    _log_bypass "AUDITOOOR_COMMIT_MSG_BYPASS_PACK_ID=1"
+    echo "[commit-msg] context_pack_id bypass logged (AUDITOOOR_COMMIT_MSG_BYPASS_PACK_ID=1)" >&2
+    exit 0
+fi
+
+# ------------------------------------------------------------------
+# Bypass path 3: inline rebuttal marker in commit body
+# <!-- commit-msg-rebuttal: <reason> -->  (non-empty, <=200 chars)
+# Uses Python for reliable cross-platform regex extraction.
+# ------------------------------------------------------------------
+if grep -qiE '<!--\s*commit-msg-rebuttal:' "$COMMIT_MSG_FILE"; then
+    REBUTTAL_RESULT="$(python3 - "$COMMIT_MSG_FILE" <<'PYEOF'
+import re, sys
+content = open(sys.argv[1]).read()
+m = re.search(r'<!--\s*commit-msg-rebuttal:\s*(.*?)\s*-->', content, re.IGNORECASE | re.DOTALL)
+if m:
+    reason = m.group(1).strip()
+    if not reason:
+        print("EMPTY")
+    elif len(reason) > 200:
+        print("OVERSIZED:" + str(len(reason)))
+    else:
+        print("OK:" + reason)
+else:
+    print("NOMATCH")
+PYEOF
+)"
+
+    case "$REBUTTAL_RESULT" in
+        EMPTY)
+            echo "[commit-msg] REJECTED: commit-msg-rebuttal marker found but reason is empty." >&2
+            echo "[commit-msg] Usage: <!-- commit-msg-rebuttal: <reason up to 200 chars> -->" >&2
+            exit 1
+            ;;
+        OVERSIZED:*)
+            REASON_LEN="${REBUTTAL_RESULT#OVERSIZED:}"
+            echo "[commit-msg] REJECTED: commit-msg-rebuttal reason is ${REASON_LEN} chars (max 200)." >&2
+            echo "[commit-msg] Shorten the reason inside <!-- commit-msg-rebuttal: ... -->" >&2
+            exit 1
+            ;;
+        NOMATCH)
+            # grep found the opening but Python didn't extract a valid match (malformed)
+            echo "[commit-msg] REJECTED: malformed commit-msg-rebuttal marker. Ensure it is closed with -->." >&2
+            exit 1
+            ;;
+        OK:*)
+            REBUTTAL_REASON="${REBUTTAL_RESULT#OK:}"
+            _log_bypass "rebuttal: $REBUTTAL_REASON"
+            echo "[commit-msg] context_pack_id bypassed via rebuttal: $REBUTTAL_REASON" >&2
+            exit 0
+            ;;
+    esac
+fi
+
+# ------------------------------------------------------------------
+# Main gate: require context_pack_id line in commit body
+# ------------------------------------------------------------------
+if ! grep -qiE 'context_pack_id:\s*[a-z0-9.:_-]+' "$COMMIT_MSG_FILE"; then
+    echo "[commit-msg] REFUSED: commit body must contain a 'context_pack_id:' line." >&2
+    echo "" >&2
+    echo "  Add to your commit message:" >&2
+    echo "    context_pack_id: auditooor.vault_resume_context.v1:resume:<hash16>" >&2
+    echo "" >&2
+    echo "  Bypass options:" >&2
+    echo "    AUDITOOOR_COMMIT_MSG_BYPASS_PACK_ID=1 git commit ...   (pack-id bypass, audit-logged)" >&2
+    echo "    AUDITOOOR_MCP_REQUIRED=0 git commit ...                (blanket bypass, audit-logged)" >&2
+    echo "    Add to commit body: <!-- commit-msg-rebuttal: <reason up to 200 chars> -->" >&2
+    exit 1
+fi
+
+echo "[commit-msg] context_pack_id line found - OK" >&2
+exit 0

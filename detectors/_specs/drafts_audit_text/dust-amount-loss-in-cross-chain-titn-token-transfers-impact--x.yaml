@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "dust-amount-loss-in-cross-chain-titn-token-transfers-impact--x"
+class_name: "DustAmountLossInCrossChainTitnTokenTransfersImpactX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-thorwallet"
+help: |
+    [QA-01] Dust Amount Loss in Cross-Chain TITN Token Transfers Impact When bridging TITN tokens cross-chain using LayerZero’s OFT standard, small dust amounts are removed to handle d
+wiki_title: |
+    Dust Amount Loss in Cross-Chain TITN Token Transfers Impact When bridging TITN tokens cross-chain using LayerZero’s OFT standard, small dust amounts are removed
+wiki_description: |
+    [QA-01] Dust Amount Loss in Cross-Chain TITN Token Transfers Impact When bridging TITN tokens cross-chain using LayerZero’s OFT standard, small dust amounts are removed to handle decimal precision differences between chains. This affects initial TITN deposits, user claims, and remaining TITN withdra
+wiki_exploit_scenario: |
+    Per audit finding: [QA-01] Dust Amount Loss in Cross-Chain TITN Token Transfers Impact When bridging TITN tokens cross-chain using LayerZero’s OFT standard, small dust amounts are removed to handle decimal precision dif
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DustAmountLossInCrossChainTitnTokenTransfersImpactX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(initialMintAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "initialMintAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

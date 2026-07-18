@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "wxc-token-2025-08"
+class_name: "WxcToken202508"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-08/WXC_Token_exp.sol"
+help: "WXC_Token 2025-08 — flashloan exploit (37.5 WBNB)"
+wiki_title: "WXC_Token (2025-08) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-08): WXC_Token lost 37.5 WBNB. Bug class: flashloan. Attack tx: 0x1397bc7f0d284f8e2e30d0a9edd0db1f3eb0dd284c75e30d226b02bf09ad068f.
+wiki_exploit_scenario: |
+    Attacker (0x476954c752a6ee04b68382c97f7560040eda7309) exploits WXC_Token via flashloan: the victim contract 0x8087720eeea59f9f04787065447d52150c09643e exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "WxcToken202508"
+trigger_sig_regex: ".*(pancakeCall).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function pancakeCall(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.pancakeCall(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

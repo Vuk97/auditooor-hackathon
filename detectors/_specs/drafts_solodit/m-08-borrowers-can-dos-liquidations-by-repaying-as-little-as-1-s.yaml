@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-08-borrowers-can-dos-liquidations-by-repaying-as-little-as-1-s"
+class_name: "M08BorrowersCanDosLiquidationsByRepayingAsLittleAs1S"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32097 (Code4rena/Wise Lending)"
+help: "[M-08] Borrowers can DoS liquidations by repaying as little as 1 share."
+wiki_title: "[M-08] Borrowers can DoS liquidations by repaying as little as 1 share."
+wiki_description: |
+    Liquidations can be DoSed which increments the risk of bad debt being generated on position.
+    
+    ### Proof of Concept
+    
+    When a liquidator is liquidating a position in `WiseLending`, the liquidator needs to specify the amount of shares to be repaid. The liquidation logic checks if the positions are inde
+wiki_exploit_scenario: |
+    Per Solodit #32097: Liquidations can be DoSed which increments the risk of bad debt being generated on position.
+    
+    ### Proof of Concept
+    
+    When a liquidator is liquidating a position in `WiseLending`, the liquidator needs
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08BorrowersCanDosLiquidationsByRepayingAsLittleAs1S"
+solodit_id: "32097"
+solodit_slug: |
+    m-08-borrowers-can-dos-liquidations-by-repaying-as-little-as-1-share-code4rena-wise-lending-wise-lending-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrowshares;"
+fn_name_regex: ".*(WiseLending|borrowShares|maxShares).*"
+read_var_regex: ".*(borrowShares|maxShares).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "WiseLending"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borrowshares > 0;"

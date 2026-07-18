@@ -1,0 +1,33 @@
+skeleton: "paired_function_divergence"
+name: "m-06-oracle-timeout-at-rebalance-will-result-in-a-sell-off-of-al"
+class_name: "M06OracleTimeoutAtRebalanceWillResultInASellOffOfAl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27338 (Code4rena/Reserve)"
+help: "[M-06]  Oracle timeout at rebalance will result in a sell-off of all RSRs at 0 price"
+wiki_title: "[M-06]  Oracle timeout at rebalance will result in a sell-off of all RSRs at 0 price"
+wiki_description: |
+    When creating the trade for rebalance, the `RecollateralizationLibP1.nextTradePair` uses `(uint192 low, uint192 high) = rsrAsset.price(); // {UoA/tok}` to get the rsr sell price. And the rsr assert is a pure Assert contract, which `price()` function will just return (0, FIX\_MAX) if oracle is timeo
+wiki_exploit_scenario: |
+    Per Solodit #27338: When creating the trade for rebalance, the `RecollateralizationLibP1.nextTradePair` uses `(uint192 low, uint192 high) = rsrAsset.price(); // {UoA/tok}` to get the rsr sell price. And the rsr assert i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06OracleTimeoutAtRebalanceWillResultInASellOffOfAl"
+solodit_id: "27338"
+solodit_slug: |
+    m-06-oracle-timeout-at-rebalance-will-result-in-a-sell-off-of-all-rsrs-at-0-price-code4rena-reserve-reserve-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(price|stRSR).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

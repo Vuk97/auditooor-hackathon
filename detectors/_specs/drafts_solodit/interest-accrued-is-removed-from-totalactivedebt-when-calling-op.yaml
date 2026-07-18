@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "interest-accrued-is-removed-from-totalactivedebt-when-calling-op"
+class_name: "InterestAccruedIsRemovedFromTotalactivedebtWhenCallingOp"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #46262 (Cantina/Bima)"
+help: "Interest Accrued is removed from totalActiveDebt when calling openTrove"
+wiki_title: "Interest Accrued is removed from totalActiveDebt when calling openTrove "
+wiki_description: |
+    ## Issue Report
+    
+    ## Context
+    TroveManager.sol#L1061
+    
+    ## Description
+    The total active debt in a `TroveManager` is not correctly updated when a new Trove is opened, resulting in the complete removal of the interest accrued since the last update.
+    
+    When a Trove is opened within a `TroveManager`, the tota
+wiki_exploit_scenario: |
+    Per Solodit #46262: ## Issue Report
+    
+    ## Context
+    TroveManager.sol#L1061
+    
+    ## Description
+    The total active debt in a `TroveManager` is not correctly updated when a new Trove is opened, resulting in the complete removal of t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InterestAccruedIsRemovedFromTotalactivedebtWhenCallingOp"
+solodit_id: "46262"
+solodit_slug: "interest-accrued-is-removed-from-totalactivedebt-when-calling-opentrove-cantina-none-bima-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal activeinterestindex;"
+fn_name_regex: ".*(TroveManager|totalActiveDebt|activeInterestIndex|maxSystemDebt).*"
+write_var_regex: ".*(activeInterestIndex|maxSystemDebt|totalActiveDebt).*"
+guard_var_regex: ".*(activeInterestIndex|maxSystemDebt|totalActiveDebt).*"
+vuln_fn_name: "TroveManager"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "activeinterestindex = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_call"
+name: "rounding-down-of-snapaccumulator-might-influence-calculations"
+class_name: "RoundingDownOfSnapaccumulatorMightInfluenceCalculations"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6881 (Spearbit/Overlay)"
+help: "Rounding down of snapAccumulator might influence calculations"
+wiki_title: "Rounding down of snapAccumulator might influence calculations"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    Roller.sol#L23-L78
+    
+    ## Description
+    The function `transform()` lowers `snapAccumulator` with the following equation: 
+    
+    ```
+    snapAccumulator * int256(dt) / int256(snapWindow)
+    ```
+    
+    During the time that `snapAccumulator * dt` is smaller than `snapWindow`, this will be
+wiki_exploit_scenario: |
+    Per Solodit #6881: ## Severity: Medium Risk
+    
+    ## Context
+    Roller.sol#L23-L78
+    
+    ## Description
+    The function `transform()` lowers `snapAccumulator` with the following equation: 
+    
+    ```
+    snapAccumulator * int256(dt) / int256(sna
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RoundingDownOfSnapaccumulatorMightInfluenceCalculations"
+solodit_id: "6881"
+solodit_slug: "rounding-down-of-snapaccumulator-might-influence-calculations-spearbit-overlay-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal snapaccumulator;"
+fn_name_regex: ".*(transform|snapAccumulator|snapWindow).*"
+read_var_regex: ".*(snapAccumulator|snapWindow|transform).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transform"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return snapaccumulator > 0;"

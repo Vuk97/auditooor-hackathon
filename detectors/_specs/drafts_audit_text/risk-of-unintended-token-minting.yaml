@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "risk-of-unintended-token-minting"
+class_name: "RiskOfUnintendedTokenMinting"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit MightyNetERC1155Claimer - Zellic Audit Report"
+help: |
+    The leaf nodes of the Merkle tree contain only the user addresses and do not include the tokenId or the address of mnERC1155 to be minted. As a result, a user can potentially use a
+wiki_title: "Risk of unintended token minting"
+wiki_description: |
+    The leaf nodes of the Merkle tree contain only the user addresses and do not include the tokenId or the address of mnERC1155 to be minted. As a result, a user can potentially use a Merkle proof expected for minting tokens with tokenId x to mint tokens with t okenId y, or even mint tokens on an entir
+wiki_exploit_scenario: |
+    Per audit finding: The leaf nodes of the Merkle tree contain only the user addresses and do not include the tokenId or the address of mnERC1155 to be minted. As a result, a user can potentially use a Merkle proof expect
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RiskOfUnintendedTokenMinting"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(tokenId|mnERC1155|okenId).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tokenId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

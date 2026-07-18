@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "m02-erc721-orders-can-be-manipulated"
+class_name: "M02Erc721OrdersCanBeManipulated"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #10682 (OpenZeppelin/1inch Limit Order Protocol Audit)"
+help: "[M02] ERC721 orders can be manipulated"
+wiki_title: "[M02] ERC721 orders can be manipulated"
+wiki_description: |
+    It is possible to exchange more than just ERC20s via the [`OrderMixin`](https://github.com/1inch/limit-order-protocol/blob/4d94eea25e4dac6271bfd703096a5c4a4d899b4a/contracts/OrderMixin.sol) by deploying a contract that shares the same function selector as IERC20’s `transferFrom`, and providing that
+wiki_exploit_scenario: |
+    Per Solodit #10682: It is possible to exchange more than just ERC20s via the [`OrderMixin`](https://github.com/1inch/limit-order-protocol/blob/4d94eea25e4dac6271bfd703096a5c4a4d899b4a/contracts/OrderMixin.sol) by deployi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02Erc721OrdersCanBeManipulated"
+solodit_id: "10682"
+solodit_slug: "m02-erc721-orders-can-be-manipulated-openzeppelin-1inch-limit-order-protocol-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(OrderMixin|transferFrom|makerAsset|takerAsset).*"
+write_var_regex: ".*(amount|makerAsset|makerAssetData).*"
+guard_var_regex: ".*(amount|makerAsset|makerAssetData).*"
+vuln_fn_name: "OrderMixin"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

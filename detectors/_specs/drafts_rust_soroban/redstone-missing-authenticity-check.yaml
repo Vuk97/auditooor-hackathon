@@ -1,0 +1,20 @@
+id: redstone-missing-authenticity-check
+title: "Redstone adapter does not verify signer set / signatures on pulled prices"
+severity: Medium
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.6"
+bug_class: oracle-cascade
+indicators:
+  - "Redstone/pull-oracle adapter accepts payload from `args` without validating signer count, timestamp, or authorized signer set"
+  - "no `verify_signature(payload.signers, payload.data, trusted_signers)` call"
+victim: "All borrowers and suppliers: unauthorized prices can be injected, driving liquidation or mispriced borrow."
+exploit_precondition: "Public entrypoint accepts price data from arbitrary caller."
+real_world_example: |
+  Halborn 7.6 (MEDIUM): Missing authenticity checks in Redstone adapter enable unauthorized price injection.
+suggested_remediation: "Verify signatures against a stored authorized signer set and require a minimum quorum."
+cross_refs:
+  - redstone-bidirectional-mapping-desync
+  - redstone-u256-silent-truncation

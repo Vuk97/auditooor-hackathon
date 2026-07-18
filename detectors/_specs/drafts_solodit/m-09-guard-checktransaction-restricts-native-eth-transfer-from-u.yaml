@@ -1,0 +1,30 @@
+skeleton: "name_match_missing_require"
+name: "m-09-guard-checktransaction-restricts-native-eth-transfer-from-u"
+class_name: "M09GuardChecktransactionRestrictsNativeEthTransferFromU"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30536 (Code4rena/reNFT)"
+help: "[M-09] `Guard::checkTransaction` restricts native ETH transfer from user's safes"
+wiki_title: "[M-09] `Guard::checkTransaction` restricts native ETH transfer from user's safes"
+wiki_description: |
+    The `Guard::checkTransaction` function's current design unintentionally restricts native ETH transfers from the safe. This limitation originates from a data length check that requires transaction data to be at least `4 bytes` long, aiming to validate the presence of a function selector.
+    
+    However, s
+wiki_exploit_scenario: |
+    Per Solodit #30536: The `Guard::checkTransaction` function's current design unintentionally restricts native ETH transfers from the safe. This limitation originates from a data length check that requires transaction dat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09GuardChecktransactionRestrictsNativeEthTransferFromU"
+solodit_id: "30536"
+solodit_slug: "m-09-guardchecktransaction-restricts-native-eth-transfer-from-users-safes-code4rena-renft-renft-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal receive;"
+fn_name_regex: ".*(receive).*"
+write_var_regex: ".*(receive).*"
+guard_var_regex: ".*(receive).*"
+vuln_fn_name: "receive"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "receive = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

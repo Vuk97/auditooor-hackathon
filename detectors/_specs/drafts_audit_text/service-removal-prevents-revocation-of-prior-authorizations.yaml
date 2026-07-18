@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "service-removal-prevents-revocation-of-prior-authorizations"
+class_name: "ServiceRemovalPreventsRevocationOfPriorAuthorizations"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Hyperbeat Pay - Zellic Audit Report"
+help: |
+    When a service is removed from the ServiceRegistry, account owners lose the ability to revoke authorizations previously granted to that service. The revokeOperatorBorrowing functio
+wiki_title: "Service removal prevents revocation of prior authorizations"
+wiki_description: |
+    When a service is removed from the ServiceRegistry, account owners lose the ability to revoke authorizations previously granted to that service. The revokeOperatorBorrowing function validates that the service is still registered, causing revocation to fail for removed services: function revokeOperat
+wiki_exploit_scenario: |
+    Per audit finding: When a service is removed from the ServiceRegistry, account owners lose the ability to revoke authorizations previously granted to that service. The revokeOperatorBorrowing function validates that the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ServiceRemovalPreventsRevocationOfPriorAuthorizations"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(revokeOperatorBorrowing|onlyOwner|isServiceRegistered).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "revokeOperatorBorrowing"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

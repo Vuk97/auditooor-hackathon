@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-07-redeem-in-beforeredeem-is-using-the-wrong-owner-parameter"
+class_name: "H07RedeemInBeforeredeemIsUsingTheWrongOwnerParameter"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26041 (Code4rena/Maia DAO Ecosystem)"
+help: "[H-07] `redeem()` in `beforeRedeem` is using the wrong owner parameter"
+wiki_title: "[H-07] `redeem()` in `beforeRedeem` is using the wrong owner parameter"
+wiki_description: |
+    Using the wrong owner parameter can cause users to lose rewards.
+    
+    ### Proof of Concept
+    
+    In `TalosStrategyStaked.sol`, if the user's `shares` have changed, we need to call `flywheel.accrue()` first, which will accrue `rewards` and update the corresponding `userIndex`. This way, we can ensure the acc
+wiki_exploit_scenario: |
+    Per Solodit #26041: Using the wrong owner parameter can cause users to lose rewards.
+    
+    ### Proof of Concept
+    
+    In `TalosStrategyStaked.sol`, if the user's `shares` have changed, we need to call `flywheel.accrue()` first, w
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H07RedeemInBeforeredeemIsUsingTheWrongOwnerParameter"
+solodit_id: "26041"
+solodit_slug: |
+    h-07-redeem-in-beforeredeem-is-using-the-wrong-owner-parameter-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal beforedeposit;"
+fn_name_regex: ".*(shares|rewards|userIndex|beforeDeposit).*"
+read_var_regex: ".*(beforeDeposit|beforeRedeem|redeem).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "shares"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return beforedeposit > 0;"

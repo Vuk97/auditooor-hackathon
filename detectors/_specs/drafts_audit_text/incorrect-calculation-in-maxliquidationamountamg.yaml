@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-calculation-in-maxliquidationamountamg"
+class_name: "IncorrectCalculationInMaxliquidationamountamg"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Flare FAssets - Zellic Audit Report"
+help: |
+    In Liquidation.maxLiquidationAmountAMG, the bound for maxLiquidatedAMG is computed from _agent.mintedAMG: uint256 maxLiquidatedAMG = uint256(_agent.mintedAMG) .mulDivRoundUp(target
+wiki_title: "Incorrect calculation in maxLiquidationAmountAMG"
+wiki_description: |
+    In Liquidation.maxLiquidationAmountAMG, the bound for maxLiquidatedAMG is computed from _agent.mintedAMG: uint256 maxLiquidatedAMG = uint256(_agent.mintedAMG) .mulDivRoundUp(targetRatioBIPS - _collateralRatioBIPS, targetRatioBIPS - _factorBIPS); This calculation ignores additional backed obligations
+wiki_exploit_scenario: |
+    Per audit finding: In Liquidation.maxLiquidationAmountAMG, the bound for maxLiquidatedAMG is computed from _agent.mintedAMG: uint256 maxLiquidatedAMG = uint256(_agent.mintedAMG) .mulDivRoundUp(targetRatioBIPS - _collate
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectCalculationInMaxliquidationamountamg"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxLiquidationAmountAMG|maxLiquidatedAMG|mintedAMG).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "maxLiquidationAmountAMG"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

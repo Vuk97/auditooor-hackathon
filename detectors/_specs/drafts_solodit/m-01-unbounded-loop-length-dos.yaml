@@ -1,0 +1,32 @@
+skeleton: "paired_function_divergence"
+name: "m-01-unbounded-loop-length-dos"
+class_name: "M01UnboundedLoopLengthDos"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25380 (Code4rena/Canto)"
+help: "[M-01] unbounded loop length dos"
+wiki_title: "[M-01] unbounded loop length dos"
+wiki_description: |
+    Loops that do not have a fixed number of iterations, for example, loops that depend on storage values, have to be used carefully: Due to the block gas limit, transactions can only consume a certain amount of gas. Either explicitly or just due to normal operation, the number of iterations in a loop
+wiki_exploit_scenario: |
+    Per Solodit #25380: Loops that do not have a fixed number of iterations, for example, loops that depend on storage values, have to be used carefully: Due to the block gas limit, transactions can only consume a certain a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01UnboundedLoopLengthDos"
+solodit_id: "25380"
+solodit_slug: "m-01-unbounded-loop-length-dos-code4rena-canto-canto-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(allPairs|allpair).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

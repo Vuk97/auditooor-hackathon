@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "position-s-owed-fees-should-allow-underflow-but-it-reverts-i-x"
+class_name: "PositionSOwedFeesShouldAllowUnderflowButItRevertsIX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-08-superposition"
+help: |
+    DadeKuma , also found by Tricko and SBSecurity The math used to calculate how many fees are owed to the user does not allow underflows, but this is a necessary due to how the Unisw
+wiki_title: "Position’s owed fees should allow underflow but it reverts instead, resulting in locked funds"
+wiki_description: |
+    DadeKuma , also found by Tricko and SBSecurity The math used to calculate how many fees are owed to the user does not allow underflows, but this is a necessary due to how the Uniswap logic works as fees can be negative. This impact adding/removing funds to a position, resulting in permanently locked
+wiki_exploit_scenario: |
+    Per audit finding: DadeKuma , also found by Tricko and SBSecurity The math used to calculate how many fees are owed to the user does not allow underflows, but this is a necessary due to how the Uniswap logic works as fe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PositionSOwedFeesShouldAllowUnderflowButItRevertsIX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(tokensOwed0|mulDiv|feeGrowthInside0X128).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "tokensOwed0"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

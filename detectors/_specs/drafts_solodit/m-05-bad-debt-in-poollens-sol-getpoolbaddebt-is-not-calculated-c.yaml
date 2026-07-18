@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-05-bad-debt-in-poollens-sol-getpoolbaddebt-is-not-calculated-c"
+class_name: "M05BadDebtInPoollensSolGetpoolbaddebtIsNotCalculatedC"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20774 (Code4rena/Venus Protocol)"
+help: "[M-05] Bad Debt in PoolLens.sol#getPoolBadDebt() is not calculated correctly in USD"
+wiki_title: "[M-05] Bad Debt in PoolLens.sol#getPoolBadDebt() is not calculated correctly in USD"
+wiki_description: |
+    ### Proof of Concept
+    
+    In `PoolLens.sol#getPoolBadDebt()`, bad debt is calculated as such:
+    
+                    badDebt.badDebtUsd =
+                        VToken(address(markets[i])).badDebt() *
+                        priceOracle.getUnderlyingPrice(address(markets[i]));
+                    badDebtSummary.badDebt
+wiki_exploit_scenario: |
+    Per Solodit #20774: ### Proof of Concept
+    
+    In `PoolLens.sol#getPoolBadDebt()`, bad debt is calculated as such:
+    
+                    badDebt.badDebtUsd =
+                        VToken(address(markets[i])).badDebt() *
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05BadDebtInPoollensSolGetpoolbaddebtIsNotCalculatedC"
+solodit_id: "20774"
+solodit_slug: |
+    m-05-bad-debt-in-poollenssolgetpoolbaddebt-is-not-calculated-correctly-in-usd-code4rena-venus-protocol-venus-protocol-isolated-pools-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal baddebt;"
+fn_name_regex: ".*(badDebt|Shortfall).*"
+read_var_regex: ".*(badDebt).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "badDebt"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return baddebt > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unbounded-for-loop-can-lead-to-out-of-gas"
+class_name: "UnboundedForLoopCanLeadToOutOfGas"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Arpeggi_Labs_-_Zellic_Audit_Report"
+help: |
+    There is an unbounded for-loop in AudioRegistryProtocol.registerMedia: if(subComponents.length > 0){ for(uint i = 0; i < subComponents.length; i+)){ require(subComponents[i] <) _nu
+wiki_title: "Unbounded for-loop can lead to out-of-gas"
+wiki_description: |
+    There is an unbounded for-loop in AudioRegistryProtocol.registerMedia: if(subComponents.length > 0){ for(uint i = 0; i < subComponents.length; i+)){ require(subComponents[i] <) _numMedia, “ARP: Invalid subcomponent.”); } } If subComponents.length is sufficiently large, this for-loop runs out of gas.
+wiki_exploit_scenario: |
+    Per audit finding: There is an unbounded for-loop in AudioRegistryProtocol.registerMedia: if(subComponents.length > 0){ for(uint i = 0; i < subComponents.length; i+)){ require(subComponents[i] <) _numMedia, “ARP: Invali
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnboundedForLoopCanLeadToOutOfGas"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(registerMedia|subComponents).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "registerMedia"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

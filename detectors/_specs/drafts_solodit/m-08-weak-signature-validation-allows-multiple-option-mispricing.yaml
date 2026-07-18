@@ -1,0 +1,55 @@
+skeleton: "state_write_without_paired_write"
+name: "m-08-weak-signature-validation-allows-multiple-option-mispricing"
+class_name: "M08WeakSignatureValidationAllowsMultipleOptionMispricing"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57751 (Pashov Audit Group/Hyperhyper_2025-03-30)"
+help: "[M-08] Weak signature validation allows multiple option mispricing vectors"
+wiki_title: "[M-08] Weak signature validation allows multiple option mispricing vectors"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The protocol's signature validation mechanism enables option mispricing through period manipulation and stale signatures:
+    
+    1. **Period and Maturity Mismatch**
+    
+    ```solidity
+    function _hash(...) internal pure returns (bytes32) {
+    @
+wiki_exploit_scenario: |
+    Per Solodit #57751: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The protocol's signature validation mechanism enables option mispricing through period manipulation and stale signatures:
+    
+    1. *
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08WeakSignatureValidationAllowsMultipleOptionMispricing"
+solodit_id: "57751"
+solodit_slug: |
+    m-08-weak-signature-validation-allows-multiple-option-mispricing-vectors-pashov-audit-group-none-hyperhyper_2025-03-30-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(period|oType|strikePrice).*"
+primary_var_regex: ".*(oType|period|strikePrice).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

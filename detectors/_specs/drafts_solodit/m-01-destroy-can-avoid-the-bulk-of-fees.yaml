@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "m-01-destroy-can-avoid-the-bulk-of-fees"
+class_name: "M01DestroyCanAvoidTheBulkOfFees"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1460 (Code4rena/Nested Finance)"
+help: "[M-01] Destroy can avoid the bulk of fees"
+wiki_title: "[M-01] Destroy can avoid the bulk of fees"
+wiki_description: |
+    _Submitted by 0xliumin_
+    
+    [NestedFactory.sol#L446](https://github.com/code-423n4/2022-02-nested/blob/69cf51d8e4eeb8bce3025db7f4f74cc565c9fad3/contracts/NestedFactory.sol#L446)<br>
+    
+    A user can destroy their NFTs and not pay fees on most of their assets.
+    
+    ### Proof of Concept
+    
+    Alice has an NFT portfoli
+wiki_exploit_scenario: |
+    Per Solodit #1460: _Submitted by 0xliumin_
+    
+    [NestedFactory.sol#L446](https://github.com/code-423n4/2022-02-nested/blob/69cf51d8e4eeb8bce3025db7f4f74cc565c9fad3/contracts/NestedFactory.sol#L446)<br>
+    
+    A user can destroy t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01DestroyCanAvoidTheBulkOfFees"
+solodit_id: "1460"
+solodit_slug: "m-01-destroy-can-avoid-the-bulk-of-fees-code4rena-nested-finance-nested-finance-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(performSwap|callOperator|safeTransfer|safeTransferWithFees).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "performSwap"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

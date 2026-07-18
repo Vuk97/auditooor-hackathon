@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "re-entrancy-issue-for-erc1155-fixed"
+class_name: "ReEntrancyIssueForErc1155Fixed"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #13488 (ConsenSys/Bridge Mutual)"
+help: "Re-entrancy issue for ERC1155 ✓ Fixed"
+wiki_title: "Re-entrancy issue for ERC1155 ✓ Fixed"
+wiki_description: |
+    #### Resolution
+    
+    
+    
+    Addressed by moving `isNFTDistributed = true;` before the token transfers and only transferring tokens to the message sender.
+    
+    
+    #### Description
+    
+    
+    ERC1155 tokens have callback functions on some of the transfers, like `safeTransferFrom`, `safeBatchTransferFrom`. During these transf
+wiki_exploit_scenario: |
+    Per Solodit #13488: #### Resolution
+    
+    
+    
+    Addressed by moving `isNFTDistributed = true;` before the token transfers and only transferring tokens to the message sender.
+    
+    
+    #### Description
+    
+    
+    ERC1155 tokens have callback funct
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReEntrancyIssueForErc1155Fixed"
+solodit_id: "13488"
+solodit_slug: "re-entrancy-issue-for-erc1155-fixed-consensys-bridge-mutual-markdown"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Reentrancy, ERC1155"
+state_decl: "uint256 internal distributeallnft;"
+fn_name_regex: ".*(safeTransferFrom|safeBatchTransferFrom|LiquidityMining|distributeAllNFT).*"
+read_var_regex: ".*(distributeAllNFT|safeBatchTransferFrom|safeTransferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeTransferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return distributeallnft > 0;"

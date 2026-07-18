@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-07-incorrect-accounting-of-free-weight-in-decrementweightuntil"
+class_name: "M07IncorrectAccountingOfFreeWeightInDecrementweightuntil"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2073 (Code4rena/Tribe)"
+help: "[M-07] Incorrect accounting of free weight in `_decrementWeightUntilFree`"
+wiki_title: "[M-07] Incorrect accounting of free weight in `_decrementWeightUntilFree`"
+wiki_description: |
+    _Submitted by gzeon_
+    
+    In `_decrementWeightUntilFree`, the free weight is calculated by `balanceOf[user] - getUserWeight[user]` plus weight freed from non-deprecated gauges. The non-deprecated criteria is unnecessary and lead to incorrect accounting of free weight.
+    
+    ### Proof of Concept
+    
+    [ERC20Gauges
+wiki_exploit_scenario: |
+    Per Solodit #2073: _Submitted by gzeon_
+    
+    In `_decrementWeightUntilFree`, the free weight is calculated by `balanceOf[user] - getUserWeight[user]` plus weight freed from non-deprecated gauges. The non-deprecated criteria
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07IncorrectAccountingOfFreeWeightInDecrementweightuntil"
+solodit_id: "2073"
+solodit_slug: |
+    m-07-incorrect-accounting-of-free-weight-in-_decrementweightuntilfree-code4rena-tribe-xtribe-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(balanceOf|getUserWeight|userFreeWeight|currentCycle).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "balanceOf"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "token-name-update-breaks-eip-712-domain-separator-for-permit-fun"
+class_name: "TokenNameUpdateBreaksEip712DomainSeparatorForPermitFun"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64482 (Cyfrin/Securitize Global Registry)"
+help: "Token name update breaks EIP-712 Domain Separator for permit functionality"
+wiki_title: "Token name update breaks EIP-712 Domain Separator for permit functionality"
+wiki_description: |
+    **Description:** The EIP-712 domain separator is initialized once during contract deployment in `__ERC20PermitMixin_init()` with the initial token name:
+    ```solidity
+    function __ERC20PermitMixin_init(string memory name_) internal onlyInitializing {
+        __EIP712_init(name_, "1");  // Domain separator s
+wiki_exploit_scenario: |
+    Per Solodit #64482: **Description:** The EIP-712 domain separator is initialized once during contract deployment in `__ERC20PermitMixin_init()` with the initial token name:
+    ```solidity
+    function __ERC20PermitMixin_init(st
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokenNameUpdateBreaksEip712DomainSeparatorForPermitFun"
+solodit_id: "64482"
+solodit_slug: |
+    token-name-update-breaks-eip-712-domain-separator-for-permit-functionality-cyfrin-none-securitize-global-registry-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal updatenameandsymbol;"
+fn_name_regex: ".*(StandardToken|updateNameAndSymbol).*"
+read_var_regex: ".*(updateNameAndSymbol).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "StandardToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return updatenameandsymbol > 0;"

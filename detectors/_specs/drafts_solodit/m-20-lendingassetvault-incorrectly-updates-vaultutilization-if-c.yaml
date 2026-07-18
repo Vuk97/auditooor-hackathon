@@ -1,0 +1,46 @@
+skeleton: "paired_function_divergence"
+name: "m-20-lendingassetvault-incorrectly-updates-vaultutilization-if-c"
+class_name: "M20LendingassetvaultIncorrectlyUpdatesVaultutilizationIfC"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52772 (Sherlock/Peapods)"
+help: |
+    M-20: LendingAssetVault incorrectly updates vaultUtilization if CBR for a single FraxlendPair decreases.
+wiki_title: |
+    M-20: LendingAssetVault incorrectly updates vaultUtilization if CBR for a single FraxlendPair decreases.
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/440 
+    
+    ## Found by 
+    Honour, RampageAudit, TessKimy, X77, cu5t0mPe0, exploitabilityexplorer, future2\_22, octopus\_testjjj, pkqs90, super\_jack
+    
+    
+    ### Summary
+    
+    LendingAssetVault incorrectly updates vaultUtilization if CBR
+wiki_exploit_scenario: |
+    Per Solodit #52772: Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/440 
+    
+    ## Found by 
+    Honour, RampageAudit, TessKimy, X77, cu5t0mPe0, exploitabilityexplorer, future2\_22, octopus\_testjj
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M20LendingassetvaultIncorrectlyUpdatesVaultutilizationIfC"
+solodit_id: "52772"
+solodit_slug: |
+    m-20-lendingassetvault-incorrectly-updates-vaultutilization-if-cbr-for-a-single-fraxlendpair-decreases-sherlock-peapods-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(vaultUtilization).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

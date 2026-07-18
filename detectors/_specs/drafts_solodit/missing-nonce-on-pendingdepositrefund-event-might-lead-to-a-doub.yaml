@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "missing-nonce-on-pendingdepositrefund-event-might-lead-to-a-doub"
+class_name: "MissingNonceOnPendingdepositrefundEventMightLeadToADoub"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #17876 (TrailOfBits/Flexa)"
+help: "Missing nonce on PendingDepositRefund event might lead to a double spend"
+wiki_title: "Missing nonce on PendingDepositRefund event might lead to a double spend"
+wiki_description: |
+    ## Data Validation
+    
+    **Target:** Staking.sol
+    
+    **Difficulty:** Low
+    
+    ## Description
+    A lack of nonce information on the deposit refund event might allow a third-party tool to confound which deposit was refunded. A deposit is identified by its unique nonce:
+    
+    ```solidity
+    depositNonce = ++ _depositNonce;
+    _
+wiki_exploit_scenario: |
+    Per Solodit #17876: ## Data Validation
+    
+    **Target:** Staking.sol
+    
+    **Difficulty:** Low
+    
+    ## Description
+    A lack of nonce information on the deposit refund event might allow a third-party tool to confound which deposit was re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingNonceOnPendingdepositrefundEventMightLeadToADoub"
+solodit_id: "17876"
+solodit_slug: "missing-nonce-on-pendingdepositrefund-event-might-lead-to-a-double-spend-trailofbits-flexa-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal refundpendingdeposit;"
+fn_name_regex: ".*(PendingDepositRefund|refundPendingDeposit).*"
+read_var_regex: ".*(refundPendingDeposit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "PendingDepositRefund"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return refundpendingdeposit > 0;"

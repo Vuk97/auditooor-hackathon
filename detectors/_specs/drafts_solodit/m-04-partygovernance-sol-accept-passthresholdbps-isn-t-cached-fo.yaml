@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-04-partygovernance-sol-accept-passthresholdbps-isn-t-cached-fo"
+class_name: "M04PartygovernanceSolAcceptPassthresholdbpsIsnTCachedFo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29550 (Code4rena/Party Protocol)"
+help: |
+    [M-04] `PartyGovernance.sol#accept` - `passThresholdBps` isn't cached for each proposal which can lead to problems if changed through another proposal
+wiki_title: |
+    [M-04] `PartyGovernance.sol#accept` - `passThresholdBps` isn't cached for each proposal which can lead to problems if changed through another proposal
+wiki_description: |
+    `PartyGovernance` uses a variable called `passThresholdBps` to determine the percentage of votes from the `totalVotingPower` a proposal needs to receive so it can pass.
+    
+    The protocol also allows parties to change several governance options through `SetGovernanceParameterProposal`, including `passTh
+wiki_exploit_scenario: |
+    Per Solodit #29550: `PartyGovernance` uses a variable called `passThresholdBps` to determine the percentage of votes from the `totalVotingPower` a proposal needs to receive so it can pass.
+    
+    The protocol also allows part
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04PartygovernanceSolAcceptPassthresholdbpsIsnTCachedFo"
+solodit_id: "29550"
+solodit_slug: |
+    m-04-partygovernancesolaccept-passthresholdbps-isnt-cached-for-each-proposal-which-can-lead-to-problems-if-changed-through-another-proposal-code4rena-party-protocol-party-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal passthresholdbps;"
+fn_name_regex: ".*(PartyGovernance|passThresholdBps|totalVotingPower|SetGovernanceParameterProposal).*"
+read_var_regex: ".*(passThresholdBps|totalVotingPower).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "PartyGovernance"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return passthresholdbps > 0;"

@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "m-14-mixedpriceoraclev4-sol-getunderlyingprice-getpirce-will-not"
+class_name: "M14Mixedpriceoraclev4SolGetunderlyingpriceGetpirceWillNot"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62737 (Sherlock/Malda)"
+help: |
+    M-14: MixedPriceOracleV4.sol :: getUnderlyingPrice()/getPirce() will not work for some tokens because API3 and EO oracles return prices using different decimals, causing DOS scenar
+wiki_title: |
+    M-14: MixedPriceOracleV4.sol :: getUnderlyingPrice()/getPirce() will not work for some tokens because API3 and EO oracles return prices using different decimals
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-07-malda-judging/issues/945 
+    
+    ## Found by 
+    0xEkko, 0xfocusNode, 10ap17, Cybrid, HeckerTrieuTien, IvanFitro, KiroBrejka, PeterSR, SafetyBytes, ZanyBonzy, Ziusz, axelot, dan\_\_vinci, elolpuer, pashap9990
+    
+    ### Summary
+    
+    `getUnderlyingPrice()`/`getPrice()`
+wiki_exploit_scenario: |
+    Per Solodit #62737: Source: https://github.com/sherlock-audit/2025-07-malda-judging/issues/945 
+    
+    ## Found by 
+    0xEkko, 0xfocusNode, 10ap17, Cybrid, HeckerTrieuTien, IvanFitro, KiroBrejka, PeterSR, SafetyBytes, ZanyBonzy,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14Mixedpriceoraclev4SolGetunderlyingpriceGetpirceWillNot"
+solodit_id: "62737"
+solodit_slug: |
+    m-14-mixedpriceoraclev4sol-getunderlyingpricegetpirce-will-not-work-for-some-tokens-because-api3-and-eo-oracles-return-prices-using-different-decimals-causing-dos-scenario-sherlock-malda-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getUnderlyingPrice|getPrice).*"
+primary_var_regex: ".*(getPrice|getUnderlyingPrice).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

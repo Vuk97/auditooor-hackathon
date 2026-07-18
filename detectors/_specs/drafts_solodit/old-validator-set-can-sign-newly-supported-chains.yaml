@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "old-validator-set-can-sign-newly-supported-chains"
+class_name: "OldValidatorSetCanSignNewlySupportedChains"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53654 (SigmaPrime/Omni Network)"
+help: "Old Validator Set Can Sign Newly Supported Chains"
+wiki_title: "Old Validator Set Can Sign Newly Supported Chains"
+wiki_description: |
+    ## Description
+    
+    When a new source chain is supported, the `attestationRoot` of XMsgs from that chain can be signed by an older `valSetId`. The function `xsubmit()` checks that the `valSetId` that has signed the `attestationRoot` is equal to or newer than the last `valSetId` that signed the last `att
+wiki_exploit_scenario: |
+    Per Solodit #53654: ## Description
+    
+    When a new source chain is supported, the `attestationRoot` of XMsgs from that chain can be signed by an older `valSetId`. The function `xsubmit()` checks that the `valSetId` that has
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OldValidatorSetCanSignNewlySupportedChains"
+solodit_id: "53654"
+solodit_slug: "old-validator-set-can-sign-newly-supported-chains-sigmaprime-none-omni-network-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addvalidatorset;"
+fn_name_regex: ".*(attestationRoot|valSetId|xsubmit|inXStreamValidatorSetId).*"
+write_var_regex: ".*(addValidatorSet|attestationRoot|attestationRoots).*"
+guard_var_regex: ".*(addValidatorSet|attestationRoot|attestationRoots).*"
+vuln_fn_name: "attestationRoot"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "addvalidatorset = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

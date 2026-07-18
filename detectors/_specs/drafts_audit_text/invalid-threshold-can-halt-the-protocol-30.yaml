@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "invalid-threshold-can-halt-the-protocol-30"
+class_name: "InvalidThresholdCanHaltTheProtocol30"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Mina Token Bridge EVM - Zellic Audit Report"
+help: |
+    When the user calls the lock function to transfer ERC-20 tokens to the bridge on the Ethereum net- work, a Lock event is emitted. The backend observes this event or transaction to
+wiki_title: "Invalid threshold can halt the protocol                          30"
+wiki_description: |
+    When the user calls the lock function to transfer ERC-20 tokens to the bridge on the Ethereum net- work, a Lock event is emitted. The backend observes this event or transaction to allow the user to receive funds on the Mina network. In the current implementation, the return value of the ERC-20 trans
+wiki_exploit_scenario: |
+    Per audit finding: When the user calls the lock function to transfer ERC-20 tokens to the bridge on the Ethereum net- work, a Lock event is emitted. The backend observes this event or transaction to allow the user to re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InvalidThresholdCanHaltTheProtocol30"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferFrom|whitelistTokens|maxAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

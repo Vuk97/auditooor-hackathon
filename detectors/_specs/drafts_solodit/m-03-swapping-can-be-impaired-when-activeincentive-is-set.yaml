@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "m-03-swapping-can-be-impaired-when-activeincentive-is-set"
+class_name: "M03SwappingCanBeImpairedWhenActiveincentiveIsSet"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28851 (Code4rena/QuickSwap and StellaSwap)"
+help: "[M-03] Swapping can be impaired when `activeIncentive` is set"
+wiki_title: "[M-03] Swapping can be impaired when `activeIncentive` is set"
+wiki_description: |
+    In situations when calls to `AlgebraVirtualPool` fail, swapping would fail as well until the issues with `AlgebraVirtualPool` are resolved or `activeIncentive` is unset.
+    
+    #### Proof of Concept
+    
+    During swapping, external calls are made to a `AlgebraVirtualPool` contract when an `activeIncentive` add
+wiki_exploit_scenario: |
+    Per Solodit #28851: In situations when calls to `AlgebraVirtualPool` fail, swapping would fail as well until the issues with `AlgebraVirtualPool` are resolved or `activeIncentive` is unset.
+    
+    #### Proof of Concept
+    
+    Durin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03SwappingCanBeImpairedWhenActiveincentiveIsSet"
+solodit_id: "28851"
+solodit_slug: |
+    m-03-swapping-can-be-impaired-when-activeincentive-is-set-code4rena-quickswap-and-stellaswap-quickswap-and-stellaswap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(activeIncentive).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

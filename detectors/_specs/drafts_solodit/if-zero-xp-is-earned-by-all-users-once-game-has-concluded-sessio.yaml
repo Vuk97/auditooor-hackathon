@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "if-zero-xp-is-earned-by-all-users-once-game-has-concluded-sessio"
+class_name: "IfZeroXpIsEarnedByAllUsersOnceGameHasConcludedSessio"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65383 (Cyfrin/Majority Protocol)"
+help: |
+    If zero xp is earned by all users, once game has concluded `SessionManager::claimRewards` panic reverts due to division by zero but game also can't be cancelled resulting in locked
+wiki_title: |
+    If zero xp is earned by all users, once game has concluded `SessionManager::claimRewards` panic reverts due to division by zero but game also can't be cancelled
+wiki_description: |
+    **Description:** `ProportionalToXPReward::getReward` divides by `totalXP`, but if none of the users have earned XP, this will panic revert due to division by zero:
+    ```solidity
+    uint256 userXP;
+    uint256 totalXP;
+    for (uint256 i; i < winners.length; ++i) {
+        (, uint256 xp,) = sessionStrategy.userResult
+wiki_exploit_scenario: |
+    Per Solodit #65383: **Description:** `ProportionalToXPReward::getReward` divides by `totalXP`, but if none of the users have earned XP, this will panic revert due to division by zero:
+    ```solidity
+    uint256 userXP;
+    uint256
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IfZeroXpIsEarnedByAllUsersOnceGameHasConcludedSessio"
+solodit_id: "65383"
+solodit_slug: |
+    if-zero-xp-is-earned-by-all-users-once-game-has-concluded-sessionmanagerclaimrewards-panic-reverts-due-to-division-by-zero-but-game-also-cant-be-cancelled-resulting-in-locked-tokens-cyfrin-none-majority-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal totalxp;"
+fn_name_regex: ".*(totalXP|Concluded).*"
+write_var_regex: ".*(totalXP).*"
+guard_var_regex: ".*(totalXP).*"
+vuln_fn_name: "totalXP"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "totalxp = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

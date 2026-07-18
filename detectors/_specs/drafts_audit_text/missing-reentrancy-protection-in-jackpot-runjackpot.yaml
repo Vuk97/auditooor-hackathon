@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-reentrancy-protection-in-jackpot-runjackpot"
+class_name: "MissingReentrancyProtectionInJackpotRunjackpot"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Megapot v2 - Zellic Audit Report"
+help: |
+    The Jackpot::runJackpot function lacks a nonReentrant modifier, creating an inconsistency with the contract's security pattern where all other external state-changing functions use
+wiki_title: "Missing reentrancy protection in Jackpot::runJackpot"
+wiki_description: |
+    The Jackpot::runJackpot function lacks a nonReentrant modifier, creating an inconsistency with the contract's security pattern where all other external state-changing functions use reentrancy protection. The function refunds excess fees to msg.sender via a low-level call before completing execution,
+wiki_exploit_scenario: |
+    Per audit finding: The Jackpot::runJackpot function lacks a nonReentrant modifier, creating an inconsistency with the contract's security pattern where all other external state-changing functions use reentrancy protecti
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingReentrancyProtectionInJackpotRunjackpot"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(runJackpot|nonReentrant|noEmergencyMode).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "runJackpot"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-18-public-vault-owner-strategist-can-use-buyoutlien-to-indefin"
+class_name: "M18PublicVaultOwnerStrategistCanUseBuyoutlienToIndefin"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25834 (Code4rena/Astaria)"
+help: |
+    [M-18] Public vault owner (strategist) can use buyoutLien to indefinitely prevent liquidity providers from withdrawing
+wiki_title: |
+    [M-18] Public vault owner (strategist) can use buyoutLien to indefinitely prevent liquidity providers from withdrawing
+wiki_description: |
+    By calling buyoutLien before transferWithdrawReserve() is invoked (front-run if necessary), Public vault owner (strategist) can indefinitely prevent liquidity providers from withdrawing. He now effectively owns all the fund in the public vault.
+    
+    ### Proof of Concept
+    
+    <https://github.com/code-423n4/
+wiki_exploit_scenario: |
+    Per Solodit #25834: By calling buyoutLien before transferWithdrawReserve() is invoked (front-run if necessary), Public vault owner (strategist) can indefinitely prevent liquidity providers from withdrawing. He now effec
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18PublicVaultOwnerStrategistCanUseBuyoutlienToIndefin"
+solodit_id: "25834"
+solodit_slug: |
+    m-18-public-vault-owner-strategist-can-use-buyoutlien-to-indefinitely-prevent-liquidity-providers-from-withdrawing-code4rena-astaria-astaria-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(buyoutLien|transferWithdrawReserve|commitLien|withdrawProxy).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "buyoutLien"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

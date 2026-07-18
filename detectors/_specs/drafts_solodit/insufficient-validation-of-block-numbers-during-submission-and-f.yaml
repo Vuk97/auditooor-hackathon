@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "insufficient-validation-of-block-numbers-during-submission-and-f"
+class_name: "InsufficientValidationOfBlockNumbersDuringSubmissionAndF"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32566 (OpenZeppelin/Linea V2 Audit)"
+help: "Insufficient Validation of Block Numbers During Submission and Finalization"
+wiki_title: "Insufficient Validation of Block Numbers During Submission and Finalization"
+wiki_description: |
+    The rollup operator is tasked with finalizing L2 blocks on the L1 `LineaRollup` contract. To do so, two functions are used in normal operations:
+    
+    
+    1. [`_submitData`](https://github.com/Consensys/linea-contracts-audit/blob/bb6eb7284d1ac9574dc69e654abe5ccb8d8ded1a/contracts/LineaRollup.sol#L131C12-L13
+wiki_exploit_scenario: |
+    Per Solodit #32566: The rollup operator is tasked with finalizing L2 blocks on the L1 `LineaRollup` contract. To do so, two functions are used in normal operations:
+    
+    
+    1. [`_submitData`](https://github.com/Consensys/linea
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InsufficientValidationOfBlockNumbersDuringSubmissionAndF"
+solodit_id: "32566"
+solodit_slug: |
+    insufficient-validation-of-block-numbers-during-submission-and-finalization-openzeppelin-none-linea-v2-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal currentl2blocknumber;"
+fn_name_regex: ".*(LineaRollup|finalizeCompressedBlocksWithProof|currentL2BlockNumber|firstBlockInData).*"
+write_var_regex: ".*(currentL2BlockNumber|finalBlockInData|finalizeCompressedBlocksWithProof).*"
+guard_var_regex: ".*(currentL2BlockNumber|finalBlockInData|finalizeCompressedBlocksWithProof).*"
+vuln_fn_name: "LineaRollup"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "currentl2blocknumber = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

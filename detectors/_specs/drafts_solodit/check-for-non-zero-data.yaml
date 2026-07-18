@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_require"
+name: "check-for-non-zero-data"
+class_name: "CheckForNonZeroData"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7277 (Spearbit/Brink)"
+help: "Check for non-zero data"
+wiki_title: "Check for non-zero data"
+wiki_description: |
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    **File:** Account.sol  
+    **Line Range:** L76-L78
+    
+    ```solidity
+    bytes memory callData = abi.encodePacked(data, unsignedData);
+    ```
+    
+    The function `metaDelegateCall()` does not currently check if `data` is non-empty.
+    
+    ## Risk
+    If `data.length` is equal to 0, it shoul
+wiki_exploit_scenario: |
+    Per Solodit #7277: ## Severity
+    **Medium Risk**
+    
+    ## Context
+    **File:** Account.sol  
+    **Line Range:** L76-L78
+    
+    ```solidity
+    bytes memory callData = abi.encodePacked(data, unsignedData);
+    ```
+    
+    The function `metaDelegateCall()
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CheckForNonZeroData"
+solodit_id: "7277"
+solodit_slug: "check-for-non-zero-data-spearbit-brink-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal data;"
+fn_name_regex: ".*(metaDelegateCall|data|unsignedData).*"
+write_var_regex: ".*(data|metaDelegateCall|unsignedData).*"
+guard_var_regex: ".*(data|metaDelegateCall|unsignedData).*"
+vuln_fn_name: "metaDelegateCall"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "data = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "h-11-pooltemplate-sol-resume-wrong-implementation-of-resume-will"
+class_name: "H11PooltemplateSolResumeWrongImplementationOfResumeWill"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42435 (Code4rena/InsureDAO)"
+help: |
+    [H-11] `PoolTemplate.sol#resume()` Wrong implementation of `resume()` will compensate overmuch redeem amount from index pools
+wiki_title: |
+    [H-11] `PoolTemplate.sol#resume()` Wrong implementation of `resume()` will compensate overmuch redeem amount from index pools
+wiki_description: |
+    _Submitted by WatchPug, also found by danb_
+    
+    Wrong arithmetic.
+    
+    ***
+    
+    <https://github.com/code-423n4/2022-01-insure/blob/19d1a7819fe7ce795e6d4814e7ddf8b8e1323df3/contracts/PoolTemplate.sol#L700-L717>
+    
+    ```solidity
+    uint256 _deductionFromIndex = (_debt * _totalCredit * MAGIC_SCALE_1E6) /
+                tot
+wiki_exploit_scenario: |
+    Per Solodit #42435: _Submitted by WatchPug, also found by danb_
+    
+    Wrong arithmetic.
+    
+    ***
+    
+    <https://github.com/code-423n4/2022-01-insure/blob/19d1a7819fe7ce795e6d4814e7ddf8b8e1323df3/contracts/PoolTemplate.sol#L700-L717>
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H11PooltemplateSolResumeWrongImplementationOfResumeWill"
+solodit_id: "42435"
+solodit_slug: |
+    h-11-pooltemplatesolresume-wrong-implementation-of-resume-will-compensate-overmuch-redeem-amount-from-index-pools-code4rena-insuredao-insuredao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(resume).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "resume"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

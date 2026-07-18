@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "forwarders-who-aren-t-also-holders-are-unable-to-claim-forwarded"
+class_name: "ForwardersWhoArenTAlsoHoldersAreUnableToClaimForwarded"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61194 (Cyfrin/Remora Pledge)"
+help: "Forwarders who aren't also holders are unable to claim forwarded payouts"
+wiki_title: "Forwarders who aren't also holders are unable to claim forwarded payouts"
+wiki_description: |
+    **Description:** Forwarders who aren't also holders are unable to claim forwarded payouts due to this check in `DividendManager::payoutBalance`:
+    ```solidity
+        function payoutBalance(address holder) public returns (uint256) {
+            HolderManagementStorage storage $ = _getHolderManagementStorage()
+wiki_exploit_scenario: |
+    Per Solodit #61194: **Description:** Forwarders who aren't also holders are unable to claim forwarded payouts due to this check in `DividendManager::payoutBalance`:
+    ```solidity
+        function payoutBalance(address holder)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ForwardersWhoArenTAlsoHoldersAreUnableToClaimForwarded"
+solodit_id: "61194"
+solodit_slug: |
+    forwarders-who-arent-also-holders-are-unable-to-claim-forwarded-payouts-cyfrin-none-remora-pledge-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(payoutBalance|rHolderStatus|currentPayoutIndex|isHolder).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "payoutBalance"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "curators-will-lose-reward-for-an-epoch-if-they-lose-ownership-of"
+class_name: "CuratorsWillLoseRewardForAnEpochIfTheyLoseOwnershipOf"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61253 (Cyfrin/Suzaku Core)"
+help: |
+    Curators will lose reward for an epoch if they lose ownership of vault after epoch but before distribution
+wiki_title: |
+    Curators will lose reward for an epoch if they lose ownership of vault after epoch but before distribution
+wiki_description: |
+    **Description:** The `Rewards` contract calculates and assigns curator shares for each epoch by calling `VaultTokenized(vault).owner()` to determine the curator (vault owner) who should receive rewards. However, this fetches the current owner of the vault at the time of reward distribution, not the
+wiki_exploit_scenario: |
+    Per Solodit #61253: **Description:** The `Rewards` contract calculates and assigns curator shares for each epoch by calling `VaultTokenized(vault).owner()` to determine the curator (vault owner) who should receive reward
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CuratorsWillLoseRewardForAnEpochIfTheyLoseOwnershipOf"
+solodit_id: "61253"
+solodit_slug: |
+    curators-will-lose-reward-for-an-epoch-if-they-lose-ownership-of-vault-after-epoch-but-before-distribution-cyfrin-none-suzaku-core-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal transferownership;"
+fn_name_regex: ".*(Rewards|VaultTokenized|OwnableUpgradeable|transferOwnership).*"
+read_var_regex: ".*(transferOwnership).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Rewards"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return transferownership > 0;"

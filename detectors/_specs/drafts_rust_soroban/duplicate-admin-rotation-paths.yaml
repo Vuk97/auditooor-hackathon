@@ -1,0 +1,19 @@
+id: duplicate-admin-rotation-paths
+title: "Duplicate admin rotation paths cause divergent behavior"
+severity: Info
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.45"
+bug_class: authorization
+indicators:
+  - "two functions that both mutate admin (`set_admin` and `rotate_admin_v2`) with slightly different checks"
+  - "one path honors pending-admin protocol, the other doesn't"
+victim: "Protocol: one path can bypass the safer two-step protocol."
+exploit_precondition: "Admin (legitimate or compromised) uses the weaker path."
+real_world_example: |
+  Halborn 7.45 (INFO): Duplicate admin rotation paths cause divergent behavior.
+suggested_remediation: "Remove redundant path; route all rotation through a single helper."
+cross_refs:
+  - missing-two-step-admin-acceptance

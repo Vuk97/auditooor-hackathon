@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "arbitrary-calldata-in-externalswap-may-be-unsafe"
+class_name: "ArbitraryCalldataInExternalswapMayBeUnsafe"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit WOOFi Swap - Zellic Audit Report"
+help: |
+    When a user performs an external swap, either normally or through the cross-chain router, they can arbitrarily specify the calldata sent to the external swap service: function exte
+wiki_title: "Arbitrary calldata in externalSwap may be unsafe"
+wiki_description: |
+    When a user performs an external swap, either normally or through the cross-chain router, they can arbitrarily specify the calldata sent to the external swap service: function externalSwap( address approveTarget, address swapTarget, address fromToken, address toToken, uint256 fromAmount, uint256 min
+wiki_exploit_scenario: |
+    Per audit finding: When a user performs an external swap, either normally or through the cross-chain router, they can arbitrarily specify the calldata sent to the external swap service: function externalSwap( address ap
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ArbitraryCalldataInExternalswapMayBeUnsafe"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(externalSwap|approveTarget|swapTarget).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "externalSwap"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "morphoblue-2024-10"
+class_name: "Morphoblue202410"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-10/MorphoBlue_exp.sol"
+help: "MorphoBlue 2024-10 — flashloan exploit ($230,000)"
+wiki_title: "MorphoBlue (2024-10) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-10): MorphoBlue lost $230,000. Bug class: flashloan. Attack tx: 0x256979ae169abb7fbbbbc14188742f4b9debf48b48ad5b5207cadcc99ccb493b.
+wiki_exploit_scenario: |
+    Attacker (0x02DBE46169fDf6555F2A125eEe3dce49703b13f5) exploits MorphoBlue via flashloan: the victim contract 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Morphoblue202410"
+trigger_sig_regex: ".*(uniswapV2Call).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function uniswapV2Call(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.uniswapV2Call(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

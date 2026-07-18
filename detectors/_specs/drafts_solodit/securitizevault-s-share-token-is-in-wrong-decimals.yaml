@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "securitizevault-s-share-token-is-in-wrong-decimals"
+class_name: "SecuritizevaultSShareTokenIsInWrongDecimals"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #64245 (Cyfrin/Securitize Redeem Swap Vault Na)"
+help: "SecuritizeVault's share token is in wrong decimals"
+wiki_title: "SecuritizeVault's share token is in wrong decimals"
+wiki_description: |
+    **Description:** The `SecuritizeVault` inherits OpenZeppelin's `ERC4626Upgradeable` where share tokens maintain the same decimals as the underlying asset token by default. However, the vault overrides `_convertToShares()` and `_convertToAssets()` to integrate NAV provider rates, which are assumed to
+wiki_exploit_scenario: |
+    Per Solodit #64245: **Description:** The `SecuritizeVault` inherits OpenZeppelin's `ERC4626Upgradeable` where share tokens maintain the same decimals as the underlying asset token by default. However, the vault overrides
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SecuritizevaultSShareTokenIsInWrongDecimals"
+solodit_id: "64245"
+solodit_slug: |
+    securitizevaults-share-token-is-in-wrong-decimals-cyfrin-none-securitize-redeem-swap-vault-na-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(SecuritizeVault|ERC4626Upgradeable).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SecuritizeVault"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

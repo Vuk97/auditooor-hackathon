@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "m-04-giantpool-should-not-check-eth-amount-on-withdrawal"
+class_name: "M04GiantpoolShouldNotCheckEthAmountOnWithdrawal"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5912 (Code4rena/Stakehouse Protocol)"
+help: "[M-04] GiantPool should not check ETH amount on withdrawal"
+wiki_title: "[M-04] GiantPool should not check ETH amount on withdrawal"
+wiki_description: |
+    The `GiantPoolBase.withdrawETH` function requires that the amount to withdraw is at least as big as the `MIN_STAKING_AMOUNT` (<https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c569e6d721ca1289f7cf7112/contracts/liquid-staking/GiantPoolBase.sol#L53>).
+    
+    This check does not serve
+wiki_exploit_scenario: |
+    Per Solodit #5912: The `GiantPoolBase.withdrawETH` function requires that the amount to withdraw is at least as big as the `MIN_STAKING_AMOUNT` (<https://github.com/code-423n4/2022-11-stakehouse/blob/4b6828e9c807f2f7c5
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04GiantpoolShouldNotCheckEthAmountOnWithdrawal"
+solodit_id: "5912"
+solodit_slug: |
+    m-04-giantpool-should-not-check-eth-amount-on-withdrawal-code4rena-stakehouse-protocol-lsd-network-stakehouse-contest-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(MIN_STAKING_AMOUNT).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "MIN_STAKING_AMOUNT"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "uniswap-v3-pool-cardinality-should-not-be-hardcoded-to-60-in-mem"
+class_name: "UniswapV3PoolCardinalityShouldNotBeHardcodedTo60InMem"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46169 (Cantina/Valory)"
+help: "Uniswap V3 pool cardinality should not be hardcoded to 60 in MemeFactory._createUniswap- Pair()"
+wiki_title: "Uniswap V3 pool cardinality should not be hardcoded to 60 in MemeFactory._createUniswap- Pair() "
+wiki_description: |
+    ## Context: MemeFactory.sol#L229
+    
+    ## Description
+    In `MemeFactory._createUniswapPair()`, whenever a new Uniswap V3 pool is created, `increaseObservationCardinalityNext()` is called with a hardcoded value of 60:
+    
+    ```solidity
+    // Increase observation cardinality
+    IUniswapV3(pool).increaseObservationCardi
+wiki_exploit_scenario: |
+    Per Solodit #46169: ## Context: MemeFactory.sol#L229
+    
+    ## Description
+    In `MemeFactory._createUniswapPair()`, whenever a new Uniswap V3 pool is created, `increaseObservationCardinalityNext()` is called with a hardcoded val
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UniswapV3PoolCardinalityShouldNotBeHardcodedTo60InMem"
+solodit_id: "46169"
+solodit_slug: |
+    uniswap-v3-pool-cardinality-should-not-be-hardcoded-to-60-in-memefactory_createuniswap-pair-cantina-none-valory-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal increaseobservationcardinalitynext;"
+fn_name_regex: ".*(increaseObservationCardinalityNext|observe|BuyBackBurner|MemeBase).*"
+read_var_regex: ".*(increaseObservationCardinalityNext|observe).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "increaseObservationCardinalityNext"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return increaseobservationcardinalitynext > 0;"

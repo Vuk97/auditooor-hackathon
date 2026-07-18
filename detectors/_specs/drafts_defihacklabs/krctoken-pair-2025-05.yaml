@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "krctoken-pair-2025-05"
+class_name: "KrctokenPair202505"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-05/KRCToken_pair_exp.sol"
+help: "KRCToken_pair 2025-05 — swap exploit (7k USD)"
+wiki_title: "KRCToken_pair (2025-05) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-05): KRCToken_pair lost 7k USD. Bug class: swap. Attack tx: 0x78f242dee5b8e15a43d23d76bce827f39eb3ac54b44edcd327c5d63de3848daf.
+wiki_exploit_scenario: |
+    Attacker (0x9943f26831f9b468a7fe5ac531c352baab8af655) exploits KRCToken_pair via swap: the victim contract 0xdbead75d3610209a093af1d46d5296bbeffd53f5 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "KrctokenPair202505"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

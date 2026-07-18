@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "mft-2024-11"
+class_name: "Mft202411"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-11/MFT_exp.sol"
+help: "MFT 2024-11 — oracle exploit (33.7k USD)"
+wiki_title: "MFT (2024-11) — oracle"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-11): MFT lost 33.7k USD. Bug class: oracle. Attack tx: 0xe24ee2af7ceee6d6fad1cacda26004adfe0f44d397a17d2aca56c9a01d759142.
+wiki_exploit_scenario: |
+    Attacker (0x2bee9915ddefdc987a42275fbcc39ed178a70aaa) exploits MFT via oracle: the victim contract 0x29Ee4526e3A4078Ce37762Dc864424A089Ebba11 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Replace spot-price reads with a TWAP wrapper (e.g., Uniswap V3 OracleLibrary.consult) and require a minimum observation window; sanity-check prices against a reference oracle.
+contract_name: "Mft202411"
+trigger_sig_regex: ".*(getPrice).*"
+required_sibling_regex: ".*(validatePrice).*"
+target_interface_decl: "interface IT { function getPrice(uint256) external; function validatePrice(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "readPrice"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.getPrice(x)"
+sibling_call: "target.validatePrice(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "owner-of-the-contract-can-arbitrarily-prevent-deposits-and-m-x"
+class_name: "OwnerOfTheContractCanArbitrarilyPreventDepositsAndMX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Level Points Farm - Zellic Audit Report"
+help: |
+    The migrate function in the contract enables users to convert their tokens into lvlUSD. For a migra- tion to proceed, it must first be authorized by the levelSigner contract. To ve
+wiki_title: "Owner of the contract can arbitrarily prevent deposits and migrations            20"
+wiki_description: |
+    The migrate function in the contract enables users to convert their tokens into lvlUSD. For a migra- tion to proceed, it must first be authorized by the levelSigner contract. To verify the migration, the contract generates a hash that includes the migrator's address, the signature's expiration date,
+wiki_exploit_scenario: |
+    Per audit finding: The migrate function in the contract enables users to convert their tokens into lvlUSD. For a migra- tion to proceed, it must first be authorized by the levelSigner contract. To verify the migration,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OwnerOfTheContractCanArbitrarilyPreventDepositsAndMX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(lvlUSD|levelSigner|constructedHash).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "lvlUSD"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

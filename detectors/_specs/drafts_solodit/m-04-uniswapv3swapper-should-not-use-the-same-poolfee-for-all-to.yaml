@@ -1,0 +1,49 @@
+skeleton: "paired_function_divergence"
+name: "m-04-uniswapv3swapper-should-not-use-the-same-poolfee-for-all-to"
+class_name: "M04Uniswapv3swapperShouldNotUseTheSamePoolfeeForAllTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31442 (Pashov Audit Group/Tapiocadao)"
+help: "[M-04] `UniswapV3Swapper` should not use the same `poolFee` for all token pairs"
+wiki_title: "[M-04] `UniswapV3Swapper` should not use the same `poolFee` for all token pairs"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Medium, swap will fail when pool fee is wrong
+    **Likelihood:** Medium, only occur for swap where pool fee is not 3000 (default value)
+    
+    **Description**
+    
+    UniswapV3Swapper uses the same `poolFee` for all token pairs.
+    
+    The issue is that Uniswap V3 pool address is tied to both to
+wiki_exploit_scenario: |
+    Per Solodit #31442: **Severity**
+    
+    **Impact:** Medium, swap will fail when pool fee is wrong
+    **Likelihood:** Medium, only occur for swap where pool fee is not 3000 (default value)
+    
+    **Description**
+    
+    UniswapV3Swapper uses t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04Uniswapv3swapperShouldNotUseTheSamePoolfeeForAllTo"
+solodit_id: "31442"
+solodit_slug: |
+    m-04-uniswapv3swapper-should-not-use-the-same-poolfee-for-all-token-pairs-pashov-none-tapiocadao-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(poolFee).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "c-02-reentrancy-allows-any-user-allowed-even-one-free-honeyjar-m"
+class_name: "C02ReentrancyAllowsAnyUserAllowedEvenOneFreeHoneyjarM"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20530 (Pashov Audit Group/Bearcave)"
+help: |
+    [C-02] Reentrancy allows any user allowed even one free `HoneyJar` mint to mint the max supply for himself for free
+wiki_title: |
+    [C-02] Reentrancy allows any user allowed even one free `HoneyJar` mint to mint the max supply for himself for free
+wiki_description: |
+    **Impact:**
+    High, as the user will steal all `HoneyJar` NFTs, paying nothing
+    
+    **Likelihood:**
+    High, as reentrancy is a very common attack vector and easily exploitable
+    
+    **Description**
+    
+    The `claim` method in `HoneyBox` (from its NatSpec) "Allows a player to claim free HoneyJar based on eligibility".
+wiki_exploit_scenario: |
+    Per Solodit #20530: **Impact:**
+    High, as the user will steal all `HoneyJar` NFTs, paying nothing
+    
+    **Likelihood:**
+    High, as reentrancy is a very common attack vector and easily exploitable
+    
+    **Description**
+    
+    The `claim` me
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C02ReentrancyAllowsAnyUserAllowedEvenOneFreeHoneyjarM"
+solodit_id: "20530"
+solodit_slug: |
+    c-02-reentrancy-allows-any-user-allowed-even-one-free-honeyjar-mint-to-mint-the-max-supply-for-himself-for-free-pashov-none-bearcave-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claim;"
+fn_name_regex: ".*(HoneyJar|claim|HoneyBox|claimed).*"
+read_var_regex: ".*(claim|claimed|gateId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "HoneyJar"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claim > 0;"

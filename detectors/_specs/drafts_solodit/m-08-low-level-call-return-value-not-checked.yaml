@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-08-low-level-call-return-value-not-checked"
+class_name: "M08LowLevelCallReturnValueNotChecked"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1224 (Code4rena/NFTX)"
+help: "[M-08] Low-level call return value not checked"
+wiki_title: "[M-08] Low-level call return value not checked"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `NFTXStakingZap.addLiquidity721ETHTo` function performs a low-level `.call` in `payable(to).call{value: msg.value-amountEth}` but does not check the return value if the call succeeded.
+    
+    #### Impact
+    
+    If the call fails, the refunds did not succeed and the caller will lose a
+wiki_exploit_scenario: |
+    Per Solodit #1224: _Submitted by cmichel_
+    
+    The `NFTXStakingZap.addLiquidity721ETHTo` function performs a low-level `.call` in `payable(to).call{value: msg.value-amountEth}` but does not check the return value if the cal
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08LowLevelCallReturnValueNotChecked"
+solodit_id: "1224"
+solodit_slug: "m-08-low-level-call-return-value-not-checked-code4rena-nftx-nftx-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal success;"
+fn_name_regex: ".*(success).*"
+read_var_regex: ".*(success).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "success"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return success > 0;"

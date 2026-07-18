@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "users-may-encounter-losses-on-assets-deposited-through-strat-x"
+class_name: "UsersMayEncounterLossesOnAssetsDepositedThroughStratX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-bakerfi-invitational"
+help: |
+    0xpiken , also found by 0xlemon klau5 klau5 MrPotatoMagic , and shaflow2 Finding description and impact The _deploy() _undeploy() , and _getBalance() functions of StrategySupplyERC
+wiki_title: "Users may encounter losses on assets deposited through StrategySupplyERC4626"
+wiki_description: |
+    0xpiken , also found by 0xlemon klau5 klau5 MrPotatoMagic , and shaflow2 Finding description and impact The _deploy() _undeploy() , and _getBalance() functions of StrategySupplyERC4626 currently return the amount of shares instead of the amount of the underlying asset. This mistake leads to incorrec
+wiki_exploit_scenario: |
+    Per audit finding: 0xpiken , also found by 0xlemon klau5 klau5 MrPotatoMagic , and shaflow2 Finding description and impact The _deploy() _undeploy() , and _getBalance() functions of StrategySupplyERC4626 currently retur
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersMayEncounterLossesOnAssetsDepositedThroughStratX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(deployedAmount|totalAssets|totalSupply).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "deployedAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

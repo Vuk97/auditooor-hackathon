@@ -1,0 +1,19 @@
+id: stale-reward-indexes-accrue
+title: "Stale reward indexes accrue emissions across inactive periods"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44861"
+bug_class: reward-accounting
+indicators:
+  - "reward-index update path uses `(now - last_update) * emission_rate` without checking whether emissions were active during the gap"
+  - "emission schedule changes not reflected in retroactive accrual"
+victim: "Protocol: over-distribution of rewards across inactive intervals."
+exploit_precondition: "A reward stream has a gap between `last_update` and a past deactivation window."
+real_world_example: |
+  V12 #44861 (High): Stale reward indexes accrue emissions across inactive periods.
+suggested_remediation: "Track emission-active intervals; sum only active sub-intervals when accruing."
+cross_refs:
+  - reward-index-reset-on-missing-key

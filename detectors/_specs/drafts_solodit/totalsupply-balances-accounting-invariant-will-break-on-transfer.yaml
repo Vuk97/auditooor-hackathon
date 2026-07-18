@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "totalsupply-balances-accounting-invariant-will-break-on-transfer"
+class_name: "TotalsupplyBalancesAccountingInvariantWillBreakOnTransfer"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35857 (Spearbit/Hyperdrive June 2023)"
+help: "totalSupply / balances accounting invariant will break on transfers to address(0) and address(this)"
+wiki_title: "totalSupply / balances accounting invariant will break on transfers to address(0) and address(this)"
+wiki_description: |
+    ## Medium Risk Analysis
+    
+    ## Context
+    - File: `BondWrapper.sol`
+    - Lines: `L4-L16`, `L50-L51`
+    
+    ## Description
+    The code attempts to use a method to revert transfers to `address(0)` and `address(this)`, which is a common strategy to avoid accidentally locking assets. It does this by setting the `balanceO
+wiki_exploit_scenario: |
+    Per Solodit #35857: ## Medium Risk Analysis
+    
+    ## Context
+    - File: `BondWrapper.sol`
+    - Lines: `L4-L16`, `L50-L51`
+    
+    ## Description
+    The code attempts to use a method to revert transfers to `address(0)` and `address(this)`, wh
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TotalsupplyBalancesAccountingInvariantWillBreakOnTransfer"
+solodit_id: "35857"
+solodit_slug: |
+    totalsupply-balances-accounting-invariant-will-break-on-transfers-to-address0-and-addressthis-spearbit-none-hyperdrive-june-2023-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balanceof;"
+fn_name_regex: ".*(balanceOf|pragma|transfer|totalSupply).*"
+write_var_regex: ".*(balanceOf|mint|pragma).*"
+guard_var_regex: ".*(balanceOf|mint|pragma).*"
+vuln_fn_name: "balanceOf"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balanceof = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

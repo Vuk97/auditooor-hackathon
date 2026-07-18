@@ -1,0 +1,20 @@
+id: improper-reserve-id-handling
+title: "Improper reserve id handling compromises risk controls"
+severity: High
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.5"
+bug_class: input-validation
+indicators:
+  - "reserve-id param accepted without bounds-check against `NEXT_RESERVE_ID`"
+  - "duplicate `init_reserve` with same id overwrites prior reserve"
+  - "`get_reserve(id)` returns Err but caller falls through to default"
+victim: "Protocol: attacker spoofs a reserve slot, injects malicious reserve data."
+exploit_precondition: "Public reserve registration or update path."
+real_world_example: |
+  Halborn 7.5 (HIGH): Improper reserve id handling compromises risk controls.
+suggested_remediation: "Validate id against current counter; reject duplicates; use reverse mapping."
+cross_refs:
+  - ttl-counter-unwrap-or-zero

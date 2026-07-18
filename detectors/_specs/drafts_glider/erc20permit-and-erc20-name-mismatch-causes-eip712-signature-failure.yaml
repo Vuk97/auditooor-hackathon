@@ -1,0 +1,20 @@
+skeleton: "manual_constructor_literal_mismatch"
+name: "erc20permit-and-erc20-name-mismatch-causes-eip712-signature-failure"
+class_name: "Erc20permitAndErc20NameMismatchCausesEip712SignatureFailure"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: erc-20-permit-and-erc-20-name-mismatch-causes-eip"
+help: "ERC20 and ERC20Permit use different constructor name literals, breaking permit signatures"
+wiki_title: "ERC20Permit and ERC20 name mismatch breaks EIP-712 permit signatures"
+wiki_description: |
+    ERC20Permit builds its EIP-712 domain from the permit constructor name. If a token initializes `ERC20` with one name and `ERC20Permit` with a different one, integrations that trust the ERC20-visible token name will generate signatures for the wrong domain and on-chain `permit` calls will fail.
+wiki_exploit_scenario: |
+    A token is deployed as `ERC20("Mismatch Token", "MMT")` but `ERC20Permit("Permit Token")`. Wallets derive the permit domain from the token name users see, sign for `Mismatch Token`, and every on-chain permit verification hashes `Permit Token` instead, causing signature failure.
+wiki_recommendation: "Pass the same token name to both base constructors, ideally from the same constructor parameter."
+detection_approach: |
+    Inspect each non-vendored contract constructor source for both `ERC20(...)` and `ERC20Permit(...)` base-constructor invocations. When both first-name operands are string literals and the literals differ, flag the contract.
+known_limitations: |
+    This repair is a fixture-smoke approximation only. It does not resolve forwarded identifiers, constants, inherited wrappers, or proxy initializer flows, so the row should remain `NOT_SUBMIT_READY`.
+positive_fixture: "detectors/fixtures/erc20permit_and_erc20_name_mismatch_causes_eip712_signature_failure/positive.sol"
+clean_fixture: "detectors/fixtures/erc20permit_and_erc20_name_mismatch_causes_eip712_signature_failure/clean.sol"

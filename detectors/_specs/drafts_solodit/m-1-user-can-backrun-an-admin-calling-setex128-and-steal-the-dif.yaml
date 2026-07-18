@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "m-1-user-can-backrun-an-admin-calling-setex128-and-steal-the-dif"
+class_name: "M1UserCanBackrunAnAdminCallingSetex128AndStealTheDif"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #56959 (Sherlock/Burve)"
+help: "M-1: User can backrun an admin calling `setEX128` and steal the difference in tokens"
+wiki_title: "M-1: User can backrun an admin calling `setEX128` and steal the difference in tokens"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-04-burve-judging/issues/120 
+    
+    ## Found by 
+    0xNov1ce, TessKimy, bladeee
+    
+    ### Summary
+    
+    The formula for calculating the value of a given token is:
+    
+    `(e+2)t − (e+1)^2 * t^2 / (x + et)`
+    
+    Where `e` is the efficiency factor. To maintain a balanced pool, `∑v(to
+wiki_exploit_scenario: |
+    Per Solodit #56959: Source: https://github.com/sherlock-audit/2025-04-burve-judging/issues/120 
+    
+    ## Found by 
+    0xNov1ce, TessKimy, bladeee
+    
+    ### Summary
+    
+    The formula for calculating the value of a given token is:
+    
+    `(e+2)t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1UserCanBackrunAnAdminCallingSetex128AndStealTheDif"
+solodit_id: "56959"
+solodit_slug: "m-1-user-can-backrun-an-admin-calling-setex128-and-steal-the-difference-in-tokens-sherlock-burve-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addtokenforvalue;"
+fn_name_regex: ".*(removeTokenForValue|addTokenForValue|newTargetX128|targetX128).*"
+read_var_regex: ".*(addTokenForValue|eX128|newTargetX128).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "removeTokenForValue"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addtokenforvalue > 0;"

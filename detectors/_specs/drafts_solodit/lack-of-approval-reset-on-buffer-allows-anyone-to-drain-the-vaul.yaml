@@ -1,0 +1,46 @@
+skeleton: "paired_function_divergence"
+name: "lack-of-approval-reset-on-buffer-allows-anyone-to-drain-the-vaul"
+class_name: "LackOfApprovalResetOnBufferAllowsAnyoneToDrainTheVaul"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49716 (TrailOfBits/Balancer v3)"
+help: "Lack of approval reset on buffer allows anyone to drain the Vault"
+wiki_title: "Lack of approval reset on buffer allows anyone to drain the Vault"
+wiki_description: |
+    ## Vulnerability Report
+    
+    ## Difficulty: Low
+    
+    ## Type: Data Validation
+    
+    ### Description
+    The lack of approval reset after the call to deposit allows a malicious wrapper contract to steal the Vault’s funds. When wrapping tokens, the `_wrapWithBuffer` function allows the wrapped token contract to transf
+wiki_exploit_scenario: |
+    Per Solodit #49716: ## Vulnerability Report
+    
+    ## Difficulty: Low
+    
+    ## Type: Data Validation
+    
+    ### Description
+    The lack of approval reset after the call to deposit allows a malicious wrapper contract to steal the Vault’s fun
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfApprovalResetOnBufferAllowsAnyoneToDrainTheVaul"
+solodit_id: "49716"
+solodit_slug: "lack-of-approval-reset-on-buffer-allows-anyone-to-drain-the-vault-trailofbits-none-balancer-v3-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(erc4626BufferWrapOrUnwrap).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

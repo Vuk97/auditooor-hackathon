@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_require"
+name: "balancerv2-2025-11"
+class_name: "Balancerv2202511"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-11/BalancerV2_exp.sol"
+help: "BalancerV2 2025-11 — rounding exploit (120M USD)"
+wiki_title: "BalancerV2 (2025-11) — rounding"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-11): BalancerV2 lost 120M USD. Bug class: rounding. Attack tx: 0x6ed07db1a9fe5c0794d44cd36081d6a6df103fab868cdd75d581e3bd23bc9742.
+wiki_exploit_scenario: |
+    Attacker (0x506d1f9efe24f0d47853adca907eb8d89ae03207) exploits BalancerV2 via rounding: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the name_match_missing_require skeleton.
+wiki_recommendation: |
+    Use mulDiv with explicit rounding direction; require the resulting amount to stay within tolerance bounds; never round user-withdraw amounts up.
+contract_name: "Balancerv2202511"
+fn_name_regex: ".*(withdraw).*"
+write_var_regex: ".*(admin|owner|balance|amount).*"
+guard_var_regex: ".*(admin|owner|balance|amount).*"
+vuln_fn_name: "withdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(msg.sender == owner, \"!auth\");"
+state_decl: |
+    uint256 internal balance;
+        address internal owner;

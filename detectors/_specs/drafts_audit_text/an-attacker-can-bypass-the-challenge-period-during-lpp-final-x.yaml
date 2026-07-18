@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "an-attacker-can-bypass-the-challenge-period-during-lpp-final-x"
+class_name: "AnAttackerCanBypassTheChallengePeriodDuringLppFinalX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-optimism"
+help: |
+    alexfilippov314 , also found by kuprum 0x1771 Zubat ether_sky , and Femboys Large preimage proposals (LPP) allow submitters to prove that certain data is a fixed part of the large
+wiki_title: "An attacker can bypass the challenge period during LPP finalization"
+wiki_description: |
+    alexfilippov314 , also found by kuprum 0x1771 Zubat ether_sky , and Femboys Large preimage proposals (LPP) allow submitters to prove that certain data is a fixed part of the large preimage that produces a specific Keccak-256 hash value. Since the preimage is large, the process of LPP finalization in
+wiki_exploit_scenario: |
+    Per audit finding: alexfilippov314 , also found by kuprum 0x1771 Zubat ether_sky , and Femboys Large preimage proposals (LPP) allow submitters to prove that certain data is a fixed part of the large preimage that produc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnAttackerCanBypassTheChallengePeriodDuringLppFinalX"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(challengeLPP|challengeFirstLPP|squeezeLPP).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

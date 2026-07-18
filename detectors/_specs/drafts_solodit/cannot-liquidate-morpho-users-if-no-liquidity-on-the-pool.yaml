@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "cannot-liquidate-morpho-users-if-no-liquidity-on-the-pool"
+class_name: "CannotLiquidateMorphoUsersIfNoLiquidityOnThePool"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6909 (Spearbit/Morpho)"
+help: "Cannot liquidate Morpho users if no liquidity on the pool"
+wiki_title: "Cannot liquidate Morpho users if no liquidity on the pool"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    `aave-v2/ExitPositionsManager.sol#L277`
+    
+    ## Description
+    Morpho implements liquidations by repaying the borrowed asset and then withdrawing the collateral asset from the underlying protocol (Aave / Compound). If there is no liquidity in the collateral asset pool,
+wiki_exploit_scenario: |
+    Per Solodit #6909: ## Severity: Medium Risk
+    
+    ## Context
+    `aave-v2/ExitPositionsManager.sol#L277`
+    
+    ## Description
+    Morpho implements liquidations by repaying the borrowed asset and then withdrawing the collateral asset fro
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CannotLiquidateMorphoUsersIfNoLiquidityOnThePool"
+solodit_id: "6909"
+solodit_slug: "cannot-liquidate-morpho-users-if-no-liquidity-on-the-pool-spearbit-morpho-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Liquidation, DOS"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(debtorsTokens|cTokens|aTokens|onPool).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "debtorsTokens"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "maturityfeegrowthx128-overwritten-across-durations"
+class_name: "Maturityfeegrowthx128OverwrittenAcrossDurations"
+wave: "12"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "corpus slice slice_ae"
+help: |
+    mapping keyed only by timestamp; positions with different durations sharing the same maturity time overwrite each other's fee-growth snapshot, causing wrong reward calculations.
+wiki_title: "maturityFeeGrowthX128 Overwritten Across Durations"
+wiki_description: |
+    mapping keyed only by timestamp; positions with different durations sharing the same maturity time overwrite each other's fee-growth snapshot, causing wrong reward calculations.
+wiki_exploit_scenario: |
+    Attacker exploits maturityFeeGrowthX128 Overwritten Across Durations as described: mapping keyed only by timestamp; positions with different durations sharing the same maturity time overwrite each other's fee-growth snapshot, causing wrong reward calculations.
+wiki_recommendation: "fee-growth snapshot mappings keyed by timestamp alone when multiple durations are supported."
+contract_name: "Maturityfeegrowthx128OverwrittenAcrossDurations"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(maturityfeegrowthx128|overwritten|across).*"
+read_var_regex: ".*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "maturityfeegrowthx128"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

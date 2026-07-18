@@ -1,0 +1,19 @@
+id: worsening-liquidation-creates-bad-debt
+title: "Liquidation actually worsens position health due to rounding/fee mis-accounting"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44486"
+bug_class: liquidation
+indicators:
+  - "partial liquidation that, after fee + bonus, leaves health factor LOWER than before"
+  - "no invariant check `hf_after >= hf_before` in partial liquidation paths"
+victim: "Borrowers: position deteriorates with each liquidation tick."
+exploit_precondition: "Collateral and debt at specific price/fee ratios where liquidation is dilutive."
+real_world_example: |
+  V12 #44486 (High): Worsening liquidations create bad debt.
+suggested_remediation: "Check `hf_after >= hf_before` (or at least `hf_after > 0.95 * hf_before`) and revert otherwise."
+cross_refs:
+  - engine-uses-uncapped-debt-for-liquidation

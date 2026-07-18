@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "m-08-transaction-can-fail-due-to-batchid-collision"
+class_name: "M08TransactionCanFailDueToBatchidCollision"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6454 (Code4rena/Biconomy)"
+help: "[M-08] Transaction can fail due to batchId collision"
+wiki_title: "[M-08] Transaction can fail due to batchId collision"
+wiki_description: |
+    The protocol supports 2D nonces through a `batchId` mechanism.<br>
+    Due to different ways to execute transaction on the wallet there could be a collision between `batchIds` being used.
+    
+    This can result in unexpected failing of transactions
+    
+    ### Proof of Concept
+    
+    There are two main ways to execute tr
+wiki_exploit_scenario: |
+    Per Solodit #6454: The protocol supports 2D nonces through a `batchId` mechanism.<br>
+    Due to different ways to execute transaction on the wallet there could be a collision between `batchIds` being used.
+    
+    This can resul
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08TransactionCanFailDueToBatchidCollision"
+solodit_id: "6454"
+solodit_slug: |
+    m-08-transaction-can-fail-due-to-batchid-collision-code4rena-biconomy-biconomy-smart-contract-wallet-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal batchid;"
+fn_name_regex: ".*(batchId|batchIds|execFromEntryPoint|execute).*"
+write_var_regex: ".*(batchId|batchIds|execFromEntryPoint).*"
+guard_var_regex: ".*(batchId|batchIds|execFromEntryPoint).*"
+vuln_fn_name: "batchId"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "batchid = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

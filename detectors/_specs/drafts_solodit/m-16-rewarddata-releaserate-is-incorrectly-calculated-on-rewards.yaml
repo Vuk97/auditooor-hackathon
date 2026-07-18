@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-16-rewarddata-releaserate-is-incorrectly-calculated-on-rewards"
+class_name: "M16RewarddataReleaserateIsIncorrectlyCalculatedOnRewards"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33169 (Sherlock/Exactly Protocol)"
+help: |
+    M-16: `rewardData.releaseRate` is incorrectly calculated on `RewardsController::config()` when `block.timestamp > start` and `rewardData.lastConfig != rewardData.start`
+wiki_title: |
+    M-16: `rewardData.releaseRate` is incorrectly calculated on `RewardsController::config()` when `block.timestamp > start` and `rewardData.lastConfig != rewardDat
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-04-interest-rate-model-judging/issues/245 
+    
+    ## Found by 
+    0x73696d616f, AllTooWell, Trumpero, ether\_sky
+    ## Summary
+    
+    Setting new parameters in `RewardsController::config()` will lead to lost rewards if `block.timestamp > start` and the `rewardData.start`
+wiki_exploit_scenario: |
+    Per Solodit #33169: Source: https://github.com/sherlock-audit/2024-04-interest-rate-model-judging/issues/245 
+    
+    ## Found by 
+    0x73696d616f, AllTooWell, Trumpero, ether\_sky
+    ## Summary
+    
+    Setting new parameters in `RewardsCon
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M16RewarddataReleaserateIsIncorrectlyCalculatedOnRewards"
+solodit_id: "33169"
+solodit_slug: |
+    m-16-rewarddatareleaserate-is-incorrectly-calculated-on-rewardscontrollerconfig-when-blocktimestamp-start-and-rewarddatalastconfig-rewarddatastart-sherlock-exactly-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal else;"
+fn_name_regex: ".*(else|rewardRate).*"
+read_var_regex: ".*(else|rewardRate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "else"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return else > 0;"

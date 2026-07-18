@@ -1,0 +1,104 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Semgrep",
+          "semanticVersion": "1.52.0",
+          "rules": [
+            {
+              "id": "rust.lang.security.unsafe-block-in-fn",
+              "name": "rust.lang.security.unsafe-block-in-fn",
+              "shortDescription": {
+                "text": "Unsafe block found in function"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "rust.lang.correctness.integer-overflow",
+              "name": "rust.lang.correctness.integer-overflow",
+              "shortDescription": {
+                "text": "Potential integer overflow"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "rust.lang.security.unsafe-block-in-fn",
+          "level": "warning",
+          "message": {
+            "text": "Unsafe block detected in public function. Review carefully for memory safety."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/crypto/hash.rs",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 5,
+                  "endLine": 92,
+                  "endColumn": 6
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "matchBasedId/v1": "abc123deadbeef"
+          }
+        },
+        {
+          "ruleId": "rust.lang.correctness.integer-overflow",
+          "level": "error",
+          "message": {
+            "text": "Arithmetic operation may overflow. Use checked_add or saturating_add instead."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/math/calc.rs",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 33,
+                  "startColumn": 12,
+                  "endLine": 33,
+                  "endColumn": 25
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "matchBasedId/v1": "deadbeefcafe01"
+          }
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "src/crypto/hash.rs",
+            "uriBaseId": "%SRCROOT%"
+          }
+        },
+        {
+          "location": {
+            "uri": "src/math/calc.rs",
+            "uriBaseId": "%SRCROOT%"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "c-01-collateral-double-spend-post-liquidation-is-possible"
+class_name: "C01CollateralDoubleSpendPostLiquidationIsPossible"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27233 (Pashov Audit Group/Lumin)"
+help: "[C-01] Collateral double-spend post liquidation is possible"
+wiki_title: "[C-01] Collateral double-spend post liquidation is possible"
+wiki_description: |
+    **Severity**
+    
+    **Impact:**
+    High, as a borrower can double-spend his collateral
+    
+    **Likelihood:**
+    High, as liquidations never subtract the collateral amount
+    
+    **Description**
+    
+    In `AssetManager::assetTransferOnLoanAction` in the `if (action == AssetActionType.Seize)` statement, the transferred amount is
+wiki_exploit_scenario: |
+    Per Solodit #27233: **Severity**
+    
+    **Impact:**
+    High, as a borrower can double-spend his collateral
+    
+    **Likelihood:**
+    High, as liquidations never subtract the collateral amount
+    
+    **Description**
+    
+    In `AssetManager::assetTrans
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01CollateralDoubleSpendPostLiquidationIsPossible"
+solodit_id: "27233"
+solodit_slug: "c-01-collateral-double-spend-post-liquidation-is-possible-pashov-none-lumin-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assettransferonloanaction;"
+fn_name_regex: ".*(setUp|assetTransferOnLoanAction).*"
+read_var_regex: ".*(assetTransferOnLoanAction|setUp).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setUp"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assettransferonloanaction > 0;"

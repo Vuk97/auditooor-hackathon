@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "m-39-blacklisting-a-protocol-leads-to-lower-allocations"
+class_name: "M39BlacklistingAProtocolLeadsToLowerAllocations"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #12334 (Sherlock/Derby)"
+help: "M-39: Blacklisting a protocol leads to lower allocations"
+wiki_title: "M-39: Blacklisting a protocol leads to lower allocations"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-derby-judging/issues/94 
+    
+    ## Found by 
+    Ch\_301, Met
+    
+    ## Summary
+    Blacklisting a protocol does not update (decrease) the totalAllocatedTokens. It is used to calculate the new allocations and if it is larger than it should be it will lead to lower token
+wiki_exploit_scenario: |
+    Per Solodit #12334: Source: https://github.com/sherlock-audit/2023-01-derby-judging/issues/94 
+    
+    ## Found by 
+    Ch\_301, Met
+    
+    ## Summary
+    Blacklisting a protocol does not update (decrease) the totalAllocatedTokens. It is use
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M39BlacklistingAProtocolLeadsToLowerAllocations"
+solodit_id: "12334"
+solodit_slug: "m-39-blacklisting-a-protocol-leads-to-lower-allocations-sherlock-derby-derby-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(totalAllocatedTokens|currentAllocations).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-07-usage-of-balancerstrategy-updatecache-will-cause-single-sid"
+class_name: "H07UsageOfBalancerstrategyUpdatecacheWillCauseSingleSid"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27497 (Code4rena/Tapioca DAO)"
+help: |
+    [H-07] Usage of `BalancerStrategy.updateCache` will cause single sided Loss, discount to Depositor and to OverBorrow from Singularity
+wiki_title: |
+    [H-07] Usage of `BalancerStrategy.updateCache` will cause single sided Loss, discount to Depositor and to OverBorrow from Singularity
+wiki_description: |
+    The BalancerStrategy uses a cached value to determine it's balance in pool for which it takes Single Sided Exposure.
+    
+    This means that the Strategy has some BPT tokens, but to price them, it's calling `vault.queryExit` which simulates withdrawing the LP in a single sided manner.
+    
+    Due to the single s
+wiki_exploit_scenario: |
+    Per Solodit #27497: The BalancerStrategy uses a cached value to determine it's balance in pool for which it takes Single Sided Exposure.
+    
+    This means that the Strategy has some BPT tokens, but to price them, it's calling
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H07UsageOfBalancerstrategyUpdatecacheWillCauseSingleSid"
+solodit_id: "27497"
+solodit_slug: |
+    h-07-usage-of-balancerstrategyupdatecache-will-cause-single-sided-loss-discount-to-depositor-and-to-overborrow-from-singularity-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal updatecache;"
+fn_name_regex: ".*(updateCache|view).*"
+read_var_regex: ".*(updateCache|view).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateCache"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return updatecache > 0;"

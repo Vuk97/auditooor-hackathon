@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-transfer-amount-in-the-function-rescuefunds"
+class_name: "IncorrectTransferAmountInTheFunctionRescuefunds"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Concrete - Zellic Audit Report"
+help: |
+    The function rescueFunds in the MultiSigStrategyV1 contract can rescue any assets held by this strategy. However, the amount to transfer is the underlying asset balance of the cont
+wiki_title: "Incorrect transfer amount in the function rescueFunds"
+wiki_description: |
+    The function rescueFunds in the MultiSigStrategyV1 contract can rescue any assets held by this strategy. However, the amount to transfer is the underlying asset balance of the contract, instead of the asset_ balance. function rescueFunds(address asset_) external onlyOwner { IERC20(asset_).safeTransf
+wiki_exploit_scenario: |
+    Per audit finding: The function rescueFunds in the MultiSigStrategyV1 contract can rescue any assets held by this strategy. However, the amount to transfer is the underlying asset balance of the contract, instead of the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectTransferAmountInTheFunctionRescuefunds"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rescueFunds|onlyOwner|safeTransfer).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rescueFunds"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

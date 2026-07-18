@@ -1,0 +1,44 @@
+skeleton: "state_write_without_paired_write"
+name: "h-1-balancedvault-sol-loss-of-funds-global-settlement-flywheel-u"
+class_name: "H1BalancedvaultSolLossOfFundsGlobalSettlementFlywheelU"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19152 (Sherlock/Perennial)"
+help: |
+    H-1: BalancedVault.sol: loss of funds + global settlement flywheel / user settlement flywheels getting out of sync
+wiki_title: |
+    H-1: BalancedVault.sol: loss of funds + global settlement flywheel / user settlement flywheels getting out of sync
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-05-perennial-judging/issues/45 
+    
+    ## Found by 
+    0xGoodess, cergyk, roguereddwarf
+    ## Summary
+    When an epoch has become "stale", the `BalancedVault` will treat any new deposits and redemptions in this epoch as "pending".
+    This means they won't get processed b
+wiki_exploit_scenario: |
+    Per Solodit #19152: Source: https://github.com/sherlock-audit/2023-05-perennial-judging/issues/45 
+    
+    ## Found by 
+    0xGoodess, cergyk, roguereddwarf
+    ## Summary
+    When an epoch has become "stale", the `BalancedVault` will trea
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1BalancedvaultSolLossOfFundsGlobalSettlementFlywheelU"
+solodit_id: "19152"
+solodit_slug: |
+    h-1-balancedvaultsol-loss-of-funds-global-settlement-flywheel-user-settlement-flywheels-getting-out-of-sync-sherlock-none-perennial-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(BalancedVault|stale|deposit).*"
+primary_var_regex: ".*(deposit|stale).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "m-04-loss-of-assumed-functionality-of-the-onboarding-contract-in"
+class_name: "M04LossOfAssumedFunctionalityOfTheOnboardingContractIn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32060 (Code4rena/Abracadabra Money)"
+help: "[M-04] Loss of assumed functionality of the Onboarding contract in a highly-sensitive area"
+wiki_title: "[M-04] Loss of assumed functionality of the Onboarding contract in a highly-sensitive area"
+wiki_description: |
+    The BlastOnboardingBoot contract contains the bootstraping funds. After launch it will start a reward staking pool and allow users to claim tokens into it. This is in the launch sequence:
+    
+        staking = new LockingMultiRewards(pool, 30_000, 7 days, 13 weeks, address(this));
+        staking.setOperator(
+wiki_exploit_scenario: |
+    Per Solodit #32060: The BlastOnboardingBoot contract contains the bootstraping funds. After launch it will start a reward staking pool and allow users to claim tokens into it. This is in the launch sequence:
+    
+        stakin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04LossOfAssumedFunctionalityOfTheOnboardingContractIn"
+solodit_id: "32060"
+solodit_slug: |
+    m-04-loss-of-assumed-functionality-of-the-onboarding-contract-in-a-highly-sensitive-area-code4rena-abracadabra-money-abracadabra-money-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setOperator|transferOwnership|safeApprove|totalPoolShares).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setOperator"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

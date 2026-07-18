@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "asset-total-supply-can-be-inflated"
+class_name: "AssetTotalSupplyCanBeInflated"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Penumbra - Zellic Audit Report"
+help: |
+    When local funds are transferred to an external chain, the ICS-20 balance for that denom is updated, but the total token supply does not change. pub trait Ics20TransferWriteExt: St
+wiki_title: "Asset total supply can be inflated"
+wiki_description: |
+    When local funds are transferred to an external chain, the ICS-20 balance for that denom is updated, but the total token supply does not change. pub trait Ics20TransferWriteExt: StateWrite { async fn withdrawal_execute(&mut self, withdrawal: &Ics20Withdrawal) -> Result<()> { // create packet, assume
+wiki_exploit_scenario: |
+    Per audit finding: When local funds are transferred to an external chain, the ICS-20 balance for that denom is updated, but the total token supply does not change. pub trait Ics20TransferWriteExt: StateWrite { async fn
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AssetTotalSupplyCanBeInflated"
+state_decl: "uint256 internal check;"
+fn_name_regex: ".*(check|execute).*"
+write_var_regex: ".*(check|execute).*"
+guard_var_regex: ".*(check|execute).*"
+vuln_fn_name: "check"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "check = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

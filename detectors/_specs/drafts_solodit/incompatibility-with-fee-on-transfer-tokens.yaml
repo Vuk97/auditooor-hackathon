@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "incompatibility-with-fee-on-transfer-tokens"
+class_name: "IncompatibilityWithFeeOnTransferTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28166 (MixBytes/Yearn Finance)"
+help: "Incompatibility with fee-on-transfer tokens"
+wiki_title: "Incompatibility with fee-on-transfer tokens"
+wiki_description: |
+    ##### Description
+    Several parts of code have assumption that `transferFrom(..., amount)` will result in receiving of exact `amount` of tokens:
+    
+    - https://github.com/yearn/hardhat-monorepo/blob/ecc0b5147992b34c315e08af170ceb4a5fe071ee/packages/yswaps/contracts/TradeFactory/TradeFactoryExecutor.sol#L8
+wiki_exploit_scenario: |
+    Per Solodit #28166: ##### Description
+    Several parts of code have assumption that `transferFrom(..., amount)` will result in receiving of exact `amount` of tokens:
+    
+    - https://github.com/yearn/hardhat-monorepo/blob/ecc0b51
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncompatibilityWithFeeOnTransferTokens"
+solodit_id: "28166"
+solodit_slug: "incompatibility-with-fee-on-transfer-tokens-mixbytes-none-yearn-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(transferFrom|amount|balanceOf).*"
+read_var_regex: ".*(amount|balanceOf|transferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "fixed-exchange-rate-at-unstaking-fails-to-socialize-slashing-and"
+class_name: "FixedExchangeRateAtUnstakingFailsToSocializeSlashingAnd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63672 (MixBytes/Mantle Network)"
+help: "Fixed exchange rate at unstaking fails to socialize slashing and distorts rewards"
+wiki_title: "Fixed exchange rate at unstaking fails to socialize slashing and distorts rewards"
+wiki_description: |
+    ##### Description
+    When `Staking.unstakeRequest()` is called, the mETH/ETH rate is fixed and does not reflect slashing or rewards that may occur by the time `Staking.claimUnstakeRequest()` is executed. If two users create requests concurrently and losses arrive afterward, those losses are not sociali
+wiki_exploit_scenario: |
+    Per Solodit #63672: ##### Description
+    When `Staking.unstakeRequest()` is called, the mETH/ETH rate is fixed and does not reflect slashing or rewards that may occur by the time `Staking.claimUnstakeRequest()` is executed.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FixedExchangeRateAtUnstakingFailsToSocializeSlashingAnd"
+solodit_id: "63672"
+solodit_slug: |
+    fixed-exchange-rate-at-unstaking-fails-to-socialize-slashing-and-distorts-rewards-mixbytes-none-mantle-network-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(unstakeRequest|mETH|claimUnstakeRequest|cumulativeDrawdown).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "unstakeRequest"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

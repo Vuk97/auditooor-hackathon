@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-03-updateyieldstrategy-will-freeze-some-funds-with-the-old-str"
+class_name: "M03UpdateyieldstrategyWillFreezeSomeFundsWithTheOldStr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42449 (Code4rena/Sherlock)"
+help: |
+    [M-03] `updateYieldStrategy` will freeze some funds with the old Strategy if `yieldStrategy` fails to withdraw all the funds because of liquidity issues
+wiki_title: |
+    [M-03] `updateYieldStrategy` will freeze some funds with the old Strategy if `yieldStrategy` fails to withdraw all the funds because of liquidity issues
+wiki_description: |
+    _Submitted by hyh, also found by harleythedog, GreyArt, and pauliax_
+    
+    Part of the funds held with the strategy can be frozen if the current strategy has tight liquidity when `updateYieldStrategy` is run as this function makes an attempt to withdraw all the funds and then unconditionally removes the
+wiki_exploit_scenario: |
+    Per Solodit #42449: _Submitted by hyh, also found by harleythedog, GreyArt, and pauliax_
+    
+    Part of the funds held with the strategy can be frozen if the current strategy has tight liquidity when `updateYieldStrategy` is r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03UpdateyieldstrategyWillFreezeSomeFundsWithTheOldStr"
+solodit_id: "42449"
+solodit_slug: |
+    m-03-updateyieldstrategy-will-freeze-some-funds-with-the-old-strategy-if-yieldstrategy-fails-to-withdraw-all-the-funds-because-of-liquidity-issues-code4rena-sherlock-sherlock-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal forceupdateyieldstrategy;"
+fn_name_regex: ".*(updateYieldStrategy|withdraw|withdrawAll|onlySherlockCore).*"
+read_var_regex: ".*(forceUpdateYieldStrategy|onlySherlockCore|updateYieldStrategy).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateYieldStrategy"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return forceupdateyieldstrategy > 0;"

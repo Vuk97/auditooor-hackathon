@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-input-bounds-in-arithmetic-functions"
+class_name: "MissingInputBoundsInArithmeticFunctions"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Privy_Shamir_Secret_Sharing_-_Zellic_Audit_Report"
+help: |
+    The Privy Shamir Secret Sharing library implements the scheme over the Rijndael field, so all field elements have a representation in the integers 0–255. The arithmetic func- tions
+wiki_title: "Missing input bounds in arithmetic functions"
+wiki_description: |
+    The Privy Shamir Secret Sharing library implements the scheme over the Rijndael field, so all field elements have a representation in the integers 0–255. The arithmetic func- tions add, div, and mult do not have explicit bounds on the inputs. The functions div and mult have log table lookups, and th
+wiki_exploit_scenario: |
+    Per audit finding: The Privy Shamir Secret Sharing library implements the scheme over the Rijndael field, so all field elements have a representation in the integers 0–255. The arithmetic func- tions add, div, and mult
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingInputBoundsInArithmeticFunctions"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(interpolatePolynomial).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "interpolatePolynomial"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

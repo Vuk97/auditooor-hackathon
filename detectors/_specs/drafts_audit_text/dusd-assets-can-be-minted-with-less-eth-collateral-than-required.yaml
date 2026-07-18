@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "dusd-assets-can-be-minted-with-less-eth-collateral-than-required"
+class_name: "DusdAssetsCanBeMintedWithLessEthCollateralThanRequired"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-dittoeth"
+help: |
+    serial-coder , also found by 0xbepresent Summary I discovered that the current implementation has not fixed the issue H-03 (Users can mint DUSD with less collateral than required w
+wiki_title: "DUSD assets can be minted with less ETH collateral than required"
+wiki_description: |
+    serial-coder , also found by 0xbepresent Summary I discovered that the current implementation has not fixed the issue H-03 (Users can mint DUSD with less collateral than required which gives them free DUSD and may open a liquidatable position) raised in the previous C4 audit. Description To mint the
+wiki_exploit_scenario: |
+    Per audit finding: serial-coder , also found by 0xbepresent Summary I discovered that the current implementation has not fixed the issue H-03 (Users can mint DUSD with less collateral than required which gives them free
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DusdAssetsCanBeMintedWithLessEthCollateralThanRequired"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(cancelShort|shortOrder|shortRecord).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "cancelShort"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

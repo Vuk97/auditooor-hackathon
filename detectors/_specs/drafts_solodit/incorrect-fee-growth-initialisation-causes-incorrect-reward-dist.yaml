@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-fee-growth-initialisation-causes-incorrect-reward-dist"
+class_name: "IncorrectFeeGrowthInitialisationCausesIncorrectRewardDist"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41907 (Spearbit/Sorella Angstrom)"
+help: "Incorrect fee growth initialisation causes incorrect reward distribution"
+wiki_title: "Incorrect fee growth initialisation causes incorrect reward distribution"
+wiki_description: |
+    Severity: High Risk
+    Context: PoolUpdates.sol#L74-L92
+    Description: The initialisation of the rewardGrowthOutside of a tick differs from Uniswap 's. It is set to
+    maintain the following invariant:
+    for all ticks: if (tick > current_tick) then
+    for all ticks: if (tick ' > tick) then
+    growthOutside[ti
+wiki_exploit_scenario: |
+    Per Solodit #41907: Severity: High Risk
+    Context: PoolUpdates.sol#L74-L92
+    Description: The initialisation of the rewardGrowthOutside of a tick differs from Uniswap 's. It is set to
+    maintain the following invariant:
+    fo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectFeeGrowthInitialisationCausesIncorrectRewardDist"
+solodit_id: "41907"
+solodit_slug: |
+    incorrect-fee-growth-initialisation-causes-incorrect-reward-distribution-spearbit-none-sorella-angstrom-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rewardGrowthOutside|growthOutside|makeAddr|addLiquidity).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rewardGrowthOutside"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

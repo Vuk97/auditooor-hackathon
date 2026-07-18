@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "hardcoded-cluster-size-in-withdrawvalidator-can-cause-losses-to-"
+class_name: "HardcodedClusterSizeInWithdrawvalidatorCanCauseLossesTo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35000 (Cyfrin/Casimir)"
+help: |
+    Hardcoded cluster size in `withdrawValidator` can cause losses to operators or protocol for strategies with larger cluster sizes
+wiki_title: |
+    Hardcoded cluster size in `withdrawValidator` can cause losses to operators or protocol for strategies with larger cluster sizes
+wiki_description: |
+    **Description:** `CasimirManager::withdrawValidator` calculates the owed balance on withdrawal, ie. shortfall from the initial 32 ether. It then tries to recover the owed amount from the operators tagged to the validator. However, while calculating recovery amount, a hardcoded cluster size of `4` is
+wiki_exploit_scenario: |
+    Per Solodit #35000: **Description:** `CasimirManager::withdrawValidator` calculates the owed balance on withdrawal, ie. shortfall from the initial 32 ether. It then tries to recover the owed amount from the operators tag
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "HardcodedClusterSizeInWithdrawvalidatorCanCauseLossesTo"
+solodit_id: "35000"
+solodit_slug: |
+    hardcoded-cluster-size-in-withdrawvalidator-can-cause-losses-to-operators-or-protocol-for-strategies-with-larger-cluster-sizes-cyfrin-none-casimir-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal clustersize;"
+fn_name_regex: ".*(owedAmount|clusterSize|withdrawValidator).*"
+read_var_regex: ".*(clusterSize|owedAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "owedAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return clustersize > 0;"

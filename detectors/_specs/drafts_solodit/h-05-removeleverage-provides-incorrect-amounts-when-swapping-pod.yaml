@@ -1,0 +1,53 @@
+skeleton: "paired_function_divergence"
+name: "h-05-removeleverage-provides-incorrect-amounts-when-swapping-pod"
+class_name: "H05RemoveleverageProvidesIncorrectAmountsWhenSwappingPod"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45992 (Pashov Audit Group/Peapods_2024-11-16)"
+help: "[H-05] `_removeLeverage()` provides incorrect amounts when swapping pods"
+wiki_title: "[H-05] `_removeLeverage()` provides incorrect amounts when swapping pods"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When `_removeLeverage` is triggered, if `_pairedAmtReceived` is lower than `_repayAmount`, it triggers `_acquireBorrowTokenForRepayment`.
+    
+    ```solidity
+        function _removeLeverage(bytes memory _userData)
+            internal
+wiki_exploit_scenario: |
+    Per Solodit #45992: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When `_removeLeverage` is triggered, if `_pairedAmtReceived` is lower than `_repayAmount`, it triggers `_acquireBorrowTokenForRep
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05RemoveleverageProvidesIncorrectAmountsWhenSwappingPod"
+solodit_id: "45992"
+solodit_slug: |
+    h-05-_removeleverage-provides-incorrect-amounts-when-swapping-pods-pashov-audit-group-none-peapods_2024-11-16-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(lendingPair|redeems).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "wrong-fee-sent-to-chainlink-nodes"
+class_name: "WrongFeeSentToChainlinkNodes"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #50957 (Halborn/Gains Trade)"
+help: "WRONG FEE SENT TO CHAINLINK NODES"
+wiki_title: "WRONG FEE SENT TO CHAINLINK NODES"
+wiki_description: |
+    ##### Description
+    
+    In the `GTokenOpenPnlFeed` contract, the `makeOpenPnlRequest()` function is used to send requests to a pool of Chainlink oracles:
+    
+    #### GTokenOpenPnlFeed.sol
+    
+    ```
+    // Create requests
+    function makeOpenPnlRequest() private{
+        Chainlink.Request memory linkRequest = buildChainlinkReq
+wiki_exploit_scenario: |
+    Per Solodit #50957: ##### Description
+    
+    In the `GTokenOpenPnlFeed` contract, the `makeOpenPnlRequest()` function is used to send requests to a pool of Chainlink oracles:
+    
+    #### GTokenOpenPnlFeed.sol
+    
+    ```
+    // Create requests
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrongFeeSentToChainlinkNodes"
+solodit_id: "50957"
+solodit_slug: "wrong-fee-sent-to-chainlink-nodes-halborn-gains-trade-gains-trade-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal linkfeepernode;"
+fn_name_regex: ".*(GTokenOpenPnlFeed|makeOpenPnlRequest|linkFeePerNode).*"
+read_var_regex: ".*(linkFeePerNode|makeOpenPnlRequest).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "GTokenOpenPnlFeed"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return linkfeepernode > 0;"

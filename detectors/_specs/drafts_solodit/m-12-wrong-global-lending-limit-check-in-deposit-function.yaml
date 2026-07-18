@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-12-wrong-global-lending-limit-check-in-deposit-function"
+class_name: "M12WrongGlobalLendingLimitCheckInDepositFunction"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32278 (Code4rena/Revert Lend)"
+help: "[M-12] Wrong global lending limit check in `_deposit` function"
+wiki_title: "[M-12] Wrong global lending limit check in `_deposit` function"
+wiki_description: |
+    The `_deposit` function is invoked in both the `deposit` and `mint` functions when a user wants to lend assets. This function is intended to ensure that the total amount of assets lent does not exceed the protocol limit `globalLendLimit`.
+    
+    ```solidity
+    function _deposit(
+        address receiver,
+        ui
+wiki_exploit_scenario: |
+    Per Solodit #32278: The `_deposit` function is invoked in both the `deposit` and `mint` functions when a user wants to lend assets. This function is intended to ensure that the total amount of assets lent does not excee
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12WrongGlobalLendingLimitCheckInDepositFunction"
+solodit_id: "32278"
+solodit_slug: "m-12-wrong-global-lending-limit-check-in-_deposit-function-code4rena-revert-lend-revert-lend-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(deposit|mint|globalLendLimit|totalSupply).*"
+read_var_regex: ".*(deposit|globalLendLimit|lastLendExchangeRateX96).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposit > 0;"

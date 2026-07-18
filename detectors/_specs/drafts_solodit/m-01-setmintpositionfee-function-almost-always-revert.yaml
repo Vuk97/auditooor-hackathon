@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "m-01-setmintpositionfee-function-almost-always-revert"
+class_name: "M01SetmintpositionfeeFunctionAlmostAlwaysRevert"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44101 (Shieldify/Pear V2)"
+help: "[M-01] `setMintPositionFee()` Function Almost Always Revert"
+wiki_title: "[M-01] `setMintPositionFee()` Function Almost Always Revert"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `setMintPositionFee()` function can set the `mintFeeInUsdc` value and can only be called by the admin. The problem is that the value of `mintFeeInUsdc` is too big:
+    
+    ```solidity
+    mintFeeInUsdc = 1_000_000;
+    ```
+    
+    The variable has 6 decimals because the USDC
+wiki_exploit_scenario: |
+    Per Solodit #44101: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `setMintPositionFee()` function can set the `mintFeeInUsdc` value and can only be called by the admin. The problem is that the value of `mintFeeInUsdc` is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01SetmintpositionfeeFunctionAlmostAlwaysRevert"
+solodit_id: "44101"
+solodit_slug: "m-01-setmintpositionfee-function-almost-always-revert-shieldify-none-pear-v2-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal mintfeeinusdc;"
+fn_name_regex: ".*(setMintPositionFee|mintFeeInUsdc|notExceedingOneHundredPercent|TOTAL_BASIS_POINTS).*"
+read_var_regex: ".*(mintFeeInUsdc|notExceedingOneHundredPercent|setMintPositionFee).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setMintPositionFee"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return mintfeeinusdc > 0;"

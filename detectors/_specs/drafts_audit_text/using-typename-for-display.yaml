@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "using-typename-for-display"
+class_name: "UsingTypenameForDisplay"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit CetusProtocol - Zellic Audit Report"
+help: |
+    When creating a position NFT, a display object is also created. The code uses property syntax to access coin_type_[a/b]: struct Position has key, store { id: UID, pool: ID, index:
+wiki_title: "Using TypeName for display"
+wiki_description: |
+    When creating a position NFT, a display object is also created. The code uses property syntax to access coin_type_[a/b]: struct Position has key, store { id: UID, pool: ID, index: u64, coin_type_a: TypeName, coin_type_b: TypeName, // [...] let values = vector[ utf8(b"{name}"), utf8(b"{coin_type_a}")
+wiki_exploit_scenario: |
+    Per audit finding: When creating a position NFT, a display object is also created. The code uses property syntax to access coin_type_[a/b]: struct Position has key, store { id: UID, pool: ID, index: u64, coin_type_a: Ty
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsingTypenameForDisplay"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(showDisplay).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "showDisplay"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "h-03-deactivated-validator-retains-old-balance-after-reactivatio"
+class_name: "H03DeactivatedValidatorRetainsOldBalanceAfterReactivatio"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #58611 (Pashov Audit Group/Kinetiq_2025-02-26)"
+help: "[H-03] Deactivated validator retains old balance after reactivation"
+wiki_title: "[H-03] Deactivated validator retains old balance after reactivation"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When a validator is deactivated via `ValidatorManager::deactivateValidator`, the validator’s balance is not updated. However, since a rebalance withdrawal request is created for this validator, their **actual** balance becomes 0
+wiki_exploit_scenario: |
+    Per Solodit #58611: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When a validator is deactivated via `ValidatorManager::deactivateValidator`, the validator’s balance is not updated. However, si
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03DeactivatedValidatorRetainsOldBalanceAfterReactivatio"
+solodit_id: "58611"
+solodit_slug: |
+    h-03-deactivated-validator-retains-old-balance-after-reactivation-pashov-audit-group-none-kinetiq_2025-02-26-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(deactivateValidator|whenNotPaused|nonReentrant|validatorExists).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "deactivateValidator"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

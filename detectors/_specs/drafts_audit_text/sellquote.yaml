@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "sellquote"
+class_name: "Sellquote"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-lambowin"
+help: |
+    Infect3d , also found by 0xDemon Bryan_Conquer Evo hyuunn SpicyMeatball KupiaSec NexusAudits OpaBatyo , and pumba sellQuote and buyQuote are missing deadline check in LamboVEthRout
+wiki_title: "sellQuote"
+wiki_description: |
+    Infect3d , also found by 0xDemon Bryan_Conquer Evo hyuunn SpicyMeatball KupiaSec NexusAudits OpaBatyo , and pumba sellQuote and buyQuote are missing deadline check in LamboVEthRouter . Because of that, transactions can still be stuck in the mempool and be executed a long time after the transaction i
+wiki_exploit_scenario: |
+    Per audit finding: Infect3d , also found by 0xDemon Bryan_Conquer Evo hyuunn SpicyMeatball KupiaSec NexusAudits OpaBatyo , and pumba sellQuote and buyQuote are missing deadline check in LamboVEthRouter . Because of that
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Sellquote"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

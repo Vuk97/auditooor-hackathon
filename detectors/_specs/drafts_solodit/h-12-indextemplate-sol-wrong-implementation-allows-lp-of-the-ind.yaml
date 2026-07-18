@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "h-12-indextemplate-sol-wrong-implementation-allows-lp-of-the-ind"
+class_name: "H12IndextemplateSolWrongImplementationAllowsLpOfTheInd"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42436 (Code4rena/InsureDAO)"
+help: |
+    [H-12] `IndexTemplate.sol` Wrong implementation allows lp of the index pool to resume a locked `PayingOut` pool and escape the responsibility for the compensation
+wiki_title: |
+    [H-12] `IndexTemplate.sol` Wrong implementation allows lp of the index pool to resume a locked `PayingOut` pool and escape the responsibility for the compensati
+wiki_description: |
+    _Submitted by WatchPug, also found by leastwood_
+    
+    Based on the context, the system intends to lock all the lps during PayingOut period.
+    
+    However, the current implementation allows anyone, including LPs to call `resume()` and unlock the index pool.
+    
+    It allows a malicious LP to escape the responsibili
+wiki_exploit_scenario: |
+    Per Solodit #42436: _Submitted by WatchPug, also found by leastwood_
+    
+    Based on the context, the system intends to lock all the lps during PayingOut period.
+    
+    However, the current implementation allows anyone, including LP
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H12IndextemplateSolWrongImplementationAllowsLpOfTheInd"
+solodit_id: "42436"
+solodit_slug: |
+    h-12-indextemplatesol-wrong-implementation-allows-lp-of-the-index-pool-to-resume-a-locked-payingout-pool-and-escape-the-responsibility-for-the-compensation-code4rena-insuredao-insuredao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal resume;"
+fn_name_regex: ".*(resume|PayingOut).*"
+write_var_regex: ".*(resume).*"
+guard_var_regex: ".*(resume).*"
+vuln_fn_name: "resume"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "resume = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

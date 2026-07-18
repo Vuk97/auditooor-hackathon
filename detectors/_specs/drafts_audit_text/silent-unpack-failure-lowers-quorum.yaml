@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "silent-unpack-failure-lowers-quorum"
+class_name: "SilentUnpackFailureLowersQuorum"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit All in Bits - Zellic Audit Report"
+help: |
+    In x/gov/keeper/proposal.go, each proposal message is unpacked with the following: if err := k.cdc.UnpackAny(msg, &sdkMsg); err == nil { // process message } If UnpackAny returns a
+wiki_title: "Silent unpack failure lowers quorum"
+wiki_description: |
+    In x/gov/keeper/proposal.go, each proposal message is unpacked with the following: if err := k.cdc.UnpackAny(msg, &sdkMsg); err == nil { // process message } If UnpackAny returns an error, the code simply skips the message; no error is surfaced. When all messages in a proposal fail to unpack (e.g.,
+wiki_exploit_scenario: |
+    Per audit finding: In x/gov/keeper/proposal.go, each proposal message is unpacked with the following: if err := k.cdc.UnpackAny(msg, &sdkMsg); err == nil { // process message } If UnpackAny returns an error, the code si
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SilentUnpackFailureLowersQuorum"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(sdkMsg|getQuorumAndThreshold).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "sdkMsg"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

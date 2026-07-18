@@ -1,0 +1,45 @@
+skeleton: "paired_function_divergence"
+name: "risk-of-unexpected-results-when-long-term-swaps-involving-rebasi"
+class_name: "RiskOfUnexpectedResultsWhenLongTermSwapsInvolvingRebasi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #17908 (TrailOfBits/Frax Finance)"
+help: "Risk of unexpected results when long-term swaps involving rebasing tokens are canceled"
+wiki_title: "Risk of unexpected results when long-term swaps involving rebasing tokens are canceled"
+wiki_description: |
+    ## Diﬃculty: High
+    
+    ## Type: Data Validation
+    
+    ### Description
+    FraxSwap’s use of rebasing tokens—tokens whose supply can be adjusted to control their prices—could cause transactions to revert after users cancel or withdraw from long-term swaps.
+    
+    FraxSwap offers a new type of swap called a “long-term s
+wiki_exploit_scenario: |
+    Per Solodit #17908: ## Diﬃculty: High
+    
+    ## Type: Data Validation
+    
+    ### Description
+    FraxSwap’s use of rebasing tokens—tokens whose supply can be adjusted to control their prices—could cause transactions to revert after user
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RiskOfUnexpectedResultsWhenLongTermSwapsInvolvingRebasi"
+solodit_id: "17908"
+solodit_slug: |
+    risk-of-unexpected-results-when-long-term-swaps-involving-rebasing-tokens-are-canceled-trailofbits-frax-finance-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

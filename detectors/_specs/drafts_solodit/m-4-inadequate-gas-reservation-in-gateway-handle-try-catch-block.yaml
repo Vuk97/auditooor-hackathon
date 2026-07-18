@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-4-inadequate-gas-reservation-in-gateway-handle-try-catch-block"
+class_name: "M4InadequateGasReservationInGatewayHandleTryCatchBlock"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64199 (Sherlock/Centrifuge Protocol V3 Audit)"
+help: |
+    M-4: Inadequate gas reservation in `Gateway.handle()` try-catch block enables permanent DOS via batch-level gas exhaustion
+wiki_title: |
+    M-4: Inadequate gas reservation in `Gateway.handle()` try-catch block enables permanent DOS via batch-level gas exhaustion
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-10-centrifuge-protocol-v3-1-audit-judging/issues/512 
+    
+    ## Found by 
+    0x52
+    
+    ## Summary
+    
+    `Gateway.handle()` uses inadequate gas management when processing batched messages, reserving only `GAS_FAIL_MESSAGE_STORAGE` (40,000 gas) for the current message via
+wiki_exploit_scenario: |
+    Per Solodit #64199: Source: https://github.com/sherlock-audit/2025-10-centrifuge-protocol-v3-1-audit-judging/issues/512 
+    
+    ## Found by 
+    0x52
+    
+    ## Summary
+    
+    `Gateway.handle()` uses inadequate gas management when processing
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M4InadequateGasReservationInGatewayHandleTryCatchBlock"
+solodit_id: "64199"
+solodit_slug: |
+    m-4-inadequate-gas-reservation-in-gatewayhandle-try-catch-block-enables-permanent-dos-via-batch-level-gas-exhaustion-sherlock-centrifuge-protocol-v3-audit-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal gasleft;"
+fn_name_regex: ".*(GAS_FAIL_MESSAGE_STORAGE|UntrustedContractUpdate|UpdateHoldingAmount|NotEnoughGasToProcess).*"
+read_var_regex: ".*(gasleft).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "GAS_FAIL_MESSAGE_STORAGE"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return gasleft > 0;"

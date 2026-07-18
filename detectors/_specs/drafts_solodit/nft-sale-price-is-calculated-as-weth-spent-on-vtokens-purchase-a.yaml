@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "nft-sale-price-is-calculated-as-weth-spent-on-vtokens-purchase-a"
+class_name: "NftSalePriceIsCalculatedAsWethSpentOnVtokensPurchaseA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #54556 (Cantina/NFTX)"
+help: |
+    NFT sale price is calculated as WETH spent on vTokens purchase and is overstated this way in royalty deductions
+wiki_title: |
+    NFT sale price is calculated as WETH spent on vTokens purchase and is overstated this way in royalty deductions 
+wiki_description: |
+    ## Context
+    - `MarketplaceUniversalRouterZap.sol#L228-L250`
+    - `MarketplaceUniversalRouterZap.sol#L465-L502`
+    
+    ## Description
+    The `wethSpent` is the amount spent on vTokens, not all of which are used for NFT purchases. In fact, the amount of vTokens left is uncapped and can be arbitrarily large. This l
+wiki_exploit_scenario: |
+    Per Solodit #54556: ## Context
+    - `MarketplaceUniversalRouterZap.sol#L228-L250`
+    - `MarketplaceUniversalRouterZap.sol#L465-L502`
+    
+    ## Description
+    The `wethSpent` is the amount spent on vTokens, not all of which are used for
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NftSalePriceIsCalculatedAsWethSpentOnVtokensPurchaseA"
+solodit_id: "54556"
+solodit_slug: |
+    nft-sale-price-is-calculated-as-weth-spent-on-vtokens-purchase-and-is-overstated-this-way-in-royalty-deductions-cantina-none-nftx-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal wethspent;"
+fn_name_regex: ".*(wethSpent).*"
+write_var_regex: ".*(wethSpent).*"
+guard_var_regex: ".*(wethSpent).*"
+vuln_fn_name: "wethSpent"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "wethspent = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "m-18-incorrect-calculations-in-debtceiling"
+class_name: "M18IncorrectCalculationsInDebtceiling"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30238 (Code4rena/Ethereum Credit Guild)"
+help: "[M-18] Incorrect calculations in `debtCeiling`"
+wiki_title: "[M-18] Incorrect calculations in `debtCeiling`"
+wiki_description: |
+    Incorrect `debtCeiling` value will prevent users from withdrawing Guild tokens out of the gauge.
+    
+    ### Proof of Concept
+    
+    If there is a loan in the gauge and user wants to decrement the weight, we need to check it's ceiling first:
+    
+    <https://github.com/code-423n4/2023-12-ethereumcreditguild/blob/main/
+wiki_exploit_scenario: |
+    Per Solodit #30238: Incorrect `debtCeiling` value will prevent users from withdrawing Guild tokens out of the gauge.
+    
+    ### Proof of Concept
+    
+    If there is a loan in the gauge and user wants to decrement the weight, we need
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18IncorrectCalculationsInDebtceiling"
+solodit_id: "30238"
+solodit_slug: "m-18-incorrect-calculations-in-debtceiling-code4rena-ethereum-credit-guild-ethereum-credit-guild-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal debtceiling;"
+fn_name_regex: ".*(debtCeiling|gaugeWeight|totalWeight).*"
+write_var_regex: ".*(debtCeiling|gaugeWeight|totalWeight).*"
+guard_var_regex: ".*(debtCeiling|gaugeWeight|totalWeight).*"
+vuln_fn_name: "debtCeiling"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "debtceiling = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

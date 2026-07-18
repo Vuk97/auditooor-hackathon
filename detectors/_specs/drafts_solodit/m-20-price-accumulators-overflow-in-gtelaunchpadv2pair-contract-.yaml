@@ -1,0 +1,35 @@
+skeleton: "paired_function_divergence"
+name: "m-20-price-accumulators-overflow-in-gtelaunchpadv2pair-contract-"
+class_name: "M20PriceAccumulatorsOverflowInGtelaunchpadv2pairContract"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64863 (Code4rena/GTE)"
+help: "[M-20] Price Accumulators Overflow in GTELaunchpadV2Pair contract Causes AMM-wide DoS"
+wiki_title: "[M-20] Price Accumulators Overflow in GTELaunchpadV2Pair contract Causes AMM-wide DoS"
+wiki_description: |
+    * `launchpad/uniswap/GTELaunchpadV2Pair.sol` [# L136-L137](https://github.com/code-423n4/2025-08-gte-perps/blob/main/contracts/launchpad/uniswap/GTELaunchpadV2Pair.sol# L136-L137)
+    * `launchpad/uniswap/GTELaunchpadV2Pair.sol` [# L2](https://github.com/code-423n4/2025-08-gte-perps/blob/f43e1eedb65e7
+wiki_exploit_scenario: |
+    Per Solodit #64863: * `launchpad/uniswap/GTELaunchpadV2Pair.sol` [# L136-L137](https://github.com/code-423n4/2025-08-gte-perps/blob/main/contracts/launchpad/uniswap/GTELaunchpadV2Pair.sol# L136-L137)
+    * `launchpad/unisw
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M20PriceAccumulatorsOverflowInGtelaunchpadv2pairContract"
+solodit_id: "64863"
+solodit_slug: |
+    m-20-price-accumulators-overflow-in-gtelaunchpadv2pair-contract-causes-amm-wide-dos-code4rena-gte-gte-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

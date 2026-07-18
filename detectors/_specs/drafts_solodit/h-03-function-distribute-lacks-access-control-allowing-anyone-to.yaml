@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "h-03-function-distribute-lacks-access-control-allowing-anyone-to"
+class_name: "H03FunctionDistributeLacksAccessControlAllowingAnyoneTo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35205 (Code4rena/Gondi)"
+help: |
+    [H-03] Function `distribute()` lacks access control allowing anyone to spam and disrupt the pool's accounting
+wiki_title: |
+    [H-03] Function `distribute()` lacks access control allowing anyone to spam and disrupt the pool's accounting
+wiki_description: |
+    The `LiquidationDistributor` contract manages the distribution of funds after a liquidation auction is settled. It distributes the received funds to the lenders of the loan. If the lender has implemented the `LoanManager` interface, it will also call `loanLiquidation()` on the lender's address. The
+wiki_exploit_scenario: |
+    Per Solodit #35205: The `LiquidationDistributor` contract manages the distribution of funds after a liquidation auction is settled. It distributes the received funds to the lenders of the loan. If the lender has impleme
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03FunctionDistributeLacksAccessControlAllowingAnyoneTo"
+solodit_id: "35205"
+solodit_slug: |
+    h-03-function-distribute-lacks-access-control-allowing-anyone-to-spam-and-disrupt-the-pools-accounting-code4rena-gondi-gondi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal distribute;"
+fn_name_regex: ".*(LiquidationDistributor|LoanManager|loanLiquidation|distribute).*"
+read_var_regex: ".*(distribute|loanLiquidation|principalAddress).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LiquidationDistributor"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return distribute > 0;"

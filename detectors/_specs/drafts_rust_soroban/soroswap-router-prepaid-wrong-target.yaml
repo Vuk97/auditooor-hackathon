@@ -1,0 +1,22 @@
+id: soroswap-router-prepaid-wrong-target
+title: "Swap adapter pre-authorizes the wrong contract for the transfer inside router"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09 | k2-v12"
+source_ids:
+  - "7.22"
+  - "44840"
+bug_class: abi-mismatch
+indicators:
+  - "`env.authorize_as_current_contract(...)` authorizes `from_token.transfer(x, router_address, amount)` but the router internally pulls to `pair_address`"
+  - "hard-coded router address as transfer recipient in the auth payload when router subsequently forwards to a pair"
+  - "discrepancy between pre-auth target and the call graph Soroswap actually uses"
+victim: "Liquidators: the router path is bricked for all swaps, blocking flash-liquidation through that venue."
+exploit_precondition: "Any user invokes the broken swap path."
+real_world_example: |
+  Halborn 7.22 (LOW): SoroswapSwapAdapter router-path swap is bricked by incorrect pre-authorization target.
+suggested_remediation: "Construct the auth tree by mirroring the exact call graph Soroswap performs: transfer target is the destination pair, not the router."
+cross_refs:
+  - flat-auth-tree-nested-call
+  - cross-contract-abi-mismatch-reverts

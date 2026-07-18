@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-07-vaultmanagerv2-sol-burndyad-function-is-missing-an-isdnftow"
+class_name: "M07Vaultmanagerv2SolBurndyadFunctionIsMissingAnIsdnftow"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33473 (Code4rena/DYAD)"
+help: |
+    [M-07] `VaultManagerV2.sol::burnDyad` function is missing an `isDNftOwner` modifier, allowing a user to burn another user's minted DYAD
+wiki_title: |
+    [M-07] `VaultManagerV2.sol::burnDyad` function is missing an `isDNftOwner` modifier, allowing a user to burn another user's minted DYAD
+wiki_description: |
+    `VaultManagerV2.sol` has a function `burnDyad` that allows a DNft owner to burn his minted DYAD tokens.
+    
+    ```solidity
+        function burnDyad(uint256 id, uint256 amount) external isValidDNft(id) {
+            dyad.burn(id, msg.sender, amount);
+            emit BurnDyad(id, amount, msg.sender);
+        }
+    ```
+    
+    Howe
+wiki_exploit_scenario: |
+    Per Solodit #33473: `VaultManagerV2.sol` has a function `burnDyad` that allows a DNft owner to burn his minted DYAD tokens.
+    
+    ```solidity
+        function burnDyad(uint256 id, uint256 amount) external isValidDNft(id) {
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07Vaultmanagerv2SolBurndyadFunctionIsMissingAnIsdnftow"
+solodit_id: "33473"
+solodit_slug: |
+    m-07-vaultmanagerv2solburndyad-function-is-missing-an-isdnftowner-modifier-allowing-a-user-to-burn-another-users-minted-dyad-code4rena-dyad-dyad-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal burndyad;"
+fn_name_regex: ".*(burnDyad|isValidDNft|isDNftOwner).*"
+read_var_regex: ".*(burnDyad|isValidDNft).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "burnDyad"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return burndyad > 0;"

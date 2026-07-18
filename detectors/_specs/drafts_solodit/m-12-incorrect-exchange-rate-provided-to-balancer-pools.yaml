@@ -1,0 +1,30 @@
+skeleton: "state_write_without_paired_write"
+name: "m-12-incorrect-exchange-rate-provided-to-balancer-pools"
+class_name: "M12IncorrectExchangeRateProvidedToBalancerPools"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33507 (Code4rena/Renzo)"
+help: "[M-12] Incorrect exchange rate provided to Balancer pools"
+wiki_title: "[M-12] Incorrect exchange rate provided to Balancer pools"
+wiki_description: |
+    The [`xRenzoDeposit`](https://github.com/code-423n4/2024-04-renzo/blob/main/contracts/Bridge/L2/xRenzoDeposit.sol) contract, apart from being the entry point for deposits on L2s, also acts as a rate provider for Balancer pools on L2s, allowing them to determine the exchange rate between `xezWETH` a
+wiki_exploit_scenario: |
+    Per Solodit #33507: The [`xRenzoDeposit`](https://github.com/code-423n4/2024-04-renzo/blob/main/contracts/Bridge/L2/xRenzoDeposit.sol) contract, apart from being the entry point for deposits on L2s, also acts as a rate
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12IncorrectExchangeRateProvidedToBalancerPools"
+solodit_id: "33507"
+solodit_slug: "m-12-incorrect-exchange-rate-provided-to-balancer-pools-code4rena-renzo-renzo-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(xRenzoDeposit|xezWETH|WETH|getRate).*"
+primary_var_regex: ".*(ezETH|getRate|lastPrice).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

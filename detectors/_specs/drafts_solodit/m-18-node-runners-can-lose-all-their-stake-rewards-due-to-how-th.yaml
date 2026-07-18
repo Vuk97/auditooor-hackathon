@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "m-18-node-runners-can-lose-all-their-stake-rewards-due-to-how-th"
+class_name: "M18NodeRunnersCanLoseAllTheirStakeRewardsDueToHowTh"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5926 (Code4rena/Stakehouse Protocol)"
+help: |
+    [M-18] Node runners can lose all their stake rewards due to how the DAO commissions can be set to a 100%
+wiki_title: |
+    [M-18] Node runners can lose all their stake rewards due to how the DAO commissions can be set to a 100%
+wiki_description: |
+    Node runners can have all their stake rewards taken by the DAO as commissions can be set to a 100%.
+    
+    ### Proof of Concept
+    
+    There is no limits on `_updateDAORevenueCommission()` except not exceeding `MODULO`, which means it can be set to a 100%.
+    
+    [LiquidStakingManager.sol#L948-L955](https://github.c
+wiki_exploit_scenario: |
+    Per Solodit #5926: Node runners can have all their stake rewards taken by the DAO as commissions can be set to a 100%.
+    
+    ### Proof of Concept
+    
+    There is no limits on `_updateDAORevenueCommission()` except not exceeding `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18NodeRunnersCanLoseAllTheirStakeRewardsDueToHowTh"
+solodit_id: "5926"
+solodit_slug: |
+    m-18-node-runners-can-lose-all-their-stake-rewards-due-to-how-the-dao-commissions-can-be-set-to-a-100-code4rena-stakehouse-protocol-lsd-network-stakehouse-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Min/Max Cap Validation"
+state_decl: "uint256 internal claimrewardsasnoderunner;"
+fn_name_regex: ".*(MODULO|claimRewardsAsNodeRunner).*"
+write_var_regex: ".*(claimRewardsAsNodeRunner).*"
+guard_var_regex: ".*(claimRewardsAsNodeRunner).*"
+vuln_fn_name: "MODULO"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "claimrewardsasnoderunner = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "duplicate-pair-check-is-skipped-in-swapinternal"
+class_name: "DuplicatePairCheckIsSkippedInSwapinternal"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Awaken Swap - Zellic Audit Report"
+help: |
+    In SwapExternal, there is a check that to != pairAddress: private void SwapInternal(string symbolIn, string symbolOut, long amountIn, long amountOut, Address to, string channel) {
+wiki_title: "Duplicate pair check is skipped in SwapInternal"
+wiki_description: |
+    In SwapExternal, there is a check that to != pairAddress: private void SwapInternal(string symbolIn, string symbolOut, long amountIn, long amountOut, Address to, string channel) { // [...] Assert(to != pairAddress, "Invalid account address"); The purpose of this check in the Uniswap code that this f
+wiki_exploit_scenario: |
+    Per audit finding: In SwapExternal, there is a check that to != pairAddress: private void SwapInternal(string symbolIn, string symbolOut, long amountIn, long amountOut, Address to, string channel) { // [...] Assert(to !
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DuplicatePairCheckIsSkippedInSwapinternal"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

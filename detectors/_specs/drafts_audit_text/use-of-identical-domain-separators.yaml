@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "use-of-identical-domain-separators"
+class_name: "UseOfIdenticalDomainSeparators"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit RabbitX December 2024 - Zellic Audit Report"
+help: |
+    BfxU and RabbitU contracts both use the EIP712VerifierU contract for signature verification. During the initialization, the contracts call the function __EIP712VerifierU_init, whic
+wiki_title: "Use of identical domain separators"
+wiki_description: |
+    BfxU and RabbitU contracts both use the EIP712VerifierU contract for signature verification. During the initialization, the contracts call the function __EIP712VerifierU_init, which takes as input a domain separator to prevent replaying the signature between the Blast and Ethereum chains: function _
+wiki_exploit_scenario: |
+    Per audit finding: BfxU and RabbitU contracts both use the EIP712VerifierU contract for signature verification. During the initialization, the contracts call the function __EIP712VerifierU_init, which takes as input a d
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UseOfIdenticalDomainSeparators"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(domainName).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "domainName"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

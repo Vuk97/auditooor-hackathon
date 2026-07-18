@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-11-the-liquidity-pool-will-lack-margin-of-synthetix-perpetual-"
+class_name: "M11TheLiquidityPoolWillLackMarginOfSynthetixPerpetual"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20248 (Code4rena/Polynomial Protocol)"
+help: |
+    [M-11] The Liquidity Pool will lack margin of Synthetix perpetual market, if `liquidationBufferRatio` of contract `PerpsV2MarketSettings` from Synthetix is updated
+wiki_title: |
+    [M-11] The Liquidity Pool will lack margin of Synthetix perpetual market, if `liquidationBufferRatio` of contract `PerpsV2MarketSettings` from Synthetix is upda
+wiki_description: |
+    The Liquidity Pool can lack the margin of PerpMarket if `liquidationBufferRatio` of contract `PerpsV2MarketSettings` from Synthetix is greater than 1e18. Then the delay orders of the pool can not be executed and the position of the pool might be liquidated.
+    
+    ### Proof of concept
+    
+    *   Function `_cal
+wiki_exploit_scenario: |
+    Per Solodit #20248: The Liquidity Pool can lack the margin of PerpMarket if `liquidationBufferRatio` of contract `PerpsV2MarketSettings` from Synthetix is greater than 1e18. Then the delay orders of the pool can not be
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11TheLiquidityPoolWillLackMarginOfSynthetixPerpetual"
+solodit_id: "20248"
+solodit_slug: |
+    m-11-the-liquidity-pool-will-lack-margin-of-synthetix-perpetual-market-if-liquidationbufferratio-of-contract-perpsv2marketsettings-from-synthetix-is-updated-code4rena-polynomial-protocol-polynomial-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidationbufferratio;"
+fn_name_regex: ".*(liquidationBufferRatio|PerpsV2MarketSettings|PerpMarket|LiquidityPool).*"
+read_var_regex: ".*(liquidationBufferRatio).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidationBufferRatio"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return liquidationbufferratio > 0;"

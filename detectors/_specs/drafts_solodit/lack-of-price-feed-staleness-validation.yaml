@@ -1,0 +1,38 @@
+skeleton: "state_write_without_paired_write"
+name: "lack-of-price-feed-staleness-validation"
+class_name: "LackOfPriceFeedStalenessValidation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58926 (Quantstamp/Datachain - App for Liquidity)"
+help: "Lack of Price Feed Staleness Validation"
+wiki_title: "Lack of Price Feed Staleness Validation"
+wiki_description: |
+    **Update**
+    Marked as "Fixed" by the client. Addressed in: `990dadbc16696c96a58e8779ef90e7c72b029034`. The client provided the following explanation:
+    
+    > We introduced pool-level expiration checks with a buffer using updateAt (answeredInRound appeared to be deprecated).
+    
+    **File(s) affected:**`src/Toke
+wiki_exploit_scenario: |
+    Per Solodit #58926: **Update**
+    Marked as "Fixed" by the client. Addressed in: `990dadbc16696c96a58e8779ef90e7c72b029034`. The client provided the following explanation:
+    
+    > We introduced pool-level expiration checks with
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfPriceFeedStalenessValidation"
+solodit_id: "58926"
+solodit_slug: "lack-of-price-feed-staleness-validation-quantstamp-datachain-app-for-liquidity-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(TokenPriceOracle|Chainlink|updatedAt|answeredInRound).*"
+primary_var_regex: ".*(answeredInRound|latestRoundData|updatedAt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

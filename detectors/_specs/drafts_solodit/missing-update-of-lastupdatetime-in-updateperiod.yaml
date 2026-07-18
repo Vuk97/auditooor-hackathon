@@ -1,0 +1,35 @@
+skeleton: "state_write_without_paired_write"
+name: "missing-update-of-lastupdatetime-in-updateperiod"
+class_name: "MissingUpdateOfLastupdatetimeInUpdateperiod"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57326 (Codehawks/Core Contracts)"
+help: "Missing Update of `lastUpdateTime` in `updatePeriod()"
+wiki_title: " Missing Update of `lastUpdateTime` in `updatePeriod()"
+wiki_description: |
+    ## Summary
+    
+    The `updatePeriod()` function fails to update `lastUpdateTime` correctly when a new period starts. This results in rewards being calculated incorrectly, as the time elapsed between the end of the previous period and the start of the new period is also counted, leading to an over-distribu
+wiki_exploit_scenario: |
+    Per Solodit #57326: ## Summary
+    
+    The `updatePeriod()` function fails to update `lastUpdateTime` correctly when a new period starts. This results in rewards being calculated incorrectly, as the time elapsed between the end
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingUpdateOfLastupdatetimeInUpdateperiod"
+solodit_id: "57326"
+solodit_slug: |
+    missing-update-of-lastupdatetime-in-updateperiod-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(updatePeriod|lastUpdateTime|nextPeriodStart|getRewardPerToken).*"
+primary_var_regex: ".*(getRewardPerToken|lastUpdateTime|nextPeriodStart).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

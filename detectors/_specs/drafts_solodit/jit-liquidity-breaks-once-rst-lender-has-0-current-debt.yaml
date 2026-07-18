@@ -1,0 +1,53 @@
+skeleton: "paired_function_divergence"
+name: "jit-liquidity-breaks-once-rst-lender-has-0-current-debt"
+class_name: "JitLiquidityBreaksOnceRstLenderHas0CurrentDebt"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #54506 (Cantina/Sturdy)"
+help: "JIT liquidity breaks once ﬁrst lender has 0 current_debt"
+wiki_title: "JIT liquidity breaks once ﬁrst lender has 0 current_debt "
+wiki_description: |
+    ## DebtManager.sol Analysis
+    
+    ## Context
+    **File:** `DebtManager.sol`  
+    **Line:** 244
+    
+    ## Description
+    The internal method `_update_debt()` of Yearn's V3 vault reverts under the following conditions:
+    
+    - **Unchanged debt:** 
+      - `assert new_debt != current_debt, "new debt equals current debt"`
+    
+    - **Redu
+wiki_exploit_scenario: |
+    Per Solodit #54506: ## DebtManager.sol Analysis
+    
+    ## Context
+    **File:** `DebtManager.sol`  
+    **Line:** 244
+    
+    ## Description
+    The internal method `_update_debt()` of Yearn's V3 vault reverts under the following conditions:
+    
+    -
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "JitLiquidityBreaksOnceRstLenderHas0CurrentDebt"
+solodit_id: "54506"
+solodit_slug: "jit-liquidity-breaks-once-first-lender-has-0-current_debt-cantina-none-sturdy-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(current_debt|newDebt).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

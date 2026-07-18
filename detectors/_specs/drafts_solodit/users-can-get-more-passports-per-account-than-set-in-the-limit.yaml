@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "users-can-get-more-passports-per-account-than-set-in-the-limit"
+class_name: "UsersCanGetMorePassportsPerAccountThanSetInTheLimit"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57423 (Zokyo/Metropolis)"
+help: "Users can get more passports per account than set in the limit."
+wiki_title: "Users can get more passports per account than set in the limit."
+wiki_description: |
+    **Description**
+    
+    In the contract, we have the_maxAllowedPerWallet parameter, which is responsible for the limit of passports per wallet. Verification is carried out in
+    
+    File:
+    
+    AccessTokenContract.sol 181: function_internalMint
+    
+    require(balanceOf(toWallet) <_maxAllowedPerWallet, "address already owns
+wiki_exploit_scenario: |
+    Per Solodit #57423: **Description**
+    
+    In the contract, we have the_maxAllowedPerWallet parameter, which is responsible for the limit of passports per wallet. Verification is carried out in
+    
+    File:
+    
+    AccessTokenContract.sol
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanGetMorePassportsPerAccountThanSetInTheLimit"
+solodit_id: "57423"
+solodit_slug: "users-can-get-more-passports-per-account-than-set-in-the-limit-zokyo-none-metropolis-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(balanceOf|toWallet).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "balanceOf"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

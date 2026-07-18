@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "order-id-reuse-due-to-multiple-priceupkeeps"
+class_name: "OrderIdReuseDueToMultiplePriceupkeeps"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Ostium - Zellic Audit Report"
+help: |
+    When an order is placed, the Trading contract calls getPrice on OstiumPriceRouter, which selects a OstiumPriceUpKeep deployment depending on the pair type: function getPrice(uint16
+wiki_title: "Order ID reuse due to multiple PriceUpkeeps"
+wiki_description: |
+    When an order is placed, the Trading contract calls getPrice on OstiumPriceRouter, which selects a OstiumPriceUpKeep deployment depending on the pair type: function getPrice(uint16 pairIndex, IOstiumPriceUpKeep.OrderType orderType, uint256 timestamp) external onlyTrading returns (uint256) { string m
+wiki_exploit_scenario: |
+    Per audit finding: When an order is placed, the Trading contract calls getPrice on OstiumPriceRouter, which selects a OstiumPriceUpKeep deployment depending on the pair type: function getPrice(uint16 pairIndex, IOstiumP
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OrderIdReuseDueToMultiplePriceupkeeps"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

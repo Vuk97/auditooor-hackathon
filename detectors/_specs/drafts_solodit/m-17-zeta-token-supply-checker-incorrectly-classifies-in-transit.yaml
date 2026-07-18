@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-17-zeta-token-supply-checker-incorrectly-classifies-in-transit"
+class_name: "M17ZetaTokenSupplyCheckerIncorrectlyClassifiesInTransit"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36946 (Code4rena/ZetaChain)"
+help: |
+    [M-17] Zeta token supply checker incorrectly classifies in-transit cctxs as settled resulting in misleading checks
+wiki_title: |
+    [M-17] Zeta token supply checker incorrectly classifies in-transit cctxs as settled resulting in misleading checks
+wiki_description: |
+    The Zeta token supply checker delivers false positives, suggesting that there is a Zeta token supply mismatch.
+    
+    ### Proof of Concept
+    
+    The `GetPendingCCTXInTransit` function in the `ZetaSupplyChecker` is supposed to return all cctxs that are currently in transit, i.e., cctxs that are pending and soo
+wiki_exploit_scenario: |
+    Per Solodit #36946: The Zeta token supply checker delivers false positives, suggesting that there is a Zeta token supply mismatch.
+    
+    ### Proof of Concept
+    
+    The `GetPendingCCTXInTransit` function in the `ZetaSupplyChecker`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M17ZetaTokenSupplyCheckerIncorrectlyClassifiesInTransit"
+solodit_id: "36946"
+solodit_slug: |
+    m-17-zeta-token-supply-checker-incorrectly-classifies-in-transit-cctxs-as-settled-resulting-in-misleading-checks-code4rena-zetachain-zetachain-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal receivingchains;"
+fn_name_regex: ".*(GetPendingCCTXInTransit|ZetaSupplyChecker|zetaInTransit|ValidateZetaSupply).*"
+read_var_regex: ".*(receivingChains|zetaInTransit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "GetPendingCCTXInTransit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return receivingchains > 0;"

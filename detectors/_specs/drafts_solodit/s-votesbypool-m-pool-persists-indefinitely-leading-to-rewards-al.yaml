@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "s-votesbypool-m-pool-persists-indefinitely-leading-to-rewards-al"
+class_name: "SVotesbypoolMPoolPersistsIndefinitelyLeadingToRewardsAl"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44338 (MixBytes/EYWA)"
+help: "`s_votesByPool[m_pool]` persists indefinitely, leading to rewards allocation after lock expiry"
+wiki_title: "`s_votesByPool[m_pool]` persists indefinitely, leading to rewards allocation after lock expiry"
+wiki_description: |
+    ##### Description
+    When a user votes in the `EscrowVoteManagerV1` contract, the value of **s_votesByPool[m_pool]** is incremented by the user's voting power.
+    
+    https://gitlab.ubertech.dev/blockchainlaboratory/eywa-dao/blob/29465033f28c8d3f09cbc6722e08e44f443bd3b2/contracts/EscrowVoteManagerV1.sol#L307
+wiki_exploit_scenario: |
+    Per Solodit #44338: ##### Description
+    When a user votes in the `EscrowVoteManagerV1` contract, the value of **s_votesByPool[m_pool]** is incremented by the user's voting power.
+    
+    https://gitlab.ubertech.dev/blockchainlabo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SVotesbypoolMPoolPersistsIndefinitelyLeadingToRewardsAl"
+solodit_id: "44338"
+solodit_slug: |
+    s_votesbypoolm_pool-persists-indefinitely-leading-to-rewards-allocation-after-lock-expiry-mixbytes-none-eywa-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(EscrowVoteManagerV1).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "EscrowVoteManagerV1"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

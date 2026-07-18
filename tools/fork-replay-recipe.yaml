@@ -1,0 +1,100 @@
+# fork-replay-recipe.yaml — per-protocol fork-replay recipes for fork-replay.py
+#
+# Each entry is used by:
+#   python3 tools/fork-replay.py --protocol <name> [--network <net>] [--block N]
+#
+# RPC URLs are resolved from env vars via ${ENV_VAR} expansion.
+# Operator must export the relevant env var before running live mode.
+#
+# M14-trap: default_overrides reference stubs in detectors/_fixtures/replay_harness/
+# Each stub declares its Production faithfulness scope at the top.
+
+# ─── 1. Optimism / Base ───────────────────────────────────────────────────────
+- protocol: optimism
+  network: mainnet
+  rpc: ${ALCHEMY_MAINNET_RPC_URL}
+  default_block: 21500000
+  contracts:
+    OptimismPortal: "0xbEb5Fc579115071764c7423A4f12eDde41f106Ed"
+    DisputeGameFactory: "0xe5965Ab5962eDc7477C8520243A95517CD252fA9"
+    L2OutputOracle: "0xdfe97868233d1aa22e815a266982f2cf17685a27"
+  default_overrides:
+    - OptimismPortal: "detectors/_fixtures/replay_harness/OptimismPortalStub.sol"
+  notes: >
+    Used for FN2-class withdrawal/guardian attacks.
+    OptimismPortalStub covers 6 of 7 production checks; MerkleTrie inclusion
+    proof is stub-replaced by registeredWithdrawals map.
+
+# ─── 2. Arbitrum ─────────────────────────────────────────────────────────────
+- protocol: arbitrum
+  network: mainnet
+  rpc: ${ALCHEMY_MAINNET_RPC_URL}
+  default_block: 21500000
+  contracts:
+    Bridge: "0x8315177aB297bA92A06054cE80a67Ed4DBd7ed3a"
+    Inbox: "0x4Dbd4fc535Ac27206064B68FfCf827b0A60BAB3f"
+    Outbox: "0x0B9857ae2D4A3DBe74ffE1d7DF045bb7F96E4840"
+    RollupProxy: "0x5eF0D09d1E6204141B4d37530808eD19f60FBa35"
+  default_overrides:
+    - Inbox: "detectors/_fixtures/replay_harness/ArbitrumInboxStub.sol"
+    - Outbox: "detectors/_fixtures/replay_harness/ArbitrumOutboxStub.sol"
+  notes: >
+    Covers bridge-in / retryable-ticket and bridge-out / message-execution
+    patterns. Stubs model retryable lifecycle and outbox proof verification.
+
+# ─── 3. LayerZero v2 ─────────────────────────────────────────────────────────
+- protocol: layerzero
+  network: mainnet
+  rpc: ${ALCHEMY_MAINNET_RPC_URL}
+  default_block: 21500000
+  contracts:
+    EndpointV2: "0x1a44076050125825900e736c501f859c50fE728c"
+    DVN_Executor: "0x173272739Bd7Aa6e4e214714048a9fE699453059"
+  default_overrides:
+    - EndpointV2: "detectors/_fixtures/replay_harness/LayerZeroEndpointStub.sol"
+  notes: >
+    Covers nonce-tracking, DVN configuration, and _lzReceive dispatch.
+    Stub does NOT model DVN allowance / executor fee accounting.
+
+# ─── 4. Wormhole Core Bridge ─────────────────────────────────────────────────
+- protocol: wormhole
+  network: mainnet
+  rpc: ${ALCHEMY_MAINNET_RPC_URL}
+  default_block: 21500000
+  contracts:
+    CoreBridge: "0x98f3c9e6E3fAce36bAAd05FE09d375Ef1464288B"
+    TokenBridge: "0x3ee18B2214AFF97000D974cf647E7C347E8fa585"
+  default_overrides:
+    - CoreBridge: "detectors/_fixtures/replay_harness/WormholeBridgeStub.sol"
+  notes: >
+    Covers guardian-set VAA verification and message dispatch.
+    Stub replaces guardian signature verification with a mock-guardian map.
+
+# ─── 5. Aave V3 ──────────────────────────────────────────────────────────────
+- protocol: aave-v3
+  network: mainnet
+  rpc: ${ALCHEMY_MAINNET_RPC_URL}
+  default_block: 21500000
+  contracts:
+    Pool: "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2"
+    PoolAddressesProvider: "0x2f39d218133AFaB8F2B819B1066c7E434Ad94E9E"
+    ACLManager: "0xc2aaCf6553D20d1e9d78E365AAba8032af9c85b0"
+  default_overrides:
+    - Pool: "detectors/_fixtures/replay_harness/AaveV3PoolStub.sol"
+  notes: >
+    Covers supply/borrow/liquidate entry points and ACL checks.
+    Stub does NOT model interest-rate model or oracle integration.
+
+# ─── 6. Uniswap V3 ───────────────────────────────────────────────────────────
+- protocol: uniswap-v3
+  network: mainnet
+  rpc: ${ALCHEMY_MAINNET_RPC_URL}
+  default_block: 21500000
+  contracts:
+    Factory: "0x1F98431c8aD98523631AE4a59f267346ea31F984"
+    Router: "0xE592427A0AEce92De3Edee1F18E0157C05861564"
+    NonfungiblePositionManager: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88"
+  default_overrides: []
+  notes: >
+    No stub: Uniswap V3 core is well-tested; override only when testing
+    callback / price-manipulation attack paths. Use real fork for most replays.

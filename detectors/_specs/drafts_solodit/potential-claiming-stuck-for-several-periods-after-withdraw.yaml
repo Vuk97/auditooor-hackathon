@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "potential-claiming-stuck-for-several-periods-after-withdraw"
+class_name: "PotentialClaimingStuckForSeveralPeriodsAfterWithdraw"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28739 (MixBytes/Defi Starter)"
+help: "Potential claiming stuck for several periods after withdraw"
+wiki_title: "Potential claiming stuck for several periods after withdraw"
+wiki_description: |
+    https://github.com/defistarter/contracts/blob/9ffe009ee6047ced669711dde14fe38483abdf7e/StakingPool.sol#L341
+    
+    Here we have division by `periodTotalSupply`, in case if `periodTotalSupply` becomes zero that it will be impossible to claim any reward.
+    
+    Attack flow:
+    
+    *Assuming that we have 1 user and 5 pe
+wiki_exploit_scenario: |
+    Per Solodit #28739: https://github.com/defistarter/contracts/blob/9ffe009ee6047ced669711dde14fe38483abdf7e/StakingPool.sol#L341
+    
+    Here we have division by `periodTotalSupply`, in case if `periodTotalSupply` becomes zero t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialClaimingStuckForSeveralPeriodsAfterWithdraw"
+solodit_id: "28739"
+solodit_slug: "potential-claiming-stuck-for-several-periods-after-withdraw-mixbytes-none-defi-starter-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimreward;"
+fn_name_regex: ".*(periodTotalSupply|claimReward|savedTotalSupply).*"
+read_var_regex: ".*(claimReward|periodTotalSupply|savedTotalSupply).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "periodTotalSupply"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimreward > 0;"

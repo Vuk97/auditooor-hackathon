@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "m-12-position-can-be-opened-even-when-the-particle-position-mang"
+class_name: "M12PositionCanBeOpenedEvenWhenTheParticlePositionMang"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29709 (Code4rena/Particle Protocol)"
+help: |
+    [M-12] Position can be opened even when the particle position manger does not hold the Uniswap V3 Position NFT
+wiki_title: |
+    [M-12] Position can be opened even when the particle position manger does not hold the Uniswap V3 Position NFT
+wiki_description: |
+    As long as user approve the PositionManager for as a operator of their NFT position.
+    
+    Even the particle position manager does not hold the Uniswap V3 NFT.
+    
+    Anyone can open the position on behalf of the original NFT owner.
+    
+    The original owner may incapable of calling reclaimLiquidity and the borrowe
+wiki_exploit_scenario: |
+    Per Solodit #29709: As long as user approve the PositionManager for as a operator of their NFT position.
+    
+    Even the particle position manager does not hold the Uniswap V3 NFT.
+    
+    Anyone can open the position on behalf of t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12PositionCanBeOpenedEvenWhenTheParticlePositionMang"
+solodit_id: "29709"
+solodit_slug: |
+    m-12-position-can-be-opened-even-when-the-particle-position-manger-does-not-hold-the-uniswap-v3-position-nft-code4rena-particle-protocol-particle-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(reclaimLiquidity|isAuthorizedForToken|tokenId|particlePositionManager).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "reclaimLiquidity"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

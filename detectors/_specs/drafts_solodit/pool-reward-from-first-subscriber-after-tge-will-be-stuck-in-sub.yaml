@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "pool-reward-from-first-subscriber-after-tge-will-be-stuck-in-sub"
+class_name: "PoolRewardFromFirstSubscriberAfterTgeWillBeStuckInSub"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #51784 (Halborn/Staking)"
+help: "Pool reward from first subscriber after TGE will be stuck in Subscribe Registry for all author pools"
+wiki_title: "Pool reward from first subscriber after TGE will be stuck in Subscribe Registry for all author pools"
+wiki_description: |
+    ##### Description
+    
+    In `SubscribeRegistry`, after the TGE, WETH is swapped for ALTT before being sent as a "reward" to the author pool.
+    
+    Below is the relevant code snippet from `SubscribeRegistry::_distribute()`:
+    
+    ```
+        if (altt.totalSupply() > 0) { // Rewards are only sent after TGE
+            if (St
+wiki_exploit_scenario: |
+    Per Solodit #51784: ##### Description
+    
+    In `SubscribeRegistry`, after the TGE, WETH is swapped for ALTT before being sent as a "reward" to the author pool.
+    
+    Below is the relevant code snippet from `SubscribeRegistry::_dis
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PoolRewardFromFirstSubscriberAfterTgeWillBeStuckInSub"
+solodit_id: "51784"
+solodit_slug: |
+    pool-reward-from-first-subscriber-after-tge-will-be-stuck-in-subscribe-registry-for-all-author-pools-halborn-altcoinist-staking-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(SubscribeRegistry).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "SubscribeRegistry"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

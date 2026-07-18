@@ -1,0 +1,39 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-04-attacker-can-frontrun-user-s-withdrawals-to-make-them-rever"
+class_name: "H04AttackerCanFrontrunUserSWithdrawalsToMakeThemRever"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #33460 (Code4rena/DYAD)"
+help: "[H-04] Attacker can frontrun user's withdrawals to make them revert without costs"
+wiki_title: "[H-04] Attacker can frontrun user's withdrawals to make them revert without costs"
+wiki_description: |
+    User's withdrawals will be prevented from success and an attacker can keep it up without a cost by using a fake vault and a fake token.
+    
+    ### Proof of Concept
+    
+    There is a mechanisms for a flash loan protection that saves the current block number in a mapping of dNft token id; and then prevents it fr
+wiki_exploit_scenario: |
+    Per Solodit #33460: User's withdrawals will be prevented from success and an attacker can keep it up without a cost by using a fake vault and a fake token.
+    
+    ### Proof of Concept
+    
+    There is a mechanisms for a flash loan p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04AttackerCanFrontrunUserSWithdrawalsToMakeThemRever"
+solodit_id: "33460"
+solodit_slug: |
+    h-04-attacker-can-frontrun-users-withdrawals-to-make-them-revert-without-costs-code4rena-dyad-dyad-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(dNft|isValidDNft|idToBlockOfLastDeposit|safeTransferFrom).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

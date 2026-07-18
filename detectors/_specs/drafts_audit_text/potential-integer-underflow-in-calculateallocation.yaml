@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "potential-integer-underflow-in-calculateallocation"
+class_name: "PotentialIntegerUnderflowInCalculateallocation"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Spectral Token - Zellic Audit Report"
+help: |
+    The addToWhitelist function allows the owner to update the allocation amount at any time during the whitelistAddEnd period. The totalAllocation variable is calculated as follows: u
+wiki_title: "Potential integer underflow in calculateAllocation"
+wiki_description: |
+    The addToWhitelist function allows the owner to update the allocation amount at any time during the whitelistAddEnd period. The totalAllocation variable is calculated as follows: uint256 totalAllocation = currentMonth * allocations[_account].monthlyAllocation + allocations[_account].initialAllocatio
+wiki_exploit_scenario: |
+    Per audit finding: The addToWhitelist function allows the owner to update the allocation amount at any time during the whitelistAddEnd period. The totalAllocation variable is calculated as follows: uint256 totalAllocati
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialIntegerUnderflowInCalculateallocation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addToWhitelist|whitelistAddEnd|totalAllocation).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "addToWhitelist"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

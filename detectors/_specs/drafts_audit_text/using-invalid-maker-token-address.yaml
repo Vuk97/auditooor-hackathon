@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "using-invalid-maker-token-address"
+class_name: "UsingInvalidMakerTokenAddress"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Molend Protocol - Zellic Audit Report"
+help: |
+    In the UiPoolDataProvider contract, the variable MKRAddress is used to check the address of the Maker token. But it is hardcoded. contract UiPoolDataProvider is IUiPoolDataProvider
+wiki_title: "Using invalid Maker token address"
+wiki_description: |
+    In the UiPoolDataProvider contract, the variable MKRAddress is used to check the address of the Maker token. But it is hardcoded. contract UiPoolDataProvider is IUiPoolDataProvider { using WadRayMath for uint256; using ReserveConfiguration for DataTypes.ReserveConfigurationMap; using UserConfigurati
+wiki_exploit_scenario: |
+    Per audit finding: In the UiPoolDataProvider contract, the variable MKRAddress is used to check the address of the Maker token. But it is hardcoded. contract UiPoolDataProvider is IUiPoolDataProvider { using WadRayMath
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsingInvalidMakerTokenAddress"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getReservesData|reserveData|underlyingAsset).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "getReservesData"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

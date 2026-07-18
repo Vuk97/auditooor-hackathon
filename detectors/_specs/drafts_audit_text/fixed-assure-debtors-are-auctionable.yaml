@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "fixed-assure-debtors-are-auctionable"
+class_name: "FixedAssureDebtorsAreAuctionable"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Nukem Loans - Zellic Audit Report"
+help: |
+    The Auctions contract handles the liquidation of debtors. The groupedLiquidation function is used by the owner of the contract to liquidate multiple debtors at once. However, it do
+wiki_title: "[FIXED] Assure debtors are auctionable"
+wiki_description: |
+    The Auctions contract handles the liquidation of debtors. The groupedLiquidation function is used by the owner of the contract to liquidate multiple debtors at once. However, it does not check that the debtors are auctionable, which means that if the owner of the contract by mistake passes a nonauct
+wiki_exploit_scenario: |
+    Per audit finding: The Auctions contract handles the liquidation of debtors. The groupedLiquidation function is used by the owner of the contract to liquidate multiple debtors at once. However, it does not check that th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FixedAssureDebtorsAreAuctionable"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(groupedLiquidation).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "groupedLiquidation"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

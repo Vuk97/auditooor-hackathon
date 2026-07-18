@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-redeemshort-function-is-available-before-the-pool-is-closed"
+class_name: "TheRedeemshortFunctionIsAvailableBeforeThePoolIsClosed"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Alkimiya - Zellic Audit Report"
+help: |
+    The redeemShort function allows the caller to redeem short token ID shares for the payout token. The short token ID shares of the caller will be burned, and the calculated number o
+wiki_title: "The redeemShort function is available before the pool is closed"
+wiki_description: |
+    The redeemShort function allows the caller to redeem short token ID shares for the payout token. The short token ID shares of the caller will be burned, and the calculated number of payoutToken will be sent to the caller in exchange. The amount of payoutToken tokens depends on the bal- anceChangePer
+wiki_exploit_scenario: |
+    Per audit finding: The redeemShort function allows the caller to redeem short token ID shares for the payout token. The short token ID shares of the caller will be burned, and the calculated number of payoutToken will b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheRedeemshortFunctionIsAvailableBeforeThePoolIsClosed"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(redeemShort|payoutToken|anceChangePerShare).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "redeemShort"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

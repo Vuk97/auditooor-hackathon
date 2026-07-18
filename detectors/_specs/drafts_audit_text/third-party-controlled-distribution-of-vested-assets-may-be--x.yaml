@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "third-party-controlled-distribution-of-vested-assets-may-be--x"
+class_name: "ThirdPartyControlledDistributionOfVestedAssetsMayBeX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Apyx Stablecoin - Zellic Audit Report"
+help: |
+    The LinearVestV0 contract normally distributes vested funds to the beneficiary when the beneficiary calls the transferVestedYield function. However, in addition to that flow, it al
+wiki_title: "Third-party–controlled distribution of vested assets may be unsafe"
+wiki_description: |
+    The LinearVestV0 contract normally distributes vested funds to the beneficiary when the beneficiary calls the transferVestedYield function. However, in addition to that flow, it also distributes vested funds to the beneficiary in depositYield if there are any vested funds left: function depositYield
+wiki_exploit_scenario: |
+    Per audit finding: The LinearVestV0 contract normally distributes vested funds to the beneficiary when the beneficiary calls the transferVestedYield function. However, in addition to that flow, it also distributes veste
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ThirdPartyControlledDistributionOfVestedAssetsMayBeX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferVestedYield|depositYield).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferVestedYield"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

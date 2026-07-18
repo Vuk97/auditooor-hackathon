@@ -1,0 +1,47 @@
+skeleton: "paired_function_divergence"
+name: "m-29-protected-downside-is-not-updated-when-cds-gettotalcdsdepos"
+class_name: "M29ProtectedDownsideIsNotUpdatedWhenCdsGettotalcdsdepos"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #45519 (Sherlock/Autonomint Colored Dollar V1)"
+help: "M-29: Protected downside is not updated when `cds.getTotalCdsDepositedAmount() < downsideProtected`"
+wiki_title: "M-29: Protected downside is not updated when `cds.getTotalCdsDepositedAmount() < downsideProtected`"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-11-autonomint-judging/issues/911 
+    
+    ## Found by 
+    0x73696d616f, Audinarey, nuthan2x, tjonair, volodya
+    
+    ### Summary
+    
+    The [`borrowing::_withdraw`](https://github.com/sherlock-audit/2024-11-autonomint/blob/0d324e04d4c0ca306e1ae4d4c65f0cb9d681751b/Blockchain/
+wiki_exploit_scenario: |
+    Per Solodit #45519: Source: https://github.com/sherlock-audit/2024-11-autonomint-judging/issues/911 
+    
+    ## Found by 
+    0x73696d616f, Audinarey, nuthan2x, tjonair, volodya
+    
+    ### Summary
+    
+    The [`borrowing::_withdraw`](https://gi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M29ProtectedDownsideIsNotUpdatedWhenCdsGettotalcdsdepos"
+solodit_id: "45519"
+solodit_slug: |
+    m-29-protected-downside-is-not-updated-when-cdsgettotalcdsdepositedamount-downsideprotected-sherlock-autonomint-colored-dollar-v1-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

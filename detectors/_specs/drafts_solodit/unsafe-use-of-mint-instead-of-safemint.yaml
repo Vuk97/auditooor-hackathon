@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "unsafe-use-of-mint-instead-of-safemint"
+class_name: "UnsafeUseOfMintInsteadOfSafemint"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20991 (AuditOne/Newwit)"
+help: "Unsafe use of `_mint` instead of  `_safeMint`"
+wiki_title: "Unsafe use of `_mint` instead of  `_safeMint`"
+wiki_description: |
+    **Description:** 
+    
+    The usage of `_safeMint`guarantees that the receiver `to`address is either a smart contract that implements `IERC721Receiver.onERC721Received`or an EOA. 
+    
+    **Recommendations:** 
+    
+    According to OpenZeppelin usage of `_mint`is discouraged,use `_safeMint`whenever possible.
+    
+    See the doc
+wiki_exploit_scenario: |
+    Per Solodit #20991: **Description:** 
+    
+    The usage of `_safeMint`guarantees that the receiver `to`address is either a smart contract that implements `IERC721Receiver.onERC721Received`or an EOA. 
+    
+    **Recommendations:** 
+    
+    Acc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnsafeUseOfMintInsteadOfSafemint"
+solodit_id: "20991"
+solodit_slug: "unsafe-use-of-_mint-instead-of-_safemint-auditone-none-newwit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onERC721Received).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "onERC721Received"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "h-03-users-can-escape-paying-for-the-tx-gas"
+class_name: "H03UsersCanEscapePayingForTheTxGas"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62850 (Shieldify/Etherspot Gastankpaymastermodule Extended)"
+help: "[H-03] Users Can Escape Paying for the TX Gas"
+wiki_title: "[H-03] Users Can Escape Paying for the TX Gas"
+wiki_description: |
+    ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    The current implementation of Paymaster is not taking the amount of gas paid by the paymaster for the tx execution within the same user tx, or before it. It is collected after the execution of the tx.
+    
+    - `GasTankPaymaster::_validatePaymasterUserOp()` is check
+wiki_exploit_scenario: |
+    Per Solodit #62850: ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    The current implementation of Paymaster is not taking the amount of gas paid by the paymaster for the tx execution within the same user tx, or before it. It is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03UsersCanEscapePayingForTheTxGas"
+solodit_id: "62850"
+solodit_slug: |
+    h-03-users-can-escape-paying-for-the-tx-gas-shieldify-none-etherspot-gastankpaymastermodule-extended-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal gastankwithdraw;"
+fn_name_regex: ".*(GasTankPaymaster_UserOperationSponsored|GasTank|gasTankWithdraw).*"
+read_var_regex: ".*(gasTankWithdraw).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "GasTankPaymaster_UserOperationSponsored"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return gastankwithdraw > 0;"

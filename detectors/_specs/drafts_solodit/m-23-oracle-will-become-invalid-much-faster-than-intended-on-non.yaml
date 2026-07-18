@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "m-23-oracle-will-become-invalid-much-faster-than-intended-on-non"
+class_name: "M23OracleWillBecomeInvalidMuchFasterThanIntendedOnNon"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16006 (Code4rena/ParaSpace)"
+help: "[M-23] Oracle will become invalid much faster than intended on non-mainnet chains"
+wiki_title: "[M-23] Oracle will become invalid much faster than intended on non-mainnet chains"
+wiki_description: |
+    <https://github.com/code-423n4/2022-11-paraspace/blob/c6820a279c64a299a783955749fdc977de8f0449/paraspace-core/contracts/misc/NFTFloorOracle.sol#L12>
+    
+    NFTFloorOracle is in charge of answering price queries for ERC721 assets.<br>
+    EXPIRATION\_PERIOD constant is the max amount of blocks allowed to have
+wiki_exploit_scenario: |
+    Per Solodit #16006: <https://github.com/code-423n4/2022-11-paraspace/blob/c6820a279c64a299a783955749fdc977de8f0449/paraspace-core/contracts/misc/NFTFloorOracle.sol#L12>
+    
+    NFTFloorOracle is in charge of answering price qu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M23OracleWillBecomeInvalidMuchFasterThanIntendedOnNon"
+solodit_id: "16006"
+solodit_slug: |
+    m-23-oracle-will-become-invalid-much-faster-than-intended-on-non-mainnet-chains-code4rena-paraspace-paraspace-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(diffBlock|currentBlock|priceInfo|updatedAt).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

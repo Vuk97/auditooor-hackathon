@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "require-winval-0-can-lead-to-votes-never-able-to-be-nalized-and-"
+class_name: "RequireWinval0CanLeadToVotesNeverAbleToBeNalizedAnd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54274 (Cantina/Goat Tech)"
+help: |
+    require(winval > 0) can lead to votes never able to be ﬁnalized and locking users fund forever in certain situations
+wiki_title: |
+    require(winval > 0) can lead to votes never able to be ﬁnalized and locking users fund forever in certain situations 
+wiki_description: |
+    ## Context
+    Voting.sol#L317
+    
+    ## Description
+    The Attacker Alice can create a vote with `voterPercent_` having the value of `0`. The `0` value can pass the check of `LPercentage.validatePercent(voterPercent_)`, so this vote's `vote.voterPercent` will be assigned as `0`. 
+    
+    Then, when someone wants to cl
+wiki_exploit_scenario: |
+    Per Solodit #54274: ## Context
+    Voting.sol#L317
+    
+    ## Description
+    The Attacker Alice can create a vote with `voterPercent_` having the value of `0`. The `0` value can pass the check of `LPercentage.validatePercent(voterPerc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RequireWinval0CanLeadToVotesNeverAbleToBeNalizedAnd"
+solodit_id: "54274"
+solodit_slug: |
+    requirewinval-0-can-lead-to-votes-never-able-to-be-finalized-and-locking-users-fund-forever-in-certain-situations-cantina-none-goat-tech-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimfor;"
+fn_name_regex: ".*(voterPercent_|votingClaimFor|claimFor|winVal).*"
+read_var_regex: ".*(claimFor|require|voterPercent_).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "voterPercent_"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimfor > 0;"

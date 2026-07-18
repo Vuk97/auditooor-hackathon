@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "halving-spread-in-base-to-base-may-be-unsafe"
+class_name: "HalvingSpreadInBaseToBaseMayBeUnsafe"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit WOOFi Swap - Zellic Audit Report"
+help: |
+    In _swapBaseToBase, a base-to-base swap is executed by dividing the max spread of the two pairs, base-to-quote and quote-to-second-base, by two: function _swapBaseToBase( address b
+wiki_title: "Halving spread in base-to-base may be unsafe"
+wiki_description: |
+    In _swapBaseToBase, a base-to-base swap is executed by dividing the max spread of the two pairs, base-to-quote and quote-to-second-base, by two: function _swapBaseToBase( address baseToken1, address baseToken2, uint256 base1Amount, uint256 minBase2Amount, address to, address rebateTo ) private nonRe
+wiki_exploit_scenario: |
+    Per audit finding: In _swapBaseToBase, a base-to-base swap is executed by dividing the max spread of the two pairs, base-to-quote and quote-to-second-base, by two: function _swapBaseToBase( address baseToken1, address b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "HalvingSpreadInBaseToBaseMayBeUnsafe"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

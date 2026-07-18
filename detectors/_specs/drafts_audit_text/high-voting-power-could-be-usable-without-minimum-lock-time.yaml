@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "high-voting-power-could-be-usable-without-minimum-lock-time"
+class_name: "HighVotingPowerCouldBeUsableWithoutMinimumLockTime"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Anzen and protocol-v2 - Zellic Audit Report"
+help: |
+    In LockingToken, the function _deposit_for invokes votingPowerUnlockTime when it is called by increaseAmount. However, it does not check whether the newly obtained voting power thr
+wiki_title: "High voting power could be usable without minimum lock time"
+wiki_description: |
+    In LockingToken, the function _deposit_for invokes votingPowerUnlockTime when it is called by increaseAmount. However, it does not check whether the newly obtained voting power through votingPowerUnlockTime remains locked for the MINDAYS period. function _deposit_for( address _addr, uint256 _value,
+wiki_exploit_scenario: |
+    Per audit finding: In LockingToken, the function _deposit_for invokes votingPowerUnlockTime when it is called by increaseAmount. However, it does not check whether the newly obtained voting power through votingPowerUnlo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "HighVotingPowerCouldBeUsableWithoutMinimumLockTime"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(votingPowerUnlockTime|increaseAmount|nonReentrant).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "votingPowerUnlockTime"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

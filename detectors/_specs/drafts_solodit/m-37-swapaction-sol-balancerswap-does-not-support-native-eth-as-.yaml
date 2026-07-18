@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-37-swapaction-sol-balancerswap-does-not-support-native-eth-as-"
+class_name: "M37SwapactionSolBalancerswapDoesNotSupportNativeEthAs"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49074 (Code4rena/LoopFi)"
+help: "[M-37] `SwapAction.sol#balancerSwap` does not support native ETH as input token"
+wiki_title: "[M-37] `SwapAction.sol#balancerSwap` does not support native ETH as input token"
+wiki_description: |
+    SwapAction is used to swap tokens using Balancer/Uniswap or join/exit a Pendle pool. Pendle accepts native ETH as input token when joining a Pendle pool, and Balancer accepts native ETH during swap.
+    
+    We can check that the SwapAction contract also supports passing native ETH as input token, because:
+wiki_exploit_scenario: |
+    Per Solodit #49074: SwapAction is used to swap tokens using Balancer/Uniswap or join/exit a Pendle pool. Pendle accepts native ETH as input token when joining a Pendle pool, and Balancer accepts native ETH during swap.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M37SwapactionSolBalancerswapDoesNotSupportNativeEthAs"
+solodit_id: "49074"
+solodit_slug: |
+    m-37-swapactionsolbalancerswap-does-not-support-native-eth-as-input-token-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal pendlejoin;"
+fn_name_regex: ".*(swap|pendleJoin).*"
+read_var_regex: ".*(pendleJoin|swap).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swap"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return pendlejoin > 0;"

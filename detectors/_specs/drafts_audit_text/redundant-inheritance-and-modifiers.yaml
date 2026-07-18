@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "redundant-inheritance-and-modifiers"
+class_name: "RedundantInheritanceAndModifiers"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "hexens audit RociFi SMA_public"
+help: |
+    The contract NFCS.sol is derived from both ERC721EnumerableUpgradeable and ERC721Upgradeable contracts, although ERC721EnumerableUpgradeable itself inherits from ERC721Upgradeable.
+wiki_title: "REDUNDANT INHERITANCE AND MODIFIERS"
+wiki_description: |
+    The contract NFCS.sol is derived from both ERC721EnumerableUpgradeable and ERC721Upgradeable contracts, although ERC721EnumerableUpgradeable itself inherits from ERC721Upgradeable. In the functions Pool.sol:deposit and Pool.sol:withdraw the modiﬁer nonReentrant (and as a result the ReentrancyGuardUp
+wiki_exploit_scenario: |
+    Per audit finding: The contract NFCS.sol is derived from both ERC721EnumerableUpgradeable and ERC721Upgradeable contracts, although ERC721EnumerableUpgradeable itself inherits from ERC721Upgradeable. In the functions Po
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RedundantInheritanceAndModifiers"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(nonReentrant|underlyingTokenAmount|checkVersion).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "nonReentrant"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

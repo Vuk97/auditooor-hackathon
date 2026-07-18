@@ -1,0 +1,48 @@
+skeleton: "paired_function_divergence"
+name: "m-08-zeroswap-uniswapv2pair-sol-token-reserves-per-lp-token-can-"
+class_name: "M08ZeroswapUniswapv2pairSolTokenReservesPerLpTokenCan"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25233 (Code4rena/Canto)"
+help: |
+    [M-08] `zeroswap/UniswapV2Pair.sol` Token reserves per lp token can be manipulated due to lack of `MINIMUM_LIQUIDITY` when minting the first liquidity with `migrator`
+wiki_title: |
+    [M-08] `zeroswap/UniswapV2Pair.sol` Token reserves per lp token can be manipulated due to lack of `MINIMUM_LIQUIDITY` when minting the first liquidity with `mig
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    ```solidity
+    if (_totalSupply == 0) {
+        address migrator = IUniswapV2Factory(factory).migrator();
+        if (msg.sender == migrator) {
+            liquidity = IMigrator(migrator).desiredLiquidity();
+            require(liquidity > 0 && liquidity != uint256(-1), "Bad desired liquidity"
+wiki_exploit_scenario: |
+    Per Solodit #25233: _Submitted by WatchPug_
+    
+    ```solidity
+    if (_totalSupply == 0) {
+        address migrator = IUniswapV2Factory(factory).migrator();
+        if (msg.sender == migrator) {
+            liquidity = IMigrator(migrator).de
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08ZeroswapUniswapv2pairSolTokenReservesPerLpTokenCan"
+solodit_id: "25233"
+solodit_slug: |
+    m-08-zeroswapuniswapv2pairsol-token-reserves-per-lp-token-can-be-manipulated-due-to-lack-of-minimum_liquidity-when-minting-the-first-liquidity-with-migrator-code4rena-canto-canto-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity|token0|token1).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

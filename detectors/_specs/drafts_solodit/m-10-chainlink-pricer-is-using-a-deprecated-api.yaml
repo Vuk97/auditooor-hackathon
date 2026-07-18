@@ -1,0 +1,34 @@
+skeleton: "state_write_without_paired_write"
+name: "m-10-chainlink-pricer-is-using-a-deprecated-api"
+class_name: "M10ChainlinkPricerIsUsingADeprecatedApi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1925 (Code4rena/JPEG'd)"
+help: "[M-10] Chainlink pricer is using a deprecated API"
+wiki_title: "[M-10] Chainlink pricer is using a deprecated API"
+wiki_description: |
+    _Submitted by cccz, also found by 0xDjango, 0xkatana, berndartmueller, Cr4ckM3, defsec, horsefacts, hyh, JMukesh, joshie, Jujic, pedroais, peritoflores, rayn, reassor, Ruhum, and WatchPug_
+    
+    According to Chainlink's documentation, the latestAnswer function is deprecated. This function might suddenly
+wiki_exploit_scenario: |
+    Per Solodit #1925: _Submitted by cccz, also found by 0xDjango, 0xkatana, berndartmueller, Cr4ckM3, defsec, horsefacts, hyh, JMukesh, joshie, Jujic, pedroais, peritoflores, rayn, reassor, Ruhum, and WatchPug_
+    
+    According
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10ChainlinkPricerIsUsingADeprecatedApi"
+solodit_id: "1925"
+solodit_slug: "m-10-chainlink-pricer-is-using-a-deprecated-api-code4rena-jpegd-jpegd-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(latestAnswer|latestRoundData).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

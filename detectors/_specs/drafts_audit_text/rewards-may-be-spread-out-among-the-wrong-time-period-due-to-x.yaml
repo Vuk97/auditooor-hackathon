@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "rewards-may-be-spread-out-among-the-wrong-time-period-due-to-x"
+class_name: "RewardsMayBeSpreadOutAmongTheWrongTimePeriodDueToX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-loopfi"
+help: |
+    rscodes First, lets reference how the rewards are calculated when a 2nd incentive is introduced while another incentive is still within its rewardsDuration period. In MultiFeeDistr
+wiki_title: "Rewards may be spread out among the wrong time period due to the way the protocol calculates it"
+wiki_description: |
+    rscodes First, lets reference how the rewards are calculated when a 2nd incentive is introduced while another incentive is still within its rewardsDuration period. In MultiFeeDistribution.sol ’s _notifyReward function: // inside function _notifyReward(address rewardToken, uint256 reward): if ( block
+wiki_exploit_scenario: |
+    Per audit finding: rscodes First, lets reference how the rewards are calculated when a 2nd incentive is introduced while another incentive is still within its rewardsDuration period. In MultiFeeDistribution.sol ’s _noti
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RewardsMayBeSpreadOutAmongTheWrongTimePeriodDueToX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rewardsDuration|rewardToken|periodFinish).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rewardsDuration"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

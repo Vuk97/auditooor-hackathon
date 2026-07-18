@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "handle-l1-message-may-unfairly-revert"
+class_name: "HandleL1MessageMayUnfairlyRevert"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-09-kakarot"
+help: |
+    oakcobalt , also found by muellerberndt and RadiantLabs handle_l1_message can only be invoked by starknet os( @l1_handler ) and is not a regular user invoked transaction from eth_s
+wiki_title: "handle_l1_message may unfairly revert"
+wiki_description: |
+    oakcobalt , also found by muellerberndt and RadiantLabs handle_l1_message can only be invoked by starknet os( @l1_handler ) and is not a regular user invoked transaction from eth_send_raw_unsigned_tx flow. kakarot::handle_l1_message -> [ library:[handle_l1_message ]( ) -> Interpreter::execute ) hand
+wiki_exploit_scenario: |
+    Per audit finding: oakcobalt , also found by muellerberndt and RadiantLabs handle_l1_message can only be invoked by starknet os( @l1_handler ) and is not a regular user invoked transaction from eth_send_raw_unsigned_tx
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "HandleL1MessageMayUnfairlyRevert"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(balanceError).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "balanceError"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

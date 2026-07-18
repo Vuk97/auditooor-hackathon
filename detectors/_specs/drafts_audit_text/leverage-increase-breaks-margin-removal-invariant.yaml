@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "leverage-increase-breaks-margin-removal-invariant"
+class_name: "LeverageIncreaseBreaksMarginRemovalInvariant"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-08-gte-perps-and-launchpad"
+help: |
+    BenRai , also found by 0xterrah Bigsam , and Rhaydden perps/PerpManager.sol #L176-L219 The setPositionLeverage() function allows users to bypass margin removal restrictions by incr
+wiki_title: "Leverage Increase Breaks Margin Removal Invariant"
+wiki_description: |
+    BenRai , also found by 0xterrah Bigsam , and Rhaydden perps/PerpManager.sol #L176-L219 The setPositionLeverage() function allows users to bypass margin removal restrictions by increasing leverage, effectively extracting margin that would otherwise be blocked by removeMargin() ’s safety checks. The p
+wiki_exploit_scenario: |
+    Per audit finding: BenRai , also found by 0xterrah Bigsam , and Rhaydden perps/PerpManager.sol #L176-L219 The setPositionLeverage() function allows users to bypass margin removal restrictions by increasing leverage, eff
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LeverageIncreaseBreaksMarginRemovalInvariant"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setPositionLeverage|removeMargin|intendedMargin).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setPositionLeverage"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

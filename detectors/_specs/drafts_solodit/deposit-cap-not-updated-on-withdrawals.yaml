@@ -1,0 +1,35 @@
+skeleton: "paired_function_divergence"
+name: "deposit-cap-not-updated-on-withdrawals"
+class_name: "DepositCapNotUpdatedOnWithdrawals"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #10307 (OpenZeppelin/zkSync – L1 Diff Audit (February 2023))"
+help: "Deposit cap not updated on withdrawals"
+wiki_title: "Deposit cap not updated on withdrawals"
+wiki_description: |
+    User deposits are capped by [increasing the `totalDepositedAmountPerUser`](https://github.com/matter-labs/zksync-2-contracts/blob/3f345ce52bc378c4b5d710c80d817db170775049/ethereum/contracts/zksync/facets/Mailbox.sol#L266) counter. However, the counter is not decreased by withdrawals.
+    
+    
+    As the counte
+wiki_exploit_scenario: |
+    Per Solodit #10307: User deposits are capped by [increasing the `totalDepositedAmountPerUser`](https://github.com/matter-labs/zksync-2-contracts/blob/3f345ce52bc378c4b5d710c80d817db170775049/ethereum/contracts/zksync/fac
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DepositCapNotUpdatedOnWithdrawals"
+solodit_id: "10307"
+solodit_slug: "deposit-cap-not-updated-on-withdrawals-openzeppelin-zksync-l1-diff-audit-february-2023-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(totalDepositedAmountPerUser).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

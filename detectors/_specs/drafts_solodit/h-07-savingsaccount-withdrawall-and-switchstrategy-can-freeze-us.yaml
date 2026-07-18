@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "h-07-savingsaccount-withdrawall-and-switchstrategy-can-freeze-us"
+class_name: "H07SavingsaccountWithdrawallAndSwitchstrategyCanFreezeUs"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1190 (Code4rena/Sublime)"
+help: |
+    [H-07] SavingsAccount withdrawAll and switchStrategy can freeze user funds by ignoring possible strategy liquidity issues
+wiki_title: |
+    [H-07] SavingsAccount withdrawAll and switchStrategy can freeze user funds by ignoring possible strategy liquidity issues
+wiki_description: |
+    _Submitted by hyh, also found by cmichel_
+    
+    ### Impact
+    
+    Full withdrawal and moving funds between strategies can lead to wrong accounting if the corresponding market has tight liquidity, which can be the case at least for `AaveYield`. That is, as the whole amount is required to be moved at once from A
+wiki_exploit_scenario: |
+    Per Solodit #1190: _Submitted by hyh, also found by cmichel_
+    
+    ### Impact
+    
+    Full withdrawal and moving funds between strategies can lead to wrong accounting if the corresponding market has tight liquidity, which can be th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H07SavingsaccountWithdrawallAndSwitchstrategyCanFreezeUs"
+solodit_id: "1190"
+solodit_slug: |
+    h-07-savingsaccount-withdrawall-and-switchstrategy-can-freeze-user-funds-by-ignoring-possible-strategy-liquidity-issues-code4rena-sublime-sublime-contest-git
+solodit_quality: "2"
+solodit_rarity: "2"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal switchstrategy;"
+fn_name_regex: ".*(AaveYield|withdrawAll|switchStrategy|unlockTokens).*"
+read_var_regex: ".*(switchStrategy|unlockTokens|withdrawAll).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "AaveYield"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return switchstrategy > 0;"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-03-protocol-markets-are-incompatible-with-rebasing-tokens"
+class_name: "M03ProtocolMarketsAreIncompatibleWithRebasingTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29015 (Code4rena/Wildcat Protocol)"
+help: "[M-03] Protocol markets are incompatible with rebasing tokens"
+wiki_title: "[M-03] Protocol markets are incompatible with rebasing tokens"
+wiki_description: |
+    Some tokens (eg. [AMPL](https://etherscan.io/token/0xd46ba6d942050d489dbd938a2c909a5d5039a161)), known as rebasing tokens, have dynamic balances. This means that the token balance of an address could increase or decrease over time.
+    
+    However, markets in the protocol are unable to handle such changes
+wiki_exploit_scenario: |
+    Per Solodit #29015: Some tokens (eg. [AMPL](https://etherscan.io/token/0xd46ba6d942050d489dbd938a2c909a5d5039a161)), known as rebasing tokens, have dynamic balances. This means that the token balance of an address could
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03ProtocolMarketsAreIncompatibleWithRebasingTokens"
+solodit_id: "29015"
+solodit_slug: |
+    m-03-protocol-markets-are-incompatible-with-rebasing-tokens-code4rena-wildcat-protocol-wildcat-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrow;"
+fn_name_regex: ".*(depositUpTo|scaledBalance|borrow).*"
+read_var_regex: ".*(borrow|depositUpTo|scaledBalance).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositUpTo"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borrow > 0;"

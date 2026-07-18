@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "h-02-uint-1-index-for-not-found"
+class_name: "H02Uint1IndexForNotFound"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19796 (Code4rena/Based Loans)"
+help: "[H-02] uint(-1) index for not found"
+wiki_title: "[H-02] uint(-1) index for not found"
+wiki_description: |
+    Functions `getTokenConfigBySymbolHash`, `getTokenConfigByCToken` and `getTokenConfigByUnderlying` check returned index against max uint:
+    index != uint(-1)
+    
+    -1 should indicate that the index is not found, however, a default value for an uninitialized uint is 0, so it is impossible to get -1. What is
+wiki_exploit_scenario: |
+    Per Solodit #19796: Functions `getTokenConfigBySymbolHash`, `getTokenConfigByCToken` and `getTokenConfigByUnderlying` check returned index against max uint:
+    index != uint(-1)
+    
+    -1 should indicate that the index is not fou
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02Uint1IndexForNotFound"
+solodit_id: "19796"
+solodit_slug: "h-02-uint-1-index-for-not-found-code4rena-based-loans-based-loans-contest-git_"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal gettokenconfigbyctoken;"
+fn_name_regex: ".*(getTokenConfigBySymbolHash|getTokenConfigByCToken|getTokenConfigByUnderlying|UniswapConfig).*"
+read_var_regex: ".*(getTokenConfigByCToken|getTokenConfigBySymbolHash|getTokenConfigByUnderlying).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getTokenConfigBySymbolHash"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return gettokenconfigbyctoken > 0;"

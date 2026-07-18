@@ -1,0 +1,42 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "reentrancy-attack-to-duplicate-nft-tier-to-other-contracts"
+class_name: "ReentrancyAttackToDuplicateNftTierToOtherContracts"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #40452 (Cantina/Trugly Labs)"
+help: "Reentrancy attack to duplicate NFT tier to other contracts"
+wiki_title: "Reentrancy attack to duplicate NFT tier to other contracts "
+wiki_description: |
+    ## Vulnerability Report: Reentrancy Attack in _mintTier() Function
+    
+    ## Context
+    **File:** MEME404.sol#L261
+    
+    ## Description
+    When minting a tier through the `_mintTier()` function, a callback function is used when dealing with ERC1155 tokens. This callback is invoked when `_checkERC1155Received()` is c
+wiki_exploit_scenario: |
+    Per Solodit #40452: ## Vulnerability Report: Reentrancy Attack in _mintTier() Function
+    
+    ## Context
+    **File:** MEME404.sol#L261
+    
+    ## Description
+    When minting a tier through the `_mintTier()` function, a callback function is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyAttackToDuplicateNftTierToOtherContracts"
+solodit_id: "40452"
+solodit_slug: "reentrancy-attack-to-duplicate-nft-tier-to-other-contracts-cantina-none-trugly-labs-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(onERC1155Received).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "h-14-concentratedliquiditypool-rangefeegrowth-and-secondsperliqu"
+class_name: "H14ConcentratedliquiditypoolRangefeegrowthAndSecondsperliqu"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25574 (Code4rena/Sushi)"
+help: |
+    [H-14] `ConcentratedLiquidityPool`: `rangeFeeGrowth` and `secondsPerLiquidity` math needs to be unchecked
+wiki_title: |
+    [H-14] `ConcentratedLiquidityPool`: `rangeFeeGrowth` and `secondsPerLiquidity` math needs to be unchecked
+wiki_description: |
+    _Submitted by hickuphh3_
+    
+    ##### Impact
+    The fee growth mechanism, and by extension, `secondsPerLiquidity` mechanism of Uniswap V3 has the ability to underflow. It is therefore a necessity for the math to (ironically) be unsafe / unchecked.
+    
+    ##### Proof of Concept
+    
+    Assume the following scenario and in
+wiki_exploit_scenario: |
+    Per Solodit #25574: _Submitted by hickuphh3_
+    
+    ##### Impact
+    The fee growth mechanism, and by extension, `secondsPerLiquidity` mechanism of Uniswap V3 has the ability to underflow. It is therefore a necessity for the math
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H14ConcentratedliquiditypoolRangefeegrowthAndSecondsperliqu"
+solodit_id: "25574"
+solodit_slug: |
+    h-14-concentratedliquiditypool-rangefeegrowth-and-secondsperliquidity-math-needs-to-be-unchecked-code4rena-sushi-sushi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal feegrowthglobal;"
+fn_name_regex: ".*(secondsPerLiquidity|feeGrowthGlobal|feeGrowthOutside|rangeFeeGrowth).*"
+write_var_regex: ".*(feeGrowthGlobal|feeGrowthInside|feeGrowthOutside).*"
+guard_var_regex: ".*(feeGrowthGlobal|feeGrowthInside|feeGrowthOutside).*"
+vuln_fn_name: "secondsPerLiquidity"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "feegrowthglobal = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

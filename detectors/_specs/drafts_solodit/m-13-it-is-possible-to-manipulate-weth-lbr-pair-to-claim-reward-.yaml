@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-13-it-is-possible-to-manipulate-weth-lbr-pair-to-claim-reward-"
+class_name: "M13ItIsPossibleToManipulateWethLbrPairToClaimReward"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21158 (Code4rena/Lybra Finance)"
+help: |
+    [M-13] It is possible to manipulate WETH/LBR pair to claim reward of the users which shouldn't be claimed
+wiki_title: |
+    [M-13] It is possible to manipulate WETH/LBR pair to claim reward of the users which shouldn't be claimed
+wiki_description: |
+    Malicious user can manipulate balances of the WETH/LBR pair and bypass this check:
+    
+    <https://github.com/code-423n4/2023-06-lybra/blob/main/contracts/lybra/miner/EUSDMiningIncentives.sol#L203>
+    
+    Which allows them to steal rewards from a user who has staked enough LP and whose rewards shouldn't be cla
+wiki_exploit_scenario: |
+    Per Solodit #21158: Malicious user can manipulate balances of the WETH/LBR pair and bypass this check:
+    
+    <https://github.com/code-423n4/2023-06-lybra/blob/main/contracts/lybra/miner/EUSDMiningIncentives.sol#L203>
+    
+    Which
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M13ItIsPossibleToManipulateWethLbrPairToClaimReward"
+solodit_id: "21158"
+solodit_slug: |
+    m-13-it-is-possible-to-manipulate-wethlbr-pair-to-claim-reward-of-the-users-which-shouldnt-be-claimed-code4rena-lybra-finance-lybra-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balanceof;"
+fn_name_regex: ".*(stakedLBRLpValue|balanceOf|isOtherEarningsClaimable|purchaseOtherEarnings).*"
+read_var_regex: ".*(balanceOf|isOtherEarningsClaimable|purchaseOtherEarnings).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "stakedLBRLpValue"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balanceof > 0;"

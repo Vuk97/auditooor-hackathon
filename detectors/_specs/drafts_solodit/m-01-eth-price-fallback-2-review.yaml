@@ -1,0 +1,41 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-01-eth-price-fallback-2-review"
+class_name: "M01EthPriceFallback2Review"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53949 (Recon Audits/Bold Report)"
+help: "[M-01] `eth_price_fallback_2` review"
+wiki_title: "[M-01] `eth_price_fallback_2` review"
+wiki_description: |
+    **Executive Summary**
+    
+    **Logic still doesn't solve against Redemption Fee being lower than Oracle Drift**
+    
+    https://github.com/liquity/bold/blob/3ad11270a22190e77c1e8ef7742d2ebec133a317/contracts/src/PriceFeeds/RETHPriceFeed.sol#L58-L60
+    
+    ```solidity
+            // Take the minimum of (market, canonical)
+wiki_exploit_scenario: |
+    Per Solodit #53949: **Executive Summary**
+    
+    **Logic still doesn't solve against Redemption Fee being lower than Oracle Drift**
+    
+    https://github.com/liquity/bold/blob/3ad11270a22190e77c1e8ef7742d2ebec133a317/contracts/src/P
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01EthPriceFallback2Review"
+solodit_id: "53949"
+solodit_slug: "m-01-eth_price_fallback_2-review-recon-audits-none-bold-report-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(min|ETHXCanonical|WSTETHPriceFeed|eth_price_fallback_2).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

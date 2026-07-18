@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_call"
+name: "h-01-incorrect-fee-calculation-occurs-on-bonding-curve-buys"
+class_name: "H01IncorrectFeeCalculationOccursOnBondingCurveBuys"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45430 (Pashov Audit Group/Stardusts_2024-12-19)"
+help: "[H-01] Incorrect fee calculation occurs on bonding curve buys"
+wiki_title: "[H-01] Incorrect fee calculation occurs on bonding curve buys"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    When users perform bonding curve buy and the `trueOrderSize` is greater than `maxRemainingTokens`, it will calculate `fee` based on `ethNeeded`.
+    
+    ```solidity
+        function _validateBondingCurveBuy(uint256 minOrderSize)
+            int
+wiki_exploit_scenario: |
+    Per Solodit #45430: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    When users perform bonding curve buy and the `trueOrderSize` is greater than `maxRemainingTokens`, it will calculate `fee` based
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01IncorrectFeeCalculationOccursOnBondingCurveBuys"
+solodit_id: "45430"
+solodit_slug: |
+    h-01-incorrect-fee-calculation-occurs-on-bonding-curve-buys-pashov-audit-group-none-stardusts_2024-12-19-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ethneeded;"
+fn_name_regex: ".*(trueOrderSize|maxRemainingTokens|fee|ethNeeded).*"
+read_var_regex: ".*(ethNeeded|fee|maxRemainingTokens).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "trueOrderSize"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ethneeded > 0;"

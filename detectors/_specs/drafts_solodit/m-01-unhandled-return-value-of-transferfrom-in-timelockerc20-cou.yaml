@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-01-unhandled-return-value-of-transferfrom-in-timelockerc20-cou"
+class_name: "M01UnhandledReturnValueOfTransferfromInTimelockerc20Cou"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42192 (Code4rena/Visor)"
+help: |
+    [M-01] Unhandled return value of `transferFrom` in `timeLockERC20()` could lead to fund loss for recipients
+wiki_title: |
+    [M-01] Unhandled return value of `transferFrom` in `timeLockERC20()` could lead to fund loss for recipients
+wiki_description: |
+    _Submitted by 0xRajeev, also found by Sherlock, pauliax, shw, and JMukesh_
+    
+    ERC20 implementations are not always consistent. Some implementations of `transfer` and `transferFrom` could return ‘false’ on failure instead of reverting. It is safer to wrap such calls into `require()` statements or use s
+wiki_exploit_scenario: |
+    Per Solodit #42192: _Submitted by 0xRajeev, also found by Sherlock, pauliax, shw, and JMukesh_
+    
+    ERC20 implementations are not always consistent. Some implementations of `transfer` and `transferFrom` could return ‘false’
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01UnhandledReturnValueOfTransferfromInTimelockerc20Cou"
+solodit_id: "42192"
+solodit_slug: |
+    m-01-unhandled-return-value-of-transferfrom-in-timelockerc20-could-lead-to-fund-loss-for-recipients-code4rena-visor-visor-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal delegatedtransfererc20;"
+fn_name_regex: ".*(transfer|transferFrom|require|TransferHelper).*"
+read_var_regex: ".*(delegatedTransferERC20|require|safeTransfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return delegatedtransfererc20 > 0;"

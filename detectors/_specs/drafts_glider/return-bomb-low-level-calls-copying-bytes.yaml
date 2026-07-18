@@ -1,0 +1,23 @@
+skeleton: "name_match_missing_require"
+name: "return-bomb-low-level-calls-copying-bytes"
+class_name: "ReturnBombLowLevelCallsCopyingBytes"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: classic-return-bomb-attack"
+help: "Return-bomb low-level calls copying bytes"
+wiki_title: "Return-bomb low-level calls copying bytes"
+wiki_description: |
+    Find low-level call/staticcall/delegatecall sites where returndata is captured into a dynamic bytes variable (bytes / bytes memory).
+wiki_exploit_scenario: |
+    Per Glider query tags [return-bomb, low-level-call, bytes, dos]: Find low-level call/staticcall/delegatecall sites where returndata is captured into a dynamic bytes variable (bytes / bytes memory).
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "ReturnBombLowLevelCallsCopyingBytes"
+fn_name_regex: ".*(return).*"
+write_var_regex: ".*(return).*"
+guard_var_regex: ".*(return).*"
+vuln_fn_name: "setParam"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "return = newVal;"
+guard_require_line: "require(newVal <= 10000);"
+state_decl: "uint256 internal return;"

@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "h-03-denial-of-service"
+class_name: "H03DenialOfService"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1186 (Code4rena/Sublime)"
+help: "[H-03] denial of service"
+wiki_title: "[H-03] denial of service"
+wiki_description: |
+    _Submitted by certora_
+    
+    <https://github.com/code-423n4/2021-12-sublime/blob/main/contracts/Pool/Pool.sol#L645>
+    if the borrow token is address(0) (ether), and someone calls withdrawLiquidity, it calls SavingsAccountUtil.transferTokens which will transfer to msg.sender, msg.value (of withdrawLiquidity
+wiki_exploit_scenario: |
+    Per Solodit #1186: _Submitted by certora_
+    
+    <https://github.com/code-423n4/2021-12-sublime/blob/main/contracts/Pool/Pool.sol#L645>
+    if the borrow token is address(0) (ether), and someone calls withdrawLiquidity, it calls
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03DenialOfService"
+solodit_id: "1186"
+solodit_slug: "h-03-denial-of-service-code4rena-sublime-sublime-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawLiquidity|transferTokens).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdrawLiquidity"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

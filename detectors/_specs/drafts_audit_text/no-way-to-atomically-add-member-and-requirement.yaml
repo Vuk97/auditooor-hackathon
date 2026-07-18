@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "no-way-to-atomically-add-member-and-requirement"
+class_name: "NoWayToAtomicallyAddMemberAndRequirement"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit eBridge Ethereum Bridge - Zellic Audit Report"
+help: |
+    Both adding a member and changing the requirement for the MultiSigWallet require setting up and confirming a transaction to the wallet itself to make those changes: function addMem
+wiki_title: "No way to atomically add member and requirement"
+wiki_description: |
+    Both adding a member and changing the requirement for the MultiSigWallet require setting up and confirming a transaction to the wallet itself to make those changes: function addMember( address member ) public onlyWallet memberDoesNotExist(member) notNull(member) validRequirement(members.length.add(1
+wiki_exploit_scenario: |
+    Per audit finding: Both adding a member and changing the requirement for the MultiSigWallet require setting up and confirming a transaction to the wallet itself to make those changes: function addMember( address member
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoWayToAtomicallyAddMemberAndRequirement"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addMember|onlyWallet|memberDoesNotExist).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "addMember"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

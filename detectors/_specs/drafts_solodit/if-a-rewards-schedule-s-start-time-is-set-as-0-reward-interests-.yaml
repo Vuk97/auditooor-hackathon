@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "if-a-rewards-schedule-s-start-time-is-set-as-0-reward-interests-"
+class_name: "IfARewardsScheduleSStartTimeIsSetAs0RewardInterests"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46375 (Cantina/Dahlia)"
+help: "If a rewards schedule 's start time is set as 0, reward interests do not get accumulated"
+wiki_title: "If a rewards schedule 's start time is set as 0, reward interests do not get accumulated "
+wiki_description: |
+    ## WrappedVault Reward Schedule Issue
+    
+    ## Context
+    WrappedVault.sol#L361-L362
+    
+    ## Description
+    When one creates a reward schedule, it is allowed to set the start to `0`. But in `_calculateRewardsPerToken`, the interest accumulation process is skipped, which causes the user rewards to not be updated:
+wiki_exploit_scenario: |
+    Per Solodit #46375: ## WrappedVault Reward Schedule Issue
+    
+    ## Context
+    WrappedVault.sol#L361-L362
+    
+    ## Description
+    When one creates a reward schedule, it is allowed to set the start to `0`. But in `_calculateRewardsPerToke
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IfARewardsScheduleSStartTimeIsSetAs0RewardInterests"
+solodit_id: "46375"
+solodit_slug: |
+    if-a-rewards-schedule-s-start-time-is-set-as-0-reward-interests-do-not-get-accumulated-cantina-none-dahlia-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rewardsPerTokenOut|testTakeRewardsWithStartIntervalZero|rewardAmount|rewardERC20decimals).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rewardsPerTokenOut"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

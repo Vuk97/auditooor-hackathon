@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "cross-chain-transfers-truncate-amounts-to-zero-when-branded--x"
+class_name: "CrossChainTransfersTruncateAmountsToZeroWhenBrandedX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Frax (USD Stablecoin) - Zellic Audit Report"
+help: |
+    when branded stablecoin uses fewer than 18 decimals 17 3.3. Function RemoteVaultDeposit.deposit transfers before truncation, leaving dust in RemoteVaultHop 19 3.4. Unbounded minter
+wiki_title: "Cross-chain transfers truncate amounts to zero when branded stablecoin uses"
+wiki_description: |
+    when branded stablecoin uses fewer than 18 decimals 17 3.3. Function RemoteVaultDeposit.deposit transfers before truncation, leaving dust in RemoteVaultHop 19 3.4. Unbounded minters_array growth risks denial of service when removing minters 21 3.5. Function FraxNetDepositV3.recoverERC20 uses unsafe
+wiki_exploit_scenario: |
+    Per audit finding: when branded stablecoin uses fewer than 18 decimals 17 3.3. Function RemoteVaultDeposit.deposit transfers before truncation, leaving dust in RemoteVaultHop 19 3.4. Unbounded minters_array growth risks
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CrossChainTransfersTruncateAmountsToZeroWhenBrandedX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(recoverERC20|safeTransfer).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "recoverERC20"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

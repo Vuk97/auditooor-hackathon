@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-address-type-in-withdrawvault"
+class_name: "IncorrectAddressTypeInWithdrawvault"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Jovay Relayer - Zellic Audit Report"
+help: |
+    In the L2Client.withdrawVault() function, the account parameter is passed as Utf8String instead of the proper Address type. This means no Ethereum address-format validation is perf
+wiki_title: "Incorrect address type in withdrawVault"
+wiki_description: |
+    In the L2Client.withdrawVault() function, the account parameter is passed as Utf8String instead of the proper Address type. This means no Ethereum address-format validation is performed, potentially allowing funds to be sent to invalid addresses. // L2Client.java @Retryable(retryFor = {TxSimulateExc
+wiki_exploit_scenario: |
+    Per audit finding: In the L2Client.withdrawVault() function, the account parameter is passed as Utf8String instead of the proper Address type. This means no Ethereum address-format validation is performed, potentially a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectAddressTypeInWithdrawvault"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawVault|retryFor|notRecoverable).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdrawVault"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

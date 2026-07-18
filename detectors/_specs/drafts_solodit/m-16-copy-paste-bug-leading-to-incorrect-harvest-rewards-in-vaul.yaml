@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-16-copy-paste-bug-leading-to-incorrect-harvest-rewards-in-vaul"
+class_name: "M16CopyPasteBugLeadingToIncorrectHarvestRewardsInVaul"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3942 (Code4rena/Vader Protocol)"
+help: "[M-16] Copy-paste bug leading to incorrect harvest rewards in Vault.sol"
+wiki_title: "[M-16] Copy-paste bug leading to incorrect harvest rewards in Vault.sol"
+wiki_description: |
+    The conditional in `calcReward()` function uses the same code in both if/else parts with repeated use of `reserveUSDV`, `reserveVADER` and `getUSDVAmount` leading to incorrect computed value of `_adjustedReserve` in the else part.
+    
+    This will affect harvest rewards for all users of the protocol and
+wiki_exploit_scenario: |
+    Per Solodit #3942: The conditional in `calcReward()` function uses the same code in both if/else parts with repeated use of `reserveUSDV`, `reserveVADER` and `getUSDVAmount` leading to incorrect computed value of `_adj
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M16CopyPasteBugLeadingToIncorrectHarvestRewardsInVaul"
+solodit_id: "3942"
+solodit_slug: |
+    m-16-copy-paste-bug-leading-to-incorrect-harvest-rewards-in-vaultsol-code4rena-vader-protocol-vader-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calcreward;"
+fn_name_regex: ".*(calcReward|reserveUSDV|reserveVADER|getUSDVAmount).*"
+read_var_regex: ".*(calcReward|getUSDVAmount|reserveUSDV).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "calcReward"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calcreward > 0;"

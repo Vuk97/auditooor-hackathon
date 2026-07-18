@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-accounting-of-reportrecoveredeffectivebalance-can-prev"
+class_name: "IncorrectAccountingOfReportrecoveredeffectivebalanceCanPrev"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35004 (Cyfrin/Casimir)"
+help: |
+    Incorrect accounting of `reportRecoveredEffectiveBalance` can prevent report from being finalized when a validator is slashed
+wiki_title: |
+    Incorrect accounting of `reportRecoveredEffectiveBalance` can prevent report from being finalized when a validator is slashed
+wiki_description: |
+    **Description:** When a validator is slashed, a loss is incurred. In the `finalizeReport()` function, the `rewardStakeRatioSum` and `latestActiveBalanceAfterFee` variables are reduced to reflect this loss. The change could be positive if the rewards are larger than the slashed amount, but for simpli
+wiki_exploit_scenario: |
+    Per Solodit #35004: **Description:** When a validator is slashed, a loss is incurred. In the `finalizeReport()` function, the `rewardStakeRatioSum` and `latestActiveBalanceAfterFee` variables are reduced to reflect this
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectAccountingOfReportrecoveredeffectivebalanceCanPrev"
+solodit_id: "35004"
+solodit_slug: |
+    incorrect-accounting-of-reportrecoveredeffectivebalance-can-prevent-report-from-being-finalized-when-a-validator-is-slashed-cyfrin-none-casimir-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal finalizereport;"
+fn_name_regex: ".*(finalizeReport|rewardStakeRatioSum|latestActiveBalanceAfterFee|CasimirRegistry).*"
+read_var_regex: ".*(finalizeReport|latestActiveBalanceAfterFee|reportRecoveredEffectiveBalance).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "finalizeReport"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return finalizereport > 0;"

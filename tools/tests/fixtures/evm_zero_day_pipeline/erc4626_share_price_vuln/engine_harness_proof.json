@@ -1,0 +1,43 @@
+{
+  "schema": "auditooor.evm_engine_harness_proof.v1",
+  "fixture_role": "vulnerable",
+  "expected_verdict": "caught",
+  "target_contract": "MiniVault",
+  "target_source": "MiniVault.sol",
+  "target_imports": [
+    "MiniVault.sol",
+    "MockERC20.sol"
+  ],
+  "deployment_adapter": "MiniVaultExploitTest.setUp",
+  "constructor_args_source": "new MiniVault(address(token)) in setUp; token = new MockERC20()",
+  "entrypoints_bound": [
+    "MiniVault.deposit(uint256,address)",
+    "MiniVault.redeem(uint256,address)",
+    "MiniVault.convertToShares(uint256)"
+  ],
+  "real_target_call_count": 3,
+  "state_snapshots": [
+    "victimSharesBefore = vault.shares(victim)",
+    "victimSharesAfter = vault.shares(victim)"
+  ],
+  "negative_controls": [
+    "../erc4626_share_price_clean/engine_harness_proof.json"
+  ],
+  "engines": [
+    "foundry-invariant",
+    "foundry-poc"
+  ],
+  "proof_ready": true,
+  "blocked_reason": null,
+  "asserted_impact": "A real (>= 1 ether) victim deposit must mint > 0 shares; share-price inflation via attacker donation must not grief the victim to zero shares.",
+  "expected_failing_property": "test_first_depositor_inflation",
+  "candidate_not_proof": false,
+  "rule40_points": {
+    "real_entrypoint_real_code_real_impact": true,
+    "defenses_executed_or_ruled_out": true,
+    "mocks_external_deps_only": true,
+    "negative_control_present": true,
+    "before_after_assertions": true,
+    "per_variant_proof": true
+  }
+}

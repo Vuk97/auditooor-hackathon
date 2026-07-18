@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "vlts3-5-the-calculation-of-shares-in-stexamm-is-incorrect-becaus"
+class_name: "Vlts35TheCalculationOfSharesInStexammIsIncorrectBecaus"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56682 (Hexens/Valantis)"
+help: |
+    [VLTS3-5] The calculation of shares in STEXAMM is incorrect because of using the outdated amountToken1PendingLPWithdrawal
+wiki_title: |
+    [VLTS3-5] The calculation of shares in STEXAMM is incorrect because of using the outdated amountToken1PendingLPWithdrawal
+wiki_description: |
+    **Severity:** Critical
+    
+    **Path:** src/STEXAMM.sol#L468-L479, src/STEXAMM.sol#L550-L555
+    
+    **Description:** The calculation of shares in `deposit()` function of STEXAMM contract:
+    ```
+    (uint256 reserve0Pool, uint256 reserve1Pool) = ISovereignPool(pool).getReserves();
+    // Account for token0 in pool (liquid
+wiki_exploit_scenario: |
+    Per Solodit #56682: **Severity:** Critical
+    
+    **Path:** src/STEXAMM.sol#L468-L479, src/STEXAMM.sol#L550-L555
+    
+    **Description:** The calculation of shares in `deposit()` function of STEXAMM contract:
+    ```
+    (uint256 reserve0Poo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Vlts35TheCalculationOfSharesInStexammIsIncorrectBecaus"
+solodit_id: "56682"
+solodit_slug: |
+    vlts3-5-the-calculation-of-shares-in-stexamm-is-incorrect-because-of-using-the-outdated-amounttoken1pendinglpwithdrawal-hexens-none-valantis-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amounttoken0pendingunstaking;"
+fn_name_regex: ".*(deposit|amountToken0PendingUnstaking|unstakeToken0Reserves|stHYPEWithdrawalModule).*"
+read_var_regex: ".*(amountToken0PendingUnstaking|amountToken1PendingLPWithdrawal|deposit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amounttoken0pendingunstaking > 0;"

@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "risk-of-zero-fee-setting-leading-to-revenue-loss-the-settrea-x"
+class_name: "RiskOfZeroFeeSettingLeadingToRevenueLossTheSettreaX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-10-ramses-exchange"
+help: |
+    [L-04] Risk of zero fee setting leading to revenue loss The setTreasuryFees function allows the treasury fee to be set to 0 without any restriction, as there is no explicit check t
+wiki_title: |
+    Risk of zero fee setting leading to revenue loss The setTreasuryFees function allows the treasury fee to be set to 0 without any restriction, as there is no exp
+wiki_description: |
+    [L-04] Risk of zero fee setting leading to revenue loss The setTreasuryFees function allows the treasury fee to be set to 0 without any restriction, as there is no explicit check to prevent it. If the fee is set to 0, the protocol may stop collecting fees, which could lead to: Loss of revenue for th
+wiki_exploit_scenario: |
+    Per audit finding: [L-04] Risk of zero fee setting leading to revenue loss The setTreasuryFees function allows the treasury fee to be set to 0 without any restriction, as there is no explicit check to prevent it. If the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RiskOfZeroFeeSettingLeadingToRevenueLossTheSettreaX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setTreasuryFees|onlyTreasury|treasuryFees).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setTreasuryFees"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

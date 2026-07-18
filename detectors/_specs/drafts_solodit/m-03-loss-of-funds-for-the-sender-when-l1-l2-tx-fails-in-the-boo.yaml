@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "m-03-loss-of-funds-for-the-sender-when-l1-l2-tx-fails-in-the-boo"
+class_name: "M03LossOfFundsForTheSenderWhenL1L2TxFailsInTheBoo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30282 (Code4rena/zkSync)"
+help: "[M-03] Loss of funds for the sender when ``L1->L2`` TX fails in the bootloader on L2"
+wiki_title: "[M-03] Loss of funds for the sender when ``L1->L2`` TX fails in the bootloader on L2"
+wiki_description: |
+    ### Sending ``L1->L2`` TX
+    
+    In zksync, `requestL2Transaction`  can be used to send a ``L1->L2`` TX.
+    
+    ```solidity
+        function requestL2Transaction(
+            address _contractL2,
+            uint256 _l2Value,
+            bytes calldata _calldata,
+            uint256 _l2GasLimit,
+            uint256 _l2GasPerPubdataBy
+wiki_exploit_scenario: |
+    Per Solodit #30282: ### Sending ``L1->L2`` TX
+    
+    In zksync, `requestL2Transaction`  can be used to send a ``L1->L2`` TX.
+    
+    ```solidity
+        function requestL2Transaction(
+            address _contractL2,
+            uint256 _l2Valu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03LossOfFundsForTheSenderWhenL1L2TxFailsInTheBoo"
+solodit_id: "30282"
+solodit_slug: |
+    m-03-loss-of-funds-for-the-sender-when-l1-l2-tx-fails-in-the-bootloader-on-l2-code4rena-zksync-zksync-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal l2gaslimit;"
+fn_name_regex: ".*(requestL2Transaction|l2GasLimit|priorityQueue).*"
+read_var_regex: ".*(l2GasLimit|priorityQueue|requestL2Transaction).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "requestL2Transaction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return l2gaslimit > 0;"

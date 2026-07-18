@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "dutch-auctions-can-fail-to-settle-if-any-other-collateral-in-x"
+class_name: "DutchAuctionsCanFailToSettleIfAnyOtherCollateralInX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-reserve"
+help: |
+    RadiantLabs When a Dutch auction that originated from the backing manager receives a bid, it calls BackingManager.settleTrade() to settle the auction immediately, which attempts to
+wiki_title: "Dutch auctions can fail to settle if any other collateral in the basket behaves unexpectedly"
+wiki_description: |
+    RadiantLabs When a Dutch auction that originated from the backing manager receives a bid, it calls BackingManager.settleTrade() to settle the auction immediately, which attempts to chain into another rebalance() call. This chaining is implemented using a try-catch block that attempts to catch out-of
+wiki_exploit_scenario: |
+    Per audit finding: RadiantLabs When a Dutch auction that originated from the backing manager receives a bid, it calls BackingManager.settleTrade() to settle the auction immediately, which attempts to chain into another
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DutchAuctionsCanFailToSettleIfAnyOtherCollateralInX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(settleTrade|basketsHeldBy|refPerTok).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "settleTrade"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

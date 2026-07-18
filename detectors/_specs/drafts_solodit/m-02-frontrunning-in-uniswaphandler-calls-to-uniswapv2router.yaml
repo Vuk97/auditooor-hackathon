@@ -1,0 +1,39 @@
+skeleton: "paired_function_divergence"
+name: "m-02-frontrunning-in-uniswaphandler-calls-to-uniswapv2router"
+class_name: "M02FrontrunningInUniswaphandlerCallsToUniswapv2router"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1097 (Code4rena/Malt Finance)"
+help: "[M-02] Frontrunning in UniswapHandler calls to UniswapV2Router"
+wiki_title: "[M-02] Frontrunning in UniswapHandler calls to UniswapV2Router"
+wiki_description: |
+    _Submitted by thank_you, also found by 0x0x0x, cmichel, defsec, harleythedog, hyh, Koustre, leastwood, Meta0xNull, pauliax, pmerkleplant, tabish, WatchPug, and xYrYuYx_
+    
+    
+    UniswapHandler utilizes UniswapV2Router to swap, add liquidity, and remove liquidity with the UniswapV2Pair contract. In order to
+wiki_exploit_scenario: |
+    Per Solodit #1097: _Submitted by thank_you, also found by 0x0x0x, cmichel, defsec, harleythedog, hyh, Koustre, leastwood, Meta0xNull, pauliax, pmerkleplant, tabish, WatchPug, and xYrYuYx_
+    
+    
+    UniswapHandler utilizes Unisw
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02FrontrunningInUniswaphandlerCallsToUniswapv2router"
+solodit_id: "1097"
+solodit_slug: |
+    m-02-frontrunning-in-uniswaphandler-calls-to-uniswapv2router-code4rena-malt-finance-malt-finance-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Front-Running"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-validation-check-in-createpool-can-result-in-loss-of"
+class_name: "MissingValidationCheckInCreatepoolCanResultInLossOf"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Revest Resonate Pt. 1 - Zellic Audit Report"
+help: |
+    The function createPool(...))) can be called on an already existing pool when add itionalRate > 0 &) lockupPeriod =) 0. The check for a preexisting pool in initPoo l only addresses
+wiki_title: "Missing validation check in createPool can result in loss of"
+wiki_description: |
+    The function createPool(...))) can be called on an already existing pool when add itionalRate > 0 &) lockupPeriod =) 0. The check for a preexisting pool in initPoo l only addresses the case of (lockupPeriod >) MIN_LOCKUP &) additionalRate =) 0) by using the following check require(pools[poolId].lock
+wiki_exploit_scenario: |
+    Per audit finding: The function createPool(...))) can be called on an already existing pool when add itionalRate > 0 &) lockupPeriod =) 0. The check for a preexisting pool in initPoo l only addresses the case of (lockup
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingValidationCheckInCreatepoolCanResultInLossOf"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(createPool|itionalRate|lockupPeriod).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "createPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

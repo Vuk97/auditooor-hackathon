@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-16-malicious-receiver-can-make-distribute-function-denial-of-s"
+class_name: "M16MaliciousReceiverCanMakeDistributeFunctionDenialOfS"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1232 (Code4rena/NFTX)"
+help: "[M-16] Malicious receiver can make distribute function denial of service"
+wiki_title: "[M-16] Malicious receiver can make distribute function denial of service"
+wiki_description: |
+    _Submitted by cccz_
+    
+    In the NFTXSimpleFeeDistributor.sol contract, the distribute function calls the \_sendForReceiver function to distribute the fee
+    
+    ```solidity
+    function distribute(uint256 vaultId) external override virtual nonReentrant {
+      require(nftxVaultFactory != address(0));
+      address _vault
+wiki_exploit_scenario: |
+    Per Solodit #1232: _Submitted by cccz_
+    
+    In the NFTXSimpleFeeDistributor.sol contract, the distribute function calls the \_sendForReceiver function to distribute the fee
+    
+    ```solidity
+    function distribute(uint256 vaultId)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M16MaliciousReceiverCanMakeDistributeFunctionDenialOfS"
+solodit_id: "1232"
+solodit_slug: |
+    m-16-malicious-receiver-can-make-distribute-function-denial-of-service-code4rena-nftx-nftx-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(vaultId|nonReentrant|nftxVaultFactory|tokenBalance).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "vaultId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

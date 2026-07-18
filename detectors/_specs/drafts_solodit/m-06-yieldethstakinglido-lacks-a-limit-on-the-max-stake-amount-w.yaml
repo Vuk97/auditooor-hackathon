@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "m-06-yieldethstakinglido-lacks-a-limit-on-the-max-stake-amount-w"
+class_name: "M06YieldethstakinglidoLacksALimitOnTheMaxStakeAmountW"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36888 (Code4rena/BendDAO)"
+help: |
+    [M-06] `YieldEthStakingLido` lacks a limit on the max stake amount, which may result in the unstake exceeding `MAX_STETH_WITHDRAWAL_AMOUNT`, resulting in the token not being retrie
+wiki_title: |
+    [M-06] `YieldEthStakingLido` lacks a limit on the max stake amount, which may result in the unstake exceeding `MAX_STETH_WITHDRAWAL_AMOUNT`, resulting in the to
+wiki_description: |
+    In `YieldEthStakingLido`, the main processes are as follows:
+    
+    1. `stake()` -> stEth balance increase
+    2. `unstake () -> unstETH.requestWithdrawals(allShares)`
+    3. `repay() -> unstETH.claimWithdrawal()`
+    
+    The issue is the second step, `unstETH` is with a maximum withdrawal limit: `MAX_STETH_WITHDRAWAL_
+wiki_exploit_scenario: |
+    Per Solodit #36888: In `YieldEthStakingLido`, the main processes are as follows:
+    
+    1. `stake()` -> stEth balance increase
+    2. `unstake () -> unstETH.requestWithdrawals(allShares)`
+    3. `repay() -> unstETH.claimWithdrawal()`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06YieldethstakinglidoLacksALimitOnTheMaxStakeAmountW"
+solodit_id: "36888"
+solodit_slug: |
+    m-06-yieldethstakinglido-lacks-a-limit-on-the-max-stake-amount-which-may-result-in-the-unstake-exceeding-max_steth_withdrawal_amount-resulting-in-the-token-not-being-retrieved-code4rena-benddao-benddao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lido;"
+fn_name_regex: ".*(YieldEthStakingLido|stake|unstETH|MAX_STETH_WITHDRAWAL_AMOUNT).*"
+write_var_regex: ".*(lido|stake|token).*"
+guard_var_regex: ".*(lido|stake|token).*"
+vuln_fn_name: "YieldEthStakingLido"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "lido = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,50 @@
+skeleton: "paired_function_divergence"
+name: "drain-tokens-condition-due-to-reentrancy-in-collectfees"
+class_name: "DrainTokensConditionDueToReentrancyInCollectfees"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7259 (Spearbit/CLOBER)"
+help: "Drain tokens condition due to reentrancy in collectFees"
+wiki_title: "Drain tokens condition due to reentrancy in collectFees"
+wiki_description: |
+    ## Security Issue Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    `OrderBook.sol#L800-L810`
+    
+    ## Description
+    The `collectFees` function is not guarded by a re-entrancy guard. In the event that a transfer of at least one of the tokens in a trading pair invokes arbitrary code (e.g., token implementing ca
+wiki_exploit_scenario: |
+    Per Solodit #7259: ## Security Issue Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    `OrderBook.sol#L800-L810`
+    
+    ## Description
+    The `collectFees` function is not guarded by a re-entrancy guard. In the event that a transfer
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DrainTokensConditionDueToReentrancyInCollectfees"
+solodit_id: "7259"
+solodit_slug: "drain-tokens-condition-due-to-reentrancy-in-collectfees-spearbit-clober-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(collectFees|nonReentrant).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

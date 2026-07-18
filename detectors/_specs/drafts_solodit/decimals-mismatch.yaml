@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "decimals-mismatch"
+class_name: "DecimalsMismatch"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52028 (Halborn/Internal Exchange Re-Assessment)"
+help: "Decimals Mismatch"
+wiki_title: "Decimals Mismatch"
+wiki_description: |
+    ##### Description
+    
+    The `wrap` and `unwrap` functions assume a 1:1 correspondence between `originToken` and the `WrappedToken` amounts, but there is no check to ensure that the decimals of the `originToken` and the `WrappedToken` match. This can lead to unintended and incorrect token amounts being mi
+wiki_exploit_scenario: |
+    Per Solodit #52028: ##### Description
+    
+    The `wrap` and `unwrap` functions assume a 1:1 correspondence between `originToken` and the `WrappedToken` amounts, but there is no check to ensure that the decimals of the `originT
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DecimalsMismatch"
+solodit_id: "52028"
+solodit_slug: "decimals-mismatch-halborn-dappos-internal-exchange-re-assessment-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal decimals;"
+fn_name_regex: ".*(wrap|unwrap|originToken|WrappedToken).*"
+write_var_regex: ".*(decimals|initWToken|originToken).*"
+guard_var_regex: ".*(decimals|initWToken|originToken).*"
+vuln_fn_name: "wrap"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "decimals = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

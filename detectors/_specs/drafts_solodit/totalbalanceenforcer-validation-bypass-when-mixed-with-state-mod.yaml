@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "totalbalanceenforcer-validation-bypass-when-mixed-with-state-mod"
+class_name: "TotalbalanceenforcerValidationBypassWhenMixedWithStateMod"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #64325 (Cyfrin/Metamask Totalbalanceenforcer)"
+help: "`TotalBalanceEnforcer` validation bypass when mixed with state modifying enforcers"
+wiki_title: "`TotalBalanceEnforcer` validation bypass when mixed with state modifying enforcers"
+wiki_description: |
+    **Description:** Total Balance Change Enforcers fail to validate the final balance state when mixed with state-modifying enforcers (such as `NativeTokenPaymentEnforcer`) in delegation chains.
+    
+    The early return bypass in `afterAllHook` causes total balance enforcers positioned after state-modifying e
+wiki_exploit_scenario: |
+    Per Solodit #64325: **Description:** Total Balance Change Enforcers fail to validate the final balance state when mixed with state-modifying enforcers (such as `NativeTokenPaymentEnforcer`) in delegation chains.
+    
+    The ear
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TotalbalanceenforcerValidationBypassWhenMixedWithStateMod"
+solodit_id: "64325"
+solodit_slug: |
+    totalbalanceenforcer-validation-bypass-when-mixed-with-state-modifying-enforcers-cyfrin-none-metamask-totalbalanceenforcer-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal afterallhook;"
+fn_name_regex: ".*(NativeTokenPaymentEnforcer|afterAllHook|TotalBalanceChangeEnforcer|beforeAllHook).*"
+read_var_regex: ".*(afterAllHook|beforeAllHook).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "NativeTokenPaymentEnforcer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return afterallhook > 0;"

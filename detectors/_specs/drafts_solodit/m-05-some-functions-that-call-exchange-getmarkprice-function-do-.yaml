@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "m-05-some-functions-that-call-exchange-getmarkprice-function-do-"
+class_name: "M05SomeFunctionsThatCallExchangeGetmarkpriceFunctionDo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20242 (Code4rena/Polynomial Protocol)"
+help: |
+    [M-05] Some functions that call `Exchange.getMarkPrice` function do not check if `Exchange.getMarkPrice` function's returned `markPrice` is 0
+wiki_title: |
+    [M-05] Some functions that call `Exchange.getMarkPrice` function do not check if `Exchange.getMarkPrice` function's returned `markPrice` is 0
+wiki_description: |
+    The following `Exchange.getMarkPrice` function uses `pool.baseAssetPrice()`'s returned `baseAssetPrice`, which is `spotPrice` returned by `perpMarket.assetPrice()`, to calculate and return the `markPrice`. When such `spotPrice` is 0, this function would return a 0 `markPrice`.
+    
+    ```solidity
+        func
+wiki_exploit_scenario: |
+    Per Solodit #20242: The following `Exchange.getMarkPrice` function uses `pool.baseAssetPrice()`'s returned `baseAssetPrice`, which is `spotPrice` returned by `perpMarket.assetPrice()`, to calculate and return the `markP
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05SomeFunctionsThatCallExchangeGetmarkpriceFunctionDo"
+solodit_id: "20242"
+solodit_slug: |
+    m-05-some-functions-that-call-exchangegetmarkprice-function-do-not-check-if-exchangegetmarkprice-functions-returned-markprice-is-0-code4rena-polynomial-protocol-polynomial-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal baseassetprice;"
+fn_name_regex: ".*(baseAssetPrice|spotPrice|markPrice|isInvalid).*"
+read_var_regex: ".*(baseAssetPrice|isInvalid|markPrice).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "baseAssetPrice"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return baseassetprice > 0;"

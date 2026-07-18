@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "m-2-chainlink-latestrounddata-may-return-stale-results"
+class_name: "M2ChainlinkLatestrounddataMayReturnStaleResults"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20687 (Sherlock/Hubble Exchange)"
+help: "M-2: `Chainlink.latestRoundData()` may return stale results"
+wiki_title: "M-2: `Chainlink.latestRoundData()` may return stale results"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-04-hubble-exchange-judging/issues/18 
+    
+    ## Found by 
+    0x3e84fa45, 0xbepresent, 0xmuxyz, 0xpinky, 0xvj, Bauer, Breeje, BugBusters, BugHunter101, Hama, Kaiziron, MohammedRizwan, PRAISE, Vagner, carrotsmuggler, crimson-rat-reach, darkart, dimulski, dirk\_y,
+wiki_exploit_scenario: |
+    Per Solodit #20687: Source: https://github.com/sherlock-audit/2023-04-hubble-exchange-judging/issues/18 
+    
+    ## Found by 
+    0x3e84fa45, 0xbepresent, 0xmuxyz, 0xpinky, 0xvj, Bauer, Breeje, BugBusters, BugHunter101, Hama, Kaizi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2ChainlinkLatestrounddataMayReturnStaleResults"
+solodit_id: "20687"
+solodit_slug: "m-2-chainlinklatestrounddata-may-return-stale-results-sherlock-none-hubble-exchange-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Stale Price, Chainlink"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getUnderlyingPrice|latestRoundData).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

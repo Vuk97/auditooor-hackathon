@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "non-updated-borrowing-factor-leads-to-fee-miscalculations"
+class_name: "NonUpdatedBorrowingFactorLeadsToFeeMiscalculations"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #51987 (Halborn/RFX Contracts)"
+help: "Non-updated borrowing factor leads to fee miscalculations"
+wiki_title: "Non-updated borrowing factor leads to fee miscalculations"
+wiki_description: |
+    ##### Description
+    
+    When a position is updated, the `updateFundingAndBorrowingState`function is triggered to adjust the `CUMULATIVE_BORROWING_FACTOR`. This factor is updated based on the latest borrowing rate (i.e.: borrowing factor per second) and the elapsed time since the last update. The borrowin
+wiki_exploit_scenario: |
+    Per Solodit #51987: ##### Description
+    
+    When a position is updated, the `updateFundingAndBorrowingState`function is triggered to adjust the `CUMULATIVE_BORROWING_FACTOR`. This factor is updated based on the latest borrowi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NonUpdatedBorrowingFactorLeadsToFeeMiscalculations"
+solodit_id: "51987"
+solodit_slug: |
+    non-updated-borrowing-factor-leads-to-fee-miscalculations-halborn-rfx-exchange-rfx-contracts-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(executeDeposit|executeWithdrawal|updateFundingAndBorrowingState).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

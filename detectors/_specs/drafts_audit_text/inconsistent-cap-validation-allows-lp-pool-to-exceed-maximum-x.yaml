@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "inconsistent-cap-validation-allows-lp-pool-to-exceed-maximum-x"
+class_name: "InconsistentCapValidationAllowsLpPoolToExceedMaximumX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Megapot v2 - Zellic Audit Report"
+help: |
+    The JackpotLPManager::setLPPoolCap function only validates the new cap against lpPoolTotal, ignoring pendingDeposits, which will be added when the drawing settles. This is inconsis
+wiki_title: "Inconsistent cap validation allows LP pool to exceed maximum capacity"
+wiki_description: |
+    The JackpotLPManager::setLPPoolCap function only validates the new cap against lpPoolTotal, ignoring pendingDeposits, which will be added when the drawing settles. This is inconsistent with JackpotLPManager::processDeposit, which correctly checks lpPoolTotal + pendingDeposits to prevent exceeding th
+wiki_exploit_scenario: |
+    Per audit finding: The JackpotLPManager::setLPPoolCap function only validates the new cap against lpPoolTotal, ignoring pendingDeposits, which will be added when the drawing settles. This is inconsistent with JackpotLPM
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentCapValidationAllowsLpPoolToExceedMaximumX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setLPPoolCap|lpPoolTotal|pendingDeposits).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setLPPoolCap"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

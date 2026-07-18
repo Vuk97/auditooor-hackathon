@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-upper-bound-check-in-wexp-x-can-produce-an-over-owed-r"
+class_name: "IncorrectUpperBoundCheckInWexpXCanProduceAnOverOwedR"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #54432 (Cantina/Morpho)"
+help: "Incorrect upper bound check in wExp(x) can produce an overﬂowed result"
+wiki_title: "Incorrect upper bound check in wExp(x) can produce an overﬂowed result "
+wiki_description: |
+    ## Context: MathLib.sol#L26
+    
+    ## Description
+    Upper-bound used in `wExp(x)` is not restrict enough:
+    
+    ```solidity
+    // Revert if x > ln(2^256-1) ~ 177.
+    require(x <= 177.44567822334599921 ether, ErrorsLib.WEXP_OVERFLOW);
+    ```
+    
+    As this function accepts `x` in the 18 decimal format and is supposed to return
+wiki_exploit_scenario: |
+    Per Solodit #54432: ## Context: MathLib.sol#L26
+    
+    ## Description
+    Upper-bound used in `wExp(x)` is not restrict enough:
+    
+    ```solidity
+    // Revert if x > ln(2^256-1) ~ 177.
+    require(x <= 177.44567822334599921 ether, ErrorsLib.W
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectUpperBoundCheckInWexpXCanProduceAnOverOwedR"
+solodit_id: "54432"
+solodit_slug: "incorrect-upper-bound-check-in-wexpx-can-produce-an-overflowed-result-cantina-none-morpho-pdf"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal exp;"
+fn_name_regex: ".*(wExp|FixedPointMathLib|exp).*"
+write_var_regex: ".*(exp|wExp).*"
+guard_var_regex: ".*(exp|wExp).*"
+vuln_fn_name: "wExp"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "exp = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

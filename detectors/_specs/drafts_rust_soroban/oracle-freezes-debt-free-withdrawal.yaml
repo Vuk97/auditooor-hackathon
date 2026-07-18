@@ -1,0 +1,21 @@
+id: oracle-freezes-debt-free-withdrawal
+title: "Oracle dependency blocks zero-debt withdrawals during outage"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44856"
+bug_class: oracle-cascade
+indicators:
+  - "`validate_user_can_withdraw(user, asset, amount)` calls `calculate_user_account_data_unified(user)` before checking `total_debt_base == 0`"
+  - "`get_prices_for_assets` reverts on stale/future/failed oracle response, propagating revert into the zero-debt withdrawal path"
+  - "`set_user_use_reserve_as_coll(false)` also forced through the account-data path"
+victim: "Debt-free suppliers: cannot withdraw their own assets while an oracle is unavailable."
+exploit_precondition: "An oracle is temporarily stale/unavailable; a debt-free supplier attempts withdrawal."
+real_world_example: |
+  V12 #44856 (High, V12-self-invalidated by re-review): `KineticRouterContract::validate_user_can_withdraw` always runs oracle-priced account validation before checking for zero debt.
+suggested_remediation: "Short-circuit: if `UserConfiguration::no_active_debt(user)`, skip price fetching entirely. Same for `set_user_use_reserve_as_coll(false)` when user has no debt."
+cross_refs:
+  - oracle-missing-blocks-liquidation
+  - inactive-fallback-oracle-single-point

@@ -1,0 +1,82 @@
+# Immunefi platform severity rubric (canonical reference)
+#
+# Sources:
+#   - https://immunefi.com/severity-system/
+#   - https://immunefi.com/help/
+#   - https://immunefi.com/learn/severity-classification-system/
+#
+# Reference standard: "Immunefi Vulnerability Severity Classification System v2.3".
+#
+# Schema: auditooor.severity_rubric.v1
+platform: immunefi
+schema_version: auditooor.severity_rubric.v1
+source_docs:
+  - "https://immunefi.com/severity-system/"
+  - "https://immunefi.com/help/"
+selector_modes:
+  - listed-asset
+  - primacy-of-impact
+poi_doctrine: |
+  Bug eligibility is decided by impact on a mainnet user, NOT by whether the
+  affected asset is on the listed-asset list. The Immunefi form provides a
+  separate Primacy-of-Impact placeholder asset row when the trigger lives in
+  an out-of-listed-asset surface but lands an in-scope impact.
+poc_framing:
+  preferred: foundry
+  accepted:
+    - foundry
+    - hardhat
+    - regtest-bitcoind
+    - go-test
+    - cargo-test
+required_section_order:
+  - Title
+  - Severity
+  - Summary
+  - Vulnerability Details
+  - Impact Details
+  - Recommendation
+  - Proof of Concept
+  - References
+tiers:
+  - id: critical
+    label: Critical
+    rubric_verbatim: |
+      Direct theft of any user funds, whether at-rest or in-motion, other than
+      unclaimed yield; permanent freezing of funds; miner-extractable value
+      (MEV); protocol insolvency.
+    payout_formula: "10% of funds-at-risk, capped at $100k, min $30k (Primacy of Impact applies)"
+  - id: high
+    label: High
+    rubric_verbatim: |
+      Theft of unclaimed yield; permanent freezing of unclaimed yield;
+      temporary freezing of funds for any amount of time greater than the
+      maximum stipulated by the protocol.
+    payout_range_usd: [10000, 50000]
+  - id: medium
+    label: Medium
+    rubric_verbatim: |
+      Smart contract unable to operate due to lack of token funds; block
+      stuffing; griefing where the attacker has no profit motive but causes
+      damage to users or the protocol; theft of gas.
+    payout_range_usd: [5000, 10000]
+  - id: low
+    label: Low
+    rubric_verbatim: |
+      Smart contract fails to deliver promised returns but doesn't lose value.
+    payout_range_usd: [1000, 5000]
+hard_exclusions:
+  - testnet
+  - mock_files
+  - dev_fixtures
+  - bugs_already_fixed_post_audit_pin
+  - sibling_program_listings   # e.g., Lightspark separate-program scope
+gates_required:
+  - R17
+  - R20
+  - R22
+  - R24
+  - R27
+  - R30
+  - L30
+  - L31

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "strategy-rewards-accrue-after-the-share-price-has-been-calcu-x"
+class_name: "StrategyRewardsAccrueAfterTheSharePriceHasBeenCalcuX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Concrete - Zellic Audit Report"
+help: |
+    During the withdrawal process, the vault may withdraw assets from strategies (see section 5.2. ↗ for more details). When withdrawing from a strategy, the strategy will call the fun
+wiki_title: "Strategy rewards accrue after the share price has been calculated"
+wiki_description: |
+    During the withdrawal process, the vault may withdraw assets from strategies (see section 5.2. ↗ for more details). When withdrawing from a strategy, the strategy will call the function _handleRewardsOnWithdraw to accrue rewards, which may increase the amount of underlying assets held by the strateg
+wiki_exploit_scenario: |
+    Per audit finding: During the withdrawal process, the vault may withdraw assets from strategies (see section 5.2. ↗ for more details). When withdrawing from a strategy, the strategy will call the function _handleRewards
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StrategyRewardsAccrueAfterTheSharePriceHasBeenCalcuX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalAssets|onlyVault).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalAssets"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

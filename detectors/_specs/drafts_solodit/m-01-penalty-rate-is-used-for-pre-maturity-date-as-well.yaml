@@ -1,0 +1,40 @@
+skeleton: "paired_function_divergence"
+name: "m-01-penalty-rate-is-used-for-pre-maturity-date-as-well"
+class_name: "M01PenaltyRateIsUsedForPreMaturityDateAsWell"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24830 (Code4rena/Frax Finance)"
+help: "[M-01] Penalty rate is used for pre-maturity date as well"
+wiki_title: "[M-01] Penalty rate is used for pre-maturity date as well"
+wiki_description: |
+    _Submitted by 0xA5DF, also found by 0x52 and rbserver_
+    
+    When `_addInterest()` is called post maturity, the penalty rate is applied since the last time `_addInterest()` was called, including the period before maturity.
+    
+    ### Impact
+    
+    Borrowers will be charged with higher interest rates, when maturity d
+wiki_exploit_scenario: |
+    Per Solodit #24830: _Submitted by 0xA5DF, also found by 0x52 and rbserver_
+    
+    When `_addInterest()` is called post maturity, the penalty rate is applied since the last time `_addInterest()` was called, including the period
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01PenaltyRateIsUsedForPreMaturityDateAsWell"
+solodit_id: "24830"
+solodit_slug: "m-01-penalty-rate-is-used-for-pre-maturity-date-as-well-code4rena-frax-finance-frax-finance-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addInterest).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

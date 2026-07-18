@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-05-decentethrouter-sol-bridgewithpayload-any-refunded-eth-nati"
+class_name: "M05DecentethrouterSolBridgewithpayloadAnyRefundedEthNati"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30567 (Code4rena/Decent)"
+help: |
+    [M-05] DecentEthRouter.sol#_bridgeWithPayload() - Any refunded ETH (native token) will be refunded to the DecentBridgeAdapter, making them stuck
+wiki_title: |
+    [M-05] DecentEthRouter.sol#_bridgeWithPayload() - Any refunded ETH (native token) will be refunded to the DecentBridgeAdapter, making them stuck
+wiki_description: |
+    ### Impact
+    
+    The current flow of swapping and bridging tokens using the `DecentBridgeAdapter` looks like so:
+    
+    `bridgeAndExecute` inside `UTB` is called, passing in the `bridgeId` of the `DecentBridgeAdapter`.
+    
+    ```jsx
+    function bridgeAndExecute(
+            BridgeInstructions calldata instructions,
+wiki_exploit_scenario: |
+    Per Solodit #30567: ### Impact
+    
+    The current flow of swapping and bridging tokens using the `DecentBridgeAdapter` looks like so:
+    
+    `bridgeAndExecute` inside `UTB` is called, passing in the `bridgeId` of the `DecentBridgeA
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05DecentethrouterSolBridgewithpayloadAnyRefundedEthNati"
+solodit_id: "30567"
+solodit_slug: |
+    m-05-decentethroutersol_bridgewithpayload-any-refunded-eth-native-token-will-be-refunded-to-the-decentbridgeadapter-making-them-stuck-code4rena-decent-decent-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Configuration"
+state_decl: "uint256 internal bridge;"
+fn_name_regex: ".*(DecentBridgeAdapter|bridgeAndExecute|UTB|bridgeId).*"
+read_var_regex: ".*(bridge|bridgeAndExecute|bridgeId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "DecentBridgeAdapter"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return bridge > 0;"

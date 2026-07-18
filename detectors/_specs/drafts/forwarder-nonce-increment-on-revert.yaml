@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "forwarder-nonce-increment-on-revert"
+class_name: "ForwarderNonceIncrementOnRevert"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_aa"
+help: |
+    Forwarder increments nonce even when forwarded call fails (soft error), permanently blocking user's signed request.
+wiki_title: "forwarder-nonce-increment-on-revert"
+wiki_description: |
+    Forwarder increments nonce even when forwarded call fails (soft error), permanently blocking user's signed request.
+wiki_exploit_scenario: |
+    Attacker exploits forwarder-nonce-increment-on-revert as described: Forwarder increments nonce even when forwarded call fails (soft error), permanently blocking user's signed request.
+wiki_recommendation: "`nonces[req.from]++` before `call{}` result check in EIP-2771 forwarder."
+contract_name: "ForwarderNonceIncrementOnRevert"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(forwarder|nonce|increment).*"
+read_var_regex: ".*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "forwarder"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "factory"
+class_name: "Factory"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-10-sequence"
+help: |
+    pfapostol Finding description The Factory.deploy function uses create2 to deploy a wallet but reverts ( CreateCollision ) if address already exists. Per ERC-4337, factories that us
+wiki_title: "Factory"
+wiki_description: |
+    pfapostol Finding description The Factory.deploy function uses create2 to deploy a wallet but reverts ( CreateCollision ) if address already exists. Per ERC-4337, factories that use deterministic creation must return the account address even if the account was already created ( eip-4337 ) so bundler
+wiki_exploit_scenario: |
+    Per audit finding: pfapostol Finding description The Factory.deploy function uses create2 to deploy a wallet but reverts ( CreateCollision ) if address already exists. Per ERC-4337, factories that use deterministic crea
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Factory"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(entryPoint|getSenderAddress|validateUserOp).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "entryPoint"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

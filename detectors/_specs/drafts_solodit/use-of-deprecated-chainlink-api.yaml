@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "use-of-deprecated-chainlink-api"
+class_name: "UseOfDeprecatedChainlinkApi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #50168 (Halborn/EVM Contracts)"
+help: "USE OF DEPRECATED CHAINLINK API"
+wiki_title: "USE OF DEPRECATED CHAINLINK API"
+wiki_description: |
+    ##### Description
+    
+    The `ChainlinkOracle` contract uses Chainlink’s deprecated API `latestAnswer()`. Such functions might suddenly stop working if Chainlink stopped supporting deprecated APIs. This method will return the last value, but it is possible to check if the data is fresh.
+    
+    Code Location
+    ---
+wiki_exploit_scenario: |
+    Per Solodit #50168: ##### Description
+    
+    The `ChainlinkOracle` contract uses Chainlink’s deprecated API `latestAnswer()`. Such functions might suddenly stop working if Chainlink stopped supporting deprecated APIs. This met
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UseOfDeprecatedChainlinkApi"
+solodit_id: "50168"
+solodit_slug: "use-of-deprecated-chainlink-api-halborn-moonwell-evm-contracts-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal latestanswer;"
+fn_name_regex: ".*(ChainlinkOracle|latestAnswer|latestRoundData).*"
+read_var_regex: ".*(latestAnswer|latestRoundData).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ChainlinkOracle"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return latestanswer > 0;"

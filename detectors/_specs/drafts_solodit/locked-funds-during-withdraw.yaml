@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "locked-funds-during-withdraw"
+class_name: "LockedFundsDuringWithdraw"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #47860 (OtterSec/Synonym)"
+help: "Locked Funds During Withdraw"
+wiki_title: "Locked Funds During Withdraw"
+wiki_description: |
+    ## User Actions Withdrawal Bug
+    
+    In `userActions`, if the user attempts to withdraw from the vault utilizing `Withdraw` with the `unwrap` parameter set to true, they will not receive any assets due to a flaw in the code as shown below:
+    
+    ```solidity
+    // contracts/lendingHub/Hub.sol
+    function userActions
+wiki_exploit_scenario: |
+    Per Solodit #47860: ## User Actions Withdrawal Bug
+    
+    In `userActions`, if the user attempts to withdraw from the vault utilizing `Withdraw` with the `unwrap` parameter set to true, they will not receive any assets due to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LockedFundsDuringWithdraw"
+solodit_id: "47860"
+solodit_slug: "locked-funds-during-withdraw-ottersec-none-synonym-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borroworwithdrawnative;"
+fn_name_regex: ".*(userActions|Withdraw|unwrap|borrowOrWithdrawNative).*"
+read_var_regex: ".*(borrowOrWithdrawNative|unwrap|userActions).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "userActions"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borroworwithdrawnative > 0;"

@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_require"
+name: "removing-owners-via-livenessmodule-does-not-update-the-guard-las"
+class_name: "RemovingOwnersViaLivenessmoduleDoesNotUpdateTheGuardLas"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40521 (Cantina/OP Labs)"
+help: "Removing owners via livenessModule does not update the guard lastlive mapping"
+wiki_title: "Removing owners via livenessModule does not update the guard lastlive mapping "
+wiki_description: |
+    ## Security Analysis: LivenessGuard
+    
+    ## Context
+    - **Files**: 
+      - `LivenessGuard.sol#L146`
+      - `LivenessModule.sol#L133-L169`
+    
+    ## Description
+    `LivenessGuard` has a mapping where the last time a signer was active is saved:
+    
+    ```solidity
+    mapping(address => uint256) public lastLive;
+    ```
+    
+    When an owner i
+wiki_exploit_scenario: |
+    Per Solodit #40521: ## Security Analysis: LivenessGuard
+    
+    ## Context
+    - **Files**: 
+      - `LivenessGuard.sol#L146`
+      - `LivenessModule.sol#L133-L169`
+    
+    ## Description
+    `LivenessGuard` has a mapping where the last time a signer
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RemovingOwnersViaLivenessmoduleDoesNotUpdateTheGuardLas"
+solodit_id: "40521"
+solodit_slug: |
+    removing-owners-via-livenessmodule-does-not-update-the-guard-lastlive-mapping-cantina-none-op-labs-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lastlive;"
+fn_name_regex: ".*(LivenessGuard|lastLive|showLiveness|removeLiveness).*"
+write_var_regex: ".*(lastLive|removeLiveness|showLiveness).*"
+guard_var_regex: ".*(lastLive|removeLiveness|showLiveness).*"
+vuln_fn_name: "LivenessGuard"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "lastlive = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

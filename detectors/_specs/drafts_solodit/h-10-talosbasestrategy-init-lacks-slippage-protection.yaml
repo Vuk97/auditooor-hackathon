@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-10-talosbasestrategy-init-lacks-slippage-protection"
+class_name: "H10TalosbasestrategyInitLacksSlippageProtection"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26044 (Code4rena/Maia DAO Ecosystem)"
+help: "[H-10] `TalosBaseStrategy#init()` lacks slippage protection"
+wiki_title: "[H-10] `TalosBaseStrategy#init()` lacks slippage protection"
+wiki_description: |
+    The `checkDeviation`s modifier's purpose is to add slippage protection for an increase/decrease in liquidity operations. It's applied to `deposit/redeem`, `rerange/rebalance`  but `init()` is missing it.
+    
+    ### Impact
+    
+    There is no slippage protection on `init()`.
+    
+    ### Proof of Concept
+    
+    In the `init()
+wiki_exploit_scenario: |
+    Per Solodit #26044: The `checkDeviation`s modifier's purpose is to add slippage protection for an increase/decrease in liquidity operations. It's applied to `deposit/redeem`, `rerange/rebalance`  but `init()` is missing
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H10TalosbasestrategyInitLacksSlippageProtection"
+solodit_id: "26044"
+solodit_slug: |
+    h-10-talosbasestrategyinit-lacks-slippage-protection-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount0min;"
+fn_name_regex: ".*(checkDeviation|init|TalosBaseStrategy|amount0Min).*"
+read_var_regex: ".*(amount0Min|amount1Min|checkDeviation).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "checkDeviation"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount0min > 0;"

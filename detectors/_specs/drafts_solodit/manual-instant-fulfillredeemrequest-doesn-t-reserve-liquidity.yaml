@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "manual-instant-fulfillredeemrequest-doesn-t-reserve-liquidity"
+class_name: "ManualInstantFulfillredeemrequestDoesnTReserveLiquidity"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62978 (Cyfrin/Accountable)"
+help: "Manual/Instant `fulfillRedeemRequest` doesn’t reserve liquidity"
+wiki_title: "Manual/Instant `fulfillRedeemRequest` doesn’t reserve liquidity"
+wiki_description: |
+    **Description:** `AccountableAsyncRedeemVault` account for reserved liquidity only when processing the queue through (`AccountableWithdrawalQueue::processUpToShares` / `AccountableWithdrawalQueue::processUpToRequestId`).
+    However, the manual fulfillment paths (`fulfillRedeemRequest`) and the instant
+wiki_exploit_scenario: |
+    Per Solodit #62978: **Description:** `AccountableAsyncRedeemVault` account for reserved liquidity only when processing the queue through (`AccountableWithdrawalQueue::processUpToShares` / `AccountableWithdrawalQueue::pro
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ManualInstantFulfillredeemrequestDoesnTReserveLiquidity"
+solodit_id: "62978"
+solodit_slug: "manualinstant-fulfillredeemrequest-doesnt-reserve-liquidity-cyfrin-none-accountable-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal fulfillredeemrequest;"
+fn_name_regex: ".*(AccountableAsyncRedeemVault|fulfillRedeemRequest|requestRedeem|reservedLiquidity).*"
+read_var_regex: ".*(fulfillRedeemRequest|requestRedeem|reservedLiquidity).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "AccountableAsyncRedeemVault"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return fulfillredeemrequest > 0;"

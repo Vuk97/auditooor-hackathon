@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-12-rewards-can-be-locked-in-bribe-contract-because-distributin"
+class_name: "M12RewardsCanBeLockedInBribeContractBecauseDistributin"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24775 (Code4rena/Velodrome Finance)"
+help: |
+    [M-12] Rewards can be locked in Bribe contract because distributing them depends on base token reward amount and `Gauge.deliverBribes()` is not always called by `Voter.distribute()
+wiki_title: |
+    [M-12] Rewards can be locked in Bribe contract because distributing them depends on base token reward amount and `Gauge.deliverBribes()` is not always called by
+wiki_description: |
+    _Submitted by unforgiven_
+    
+    [Voter.sol#L315-L329](https://github.com/code-423n4/2022-05-velodrome/blob/7fda97c570b758bbfa7dd6724a336c43d4041740/contracts/contracts/Voter.sol#L315-L329)<br>
+    
+    `Voter.distribute()` calls `Gauge.deliverBribes()` if `claimable[_gauge] / DURATION > 0` was `True` and `claima
+wiki_exploit_scenario: |
+    Per Solodit #24775: _Submitted by unforgiven_
+    
+    [Voter.sol#L315-L329](https://github.com/code-423n4/2022-05-velodrome/blob/7fda97c570b758bbfa7dd6724a336c43d4041740/contracts/contracts/Voter.sol#L315-L329)<br>
+    
+    `Voter.dist
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12RewardsCanBeLockedInBribeContractBecauseDistributin"
+solodit_id: "24775"
+solodit_slug: |
+    m-12-rewards-can-be-locked-in-bribe-contract-because-distributing-them-depends-on-base-token-reward-amount-and-gaugedeliverbribes-is-not-always-called-by-voterdistribute-code4rena-velodrome-finance-velodrome-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal base;"
+fn_name_regex: ".*(base|gauge|Gauge|Bribe).*"
+read_var_regex: ".*(base|gauge).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "base"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return base > 0;"

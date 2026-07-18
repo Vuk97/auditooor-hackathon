@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "lientoken-transferfrom-does-not-update-a-public-vault-s-bookkeep"
+class_name: "LientokenTransferfromDoesNotUpdateAPublicVaultSBookkeep"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7279 (Spearbit/Astaria)"
+help: |
+    LienToken.transferFrom does not update a public vault's bookkeeping parameters when a lien is transferred to it.
+wiki_title: |
+    LienToken.transferFrom does not update a public vault's bookkeeping parameters when a lien is transferred to it.
+wiki_description: |
+    ## Severity: Critical Risk
+    
+    **Context:** `LienToken.sol#L303`
+    
+    **Description:**  
+    When `transferFrom` is called, there is no check to determine whether the `from` or `to` parameters could be a public vault. Currently, there is no mechanism for public vaults to transfer their liens. However, private
+wiki_exploit_scenario: |
+    Per Solodit #7279: ## Severity: Critical Risk
+    
+    **Context:** `LienToken.sol#L303`
+    
+    **Description:**  
+    When `transferFrom` is called, there is no check to determine whether the `from` or `to` parameters could be a public
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LientokenTransferfromDoesNotUpdateAPublicVaultSBookkeep"
+solodit_id: "7279"
+solodit_slug: |
+    lientokentransferfrom-does-not-update-a-public-vaults-bookkeeping-parameters-when-a-lien-is-spearbit-astaria-pdf
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: "uint256 internal epochdata;"
+fn_name_regex: ".*(transferFrom|from|LienToken|PublicVault).*"
+write_var_regex: ".*(epochData|from|last).*"
+guard_var_regex: ".*(epochData|from|last).*"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "epochdata = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

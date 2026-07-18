@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "vault-manager-withdrawals-cannot-access-the-entire-junior-tr-x"
+class_name: "VaultManagerWithdrawalsCannotAccessTheEntireJuniorTrX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    In VaultManager, the internal function _sendUSDCToTrader sends USDC from the vault to the trader, or, in extreme cases (as noted by the comment), when the vault runs out from the t
+wiki_title: "Vault manager withdrawals cannot access the entire junior tranche"
+wiki_description: |
+    In VaultManager, the internal function _sendUSDCToTrader sends USDC from the vault to the trader, or, in extreme cases (as noted by the comment), when the vault runs out from the tranches to the trader. It is called when the trader is due USDC due to modifying or closing a position. function _sendUS
+wiki_exploit_scenario: |
+    Per audit finding: In VaultManager, the internal function _sendUSDCToTrader sends USDC from the vault to the trader, or, in extreme cases (as noted by the comment), when the vault runs out from the tranches to the trade
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VaultManagerWithdrawalsCannotAccessTheEntireJuniorTrX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalRewards|balanceAvailable|balanceOf).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalRewards"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

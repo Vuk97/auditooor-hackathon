@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-values-for-release-times-are-set-in-the-constructor-si"
+class_name: "IncorrectValuesForReleaseTimesAreSetInTheConstructorSi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #55800 (Zokyo/Argo)"
+help: |
+    Incorrect values for release times are set in the constructor since there is no binding to the current time, so the user can easily withdraw all funds at once.
+wiki_title: |
+    Incorrect values for release times are set in the constructor since there is no binding to the current time, so the user can easily withdraw all funds at once.
+wiki_description: |
+    ![image](https://github.com/user-attachments/assets/01e50839-0f2c-4c87-8ef7-0bc27a8d6fbd)
+    
+    **Example Case**:
+    Three values are transferred to the releaseTime_ array - 100, 1000, 10000 (in seconds). The
+    current timestamp is 1,000,000 (there are even more on the mainnet). When creating the
+    VestPeriodIn
+wiki_exploit_scenario: |
+    Per Solodit #55800: ![image](https://github.com/user-attachments/assets/01e50839-0f2c-4c87-8ef7-0bc27a8d6fbd)
+    
+    **Example Case**:
+    Three values are transferred to the releaseTime_ array - 100, 1000, 10000 (in seconds). The
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectValuesForReleaseTimesAreSetInTheConstructorSi"
+solodit_id: "55800"
+solodit_slug: |
+    incorrect-values-for-release-times-are-set-in-the-constructor-since-there-is-no-binding-to-the-current-time-so-the-user-can-easily-withdraw-all-funds-at-once-zokyo-none-argo-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(releaseTime).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "releaseTime"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

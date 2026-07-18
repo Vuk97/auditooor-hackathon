@@ -1,0 +1,38 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-01-mev-can-sandwich-every-harvest-due-to-missing-slippage-tole"
+class_name: "M01MevCanSandwichEveryHarvestDueToMissingSlippageTole"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19125 (Pashov Audit Group/Yield Ninja)"
+help: "[M-01] MEV can sandwich every harvest due to missing slippage tolerance value"
+wiki_title: "[M-01] MEV can sandwich every harvest due to missing slippage tolerance value"
+wiki_description: |
+    **Proof of Concept**
+    
+    In `NyPtvFantomWftmBooSpookyV2StrategyToUsdc` each time the `_harvestCore` method is called (on each harvest) it will call the `_swapFarmEmissionTokens` method which itself has the following code:
+    
+    ```solidity
+    IUniswapV2Router02(SPOOKY_ROUTER).swapExactTokensForTokensSupporting
+wiki_exploit_scenario: |
+    Per Solodit #19125: **Proof of Concept**
+    
+    In `NyPtvFantomWftmBooSpookyV2StrategyToUsdc` each time the `_harvestCore` method is called (on each harvest) it will call the `_swapFarmEmissionTokens` method which itself has t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01MevCanSandwichEveryHarvestDueToMissingSlippageTole"
+solodit_id: "19125"
+solodit_slug: |
+    m-01-mev-can-sandwich-every-harvest-due-to-missing-slippage-tolerance-value-pashov-none-yield-ninja-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(NyPtvFantomWftmBooSpookyV2StrategyToUsdc|amountOutMin|harvest|amountOut).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

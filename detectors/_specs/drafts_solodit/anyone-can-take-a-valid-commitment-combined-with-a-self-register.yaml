@@ -1,0 +1,52 @@
+skeleton: "state_write_without_paired_write"
+name: "anyone-can-take-a-valid-commitment-combined-with-a-self-register"
+class_name: "AnyoneCanTakeAValidCommitmentCombinedWithASelfRegister"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7280 (Spearbit/Astaria)"
+help: |
+    Anyone can take a valid commitment combined with a self-registered private vault to steal funds from any vault without owning any collateral
+wiki_title: |
+    Anyone can take a valid commitment combined with a self-registered private vault to steal funds from any vault without owning any collateral
+wiki_description: |
+    ## Severity: Critical Risk
+    
+    ## Context
+    - `VaultImplementation.sol#L279`
+    - `VaultImplementation.sol#L227`
+    
+    ## Description
+    The issue stems from the following check in `VaultImplementation._validateCommitment(params, receiver)`:
+    
+    ```solidity
+    if (
+        msg.sender != holder &&
+        receiver != holder &&
+wiki_exploit_scenario: |
+    Per Solodit #7280: ## Severity: Critical Risk
+    
+    ## Context
+    - `VaultImplementation.sol#L279`
+    - `VaultImplementation.sol#L227`
+    
+    ## Description
+    The issue stems from the following check in `VaultImplementation._validateCommi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyoneCanTakeAValidCommitmentCombinedWithASelfRegister"
+solodit_id: "7280"
+solodit_slug: |
+    anyone-can-take-a-valid-commitment-combined-with-a-self-registered-private-vault-to-steal-funds-spearbit-astaria-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(receiver|AstariaRouter|newVault|newPublicVault).*"
+primary_var_regex: ".*(buyoutLien|commitToLien|commitToLiens).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

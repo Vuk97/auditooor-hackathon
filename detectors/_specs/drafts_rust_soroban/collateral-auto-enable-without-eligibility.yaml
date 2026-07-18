@@ -1,0 +1,20 @@
+id: collateral-auto-enable-without-eligibility
+title: "Transfer auto-enables collateral bit without pause/freeze/oracle checks"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44815"
+bug_class: health-factor
+indicators:
+  - "`validate_and_finalize_transfer` sets `UserConfiguration::set_using_as_collateral(reserve, true)` when `to_balance_after > 0`"
+  - "no pause/freeze/oracle-valid check on that auto-enable branch"
+victim: "Victim via griefing + protocol during incident response."
+exploit_precondition: "Reserve is paused/frozen OR has invalid pricing; attacker transfers aToken dust to victim."
+real_world_example: |
+  V12 #44815 (High): Collateral can be enabled despite pause/freeze or invalid pricing.
+suggested_remediation: "Gate auto-enable on the same eligibility check used by `set_user_use_reserve_as_coll`."
+cross_refs:
+  - dust-transfer-fills-reserve-slots
+  - supply-always-enables-collateral

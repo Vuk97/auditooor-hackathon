@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "partial-redemptions-will-fail-if-max-holders-is-reached-and-deal"
+class_name: "PartialRedemptionsWillFailIfMaxHoldersIsReachedAndDeal"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46566 (Cantina/Tradable Finance)"
+help: |
+    Partial redemptions will fail if max holders is reached and deal manager 's dealToken bal- ance is zero
+wiki_title: |
+    Partial redemptions will fail if max holders is reached and deal manager 's dealToken bal- ance is zero 
+wiki_description: |
+    ## InvestmentManager and DealManager Token Redemption Issues
+    
+    ## Context
+    - `InvestmentManager.sol#L522`
+    - `InvestmentManager.sol#L704-L707`
+    
+    ## Description
+    During redemptions, a `managedTransfer` is made to `DealManager` before transferring deal tokens to the "final" redeemer. In some scenarios, par
+wiki_exploit_scenario: |
+    Per Solodit #46566: ## InvestmentManager and DealManager Token Redemption Issues
+    
+    ## Context
+    - `InvestmentManager.sol#L522`
+    - `InvestmentManager.sol#L704-L707`
+    
+    ## Description
+    During redemptions, a `managedTransfer` is m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PartialRedemptionsWillFailIfMaxHoldersIsReachedAndDeal"
+solodit_id: "46566"
+solodit_slug: |
+    partial-redemptions-will-fail-if-max-holders-is-reached-and-deal-manager-s-dealtoken-bal-ance-is-zero-cantina-none-tradable-finance-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal managedtransfer;"
+fn_name_regex: ".*(managedTransfer|DealManager|DEAL_MAX_HOLDERS|MaxHoldersExceeded).*"
+write_var_regex: ".*(managedTransfer|reviewOffer).*"
+guard_var_regex: ".*(managedTransfer|reviewOffer).*"
+vuln_fn_name: "managedTransfer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "managedtransfer = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

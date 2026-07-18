@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "an-admin-can-revoke-roles-from-themselves-in-the-c-chain"
+class_name: "AnAdminCanRevokeRolesFromThemselvesInTheCChain"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "hexens audit Camino_Network_Security_review_20.02 "
+help: |
+    There is a revokeRole() function that can be called by an admin to remove roles from the account. There is no check that the admin is not removing the admin role from himself. If t
+wiki_title: "AN ADMIN CAN REVOKE ROLES FROM THEMSELVES IN THE C-CHAIN"
+wiki_description: |
+    There is a revokeRole() function that can be called by an admin to remove roles from the account. There is no check that the admin is not removing the admin role from himself. If the only administrative account does this, there will be no remaining admins. +44 1173 182250 info@hexens.io 12 CONFIDENT
+wiki_exploit_scenario: |
+    Per audit finding: There is a revokeRole() function that can be called by an admin to remove roles from the account. There is no check that the admin is not removing the admin role from himself. If the only administrati
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnAdminCanRevokeRolesFromThemselvesInTheCChain"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(revokeRole).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "revokeRole"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

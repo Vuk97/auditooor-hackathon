@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "m-04-gas-refunds-use-block-gas-instead-of-transaction-gas-leadin"
+class_name: "M04GasRefundsUseBlockGasInsteadOfTransactionGasLeadin"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49278 (Code4rena/Nibiru)"
+help: "[M-04] Gas refunds use block gas instead of transaction gas, leading to incorrect refund amounts"
+wiki_title: "[M-04] Gas refunds use block gas instead of transaction gas, leading to incorrect refund amounts"
+wiki_description: |
+    There is a mismatch between how gas fees are deducted and refunded in the EVM implementation:
+    
+    1. In `evmante_gas_consume.go`, gas fees are deducted upfront based on each transaction's individual gas limit.
+    2. However, the refund calculation in `msg_server.go` uses the cumulative block gas usage to
+wiki_exploit_scenario: |
+    Per Solodit #49278: There is a mismatch between how gas fees are deducted and refunded in the EVM implementation:
+    
+    1. In `evmante_gas_consume.go`, gas fees are deducted upfront based on each transaction's individual gas
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04GasRefundsUseBlockGasInsteadOfTransactionGasLeadin"
+solodit_id: "49278"
+solodit_slug: |
+    m-04-gas-refunds-use-block-gas-instead-of-transaction-gas-leading-to-incorrect-refund-amounts-code4rena-nibiru-nibiru-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(VerifyFee).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "VerifyFee"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "trst-m-8-safety-checks-compare-safe-s-threshold-with-a-stale-val"
+class_name: "TrstM8SafetyChecksCompareSafeSThresholdWithAStaleVal"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18932 (Trust Security/Hats Protocol)"
+help: "TRST-M-8 Safety checks compare safe's threshold with a stale value"
+wiki_title: "TRST-M-8 Safety checks compare safe's threshold with a stale value"
+wiki_description: |
+    **Description:**
+    In HatsSignerGateBase, `_correctThreshold()` calculates what the safe's threshold should be. 
+    However, it uses **signerCount** without updating it by calling `reconcileSignerCount()`. 
+    Therefore, in `checkAfterExecution()`, the safe's current threshold will be compared to potentiall
+wiki_exploit_scenario: |
+    Per Solodit #18932: **Description:**
+    In HatsSignerGateBase, `_correctThreshold()` calculates what the safe's threshold should be. 
+    However, it uses **signerCount** without updating it by calling `reconcileSignerCount()`.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM8SafetyChecksCompareSafeSThresholdWithAStaleVal"
+solodit_id: "18932"
+solodit_slug: |
+    trst-m-8-safety-checks-compare-safes-threshold-with-a-stale-value-trust-security-none-hats-protocol-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(reconcileSignerCount|checkAfterExecution).*"
+primary_var_regex: ".*(checkAfterExecution|reconcileSignerCount).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

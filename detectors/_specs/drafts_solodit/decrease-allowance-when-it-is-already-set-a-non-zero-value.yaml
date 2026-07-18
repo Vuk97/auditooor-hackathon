@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_require"
+name: "decrease-allowance-when-it-is-already-set-a-non-zero-value"
+class_name: "DecreaseAllowanceWhenItIsAlreadySetANonZeroValue"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7039 (Spearbit/LI.FI)"
+help: "Decrease allowance when it is already set a non-zero value"
+wiki_title: "Decrease allowance when it is already set a non-zero value"
+wiki_description: |
+    ## Security Analysis Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    - AxelarFacet.sol#L71
+    - LibAsset.sol#L52
+    - FusePoolZap.sol#L64
+    - Executor.sol#L312
+    
+    ## Description
+    Non-standard tokens like USDT will revert the transaction when a contract or a user tries to approve an allowance when the spender all
+wiki_exploit_scenario: |
+    Per Solodit #7039: ## Security Analysis Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    - AxelarFacet.sol#L71
+    - LibAsset.sol#L52
+    - FusePoolZap.sol#L64
+    - Executor.sol#L312
+    
+    ## Description
+    Non-standard tokens like USDT will
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DecreaseAllowanceWhenItIsAlreadySetANonZeroValue"
+solodit_id: "7039"
+solodit_slug: "decrease-allowance-when-it-is-already-set-a-non-zero-value-spearbit-lifi-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "USDT, Approve"
+state_decl: "uint256 internal approve;"
+fn_name_regex: ".*(safeApprove|approve|safeIncreaseAllowance).*"
+write_var_regex: ".*(approve|safeApprove|safeIncreaseAllowance).*"
+guard_var_regex: ".*(approve|safeApprove|safeIncreaseAllowance).*"
+vuln_fn_name: "safeApprove"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "approve = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

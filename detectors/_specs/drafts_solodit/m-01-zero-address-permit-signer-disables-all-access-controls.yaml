@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "m-01-zero-address-permit-signer-disables-all-access-controls"
+class_name: "M01ZeroAddressPermitSignerDisablesAllAccessControls"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63978 (Shieldify/Harmonixfinance Tokensale Hyperliquid)"
+help: "[M-01] Zero-address Permit Signer Disables All Access Controls"
+wiki_title: "[M-01] Zero-address Permit Signer Disables All Access Controls"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    When `sonarConfig.permitSigner` is set to `address(0)`, the signature verification is completely bypassed. The only remaining check is `require(signature.length == 0)`, which means anyone can craft their own `PurchasePermitWithAllocation` struct with arbitr
+wiki_exploit_scenario: |
+    Per Solodit #63978: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    When `sonarConfig.permitSigner` is set to `address(0)`, the signature verification is completely bypassed. The only remaining check is `require(signature.len
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01ZeroAddressPermitSignerDisablesAllAccessControls"
+solodit_id: "63978"
+solodit_slug: |
+    m-01-zero-address-permit-signer-disables-all-access-controls-shieldify-none-harmonixfinance-tokensale-hyperliquid-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal purchase;"
+fn_name_regex: ".*(require|PurchasePermitWithAllocation|purchase).*"
+write_var_regex: ".*(purchase|require).*"
+guard_var_regex: ".*(purchase|require).*"
+vuln_fn_name: "require"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "purchase = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

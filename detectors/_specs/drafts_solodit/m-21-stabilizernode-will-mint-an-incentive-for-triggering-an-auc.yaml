@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-21-stabilizernode-will-mint-an-incentive-for-triggering-an-auc"
+class_name: "M21StabilizernodeWillMintAnIncentiveForTriggeringAnAuc"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42386 (Code4rena/Malt Finance)"
+help: |
+    [M-21] `StabilizerNode` Will Mint An Incentive For Triggering An Auction Even If An Auction Exists Already
+wiki_title: |
+    [M-21] `StabilizerNode` Will Mint An Incentive For Triggering An Auction Even If An Auction Exists Already
+wiki_description: |
+    _Submitted by leastwood_
+    
+    `_startAuction` utilises the `SwingTrader` contract to purchase Malt. If `SwingTrader` has insufficient capital to return the price of Malt back to its target price, an auction is triggered with the remaining amount. However, no auction is triggered if the current auction e
+wiki_exploit_scenario: |
+    Per Solodit #42386: _Submitted by leastwood_
+    
+    `_startAuction` utilises the `SwingTrader` contract to purchase Malt. If `SwingTrader` has insufficient capital to return the price of Malt back to its target price, an aucti
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M21StabilizernodeWillMintAnIncentiveForTriggeringAnAuc"
+solodit_id: "42386"
+solodit_slug: |
+    m-21-stabilizernode-will-mint-an-incentive-for-triggering-an-auction-even-if-an-auction-exists-already-code4rena-malt-finance-malt-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal auctionactive;"
+fn_name_regex: ".*(SwingTrader|stabilize|auctionActive|auctionExists).*"
+read_var_regex: ".*(auctionActive|auctionExists|stabilize).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SwingTrader"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return auctionactive > 0;"

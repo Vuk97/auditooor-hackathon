@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "function-totalvaultbalance-doesn-t-use-firstvaultid-variable"
+class_name: "FunctionTotalvaultbalanceDoesnTUseFirstvaultidVariable"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56329 (Zokyo/Shapeshift)"
+help: "Function totalVaultBalance() doesn't use firstVaultId variable"
+wiki_title: "Function totalVaultBalance() doesn't use firstVaultId variable"
+wiki_description: |
+    **Description**
+    
+    Cycle “for (uint256 i = 0; i <= _lastVaultId; i++)” always starts from 0 but must start from the
+    firstVaultId variable.
+    
+    **Recommendation**:
+    Change “uint256 i = 0” to “uint256 i = firstVaultId”
+    
+    **Re-audit**:
+    Fixed.
+wiki_exploit_scenario: |
+    Per Solodit #56329: **Description**
+    
+    Cycle “for (uint256 i = 0; i <= _lastVaultId; i++)” always starts from 0 but must start from the
+    firstVaultId variable.
+    
+    **Recommendation**:
+    Change “uint256 i = 0” to “uint256 i = fir
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FunctionTotalvaultbalanceDoesnTUseFirstvaultidVariable"
+solodit_id: "56329"
+solodit_slug: "function-totalvaultbalance-doesnt-use-firstvaultid-variable-zokyo-none-shapeshift-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(firstVaultId|totalVaultBalance).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "firstVaultId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

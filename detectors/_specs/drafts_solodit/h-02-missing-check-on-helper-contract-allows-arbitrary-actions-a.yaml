@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "h-02-missing-check-on-helper-contract-allows-arbitrary-actions-a"
+class_name: "H02MissingCheckOnHelperContractAllowsArbitraryActionsA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #32313 (Code4rena/Tapioca DAO)"
+help: "[H-02] Missing check on helper contract allows arbitrary actions and theft of assets"
+wiki_title: "[H-02] Missing check on helper contract allows arbitrary actions and theft of assets"
+wiki_description: |
+    The `MagnetarOptionModule` contract implements the `exitPositionAndRemoveCollateral` function which allows users to do a series of operations which is irrelevant to the issue. The user passes in the variable `data`, and later, `data.externalData` is used to extract out relevant contract addresses.
+wiki_exploit_scenario: |
+    Per Solodit #32313: The `MagnetarOptionModule` contract implements the `exitPositionAndRemoveCollateral` function which allows users to do a series of operations which is irrelevant to the issue. The user passes in the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02MissingCheckOnHelperContractAllowsArbitraryActionsA"
+solodit_id: "32313"
+solodit_slug: |
+    h-02-missing-check-on-helper-contract-allows-arbitrary-actions-and-theft-of-assets-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrow;"
+fn_name_regex: ".*(MagnetarOptionModule|exitPositionAndRemoveCollateral|data|marketHelper).*"
+read_var_regex: ".*(borrow|call|data).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "MagnetarOptionModule"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borrow > 0;"

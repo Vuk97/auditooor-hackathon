@@ -1,0 +1,45 @@
+skeleton: "state_write_without_paired_write"
+name: "m-2-nimbus-may-use-stale-metadata-information-after-fulu-fork-tr"
+class_name: "M2NimbusMayUseStaleMetadataInformationAfterFuluForkTr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64107 (Sherlock/Fusaka Upgrade)"
+help: "M-2: Nimbus may use stale metadata information after Fulu fork transition"
+wiki_title: "M-2: Nimbus may use stale metadata information after Fulu fork transition"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-09-ethereum-fusaka-upgrade-judging/issues/216 
+    
+    ## Found by 
+    quasar
+    
+    ### Summary
+    
+    Nimbus will use outdated peer metadata information after Fulu fork transition.
+    At most 30 minutes after fork activation, all existing peer connections will have remoteCus
+wiki_exploit_scenario: |
+    Per Solodit #64107: Source: https://github.com/sherlock-audit/2025-09-ethereum-fusaka-upgrade-judging/issues/216 
+    
+    ## Found by 
+    quasar
+    
+    ### Summary
+    
+    Nimbus will use outdated peer metadata information after Fulu fork tra
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2NimbusMayUseStaleMetadataInformationAfterFuluForkTr"
+solodit_id: "64107"
+solodit_slug: "m-2-nimbus-may-use-stale-metadata-information-after-fulu-fork-transition-sherlock-fusaka-upgrade-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(peerPingerHeartbeat).*"
+primary_var_regex: ".*(peerPingerHeartbeat).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

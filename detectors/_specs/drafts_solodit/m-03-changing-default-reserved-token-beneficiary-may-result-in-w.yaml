@@ -1,0 +1,31 @@
+skeleton: "state_write_without_paired_write"
+name: "m-03-changing-default-reserved-token-beneficiary-may-result-in-w"
+class_name: "M03ChangingDefaultReservedTokenBeneficiaryMayResultInW"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5810 (Code4rena/Juicebox)"
+help: "[M-03] Changing default reserved token beneficiary may result in wrong beneficiary for tier"
+wiki_title: "[M-03] Changing default reserved token beneficiary may result in wrong beneficiary for tier"
+wiki_description: |
+    When the `reservedTokenBeneficiary` of a tier is equal to `defaultReservedTokenBeneficiaryOf[msg.sender]`, it is not explicitly set for this tier. This generally works well because in the function `reservedTokenBeneficiaryOf(address _nft, uint256 _tierId)`, `defaultReservedTokenBeneficiaryOf[_nft]`
+wiki_exploit_scenario: |
+    Per Solodit #5810: When the `reservedTokenBeneficiary` of a tier is equal to `defaultReservedTokenBeneficiaryOf[msg.sender]`, it is not explicitly set for this tier. This generally works well because in the function `r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03ChangingDefaultReservedTokenBeneficiaryMayResultInW"
+solodit_id: "5810"
+solodit_slug: |
+    m-03-changing-default-reserved-token-beneficiary-may-result-in-wrong-beneficiary-for-tier-code4rena-juicebox-juicebox-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(reservedTokenBeneficiary|reservedTokenBeneficiaryOf|setDefaultReservedTokenBeneficiary).*"
+primary_var_regex: ".*(reservedTokenBeneficiary|reservedTokenBeneficiaryOf|setDefaultReservedTokenBeneficiary).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

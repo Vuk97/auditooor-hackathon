@@ -1,0 +1,49 @@
+skeleton: "paired_function_divergence"
+name: "h-01-manipulatable-oracle-and-breaking-slippage-protection"
+class_name: "H01ManipulatableOracleAndBreakingSlippageProtection"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44430 (Pashov Audit Group/BuyBurner_2024-12-14)"
+help: "[H-01] Manipulatable oracle and breaking slippage protection"
+wiki_title: "[H-01] Manipulatable oracle and breaking slippage protection"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The buying of BEAM by the protocol can be affected by external parties. The expected amount of BEAM received is calculated as `UNISWAP_V2_ROUTER_02.getAmountsOut(...)` which [depends on the token reserves](https://github.com/Unis
+wiki_exploit_scenario: |
+    Per Solodit #44430: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The buying of BEAM by the protocol can be affected by external parties. The expected amount of BEAM received is calculated as `UN
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01ManipulatableOracleAndBreakingSlippageProtection"
+solodit_id: "44430"
+solodit_slug: |
+    h-01-manipulatable-oracle-and-breaking-slippage-protection-pashov-audit-group-none-buyburner_2024-12-14-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(buy).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

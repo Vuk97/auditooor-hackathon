@@ -1,0 +1,39 @@
+skeleton: "paired_function_divergence"
+name: "restricting-daofiv1pair-functions-to-calls-from-router-makes-dao"
+class_name: "RestrictingDaofiv1pairFunctionsToCallsFromRouterMakesDao"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #13529 (ConsenSys/DAOfi)"
+help: "Restricting DAOfiV1Pair functions to calls from router makes DAOfiV1Router01 security critical"
+wiki_title: "Restricting DAOfiV1Pair functions to calls from router makes DAOfiV1Router01 security critical"
+wiki_description: |
+    #### Description
+    
+    
+    The `DAOfiV1Pair` functions `deposit()`, `withdraw()`, and `swap()` are all restricted to calls from the router in order to avoid losses from user error. However, this means that any unidentified issue in the Router could render all pair contracts unusable, potentially locking the
+wiki_exploit_scenario: |
+    Per Solodit #13529: #### Description
+    
+    
+    The `DAOfiV1Pair` functions `deposit()`, `withdraw()`, and `swap()` are all restricted to calls from the router in order to avoid losses from user error. However, this means that an
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RestrictingDaofiv1pairFunctionsToCallsFromRouterMakesDao"
+solodit_id: "13529"
+solodit_slug: |
+    restricting-daofiv1pair-functions-to-calls-from-router-makes-daofiv1router01-security-critical-consensys-daofi-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(createPair|deposit|router).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

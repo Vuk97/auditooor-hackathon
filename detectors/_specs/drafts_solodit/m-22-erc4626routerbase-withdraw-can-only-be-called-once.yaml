@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "m-22-erc4626routerbase-withdraw-can-only-be-called-once"
+class_name: "M22Erc4626routerbaseWithdrawCanOnlyBeCalledOnce"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25838 (Code4rena/Astaria)"
+help: "[M-22] `ERC4626RouterBase.withdraw` can only be called once"
+wiki_title: "[M-22] `ERC4626RouterBase.withdraw` can only be called once"
+wiki_description: |
+    ERC4626RouterBase.withdraw will approve an amount of vault tokens to the vault, but the amount represents the number of asset tokens taken out by vault.withdraw, not the required number of vault tokens, and since it normally requires less than 1 vault token to take out 1 asset token, it will preven
+wiki_exploit_scenario: |
+    Per Solodit #25838: ERC4626RouterBase.withdraw will approve an amount of vault tokens to the vault, but the amount represents the number of asset tokens taken out by vault.withdraw, not the required number of vault toke
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M22Erc4626routerbaseWithdrawCanOnlyBeCalledOnce"
+solodit_id: "25838"
+solodit_slug: "m-22-erc4626routerbasewithdraw-can-only-be-called-once-code4rena-astaria-astaria-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "EIP-4626, ERC4626"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxSharesOut|sharesOut|safeApprove|safeIncreaseAllowance).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "maxSharesOut"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

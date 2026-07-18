@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "unchecked-assumption-that-trustee-and-token-have-the-same-owner"
+class_name: "UncheckedAssumptionThatTrusteeAndTokenHaveTheSameOwner"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11957 (OpenZeppelin/Simple Token Sale Audit)"
+help: "Unchecked assumption that trustee and token have the same owner"
+wiki_title: "Unchecked assumption that trustee and token have the same owner"
+wiki_description: |
+    In the[`reclaimTokens`](https://github.com/OpenSTFoundation/SimpleTokenSale/blob/1a1e863441ba0149d7585203f5dbc6e800af00cf/contracts/Trustee.sol#L198) function, there is a token transfer to the `trustee`contract owner, but according to [the comment above](https://github.com/OpenSTFoundation/SimpleTok
+wiki_exploit_scenario: |
+    Per Solodit #11957: In the[`reclaimTokens`](https://github.com/OpenSTFoundation/SimpleTokenSale/blob/1a1e863441ba0149d7585203f5dbc6e800af00cf/contracts/Trustee.sol#L198) function, there is a token transfer to the `truste
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UncheckedAssumptionThatTrusteeAndTokenHaveTheSameOwner"
+solodit_id: "11957"
+solodit_slug: |
+    unchecked-assumption-that-trustee-and-token-have-the-same-owner-openzeppelin-simple-token-sale-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal owner;"
+fn_name_regex: ".*(reclaimTokens|trustee|tokenContract|owner).*"
+write_var_regex: ".*(owner|reclaimTokens|tokenContract).*"
+guard_var_regex: ".*(owner|reclaimTokens|tokenContract).*"
+vuln_fn_name: "reclaimTokens"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "owner = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

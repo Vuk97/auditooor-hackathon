@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "missing-fund-check"
+class_name: "MissingFundCheck"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #47681 (OtterSec/Watches)"
+help: "Missing Fund Check"
+wiki_title: "Missing Fund Check"
+wiki_description: |
+    ## releaseEscrow Function Overview
+    
+    `releaseEscrow` retrieves the intent details using `_intent.getIntent` and checks if the intent exists and its status is acknowledged (`IINTENT.IntentState.ACKNOWLEDGED`). However, it does not explicitly verify if the intent is funded (`funded` is true) before att
+wiki_exploit_scenario: |
+    Per Solodit #47681: ## releaseEscrow Function Overview
+    
+    `releaseEscrow` retrieves the intent details using `_intent.getIntent` and checks if the intent exists and its status is acknowledged (`IINTENT.IntentState.ACKNOWLE
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingFundCheck"
+solodit_id: "47681"
+solodit_slug: "missing-fund-check-ottersec-none-watches-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal funded;"
+fn_name_regex: ".*(releaseEscrow|funded|intentId).*"
+read_var_regex: ".*(funded|intentId|releaseEscrow).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "releaseEscrow"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return funded > 0;"

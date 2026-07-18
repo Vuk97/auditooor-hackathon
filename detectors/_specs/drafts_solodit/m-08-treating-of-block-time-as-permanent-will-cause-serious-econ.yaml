@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-08-treating-of-block-time-as-permanent-will-cause-serious-econ"
+class_name: "M08TreatingOfBlockTimeAsPermanentWillCauseSeriousEcon"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26945 (Code4rena/Basin)"
+help: |
+    [M-08] Treating of BLOCK_TIME as permanent will cause serious economic flaws in the oracle when block times change
+wiki_title: |
+    [M-08] Treating of BLOCK_TIME as permanent will cause serious economic flaws in the oracle when block times change
+wiki_description: |
+    Pumps receive the chain BLOCK_TIME in the constructor. In every update, it is used to calculate the `blocksPassed` variable, which determines what is the maximum change in price (done in `_capReserve()`).
+    
+    The issue is that BLOCK_TIME is an immutable variable in the pump, which is immutable in the
+wiki_exploit_scenario: |
+    Per Solodit #26945: Pumps receive the chain BLOCK_TIME in the constructor. In every update, it is used to calculate the `blocksPassed` variable, which determines what is the maximum change in price (done in `_capReserve
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08TreatingOfBlockTimeAsPermanentWillCauseSeriousEcon"
+solodit_id: "26945"
+solodit_slug: |
+    m-08-treating-of-block_time-as-permanent-will-cause-serious-economic-flaws-in-the-oracle-when-block-times-change-code4rena-basin-basin-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal blockspassed;"
+fn_name_regex: ".*(blocksPassed|BLOCK_TIME|CAP_INTERVAL|capInterval).*"
+read_var_regex: ".*(blocksPassed|capInterval).*"
+required_call_regex: ".*CAP_INTERVAL.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "blocksPassed"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return blockspassed > 0;"

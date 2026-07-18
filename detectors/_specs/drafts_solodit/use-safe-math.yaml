@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "use-safe-math"
+class_name: "UseSafeMath"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #12132 (OpenZeppelin/Matchpool GUP Token Audit)"
+help: "Use safe math"
+wiki_title: "Use safe math"
+wiki_description: |
+    There are many unchecked math operations in the code. For example, all additions and differences in StandardToken are not checked for overflows and underflows. It’s always better to be safe and perform checked operations. Even though the code uses a SafeMath class, it only supports safeMul and safeD
+wiki_exploit_scenario: |
+    Per Solodit #12132: There are many unchecked math operations in the code. For example, all additions and differences in StandardToken are not checked for overflows and underflows. It’s always better to be safe and perfor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UseSafeMath"
+solodit_id: "12132"
+solodit_slug: "use-safe-math-openzeppelin-matchpool-gup-token-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(safeMul|safeDiv).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "safeMul"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

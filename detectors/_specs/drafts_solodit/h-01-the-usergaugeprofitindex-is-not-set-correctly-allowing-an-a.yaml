@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "h-01-the-usergaugeprofitindex-is-not-set-correctly-allowing-an-a"
+class_name: "H01TheUsergaugeprofitindexIsNotSetCorrectlyAllowingAnA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30217 (Code4rena/Ethereum Credit Guild)"
+help: |
+    [H-01] The `userGaugeProfitIndex` is not set correctly, allowing an attacker to receive rewards without waiting
+wiki_title: |
+    [H-01] The `userGaugeProfitIndex` is not set correctly, allowing an attacker to receive rewards without waiting
+wiki_description: |
+    When `claimGaugeRewards()` is called for the first time before the user votes for a gauge, the `userGaugeProfitIndex` should be set to the current `gaugeProfitIndex`, later when the `gaugeProfitIndex` grows the user will be able to claim the rewards.
+    
+    The problem here is that the first time `claimG
+wiki_exploit_scenario: |
+    Per Solodit #30217: When `claimGaugeRewards()` is called for the first time before the user votes for a gauge, the `userGaugeProfitIndex` should be set to the current `gaugeProfitIndex`, later when the `gaugeProfitIndex
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01TheUsergaugeprofitindexIsNotSetCorrectlyAllowingAnA"
+solodit_id: "30217"
+solodit_slug: |
+    h-01-the-usergaugeprofitindex-is-not-set-correctly-allowing-an-attacker-to-receive-rewards-without-waiting-code4rena-ethereum-credit-guild-ethereum-credit-guild-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimgaugerewards;"
+fn_name_regex: ".*(claimGaugeRewards|userGaugeProfitIndex|gaugeProfitIndex|incrementGauge).*"
+read_var_regex: ".*(claimGaugeRewards|gaugeProfitIndex|incrementGauge).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimGaugeRewards"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimgaugerewards > 0;"

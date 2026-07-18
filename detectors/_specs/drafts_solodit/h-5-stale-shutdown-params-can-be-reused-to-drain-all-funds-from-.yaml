@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "h-5-stale-shutdown-params-can-be-reused-to-drain-all-funds-from-"
+class_name: "H5StaleShutdownParamsCanBeReusedToDrainAllFundsFrom"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41743 (Sherlock/Flayer)"
+help: "H-5: Stale shutdown params can be reused to drain all funds from `CollectionShutdown` contract"
+wiki_title: "H-5: Stale shutdown params can be reused to drain all funds from `CollectionShutdown` contract"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-08-flayer-judging/issues/173 
+    
+    ## Found by 
+    0xc0ffEE, ZeroTrust, kuprum
+    ### Summary
+    
+    When a collection is being shutdown via `CollectionShutdown` contract, the shutdown parameters are not properly cleaned up, and can be reused to mount an attack on the
+wiki_exploit_scenario: |
+    Per Solodit #41743: Source: https://github.com/sherlock-audit/2024-08-flayer-judging/issues/173 
+    
+    ## Found by 
+    0xc0ffEE, ZeroTrust, kuprum
+    ### Summary
+    
+    When a collection is being shutdown via `CollectionShutdown` contrac
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H5StaleShutdownParamsCanBeReusedToDrainAllFundsFrom"
+solodit_id: "41743"
+solodit_slug: |
+    h-5-stale-shutdown-params-can-be-reused-to-drain-all-funds-from-collectionshutdown-contract-sherlock-flayer-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(CollectionShutdown|reclaimVote|start|voteAndClaim).*"
+primary_var_regex: ".*(reclaimVote|start|voteAndClaim).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

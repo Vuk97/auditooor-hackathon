@@ -1,0 +1,38 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "libchainlinkoracle-gettokenprice-will-always-return-instantaneuo"
+class_name: "LibchainlinkoracleGettokenpriceWillAlwaysReturnInstantaneuo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36221 (Codehawks/Beanstalk: The Finale)"
+help: "`LibChainlinkOracle::getTokenPrice` will always return instantaneuous prices"
+wiki_title: "`LibChainlinkOracle::getTokenPrice` will always return instantaneuous prices"
+wiki_description: |
+    ## Summary
+    
+    The `LibChainlinkOracle::getTokenPrice` function has a parameter of `lookback` in order to determine how many seconds ago do we want to obtain the twap of a chainlink price feed. However, this is implemented in a wrong way
+    
+    ## Relevant GitHub Links:
+    https://github.com/Cyfrin/2024-05-bean
+wiki_exploit_scenario: |
+    Per Solodit #36221: ## Summary
+    
+    The `LibChainlinkOracle::getTokenPrice` function has a parameter of `lookback` in order to determine how many seconds ago do we want to obtain the twap of a chainlink price feed. However,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LibchainlinkoracleGettokenpriceWillAlwaysReturnInstantaneuo"
+solodit_id: "36221"
+solodit_slug: |
+    libchainlinkoraclegettokenprice-will-always-return-instantaneuous-prices-codehawks-beanstalk-the-finale-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Oracle"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(lookback|getPrice|getTwap).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

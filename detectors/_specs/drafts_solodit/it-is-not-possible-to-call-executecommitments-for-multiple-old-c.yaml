@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "it-is-not-possible-to-call-executecommitments-for-multiple-old-c"
+class_name: "ItIsNotPossibleToCallExecutecommitmentsForMultipleOldC"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6752 (Spearbit/Tracer)"
+help: "It is not possible to call executeCommitments() for multiple old commits"
+wiki_title: "It is not possible to call executeCommitments() for multiple old commits"
+wiki_description: |
+    ## Medium Risk Analysis
+    
+    ## Context
+    `poolUpkeep()` in `LeveragedPool`
+    
+    ## Description
+    Assuming the pool has not been updated for many update intervals, `performUpkeepSinglePool()` can call `poolUpkeep()` repeatedly with `_boundedIntervals == true` and a bounded amount of gas to fix this situation.
+wiki_exploit_scenario: |
+    Per Solodit #6752: ## Medium Risk Analysis
+    
+    ## Context
+    `poolUpkeep()` in `LeveragedPool`
+    
+    ## Description
+    Assuming the pool has not been updated for many update intervals, `performUpkeepSinglePool()` can call `poolUpkeep
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ItIsNotPossibleToCallExecutecommitmentsForMultipleOldC"
+solodit_id: "6752"
+solodit_slug: "it-is-not-possible-to-call-executecommitments-for-multiple-old-commits-spearbit-tracer-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal boundedintervals;"
+fn_name_regex: ".*(poolUpkeep|LeveragedPool|performUpkeepSinglePool|lastPriceTimestamp).*"
+write_var_regex: ".*(boundedIntervals|executeCommitments|executePriceChange).*"
+guard_var_regex: ".*(boundedIntervals|executeCommitments|executePriceChange).*"
+vuln_fn_name: "poolUpkeep"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "boundedintervals = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "oracle-freshness-threshold-can-lead-to-stale-data-being-provided"
+class_name: "OracleFreshnessThresholdCanLeadToStaleDataBeingProvided"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37391 (Zokyo/Paribus)"
+help: "Oracle freshness threshold can lead to stale data being provided"
+wiki_title: "Oracle freshness threshold can lead to stale data being provided"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**:  Resolved
+    
+    **Description**
+    
+    The `ChainlinkPriceOracle` contract uses the same hardcoded heartbeat value for all token price feeds, set to 24 hours * 1.1. However, different pairs have different freshness intervals. For instance, the LINK/USD has a heartbeat of 3600
+wiki_exploit_scenario: |
+    Per Solodit #37391: **Severity**: Medium
+    
+    **Status**:  Resolved
+    
+    **Description**
+    
+    The `ChainlinkPriceOracle` contract uses the same hardcoded heartbeat value for all token price feeds, set to 24 hours * 1.1. However, dif
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OracleFreshnessThresholdCanLeadToStaleDataBeingProvided"
+solodit_id: "37391"
+solodit_slug: "oracle-freshness-threshold-can-lead-to-stale-data-being-provided-zokyo-none-paribus-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

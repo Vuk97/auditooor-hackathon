@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_call"
+name: "eth-value-above-limited-value-can-be-lost"
+class_name: "EthValueAboveLimitedValueCanBeLost"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27749 (MixBytes/Barter DAO)"
+help: "ETH value above limited value can be lost"
+wiki_title: "ETH value above limited value can be lost"
+wiki_description: |
+    ##### Description
+    
+    SwapExecutor has the following lines for ETH:
+    
+    ```
+    if (value > valueLimit) {
+        value = valueLimit;
+    }
+    (success, result) = target.call{ value: value }(data);
+    ```
+    
+    - https://github.com/BarterLab/argon/blob/22239aaccdbb78d4aa7ac5c4d0859a9b31c0fc00/contracts/SwapExecutor.sol#L116-L12
+wiki_exploit_scenario: |
+    Per Solodit #27749: ##### Description
+    
+    SwapExecutor has the following lines for ETH:
+    
+    ```
+    if (value > valueLimit) {
+        value = valueLimit;
+    }
+    (success, result) = target.call{ value: value }(data);
+    ```
+    
+    - https://github.c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EthValueAboveLimitedValueCanBeLost"
+solodit_id: "27749"
+solodit_slug: "eth-value-above-limited-value-can-be-lost-mixbytes-none-barter-dao-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(valueLimit).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "valueLimit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

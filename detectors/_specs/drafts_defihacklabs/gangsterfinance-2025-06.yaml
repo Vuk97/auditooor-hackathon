@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "gangsterfinance-2025-06"
+class_name: "Gangsterfinance202506"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-06/Gangsterfinance_exp.sol"
+help: "Gangsterfinance 2025-06 — flashloan exploit (16.5k USD)"
+wiki_title: "Gangsterfinance (2025-06) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-06): Gangsterfinance lost 16.5k USD. Bug class: flashloan. Attack tx: 0xf34e59e4fe2c9b454d2b73a1a3f3aaf07d484a0c71ff8278b1c068cdedc4b64d.
+wiki_exploit_scenario: |
+    Attacker (0xc49f2938327aa2cdc3f2f89ed17b54b3671f05de) exploits Gangsterfinance via flashloan: the victim contract 0xe968d2e4adc89609773571301abec3399d163c3b exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Gangsterfinance202506"
+trigger_sig_regex: ".*(pancakeCall).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function pancakeCall(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.pancakeCall(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

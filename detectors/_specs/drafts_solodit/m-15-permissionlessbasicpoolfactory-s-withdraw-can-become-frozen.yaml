@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "m-15-permissionlessbasicpoolfactory-s-withdraw-can-become-frozen"
+class_name: "M15PermissionlessbasicpoolfactorySWithdrawCanBecomeFrozen"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42555 (Code4rena/FactoryDAO)"
+help: "[M-15] PermissionlessBasicPoolFactory's withdraw can become frozen on zero reward token transfers"
+wiki_title: "[M-15] PermissionlessBasicPoolFactory's withdraw can become frozen on zero reward token transfers"
+wiki_description: |
+    _Submitted by hyh_
+    
+    Reward tokens that do not allow for zero amount transfers can prevent user pool exit.
+    
+    Now it is required that all reward amounts be successfully transferred to a receipt owner and the reward token amount isn't checked in the process.
+    
+    If withdraw was called at the moment when so
+wiki_exploit_scenario: |
+    Per Solodit #42555: _Submitted by hyh_
+    
+    Reward tokens that do not allow for zero amount transfers can prevent user pool exit.
+    
+    Now it is required that all reward amounts be successfully transferred to a receipt owner and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15PermissionlessbasicpoolfactorySWithdrawCanBecomeFrozen"
+solodit_id: "42555"
+solodit_slug: |
+    m-15-permissionlessbasicpoolfactorys-withdraw-can-become-frozen-on-zero-reward-token-transfers-code4rena-factorydao-factorydao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rewardTokens|transferAmount|rewardsWeiPerSecondPerToken|addPool).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "rewardTokens"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-calculation-of-maximum-allowed-mint"
+class_name: "IncorrectCalculationOfMaximumAllowedMint"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Maia DAO February 2023 - Zellic Audit Report"
+help: |
+    The ERC4626PartnerManager contract allows partner tokens to be staked in order to receive utility tokens at a rate defined by bHermesRate. ///)) @notice Returns the maximum amount
+wiki_title: "Incorrect calculation of maximum-allowed mint"
+wiki_description: |
+    The ERC4626PartnerManager contract allows partner tokens to be staked in order to receive utility tokens at a rate defined by bHermesRate. ///)) @notice Returns the maximum amount of assets that can be deposited by a user. ///)) @dev Returns the remaining balance of the bHermes divided by the bHerme
+wiki_exploit_scenario: |
+    Per audit finding: The ERC4626PartnerManager contract allows partner tokens to be staked in order to receive utility tokens at a rate defined by bHermesRate. ///)) @notice Returns the maximum amount of assets that can b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectCalculationOfMaximumAllowedMint"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(bHermesRate|bHermes|maxDeposit).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "bHermesRate"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

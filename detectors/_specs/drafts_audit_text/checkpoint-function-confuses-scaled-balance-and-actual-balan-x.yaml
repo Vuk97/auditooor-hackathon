@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "checkpoint-function-confuses-scaled-balance-and-actual-balan-x"
+class_name: "CheckpointFunctionConfusesScaledBalanceAndActualBalanX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Palmy Finance - Zellic Audit Report"
+help: |
+    The Voter contract invokes the scaledBalanceOf function to determine its token balance, add the increased balance directly to the distributable amount of the token, divide it by ea
+wiki_title: "Checkpoint function confuses scaled balance and actual balance of LToken"
+wiki_description: |
+    The Voter contract invokes the scaledBalanceOf function to determine its token balance, add the increased balance directly to the distributable amount of the token, divide it by each user’s share, and transfer to them. The token in the Voter contract is the LToken. LToken is minted when you deposit
+wiki_exploit_scenario: |
+    Per audit finding: The Voter contract invokes the scaledBalanceOf function to determine its token balance, add the increased balance directly to the distributable amount of the token, divide it by each user’s share, and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CheckpointFunctionConfusesScaledBalanceAndActualBalanX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(scaledBalanceOf|balanceOf|lOAS).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "scaledBalanceOf"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

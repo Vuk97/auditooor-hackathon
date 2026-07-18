@@ -1,0 +1,42 @@
+skeleton: "paired_function_divergence"
+name: "m-12-harvest-can-be-frontrun"
+class_name: "M12HarvestCanBeFrontrun"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #783 (Code4rena/yAxis)"
+help: "[M-12] Harvest can be frontrun"
+wiki_title: "[M-12] Harvest can be frontrun"
+wiki_description: |
+    _Submitted by 0xsanson_
+    
+    #### Impact
+    In the `NativeStrategyCurve3Crv._harvest` there are two instances that a bad actor could use to frontrun the harvest.
+    
+    First, when we are swapping WETH to a stablecoin by calling `_swapTokens(weth, _stableCoin, _remainingWeth, 1)` the function isn't checking the
+wiki_exploit_scenario: |
+    Per Solodit #783: _Submitted by 0xsanson_
+    
+    #### Impact
+    In the `NativeStrategyCurve3Crv._harvest` there are two instances that a bad actor could use to frontrun the harvest.
+    
+    First, when we are swapping WETH to a stable
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12HarvestCanBeFrontrun"
+solodit_id: "783"
+solodit_slug: "m-12-harvest-can-be-frontrun-code4rena-yaxis-yaxis-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Front-Running"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

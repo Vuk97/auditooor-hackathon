@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_require"
+name: "m-02-collateral-minter-role-can-be-granted-by-the-deployer-of-qu"
+class_name: "M02CollateralMinterRoleCanBeGrantedByTheDeployerOfQu"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42533 (Code4rena/Rolla)"
+help: |
+    [M-02] `COLLATERAL_MINTER_ROLE` can be granted by the deployer of `QuantConfig` and mint arbitrary amount of tokens
+wiki_title: |
+    [M-02] `COLLATERAL_MINTER_ROLE` can be granted by the deployer of `QuantConfig` and mint arbitrary amount of tokens
+wiki_description: |
+    _Submitted by cccz, also found by danb, and WatchPug_
+    
+            function mintCollateralToken(
+                address recipient,
+                uint256 collateralTokenId,
+                uint256 amount
+            ) external override {
+                require(
+                    quantConfig.hasRole(
+                        qu
+wiki_exploit_scenario: |
+    Per Solodit #42533: _Submitted by cccz, also found by danb, and WatchPug_
+    
+            function mintCollateralToken(
+                address recipient,
+                uint256 collateralTokenId,
+                uint256 amount
+            )
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02CollateralMinterRoleCanBeGrantedByTheDeployerOfQu"
+solodit_id: "42533"
+solodit_slug: |
+    m-02-collateral_minter_role-can-be-granted-by-the-deployer-of-quantconfig-and-mint-arbitrary-amount-of-tokens-code4rena-rolla-rolla-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(COLLATERAL_MINTER_ROLE|QuantConfig).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "COLLATERAL_MINTER_ROLE"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

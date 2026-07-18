@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "auto-redemption-will-not-function-due-to-slippage-misconfigurati"
+class_name: "AutoRedemptionWillNotFunctionDueToSlippageMisconfigurati"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #45063 (Cyfrin/The Standard Auto Redemption)"
+help: "Auto redemption will not function due to slippage misconfiguration"
+wiki_title: "Auto redemption will not function due to slippage misconfiguration"
+wiki_description: |
+    **Description:** Both legacy and non-legacy vaults perform a call to `ISwapRouter::exactInput` when attempting to swap collateral to `USDs`, with the `amountOutMinimum` parameter being specified as the USD value of the collateral being swapped:
+    
+    ```solidity
+    calculator.tokenToUSD(
+        ITokenManager(I
+wiki_exploit_scenario: |
+    Per Solodit #45063: **Description:** Both legacy and non-legacy vaults perform a call to `ISwapRouter::exactInput` when attempting to swap collateral to `USDs`, with the `amountOutMinimum` parameter being specified as th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AutoRedemptionWillNotFunctionDueToSlippageMisconfigurati"
+solodit_id: "45063"
+solodit_slug: |
+    auto-redemption-will-not-function-due-to-slippage-misconfiguration-cyfrin-none-the-standard-auto-redemption-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amountoutminimum;"
+fn_name_regex: ".*(USDs|amountOutMinimum|significantCollateralDrop).*"
+read_var_regex: ".*(amountOutMinimum|significantCollateralDrop).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "USDs"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amountoutminimum > 0;"

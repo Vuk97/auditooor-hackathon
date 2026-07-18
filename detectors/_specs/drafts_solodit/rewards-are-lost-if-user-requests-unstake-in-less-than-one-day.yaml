@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "rewards-are-lost-if-user-requests-unstake-in-less-than-one-day"
+class_name: "RewardsAreLostIfUserRequestsUnstakeInLessThanOneDay"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57918 (MixBytes/DIA)"
+help: "Rewards are lost if user requests unstake in less than one day"
+wiki_title: "Rewards are lost if user requests unstake in less than one day"
+wiki_description: |
+    ##### Description
+    In the `DIAWhitelistedStaking` contract's `getRewardForStakingStore` function, there is a potential loss in rewards calculation if a user requests unstake in less than one day. The function uses the formula:
+    ```solidity
+    passedDays = passedSeconds / (24 * 60 * 60);
+    ```
+    If the user r
+wiki_exploit_scenario: |
+    Per Solodit #57918: ##### Description
+    In the `DIAWhitelistedStaking` contract's `getRewardForStakingStore` function, there is a potential loss in rewards calculation if a user requests unstake in less than one day. The f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RewardsAreLostIfUserRequestsUnstakeInLessThanOneDay"
+solodit_id: "57918"
+solodit_slug: "rewards-are-lost-if-user-requests-unstake-in-less-than-one-day-mixbytes-none-dia-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal dfd0bb6dc60735ed6983ee2aa4b10c7fac875ff6;"
+fn_name_regex: ".*(DIAWhitelistedStaking|getRewardForStakingStore|passedDays|requestUnstake).*"
+read_var_regex: ".*(dfd0bb6dc60735ed6983ee2aa4b10c7fac875ff6|getRewardForStakingStore|passedDays).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "DIAWhitelistedStaking"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return dfd0bb6dc60735ed6983ee2aa4b10c7fac875ff6 > 0;"

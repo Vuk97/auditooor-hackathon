@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "signature-omits-remaining-amount"
+class_name: "SignatureOmitsRemainingAmount"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #47970 (OtterSec/Aurory)"
+help: "Signature Omits Remaining Amount"
+wiki_title: "Signature Omits Remaining Amount"
+wiki_description: |
+    ## Withdraw Function in SyncSpace
+    
+    The `withdraw` function in SyncSpace verifies the validity of the admin signature utilizing the `requireAdminSignature` modifier, then transfers tokens. However, since `final_amount` is not included in the signature, users may pass their preferred `final_amount` va
+wiki_exploit_scenario: |
+    Per Solodit #47970: ## Withdraw Function in SyncSpace
+    
+    The `withdraw` function in SyncSpace verifies the validity of the admin signature utilizing the `requireAdminSignature` modifier, then transfers tokens. However, sin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SignatureOmitsRemainingAmount"
+solodit_id: "47970"
+solodit_slug: "signature-omits-remaining-amount-ottersec-none-aurory-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal final_amount;"
+fn_name_regex: ".*(withdraw|requireAdminSignature|final_amount).*"
+read_var_regex: ".*(final_amount|requireAdminSignature|withdraw).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return final_amount > 0;"

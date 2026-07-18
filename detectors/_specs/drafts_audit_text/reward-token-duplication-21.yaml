@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "reward-token-duplication-21"
+class_name: "RewardTokenDuplication21"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Smart Vault - Zellic Audit Report"
+help: |
+    There are three fields in RewardConfig: rewardRate, rewardStartTime, and rewardEndTime. While members of VaultConfig are verified in _checkVaultConfig, an equivalent validation doe
+wiki_title: "Reward-token duplication                              21"
+wiki_description: |
+    There are three fields in RewardConfig: rewardRate, rewardStartTime, and rewardEndTime. While members of VaultConfig are verified in _checkVaultConfig, an equivalent validation does not exist for RewardConfig. The configuration should be validated to ensure rewardRate does not exceed the precision b
+wiki_exploit_scenario: |
+    Per audit finding: There are three fields in RewardConfig: rewardRate, rewardStartTime, and rewardEndTime. While members of VaultConfig are verified in _checkVaultConfig, an equivalent validation does not exist for Rewa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RewardTokenDuplication21"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rewardRate|rewardStartTime|rewardEndTime).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "rewardRate"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,32 @@
+skeleton: "paired_function_divergence"
+name: "h-04-l2-precompile-calls-can-be-impossible-to-reproduce-on-l1"
+class_name: "H04L2PrecompileCallsCanBeImpossibleToReproduceOnL1"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36601 (Code4rena/Optimism)"
+help: "[H-04] L2 precompile calls can be impossible to reproduce on L1"
+wiki_title: "[H-04] L2 precompile calls can be impossible to reproduce on L1"
+wiki_description: |
+    When certain precompiles are invoked in an L2 transaction, the OP fault proof program substitutes their logic with "type 6" preimage oracle queries. Reviewing the [op-program code](https://github.com/code-423n4/2024-07-optimism/blob/70556044e5e080930f686c4e5acde420104bb2c4/op-program/client/l2/engi
+wiki_exploit_scenario: |
+    Per Solodit #36601: When certain precompiles are invoked in an L2 transaction, the OP fault proof program substitutes their logic with "type 6" preimage oracle queries. Reviewing the [op-program code](https://github.com
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04L2PrecompileCallsCanBeImpossibleToReproduceOnL1"
+solodit_id: "36601"
+solodit_slug: "h-04-l2-precompile-calls-can-be-impossible-to-reproduce-on-l1-code4rena-optimism-optimism-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(bn256Pairing|ecrecover|kzgPointEvaluation).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

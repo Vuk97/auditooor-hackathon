@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "mvenft-dos-can-t-trigger-the-vote-function"
+class_name: "MvenftDosCanTTriggerTheVoteFunction"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-09-fenix-finance"
+help: |
+    Ch_301 , also found by Ch_301 Description The VoterUpgradeableV2.sol contract has the function attachToManagedNFT() , users use it to delegate their veFNX voting power to a mVeNFT
+wiki_title: "mVeNFT DOS can’t trigger the vote function"
+wiki_description: |
+    Ch_301 , also found by Ch_301 Description The VoterUpgradeableV2.sol contract has the function attachToManagedNFT() , users use it to delegate their veFNX voting power to a mVeNFT . One of the things this function does after receiving the new voting power is sub-call to _poke() and it will update th
+wiki_exploit_scenario: |
+    Per audit finding: Ch_301 , also found by Ch_301 Description The VoterUpgradeableV2.sol contract has the function attachToManagedNFT() , users use it to delegate their veFNX voting power to a mVeNFT . One of the things
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MvenftDosCanTTriggerTheVoteFunction"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(attachToManagedNFT|veFNX|mVeNFT).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "attachToManagedNFT"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

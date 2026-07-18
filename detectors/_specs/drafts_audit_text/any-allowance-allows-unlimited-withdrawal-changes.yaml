@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "any-allowance-allows-unlimited-withdrawal-changes"
+class_name: "AnyAllowanceAllowsUnlimitedWithdrawalChanges"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Ostium - Zellic Audit Report"
+help: |
+    OstiumVault is an ERC-4626 vault, which means its shares are ERC-20 tokens. One feature set by the ERC-20 standard is that an address can set an allowance amount for another addres
+wiki_title: "Any allowance allows unlimited withdrawal changes"
+wiki_description: |
+    OstiumVault is an ERC-4626 vault, which means its shares are ERC-20 tokens. One feature set by the ERC-20 standard is that an address can set an allowance amount for another address, allowing the other address to spend a limited or unlimited amount of tokens on its behalf. The functions makeWithdraw
+wiki_exploit_scenario: |
+    Per audit finding: OstiumVault is an ERC-4626 vault, which means its shares are ERC-20 tokens. One feature set by the ERC-20 standard is that an address can set an allowance amount for another address, allowing the othe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyAllowanceAllowsUnlimitedWithdrawalChanges"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(makeWithdrawalRequest|cancelWithdrawalRequest|makeWithdrawRequest).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "makeWithdrawalRequest"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

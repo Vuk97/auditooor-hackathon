@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-08-getfirstsample-returns-wrong-sample-if-count-samplememory"
+class_name: "M08GetfirstsampleReturnsWrongSampleIfCountSamplememory"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42379 (Code4rena/Malt Finance)"
+help: "[M-08] `_getFirstSample` returns wrong sample if count < sampleMemory"
+wiki_title: "[M-08] `_getFirstSample` returns wrong sample if count < sampleMemory"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `MovingAverage.sol` contract defines several variables that in the end make the `samples` array act as a ring buffer:
+    
+    *   `sampleMemory`: The total length (buffer size) of the `samples` array. `samples` is initialized with `sampleMemory` zero observations.
+    *   `counter`:
+wiki_exploit_scenario: |
+    Per Solodit #42379: _Submitted by cmichel_
+    
+    The `MovingAverage.sol` contract defines several variables that in the end make the `samples` array act as a ring buffer:
+    
+    *   `sampleMemory`: The total length (buffer size) of
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08GetfirstsampleReturnsWrongSampleIfCountSamplememory"
+solodit_id: "42379"
+solodit_slug: |
+    m-08-_getfirstsample-returns-wrong-sample-if-count-samplememory-code4rena-malt-finance-malt-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal counter;"
+fn_name_regex: ".*(samples|sampleMemory|counter).*"
+read_var_regex: ".*(counter|sampleMemory|samples).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "samples"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return counter > 0;"

@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-contract-existence-check-on-transfer-transferfrom-calls"
+class_name: "LackOfContractExistenceCheckOnTransferTransferfromCalls"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18108 (TrailOfBits/Meson Protocol)"
+help: "Lack of contract existence check on transfer / transferFrom calls"
+wiki_title: "Lack of contract existence check on transfer / transferFrom calls"
+wiki_description: |
+    ## Type: Testing
+    
+    ## Difficulty: Low
+    
+    ## Description
+    The MesonHelpers contract uses the low-level call function to execute the transfer / transferFrom function of an ERC20 token. However, it does not first perform a contract existence check. Thus, if there is no contract at the token address, the lo
+wiki_exploit_scenario: |
+    Per Solodit #18108: ## Type: Testing
+    
+    ## Difficulty: Low
+    
+    ## Description
+    The MesonHelpers contract uses the low-level call function to execute the transfer / transferFrom function of an ERC20 token. However, it does not
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfContractExistenceCheckOnTransferTransferfromCalls"
+solodit_id: "18108"
+solodit_slug: "lack-of-contract-existence-check-on-transfer-transferfrom-calls-trailofbits-meson-protocol-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferFrom|isUCT|encodeWithSelector).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

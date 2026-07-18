@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "h-01-recipient-bytes-silent-burn-when-non-20-byte-payloads-pass-"
+class_name: "H01RecipientBytesSilentBurnWhenNon20BytePayloadsPass"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #64067 (Shieldify/Toki Bridge)"
+help: "[H-01] Recipient Bytes Silent Burn When Non-20-Byte Payloads Pass Validation"
+wiki_title: "[H-01] Recipient Bytes Silent Burn When Non-20-Byte Payloads Pass Validation"
+wiki_description: |
+    ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    All user-facing bridge entrypoints (`transferPool()`, `transferToken()`, `withdrawRemote()`, etc.) invoke `_validateToLength(to)` before constructing the packet, but this helper merely enforces that the payload is non-empty and at most 1 KB. It never ensures
+wiki_exploit_scenario: |
+    Per Solodit #64067: ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    All user-facing bridge entrypoints (`transferPool()`, `transferToken()`, `withdrawRemote()`, etc.) invoke `_validateToLength(to)` before constructing the packe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01RecipientBytesSilentBurnWhenNon20BytePayloadsPass"
+solodit_id: "64067"
+solodit_slug: |
+    h-01-recipient-bytes-silent-burn-when-non-20-byte-payloads-pass-validation-shieldify-none-toki-bridge-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal onrecvpacket;"
+fn_name_regex: ".*(transferPool|transferToken|withdrawRemote|onRecvPacket).*"
+read_var_regex: ".*(onRecvPacket|revertReceive|transferPool).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return onrecvpacket > 0;"

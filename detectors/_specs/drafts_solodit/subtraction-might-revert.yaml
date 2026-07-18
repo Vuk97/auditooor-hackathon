@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "subtraction-might-revert"
+class_name: "SubtractionMightRevert"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #56531 (Zokyo/Layerzero)"
+help: "Subtraction might revert."
+wiki_title: "Subtraction might revert."
+wiki_description: |
+    **Description**
+    
+    Line 181. Storage variable ‘eqFeePool’ collects fees in function swapRemote() and subtracts
+    fees in function swap(). However, in case swap() is executed before swapRemote() has been
+    executed, subtraction ‘eqFeePool = eqFeePool.sub(s.eqReward);’ might revert.
+    
+    **Recommendation**:
+    
+    Ma
+wiki_exploit_scenario: |
+    Per Solodit #56531: **Description**
+    
+    Line 181. Storage variable ‘eqFeePool’ collects fees in function swapRemote() and subtracts
+    fees in function swap(). However, in case swap() is executed before swapRemote() has been
+    e
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SubtractionMightRevert"
+solodit_id: "56531"
+solodit_slug: "subtraction-might-revert-zokyo-none-layerzero-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(eqFeePool|swapRemote|eqReward).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "eqFeePool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "native-eth-may-be-sent-by-mistake-in-some-cases"
+class_name: "NativeEthMayBeSentByMistakeInSomeCases"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Memecoin Launcher - Zellic Audit Report"
+help: |
+    This contract has an open and unpermissioned receive handler: receive() external payable {} In normal operation, this is used to receive native ETH from calls to WETH.withdraw. How
+wiki_title: "Native ETH may be sent by mistake in some cases"
+wiki_description: |
+    This contract has an open and unpermissioned receive handler: receive() external payable {} In normal operation, this is used to receive native ETH from calls to WETH.withdraw. However, any user may accidentally send native ETH to this contract, causing it to become stuck. Another way users may acci
+wiki_exploit_scenario: |
+    Per audit finding: This contract has an open and unpermissioned receive handler: receive() external payable {} In normal operation, this is used to receive native ETH from calls to WETH.withdraw. However, any user may a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NativeEthMayBeSentByMistakeInSomeCases"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(swapETHForToken|isWETH|tokenExists).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swapETHForToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

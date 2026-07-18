@@ -1,0 +1,19 @@
+id: missing-negative-supply-guard
+title: "Missing negative-supply guard in get_total_supply"
+severity: Info
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.47"
+bug_class: precision-loss
+indicators:
+  - "`total_supply - total_burn` without `saturating_sub` or check"
+  - "returns `i128` where the caller expects `u128` and negative means 'error' but is not flagged"
+victim: "Downstream rate/util math: negative supply becomes a huge positive number after unsigned cast."
+exploit_precondition: "Unusual burn/supply ordering produces transient underflow."
+real_world_example: |
+  Halborn 7.47 (INFO): Missing negative-supply guard in get_total_supply.
+suggested_remediation: "`saturating_sub` + return error, or assert invariant."
+cross_refs:
+  - unchecked-u128-addition-overflow

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "potential-lock-up-of-funds-in-fractalvaultv1-as-anyswap-router"
+class_name: "PotentialLockUpOfFundsInFractalvaultv1AsAnyswapRouter"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Fractal Protocol - Zellic Audit Report"
+help: |
+    The FractalVaultV1 does not approve the anySwap router before executing anySwapOut- Underlying, and would fail all the withdrawal attempts. function withdrawToLayerOne(...))) { ...
+wiki_title: "Potential lock-up of funds in FractalVaultV1 as anySwap Router"
+wiki_description: |
+    The FractalVaultV1 does not approve the anySwap router before executing anySwapOut- Underlying, and would fail all the withdrawal attempts. function withdrawToLayerOne(...))) { ...)) emit WithdrawToLayerOne(msg.sender, amount); anySwapRouter.anySwapOutUnderlying(anyToken, anyswapRouter, amount, chai
+wiki_exploit_scenario: |
+    Per audit finding: The FractalVaultV1 does not approve the anySwap router before executing anySwapOut- Underlying, and would fail all the withdrawal attempts. function withdrawToLayerOne(...))) { ...)) emit WithdrawToLa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialLockUpOfFundsInFractalvaultv1AsAnyswapRouter"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(anySwap|anySwapOut|withdrawToLayerOne).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "anySwap"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

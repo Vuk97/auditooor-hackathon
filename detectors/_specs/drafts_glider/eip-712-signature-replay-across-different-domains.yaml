@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "eip-712-signature-replay-across-different-domains"
+class_name: "Eip712SignatureReplayAcrossDifferentDomains"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: eip-712-signature-replay-across-different-domains"
+help: "EIP-712 Signature Replay Across Different Domains"
+wiki_title: "EIP-712 Signature Replay Across Different Domains"
+wiki_description: |
+    Hand-repaired graveyard approximation for permit/delegate-style signature
+    verifiers that hash a typehash-based struct and recover a signer without
+    any visible EIP-712 domain-binding marker such as DOMAIN_SEPARATOR,
+    _hashTypedDataV4, toTypedDataHash, block.chainid, or address(this).
+wiki_exploit_scenario: |
+    A user signs a permit for protocol A. Protocol B verifies the same typed
+    struct with ecrecover but never mixes its domain separator into the digest.
+    The same signature therefore authenticates on protocol B as well.
+wiki_recommendation: "Build the final digest with the verifier's own EIP-712 domain separator via _hashTypedDataV4 or ECDSA.toTypedDataHash, and bind the domain to block.chainid and address(this)."
+detector_strategy: |
+    Source-scan declared public/external functions. Require:
+      - signature-oriented function name (permit/delegate/meta/authorize/bysig)
+      - ecrecover or recover(...)
+      - keccak256(...)
+      - TYPEHASH-like token
+    Flag only when the function body lacks domain-binding markers such as
+    DOMAIN_SEPARATOR, domainSeparator, _hashTypedDataV4, toTypedDataHash,
+    block.chainid, or address(this).
+fixtures:
+  vuln: detectors/fixtures/eip_712_signature_replay_across_different_domains/positive.sol
+  clean: detectors/fixtures/eip_712_signature_replay_across_different_domains/clean.sol
+contract_name: "Eip712SignatureReplayAcrossDifferentDomains"
+fn_name_regex: ".*(permit|delegate|bysig|signature|meta|authorize|approval).*"
+read_var_regex: ".*(nonce|permit|delegate|typehash).*"
+required_call_regex: ".*(DOMAIN_SEPARATOR|domainSeparator|_hashTypedDataV4|toTypedDataHash).*"

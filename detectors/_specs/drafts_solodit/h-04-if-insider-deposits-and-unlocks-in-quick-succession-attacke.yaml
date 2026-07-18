@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "h-04-if-insider-deposits-and-unlocks-in-quick-succession-attacke"
+class_name: "H04IfInsiderDepositsAndUnlocksInQuickSuccessionAttacke"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18764 (ZachObront/Dyad)"
+help: |
+    [H-04] If insider deposits and unlocks in quick succession, attacker can steal their NFT and their deposit funds
+wiki_title: |
+    [H-04] If insider deposits and unlocks in quick succession, attacker can steal their NFT and their deposit funds
+wiki_description: |
+    The dNFT contract allows the owner to mint a predefined quantity of "insider" NFTs without any deposit attached to them. These NFTs begin in a locked state, which stops them from being immediately liquidated due to their lack of deposits.
+    
+    The protocol enforces that, in order for insider's to mint a
+wiki_exploit_scenario: |
+    Per Solodit #18764: The dNFT contract allows the owner to mint a predefined quantity of "insider" NFTs without any deposit attached to them. These NFTs begin in a locked state, which stops them from being immediately liq
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04IfInsiderDepositsAndUnlocksInQuickSuccessionAttacke"
+solodit_id: "18764"
+solodit_slug: |
+    h-04-if-insider-deposits-and-unlocks-in-quick-succession-attacker-can-steal-their-nft-and-their-deposit-funds-zachobront-none-dyad-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Sandwich Attack, NFT, Missing Check"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(dNFT|isNftOwner|id2Locked|id2Shared).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "dNFT"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

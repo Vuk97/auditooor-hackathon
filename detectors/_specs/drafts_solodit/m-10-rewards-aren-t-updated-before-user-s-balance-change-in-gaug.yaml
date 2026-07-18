@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-10-rewards-aren-t-updated-before-user-s-balance-change-in-gaug"
+class_name: "M10RewardsArenTUpdatedBeforeUserSBalanceChangeInGaug"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24773 (Code4rena/Velodrome Finance)"
+help: "[M-10] Rewards aren't updated before user's balance change in Gauge's `withdrawToken`"
+wiki_title: "[M-10] Rewards aren't updated before user's balance change in Gauge's `withdrawToken`"
+wiki_description: |
+    _Submitted by hyh, also found by codexploder_
+    
+    \_updateRewardForAllTokens is called in withdraw() only, while both withdraw() and withdrawToken() are public and can be called directly. Reward update is needed on user's balance change, its absence leads to reward data rewriting and rewards losing imp
+wiki_exploit_scenario: |
+    Per Solodit #24773: _Submitted by hyh, also found by codexploder_
+    
+    \_updateRewardForAllTokens is called in withdraw() only, while both withdraw() and withdrawToken() are public and can be called directly. Reward update i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10RewardsArenTUpdatedBeforeUserSBalanceChangeInGaug"
+solodit_id: "24773"
+solodit_slug: |
+    m-10-rewards-arent-updated-before-users-balance-change-in-gauges-withdrawtoken-code4rena-velodrome-finance-velodrome-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawToken).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdrawToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

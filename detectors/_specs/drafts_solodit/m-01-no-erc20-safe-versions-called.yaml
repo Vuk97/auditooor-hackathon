@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "m-01-no-erc20-safe-versions-called"
+class_name: "M01NoErc20SafeVersionsCalled"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #635 (Code4rena/Yield)"
+help: "[M-01] No ERC20 safe* versions called"
+wiki_title: "[M-01] No ERC20 safe* versions called"
+wiki_description: |
+    _Submitted by cmichel, also found by JMukesh and hickuphh3_
+    
+    The `claim` function performs an ERC20 transfer `rewardsToken.transfer(to, claiming);` but does not check the return value, nor does it work with all legacy tokens.
+    
+    Some tokens (like USDT) don't correctly implement the EIP20 standard and
+wiki_exploit_scenario: |
+    Per Solodit #635: _Submitted by cmichel, also found by JMukesh and hickuphh3_
+    
+    The `claim` function performs an ERC20 transfer `rewardsToken.transfer(to, claiming);` but does not check the return value, nor does it wor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01NoErc20SafeVersionsCalled"
+solodit_id: "635"
+solodit_slug: "m-01-no-erc20-safe-versions-called-code4rena-yield-yield-micro-contest-1-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claim;"
+fn_name_regex: ".*(claim|transfer|transferFrom|void).*"
+read_var_regex: ".*(claim|safeTransfer|safeTransferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claim"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claim > 0;"

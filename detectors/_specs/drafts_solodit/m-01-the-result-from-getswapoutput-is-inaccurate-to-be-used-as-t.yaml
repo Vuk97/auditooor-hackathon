@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "m-01-the-result-from-getswapoutput-is-inaccurate-to-be-used-as-t"
+class_name: "M01TheResultFromGetswapoutputIsInaccurateToBeUsedAsT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31483 (Pashov Audit Group/Brrito)"
+help: |
+    [M-01] The result from `getSwapOutput` is inaccurate to be used as the `minOutput` in the swap operation
+wiki_title: |
+    [M-01] The result from `getSwapOutput` is inaccurate to be used as the `minOutput` in the swap operation
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Low, because it decrease the `minOutput` by 0.02%
+    
+    **Likelihood:** High, because it always happened when `harvest` is called.
+    
+    **Description**
+    
+    When `harvest` called, it will calculate `quote` amount that will be used for `minOutput` in the swap operation by calling `router
+wiki_exploit_scenario: |
+    Per Solodit #31483: **Severity**
+    
+    **Impact:** Low, because it decrease the `minOutput` by 0.02%
+    
+    **Likelihood:** High, because it always happened when `harvest` is called.
+    
+    **Description**
+    
+    When `harvest` called, it will
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01TheResultFromGetswapoutputIsInaccurateToBeUsedAsT"
+solodit_id: "31483"
+solodit_slug: |
+    m-01-the-result-from-getswapoutput-is-inaccurate-to-be-used-as-the-minoutput-in-the-swap-operation-pashov-none-brrito-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal harvest;"
+fn_name_regex: ".*(minOutput|harvest|quote|swap).*"
+write_var_regex: ".*(harvest|minOutput|quote).*"
+guard_var_regex: ".*(harvest|minOutput|quote).*"
+vuln_fn_name: "minOutput"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "harvest = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

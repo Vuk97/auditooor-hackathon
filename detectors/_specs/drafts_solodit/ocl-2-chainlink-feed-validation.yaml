@@ -1,0 +1,38 @@
+skeleton: "state_write_without_paired_write"
+name: "ocl-2-chainlink-feed-validation"
+class_name: "Ocl2ChainlinkFeedValidation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27197 (Guardian Audits/GMX)"
+help: "OCL-2 | Chainlink Feed Validation"
+wiki_title: "OCL-2 | Chainlink Feed Validation"
+wiki_description: |
+    **Description**
+    
+    Extra validation checks should be added on the result from the Chainlink price feed to ensure non-stale data. The price from the data feed influences the execution of orders and liquidations so it is imperative the data is up to date and correct. 
+    
+    **Recommendation**
+    
+    Add the follow
+wiki_exploit_scenario: |
+    Per Solodit #27197: **Description**
+    
+    Extra validation checks should be added on the result from the Chainlink price feed to ensure non-stale data. The price from the data feed influences the execution of orders and liqui
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Ocl2ChainlinkFeedValidation"
+solodit_id: "27197"
+solodit_slug: "ocl-2-chainlink-feed-validation-guardian-audits-none-gmx-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(require).*"
+primary_var_regex: ".*(require).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "noncompetitive-orders-can-be-replaced-with-smaller-orders-25"
+class_name: "NoncompetitiveOrdersCanBeReplacedWithSmallerOrders25"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit GTE CLOB and Launchpad- Zellic Audit Report"
+help: |
+    The amend function allows either the owner of an order or an approved operator to update an existing order. In the case where the side and price of the order remain the same, the i
+wiki_title: "Noncompetitive orders can be replaced with smaller orders              25"
+wiki_description: |
+    The amend function allows either the owner of an order or an approved operator to update an existing order. In the case where the side and price of the order remain the same, the internal _executeAmendAmount function will be called. This function uses the provided args.amountInBase as an amount and,
+wiki_exploit_scenario: |
+    Per audit finding: The amend function allows either the owner of an order or an approved operator to update an existing order. In the case where the side and price of the order remain the same, the internal _executeAmen
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoncompetitiveOrdersCanBeReplacedWithSmallerOrders25"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(amountInBase|baseTokenDelta|quoteTokenDelta).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "amountInBase"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

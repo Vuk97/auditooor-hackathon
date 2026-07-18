@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "the-vault-s-withdraw-function-might-not-add-liquidity-again"
+class_name: "TheVaultSWithdrawFunctionMightNotAddLiquidityAgain"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Beefy UniswapV3 - Zellic Audit Report"
+help: |
+    The strategy contract provides the tokens as liquidity in a Uniswap pool, thereby accumulating the relevant fees on the pool. For various actions by the strategy or vault contract,
+wiki_title: "The vault’s withdraw function might not add liquidity again"
+wiki_description: |
+    The strategy contract provides the tokens as liquidity in a Uniswap pool, thereby accumulating the relevant fees on the pool. For various actions by the strategy or vault contract, the liquidity is first withdrawn fully from the Uniswap pool, then added again. This is done to, for example, be able t
+wiki_exploit_scenario: |
+    Per audit finding: The strategy contract provides the tokens as liquidity in a Uniswap pool, thereby accumulating the relevant fees on the pool. For various actions by the strategy or vault contract, the liquidity is fi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheVaultSWithdrawFunctionMightNotAddLiquidityAgain"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

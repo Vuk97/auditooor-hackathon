@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "miscalculation-of-amount-returnable-to-sender"
+class_name: "MiscalculationOfAmountReturnableToSender"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19584 (SigmaPrime/Sushi)"
+help: "Miscalculation of Amount Returnable to Sender"
+wiki_title: "Miscalculation of Amount Returnable to Sender"
+wiki_description: |
+    ## Description
+    
+    There is an accounting error in `_balanceOf()` which overstates `senderBalance`. As a result, the sender will be overcompensated in `cancelStream()`.
+    
+    When the block timestamp is after the `startTime` and before the `endTime`, the following section of the contract is executed:
+    
+    ```so
+wiki_exploit_scenario: |
+    Per Solodit #19584: ## Description
+    
+    There is an accounting error in `_balanceOf()` which overstates `senderBalance`. As a result, the sender will be overcompensated in `cancelStream()`.
+    
+    When the block timestamp is after
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MiscalculationOfAmountReturnableToSender"
+solodit_id: "19584"
+solodit_slug: "miscalculation-of-amount-returnable-to-sender-sigmaprime-none-sushi-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cancelstream;"
+fn_name_regex: ".*(senderBalance|cancelStream|startTime|endTime).*"
+read_var_regex: ".*(cancelStream|endTime|recipientBalance).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "senderBalance"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cancelstream > 0;"

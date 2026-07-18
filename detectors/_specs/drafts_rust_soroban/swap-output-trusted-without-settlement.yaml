@@ -1,0 +1,20 @@
+id: swap-output-trusted-without-settlement
+title: "Swap output trusted without settlement verification (balance delta)"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44871"
+bug_class: authorization
+indicators:
+  - "adapter returns `amounts.last()` as swap output without measuring `to_token.balance(pool) - balance_before`"
+  - "downstream accounting uses caller-supplied/DEX-supplied output"
+victim: "Protocol: over-credits liquidator or swapper for tokens never received."
+exploit_precondition: "Adapter path through DEX that can underdeliver."
+real_world_example: |
+  V12 #44871 (High): Swap output is trusted without settlement verification.
+suggested_remediation: "Always measure and use actual balance delta as the authoritative output."
+cross_refs:
+  - unchecked-token-transfer-mints-unbacked
+  - unverified-dex-data-drives-swaps

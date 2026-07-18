@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-01-zero-amount-token-transfers-may-cause-a-denial-of-service-d"
+class_name: "M01ZeroAmountTokenTransfersMayCauseADenialOfServiceD"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29698 (Code4rena/Particle Protocol)"
+help: "[M-01] Zero amount token transfers may cause a denial of service during liquidations"
+wiki_title: "[M-01] Zero amount token transfers may cause a denial of service during liquidations"
+wiki_description: |
+    Some ERC20 implementations revert on zero value transfers. Since liquidation rewards are based on a fraction of the available position's premiums, this may cause an accidental denial of service that prevents the successful execution of liquidations.
+    
+    ### Impact
+    
+    Liquidations in the LAMM protocol ar
+wiki_exploit_scenario: |
+    Per Solodit #29698: Some ERC20 implementations revert on zero value transfers. Since liquidation rewards are based on a fraction of the available position's premiums, this may cause an accidental denial of service that
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01ZeroAmountTokenTransfersMayCauseADenialOfServiceD"
+solodit_id: "29698"
+solodit_slug: |
+    m-01-zero-amount-token-transfers-may-cause-a-denial-of-service-during-liquidations-code4rena-particle-protocol-particle-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "ERC20, Weird ERC20, Liquidation, Revert On 0 Transfer"
+state_decl: "uint256 internal liquidateposition;"
+fn_name_regex: ".*(liquidatePosition|liquidationRewardFrom|liquidationRewardTo|tokenFromPremium).*"
+read_var_regex: ".*(liquidatePosition|liquidationRewardFrom|liquidationRewardTo).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidatePosition"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return liquidateposition > 0;"

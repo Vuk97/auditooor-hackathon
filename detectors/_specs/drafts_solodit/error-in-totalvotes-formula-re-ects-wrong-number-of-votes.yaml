@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "error-in-totalvotes-formula-re-ects-wrong-number-of-votes"
+class_name: "ErrorInTotalvotesFormulaReEctsWrongNumberOfVotes"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #54293 (Cantina/OpalProtocol)"
+help: "Error in totalvotes formula reﬂects wrong number of votes"
+wiki_title: "Error in totalvotes formula reﬂects wrong number of votes "
+wiki_description: |
+    ## GaugeController Analysis
+    
+    ## Context
+    **GaugeController.sol#L331**
+    
+    ## Description
+    In `_getTotal()`, `votesTotal` is calculated by the formula:
+    ```
+    votesTotal += typeVoteChange * typeWeight;
+    ```
+    and is assigned to `totalVotes[timestamp] = votesTotal;`. However, `typeVoteChange` only reflects the a
+wiki_exploit_scenario: |
+    Per Solodit #54293: ## GaugeController Analysis
+    
+    ## Context
+    **GaugeController.sol#L331**
+    
+    ## Description
+    In `_getTotal()`, `votesTotal` is calculated by the formula:
+    ```
+    votesTotal += typeVoteChange * typeWeight;
+    ```
+    and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ErrorInTotalvotesFormulaReEctsWrongNumberOfVotes"
+solodit_id: "54293"
+solodit_slug: "error-in-totalvotes-formula-reflects-wrong-number-of-votes-cantina-none-opalprotocol-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal totalvotes;"
+fn_name_regex: ".*(votesTotal|typeVoteChange|GaugeControllerVoteForGaugeWeightTest|typeVotes).*"
+read_var_regex: ".*(totalVotes|typeVoteChange|typeVotes).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "votesTotal"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return totalvotes > 0;"

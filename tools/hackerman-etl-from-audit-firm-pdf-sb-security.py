@@ -1,0 +1,797 @@
+#!/usr/bin/env python3
+"""Wave-2 W2.4 Phase-1 deep-mine ETL (SB Security subset).
+
+Walks the Wave-1 listing tree, filters to the ``sb-security-audits`` firm
+subset, fetches the PDF blob into a local gitignored cache,
+and emits one ``auditooor.hackerman_record.v1``-style per-finding
+record per SB Security finding to::
+
+    audit/corpus_tags/tags/audit_firm_findings_sb_security/<firm>__<project>__<finding_id>/record.{json,yaml}
+
+Sibling driver to ``hackerman-etl-from-audit-firm-pdf-pashov.py``.
+Native SB Security reports use numbered section headings such as
+``5.1.1.Title`` grouped under severity sections and usually carry
+``Severity:`` / ``Description:`` / ``Recommendation:`` /
+``Resolution:`` fields. See
+``tools/lib/pdf_finding_extractor.py`` ``extract_sb_security_findings`` for
+the parser implementation.
+
+Spec ref: SB-Security listing-level miner committed in e40e00a248;
+this is the first per-finding/PDF deep-mining slice.
+
+Real-source-only / M14-trap discipline:
+
+* PDFs are fetched via ``urllib.request`` to the canonical
+  ``raw.githubusercontent.com`` URL Wave-1 already validated; no
+  scraping, no firm-website crawling. SB Security filenames occasionally
+  contain spaces and parentheses; the URL path is percent-encoded
+  before fetch (host + scheme left untouched).
+* No live PDF fetch in dry-run / fixture mode. The driver consults the
+  local cache first; missing entries are an error unless ``--fetch``
+  is passed (default-on; use ``--no-fetch`` to disable).
+* Each emitted record cites the parent Wave-1 listing in
+  ``related_records`` so the corpus stays linked.
+* Additive driver: does not modify generated corpus outputs unless run
+  without ``--dry-run`` against a real output directory.
+* Does NOT modify ``tools/calibration/llm_budget_log.jsonl``.
+
+CLI::
+
+    # Tool-only sample run (no live fetch, parses cached fixture PDFs):
+    python3 tools/hackerman-etl-from-audit-firm-pdf-sb-security.py \\
+        --listings-dir audit/corpus_tags/tags/audit_firm_public_reports \\
+        --cache-dir .auditooor/audit_firm_pdf_cache \\
+        --out-dir audit/corpus_tags/tags/audit_firm_findings_sb_security \\
+        --limit 3 --no-fetch --dry-run --json-summary
+"""
+from __future__ import annotations
+
+import argparse
+import dataclasses
+import datetime as dt
+import hashlib
+import json
+import re
+import sys
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+from pathlib import Path
+from typing import Any, Dict, Iterable, List, Optional
+
+import yaml
+
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+TOOLS_DIR = REPO_ROOT / "tools"
+LIB_DIR = TOOLS_DIR / "lib"
+
+# Make ``tools/lib`` importable as a flat module path without polluting
+# any package init.
+sys.path.insert(0, str(LIB_DIR))
+
+import pdf_finding_extractor  # noqa: E402  type: ignore
+
+
+SCHEMA_VERSION = "auditooor.hackerman_record.v1.1"
+VERIFICATION_TIER = "tier-2-verified-public-archive"
+FIRM_PREFIX = "sb-security-audits"
+PARSER_FIRM_VARIANT = "sb-security"
+RECORD_TIER = "public-corpus"
+HTTP_USER_AGENT = "auditooor-hackerman-w24/1.0"
+DEFAULT_MAX_PDF_BYTES = 50 * 1024 * 1024
+DEFAULT_RATE_LIMIT_PER_SEC = 2.0
+DEFAULT_MIN_CONFIDENCE = 0.65
+
+
+# ---------------------------------------------------------------------------
+# Listing parser - reads Wave-1 records to recover URL + project + year.
+# ---------------------------------------------------------------------------
+
+
+@dataclasses.dataclass
+class ListingHandle:
+    record_id: str
+    pdf_url: str
+    firm: str
+    filename: str
+    project_label: str
+    year: int
+    parent_record_path: Path
+
+    @property
+    def project_slug(self) -> str:
+        return _slugify(self.project_label)
+
+
+_PROJECT_LABEL_RE = re.compile(r"Inferred project name\s+(.*)")
+_REFERENCE_REPORT_PREFIX = "Reference public audit report at "
+# Fallback for older/non-standard precondition lines. The canonical
+# "Reference public audit report at ..." line is parsed separately because
+# real SB Security filenames can contain spaces.
+_RAW_URL_RE = re.compile(r"https?://raw\.githubusercontent\.com/[^\s\"']+\.(?:pdf|PDF)")
+
+
+def _slugify(value: str, max_len: int = 60) -> str:
+    s = value.lower()
+    s = re.sub(r"[^a-z0-9]+", "-", s).strip("-")
+    if len(s) > max_len:
+        s = s[:max_len].rstrip("-")
+    return s or "unknown"
+
+
+def _percent_encode_path(url: str) -> str:
+    """Percent-encode only the path component of a URL.
+
+    SB Security filenames can contain spaces / parentheses / commas (e.g.
+    ``Resolv Security Review (final).pdf``). ``urllib.request`` chokes
+    on unencoded spaces; explicit path-only quoting preserves slashes
+    and the scheme/host while making the request well-formed.
+
+    Idempotent: ``%`` is included in ``safe`` so re-encoding an already
+    percent-encoded path does not double-encode (``%20`` does not turn
+    into ``%2520`` on a second pass).
+    """
+    parts = urllib.parse.urlsplit(url)
+    quoted_path = urllib.parse.quote(parts.path, safe="/%")
+    return urllib.parse.urlunsplit(
+        (parts.scheme, parts.netloc, quoted_path, parts.query, parts.fragment)
+    )
+
+
+def _extract_pdf_url(line: str) -> str:
+    if line.startswith(_REFERENCE_REPORT_PREFIX):
+        candidate = line[len(_REFERENCE_REPORT_PREFIX):].strip()
+        lower = candidate.lower()
+        pdf_pos = lower.find(".pdf")
+        if pdf_pos >= 0:
+            return candidate[: pdf_pos + len(".pdf")]
+    m = _RAW_URL_RE.search(line)
+    return m.group(0) if m else ""
+
+
+def _is_canonical_raw_pdf_url(url: str) -> bool:
+    parts = urllib.parse.urlsplit(url)
+    if parts.scheme != "https":
+        return False
+    if parts.netloc.lower() != "raw.githubusercontent.com":
+        return False
+    return urllib.parse.unquote(parts.path).lower().endswith(".pdf")
+
+
+def parse_listing(record_path: Path) -> Optional[ListingHandle]:
+    """Decode a Wave-1 listing record.json into a ``ListingHandle``."""
+    try:
+        data = json.loads(record_path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+
+    shape_tags = (data.get("function_shape") or {}).get("shape_tags") or []
+    firm = ""
+    for tag in shape_tags:
+        if isinstance(tag, str) and tag.startswith("firm-"):
+            firm = tag[len("firm-"):]
+            break
+    if firm != FIRM_PREFIX:
+        return None
+
+    preconditions = data.get("required_preconditions") or []
+    pdf_url = data.get("record_source_url") if isinstance(data.get("record_source_url"), str) else ""
+    project_label = ""
+    filename = Path(urllib.parse.unquote(pdf_url)).name if pdf_url else ""
+    for line in preconditions:
+        if not isinstance(line, str):
+            continue
+        if not pdf_url:
+            pdf_url = _extract_pdf_url(line)
+            if pdf_url:
+                filename = Path(urllib.parse.unquote(pdf_url)).name
+        if not project_label:
+            m = _PROJECT_LABEL_RE.search(line)
+            if m:
+                project_label = m.group(1).strip()
+
+    if not pdf_url:
+        return None
+    if not _is_canonical_raw_pdf_url(pdf_url):
+        return None
+    if not project_label:
+        project_label = Path(filename).stem.replace("_", " ").replace("-", " ")
+
+    record_id = data.get("record_id") or ""
+    year = data.get("year") or 0
+    try:
+        year = int(year)
+    except Exception:
+        year = 0
+
+    return ListingHandle(
+        record_id=str(record_id),
+        pdf_url=pdf_url,
+        firm=firm,
+        filename=filename,
+        project_label=project_label,
+        year=year,
+        parent_record_path=record_path,
+    )
+
+
+def iter_sb_security_listings(listings_dir: Path) -> Iterable[ListingHandle]:
+    if not listings_dir.is_dir():
+        return
+    for child in sorted(listings_dir.iterdir()):
+        if not child.is_dir():
+            continue
+        if not child.name.startswith(FIRM_PREFIX + "__"):
+            continue
+        record_json = child / "record.json"
+        if not record_json.is_file():
+            continue
+        handle = parse_listing(record_json)
+        if handle is None:
+            continue
+        yield handle
+
+
+# ---------------------------------------------------------------------------
+# PDF cache + fetch.
+# ---------------------------------------------------------------------------
+
+
+@dataclasses.dataclass
+class FetchResult:
+    pdf_path: Optional[Path]
+    blob_sha256: str
+    cache_hit: bool
+    fetched: bool
+    skipped_reason: Optional[str]
+
+
+class RateLimiter:
+    def __init__(self, per_sec: float) -> None:
+        self._interval = 1.0 / max(per_sec, 0.001)
+        self._last = 0.0
+
+    def wait(self) -> None:
+        now = time.monotonic()
+        gap = now - self._last
+        if gap < self._interval:
+            time.sleep(self._interval - gap)
+        self._last = time.monotonic()
+
+
+def _sha256_of(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def fetch_pdf(
+    handle: ListingHandle,
+    cache_dir: Path,
+    *,
+    allow_fetch: bool,
+    max_bytes: int,
+    rate_limiter: RateLimiter,
+) -> FetchResult:
+    target_dir = cache_dir / handle.firm
+    target_dir.mkdir(parents=True, exist_ok=True)
+    # The cached filename uses the un-percent-encoded form so cache
+    # collisions across percent-encoded vs raw URLs do not multiply
+    # storage.
+    target_path = target_dir / handle.filename
+
+    if target_path.is_file():
+        return FetchResult(
+            pdf_path=target_path,
+            blob_sha256=_sha256_of(target_path),
+            cache_hit=True,
+            fetched=False,
+            skipped_reason=None,
+        )
+
+    if not allow_fetch:
+        return FetchResult(
+            pdf_path=None,
+            blob_sha256="",
+            cache_hit=False,
+            fetched=False,
+            skipped_reason="no-fetch-and-not-cached",
+        )
+
+    rate_limiter.wait()
+    fetch_url = _percent_encode_path(handle.pdf_url)
+    req = urllib.request.Request(fetch_url, headers={"User-Agent": HTTP_USER_AGENT})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            length_hdr = resp.headers.get("Content-Length")
+            if length_hdr:
+                try:
+                    if int(length_hdr) > max_bytes:
+                        return FetchResult(
+                            pdf_path=None,
+                            blob_sha256="",
+                            cache_hit=False,
+                            fetched=False,
+                            skipped_reason="oversize",
+                        )
+                except ValueError:
+                    pass
+            tmp_path = target_path.with_suffix(target_path.suffix + ".part")
+            written = 0
+            with tmp_path.open("wb") as out:
+                while True:
+                    chunk = resp.read(65536)
+                    if not chunk:
+                        break
+                    written += len(chunk)
+                    if written > max_bytes:
+                        tmp_path.unlink(missing_ok=True)
+                        return FetchResult(
+                            pdf_path=None,
+                            blob_sha256="",
+                            cache_hit=False,
+                            fetched=False,
+                            skipped_reason="oversize",
+                        )
+                    out.write(chunk)
+            tmp_path.replace(target_path)
+    except urllib.error.HTTPError as exc:
+        return FetchResult(
+            pdf_path=None,
+            blob_sha256="",
+            cache_hit=False,
+            fetched=False,
+            skipped_reason=f"http-{exc.code}",
+        )
+    except Exception as exc:
+        return FetchResult(
+            pdf_path=None,
+            blob_sha256="",
+            cache_hit=False,
+            fetched=False,
+            skipped_reason=f"unreachable:{exc!r}",
+        )
+
+    return FetchResult(
+        pdf_path=target_path,
+        blob_sha256=_sha256_of(target_path),
+        cache_hit=False,
+        fetched=True,
+        skipped_reason=None,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Record assembly.
+# ---------------------------------------------------------------------------
+
+
+def _attack_class_from_title(title: str) -> str:
+    """Best-effort attack-class label derived from a finding title.
+
+    Heuristic; downstream W2.2 detector auto-gen re-derives structured
+    attack-class tags from the body. We pick a coarse class so the
+    record is searchable.
+    """
+    lowered = title.lower()
+    for needle, klass in (
+        ("reentrancy", "reentrancy"),
+        ("integer overflow", "integer-overflow"),
+        ("overflow", "integer-overflow"),
+        ("access control", "access-control"),
+        ("authorization", "access-control"),
+        ("uninitialized", "uninitialized-state"),
+        ("denial of service", "dos"),
+        ("dos", "dos"),
+        ("oracle", "oracle-manipulation"),
+        ("price manipulation", "oracle-manipulation"),
+        ("slippage", "slippage"),
+        ("rounding", "rounding"),
+        ("front-running", "front-running"),
+        ("frontrunning", "front-running"),
+        ("signature", "signature-malleability"),
+        ("replay", "replay-attack"),
+        ("flash loan", "flash-loan"),
+        ("erc20", "erc20-misuse"),
+        ("zero-address", "zero-address-check"),
+        ("zero address", "zero-address-check"),
+    ):
+        if needle in lowered:
+            return klass
+    return "audit-firm-finding-other"
+
+
+def _impact_class_from_severity(severity: str) -> str:
+    if severity in ("critical", "high"):
+        return "theft"
+    if severity == "medium":
+        return "griefing"
+    return "griefing"
+
+
+def _schema_severity(severity: str) -> str:
+    """Map parser severities onto the hackerman v1.1 enum."""
+    lowered = (severity or "").strip().lower()
+    if lowered in {"critical", "high", "medium", "low", "info"}:
+        return lowered
+    if lowered == "informational":
+        return "info"
+    return "info"
+
+
+def _record_quality_score(finding: pdf_finding_extractor.SBSecurityFinding) -> float:
+    """Parser confidence is 0..1; record quality is the corpus 1..5 scale."""
+    return round(max(1.0, min(5.0, 1.0 + (finding.parser_confidence * 4.0))), 2)
+
+
+def _fix_pattern_for_finding(
+    handle: ListingHandle,
+    finding: pdf_finding_extractor.SBSecurityFinding,
+) -> str:
+    if finding.recommendation:
+        return finding.recommendation[:600]
+    return (
+        f"Review and address the SB Security audit finding '{finding.title}' in "
+        f"{handle.project_label}; the PDF parser did not extract a dedicated "
+        "recommendation section."
+    )
+
+
+def build_finding_record(
+    handle: ListingHandle,
+    finding: pdf_finding_extractor.SBSecurityFinding,
+    blob_sha256: str,
+    *,
+    parser_version: str,
+) -> Dict[str, Any]:
+    title_slug = pdf_finding_extractor.slugify_title(finding.title)
+    schema_severity = _schema_severity(finding.severity)
+    severity_code = schema_severity[:1].upper() or "U"
+    finding_id = f"{severity_code}-{finding.finding_index:03d}-{title_slug}"
+    project_slug = handle.project_slug
+    record_id = f"audit-firm-finding:{handle.firm}:{project_slug}:{finding_id}"
+    fix_pattern = _fix_pattern_for_finding(handle, finding)
+    parser_status = "parsed" if finding.parser_confidence >= 0.8 else "low-confidence"
+    source_url = _percent_encode_path(handle.pdf_url)
+
+    record: Dict[str, Any] = {
+        "schema_version": SCHEMA_VERSION,
+        "record_id": record_id,
+        "record_tier": RECORD_TIER,
+        "record_quality_score": _record_quality_score(finding),
+        "attack_class": _attack_class_from_title(finding.title),
+        "bug_class": "audit-firm-public-finding",
+        "severity_at_finding": schema_severity,
+        "fix_pattern": fix_pattern,
+        "fix_anti_pattern_avoided": (
+            "Shipping the code path described in the finding summary without "
+            "applying the audit-firm's recommended mitigation."
+        ),
+        "target_language": "solidity",
+        "target_component": handle.project_label,
+        "target_repo": "unknown",
+        "target_domain": "vault",
+        "year": handle.year or 0,
+        "function_shape": {
+            "raw_signature": f"audit-firm-finding::{handle.firm}/{project_slug}/{finding_id}",
+            "shape_tags": [
+                "audit-firm-public-finding",
+                f"firm-{handle.firm}",
+                f"verification_tier:{VERIFICATION_TIER}",
+                f"year-{handle.year or 'unknown'}",
+                f"severity-{schema_severity}",
+                f"attack-{_attack_class_from_title(finding.title)}",
+            ],
+        },
+        "source_audit_ref": f"audit-firm-finding:{handle.firm}:{handle.filename}:{finding_id}",
+        "source_extraction_method": "corpus-etl",
+        "source_extraction_confidence": round(finding.parser_confidence, 3),
+        "verification_method": "none",
+        "verification_tier": VERIFICATION_TIER,
+        "record_source_url": source_url,
+        "attacker_role": "unprivileged",
+        "attacker_action_sequence": (
+            finding.proof_of_concept[:1200] if finding.proof_of_concept else
+            (finding.summary[:1200] if finding.summary else
+             f"Audit-firm finding extracted from SB Security PDF '{handle.filename}'.")
+        ),
+        "impact_class": _impact_class_from_severity(schema_severity),
+        "impact_actor": "arbitrary-user",
+        "impact_dollar_class": "non-financial",
+        "required_preconditions": [
+            f"Reference public audit report at {source_url}",
+            f"Source firm {handle.firm}",
+            f"Project {handle.project_label}",
+            f"verification_tier={VERIFICATION_TIER}",
+            f"SB Security finding {severity_code}-{finding.finding_index}",
+        ],
+        "cross_language_analogues": [],
+        "related_records": [handle.record_id] if handle.record_id else [],
+        "record_extensions": {
+            "title": finding.title,
+            "summary": finding.summary,
+            "description": finding.description,
+            "recommendation": finding.recommendation,
+            "lines_cited": finding.lines_cited,
+            "code_snippet_pre_fix": finding.code_snippet_pre_fix,
+            "code_snippet_post_fix": "",
+            "pdf_blob_sha256": blob_sha256,
+            "pdf_page_range": list(finding.page_range),
+            "pdf_parser_version": parser_version,
+            "pdf_parser_firm_variant": PARSER_FIRM_VARIANT,
+            "pdf_extraction_status": parser_status,
+            "severity_verbatim": finding.severity_verbatim,
+            "severity_code": severity_code,
+            "finding_id": finding.finding_id,
+            "impact": finding.impact,
+            "resolution_status": finding.resolution_status,
+            "resolution_note": finding.resolution_note,
+            "proof_of_concept": finding.proof_of_concept,
+            "parser_warnings": finding.parser_warnings,
+        },
+    }
+    return record
+
+
+def write_record(
+    record: Dict[str, Any],
+    out_dir: Path,
+    handle: ListingHandle,
+    finding_id_suffix: str,
+    *,
+    dry_run: bool = False,
+) -> Path:
+    rec_dir_name = f"{handle.firm}__{handle.project_slug}__{finding_id_suffix}"
+    rec_dir = out_dir / rec_dir_name
+    if dry_run:
+        return rec_dir
+    rec_dir.mkdir(parents=True, exist_ok=True)
+    (rec_dir / "record.json").write_text(
+        json.dumps(record, indent=2, sort_keys=True), encoding="utf-8"
+    )
+    (rec_dir / "record.yaml").write_text(
+        yaml.safe_dump(record, sort_keys=True, default_flow_style=False), encoding="utf-8"
+    )
+    return rec_dir
+
+
+# ---------------------------------------------------------------------------
+# Top-level driver.
+# ---------------------------------------------------------------------------
+
+
+def process_listing(
+    handle: ListingHandle,
+    *,
+    cache_dir: Path,
+    out_dir: Path,
+    allow_fetch: bool,
+    max_bytes: int,
+    rate_limiter: RateLimiter,
+    min_confidence: float,
+    dry_run: bool,
+) -> Dict[str, Any]:
+    fetch = fetch_pdf(
+        handle,
+        cache_dir,
+        allow_fetch=allow_fetch,
+        max_bytes=max_bytes,
+        rate_limiter=rate_limiter,
+    )
+    if fetch.pdf_path is None:
+        return {
+            "listing_record_id": handle.record_id,
+            "pdf_url": handle.pdf_url,
+            "fetched": fetch.fetched,
+            "cache_hit": fetch.cache_hit,
+            "skipped": True,
+            "skipped_reason": fetch.skipped_reason,
+            "findings_emitted": 0,
+            "records_written": [],
+        }
+
+    extraction = pdf_finding_extractor.extract_structured_pages(fetch.pdf_path)
+    if not extraction.pages and extraction.diagnostics:
+        return {
+            "listing_record_id": handle.record_id,
+            "pdf_url": handle.pdf_url,
+            "fetched": fetch.fetched,
+            "cache_hit": fetch.cache_hit,
+            "skipped": True,
+            "skipped_reason": ";".join(extraction.diagnostics),
+            "findings_emitted": 0,
+            "records_written": [],
+        }
+
+    findings = pdf_finding_extractor.extract_sb_security_findings(extraction)
+    if not findings:
+        return {
+            "listing_record_id": handle.record_id,
+            "pdf_url": handle.pdf_url,
+            "fetched": fetch.fetched,
+            "cache_hit": fetch.cache_hit,
+            "skipped": True,
+            "skipped_reason": "no-findings-detected",
+            "findings_emitted": 0,
+            "records_written": [],
+        }
+
+    written: list[str] = []
+    filtered_low_confidence = 0
+    filtered_low_quality = 0
+    for finding in findings:
+        if finding.parser_confidence < min_confidence:
+            filtered_low_confidence += 1
+            continue
+        if not finding.description or not finding.recommendation:
+            filtered_low_quality += 1
+            continue
+        record = build_finding_record(
+            handle,
+            finding,
+            blob_sha256=fetch.blob_sha256,
+            parser_version=pdf_finding_extractor.PARSER_VERSION,
+        )
+        title_slug = pdf_finding_extractor.slugify_title(finding.title)
+        severity_code = _schema_severity(finding.severity)[:1].upper() or "U"
+        finding_id_suffix = f"{severity_code}-{finding.finding_index:03d}-{title_slug}"
+        rec_path = write_record(record, out_dir, handle, finding_id_suffix, dry_run=dry_run)
+        written.append(str(rec_path))
+
+    if not written:
+        skipped_reason = (
+            "all-findings-below-confidence"
+            if filtered_low_quality == 0 else
+            "all-findings-below-confidence-or-quality"
+        )
+        return {
+            "listing_record_id": handle.record_id,
+            "pdf_url": handle.pdf_url,
+            "fetched": fetch.fetched,
+            "cache_hit": fetch.cache_hit,
+            "skipped": True,
+            "skipped_reason": skipped_reason,
+            "findings_detected": len(findings),
+            "findings_emitted": 0,
+            "filtered_low_confidence": filtered_low_confidence,
+            "filtered_low_quality": filtered_low_quality,
+            "records_written": [],
+            "parser_diagnostics": extraction.diagnostics,
+        }
+
+    return {
+        "listing_record_id": handle.record_id,
+        "pdf_url": handle.pdf_url,
+        "fetched": fetch.fetched,
+        "cache_hit": fetch.cache_hit,
+        "skipped": False,
+        "skipped_reason": None,
+        "findings_detected": len(findings),
+        "findings_emitted": len(written),
+        "filtered_low_confidence": filtered_low_confidence,
+        "filtered_low_quality": filtered_low_quality,
+        "records_written": written,
+        "parser_diagnostics": extraction.diagnostics,
+    }
+
+
+def run(args: argparse.Namespace) -> int:
+    listings_dir = Path(args.listings_dir).resolve()
+    cache_dir = Path(args.cache_dir).resolve()
+    out_dir = Path(args.out_dir).resolve()
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    if not args.dry_run:
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+    rate_limiter = RateLimiter(args.rate_limit_per_sec)
+
+    summary: Dict[str, Any] = {
+        "started_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "firm": FIRM_PREFIX,
+        "listings_dir": str(listings_dir),
+        "cache_dir": str(cache_dir),
+        "out_dir": str(out_dir),
+        "dry_run": bool(args.dry_run),
+        "no_fetch": bool(args.no_fetch),
+        "listings_seen": 0,
+        "listings_processed": 0,
+        "listings_skipped": 0,
+        "findings_emitted": 0,
+        "records_written": 0,
+        "filtered_low_confidence": 0,
+        "filtered_low_quality": 0,
+        "per_listing": [],
+    }
+
+    handles = list(iter_sb_security_listings(listings_dir))
+    if args.limit and args.limit > 0:
+        handles = handles[: args.limit]
+    summary["listings_seen"] = len(handles)
+
+    for handle in handles:
+        result = process_listing(
+            handle,
+            cache_dir=cache_dir,
+            out_dir=out_dir,
+            allow_fetch=(not args.no_fetch),
+            max_bytes=args.max_pdf_bytes,
+            rate_limiter=rate_limiter,
+            min_confidence=args.min_confidence,
+            dry_run=args.dry_run,
+        )
+        summary["per_listing"].append(result)
+        summary["filtered_low_confidence"] += result.get("filtered_low_confidence", 0)
+        summary["filtered_low_quality"] += result.get("filtered_low_quality", 0)
+        if result["skipped"]:
+            summary["listings_skipped"] += 1
+        else:
+            summary["listings_processed"] += 1
+            summary["findings_emitted"] += result["findings_emitted"]
+            summary["records_written"] += len(result["records_written"])
+
+    summary["ended_at"] = dt.datetime.now(dt.timezone.utc).isoformat()
+
+    if args.json_summary:
+        sys.stdout.write(json.dumps(summary, indent=2, sort_keys=True) + "\n")
+    else:
+        sys.stdout.write(
+            f"[w24-sb-security] listings_seen={summary['listings_seen']} "
+            f"processed={summary['listings_processed']} "
+            f"skipped={summary['listings_skipped']} "
+            f"findings={summary['findings_emitted']} "
+            f"records={summary['records_written']}\n"
+        )
+
+    if args.summary_path:
+        Path(args.summary_path).write_text(
+            json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8"
+        )
+
+    return 0
+
+
+def build_parser() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    p.add_argument(
+        "--listings-dir",
+        default="audit/corpus_tags/tags/audit_firm_public_reports",
+        help="Wave-1 listings tree root.",
+    )
+    p.add_argument(
+        "--cache-dir",
+        default=".auditooor/audit_firm_pdf_cache",
+        help="Local PDF cache (gitignored).",
+    )
+    p.add_argument(
+        "--out-dir",
+        default="audit/corpus_tags/tags/audit_firm_findings_sb_security",
+        help="Per-finding record output tree.",
+    )
+    p.add_argument("--limit", type=int, default=0, help="Cap on listings to process (0=all).")
+    p.add_argument("--no-fetch", action="store_true", help="Disable network fetch; cache-only.")
+    p.add_argument("--dry-run", action="store_true", help="Parse but do not write records.")
+    p.add_argument("--json-summary", action="store_true", help="Emit JSON summary to stdout.")
+    p.add_argument("--summary-path", default="", help="Optional path to write summary JSON.")
+    p.add_argument("--max-pdf-bytes", type=int, default=DEFAULT_MAX_PDF_BYTES)
+    p.add_argument("--rate-limit-per-sec", type=float, default=DEFAULT_RATE_LIMIT_PER_SEC)
+    p.add_argument(
+        "--min-confidence",
+        type=float,
+        default=DEFAULT_MIN_CONFIDENCE,
+        help="Emit only findings with parser_confidence >= this value.",
+    )
+    return p
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    return run(args)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

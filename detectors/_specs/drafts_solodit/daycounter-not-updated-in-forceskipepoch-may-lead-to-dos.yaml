@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "daycounter-not-updated-in-forceskipepoch-may-lead-to-dos"
+class_name: "DaycounterNotUpdatedInForceskipepochMayLeadToDos"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58816 (Quantstamp/Powerloom L2)"
+help: "`dayCounter` Not Updated in `forceSkipEpoch()` May Lead to DoS"
+wiki_title: "`dayCounter` Not Updated in `forceSkipEpoch()` May Lead to DoS"
+wiki_description: |
+    **File(s) affected:**`DataMarket.sol`
+    
+    **Description:** The function `releaseEpoch()` increments the `dayCounter` value if the `epochIdCounter` overflows to the next day. The same logic does not exist in `forceSkipEpoch()` which can be called by the owner to skip a number of epochs, which may lead t
+wiki_exploit_scenario: |
+    Per Solodit #58816: **File(s) affected:**`DataMarket.sol`
+    
+    **Description:** The function `releaseEpoch()` increments the `dayCounter` value if the `epochIdCounter` overflows to the next day. The same logic does not exist
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DaycounterNotUpdatedInForceskipepochMayLeadToDos"
+solodit_id: "58816"
+solodit_slug: "daycounter-not-updated-in-forceskipepoch-may-lead-to-dos-quantstamp-powerloom-l2-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal daycounter;"
+fn_name_regex: ".*(releaseEpoch|dayCounter|epochIdCounter|forceSkipEpoch).*"
+read_var_regex: ".*(dayCounter|epochIdCounter|forceSkipEpoch).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "releaseEpoch"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return daycounter > 0;"

@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "h-05-aave-s-share-tokens-are-rebasing-breaking-current-strategy-"
+class_name: "H05AaveSShareTokensAreRebasingBreakingCurrentStrategy"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1188 (Code4rena/Sublime)"
+help: "[H-05] Aave's share tokens are rebasing breaking current strategy code"
+wiki_title: "[H-05] Aave's share tokens are rebasing breaking current strategy code"
+wiki_description: |
+    _Submitted by cmichel, also found by WatchPug and leastwood_
+    
+    When depositing into Aave through the `AaveYield.lockTokens` contract strategy, one receives the `sharesReceived` amount corresponding to the diff of `aToken` balance, which is just always the deposited amount as aave is a rebasing token
+wiki_exploit_scenario: |
+    Per Solodit #1188: _Submitted by cmichel, also found by WatchPug and leastwood_
+    
+    When depositing into Aave through the `AaveYield.lockTokens` contract strategy, one receives the `sharesReceived` amount corresponding to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05AaveSShareTokensAreRebasingBreakingCurrentStrategy"
+solodit_id: "1188"
+solodit_slug: |
+    h-05-aaves-share-tokens-are-rebasing-breaking-current-strategy-code-code4rena-sublime-sublime-contest-git
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Wrong Math, Rebasing Tokens"
+state_decl: "uint256 internal atoken;"
+fn_name_regex: ".*(sharesReceived|aToken|balanceInShares|getTokensForShares).*"
+write_var_regex: ".*(aToken|balanceInShares|getTokensForShares).*"
+guard_var_regex: ".*(aToken|balanceInShares|getTokensForShares).*"
+vuln_fn_name: "sharesReceived"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "atoken = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

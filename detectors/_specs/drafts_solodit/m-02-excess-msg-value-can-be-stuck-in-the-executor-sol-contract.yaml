@@ -1,0 +1,55 @@
+skeleton: "name_match_missing_call"
+name: "m-02-excess-msg-value-can-be-stuck-in-the-executor-sol-contract"
+class_name: "M02ExcessMsgValueCanBeStuckInTheExecutorSolContract"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44365 (Shieldify/Gluex)"
+help: "[M-02] Excess `msg.value` Can Be Stuck In The `Executor.sol` Contract"
+wiki_title: "[M-02] Excess `msg.value` Can Be Stuck In The `Executor.sol` Contract"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `swap()` function is payable, which means it can allow native tokens.
+    
+    ```solidity
+    function swap(
+        IExecutor executor,
+        RouteDescription calldata desc,
+        Interaction[] calldata interactions
+    ) external payable returns (uint256 finalOutputAmount) {
+wiki_exploit_scenario: |
+    Per Solodit #44365: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `swap()` function is payable, which means it can allow native tokens.
+    
+    ```solidity
+    function swap(
+        IExecutor executor,
+        RouteDescription calldata de
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02ExcessMsgValueCanBeStuckInTheExecutorSolContract"
+solodit_id: "44365"
+solodit_slug: "m-02-excess-msgvalue-can-be-stuck-in-the-executorsol-contract-shieldify-none-gluex-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal executeroute;"
+fn_name_regex: ".*(swap|executeRoute).*"
+read_var_regex: ".*(executeRoute|swap).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swap"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return executeroute > 0;"

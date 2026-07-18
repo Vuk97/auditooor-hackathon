@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-01-chain-support-cannot-be-removed-or-cleared-in-bridge-contra"
+class_name: "M01ChainSupportCannotBeRemovedOrClearedInBridgeContra"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27013 (Code4rena/Ondo Finance)"
+help: "[M-01] Chain support cannot be removed or cleared in bridge contracts"
+wiki_title: "[M-01] Chain support cannot be removed or cleared in bridge contracts"
+wiki_description: |
+    Due to how addresses are handled and stored in the configuration settings, it is not possible to remove chain support in both source and destination bridge contracts.
+    
+    The Axelar bridge service uses strings to represent addresses: messages sent to another chain need to specify its destination contr
+wiki_exploit_scenario: |
+    Per Solodit #27013: Due to how addresses are handled and stored in the configuration settings, it is not possible to remove chain support in both source and destination bridge contracts.
+    
+    The Axelar bridge service uses
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01ChainSupportCannotBeRemovedOrClearedInBridgeContra"
+solodit_id: "27013"
+solodit_slug: |
+    m-01-chain-support-cannot-be-removed-or-cleared-in-bridge-contracts-code4rena-ondo-finance-ondo-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addchainsupport;"
+fn_name_regex: ".*(setDestinationChainContractAddress|addChainSupport).*"
+read_var_regex: ".*(addChainSupport|setDestinationChainContractAddress).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setDestinationChainContractAddress"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addchainsupport > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "credit-mode-changes-bypass-the-timelock-mechanism"
+class_name: "CreditModeChangesBypassTheTimelockMechanism"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Hyperbeat Pay - Zellic Audit Report"
+help: |
+    As shown below, ManagementAccount::requestCreditMode directly updates _creditService and _creditCollateralToken instead of their pending counterparts: function requestCreditMode(ad
+wiki_title: "Credit mode changes bypass the timelock mechanism"
+wiki_description: |
+    As shown below, ManagementAccount::requestCreditMode directly updates _creditService and _creditCollateralToken instead of their pending counterparts: function requestCreditMode(address service, address collateralToken) external onlyOwner { [...] _creditService = service; _creditCollateralToken = co
+wiki_exploit_scenario: |
+    Per audit finding: As shown below, ManagementAccount::requestCreditMode directly updates _creditService and _creditCollateralToken instead of their pending counterparts: function requestCreditMode(address service, addre
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CreditModeChangesBypassTheTimelockMechanism"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(requestCreditMode|collateralToken|onlyOwner).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "requestCreditMode"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

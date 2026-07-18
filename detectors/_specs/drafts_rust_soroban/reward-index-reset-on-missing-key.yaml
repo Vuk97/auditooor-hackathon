@@ -1,0 +1,21 @@
+id: reward-index-reset-on-missing-key
+title: "Missing reward-index key silently creates fresh stream and discards accrued rewards"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44335"
+bug_class: ttl-archival
+indicators:
+  - "`get_asset_reward_index(asset)` returns `AssetRewardIndex { index: RAY, last_update: now }` on missing key"
+  - "missing-key path sets `last_update = env.ledger().timestamp()` rather than the prior snapshot"
+victim: "Suppliers/borrowers on low-activity markets: accrued rewards erased silently."
+exploit_precondition: "Reward index key's TTL elapses while config + reward-token keys are kept alive."
+real_world_example: |
+  V12 #44335 (High): Expired index resets rewards.
+suggested_remediation: "Return `Err(IndexMissing)` on missing key; require admin reinit path."
+cross_refs:
+  - ttl-archival-unwrap-or-zero-hides-debt
+  - ttl-desynced-registries
+  - stale-reward-indexes-accrue

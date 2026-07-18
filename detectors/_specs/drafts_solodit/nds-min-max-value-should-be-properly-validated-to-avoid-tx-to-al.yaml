@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "nds-min-max-value-should-be-properly-validated-to-avoid-tx-to-al"
+class_name: "NdsMinMaxValueShouldBeProperlyValidatedToAvoidTxToAl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6936 (Spearbit/Morpho)"
+help: "NDS min/max value should be properly validated to avoid tx to always fail/skip loop"
+wiki_title: "NDS min/max value should be properly validated to avoid tx to always fail/skip loop"
+wiki_description: |
+    ## Security Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `PositionsManagerForAaveGettersSetters.sol#L40-L43`
+    
+    ## Description
+    `PositionsManagerForAaveLogic` is currently initialized with a default value of `NDS = 20`. The `NDS` value is used by `MatchingEngineForAave` when it needs to call `Double
+wiki_exploit_scenario: |
+    Per Solodit #6936: ## Security Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `PositionsManagerForAaveGettersSetters.sol#L40-L43`
+    
+    ## Description
+    `PositionsManagerForAaveLogic` is currently initialized with a default v
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NdsMinMaxValueShouldBeProperlyValidatedToAvoidTxToAl"
+solodit_id: "6936"
+solodit_slug: |
+    nds-minmax-value-should-be-properly-validated-to-avoid-tx-to-always-failskip-loop-spearbit-morpho-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal insertsorted;"
+fn_name_regex: ".*(PositionsManagerForAaveLogic|NDS|MatchingEngineForAave|updateBorrowers).*"
+write_var_regex: ".*(insertSorted|updateBorrowers|updateSuppliers).*"
+guard_var_regex: ".*(insertSorted|updateBorrowers|updateSuppliers).*"
+vuln_fn_name: "PositionsManagerForAaveLogic"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "insertsorted = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "m-01-incorrect-collateral-calculation-lets-users-mint-under-coll"
+class_name: "M01IncorrectCollateralCalculationLetsUsersMintUnderColl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63338 (Shieldify/Colbfinance Usc Engine)"
+help: "[M-01] Incorrect Collateral Calculation Lets Users Mint Under-Collateralized USC"
+wiki_title: "[M-01] Incorrect Collateral Calculation Lets Users Mint Under-Collateralized USC"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The core pricing math in the `_getNormalizedAssetAmount()` function in the `Engine` contract is inverted:
+    
+    `previewMintAccount()` -> `_getNormalizedAssetAmount()` uses multiplication by the oracle price instead of division:
+    
+    ```solidity
+    // unitPrice = USD p
+wiki_exploit_scenario: |
+    Per Solodit #63338: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The core pricing math in the `_getNormalizedAssetAmount()` function in the `Engine` contract is inverted:
+    
+    `previewMintAccount()` -> `_getNormalizedAssetAmou
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01IncorrectCollateralCalculationLetsUsersMintUnderColl"
+solodit_id: "63338"
+solodit_slug: |
+    m-01-incorrect-collateral-calculation-lets-users-mint-under-collateralized-usc-shieldify-none-colbfinance-usc-engine-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assetamount;"
+fn_name_regex: ".*(Engine|previewMintAccount|assetAmount|flashMintWithPermit).*"
+read_var_regex: ".*(assetAmount|flashMint|flashMintWithPermit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Engine"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assetamount > 0;"

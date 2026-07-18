@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "the-protocol-fee-from-pools-will-be-claimed-to-zero-address"
+class_name: "TheProtocolFeeFromPoolsWillBeClaimedToZeroAddress"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Maia DAO Ulysses Protocol May 2023 - Zellic Audit Report"
+help: |
+    The UlyssesFactory contract enables the creation of new pools contracts and sets its own address as the factory address. Protocol fees collected from the pool contracts are transfe
+wiki_title: "The protocol fee from pools will be claimed to zero address"
+wiki_description: |
+    The UlyssesFactory contract enables the creation of new pools contracts and sets its own address as the factory address. Protocol fees collected from the pool contracts are transferred to the owner of the factory. However, the _initializeOwner function is not called in the factory contract, resultin
+wiki_exploit_scenario: |
+    Per audit finding: The UlyssesFactory contract enables the creation of new pools contracts and sets its own address as the factory address. Protocol fees collected from the pool contracts are transferred to the owner of
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheProtocolFeeFromPoolsWillBeClaimedToZeroAddress"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimProtocolFees|nonReentrant|onlyOwner).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimProtocolFees"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

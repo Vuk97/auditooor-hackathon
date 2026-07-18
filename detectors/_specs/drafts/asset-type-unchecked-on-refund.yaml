@@ -1,0 +1,27 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "asset-type-unchecked-on-refund"
+class_name: "AssetTypeUncheckedOnRefund"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ab"
+help: |
+    `isClaimable()` checks claimed flag but not `rewardAsset` type; wrong asset refunded when `rewardAsset != nativeAsset`.
+wiki_title: "Asset-Type-Unchecked-On-Refund"
+wiki_description: |
+    `isClaimable()` checks claimed flag but not `rewardAsset` type; wrong asset refunded when `rewardAsset != nativeAsset`.
+wiki_exploit_scenario: |
+    Attacker exploits Asset-Type-Unchecked-On-Refund as described: `isClaimable()` checks claimed flag but not `rewardAsset` type; wrong asset refunded when `rewardAsset != nativeAsset`.
+wiki_recommendation: |
+    refund path that calls `isClaimable()` without asserting the expected asset type matches the stored asset.
+contract_name: "AssetTypeUncheckedOnRefund"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(isClaimable|rewardAsset).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

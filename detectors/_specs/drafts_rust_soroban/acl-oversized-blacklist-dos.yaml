@@ -1,0 +1,19 @@
+id: acl-oversized-blacklist-dos
+title: "Oversized blacklist DoSes reserve operations"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44434"
+bug_class: input-validation
+indicators:
+  - "blacklist iteration O(n) on every user action with no size cap"
+  - "`MAX_BLACKLIST_LEN` not enforced"
+victim: "All users of a reserve with a large blacklist."
+exploit_precondition: "Admin adds many blacklist entries."
+real_world_example: |
+  V12 #44434 (Low): Oversized blacklist can DoS reserve.
+suggested_remediation: "Enforce MAX_BLACKLIST_LEN; prefer sharded membership keys."
+cross_refs:
+  - acl-membership-first-64-only

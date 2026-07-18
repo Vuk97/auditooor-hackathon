@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "usdt-allowance-quirk"
+class_name: "UsdtAllowanceQuirk"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Megapot v2 - Zellic Audit Report"
+help: |
+    As of the time of writing, this project is considering using or deploying with USDT as a supported asset. In many areas of the project, USDT's allowance quirks are not accounted fo
+wiki_title: "USDT allowance quirk"
+wiki_description: |
+    As of the time of writing, this project is considering using or deploying with USDT as a supported asset. In many areas of the project, USDT's allowance quirks are not accounted for: function _bridgeFunds(RelayTxData memory _bridgeDetails, uint256 _claimedAmount) private { if (_bridgeDetails.approve
+wiki_exploit_scenario: |
+    Per audit finding: As of the time of writing, this project is considering using or deploying with USDT as a supported asset. In many areas of the project, USDT's allowance quirks are not accounted for: function _bridgeF
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsdtAllowanceQuirk"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(approveTo).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "approveTo"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

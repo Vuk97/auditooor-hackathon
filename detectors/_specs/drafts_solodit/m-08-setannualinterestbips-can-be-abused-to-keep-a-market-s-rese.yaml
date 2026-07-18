@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-08-setannualinterestbips-can-be-abused-to-keep-a-market-s-rese"
+class_name: "M08SetannualinterestbipsCanBeAbusedToKeepAMarketSRese"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29020 (Code4rena/Wildcat Protocol)"
+help: "[M-08] `setAnnualInterestBips()` can be abused to keep a market's reserve ratio at 90%"
+wiki_title: "[M-08] `setAnnualInterestBips()` can be abused to keep a market's reserve ratio at 90%"
+wiki_description: |
+    If a borrower calls `setAnnualInterestBips()` to reduce a market's annual interest rate, its reserve ratio will be set to 90% for 2 weeks:
+    
+    [WildcatMarketController.sol#L472-L485](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/WildcatMarketController.sol#L472-L485)
+    
+    ```solidity
+        //
+wiki_exploit_scenario: |
+    Per Solodit #29020: If a borrower calls `setAnnualInterestBips()` to reduce a market's annual interest rate, its reserve ratio will be set to 90% for 2 weeks:
+    
+    [WildcatMarketController.sol#L472-L485](https://github.com/
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08SetannualinterestbipsCanBeAbusedToKeepAMarketSRese"
+solodit_id: "29020"
+solodit_slug: |
+    m-08-setannualinterestbips-can-be-abused-to-keep-a-markets-reserve-ratio-at-90-code4rena-wildcat-protocol-wildcat-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal annualinterestbips;"
+fn_name_regex: ".*(setAnnualInterestBips|annualInterestBips).*"
+read_var_regex: ".*(annualInterestBips|setAnnualInterestBips).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setAnnualInterestBips"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return annualinterestbips > 0;"

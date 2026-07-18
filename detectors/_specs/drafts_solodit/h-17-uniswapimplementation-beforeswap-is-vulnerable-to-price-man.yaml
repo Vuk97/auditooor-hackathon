@@ -1,0 +1,42 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-17-uniswapimplementation-beforeswap-is-vulnerable-to-price-man"
+class_name: "H17UniswapimplementationBeforeswapIsVulnerableToPriceMan"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41755 (Sherlock/Flayer)"
+help: "H-17: ````UniswapImplementation.beforeSwap()```` is  vulnerable to price manipulation attack"
+wiki_title: "H-17: ````UniswapImplementation.beforeSwap()```` is  vulnerable to price manipulation attack"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-08-flayer-judging/issues/559 
+    
+    ## Found by 
+    AuditorPraise, BugPull, ComposableSecurity, KingNFT, Thanos, zzykxx
+    ### Summary
+    
+    In ````UniswapImplementation.beforeSwap()````, when there is undistributed fee of ````collectionToken````  and users try to swap
+wiki_exploit_scenario: |
+    Per Solodit #41755: Source: https://github.com/sherlock-audit/2024-08-flayer-judging/issues/559 
+    
+    ## Found by 
+    AuditorPraise, BugPull, ComposableSecurity, KingNFT, Thanos, zzykxx
+    ### Summary
+    
+    In ````UniswapImplementation
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H17UniswapimplementationBeforeswapIsVulnerableToPriceMan"
+solodit_id: "41755"
+solodit_slug: "h-17-uniswapimplementationbeforeswap-is-vulnerable-to-price-manipulation-attack-sherlock-flayer-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(collectionToken|TWAP|delta|UniswapImplementation).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

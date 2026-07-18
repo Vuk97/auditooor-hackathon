@@ -1,0 +1,39 @@
+skeleton: "state_write_without_paired_write"
+name: "m-18-lack-of-price-validity-check-from-synthetix-results-in-loss"
+class_name: "M18LackOfPriceValidityCheckFromSynthetixResultsInLoss"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20255 (Code4rena/Polynomial Protocol)"
+help: "[M-18] Lack of price validity check from Synthetix results in loss of funds while liquidating"
+wiki_title: "[M-18] Lack of price validity check from Synthetix results in loss of funds while liquidating"
+wiki_description: |
+    Lack of a validity check while liquidating results in loss of funds, as the price could be invalid momentarily from Synthetix due to high volatility or other issues.
+    
+    ### Proof of Concept
+    
+    There isn't a check for `isInvalid` in `getMarkPrice` and `getAssetPrice`, which must be false before closing
+wiki_exploit_scenario: |
+    Per Solodit #20255: Lack of a validity check while liquidating results in loss of funds, as the price could be invalid momentarily from Synthetix due to high volatility or other issues.
+    
+    ### Proof of Concept
+    
+    There isn'
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18LackOfPriceValidityCheckFromSynthetixResultsInLoss"
+solodit_id: "20255"
+solodit_slug: |
+    m-18-lack-of-price-validity-check-from-synthetix-results-in-loss-of-funds-while-liquidating-code4rena-polynomial-protocol-polynomial-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(isInvalid|getMarkPrice|getAssetPrice|LiquidityPool).*"
+primary_var_regex: ".*(collateralPrice|getAssetPrice|getMarkPrice).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

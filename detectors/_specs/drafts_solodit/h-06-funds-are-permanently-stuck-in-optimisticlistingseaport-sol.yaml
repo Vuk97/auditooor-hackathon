@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "h-06-funds-are-permanently-stuck-in-optimisticlistingseaport-sol"
+class_name: "H06FundsArePermanentlyStuckInOptimisticlistingseaportSol"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #12200 (Code4rena/Tessera)"
+help: |
+    [H-06] Funds are permanently stuck in OptimisticListingSeaport.sol contract if active proposal is executed after new proposal is pending.
+wiki_title: |
+    [H-06] Funds are permanently stuck in OptimisticListingSeaport.sol contract if active proposal is executed after new proposal is pending.
+wiki_description: |
+    `\_constructOrder` is called in `propose()`, OptimisticListingSeaport.sol. It fills the order params stored in proposedListings\[\_vault].
+    
+        {
+            orderParams.offerer = _vault;
+            orderParams.startTime = block.timestamp;
+            // order doesn't expire in human time scales and needs exp
+wiki_exploit_scenario: |
+    Per Solodit #12200: `\_constructOrder` is called in `propose()`, OptimisticListingSeaport.sol. It fills the order params stored in proposedListings\[\_vault].
+    
+        {
+            orderParams.offerer = _vault;
+            orderPa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06FundsArePermanentlyStuckInOptimisticlistingseaportSol"
+solodit_id: "12200"
+solodit_slug: |
+    h-06-funds-are-permanently-stuck-in-optimisticlistingseaportsol-contract-if-active-proposal-is-executed-after-new-proposal-is-pending-code4rena-tessera-tessera-versus-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cash;"
+fn_name_regex: ".*(propose|vaultOrderHash|cash).*"
+read_var_regex: ".*(cash|propose|vaultOrderHash).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "propose"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cash > 0;"

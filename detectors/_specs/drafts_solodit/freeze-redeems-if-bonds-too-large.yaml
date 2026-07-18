@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "freeze-redeems-if-bonds-too-large"
+class_name: "FreezeRedeemsIfBondsTooLarge"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6854 (Spearbit/Porter Finance)"
+help: "Freeze Redeems if bonds too Large"
+wiki_title: "Freeze Redeems if bonds too Large"
+wiki_description: |
+    ## Risk Assessment
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `Bond.sol#L309`
+    
+    ## Description
+    Issuing too many bonds can result in users being unable to redeem them. This is caused by arithmetic overflow in the `previewRedeemAtMaturity` function. 
+    
+    If a user’s `bonds` and `paidAmount` (or `bonds * non
+wiki_exploit_scenario: |
+    Per Solodit #6854: ## Risk Assessment
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `Bond.sol#L309`
+    
+    ## Description
+    Issuing too many bonds can result in users being unable to redeem them. This is caused by arithmetic overflo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FreezeRedeemsIfBondsTooLarge"
+solodit_id: "6854"
+solodit_slug: "freeze-redeems-if-bonds-too-large-spearbit-porter-finance-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal bonds;"
+fn_name_regex: ".*(previewRedeemAtMaturity|bonds|paidAmount|initialize).*"
+read_var_regex: ".*(bonds|initialize|maxSupply).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "previewRedeemAtMaturity"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return bonds > 0;"

@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "h-1-extend-lock-period-should-never-result-in-a-decrease-of-over"
+class_name: "H1ExtendLockPeriodShouldNeverResultInADecreaseOfOver"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3467 (Sherlock/Merit Circle)"
+help: |
+    H-1: Extend lock period should never result in a decrease of overall rewards (`total length of locked period * shares`)
+wiki_title: |
+    H-1: Extend lock period should never result in a decrease of overall rewards (`total length of locked period * shares`)
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-10-merit-circle-judging/issues/109 
+    
+    ## Found by 
+    WATCHPUG
+    
+    ## Summary
+    
+    The current implementation may result in a burn of shares when `extendLock()`, which may result in a decrease of overall rewards (`total length of locked period * shares`).
+    
+    ## Vuln
+wiki_exploit_scenario: |
+    Per Solodit #3467: Source: https://github.com/sherlock-audit/2022-10-merit-circle-judging/issues/109 
+    
+    ## Found by 
+    WATCHPUG
+    
+    ## Summary
+    
+    The current implementation may result in a burn of shares when `extendLock()`, wh
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1ExtendLockPeriodShouldNeverResultInADecreaseOfOver"
+solodit_id: "3467"
+solodit_slug: |
+    h-1-extend-lock-period-should-never-result-in-a-decrease-of-overall-rewards-total-length-of-locked-period-shares-sherlock-merit-circle-merit-circle-git
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Wrong Math"
+state_decl: "uint256 internal deferredlock;"
+fn_name_regex: ".*(extendLock|duration1|MIN_LOCK_DURATION|deferredLock).*"
+read_var_regex: ".*(deferredLock|duration1|extendLock).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "extendLock"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deferredlock > 0;"

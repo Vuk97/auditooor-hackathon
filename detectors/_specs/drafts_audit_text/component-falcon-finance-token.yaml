@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "component-falcon-finance-token"
+class_name: "ComponentFalconFinanceToken"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Falcon Finance FF - Zellic Audit Report"
+help: |
+    The Falcon Finance (FF) token is implemented using the immutable OpenZeppelin ERC20 ↗ contract with ERC20Permit ↗ support. This token uses 18 default decimals. The total supply is
+wiki_title: "Component: Falcon Finance token"
+wiki_description: |
+    The Falcon Finance (FF) token is implemented using the immutable OpenZeppelin ERC20 ↗ contract with ERC20Permit ↗ support. This token uses 18 default decimals. The total supply is fixed at 10,000,000,000 FF tokens and cannot be increased. The FF token is supposed to be deployable to any EVM-compatib
+wiki_exploit_scenario: |
+    Per audit finding: The Falcon Finance (FF) token is implemented using the immutable OpenZeppelin ERC20 ↗ contract with ERC20Permit ↗ support. This token uses 18 default decimals. The total supply is fixed at 10,000,000,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ComponentFalconFinanceToken"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(balanceOf|transferFrom|totalSupply).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "balanceOf"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

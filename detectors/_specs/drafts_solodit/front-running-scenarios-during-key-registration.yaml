@@ -1,0 +1,33 @@
+skeleton: "paired_function_divergence"
+name: "front-running-scenarios-during-key-registration"
+class_name: "FrontRunningScenariosDuringKeyRegistration"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #56738 (OpenZeppelin/Matter Labs Guardian Recovery Validator Audit)"
+help: "Front-Running Scenarios During Key Registration"
+wiki_title: "Front-Running Scenarios During Key Registration"
+wiki_description: |
+    The `WebAuthValidator` contract utilizes two mappings for key registration: `publicKeys` for associating keys with the `accountAddress`, and `registeredAddress` for linking keys with a combination of `originDomain` and `credentialId`. This setup is designed to ensure the uniqueness of each `originDo
+wiki_exploit_scenario: |
+    Per Solodit #56738: The `WebAuthValidator` contract utilizes two mappings for key registration: `publicKeys` for associating keys with the `accountAddress`, and `registeredAddress` for linking keys with a combination of
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FrontRunningScenariosDuringKeyRegistration"
+solodit_id: "56738"
+solodit_slug: |
+    front-running-scenarios-during-key-registration-openzeppelin-none-matter-labs-guardian-recovery-validator-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(accountAddress|credentialId|onInstall).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

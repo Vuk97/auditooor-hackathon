@@ -1,0 +1,32 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-05-anchor-basset-reward-pending-yields-can-be-stolen"
+class_name: "M05AnchorBassetRewardPendingYieldsCanBeStolen"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5870 (Code4rena/Anchor)"
+help: "[M-05] `anchor_basset_reward` pending yields can be stolen"
+wiki_title: "[M-05] `anchor_basset_reward` pending yields can be stolen"
+wiki_description: |
+    For yield farming aggregators, if the pending yield on an underlying strategy can be harvested and cause a surge of rewards to all existing investors, especially if the harvest can be triggered permissionlessly. Then the attacker can amplify the attack using a flash loan.
+    
+    This is a well-known atta
+wiki_exploit_scenario: |
+    Per Solodit #5870: For yield farming aggregators, if the pending yield on an underlying strategy can be harvested and cause a surge of rewards to all existing investors, especially if the harvest can be triggered permi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05AnchorBassetRewardPendingYieldsCanBeStolen"
+solodit_id: "5870"
+solodit_slug: "m-05-anchor_basset_reward-pending-yields-can-be-stolen-code4rena-anchor-anchor-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(increase_balance|anchor_basset_reward).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-1-signer-can-avoid-restrictions-and-change-safe-state-variable"
+class_name: "M1SignerCanAvoidRestrictionsAndChangeSafeStateVariable"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #43739 (Sherlock/HatsSignerGate v2)"
+help: "M-1: Signer can avoid restrictions and change `safe` state variables"
+wiki_title: "M-1: Signer can avoid restrictions and change `safe` state variables"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-11-hats-protocol-judging/issues/3 
+    
+    ## Found by 
+    bughuntoor
+    ### Summary
+    In order to make sure that a delegatecall does not change Safe's state, HSG's `checkTransaction` stores the current threshold, owners list and fallback handler. Then, after the call
+wiki_exploit_scenario: |
+    Per Solodit #43739: Source: https://github.com/sherlock-audit/2024-11-hats-protocol-judging/issues/3 
+    
+    ## Found by 
+    bughuntoor
+    ### Summary
+    In order to make sure that a delegatecall does not change Safe's state, HSG's `ch
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1SignerCanAvoidRestrictionsAndChangeSafeStateVariable"
+solodit_id: "43739"
+solodit_slug: "m-1-signer-can-avoid-restrictions-and-change-safe-state-variables-sherlock-hatssignergate-v2-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal checkafterexecution;"
+fn_name_regex: ".*(checkTransaction|checkAfterExecution|delegatecall|safe).*"
+read_var_regex: ".*(checkAfterExecution|checkTransaction|delegatecall).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "checkTransaction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return checkafterexecution > 0;"

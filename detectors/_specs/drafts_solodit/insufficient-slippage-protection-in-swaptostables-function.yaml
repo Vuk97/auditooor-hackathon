@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "insufficient-slippage-protection-in-swaptostables-function"
+class_name: "InsufficientSlippageProtectionInSwaptostablesFunction"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51970 (Halborn/Genius Contracts Re-Assessment)"
+help: "Insufficient Slippage Protection in swapToStables() Function"
+wiki_title: "Insufficient Slippage Protection in swapToStables() Function"
+wiki_description: |
+    ##### Description
+    
+    The `swapToStables()` function in GeniusMultiTokenVault.sol implements a weak slippage control mechanism that accepts any positive increase in balance after a swap, regardless of how minimal the increase is:
+    
+    ```
+    function swapToStables(
+        address token,
+        uint256 amount,
+        a
+wiki_exploit_scenario: |
+    Per Solodit #51970: ##### Description
+    
+    The `swapToStables()` function in GeniusMultiTokenVault.sol implements a weak slippage control mechanism that accepts any positive increase in balance after a swap, regardless of ho
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InsufficientSlippageProtectionInSwaptostablesFunction"
+solodit_id: "51970"
+solodit_slug: |
+    insufficient-slippage-protection-in-swaptostables-function-halborn-shuttle-labs-genius-contracts-re-assessment-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal minamountout;"
+fn_name_regex: ".*(swapToStables|token|minAmountOut).*"
+write_var_regex: ".*(minAmountOut|swapToStables|token).*"
+guard_var_regex: ".*(minAmountOut|swapToStables|token).*"
+vuln_fn_name: "swapToStables"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "minamountout = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

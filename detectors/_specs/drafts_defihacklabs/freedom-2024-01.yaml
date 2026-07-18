@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "freedom-2024-01"
+class_name: "Freedom202401"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-01/Freedom_exp.sol"
+help: "Freedom 2024-01 — swap exploit (~74 $WBNB)"
+wiki_title: "Freedom (2024-01) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-01): Freedom lost ~74 $WBNB. Bug class: swap. Attack tx: 0x309523343cc1bb9d28b960ebf83175fac941b4a590830caccff44263d9a80ff0.
+wiki_exploit_scenario: |
+    Attacker (0x835b45d38cbdccf99e609436ff38e31ac05bc502) exploits Freedom via swap: the victim contract 0xae3ada8787245977832c6dab2d4474d3943527ab exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Freedom202401"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "chainlink-feed-id-not-checked-in-upkeep"
+class_name: "ChainlinkFeedIdNotCheckedInUpkeep"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Ostium - Zellic Audit Report"
+help: |
+    The forwarder calls performUpkeep in OstiumPriceUpKeep in order to supply Chainlink price data and fulfill a trade. However, when the verifier response is decoded, the feed ID is n
+wiki_title: "Chainlink feed ID not checked in upkeep"
+wiki_description: |
+    The forwarder calls performUpkeep in OstiumPriceUpKeep in order to supply Chainlink price data and fulfill a trade. However, when the verifier response is decoded, the feed ID is not set to any vari- able: if (!isPremium) { (, validFromTimestamp, observationsTimestamp, nativeFee,,, a.price) = abi.de
+wiki_exploit_scenario: |
+    Per audit finding: The forwarder calls performUpkeep in OstiumPriceUpKeep in order to supply Chainlink price data and fulfill a trade. However, when the verifier response is decoded, the feed ID is not set to any vari-
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainlinkFeedIdNotCheckedInUpkeep"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(performUpkeep|isPremium|validFromTimestamp).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "performUpkeep"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

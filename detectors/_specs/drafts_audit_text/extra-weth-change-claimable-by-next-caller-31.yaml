@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "extra-weth-change-claimable-by-next-caller-31"
+class_name: "ExtraWethChangeClaimableByNextCaller31"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit WOOFi Swap - Zellic Audit Report"
+help: |
+    When a swap occurs, the pool calls into the oracle to post a new price for the affected pairs: // function _sellBase( ... ) { IWooracleV2_2(wooracle).postPrice(baseToken, uint128(n
+wiki_title: "Extra WETH change claimable by next caller                     31"
+wiki_description: |
+    When a swap occurs, the pool calls into the oracle to post a new price for the affected pairs: // function _sellBase( ... ) { IWooracleV2_2(wooracle).postPrice(baseToken, uint128(newPrice)); // function _sellQuote( ... ) { IWooracleV2_2(wooracle).postPrice(baseToken, uint128(newPrice)); // function
+wiki_exploit_scenario: |
+    Per audit finding: When a swap occurs, the pool calls into the oracle to post a new price for the affected pairs: // function _sellBase( ... ) { IWooracleV2_2(wooracle).postPrice(baseToken, uint128(newPrice)); // functi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExtraWethChangeClaimableByNextCaller31"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(postPrice|baseToken|newPrice).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "postPrice"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

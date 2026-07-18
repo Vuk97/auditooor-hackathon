@@ -1,0 +1,42 @@
+skeleton: "paired_function_divergence"
+name: "missing-verifying-paring-check-result-fixed"
+class_name: "MissingVerifyingParingCheckResultFixed"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26822 (ConsenSys/Linea Plonk Verifier)"
+help: "Missing Verifying Paring Check Result ✓ Fixed"
+wiki_title: "Missing Verifying Paring Check Result ✓ Fixed"
+wiki_description: |
+    #### Description
+    
+    
+    In function `batch_verify_multi_points`, the SNARK paring check is done by calling paring pre-compile
+    `let l_success := staticcall(sub(gas(), 2000),8,mPtr,0x180,0x00,0x20)` 
+    and the only the execution status is stored in the final success state (`state_success`), but the the parin
+wiki_exploit_scenario: |
+    Per Solodit #26822: #### Description
+    
+    
+    In function `batch_verify_multi_points`, the SNARK paring check is done by calling paring pre-compile
+    `let l_success := staticcall(sub(gas(), 2000),8,mPtr,0x180,0x00,0x20)` 
+    and the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingVerifyingParingCheckResultFixed"
+solodit_id: "26822"
+solodit_slug: "missing-verifying-paring-check-result-fixed-consensys-none-linea-plonk-verifier-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(batch_verify_multi_points|proof_openings_selector_commit_api_at_zeta|state_success).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

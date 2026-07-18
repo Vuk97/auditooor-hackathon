@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "new-staking-sessions-cannot-be-created"
+class_name: "NewStakingSessionsCannotBeCreated"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #50360 (Halborn/Lighthouse NFT Staking)"
+help: "NEW STAKING SESSIONS CANNOT BE CREATED"
+wiki_title: "NEW STAKING SESSIONS CANNOT BE CREATED"
+wiki_description: |
+    ##### Description
+    
+    Within the `addSession` function of `LighthouseStake.sol`, the `startTime` of the session needs to be after the current timestamp, thus in the future. However, this function calls the `newPriod` function of `StakeNft.sol` which subsequently calls the `newStakePeriod` of `Stake.sol
+wiki_exploit_scenario: |
+    Per Solodit #50360: ##### Description
+    
+    Within the `addSession` function of `LighthouseStake.sol`, the `startTime` of the session needs to be after the current timestamp, thus in the future. However, this function calls t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NewStakingSessionsCannotBeCreated"
+solodit_id: "50360"
+solodit_slug: "new-staking-sessions-cannot-be-created-halborn-seascape-lighthouse-nft-staking-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addsession;"
+fn_name_regex: ".*(addSession|startTime|newPriod|newStakePeriod).*"
+write_var_regex: ".*(addSession|newPriod|newStakePeriod).*"
+guard_var_regex: ".*(addSession|newPriod|newStakePeriod).*"
+vuln_fn_name: "addSession"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "addsession = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

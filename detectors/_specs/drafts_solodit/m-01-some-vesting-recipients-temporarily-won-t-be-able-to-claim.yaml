@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "m-01-some-vesting-recipients-temporarily-won-t-be-able-to-claim"
+class_name: "M01SomeVestingRecipientsTemporarilyWonTBeAbleToClaim"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20629 (Pashov Audit Group/Protectorate)"
+help: "[M-01] Some vesting recipients temporarily won't be able to claim"
+wiki_title: "[M-01] Some vesting recipients temporarily won't be able to claim"
+wiki_description: |
+    **Impact:**
+    Medium, as funds will be locked for 30 days
+    
+    **Likelihood:**
+    Medium, because it will only happen when the cliff is < 30 day
+    
+    **Description**
+    
+    The `SLICE_PERIOD` constant in `Vesting` is set to 30 days. Due to the following math in `_computeReleasableAmount`
+    
+    ```solidity
+    uint256 vestedSec
+wiki_exploit_scenario: |
+    Per Solodit #20629: **Impact:**
+    Medium, as funds will be locked for 30 days
+    
+    **Likelihood:**
+    Medium, because it will only happen when the cliff is < 30 day
+    
+    **Description**
+    
+    The `SLICE_PERIOD` constant in `Vesting` is se
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01SomeVestingRecipientsTemporarilyWonTBeAbleToClaim"
+solodit_id: "20629"
+solodit_slug: "m-01-some-vesting-recipients-temporarily-wont-be-able-to-claim-pashov-none-protectorate-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cliff;"
+fn_name_regex: ".*(SLICE_PERIOD|Vesting|timeFromStart|cliff).*"
+read_var_regex: ".*(cliff|timeFromStart).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SLICE_PERIOD"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cliff > 0;"

@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "function-execution-reverts"
+class_name: "FunctionExecutionReverts"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #56575 (Zokyo/Shyft)"
+help: "Function execution reverts."
+wiki_title: "Function execution reverts."
+wiki_description: |
+    **Description**
+    
+    ShyftBlockReward.sol, function setupExData().
+    In case, sender of transaction is administratorAddress, function performs internal transaction
+    of its own function(Lines 294-296), which also check, that a sender is administratorAddress.
+    However, when contract performs this calls, it be
+wiki_exploit_scenario: |
+    Per Solodit #56575: **Description**
+    
+    ShyftBlockReward.sol, function setupExData().
+    In case, sender of transaction is administratorAddress, function performs internal transaction
+    of its own function(Lines 294-296), which
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FunctionExecutionReverts"
+solodit_id: "56575"
+solodit_slug: "function-execution-reverts-zokyo-none-shyft-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setupExData|administratorAddress|setExRewardsEnabled|setExCallsEnabled).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setupExData"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "lps-2-onerc721received-reentrancy"
+class_name: "Lps2Onerc721receivedReentrancy"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26760 (Guardian Audits/Key Finance)"
+help: "LPS-2 | onERC721Received Reentrancy"
+wiki_title: "LPS-2 | onERC721Received Reentrancy"
+wiki_description: |
+    **Description**
+    
+    During the `unstakeAndWithdrawLpToken` function, the `msg.sender` may re-enter into the `onERC721Received` function upon the `withdrawToken` call by transferring the withdrawn Uniswap V3 LP NFT back to the `LPStaker`.
+    This reentrancy can yield an unexpected state where the token sti
+wiki_exploit_scenario: |
+    Per Solodit #26760: **Description**
+    
+    During the `unstakeAndWithdrawLpToken` function, the `msg.sender` may re-enter into the `onERC721Received` function upon the `withdrawToken` call by transferring the withdrawn Uniswap
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Lps2Onerc721receivedReentrancy"
+solodit_id: "26760"
+solodit_slug: "lps-2-onerc721received-reentrancy-guardian-audits-none-key-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal idtoowner;"
+fn_name_regex: ".*(unstakeAndWithdrawLpToken|onERC721Received|withdrawToken|LPStaker).*"
+read_var_regex: ".*(idToOwner|onERC721Received|stakedIndex).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "unstakeAndWithdrawLpToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return idtoowner > 0;"

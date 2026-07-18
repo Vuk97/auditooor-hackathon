@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "unnecessary-precision-loss-in-protocol-fee"
+class_name: "UnnecessaryPrecisionLossInProtocolFee"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Lido Fixed Income - Zellic Audit Report"
+help: |
+    When a variable-ongoing withdrawal is requested, the variable variableToWithdrawn- StakingEarnings is multiplied by the inverse of the protocol fee and then set to the current stat
+wiki_title: "Unnecessary precision loss in protocol fee"
+wiki_description: |
+    When a variable-ongoing withdrawal is requested, the variable variableToWithdrawn- StakingEarnings is multiplied by the inverse of the protocol fee and then set to the current state minus the protocol fee applied to the current state: if (lidoStETHBalance > fixedETHDeposits) { (uint256 currentState,
+wiki_exploit_scenario: |
+    Per audit finding: When a variable-ongoing withdrawal is requested, the variable variableToWithdrawn- StakingEarnings is multiplied by the inverse of the protocol fee and then set to the current state minus the protocol
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnnecessaryPrecisionLossInProtocolFee"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

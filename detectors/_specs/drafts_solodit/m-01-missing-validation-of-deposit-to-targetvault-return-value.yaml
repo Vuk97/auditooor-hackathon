@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_require"
+name: "m-01-missing-validation-of-deposit-to-targetvault-return-value"
+class_name: "M01MissingValidationOfDepositToTargetvaultReturnValue"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62713 (Kann/Gluon-security-review_2025-09-20)"
+help: "[M-01] Missing Validation of deposit to targetvault Return Value"
+wiki_title: "[M-01] Missing Validation of deposit to targetvault Return Value"
+wiki_description: |
+    ## Severity
+    
+    Medium
+    
+    ## Description
+    
+    The _deployFunds function forwards funds to targetVault by calling:
+    
+    targetVault.deposit(deployAmount, address(this));
+    
+    The _deployFunds function assumes targetVault.deposit(...) will always give the strategy a non-zero amount of vault shares. In normal, well-be
+wiki_exploit_scenario: |
+    Per Solodit #62713: ## Severity
+    
+    Medium
+    
+    ## Description
+    
+    The _deployFunds function forwards funds to targetVault by calling:
+    
+    targetVault.deposit(deployAmount, address(this));
+    
+    The _deployFunds function assumes targetVa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01MissingValidationOfDepositToTargetvaultReturnValue"
+solodit_id: "62713"
+solodit_slug: |
+    m-01-missing-validation-of-deposit-to-targetvault-return-value-kann-none-gluon-security-review_2025-09-20-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(targetVault|deployAmount|sharesReceived).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "targetVault"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

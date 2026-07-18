@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-struct-copy-leads-to-unexpected-behavior"
+class_name: "IncorrectStructCopyLeadsToUnexpectedBehavior"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44343 (MixBytes/EYWA)"
+help: "Incorrect struct copy leads to unexpected behavior"
+wiki_title: "Incorrect struct copy leads to unexpected behavior"
+wiki_description: |
+    ##### Description
+    
+    In the `EscrowManager.sol` contract, the variable `m_lastVotingPowerPointCopy` is intended to be a copy of `m_lastVotingPowerPoint`. However, the assignment:
+    ```solidity
+    VotingPowerPoint memory m_lastVotingPowerPointCopy = m_lastVotingPowerPoint;
+    ```
+    does not create a true indepen
+wiki_exploit_scenario: |
+    Per Solodit #44343: ##### Description
+    
+    In the `EscrowManager.sol` contract, the variable `m_lastVotingPowerPointCopy` is intended to be a copy of `m_lastVotingPowerPoint`. However, the assignment:
+    ```solidity
+    VotingPower
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectStructCopyLeadsToUnexpectedBehavior"
+solodit_id: "44343"
+solodit_slug: "incorrect-struct-copy-leads-to-unexpected-behavior-mixbytes-none-eywa-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal m_lastvotingpowerpoint;"
+fn_name_regex: ".*(m_lastVotingPowerPointCopy|m_lastVotingPowerPoint|VotingPowerPoint).*"
+read_var_regex: ".*(m_lastVotingPowerPoint|m_lastVotingPowerPointCopy).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "m_lastVotingPowerPointCopy"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return m_lastvotingpowerpoint > 0;"

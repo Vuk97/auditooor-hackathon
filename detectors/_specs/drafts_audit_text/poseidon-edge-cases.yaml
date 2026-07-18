@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "poseidon-edge-cases"
+class_name: "PoseidonEdgeCases"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Nebra Universal Proof Aggregator - Zellic Audit Report"
+help: |
+    In circuits/src/utils/hashing.rs, the function var_len_poseidon_no_len_check makes some assumptions that are not fully documented or could be checked in code to prevent incorrect u
+wiki_title: "Poseidon edge cases"
+wiki_description: |
+    In circuits/src/utils/hashing.rs, the function var_len_poseidon_no_len_check makes some assumptions that are not fully documented or could be checked in code to prevent incorrect usage. The following is an extract of the function's implementation: /// Computes the poseidon hash of `assigned[..num_pa
+wiki_exploit_scenario: |
+    Per audit finding: In circuits/src/utils/hashing.rs, the function var_len_poseidon_no_len_check makes some assumptions that are not fully documented or could be checked in code to prevent incorrect usage. The following
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PoseidonEdgeCases"
+state_decl: "uint256 internal num_parts;"
+fn_name_regex: ".*(num_parts|PoseidonHasher|POSEIDON_R).*"
+write_var_regex: ".*(num_parts).*"
+guard_var_regex: ".*(num_parts).*"
+vuln_fn_name: "num_parts"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "num_parts = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

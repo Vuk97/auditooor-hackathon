@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "m-02-splits-with-256-or-more-node-operators-will-not-be-able-to-"
+class_name: "M02SplitsWith256OrMoreNodeOperatorsWillNotBeAbleTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31787 (ZachObront/Obol)"
+help: "[M-02] Splits with 256 or more node operators will not be able to switch on fees"
+wiki_title: "[M-02] Splits with 256 or more node operators will not be able to switch on fees"
+wiki_description: |
+    0xSplits is used to distribute rewards across node operators. All Splits are deployed with an ImmutableSplitController, which is given permissions to update the split one time to add a fee for Obol at a future date.
+    
+    The Factory deploys these controllers as Clones with Immutable Args, hard coding th
+wiki_exploit_scenario: |
+    Per Solodit #31787: 0xSplits is used to distribute rewards across node operators. All Splits are deployed with an ImmutableSplitController, which is given permissions to update the split one time to add a fee for Obol at
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02SplitsWith256OrMoreNodeOperatorsWillNotBeAbleTo"
+solodit_id: "31787"
+solodit_slug: |
+    m-02-splits-with-256-or-more-node-operators-will-not-be-able-to-switch-on-fees-zachobront-none-obol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accounts;"
+fn_name_regex: ".*(owner|accounts|percentAllocations|distributorFee).*"
+write_var_regex: ".*(accounts|distributorFee|getNewSplitConfiguation).*"
+guard_var_regex: ".*(accounts|distributorFee|getNewSplitConfiguation).*"
+vuln_fn_name: "owner"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "accounts = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

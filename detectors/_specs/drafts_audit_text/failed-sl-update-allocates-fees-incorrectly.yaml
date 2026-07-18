@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "failed-sl-update-allocates-fees-incorrectly"
+class_name: "FailedSlUpdateAllocatesFeesIncorrectly"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Bloom Trading - Zellic Audit Report"
+help: |
+    When a trader wishes to update the SL on a trade whose pair has the SL guarantee enabled, an op- erator must supply the price first, to ensure that the SL guarantee is valid. Durin
+wiki_title: "Failed SL update allocates fees incorrectly"
+wiki_description: |
+    When a trader wishes to update the SL on a trade whose pair has the SL guarantee enabled, an op- erator must supply the price first, to ensure that the SL guarantee is valid. During this process, in the operator’s transaction, fees are deducted and accounted in updateSlCallback: function updateSlCal
+wiki_exploit_scenario: |
+    Per audit finding: When a trader wishes to update the SL on a trade whose pair has the SL guarantee enabled, an op- erator must supply the price first, to ensure that the SL guarantee is valid. During this process, in t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FailedSlUpdateAllocatesFeesIncorrectly"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

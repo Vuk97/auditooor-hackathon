@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "v2-basketmode-provides-insufficient-protection-in-severe-depegs"
+class_name: "V2BasketmodeProvidesInsufficientProtectionInSevereDepegs"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52854 (Spearbit/Berachain Honey)"
+help: "V2: Basketmode provides insufficient protection in severe depegs"
+wiki_title: "V2: Basketmode provides insufficient protection in severe depegs"
+wiki_description: |
+    Severity: Medium Risk
+    Context: HoneyFactory#mint
+    Description: If the pyth oracle reported stale price or the reported price deviate from the lowerPegOff-
+    sets /upperPegOffsets :
+    function isBasketModeEnabled() public view returns (bool basketMode) {
+    if (forcedBasketMode) {
+    return true;
+    }
+    for
+wiki_exploit_scenario: |
+    Per Solodit #52854: Severity: Medium Risk
+    Context: HoneyFactory#mint
+    Description: If the pyth oracle reported stale price or the reported price deviate from the lowerPegOff-
+    sets /upperPegOffsets :
+    function isBasketM
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "V2BasketmodeProvidesInsufficientProtectionInSevereDepegs"
+solodit_id: "52854"
+solodit_slug: "v2-basketmode-provides-insufficient-protection-in-severe-depegs-spearbit-none-berachain-honey-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(lowerPegOff|upperPegOffsets|isBasketModeEnabled|basketMode).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

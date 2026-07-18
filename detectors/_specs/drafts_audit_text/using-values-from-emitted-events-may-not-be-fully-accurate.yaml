@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "using-values-from-emitted-events-may-not-be-fully-accurate"
+class_name: "UsingValuesFromEmittedEventsMayNotBeFullyAccurate"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit EtherFi_-_Zellic_Audit_Report"
+help: |
+    The getContractTVL() function uses the contract’s balance of ERC20 tokens and Ether to determine the TVL of the pool. function getContractTVL() public view returns (uint256 tvl) {
+wiki_title: "Using values from emitted events may not be fully accurate"
+wiki_description: |
+    The getContractTVL() function uses the contract’s balance of ERC20 tokens and Ether to determine the TVL of the pool. function getContractTVL() public view returns (uint256 tvl) { tvl = (rETHInstance.balanceOf(address(this)) + wstETHInstance.balanceOf(address(this)) + sfrxETHInstance.balanceOf(addre
+wiki_exploit_scenario: |
+    Per audit finding: The getContractTVL() function uses the contract’s balance of ERC20 tokens and Ether to determine the TVL of the pool. function getContractTVL() public view returns (uint256 tvl) { tvl = (rETHInstance.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsingValuesFromEmittedEventsMayNotBeFullyAccurate"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getContractTVL|rETHInstance|balanceOf).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getContractTVL"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

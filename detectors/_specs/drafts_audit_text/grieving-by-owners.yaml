@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "grieving-by-owners"
+class_name: "GrievingByOwners"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "hexens audit FastToken_public"
+help: |
+    Owners are considered friendly unless compromised. In this case, hostile owners are able to sign transactions, making it seem like it can be executed, then frontrun the execution t
+wiki_title: "GRIEVING BY OWNERS"
+wiki_description: |
+    Owners are considered friendly unless compromised. In this case, hostile owners are able to sign transactions, making it seem like it can be executed, then frontrun the execution transaction with a cancel conﬁrmation tx, getting below threshold and failing the execution. This is only slightly differ
+wiki_exploit_scenario: |
+    Per audit finding: Owners are considered friendly unless compromised. In this case, hostile owners are able to sign transactions, making it seem like it can be executed, then frontrun the execution transaction with a ca
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GrievingByOwners"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onlyOwner|transactionExists|notExecuted).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "onlyOwner"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

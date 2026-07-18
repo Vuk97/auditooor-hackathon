@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "erroneous-userbalance-restriction-in-withdrawal-validation"
+class_name: "ErroneousUserbalanceRestrictionInWithdrawalValidation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28713 (MixBytes/AAVE)"
+help: "Erroneous UserBalance Restriction in Withdrawal Validation"
+wiki_title: "Erroneous UserBalance Restriction in Withdrawal Validation"
+wiki_description: |
+    ##### Description
+    
+    https://github.com/aave/protocol-v2/blob/f435b2fa0ac589852ca3dd6ae2b0fbfbc7079d54/contracts/libraries/logic/ValidationLogic.sol#L68
+    
+    It looks like `userBalance` is erroneously used instead of `amount`. This will result in overly strict restrictions on withdrawals. 
+    
+    ##### Recommen
+wiki_exploit_scenario: |
+    Per Solodit #28713: ##### Description
+    
+    https://github.com/aave/protocol-v2/blob/f435b2fa0ac589852ca3dd6ae2b0fbfbc7079d54/contracts/libraries/logic/ValidationLogic.sol#L68
+    
+    It looks like `userBalance` is erroneously used
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ErroneousUserbalanceRestrictionInWithdrawalValidation"
+solodit_id: "28713"
+solodit_slug: "erroneous-userbalance-restriction-in-withdrawal-validation-mixbytes-none-aave-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(userBalance|amount).*"
+read_var_regex: ".*(amount|userBalance).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "userBalance"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

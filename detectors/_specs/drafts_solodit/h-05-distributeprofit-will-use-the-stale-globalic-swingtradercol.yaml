@@ -1,0 +1,33 @@
+skeleton: "state_write_without_paired_write"
+name: "h-05-distributeprofit-will-use-the-stale-globalic-swingtradercol"
+class_name: "H05DistributeprofitWillUseTheStaleGlobalicSwingtradercol"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16077 (Code4rena/Malt Protocol)"
+help: |
+    [H-05] `_distributeProfit` will use the stale `globalIC.swingTraderCollateralDeficit()/swingTraderCollateralRatio()`, which will result in incorrect profit distribution
+wiki_title: |
+    [H-05] `_distributeProfit` will use the stale `globalIC.swingTraderCollateralDeficit()/swingTraderCollateralRatio()`, which will result in incorrect profit dist
+wiki_description: |
+    The `\_distributeProfit()` (called by handleProfit()) will use `globalIC.swingTraderCollateralDeficit()/swingTraderCollateralRatio()` when distributing profits, and the latest `globalIC.swingTraderCollateralDeficit()/swingTraderCollateralRatio()` needs to be used to ensure that profits are distribu
+wiki_exploit_scenario: |
+    Per Solodit #16077: The `\_distributeProfit()` (called by handleProfit()) will use `globalIC.swingTraderCollateralDeficit()/swingTraderCollateralRatio()` when distributing profits, and the latest `globalIC.swingTraderCo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05DistributeprofitWillUseTheStaleGlobalicSwingtradercol"
+solodit_id: "16077"
+solodit_slug: |
+    h-05-_distributeprofit-will-use-the-stale-globalicswingtradercollateraldeficitswingtradercollateralratio-which-will-result-in-incorrect-profit-distribution-code4rena-malt-protocol-malt-protocol-versus-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getCollateralizedMalt).*"
+primary_var_regex: ".*(getCollateralizedMalt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

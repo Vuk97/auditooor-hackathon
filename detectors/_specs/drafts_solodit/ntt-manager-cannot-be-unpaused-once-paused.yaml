@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "ntt-manager-cannot-be-unpaused-once-paused"
+class_name: "NttManagerCannotBeUnpausedOncePaused"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31376 (Cyfrin/Wormhole Evm Ntt)"
+help: "NTT Manager cannot be unpaused once paused"
+wiki_title: "NTT Manager cannot be unpaused once paused"
+wiki_description: |
+    **Description:** `NttManagerState::pause` exposes pause functionality to be triggered by permissioned actors but has no corresponding unpause functionality. As such, once the NTT Manager is paused, it will not be possible to unpause without a contract upgrade.
+    ```solidity
+    function pause() public onl
+wiki_exploit_scenario: |
+    Per Solodit #31376: **Description:** `NttManagerState::pause` exposes pause functionality to be triggered by permissioned actors but has no corresponding unpause functionality. As such, once the NTT Manager is paused, it
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NttManagerCannotBeUnpausedOncePaused"
+solodit_id: "31376"
+solodit_slug: "ntt-manager-cannot-be-unpaused-once-paused-cyfrin-none-cyfrin-wormhole-evm-ntt-v2-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onlyOwnerOrPauser).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "onlyOwnerOrPauser"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

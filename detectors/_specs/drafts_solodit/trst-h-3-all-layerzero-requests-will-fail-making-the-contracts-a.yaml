@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "trst-h-3-all-layerzero-requests-will-fail-making-the-contracts-a"
+class_name: "TrstH3AllLayerzeroRequestsWillFailMakingTheContractsA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18996 (Trust Security/Mozaic Archimedes)"
+help: "TRST-H-3 All LayerZero requests will fail, making the contracts are unfunctional"
+wiki_title: "TRST-H-3 All LayerZero requests will fail, making the contracts are unfunctional"
+wiki_description: |
+    **Description:**
+    When sending messages using the LayerZero architecture, native tokens must be supplied to 
+    cover the cost of delivering the message at the receiving chain. However, none of the Mozaic 
+    contracts account for it. The controller calls the bridge's `requestSnapshot()`, `requestSettle()`
+wiki_exploit_scenario: |
+    Per Solodit #18996: **Description:**
+    When sending messages using the LayerZero architecture, native tokens must be supplied to 
+    cover the cost of delivering the message at the receiving chain. However, none of the Mozaic
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstH3AllLayerzeroRequestsWillFailMakingTheContractsA"
+solodit_id: "18996"
+solodit_slug: |
+    trst-h-3-all-layerzero-requests-will-fail-making-the-contracts-are-unfunctional-trust-security-none-mozaic-archimedes-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "LayerZero"
+state_decl: "uint256 internal receive;"
+fn_name_regex: ".*(requestSnapshot|requestSettle|requestExecute|reportSnapshot).*"
+write_var_regex: ".*(receive|reportSettle|reportSnapshot).*"
+guard_var_regex: ".*(receive|reportSettle|reportSnapshot).*"
+vuln_fn_name: "requestSnapshot"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "receive = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

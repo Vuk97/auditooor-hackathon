@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "use-of-delegatecall-in-a-payable-function-inside-a-loop"
+class_name: "UseOfDelegatecallInAPayableFunctionInsideALoop"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16976 (TrailOfBits/Yield V2)"
+help: "Use of delegatecall in a payable function inside a loop"
+wiki_title: "Use of delegatecall in a payable function inside a loop"
+wiki_description: |
+    ## Diﬃculty: High
+    
+    ## Type: Data Validation
+    
+    ## Description
+    The Ladle contract uses the delegatecall proxy pattern (which takes user-provided call data) in a payable function within a loop. This means that each delegatecall within the for loop will retain the `msg.value` of the transaction:
+    
+    ```soli
+wiki_exploit_scenario: |
+    Per Solodit #16976: ## Diﬃculty: High
+    
+    ## Type: Data Validation
+    
+    ## Description
+    The Ladle contract uses the delegatecall proxy pattern (which takes user-provided call data) in a payable function within a loop. This means
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UseOfDelegatecallInAPayableFunctionInsideALoop"
+solodit_id: "16976"
+solodit_slug: "use-of-delegatecall-in-a-payable-function-inside-a-loop-trailofbits-yield-v2-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getRevertMsg|cachedVaultId).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getRevertMsg"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

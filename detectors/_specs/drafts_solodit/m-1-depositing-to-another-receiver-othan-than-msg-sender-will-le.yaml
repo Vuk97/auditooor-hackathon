@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-1-depositing-to-another-receiver-othan-than-msg-sender-will-le"
+class_name: "M1DepositingToAnotherReceiverOthanThanMsgSenderWillLe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36664 (Sherlock/Exactly Protocol Update - Stacking Contract)"
+help: |
+    M-1: Depositing to another receiver othan than `msg.sender` will lead to stuck funds by increasing `avgStart` without claiming
+wiki_title: |
+    M-1: Depositing to another receiver othan than `msg.sender` will lead to stuck funds by increasing `avgStart` without claiming
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-07-exactly-stacking-contracts-judging/issues/21 
+    
+    ## Found by 
+    0x73696d616f, 0xBugHunter, blockchain555, cawfree
+    ### Summary
+    
+    `StakedEXA::_update()` is called when minting and if the time staked is smaller than the reference time, it calls `_claim(rewar
+wiki_exploit_scenario: |
+    Per Solodit #36664: Source: https://github.com/sherlock-audit/2024-07-exactly-stacking-contracts-judging/issues/21 
+    
+    ## Found by 
+    0x73696d616f, 0xBugHunter, blockchain555, cawfree
+    ### Summary
+    
+    `StakedEXA::_update()` is c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1DepositingToAnotherReceiverOthanThanMsgSenderWillLe"
+solodit_id: "36664"
+solodit_slug: |
+    m-1-depositing-to-another-receiver-othan-than-msgsender-will-lead-to-stuck-funds-by-increasing-avgstart-without-claiming-sherlock-exactly-protocol-update-stacking-contract-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(avgStart).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "avgStart"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

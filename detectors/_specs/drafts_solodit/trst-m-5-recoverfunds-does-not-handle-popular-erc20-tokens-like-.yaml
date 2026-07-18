@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "trst-m-5-recoverfunds-does-not-handle-popular-erc20-tokens-like-"
+class_name: "TrstM5RecoverfundsDoesNotHandlePopularErc20TokensLike"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18900 (Trust Security/Lyra Finance)"
+help: "TRST-M-5 recoverFunds() does not handle popular ERC20 tokens like BNB"
+wiki_title: "TRST-M-5 recoverFunds() does not handle popular ERC20 tokens like BNB"
+wiki_description: |
+    **Description:** 
+    recoverFunds() is used for recovery in case of mistakenly-sent tokens. However, it uses unsafe 
+    transfer to send tokens back, which will not support 100s of non-compatible ERC20 tokens. 
+    Therefore it is likely unsupported tokens will be unrecoverable.
+    ```solidity
+      if (token == quo
+wiki_exploit_scenario: |
+    Per Solodit #18900: **Description:** 
+    recoverFunds() is used for recovery in case of mistakenly-sent tokens. However, it uses unsafe 
+    transfer to send tokens back, which will not support 100s of non-compatible ERC20 toke
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM5RecoverfundsDoesNotHandlePopularErc20TokensLike"
+solodit_id: "18900"
+solodit_slug: |
+    trst-m-5-recoverfunds-does-not-handle-popular-erc20-tokens-like-bnb-trust-security-none-lyra-finance-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(recoverFunds|quoteAsset|baseAsset|balanceOf).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "recoverFunds"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

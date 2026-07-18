@@ -1,0 +1,45 @@
+skeleton: "paired_function_divergence"
+name: "m-03-not-being-able-to-manage-configurations-appropriately-allow"
+class_name: "M03NotBeingAbleToManageConfigurationsAppropriatelyAllow"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #45357 (Shieldify/Berabot)"
+help: "[M-03] Not Being Able To Manage Configurations Appropriately Allows Users to Avoid Fees"
+wiki_title: "[M-03] Not Being Able To Manage Configurations Appropriately Allows Users to Avoid Fees"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `isAmmPair` variable is used to track the AMMs in order for the Berabot token to know when to apply fees on transfers from and to such pools. The uniswap V2 WBERA/BerabotToken pool is the one being set in the constructor but there are no other functions
+wiki_exploit_scenario: |
+    Per Solodit #45357: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `isAmmPair` variable is used to track the AMMs in order for the Berabot token to know when to apply fees on transfers from and to such pools. The uniswap
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03NotBeingAbleToManageConfigurationsAppropriatelyAllow"
+solodit_id: "45357"
+solodit_slug: |
+    m-03-not-being-able-to-manage-configurations-appropriately-allows-users-to-avoid-fees-shieldify-none-berabot-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addRouterV2|addRouterV3|isAmmPair).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

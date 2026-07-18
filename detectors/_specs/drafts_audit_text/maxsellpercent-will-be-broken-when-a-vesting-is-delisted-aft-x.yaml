@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "maxsellpercent-will-be-broken-when-a-vesting-is-delisted-aft-x"
+class_name: "MaxsellpercentWillBeBrokenWhenAVestingIsDelistedAftX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-secondswap"
+help: |
+    BenRai When a listed vesting is delisted after the seller has claimed additional steps, the full listed amount is deducted from the sold value of the seller’s Allocation data. This
+wiki_title: "maxSellPercent will be broken when a vesting is delisted after a seller has claimed additional steps"
+wiki_description: |
+    BenRai When a listed vesting is delisted after the seller has claimed additional steps, the full listed amount is deducted from the sold value of the seller’s Allocation data. This allows him to sell tokens which should have already been unlocked and claimable which breaks a core functionality of th
+wiki_exploit_scenario: |
+    Per audit finding: BenRai When a listed vesting is delisted after the seller has claimed additional steps, the full listed amount is deducted from the sold value of the seller’s Allocation data. This allows him to sell
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaxsellpercentWillBeBrokenWhenAVestingIsDelistedAftX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxSellPercent|listVesting|unlistVesting).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "maxSellPercent"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "unsolicited-account-data-modification"
+class_name: "UnsolicitedAccountDataModification"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #47925 (OtterSec/Switcheo (Fluo))"
+help: "Unsolicited Account Data Modification"
+wiki_title: "Unsolicited Account Data Modification"
+wiki_description: |
+    ## esFLUO Deposit Vulnerability
+    
+    In esFLUO, the `deposit` function lacks any validation on the arguments it accepts, such as the user address and value of the amount.
+    
+    ## esFLUO.sol (SOLIDITY)
+    
+    ```solidity
+    function deposit(address user, uint256 amount) external nonReentrant {
+        _unlock(user);
+wiki_exploit_scenario: |
+    Per Solodit #47925: ## esFLUO Deposit Vulnerability
+    
+    In esFLUO, the `deposit` function lacks any validation on the arguments it accepts, such as the user address and value of the amount.
+    
+    ## esFLUO.sol (SOLIDITY)
+    
+    ```sol
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnsolicitedAccountDataModification"
+solodit_id: "47925"
+solodit_slug: "unsolicited-account-data-modification-ottersec-none-switcheo-fluo-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(deposit|lastVestUpdateTimes|unlock|claimableAmount).*"
+read_var_regex: ".*(amount|claimableAmount|deposit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

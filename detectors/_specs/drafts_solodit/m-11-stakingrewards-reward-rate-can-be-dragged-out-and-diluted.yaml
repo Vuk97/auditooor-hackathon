@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-11-stakingrewards-reward-rate-can-be-dragged-out-and-diluted"
+class_name: "M11StakingrewardsRewardRateCanBeDraggedOutAndDiluted"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5792 (Code4rena/Y2k Finance)"
+help: "[M-11] StakingRewards reward rate can be dragged out and diluted"
+wiki_title: "[M-11] StakingRewards reward rate can be dragged out and diluted"
+wiki_description: |
+    Similar to <https://github.com/code-423n4/2022-02-concur-findings/issues/183>.
+    
+                if (block.timestamp >= periodFinish) {
+                    rewardRate = reward.div(rewardsDuration);
+                } else {
+                    uint256 remaining = periodFinish.sub(block.timestamp);
+                    ui
+wiki_exploit_scenario: |
+    Per Solodit #5792: Similar to <https://github.com/code-423n4/2022-02-concur-findings/issues/183>.
+    
+                if (block.timestamp >= periodFinish) {
+                    rewardRate = reward.div(rewardsDuration);
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11StakingrewardsRewardRateCanBeDraggedOutAndDiluted"
+solodit_id: "5792"
+solodit_slug: |
+    m-11-stakingrewards-reward-rate-can-be-dragged-out-and-diluted-code4rena-y2k-finance-y2k-finance-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(periodFinish|rewardRate|rewardsDuration|notifyRewardAmount).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "periodFinish"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

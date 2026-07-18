@@ -1,0 +1,20 @@
+id: missing-two-step-admin-acceptance
+title: "Admin transfer is one-step and irreversible on typos"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.34"
+bug_class: authorization
+indicators:
+  - "`set_admin(new_admin)` directly overwrites admin without `pending_admin` + `accept_admin` two-step"
+  - "no `require_auth` on `accept_admin` by the new admin"
+victim: "Protocol: typo in `set_admin` parameter locks protocol out permanently."
+exploit_precondition: "Admin fat-fingers the new admin address."
+real_world_example: |
+  Halborn 7.34 (LOW): Missing two-step admin acceptance makes transfers irreversible.
+suggested_remediation: "Use `set_pending_admin` + `accept_admin` pattern with `require_auth` on both."
+cross_refs:
+  - admin-transfer-leaves-stale-pause-authority
+  - duplicate-admin-rotation-paths

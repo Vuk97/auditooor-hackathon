@@ -1,0 +1,48 @@
+skeleton: "state_write_without_paired_write"
+name: "m-01-the-swap-mechanism-does-not-have-a-deadline-parameter"
+class_name: "M01TheSwapMechanismDoesNotHaveADeadlineParameter"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20595 (Pashov Audit Group/Bloom)"
+help: "[M-01] The swap mechanism does not have a deadline parameter"
+wiki_title: "[M-01] The swap mechanism does not have a deadline parameter"
+wiki_description: |
+    **Impact:**
+    High, as the swap might forcefully result in a big slippage (or maximum allowed one)
+    
+    **Likelihood:**
+    Low, as it requires special conditions
+    
+    **Description**
+    
+    Swap mechanisms should implement a transaction deadline mechanism, due to the following attack vector:
+    
+    1. Alice wants to execute
+wiki_exploit_scenario: |
+    Per Solodit #20595: **Impact:**
+    High, as the swap might forcefully result in a big slippage (or maximum allowed one)
+    
+    **Likelihood:**
+    Low, as it requires special conditions
+    
+    **Description**
+    
+    Swap mechanisms should implem
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01TheSwapMechanismDoesNotHaveADeadlineParameter"
+solodit_id: "20595"
+solodit_slug: "m-01-the-swap-mechanism-does-not-have-a-deadline-parameter-pashov-none-bloom-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(deadline).*"
+primary_var_regex: ".*(deadline).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

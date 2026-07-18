@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "h-01-borrowers-may-earn-auction-proceeds-without-filling-the-deb"
+class_name: "H01BorrowersMayEarnAuctionProceedsWithoutFillingTheDeb"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6202 (Code4rena/Backed Protocol)"
+help: "[H-01] Borrowers may earn auction proceeds without filling the debt shortfall"
+wiki_title: "[H-01] Borrowers may earn auction proceeds without filling the debt shortfall"
+wiki_description: |
+    The proceeds from the collateral auctions will not be used to fill the debt shortfall, but be transferred directly to the borrower.
+    
+    ### Proof of Concept
+    
+    Assume N is an allowed NFT, B is a borrower, the vault V is `_vaultInfo[B][N]`:
+    
+    1.  B add two NFTs (N-1 and N-2) as collaterals to vault V.
+    2.
+wiki_exploit_scenario: |
+    Per Solodit #6202: The proceeds from the collateral auctions will not be used to fill the debt shortfall, but be transferred directly to the borrower.
+    
+    ### Proof of Concept
+    
+    Assume N is an allowed NFT, B is a borrower,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01BorrowersMayEarnAuctionProceedsWithoutFillingTheDeb"
+solodit_id: "6202"
+solodit_slug: |
+    h-01-borrowers-may-earn-auction-proceeds-without-filling-the-debt-shortfall-code4rena-backed-protocol-papr-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Liquidation, Business Logic"
+state_decl: "uint256 internal debtcached;"
+fn_name_regex: ".*(neededToSaveVault|debtCached).*"
+read_var_regex: ".*(debtCached|neededToSaveVault).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "neededToSaveVault"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return debtcached > 0;"

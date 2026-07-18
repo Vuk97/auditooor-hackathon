@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "rewards-are-calculated-as-distributed-even-if-there-are-no-stake"
+class_name: "RewardsAreCalculatedAsDistributedEvenIfThereAreNoStake"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33584 (Cyfrin/Templedao)"
+help: "Rewards are calculated as distributed even if there are no stakers, locking the rewards forever"
+wiki_title: "Rewards are calculated as distributed even if there are no stakers, locking the rewards forever"
+wiki_description: |
+    **Description:** The `TempleGoldStaking.sol` contract is a fork of the Synthetix rewards distribution contract, with slight modifications. The code special-cases the scenario where there are no users, by not updating the cumulative rate when the _totalSupply is zero, but it does not include such a c
+wiki_exploit_scenario: |
+    Per Solodit #33584: **Description:** The `TempleGoldStaking.sol` contract is a fork of the Synthetix rewards distribution contract, with slight modifications. The code special-cases the scenario where there are no users,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RewardsAreCalculatedAsDistributedEvenIfThereAreNoStake"
+solodit_id: "33584"
+solodit_slug: |
+    rewards-are-calculated-as-distributed-even-if-there-are-no-stakers-locking-the-rewards-forever-cyfrin-none-cyfrin-templedao-v21-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal distributerewards;"
+fn_name_regex: ".*(distributionStarter|Temple|distributeRewards|rewardRate).*"
+read_var_regex: ".*(distributeRewards|distributionStarter|rewardRate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "distributionStarter"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return distributerewards > 0;"

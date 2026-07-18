@@ -1,0 +1,41 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-16-incorrect-amount-given-as-input-to-handlerebalancein-when-f"
+class_name: "M16IncorrectAmountGivenAsInputToHandlerebalanceinWhenF"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27108 (Sherlock/Tokemak)"
+help: "M-16: Incorrect amount given as input to `_handleRebalanceIn` when `flashRebalance` is called"
+wiki_title: "M-16: Incorrect amount given as input to `_handleRebalanceIn` when `flashRebalance` is called"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-06-tokemak-judging/issues/701 
+    
+    ## Found by 
+    Aymen0909, ck
+    
+    When `flashRebalance` is called, the wrong deposit amount is given to the `_handleRebalanceIn` function as the whole `tokenInBalanceAfter` amount is given as input instead of the delta value `t
+wiki_exploit_scenario: |
+    Per Solodit #27108: Source: https://github.com/sherlock-audit/2023-06-tokemak-judging/issues/701 
+    
+    ## Found by 
+    Aymen0909, ck
+    
+    When `flashRebalance` is called, the wrong deposit amount is given to the `_handleRebalanceIn
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M16IncorrectAmountGivenAsInputToHandlerebalanceinWhenF"
+solodit_id: "27108"
+solodit_slug: |
+    m-16-incorrect-amount-given-as-input-to-_handlerebalancein-when-flashrebalance-is-called-sherlock-tokemak-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(flashRebalance|tokenInBalanceAfter).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

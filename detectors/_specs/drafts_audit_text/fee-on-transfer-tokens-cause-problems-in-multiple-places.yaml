@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "fee-on-transfer-tokens-cause-problems-in-multiple-places"
+class_name: "FeeOnTransferTokensCauseProblemsInMultiplePlaces"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-benddao"
+help: |
+    Ch_301 The protocol is designed to ensure it is compatible with fee-on-transfer tokens (Fee-on-transfer is in scope). For example, the erc20TransferInLiquidity() function checks th
+wiki_title: "Fee-on-Transfer tokens cause problems in multiple places"
+wiki_description: |
+    Ch_301 The protocol is designed to ensure it is compatible with fee-on-transfer tokens (Fee-on-transfer is in scope). For example, the erc20TransferInLiquidity() function checks the balance before and after, and calculates the difference between these values to measure the tokens received File: Vaul
+wiki_exploit_scenario: |
+    Per audit finding: Ch_301 The protocol is designed to ensure it is compatible with fee-on-transfer tokens (Fee-on-transfer is in scope). For example, the erc20TransferInLiquidity() function checks the balance before and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FeeOnTransferTokensCauseProblemsInMultiplePlaces"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(erc20TransferInLiquidity|erc20TransferInBidAmount|assetData).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "erc20TransferInLiquidity"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

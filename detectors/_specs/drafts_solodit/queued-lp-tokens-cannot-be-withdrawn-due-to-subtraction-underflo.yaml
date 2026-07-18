@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "queued-lp-tokens-cannot-be-withdrawn-due-to-subtraction-underflo"
+class_name: "QueuedLpTokensCannotBeWithdrawnDueToSubtractionUnderflo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56499 (Zokyo/Thetanuts)"
+help: "Queued LP tokens cannot be withdrawn due to subtraction underflow"
+wiki_title: "Queued LP tokens cannot be withdrawn due to subtraction underflow"
+wiki_description: |
+    **Description**
+    
+    CashVaultV1.sol: withdraw()
+    In case user has queued LP tokens to be withdrawn later(this happens if ‘expiry’ is not equal
+    0), he is not able to withdraw his funds due to underflow in function withdraw() (line 75
+    “totalPendingExit -= exitAmt”). This happens because “totalPendingExit”
+wiki_exploit_scenario: |
+    Per Solodit #56499: **Description**
+    
+    CashVaultV1.sol: withdraw()
+    In case user has queued LP tokens to be withdrawn later(this happens if ‘expiry’ is not equal
+    0), he is not able to withdraw his funds due to underflow in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "QueuedLpTokensCannotBeWithdrawnDueToSubtractionUnderflo"
+solodit_id: "56499"
+solodit_slug: "queued-lp-tokens-cannot-be-withdrawn-due-to-subtraction-underflow-zokyo-none-thetanuts-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalPendingExit|exitAmt|directWithdraw|initWithdraw).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalPendingExit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

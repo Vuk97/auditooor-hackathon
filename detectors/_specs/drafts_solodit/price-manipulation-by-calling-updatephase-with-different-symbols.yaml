@@ -1,0 +1,33 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "price-manipulation-by-calling-updatephase-with-different-symbols"
+class_name: "PriceManipulationByCallingUpdatephaseWithDifferentSymbols"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29442 (MixBytes/Divergence Protocol)"
+help: "Price manipulation by calling `updatePhase` with different symbols"
+wiki_title: "Price manipulation by calling `updatePhase` with different symbols"
+wiki_description: |
+    ##### Description
+    In the audited commit `29a0ccb5fc7ac838bd44c75c0afc398b84be267a`, the `endRoundId` value is not dependent on the asset symbol. By calling the `updatePhase` function with a different `symbol` argument, an attacker may manipulate the `endRoundId` values. This could violate the correc
+wiki_exploit_scenario: |
+    Per Solodit #29442: ##### Description
+    In the audited commit `29a0ccb5fc7ac838bd44c75c0afc398b84be267a`, the `endRoundId` value is not dependent on the asset symbol. By calling the `updatePhase` function with a different
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PriceManipulationByCallingUpdatephaseWithDifferentSymbols"
+solodit_id: "29442"
+solodit_slug: |
+    price-manipulation-by-calling-updatephase-with-different-symbols-mixbytes-none-divergence-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(endRoundId|updatePhase|symbol).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

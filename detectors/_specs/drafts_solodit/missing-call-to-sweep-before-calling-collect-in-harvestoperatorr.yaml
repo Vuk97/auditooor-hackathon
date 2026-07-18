@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "missing-call-to-sweep-before-calling-collect-in-harvestoperatorr"
+class_name: "MissingCallToSweepBeforeCallingCollectInHarvestoperatorr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49851 (Spearbit/Infrared Contracts)"
+help: "Missing call to sweep() before calling collect() in harvestOperatorRewards() may result in inaccu-"
+wiki_title: "Missing call to sweep() before calling collect() in harvestOperatorRewards() may result in inaccu-"
+wiki_description: |
+    ## Rate Rewards
+    
+    **Severity:** Medium Risk  
+    **Context:** RewardsLib.sol#L307-L313  
+    **Summary:** Missing sweep before calling collect in `harvestOperatorRewards()` may result in inaccurate rewards due to stale data being used.  
+    
+    ## Finding Description
+    In `harvestOperatorRewards()`, there is a pote
+wiki_exploit_scenario: |
+    Per Solodit #49851: ## Rate Rewards
+    
+    **Severity:** Medium Risk  
+    **Context:** RewardsLib.sol#L307-L313  
+    **Summary:** Missing sweep before calling collect in `harvestOperatorRewards()` may result in inaccurate rewards du
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingCallToSweepBeforeCallingCollectInHarvestoperatorr"
+solodit_id: "49851"
+solodit_slug: |
+    missing-call-to-sweep-before-calling-collect-in-harvestoperatorrewards-may-result-in-inaccu-spearbit-none-infrared-contracts-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(harvestOperatorRewards|collect|shareholderFees|sweep).*"
+primary_var_regex: ".*(collect|compound|harvestOperatorRewards).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_call"
+name: "h-02-normalizing-token-weights-can-result-in-a-revert"
+class_name: "H02NormalizingTokenWeightsCanResultInARevert"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #55213 (Pashov Audit Group/Burve_2025-01-29)"
+help: "[H-02] Normalizing token weights can result in a revert"
+wiki_title: "[H-02] Normalizing token weights can result in a revert"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    Upon normalizing weights when having a swap, we have this piece of code to turn the `weights` array from an array with amounts to an array with percentages:
+    
+    ```solidity
+    self.weights[i] = FullMath.mulDivX256(
+                    self
+wiki_exploit_scenario: |
+    Per Solodit #55213: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    Upon normalizing weights when having a swap, we have this piece of code to turn the `weights` array from an array with amounts to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02NormalizingTokenWeightsCanResultInARevert"
+solodit_id: "55213"
+solodit_slug: |
+    h-02-normalizing-token-weights-can-result-in-a-revert-pashov-audit-group-none-burve_2025-01-29-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal muldivx256;"
+fn_name_regex: ".*(weights|totalWeight|mulDivX256).*"
+read_var_regex: ".*(mulDivX256|totalWeight|weights).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "weights"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return muldivx256 > 0;"

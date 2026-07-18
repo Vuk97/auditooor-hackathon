@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "m-03-rewards-cannot-be-transferred-when-calling-protocol-command"
+class_name: "M03RewardsCannotBeTransferredWhenCallingProtocolCommand"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27554 (Code4rena/Canto)"
+help: "[M-03] Rewards cannot be transferred when calling protocol command"
+wiki_title: "[M-03] Rewards cannot be transferred when calling protocol command"
+wiki_description: |
+    Rewards are set up using protocol commands, but its entry point is not payable.
+    
+    Rewards can be set up by protocol authorities using the functions `setConcRewards()` and `setAmbRewards()` present in the LiquidityMiningPath contracts. These two are part of the "command" pattern used in the protocol:
+wiki_exploit_scenario: |
+    Per Solodit #27554: Rewards are set up using protocol commands, but its entry point is not payable.
+    
+    Rewards can be set up by protocol authorities using the functions `setConcRewards()` and `setAmbRewards()` present in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03RewardsCannotBeTransferredWhenCallingProtocolCommand"
+solodit_id: "27554"
+solodit_slug: "m-03-rewards-cannot-be-transferred-when-calling-protocol-command-code4rena-canto-canto-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal callprotocolcmd;"
+fn_name_regex: ".*(setConcRewards|setAmbRewards|CrocSwapDex|protocolCmd).*"
+read_var_regex: ".*(callProtocolCmd|delegatecall|protocolCmd).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setConcRewards"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return callprotocolcmd > 0;"

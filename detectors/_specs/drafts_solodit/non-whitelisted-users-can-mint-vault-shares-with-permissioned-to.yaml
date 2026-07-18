@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "non-whitelisted-users-can-mint-vault-shares-with-permissioned-to"
+class_name: "NonWhitelistedUsersCanMintVaultSharesWithPermissionedTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49325 (Cantina/Morpho)"
+help: "Non-whitelisted users can mint vault shares with permissioned tokens through the bundler"
+wiki_title: "Non-whitelisted users can mint vault shares with permissioned tokens through the bundler "
+wiki_description: |
+    ## Context
+    - GeneralAdapter1.sol#L57-L68
+    - GeneralAdapter1.sol#L224-L246
+    
+    ## Description
+    In PR 233, `GeneralAdapter1.erc20WrapperDepositFor()` was modified such that wrapped tokens are minted to the `initiator()` instead of any receiver address:
+    
+    ```solidity
+    function erc20WrapperDepositFor(address w
+wiki_exploit_scenario: |
+    Per Solodit #49325: ## Context
+    - GeneralAdapter1.sol#L57-L68
+    - GeneralAdapter1.sol#L224-L246
+    
+    ## Description
+    In PR 233, `GeneralAdapter1.erc20WrapperDepositFor()` was modified such that wrapped tokens are minted to the `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NonWhitelistedUsersCanMintVaultSharesWithPermissionedTo"
+solodit_id: "49325"
+solodit_slug: |
+    non-whitelisted-users-can-mint-vault-shares-with-permissioned-tokens-through-the-bundler-cantina-none-morpho-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal account;"
+fn_name_regex: ".*(initiator|verUSDC|GeneralAdapter1|erc20WrapperDepositFor).*"
+write_var_regex: ".*(account|depositFor|erc20WrapperDepositFor).*"
+guard_var_regex: ".*(account|depositFor|erc20WrapperDepositFor).*"
+vuln_fn_name: "initiator"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "account = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "h-08-due-to-inadequate-checks-an-adversary-can-call-branchbridge"
+class_name: "H08DueToInadequateChecksAnAdversaryCanCallBranchbridge"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26042 (Code4rena/Maia DAO Ecosystem)"
+help: |
+    [H-08] Due to inadequate checks, an adversary can call `BranchBridgeAgent#retrieveDeposit` with an invalid `_depositNonce`, which would lead to a loss of other users' deposits.
+wiki_title: |
+    [H-08] Due to inadequate checks, an adversary can call `BranchBridgeAgent#retrieveDeposit` with an invalid `_depositNonce`, which would lead to a loss of other 
+wiki_description: |
+    An attacker will cause the user's funds to be collected and locked on Branch chain without it being recorded on the root chain.
+    
+    ### Proof of Concept
+    
+    Anyone can call `BranchBridgeAgent#retrieveDeposit` with an invalid `_depositNonce`:
+    
+    ```solidity
+    function retrieveDeposit(
+            uint32 _depositN
+wiki_exploit_scenario: |
+    Per Solodit #26042: An attacker will cause the user's funds to be collected and locked on Branch chain without it being recorded on the root chain.
+    
+    ### Proof of Concept
+    
+    Anyone can call `BranchBridgeAgent#retrieveDepos
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H08DueToInadequateChecksAnAdversaryCanCallBranchbridge"
+solodit_id: "26042"
+solodit_slug: |
+    h-08-due-to-inadequate-checks-an-adversary-can-call-branchbridgeagentretrievedeposit-with-an-invalid-_depositnonce-which-would-lead-to-a-loss-of-other-users-deposits-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositnonce;"
+fn_name_regex: ".*(depositNonce|retrieveDeposit|executionHistory|BranchBridgeAgent).*"
+read_var_regex: ".*(depositNonce|executionHistory|retrieveDeposit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositNonce"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return depositnonce > 0;"

@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "liquidation-mechanism-can-be-permanently-disabled-by-miscon-gure"
+class_name: "LiquidationMechanismCanBePermanentlyDisabledByMisconGure"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61541 (TrailOfBits/CAP Labs Covered Agent Protocol)"
+help: "Liquidation mechanism can be permanently disabled by misconﬁgured grace and expiry periods"
+wiki_title: "Liquidation mechanism can be permanently disabled by misconﬁgured grace and expiry periods"
+wiki_description: |
+    ## Diﬃculty: Medium
+    
+    ## Type: Timing
+    
+    ## Description
+    
+    The Lender contract does not check during initialization whether `grace >= expiry`. If `grace` is greater than or equal to `expiry`, liquidations will never happen.
+    
+    ```solidity
+    if (health >= 1e27) revert HealthFactorNotBelowThreshold();
+    if (emer
+wiki_exploit_scenario: |
+    Per Solodit #61541: ## Diﬃculty: Medium
+    
+    ## Type: Timing
+    
+    ## Description
+    
+    The Lender contract does not check during initialization whether `grace >= expiry`. If `grace` is greater than or equal to `expiry`, liquidations
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LiquidationMechanismCanBePermanentlyDisabledByMisconGure"
+solodit_id: "61541"
+solodit_slug: |
+    liquidation-mechanism-can-be-permanently-disabled-by-misconfigured-grace-and-expiry-periods-trailofbits-none-cap-labs-covered-agent-protocol-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal expiry;"
+fn_name_regex: ".*(grace|expiry|validateLiquidation|initialize).*"
+read_var_regex: ".*(expiry|grace|initialize).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "grace"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return expiry > 0;"

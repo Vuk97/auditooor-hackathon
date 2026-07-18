@@ -1,0 +1,19 @@
+id: dual-auth-upgrade-guard-silent-skip
+title: "Dual-auth upgrade guard silently skips pool admin check"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44419"
+bug_class: authorization
+indicators:
+  - "upgrade guard supposed to require both upgrade-admin AND pool-admin auth, but pool-admin check is commented out or behind `if let Some(pa)`"
+  - "guard returns Ok when pool-admin is None"
+victim: "Protocol: upgrade is possible with only one signature instead of two."
+exploit_precondition: "Pool-admin key is not configured (or `None`)."
+real_world_example: |
+  V12 #44419 (Low): Dual-auth upgrade guard silently skips pool admin check.
+suggested_remediation: "Fail-closed when pool-admin is missing."
+cross_refs:
+  - missing-two-step-admin-acceptance

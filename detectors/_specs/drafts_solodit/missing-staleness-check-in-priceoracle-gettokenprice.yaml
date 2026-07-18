@@ -1,0 +1,33 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "missing-staleness-check-in-priceoracle-gettokenprice"
+class_name: "MissingStalenessCheckInPriceoracleGettokenprice"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61599 (Cyfrin/Octodefi)"
+help: "Missing staleness check in `PriceOracle::getTokenPrice`"
+wiki_title: "Missing staleness check in `PriceOracle::getTokenPrice`"
+wiki_description: |
+    **Description:** `PriceOracle.getTokenPrice()` relays `pythOracle.getPriceUnsafe()` but never verifies the price **publish time** or confidence interval. A price that is hours old (or intentionally frozen) is accepted as fresh.
+    
+    ```solidity
+    function getTokenPrice(address _token) external view return
+wiki_exploit_scenario: |
+    Per Solodit #61599: **Description:** `PriceOracle.getTokenPrice()` relays `pythOracle.getPriceUnsafe()` but never verifies the price **publish time** or confidence interval. A price that is hours old (or intentionally fr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingStalenessCheckInPriceoracleGettokenprice"
+solodit_id: "61599"
+solodit_slug: "missing-staleness-check-in-priceoraclegettokenprice-cyfrin-none-octodefi-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Oracle"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(PriceOracle|calculateTokenAmount).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

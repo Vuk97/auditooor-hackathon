@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-01-assertion-that-claimed-burned-should-come-after-tokens-have"
+class_name: "M01AssertionThatClaimedBurnedShouldComeAfterTokensHave"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18773 (ZachObront/Dhedge)"
+help: "[M-01] Assertion that claimed <= burned should come after tokens have been claimed"
+wiki_title: "[M-01] Assertion that claimed <= burned should come after tokens have been claimed"
+wiki_description: |
+    In both the `claim()` and `buyBackFromL1()` functions, there is the following assertion:
+    
+    ```solidity
+    assert(totalAmountClaimed <= totalAmountBurntOnL1);
+    ```
+    
+    This is used to ensure that the most important invariant of the system is always upheld. It is also used so that, if a user is able to trigge
+wiki_exploit_scenario: |
+    Per Solodit #18773: In both the `claim()` and `buyBackFromL1()` functions, there is the following assertion:
+    
+    ```solidity
+    assert(totalAmountClaimed <= totalAmountBurntOnL1);
+    ```
+    
+    This is used to ensure that the most impo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01AssertionThatClaimedBurnedShouldComeAfterTokensHave"
+solodit_id: "18773"
+solodit_slug: |
+    m-01-assertion-that-claimed-burned-should-come-after-tokens-have-been-claimed-zachobront-none-dhedge-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal buybackfroml1;"
+fn_name_regex: ".*(claim|buyBackFromL1|claimedAmountOf).*"
+read_var_regex: ".*(buyBackFromL1|claim|claimedAmountOf).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claim"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return buybackfroml1 > 0;"

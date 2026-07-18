@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-07-upgrading-modules-via-executeaction-will-brick-all-existing"
+class_name: "M07UpgradingModulesViaExecuteactionWillBrickAllExisting"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30534 (Code4rena/reNFT)"
+help: "[M-07] Upgrading modules via `executeAction()` will brick all existing rentals"
+wiki_title: "[M-07] Upgrading modules via `executeAction()` will brick all existing rentals"
+wiki_description: |
+    All assets from rentals pre-upgrade will be locked. Users can't recover them as old rentals can't be stopped.
+    
+    ### Proof of Concept
+    
+    The protocol has a functionality to [upgrade modules via `Kernel::executeAction()`](https://github.com/re-nft/smart-contracts/blob/main/src/Kernel.sol#L285).
+    
+    That up
+wiki_exploit_scenario: |
+    Per Solodit #30534: All assets from rentals pre-upgrade will be locked. Users can't recover them as old rentals can't be stopped.
+    
+    ### Proof of Concept
+    
+    The protocol has a functionality to [upgrade modules via `Kernel::
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07UpgradingModulesViaExecuteactionWillBrickAllExisting"
+solodit_id: "30534"
+solodit_slug: "m-07-upgrading-modules-via-executeaction-will-brick-all-existing-rentals-code4rena-renft-renft-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal executeaction;"
+fn_name_regex: ".*(PaymentEscrow|executeAction).*"
+read_var_regex: ".*(executeAction).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "PaymentEscrow"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return executeaction > 0;"

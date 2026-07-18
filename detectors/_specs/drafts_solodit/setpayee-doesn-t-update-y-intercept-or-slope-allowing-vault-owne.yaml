@@ -1,0 +1,45 @@
+skeleton: "state_write_without_paired_write"
+name: "setpayee-doesn-t-update-y-intercept-or-slope-allowing-vault-owne"
+class_name: "SetpayeeDoesnTUpdateYInterceptOrSlopeAllowingVaultOwne"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7288 (Spearbit/Astaria)"
+help: "setPayee doesn't update y intercept or slope, allowing vault owner to steal all funds"
+wiki_title: "setPayee doesn't update y intercept or slope, allowing vault owner to steal all funds"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    - LienToken.sol#L868-878
+    - LienToken.sol#L165-173
+    
+    ## Description
+    When `setPayee()` is called, the payment for the lien is no longer expected to go to the vault. However, this change doesn't impact the vault's `y-intercept` or `slope`, which are used to calculate t
+wiki_exploit_scenario: |
+    Per Solodit #7288: ## Severity: High Risk
+    
+    ## Context
+    - LienToken.sol#L868-878
+    - LienToken.sol#L165-173
+    
+    ## Description
+    When `setPayee()` is called, the payment for the lien is no longer expected to go to the vault. How
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SetpayeeDoesnTUpdateYInterceptOrSlopeAllowingVaultOwne"
+solodit_id: "7288"
+solodit_slug: |
+    setpayee-doesnt-update-y-intercept-or-slope-allowing-vault-owner-to-steal-all-funds-spearbit-astaria-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(setPayee|slope|totalAssets|Payee).*"
+primary_var_regex: ".*(setPayee|slope|totalAssets).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

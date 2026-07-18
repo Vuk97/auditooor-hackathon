@@ -1,0 +1,36 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-23-anyone-can-curate-pools-and-steal-rewards"
+class_name: "H23AnyoneCanCuratePoolsAndStealRewards"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3926 (Code4rena/Vader Protocol)"
+help: "[H-23] Anyone can curate pools and steal rewards"
+wiki_title: "[H-23] Anyone can curate pools and steal rewards"
+wiki_description: |
+    The `Router.curatePool` and `replacePool` don't have any access restriction.
+    An attacker can get a flash loan of base tokens and replace existing curated pools with their own curated pools.
+    
+    Curated pools determine if a pool receives rewards. An attacker can remove rewards of a curated pool this wa
+wiki_exploit_scenario: |
+    Per Solodit #3926: The `Router.curatePool` and `replacePool` don't have any access restriction.
+    An attacker can get a flash loan of base tokens and replace existing curated pools with their own curated pools.
+    
+    Curated
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H23AnyoneCanCuratePoolsAndStealRewards"
+solodit_id: "3926"
+solodit_slug: "h-23-anyone-can-curate-pools-and-steal-rewards-code4rena-vader-protocol-vader-protocol-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(replacePool|curatePool).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,60 @@
+skeleton: "name_match_missing_call"
+name: "tribalchief-a-wrong-user-rewarddebt-value-is-calculated-during-t"
+class_name: "TribalchiefAWrongUserRewarddebtValueIsCalculatedDuringT"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #32157 (ConsenSys/Fei Tribechief)"
+help: |
+    TribalChief - A wrong user.rewardDebt  value is calculated during the withdrawFromDeposit function call
+wiki_title: |
+    TribalChief - A wrong user.rewardDebt  value is calculated during the withdrawFromDeposit function call
+wiki_description: |
+    #### Description
+    
+    
+    When withdrawing a single deposit, the reward debt is updated:
+    
+    
+    **contracts/staking/TribalChief.sol:L468-L474**
+    
+    
+    
+    ```
+    uint128 virtualAmountDelta = uint128( ( amount * poolDeposit.multiplier ) / SCALE_FACTOR );
+    
+    // Effects
+    poolDeposit.amount -= amount;
+    user.rewardDebt = user.rewa
+wiki_exploit_scenario: |
+    Per Solodit #32157: #### Description
+    
+    
+    When withdrawing a single deposit, the reward debt is updated:
+    
+    
+    **contracts/staking/TribalChief.sol:L468-L474**
+    
+    
+    
+    ```
+    uint128 virtualAmountDelta = uint128( ( amount * poolDeposit.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TribalchiefAWrongUserRewarddebtValueIsCalculatedDuringT"
+solodit_id: "32157"
+solodit_slug: |
+    tribalchief-a-wrong-userrewarddebt-value-is-calculated-during-the-withdrawfromdeposit-function-call-consensys-none-fei-tribechief-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal virtualamountdelta;"
+fn_name_regex: ".*(virtualAmountDelta).*"
+read_var_regex: ".*(virtualAmountDelta).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "virtualAmountDelta"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return virtualamountdelta > 0;"

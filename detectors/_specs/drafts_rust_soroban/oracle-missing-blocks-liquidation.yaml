@@ -1,0 +1,20 @@
+id: oracle-missing-blocks-liquidation
+title: "Missing oracle price blocks liquidation and causes bad debt"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.31"
+bug_class: oracle-cascade
+indicators:
+  - "liquidation path reverts on oracle-missing instead of using a graceful fallback (last known price + wide haircut)"
+  - "no emergency admin bypass path to liquidate on an asset whose oracle has gone dark"
+victim: "Protocol: underwater positions cannot be liquidated, bad debt accumulates permanently."
+exploit_precondition: "Oracle goes stale or returns an error while a position is deeply underwater."
+real_world_example: |
+  Halborn 7.31 (LOW): Missing oracle prices block liquidations and cause bad debt accumulation.
+suggested_remediation: "Add an emergency liquidation path using a stale-but-last-known price with a penalty, gated to pool admin."
+cross_refs:
+  - oracle-freezes-debt-free-withdrawal
+  - inactive-fallback-oracle-single-point

@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "safetransfer-not-used-with-transfer-functions"
+class_name: "SafetransferNotUsedWithTransferFunctions"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19418 (SigmaPrime/Interest Protocol)"
+help: "safeTransfer() not used with transfer functions"
+wiki_title: "safeTransfer() not used with transfer functions"
+wiki_description: |
+    ## Description
+    
+    CappedFeeOnTransferToken, CappedGovToken, and SlowRoll do not use `safeTransfer()` functions:
+    
+    - CappedFeeOnTransferToken calls `_underlying.transferFrom()` on line [96].
+    - CappedGovToken calls `_underlying.transferFrom()` on line [84].
+    - SlowRoll calls `takeFrom()`, which in turn ca
+wiki_exploit_scenario: |
+    Per Solodit #19418: ## Description
+    
+    CappedFeeOnTransferToken, CappedGovToken, and SlowRoll do not use `safeTransfer()` functions:
+    
+    - CappedFeeOnTransferToken calls `_underlying.transferFrom()` on line [96].
+    - CappedGovTo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SafetransferNotUsedWithTransferFunctions"
+solodit_id: "19418"
+solodit_slug: "safetransfer-not-used-with-transfer-functions-sigmaprime-none-interest-protocol-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal safetransfer;"
+fn_name_regex: ".*(safeTransfer|takeFrom|safeTransferFrom|SafeERC20Upgradeable).*"
+read_var_regex: ".*(safeTransfer|safeTransferFrom|takeFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeTransfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return safetransfer > 0;"

@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "unchecked-return-values-icerc20-repayborrow"
+class_name: "UncheckedReturnValuesIcerc20Repayborrow"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16526 (ConsenSys/Fuji Protocol)"
+help: "Unchecked Return Values - ICErc20 repayBorrow"
+wiki_title: "Unchecked Return Values - ICErc20 repayBorrow"
+wiki_description: |
+    #### Description
+    
+    
+    `ICErc20.repayBorrow` returns a non-zero uint on error. Multiple providers do not check for this error condition and might return `success` even though `repayBorrow` failed, returning an error code.
+    
+    
+    This can potentially allow a malicious user to call `paybackAndWithdraw()` while
+wiki_exploit_scenario: |
+    Per Solodit #16526: #### Description
+    
+    
+    `ICErc20.repayBorrow` returns a non-zero uint on error. Multiple providers do not check for this error condition and might return `success` even though `repayBorrow` failed, returni
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UncheckedReturnValuesIcerc20Repayborrow"
+solodit_id: "16526"
+solodit_slug: "unchecked-return-values-icerc20-repayborrow-consensys-fuji-protocol-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal paybackandwithdraw;"
+fn_name_regex: ".*(success|repayBorrow|paybackAndWithdraw).*"
+write_var_regex: ".*(paybackAndWithdraw|repayBorrow|success).*"
+guard_var_regex: ".*(paybackAndWithdraw|repayBorrow|success).*"
+vuln_fn_name: "success"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "paybackandwithdraw = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

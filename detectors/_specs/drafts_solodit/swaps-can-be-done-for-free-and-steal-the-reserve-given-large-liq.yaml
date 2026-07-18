@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "swaps-can-be-done-for-free-and-steal-the-reserve-given-large-liq"
+class_name: "SwapsCanBeDoneForFreeAndStealTheReserveGivenLargeLiq"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18735 (Spearbit/Primitive)"
+help: "Swaps can be done for free and steal the reserve given large liquidity allocation"
+wiki_title: "Swaps can be done for free and steal the reserve given large liquidity allocation"
+wiki_description: |
+    ## Severity: Critical Risk
+    ## Context: Portfolio.sol#L509
+    
+    ### Description
+    A swap of `inputDelta` tokens for `outputDelta` tokens is accepted if the invariant after the swap did not decrease. The after-swap invariant is recomputed using the pool’s new virtual reserves (per liquidity) `virtualX` and
+wiki_exploit_scenario: |
+    Per Solodit #18735: ## Severity: Critical Risk
+    ## Context: Portfolio.sol#L509
+    
+    ### Description
+    A swap of `inputDelta` tokens for `outputDelta` tokens is accepted if the invariant after the swap did not decrease. The afte
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwapsCanBeDoneForFreeAndStealTheReserveGivenLargeLiq"
+solodit_id: "18735"
+solodit_slug: |
+    swaps-can-be-done-for-free-and-steal-the-reserve-given-large-liquidity-allocation-spearbit-none-primitive-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deltainput;"
+fn_name_regex: ".*(inputDelta|outputDelta|virtualX|virtualY).*"
+read_var_regex: ".*(deltaInput|deltaOutput|inputDelta).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "inputDelta"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deltainput > 0;"

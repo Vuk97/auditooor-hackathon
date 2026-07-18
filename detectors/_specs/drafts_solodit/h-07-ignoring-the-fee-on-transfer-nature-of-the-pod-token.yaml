@@ -1,0 +1,51 @@
+skeleton: "paired_function_divergence"
+name: "h-07-ignoring-the-fee-on-transfer-nature-of-the-pod-token"
+class_name: "H07IgnoringTheFeeOnTransferNatureOfThePodToken"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45994 (Pashov Audit Group/Peapods_2024-11-16)"
+help: "[H-07] Ignoring the fee-on-transfer nature of the `pod` token"
+wiki_title: "[H-07] Ignoring the fee-on-transfer nature of the `pod` token"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    The `LeverageManager.addLeverage` function does not check the actual amount of the `_pod` tokens being received from a user.
+    Since the `pod` token contract owner can set nonzero transfer fee, the actual received amount might be l
+wiki_exploit_scenario: |
+    Per Solodit #45994: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    The `LeverageManager.addLeverage` function does not check the actual amount of the `_pod` tokens being received from a user.
+    Sinc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H07IgnoringTheFeeOnTransferNatureOfThePodToken"
+solodit_id: "45994"
+solodit_slug: |
+    h-07-ignoring-the-fee-on-transfer-nature-of-the-pod-token-pashov-audit-group-none-peapods_2024-11-16-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(indexUtils|pod).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

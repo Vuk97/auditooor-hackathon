@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-bounds-check-in-chunk-deserialization"
+class_name: "MissingBoundsCheckInChunkDeserialization"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Jovay Relayer - Zellic Audit Report"
+help: |
+    The Chunk.deserializeFrom() and BlockContext.deserializeFrom() methods read from input byte arrays without verifying the array length. These methods increment an offset while readi
+wiki_title: "Missing bounds check in chunk deserialization"
+wiki_description: |
+    The Chunk.deserializeFrom() and BlockContext.deserializeFrom() methods read from input byte arrays without verifying the array length. These methods increment an offset while reading, and if the input data is malformed or truncated, the underlying System.arraycopy in BytesUtils will throw an IndexOu
+wiki_exploit_scenario: |
+    Per audit finding: The Chunk.deserializeFrom() and BlockContext.deserializeFrom() methods read from input byte arrays without verifying the array length. These methods increment an offset while reading, and if the input
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingBoundsCheckInChunkDeserialization"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(deserializeFrom|setNumBlocks|getUint8).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "deserializeFrom"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

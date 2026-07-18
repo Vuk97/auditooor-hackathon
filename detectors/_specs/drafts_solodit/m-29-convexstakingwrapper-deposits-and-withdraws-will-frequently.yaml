@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-29-convexstakingwrapper-deposits-and-withdraws-will-frequently"
+class_name: "M29ConvexstakingwrapperDepositsAndWithdrawsWillFrequently"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1439 (Code4rena/Concur Finance)"
+help: |
+    [M-29] `ConvexStakingWrapper` deposits and withdraws will frequently be disabled if a token that doesn't allow zero value transfers will be added as a reward one
+wiki_title: |
+    [M-29] `ConvexStakingWrapper` deposits and withdraws will frequently be disabled if a token that doesn't allow zero value transfers will be added as a reward on
+wiki_description: |
+    _Submitted by hyh_
+    
+    If deposits and withdraws are done frequently enough, the reward update operation they invoke will deal mostly with the case when there is nothing to add yet, i.e. `reward.remaining` match the reward token balance.
+    
+    If reward token doesn't allow for zero value transfers, the rewa
+wiki_exploit_scenario: |
+    Per Solodit #1439: _Submitted by hyh_
+    
+    If deposits and withdraws are done frequently enough, the reward update operation they invoke will deal mostly with the case when there is nothing to add yet, i.e. `reward.remainin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M29ConvexstakingwrapperDepositsAndWithdrawsWillFrequently"
+solodit_id: "1439"
+solodit_slug: |
+    m-29-convexstakingwrapper-deposits-and-withdraws-will-frequently-be-disabled-if-a-token-that-doesnt-allow-zero-value-transfers-will-be-added-as-a-reward-one-code4rena-concur-finance-concur-finance-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Revert On 0 Transfer"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(ConvexStakingWrapper).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ConvexStakingWrapper"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,34 @@
+skeleton: "state_write_without_paired_write"
+name: "cleanup-reverts-for-pause-unpause-approvals"
+class_name: "CleanupRevertsForPauseUnpauseApprovals"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52683 (Halborn/Treasury Vesting)"
+help: "Cleanup Reverts for Pause/Unpause Approvals"
+wiki_title: "Cleanup Reverts for Pause/Unpause Approvals"
+wiki_description: |
+    ##### Description
+    
+    The `TreasuryVesting` contract implements two different patterns for handling operations. While standard operations (like adding categories) use a structured `TimelockOperation` system with proper expiry and cleanup mechanisms, emergency operations (pause/unpause) use a simplified
+wiki_exploit_scenario: |
+    Per Solodit #52683: ##### Description
+    
+    The `TreasuryVesting` contract implements two different patterns for handling operations. While standard operations (like adding categories) use a structured `TimelockOperation` sys
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CleanupRevertsForPauseUnpauseApprovals"
+solodit_id: "52683"
+solodit_slug: "cleanup-reverts-for-pauseunpause-approvals-halborn-blockdag-treasury-vesting-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(TreasuryVesting|TimelockOperation|timelockOperations).*"
+primary_var_regex: ".*(timelockOperations).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

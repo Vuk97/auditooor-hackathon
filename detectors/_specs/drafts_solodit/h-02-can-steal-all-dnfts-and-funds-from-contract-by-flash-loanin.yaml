@@ -1,0 +1,39 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-02-can-steal-all-dnfts-and-funds-from-contract-by-flash-loanin"
+class_name: "H02CanStealAllDnftsAndFundsFromContractByFlashLoanin"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18762 (ZachObront/Dyad)"
+help: "[H-02] Can steal all dNFTs and funds from contract by flash loaning deposits & liquidations"
+wiki_title: "[H-02] Can steal all dNFTs and funds from contract by flash loaning deposits & liquidations"
+wiki_description: |
+    When liquidate() is called for a given dNFT ID, there are two requirements:
+    
+    - The current shares of that ID must be less than 0.1% of the total shares in the pool
+    - The shares after the liquidator's funds are deposited must by greater than 0.1% of the total shares in the pool
+    
+    This can be exploited
+wiki_exploit_scenario: |
+    Per Solodit #18762: When liquidate() is called for a given dNFT ID, there are two requirements:
+    
+    - The current shares of that ID must be less than 0.1% of the total shares in the pool
+    - The shares after the liquidator's
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02CanStealAllDnftsAndFundsFromContractByFlashLoanin"
+solodit_id: "18762"
+solodit_slug: |
+    h-02-can-steal-all-dnfts-and-funds-from-contract-by-flash-loaning-deposits-liquidations-zachobront-none-dyad-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(dNFT|dNFTs|makeAddr|dNft).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

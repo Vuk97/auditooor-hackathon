@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "l2-precompile-calls-can-be-impossible-to-reproduce-on-l1"
+class_name: "L2PrecompileCallsCanBeImpossibleToReproduceOnL1"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-optimism"
+help: |
+    Zubat , also found by RadiantLabs When certain precompiles are invoked in an L2 transaction, the OP fault proof program substitutes their logic with “type 6” preimage oracle querie
+wiki_title: "L2 precompile calls can be impossible to reproduce on L1"
+wiki_description: |
+    Zubat , also found by RadiantLabs When certain precompiles are invoked in an L2 transaction, the OP fault proof program substitutes their logic with “type 6” preimage oracle queries. Reviewing the op-program code shows that the ecrecover ( 0x1 ), bn256Pairing ( 0x8 ), and kzgPointEvaluation ( 0xa )
+wiki_exploit_scenario: |
+    Per audit finding: Zubat , also found by RadiantLabs When certain precompiles are invoked in an L2 transaction, the OP fault proof program substitutes their logic with “type 6” preimage oracle queries. Reviewing the op-
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "L2PrecompileCallsCanBeImpossibleToReproduceOnL1"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

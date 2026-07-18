@@ -1,0 +1,56 @@
+skeleton: "name_match_missing_call"
+name: "h-06-no-slippage-checks-when-removing-leverage"
+class_name: "H06NoSlippageChecksWhenRemovingLeverage"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45993 (Pashov Audit Group/Peapods_2024-11-16)"
+help: "[H-06] No slippage checks when removing leverage"
+wiki_title: "[H-06] No slippage checks when removing leverage"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When removing leverage in the `LeverageManager`, it swaps the pod token for the borrow token:
+    
+    ```solidity
+    _podAmtRemaining = _swapPodForBorrowToken(_pod, _borrowToken, _podAmtReceived, _borrowAmtNeededToSwap);
+    ```
+    
+    This is an ex
+wiki_exploit_scenario: |
+    Per Solodit #45993: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When removing leverage in the `LeverageManager`, it swaps the pod token for the borrow token:
+    
+    ```solidity
+    _podAmtRemaining = _sw
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06NoSlippageChecksWhenRemovingLeverage"
+solodit_id: "45993"
+solodit_slug: "h-06-no-slippage-checks-when-removing-leverage-pashov-audit-group-none-peapods_2024-11-16-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amountinmax;"
+fn_name_regex: ".*(LeverageManager|amountInMax|podAmtOutMin).*"
+read_var_regex: ".*(amountInMax|podAmtOutMin).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LeverageManager"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amountinmax > 0;"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-05-whitelisted-profile-creators-could-accidentally-break-migra"
+class_name: "M05WhitelistedProfileCreatorsCouldAccidentallyBreakMigra"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28984 (Code4rena/Lens Protocol)"
+help: "[M-05] Whitelisted profile creators could accidentally break migration for V1 profiles"
+wiki_title: "[M-05] Whitelisted profile creators could accidentally break migration for V1 profiles"
+wiki_description: |
+    Profiles that exist before the V2 upgrade are migrated using the [`batchMigrateProfiles()`](https://github.com/code-423n4/2023-07-lens/blob/main/contracts/misc/LensV2Migration.sol#L33-L35) function, which works by minting the profile's handle and linking it to their profile:
+    
+    [MigrationLib.sol#L69-
+wiki_exploit_scenario: |
+    Per Solodit #28984: Profiles that exist before the V2 upgrade are migrated using the [`batchMigrateProfiles()`](https://github.com/code-423n4/2023-07-lens/blob/main/contracts/misc/LensV2Migration.sol#L33-L35) function,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05WhitelistedProfileCreatorsCouldAccidentallyBreakMigra"
+solodit_id: "28984"
+solodit_slug: |
+    m-05-whitelisted-profile-creators-could-accidentally-break-migration-for-v1-profiles-code4rena-lens-protocol-lens-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal batchmigrateprofiles;"
+fn_name_regex: ".*(batchMigrateProfiles|mintHandle|LensHandles).*"
+read_var_regex: ".*(batchMigrateProfiles|mintHandle).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "batchMigrateProfiles"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return batchmigrateprofiles > 0;"

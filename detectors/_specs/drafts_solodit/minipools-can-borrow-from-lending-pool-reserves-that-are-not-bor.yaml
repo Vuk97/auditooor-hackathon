@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "minipools-can-borrow-from-lending-pool-reserves-that-are-not-bor"
+class_name: "MinipoolsCanBorrowFromLendingPoolReservesThatAreNotBor"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62280 (Spearbit/Astera)"
+help: "Minipools can borrow from lending pool reserves that are not borrowable"
+wiki_title: "Minipools can borrow from lending pool reserves that are not borrowable"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    BorrowLogic.sol#L276-L283.
+    
+    ## Description
+    In this context, unlike the borrow flow of the lending pool, we don't check whether:
+    
+    - The reserve is not frozen. This check is later performed when one deposits assets into the lending pool again when calling:
+      ```solid
+wiki_exploit_scenario: |
+    Per Solodit #62280: ## Severity: High Risk
+    
+    ## Context
+    BorrowLogic.sol#L276-L283.
+    
+    ## Description
+    In this context, unlike the borrow flow of the lending pool, we don't check whether:
+    
+    - The reserve is not frozen. This ch
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MinipoolsCanBorrowFromLendingPoolReservesThatAreNotBor"
+solodit_id: "62280"
+solodit_slug: "minipools-can-borrow-from-lending-pool-reserves-that-are-not-borrowable-spearbit-none-astera-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal executeminipoolborrow;"
+fn_name_regex: ".*(executeMiniPoolBorrow).*"
+read_var_regex: ".*(executeMiniPoolBorrow).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "executeMiniPoolBorrow"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return executeminipoolborrow > 0;"

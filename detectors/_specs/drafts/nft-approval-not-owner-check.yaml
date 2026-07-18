@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "nft-approval-not-owner-check"
+class_name: "NftApprovalNotOwnerCheck"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_aa"
+help: |
+    `checkApproval` for ERC721 only verifies controller is `getApproved(tokenId)` but not that `creator == ownerOf(tokenId)`; anyone with an approved NFT can create listings.
+wiki_title: "nft-approval-not-owner-check"
+wiki_description: |
+    `checkApproval` for ERC721 only verifies controller is `getApproved(tokenId)` but not that `creator == ownerOf(tokenId)`; anyone with an approved NFT can create listings.
+wiki_exploit_scenario: |
+    Attacker exploits nft-approval-not-owner-check as described: `checkApproval` for ERC721 only verifies controller is `getApproved(tokenId)` but not that `creator == ownerOf(tokenId)`; anyone with an approved NFT can create listings.
+wiki_recommendation: "`getApproved(id)` call without corresponding `ownerOf(id) == caller` check."
+contract_name: "NftApprovalNotOwnerCheck"
+state_decl: "uint256 internal checkapproval;"
+fn_name_regex: ".*(checkApproval|getApproved).*"
+read_var_regex: ".*(checkApproval).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "checkApproval"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return checkapproval > 0;"

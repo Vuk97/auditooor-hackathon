@@ -1,0 +1,54 @@
+skeleton: "paired_function_divergence"
+name: "first-reward-claim-is-zero-for-newly-listed-reward-tokens"
+class_name: "FirstRewardClaimIsZeroForNewlyListedRewardTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16226 (Spearbit/Morpho)"
+help: "First reward claim is zero for newly listed reward tokens"
+wiki_title: "First reward claim is zero for newly listed reward tokens"
+wiki_description: |
+    ## Security Analysis Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    - `RewardsManager.sol#L291`
+    - `RewardsManager.sol#L434`
+    - `aave-v3/RewardsDistributor.sol#L261`
+    
+    ## Description
+    When Aave adds a new reward token for an asset, the reward index for this (asset, reward) pair starts at 0. When an upd
+wiki_exploit_scenario: |
+    Per Solodit #16226: ## Security Analysis Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    - `RewardsManager.sol#L291`
+    - `RewardsManager.sol#L434`
+    - `aave-v3/RewardsDistributor.sol#L261`
+    
+    ## Description
+    When Aave adds a ne
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FirstRewardClaimIsZeroForNewlyListedRewardTokens"
+solodit_id: "16226"
+solodit_slug: "first-reward-claim-is-zero-for-newly-listed-reward-tokens-spearbit-morpho-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(assetIndex|getRewards|getUserAssetIndex).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

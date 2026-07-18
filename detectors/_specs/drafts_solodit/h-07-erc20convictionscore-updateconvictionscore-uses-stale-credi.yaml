@@ -1,0 +1,39 @@
+skeleton: "state_write_without_paired_write"
+name: "h-07-erc20convictionscore-updateconvictionscore-uses-stale-credi"
+class_name: "H07Erc20convictionscoreUpdateconvictionscoreUsesStaleCredi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42203 (Code4rena/FairSide)"
+help: "[H-07] `ERC20ConvictionScore._updateConvictionScore` uses stale credit score for `governanceDelta`"
+wiki_title: "[H-07] `ERC20ConvictionScore._updateConvictionScore` uses stale credit score for `governanceDelta`"
+wiki_description: |
+    In `ERC20ConvictionScore._updateConvictionScore`, when the user does not fulfill the governance criteria anymore, the `governanceDelta` is the old conviction score of the previous block.
+    
+    ```solidity
+    isGovernance[user] = false;
+    governanceDelta = getPriorConvictionScore(
+        user,
+        block.number -
+wiki_exploit_scenario: |
+    Per Solodit #42203: In `ERC20ConvictionScore._updateConvictionScore`, when the user does not fulfill the governance criteria anymore, the `governanceDelta` is the old conviction score of the previous block.
+    
+    ```solidity
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H07Erc20convictionscoreUpdateconvictionscoreUsesStaleCredi"
+solodit_id: "42203"
+solodit_slug: |
+    h-07-erc20convictionscore_updateconvictionscore-uses-stale-credit-score-for-governancedelta-code4rena-fairside-fairside-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(governanceDelta|TOTAL_GOVERNANCE_SCORE|updateConvictionScore|governanceMinimumBalance).*"
+primary_var_regex: ".*(governanceDelta|governanceMinimumBalance|totalVotes).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

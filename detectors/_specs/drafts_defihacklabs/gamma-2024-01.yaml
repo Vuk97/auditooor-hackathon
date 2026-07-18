@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "gamma-2024-01"
+class_name: "Gamma202401"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-01/Gamma_exp.sol"
+help: "Gamma 2024-01 — flashloan exploit (~$6.3m)"
+wiki_title: "Gamma (2024-01) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-01): Gamma lost ~$6.3m. Bug class: flashloan. Attack tx: 0x025cf2858723369d606ee3abbc4ec01eab064a97cc9ec578bf91c6908679be75.
+wiki_exploit_scenario: |
+    Attacker (0x5351536145610aa448a8bf85ba97c71caf31909c) exploits Gamma via flashloan: the victim contract 0x1F1Ca4e8236CD13032653391dB7e9544a6ad123E exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Gamma202401"
+trigger_sig_regex: ".*(uniswapV3FlashCallback).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function uniswapV3FlashCallback(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.uniswapV3FlashCallback(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

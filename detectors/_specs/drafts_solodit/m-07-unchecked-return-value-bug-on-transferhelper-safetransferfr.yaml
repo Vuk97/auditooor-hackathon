@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "m-07-unchecked-return-value-bug-on-transferhelper-safetransferfr"
+class_name: "M07UncheckedReturnValueBugOnTransferhelperSafetransferfr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32096 (Code4rena/Wise Lending)"
+help: "[M-07] Unchecked return value bug on `TransferHelper::_safeTransferFrom()`"
+wiki_title: "[M-07] Unchecked return value bug on `TransferHelper::_safeTransferFrom()`"
+wiki_description: |
+    Currently, the `WiseLending` protocol supports several ERC-20 tokens and will also support more tokens in the future:
+    
+    > *ERC20 in scope: WETH, WBTC, LINK, DAI, WstETH, sDAI, USDC, USDT, WISE and may others in the future. (Also corresponding Aave tokens if existing).*
+    
+    On some ERC-20 tokens, the [`
+wiki_exploit_scenario: |
+    Per Solodit #32096: Currently, the `WiseLending` protocol supports several ERC-20 tokens and will also support more tokens in the future:
+    
+    > *ERC20 in scope: WETH, WBTC, LINK, DAI, WstETH, sDAI, USDC, USDT, WISE and may
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07UncheckedReturnValueBugOnTransferhelperSafetransferfr"
+solodit_id: "32096"
+solodit_slug: |
+    m-07-unchecked-return-value-bug-on-transferhelper_safetransferfrom-code4rena-wise-lending-wise-lending-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal transferfrom;"
+fn_name_regex: ".*(WiseLending|transferFrom).*"
+write_var_regex: ".*(transferFrom).*"
+guard_var_regex: ".*(transferFrom).*"
+vuln_fn_name: "WiseLending"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "transferfrom = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "late-checkpoints-will-use-higher-share-price-influencing-traders"
+class_name: "LateCheckpointsWillUseHigherSharePriceInfluencingTraders"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35868 (Spearbit/Hyperdrive June 2023)"
+help: "Late checkpoints will use higher share price, influencing traders' PnL"
+wiki_title: "Late checkpoints will use higher share price, influencing traders' PnL"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    Hyperdrive.sol#L67
+    
+    ## Description
+    Calling the `checkpoint(_checkpointTime)` function for a checkpoint in the past will look for the next checkpoint higher than `_checkpointTime`, then retroactively apply the later checkpoint's share price to it:
+    
+    - Under normal
+wiki_exploit_scenario: |
+    Per Solodit #35868: ## Severity: Medium Risk
+    
+    ## Context
+    Hyperdrive.sol#L67
+    
+    ## Description
+    Calling the `checkpoint(_checkpointTime)` function for a checkpoint in the past will look for the next checkpoint higher than `_
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LateCheckpointsWillUseHigherSharePriceInfluencingTraders"
+solodit_id: "35868"
+solodit_slug: |
+    late-checkpoints-will-use-higher-share-price-influencing-traders-pnl-spearbit-none-hyperdrive-june-2023-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calculatecloselong;"
+fn_name_regex: ".*(checkpoint|calculateCloseLong|shareProceeds|openSharePrice).*"
+read_var_regex: ".*(calculateCloseLong|checkpoint|closeSharePrice).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "checkpoint"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calculatecloselong > 0;"

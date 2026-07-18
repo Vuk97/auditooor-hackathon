@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-bound-check-when-updating-the-findex"
+class_name: "IncorrectBoundCheckWhenUpdatingTheFindex"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62151 (Spearbit/Pendle Core v3)"
+help: "Incorrect bound check when updating the findex"
+wiki_title: "Incorrect bound check when updating the findex"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    FIndexOracle.sol#L52-L53
+    
+    ## Description
+    When `updateFloatingRate` is called by a keeper, the value provided as `floatingRate` is actually a time-weighted value \( r_s \, t_s \) (where \( s \) indexes the \( s \)-th update and \( t_s \) is the delta time between
+wiki_exploit_scenario: |
+    Per Solodit #62151: ## Severity: Medium Risk
+    
+    ## Context
+    FIndexOracle.sol#L52-L53
+    
+    ## Description
+    When `updateFloatingRate` is called by a keeper, the value provided as `floatingRate` is actually a time-weighted value \(
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectBoundCheckWhenUpdatingTheFindex"
+solodit_id: "62151"
+solodit_slug: "incorrect-bound-check-when-updating-the-findex-spearbit-none-pendle-core-v3-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal floatingindexdelta;"
+fn_name_regex: ".*(updateFloatingRate|floatingRate|floatingIndexDelta|mulDown).*"
+write_var_regex: ".*(floatingIndexDelta|floatingRate|k_iThresh).*"
+guard_var_regex: ".*(floatingIndexDelta|floatingRate|k_iThresh).*"
+vuln_fn_name: "updateFloatingRate"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "floatingindexdelta = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

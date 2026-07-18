@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-accounting-of-total-and-strategies-debt"
+class_name: "IncorrectAccountingOfTotalAndStrategiesDebt"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Maia DAO Ulysses Protocol May 2023 - Zellic Audit Report"
+help: |
+    The approved strategy contract is authorized to borrow assets via the manage function and repay debt via the replenishReserves function, but only up to the amount of res ervesLacki
+wiki_title: "Incorrect accounting of total and strategies debt"
+wiki_description: |
+    The approved strategy contract is authorized to borrow assets via the manage function and repay debt via the replenishReserves function, but only up to the amount of res ervesLacking. The _strategy address, which will return debt, amount of tokens, and _token address, is controlled by the caller of
+wiki_exploit_scenario: |
+    Per audit finding: The approved strategy contract is authorized to borrow assets via the manage function and repay debt via the replenishReserves function, but only up to the amount of res ervesLacking. The _strategy ad
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectAccountingOfTotalAndStrategiesDebt"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(replenishReserves|ervesLacking|reservesLacking).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "replenishReserves"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

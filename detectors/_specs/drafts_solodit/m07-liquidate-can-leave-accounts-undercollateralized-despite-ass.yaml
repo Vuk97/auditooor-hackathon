@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m07-liquidate-can-leave-accounts-undercollateralized-despite-ass"
+class_name: "M07LiquidateCanLeaveAccountsUndercollateralizedDespiteAss"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11177 (OpenZeppelin/Notional Audit)"
+help: "[M07] liquidate can leave accounts undercollateralized despite assets being available"
+wiki_title: "[M07] liquidate can leave accounts undercollateralized despite assets being available"
+wiki_description: |
+    When calculating the `freeCollateral` for an account, [the account’s `cashLadder` is constructed](https://github.com/swapnet-protocol/swapnet-lite/blob/66ce8f3e529410a5272b7a57c8391fcb80a375fd/packages/contracts/contracts/RiskFramework.sol#L97) for each currency. A cash ladder is essentially a list
+wiki_exploit_scenario: |
+    Per Solodit #11177: When calculating the `freeCollateral` for an account, [the account’s `cashLadder` is constructed](https://github.com/swapnet-protocol/swapnet-lite/blob/66ce8f3e529410a5272b7a57c8391fcb80a375fd/package
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07LiquidateCanLeaveAccountsUndercollateralizedDespiteAss"
+solodit_id: "11177"
+solodit_slug: |
+    m07-liquidate-can-leave-accounts-undercollateralized-despite-assets-being-available-openzeppelin-notional-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cashladder;"
+fn_name_regex: ".*(freeCollateral|cashLadder|payer|receiver).*"
+read_var_regex: ".*(cashLadder|freeCollateral|liquidate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "freeCollateral"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cashladder > 0;"

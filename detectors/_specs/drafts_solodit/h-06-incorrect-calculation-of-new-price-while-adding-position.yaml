@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "h-06-incorrect-calculation-of-new-price-while-adding-position"
+class_name: "H06IncorrectCalculationOfNewPriceWhileAddingPosition"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6325 (Code4rena/Tigris Trade)"
+help: "[H-06] Incorrect calculation of new price while adding position"
+wiki_title: "[H-06] Incorrect calculation of new price while adding position"
+wiki_description: |
+    The formula used for calculating `_newPrice` in `addToPosition()` function of Trading.sol is not correct, users will lose part of their funds/profit while using this function.
+    
+    The wrong formula
+    
+        uint _newPrice = _trade.price*_trade.margin/_newMargin + _price*_addMargin/_newMargin;
+    
+    The correct
+wiki_exploit_scenario: |
+    Per Solodit #6325: The formula used for calculating `_newPrice` in `addToPosition()` function of Trading.sol is not correct, users will lose part of their funds/profit while using this function.
+    
+    The wrong formula
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06IncorrectCalculationOfNewPriceWhileAddingPosition"
+solodit_id: "6325"
+solodit_slug: |
+    h-06-incorrect-calculation-of-new-price-while-adding-position-code4rena-tigris-trade-tigris-trade-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addToPosition).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

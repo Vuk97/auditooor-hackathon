@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "error-in-using-the-same-max-funding-rate-for-all-synthetic-a-x"
+class_name: "ErrorInUsingTheSameMaxFundingRateForAllSyntheticAX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-03-starknet-perpetual"
+help: |
+    [L-02] Error in Using the same max funding rate for all synthetic ASSETS. Some assets move wildly (DOGE, PEPE), others are relatively stable (ETH, BTC), and some are nearly flat (e
+wiki_title: "Error in Using the same max funding rate for all synthetic ASSETS."
+wiki_description: |
+    [L-02] Error in Using the same max funding rate for all synthetic ASSETS. Some assets move wildly (DOGE, PEPE), others are relatively stable (ETH, BTC), and some are nearly flat (e.g. real-world assets or stablecoin synths). If you set max_funding_rate too high: Low-volatility assets will allow unre
+wiki_exploit_scenario: |
+    Per audit finding: [L-02] Error in Using the same max funding rate for all synthetic ASSETS. Some assets move wildly (DOGE, PEPE), others are relatively stable (ETH, BTC), and some are nearly flat (e.g. real-world asset
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ErrorInUsingTheSameMaxFundingRateForAllSyntheticAX"
+state_decl: "uint256 internal synthetic_price;"
+fn_name_regex: ".*(time_diff|synthetic_price|FUNDING_SCALE).*"
+write_var_regex: ".*(synthetic_price|time_diff).*"
+guard_var_regex: ".*(synthetic_price|time_diff).*"
+vuln_fn_name: "time_diff"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "synthetic_price = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

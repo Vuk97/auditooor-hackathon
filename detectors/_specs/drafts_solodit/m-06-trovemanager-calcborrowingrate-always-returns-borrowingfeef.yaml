@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "m-06-trovemanager-calcborrowingrate-always-returns-borrowingfeef"
+class_name: "M06TrovemanagerCalcborrowingrateAlwaysReturnsBorrowingfeef"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53846 (Recon Audits/Apollon Report)"
+help: "[M-06] `TroveManager``_calcBorrowingRate` always returns `borrowingFeeFloor`"
+wiki_title: "[M-06] `TroveManager``_calcBorrowingRate` always returns `borrowingFeeFloor`"
+wiki_description: |
+    **Impact**
+    
+    `_calcBorrowingRate` is using `min(X + Y, X)` meaning it will always return `X` in this case `borrowingFeeFloor`
+    
+    **Mitigation**
+    
+    Change 
+    ```solidity
+      function _calcBorrowingRate(uint _stableCoinBaseRate) internal view returns (uint) {
+        return LiquityMath._min(borrowingFeeFloor + _st
+wiki_exploit_scenario: |
+    Per Solodit #53846: **Impact**
+    
+    `_calcBorrowingRate` is using `min(X + Y, X)` meaning it will always return `X` in this case `borrowingFeeFloor`
+    
+    **Mitigation**
+    
+    Change 
+    ```solidity
+      function _calcBorrowingRate(uint _st
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06TrovemanagerCalcborrowingrateAlwaysReturnsBorrowingfeef"
+solodit_id: "53846"
+solodit_slug: |
+    m-06-trovemanager_calcborrowingrate-always-returns-borrowingfeefloor-recon-audits-none-apollon-report-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrowingfeefloor;"
+fn_name_regex: ".*(min|borrowingFeeFloor|TroveManager).*"
+read_var_regex: ".*(borrowingFeeFloor|min).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "min"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borrowingfeefloor > 0;"

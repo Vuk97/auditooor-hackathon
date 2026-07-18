@@ -1,0 +1,19 @@
+id: emission-update-retroactive-rewrite
+title: "Emission updates retroactively rewrite unaccrued rewards"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44863"
+bug_class: reward-accounting
+indicators:
+  - "`set_emission_rate(new_rate)` does not first call `accrue(...)` to settle prior-rate period"
+  - "new rate applied to the entire interval since last update"
+victim: "Users expecting the old rate for past time."
+exploit_precondition: "Admin updates emission rate."
+real_world_example: |
+  V12 #44863 (High, V12-self-invalidated by re-review): Emission updates retroactively rewrite unaccrued rewards.
+suggested_remediation: "Settle-before-update: call accrual on all active streams before persisting new rate."
+cross_refs:
+  - stale-reward-indexes-accrue

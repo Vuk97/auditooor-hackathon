@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "no-token-recover-mechanism-when-the-auction-ends-without-any-bid"
+class_name: "NoTokenRecoverMechanismWhenTheAuctionEndsWithoutAnyBid"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33582 (Cyfrin/Templedao)"
+help: "No token recover mechanism when the auction ends without any bid"
+wiki_title: "No token recover mechanism when the auction ends without any bid"
+wiki_description: |
+    **Description:** In `SpiceAuction` contract, when an auction ends with no bids, the auction tokens are locked into the contract and can't be recovered. `recoverToken` function doesn't help recover the auction token because it limits recoverable amount to `balance - totalAllocation`
+    
+    **Impact:** The
+wiki_exploit_scenario: |
+    Per Solodit #33582: **Description:** In `SpiceAuction` contract, when an auction ends with no bids, the auction tokens are locked into the contract and can't be recovered. `recoverToken` function doesn't help recover the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoTokenRecoverMechanismWhenTheAuctionEndsWithoutAnyBid"
+solodit_id: "33582"
+solodit_slug: |
+    no-token-recover-mechanism-when-the-auction-ends-without-any-bid-cyfrin-none-cyfrin-templedao-v21-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal recovertoken;"
+fn_name_regex: ".*(SpiceAuction|recoverToken).*"
+read_var_regex: ".*(recoverToken).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SpiceAuction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return recovertoken > 0;"

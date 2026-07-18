@@ -1,0 +1,39 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-03-vaults-with-non-ust-underlying-asset-vulnerable-to-flash-lo"
+class_name: "H03VaultsWithNonUstUnderlyingAssetVulnerableToFlashLo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1276 (Code4rena/Sandclock)"
+help: "[H-03] Vaults with non-UST underlying asset vulnerable to flash loan attack on curve pool"
+wiki_title: "[H-03] Vaults with non-UST underlying asset vulnerable to flash loan attack on curve pool"
+wiki_description: |
+    _Submitted by camden, also found by cccz, cmichel, danb, defsec, harleythedog, hyh, kenzo, leastwood, palina, pauliax, pmerkleplant, Ruhum, WatchPug, and ye0lde_
+    
+    In short, the `NonUSTStrategy` is vulnerable to attacks by flash loans on curve pools.
+    
+    Here's an outline of the attack:
+    
+    *   Assume ther
+wiki_exploit_scenario: |
+    Per Solodit #1276: _Submitted by camden, also found by cccz, cmichel, danb, defsec, harleythedog, hyh, kenzo, leastwood, palina, pauliax, pmerkleplant, Ruhum, WatchPug, and ye0lde_
+    
+    In short, the `NonUSTStrategy` is vul
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03VaultsWithNonUstUnderlyingAssetVulnerableToFlashLo"
+solodit_id: "1276"
+solodit_slug: |
+    h-03-vaults-with-non-ust-underlying-asset-vulnerable-to-flash-loan-attack-on-curve-pool-code4rena-sandclock-sandclock-contest-git
+solodit_quality: "3"
+solodit_rarity: "1"
+solodit_tags: "Flash Loan"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(NonUSTStrategy).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

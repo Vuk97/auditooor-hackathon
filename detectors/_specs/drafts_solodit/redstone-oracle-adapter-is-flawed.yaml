@@ -1,0 +1,30 @@
+skeleton: "state_write_without_paired_write"
+name: "redstone-oracle-adapter-is-flawed"
+class_name: "RedstoneOracleAdapterIsFlawed"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32433 (OpenZeppelin/Euler Price Oracle Audit)"
+help: "Redstone Oracle Adapter Is Flawed"
+wiki_title: "Redstone Oracle Adapter Is Flawed"
+wiki_description: |
+    The [Redstone adapter](https://github.com/euler-xyz/euler-price-oracle/blob/eeb1847df7d9d58029de37225dabf963bf1a65e6/src/adapter/redstone/RedstoneCoreOracle.sol) works by locally caching the prices received through the Redstone pull-based oracle. The user supplies the off-chain verified price by cal
+wiki_exploit_scenario: |
+    Per Solodit #32433: The [Redstone adapter](https://github.com/euler-xyz/euler-price-oracle/blob/eeb1847df7d9d58029de37225dabf963bf1a65e6/src/adapter/redstone/RedstoneCoreOracle.sol) works by locally caching the prices re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RedstoneOracleAdapterIsFlawed"
+solodit_id: "32433"
+solodit_slug: "redstone-oracle-adapter-is-flawed-openzeppelin-none-euler-price-oracle-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(updatePrice|maxCacheStaleness|maxPriceStaleness|cacheUpdatedAt).*"
+primary_var_regex: ".*(cacheStaleness|cacheUpdatedAt|maxCacheStaleness).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

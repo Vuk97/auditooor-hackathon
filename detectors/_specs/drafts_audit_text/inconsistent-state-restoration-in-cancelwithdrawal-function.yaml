@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "inconsistent-state-restoration-in-cancelwithdrawal-function"
+class_name: "InconsistentStateRestorationInCancelwithdrawalFunction"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-04-kinetiq"
+help: |
+    mahdifa , also found by 056Security 0xgremlincat cerweb10 Daniel526 DanielTan_MetaTrust givn gmh5225 harry_cryptodev holydevoti0n IzuMan Lamsy maze MrValioBg NexusAudits Olami97835
+wiki_title: "Inconsistent State Restoration in cancelWithdrawal Function"
+wiki_description: |
+    mahdifa , also found by 056Security 0xgremlincat cerweb10 Daniel526 DanielTan_MetaTrust givn gmh5225 harry_cryptodev holydevoti0n IzuMan Lamsy maze MrValioBg NexusAudits Olami978355 peanuts Pocas Ragnarok Riceee roccomania trachev willycode20 zhaojohnson , and zzebra83 Finding Description and Impact
+wiki_exploit_scenario: |
+    Per audit finding: mahdifa , also found by 056Security 0xgremlincat cerweb10 Daniel526 DanielTan_MetaTrust givn gmh5225 harry_cryptodev holydevoti0n IzuMan Lamsy maze MrValioBg NexusAudits Olami978355 peanuts Pocas Ragn
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentStateRestorationInCancelwithdrawalFunction"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

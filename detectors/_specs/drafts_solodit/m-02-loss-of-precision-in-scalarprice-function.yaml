@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_call"
+name: "m-02-loss-of-precision-in-scalarprice-function"
+class_name: "M02LossOfPrecisionInScalarpriceFunction"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20552 (Pashov Audit Group/Rolling Dutch Auction)"
+help: "[M-02] Loss of precision in `scalarPrice` function"
+wiki_title: "[M-02] Loss of precision in `scalarPrice` function"
+wiki_description: |
+    **Impact:**
+    Medium, as the price will not be very far from the expected one
+    
+    **Likelihood:**
+    Medium, as it will not always result in big loss of precision
+    
+    **Description**
+    
+    In `scalarPrice` there is this code:
+    
+    ```solidity
+    uint256 b_18 = 1e18;
+    uint256 t_mod = t % (t_r - t);
+    uint256 x = (t + t_mod) *
+wiki_exploit_scenario: |
+    Per Solodit #20552: **Impact:**
+    Medium, as the price will not be very far from the expected one
+    
+    **Likelihood:**
+    Medium, as it will not always result in big loss of precision
+    
+    **Description**
+    
+    In `scalarPrice` there is t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02LossOfPrecisionInScalarpriceFunction"
+solodit_id: "20552"
+solodit_slug: "m-02-loss-of-precision-in-scalarprice-function-pashov-none-rolling-dutch-auction-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal scalarprice;"
+fn_name_regex: ".*(scalarPrice|t_r).*"
+read_var_regex: ".*(scalarPrice|t_r).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "scalarPrice"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return scalarprice > 0;"

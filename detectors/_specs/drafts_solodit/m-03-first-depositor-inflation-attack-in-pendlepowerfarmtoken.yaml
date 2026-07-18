@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-03-first-depositor-inflation-attack-in-pendlepowerfarmtoken"
+class_name: "M03FirstDepositorInflationAttackInPendlepowerfarmtoken"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32092 (Code4rena/Wise Lending)"
+help: "[M-03] First depositor inflation attack in `PendlePowerFarmToken`"
+wiki_title: "[M-03] First depositor inflation attack in `PendlePowerFarmToken`"
+wiki_description: |
+    In certain scenarios, shares of a subsequent depositor can be heavily reduced, losing a large amount of his deposited funds, the attacker can increase the right side of the `previewMintShares` by adding rewards for compounding.
+    
+    That way victim can lose `6e17` of his assets for a deposit of `1e18`.
+wiki_exploit_scenario: |
+    Per Solodit #32092: In certain scenarios, shares of a subsequent depositor can be heavily reduced, losing a large amount of his deposited funds, the attacker can increase the right side of the `previewMintShares` by add
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03FirstDepositorInflationAttackInPendlepowerfarmtoken"
+solodit_id: "32092"
+solodit_slug: |
+    m-03-first-depositor-inflation-attack-in-pendlepowerfarmtoken-code4rena-wise-lending-wise-lending-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addcompoundrewards;"
+fn_name_regex: ".*(previewMintShares|PowerFarmToken|depositExactAmount|syncSupply).*"
+read_var_regex: ".*(addCompoundRewards|depositExactAmount|previewMintShares).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "previewMintShares"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addcompoundrewards > 0;"

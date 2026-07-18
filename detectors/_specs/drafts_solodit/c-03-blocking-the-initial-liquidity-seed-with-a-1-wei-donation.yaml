@@ -1,0 +1,54 @@
+skeleton: "paired_function_divergence"
+name: "c-03-blocking-the-initial-liquidity-seed-with-a-1-wei-donation"
+class_name: "C03BlockingTheInitialLiquiditySeedWithA1WeiDonation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36508 (Pashov Audit Group/Moarcandy)"
+help: "[C-03] Blocking the initial liquidity seed with a 1 wei donation"
+wiki_title: "[C-03] Blocking the initial liquidity seed with a 1 wei donation"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    Consider the following scenario:
+    
+    1. While the bonding token (TOK) is still in the initial sale phase, the attacker creates an empty TOK/WETH pair on the Uniswap
+    2. He then donates 1 wei of WETH to the pair and calls the `sync` f
+wiki_exploit_scenario: |
+    Per Solodit #36508: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    Consider the following scenario:
+    
+    1. While the bonding token (TOK) is still in the initial sale phase, the attacker creates an em
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C03BlockingTheInitialLiquiditySeedWithA1WeiDonation"
+solodit_id: "36508"
+solodit_slug: |
+    c-03-blocking-the-initial-liquidity-seed-with-a-1-wei-donation-pashov-audit-group-none-moarcandy-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(sync).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

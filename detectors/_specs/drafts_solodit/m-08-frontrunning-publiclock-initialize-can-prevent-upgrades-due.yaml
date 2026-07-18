@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-08-frontrunning-publiclock-initialize-can-prevent-upgrades-due"
+class_name: "M08FrontrunningPubliclockInitializeCanPreventUpgradesDue"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42358 (Code4rena/Unlock Protocol)"
+help: |
+    [M-08] Frontrunning `PublicLock.initialize()` can prevent upgrades due to insufficient access control
+wiki_title: |
+    [M-08] Frontrunning `PublicLock.initialize()` can prevent upgrades due to insufficient access control
+wiki_description: |
+    _Submitted by elprofesor, also found by kenzo_
+    
+    The unlock protocols base contract `Unlock.sol` uses `setLocktemplate()` to initialize the implementation contract for the `PublicLock` proxy. This function will initialize the relevant `PublicLock` contract which has been deployed separately. `PublicL
+wiki_exploit_scenario: |
+    Per Solodit #42358: _Submitted by elprofesor, also found by kenzo_
+    
+    The unlock protocols base contract `Unlock.sol` uses `setLocktemplate()` to initialize the implementation contract for the `PublicLock` proxy. This func
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08FrontrunningPubliclockInitializeCanPreventUpgradesDue"
+solodit_id: "42358"
+solodit_slug: |
+    m-08-frontrunning-publiclockinitialize-can-prevent-upgrades-due-to-insufficient-access-control-code4rena-unlock-protocol-unlock-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal initialize;"
+fn_name_regex: ".*(setLocktemplate|PublicLock|initialize|setLockTemplate).*"
+read_var_regex: ".*(initialize|setLockTemplate|setLocktemplate).*"
+required_call_regex: ".*PublicLock.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setLocktemplate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return initialize > 0;"

@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "user-funds-may-get-locked"
+class_name: "UserFundsMayGetLocked"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50710 (Halborn/LMCV part 1)"
+help: "USER FUNDS MAY GET LOCKED"
+wiki_title: "USER FUNDS MAY GET LOCKED"
+wiki_description: |
+    ##### Description
+    
+    When admin calls the`cage` function of the `CollateralJoin` contract, the `live` flag is set to zero, which means the contract is stopped.
+    
+    The user can repay the loan, but will not be able to exit (withdraw) assets from the `CollateralJoin` contract.
+    
+    Code Location
+    -------------
+wiki_exploit_scenario: |
+    Per Solodit #50710: ##### Description
+    
+    When admin calls the`cage` function of the `CollateralJoin` contract, the `live` flag is set to zero, which means the contract is stopped.
+    
+    The user can repay the loan, but will not
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UserFundsMayGetLocked"
+solodit_id: "50710"
+solodit_slug: "user-funds-may-get-locked-halborn-damfinance-lmcv-part-1-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cage;"
+fn_name_regex: ".*(cage|CollateralJoin|live|exit).*"
+write_var_regex: ".*(cage|exit|live).*"
+guard_var_regex: ".*(cage|exit|live).*"
+vuln_fn_name: "cage"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "cage = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

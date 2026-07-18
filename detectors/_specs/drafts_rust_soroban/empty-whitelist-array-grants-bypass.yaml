@@ -1,0 +1,20 @@
+id: empty-whitelist-array-grants-bypass
+title: "Empty whitelist array incorrectly grants global bypass"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44352"
+bug_class: authorization
+indicators:
+  - "`if whitelist.is_empty() { return Ok(()) }` bypass when the list should reject"
+  - "unconfigured list treated as 'allow all' rather than 'deny all'"
+victim: "Protocol: unconfigured ACL is fully open."
+exploit_precondition: "Whitelist key uninitialized or cleared."
+real_world_example: |
+  V12 #44352 (Low): Empty whitelist array incorrectly grants global bypass.
+suggested_remediation: "Fail-closed: empty = reject."
+cross_refs:
+  - fail-open-unwrap-or-empty-on-acl-list
+  - ttl-archival-unwrap-or-zero-hides-debt

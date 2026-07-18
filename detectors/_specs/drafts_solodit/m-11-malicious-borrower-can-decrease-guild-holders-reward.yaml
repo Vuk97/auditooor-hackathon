@@ -1,0 +1,39 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-11-malicious-borrower-can-decrease-guild-holders-reward"
+class_name: "M11MaliciousBorrowerCanDecreaseGuildHoldersReward"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30231 (Code4rena/Ethereum Credit Guild)"
+help: "[M-11] Malicious borrower can decrease Guild holders reward"
+wiki_title: "[M-11] Malicious borrower can decrease Guild holders reward"
+wiki_description: |
+    ### Lines of code
+    
+    <https://github.com/code-423n4/2023-12-ethereumcreditguild/blob/2376d9af792584e3d15ec9c32578daa33bb56b43/src/loan/SurplusGuildMinter.sol#L114-L155>
+    
+    <https://github.com/code-423n4/2023-12-ethereumcreditguild/blob/2376d9af792584e3d15ec9c32578daa33bb56b43/src/loan/SurplusGuildMinte
+wiki_exploit_scenario: |
+    Per Solodit #30231: ### Lines of code
+    
+    <https://github.com/code-423n4/2023-12-ethereumcreditguild/blob/2376d9af792584e3d15ec9c32578daa33bb56b43/src/loan/SurplusGuildMinter.sol#L114-L155>
+    
+    <https://github.com/code-423n4/
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11MaliciousBorrowerCanDecreaseGuildHoldersReward"
+solodit_id: "30231"
+solodit_slug: |
+    m-11-malicious-borrower-can-decrease-guild-holders-reward-code4rena-ethereum-credit-guild-ethereum-credit-guild-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(SurplusGuildMinter|GUILD|notifyPnL|stake).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

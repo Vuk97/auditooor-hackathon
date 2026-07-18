@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "uninitialized-availableliquidity-in-loan-size-calculation"
+class_name: "UninitializedAvailableliquidityInLoanSizeCalculation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28714 (MixBytes/AAVE)"
+help: "Uninitialized `availableLiquidity` in Loan Size Calculation."
+wiki_title: "Uninitialized `availableLiquidity` in Loan Size Calculation."
+wiki_description: |
+    ##### Description
+    
+    https://github.com/aave/protocol-v2/blob/f435b2fa0ac589852ca3dd6ae2b0fbfbc7079d54/contracts/libraries/logic/ValidationLogic.sol#L200
+    
+    The `vars.availableLiquidity` field is not initialized before usage.
+    
+    ```solidity
+    //calculate the max available loan size in stable rate mode as a
+wiki_exploit_scenario: |
+    Per Solodit #28714: ##### Description
+    
+    https://github.com/aave/protocol-v2/blob/f435b2fa0ac589852ca3dd6ae2b0fbfbc7079d54/contracts/libraries/logic/ValidationLogic.sol#L200
+    
+    The `vars.availableLiquidity` field is not init
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UninitializedAvailableliquidityInLoanSizeCalculation"
+solodit_id: "28714"
+solodit_slug: "uninitialized-availableliquidity-in-loan-size-calculation-mixbytes-none-aave-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(availableLiquidity).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "availableLiquidity"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "protocol-fees-can-be-bypassed-by-users"
+class_name: "ProtocolFeesCanBeBypassedByUsers"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53565 (SigmaPrime/Brava Labs)"
+help: "Protocol Fees Can Be Bypassed By Users"
+wiki_title: "Protocol Fees Can Be Bypassed By Users"
+wiki_description: |
+    ## Description
+    
+    Fee timestamps are crucial for calculating the payments users owe to Brava during interactions; however, users can directly manipulate these timestamps, potentially avoiding any fee payments.
+    
+    A user can interact directly with the AdminVault contract through their Safe wallet by send
+wiki_exploit_scenario: |
+    Per Solodit #53565: ## Description
+    
+    Fee timestamps are crucial for calculating the payments users owe to Brava during interactions; however, users can directly manipulate these timestamps, potentially avoiding any fee pa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProtocolFeesCanBeBypassedByUsers"
+solodit_id: "53565"
+solodit_slug: "protocol-fees-can-be-bypassed-by-users-sigmaprime-none-brava-labs-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lastfeetimestamp;"
+fn_name_regex: ".*(setFeeTimestamp|lastFeeTimestamp|SequenceExecutor).*"
+write_var_regex: ".*(lastFeeTimestamp|setFeeTimestamp).*"
+guard_var_regex: ".*(lastFeeTimestamp|setFeeTimestamp).*"
+vuln_fn_name: "setFeeTimestamp"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "lastfeetimestamp = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

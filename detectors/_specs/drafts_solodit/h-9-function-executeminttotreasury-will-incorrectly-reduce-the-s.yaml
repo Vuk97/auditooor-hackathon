@@ -1,0 +1,40 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-9-function-executeminttotreasury-will-incorrectly-reduce-the-s"
+class_name: "H9FunctionExecuteminttotreasuryWillIncorrectlyReduceTheS"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41819 (Sherlock/ZeroLend One)"
+help: |
+    H-9: Function `executeMintToTreasury` will incorrectly reduce the `supplyShares`, therefore prevent the last users  from withdrawing
+wiki_title: |
+    H-9: Function `executeMintToTreasury` will incorrectly reduce the `supplyShares`, therefore prevent the last users  from withdrawing
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-06-new-scope-judging/issues/375 
+    
+    ## Found by 
+    000000, 0xAlix2, 0xc0ffEE, A2-security, Honour, KupiaSec, Nihavent, Obsidian, Tendency, Valy001, Varun\_05, coffiasd, ether\_sky, iamnmt, imsrybr0, lemonmon, silver\_eth, stuart\_the\_minion, trachev
+    ### Su
+wiki_exploit_scenario: |
+    Per Solodit #41819: Source: https://github.com/sherlock-audit/2024-06-new-scope-judging/issues/375 
+    
+    ## Found by 
+    000000, 0xAlix2, 0xc0ffEE, A2-security, Honour, KupiaSec, Nihavent, Obsidian, Tendency, Valy001, Varun\_05
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H9FunctionExecuteminttotreasuryWillIncorrectlyReduceTheS"
+solodit_id: "41819"
+solodit_slug: |
+    h-9-function-executeminttotreasury-will-incorrectly-reduce-the-supplyshares-therefore-prevent-the-last-users-from-withdrawing-sherlock-zerolend-one-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(executeMintToTreasury|underlyingBalance|accruedToTreasuryShares|withdraw).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

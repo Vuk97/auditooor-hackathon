@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "m-01-unchecked-transfers"
+class_name: "M01UncheckedTransfers"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #969 (Code4rena/Boot Finance)"
+help: "[M-01] Unchecked transfers"
+wiki_title: "[M-01] Unchecked transfers"
+wiki_description: |
+    _Submitted by Reigada, also found by Ruhum, loop, cmichel, defsec, pauliax, WatchPug, and 0v3rf10w_
+    
+    #### Impact
+    
+    Multiple calls to `transferFrom` and transfer are frequently done without checking the results. For certain ERC20 tokens, if insufficient tokens are present, no revert occurs but a resul
+wiki_exploit_scenario: |
+    Per Solodit #969: _Submitted by Reigada, also found by Ruhum, loop, cmichel, defsec, pauliax, WatchPug, and 0v3rf10w_
+    
+    #### Impact
+    
+    Multiple calls to `transferFrom` and transfer are frequently done without checking the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01UncheckedTransfers"
+solodit_id: "969"
+solodit_slug: "m-01-unchecked-transfers-code4rena-boot-finance-boot-finance-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal safetransfer;"
+fn_name_regex: ".*(transferFrom|safeTransfer|safeTransferFrom).*"
+write_var_regex: ".*(safeTransfer|safeTransferFrom|transferFrom).*"
+guard_var_regex: ".*(safeTransfer|safeTransferFrom|transferFrom).*"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "safetransfer = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

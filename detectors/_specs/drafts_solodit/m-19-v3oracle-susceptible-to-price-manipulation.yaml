@@ -1,0 +1,32 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-19-v3oracle-susceptible-to-price-manipulation"
+class_name: "M19V3oracleSusceptibleToPriceManipulation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32285 (Code4rena/Revert Lend)"
+help: "[M-19] `V3Oracle` susceptible to price manipulation"
+wiki_title: "[M-19] `V3Oracle` susceptible to price manipulation"
+wiki_description: |
+    `V3Oracle::getValue()` is used to calculate the value of a position. The value is the product of the `oracle price * the amounts held in the position`. Price manipulation is prevented by checking for differences between Chainlink oracle and Uniswap TWAP.
+    
+    However, the amounts (`amount0` and `amount
+wiki_exploit_scenario: |
+    Per Solodit #32285: `V3Oracle::getValue()` is used to calculate the value of a position. The value is the product of the `oracle price * the amounts held in the position`. Price manipulation is prevented by checking for
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M19V3oracleSusceptibleToPriceManipulation"
+solodit_id: "32285"
+solodit_slug: "m-19-v3oracle-susceptible-to-price-manipulation-code4rena-revert-lend-revert-lend-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(amount0|amount1|getPositionBreakdown|V3Oracle).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

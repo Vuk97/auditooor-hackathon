@@ -1,0 +1,58 @@
+skeleton: "name_match_missing_call"
+name: "c-01-fees-will-always-be-sent-to-address-0"
+class_name: "C01FeesWillAlwaysBeSentToAddress0"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36386 (Pashov Audit Group/Lucidly June)"
+help: "[C-01] Fees will always be sent to `address(0)`"
+wiki_title: "[C-01] Fees will always be sent to `address(0)`"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    The Staking contract includes a fee mechanism implemented as follows:
+    
+    ```solidity
+            uint256 _fee = (shares_ * depositFeeBps) / 1e4;
+            _mint(to_, shares_ - _fee);
+            _mint(protocolFeeAddress, _fee);
+    ```
+    
+    All fees
+wiki_exploit_scenario: |
+    Per Solodit #36386: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    The Staking contract includes a fee mechanism implemented as follows:
+    
+    ```solidity
+            uint256 _fee = (shares_ * depositFeeBp
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01FeesWillAlwaysBeSentToAddress0"
+solodit_id: "36386"
+solodit_slug: "c-01-fees-will-always-be-sent-to-address0-pashov-audit-group-none-lucidly-june-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal protocolfeeaddress;"
+fn_name_regex: ".*(protocolFeeAddress).*"
+read_var_regex: ".*(protocolFeeAddress).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "protocolFeeAddress"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return protocolfeeaddress > 0;"

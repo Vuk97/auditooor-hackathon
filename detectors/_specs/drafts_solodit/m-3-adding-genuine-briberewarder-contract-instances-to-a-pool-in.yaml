@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "m-3-adding-genuine-briberewarder-contract-instances-to-a-pool-in"
+class_name: "M3AddingGenuineBriberewarderContractInstancesToAPoolIn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36687 (Sherlock/MagicSea - the native DEX on the IotaEVM)"
+help: |
+    M-3: Adding genuine BribeRewarder contract instances to a pool in order to incentivize users can be DOSed
+wiki_title: |
+    M-3: Adding genuine BribeRewarder contract instances to a pool in order to incentivize users can be DOSed
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-06-magicsea-judging/issues/190 
+    
+    ## Found by 
+    0xAnmol, 0xAsen, 0xR360, DMoore, Honour, KupiaSec, MrCrowNFT, PUSH0, Reentrants, Silvermist, anonymousjoe, araj, aslanbek, blockchain555, coffiasd, dany.armstrong90, dimulski, gkrastenov, iamnmt, jennifer37,
+wiki_exploit_scenario: |
+    Per Solodit #36687: Source: https://github.com/sherlock-audit/2024-06-magicsea-judging/issues/190 
+    
+    ## Found by 
+    0xAnmol, 0xAsen, 0xR360, DMoore, Honour, KupiaSec, MrCrowNFT, PUSH0, Reentrants, Silvermist, anonymousjoe,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M3AddingGenuineBriberewarderContractInstancesToAPoolIn"
+solodit_id: "36687"
+solodit_slug: |
+    m-3-adding-genuine-briberewarder-contract-instances-to-a-pool-in-order-to-incentivize-users-can-be-dosed-sherlock-magicsea-the-native-dex-on-the-iotaevm-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

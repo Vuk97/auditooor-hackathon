@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "users-can-dodge-losses-due-to-strsr-era-changes-with-instant-x"
+class_name: "UsersCanDodgeLossesDueToStrsrEraChangesWithInstantX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-reserve"
+help: |
+    RadiantLabs The StRSR contract implements an era-based wrapping of the stakeRate and draftRate exchange rates whenever these pass the maximum accepted value of MAX_STAKE_RATE and M
+wiki_title: "Users can dodge losses due to StRSR era changes with instant operations"
+wiki_description: |
+    RadiantLabs The StRSR contract implements an era-based wrapping of the stakeRate and draftRate exchange rates whenever these pass the maximum accepted value of MAX_STAKE_RATE and MAX_DRAFT_RATE ; the effect of this action is that StRSR token holders see their balance reset ( stakeRate reset) and/or
+wiki_exploit_scenario: |
+    Per audit finding: RadiantLabs The StRSR contract implements an era-based wrapping of the stakeRate and draftRate exchange rates whenever these pass the maximum accepted value of MAX_STAKE_RATE and MAX_DRAFT_RATE ; the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanDodgeLossesDueToStrsrEraChangesWithInstantX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stakeRate|draftRate|seizeRSR).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "stakeRate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

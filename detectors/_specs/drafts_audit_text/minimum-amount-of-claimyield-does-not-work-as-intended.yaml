@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "minimum-amount-of-claimyield-does-not-work-as-intended"
+class_name: "MinimumAmountOfClaimyieldDoesNotWorkAsIntended"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit RabbitX - Zellic Audit Report"
+help: |
+    The following is the code of the claimYield function: uint256 constant HUNDRED_DOLLARS = 1e19; // ... function claimYield() external nonReentrant onlyClaimer { uint256 claimable =
+wiki_title: "Minimum amount of claimYield does not work as intended"
+wiki_description: |
+    The following is the code of the claimYield function: uint256 constant HUNDRED_DOLLARS = 1e19; // ... function claimYield() external nonReentrant onlyClaimer { uint256 claimable = paymentToken.getClaimableAmount(address(this)); if (claimable > HUNDRED_DOLLARS) { uint256 balanceBefore = paymentToken.
+wiki_exploit_scenario: |
+    Per audit finding: The following is the code of the claimYield function: uint256 constant HUNDRED_DOLLARS = 1e19; // ... function claimYield() external nonReentrant onlyClaimer { uint256 claimable = paymentToken.getClai
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MinimumAmountOfClaimyieldDoesNotWorkAsIntended"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimYield|nonReentrant|onlyClaimer).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimYield"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

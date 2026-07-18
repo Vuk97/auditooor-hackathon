@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "last-holder-can-t-exit-zero-supply-unstake-reverts"
+class_name: "LastHolderCanTExitZeroSupplyUnstakeReverts"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-04-cabal-liquid-staking-token"
+help: |
+    maxzuvex Finding description and impact When a user burns the entire remaining supply of a Cabal LST ( sxINIT or Cabal LPT) via initiate_unstake , the follow‑up processing step alw
+wiki_title: "Last Holder Can’t Exit, Zero‑Supply Unstake Reverts"
+wiki_description: |
+    maxzuvex Finding description and impact When a user burns the entire remaining supply of a Cabal LST ( sxINIT or Cabal LPT) via initiate_unstake , the follow‑up processing step always aborts with a divide‑by‑zero and the user can never exit. User calls initiate_unstake(stake_type, S) – S equals the
+wiki_exploit_scenario: |
+    Per audit finding: maxzuvex Finding description and impact When a user burns the entire remaining supply of a Cabal LST ( sxINIT or Cabal LPT) via initiate_unstake , the follow‑up processing step always aborts with a di
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LastHolderCanTExitZeroSupplyUnstakeReverts"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(sxINIT).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "sxINIT"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

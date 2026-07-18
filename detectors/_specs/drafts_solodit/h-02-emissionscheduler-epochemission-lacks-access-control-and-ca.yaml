@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "h-02-emissionscheduler-epochemission-lacks-access-control-and-ca"
+class_name: "H02EmissionschedulerEpochemissionLacksAccessControlAndCa"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #55693 (0x52/Hyperstable)"
+help: |
+    [H-02] `EmissionScheduler#epochEmission` lacks access control and can be called by anyone to cause epoch to mint no emissions
+wiki_title: |
+    [H-02] `EmissionScheduler#epochEmission` lacks access control and can be called by anyone to cause epoch to mint no emissions
+wiki_description: |
+    **Details**
+    
+    [EmissionScheduler.sol#L63-L80](https://github.com/hyperstable/contracts/blob/35db5f2d3c8c1adac30758357fbbcfe55f0144a3/src/governance/EmissionScheduler.sol#L63-L80)
+    
+        @>  function epochEmission(uint256 _pegSupply, uint256 _veSupply) external returns (uint256, uint256, uint256) {
+wiki_exploit_scenario: |
+    Per Solodit #55693: **Details**
+    
+    [EmissionScheduler.sol#L63-L80](https://github.com/hyperstable/contracts/blob/35db5f2d3c8c1adac30758357fbbcfe55f0144a3/src/governance/EmissionScheduler.sol#L63-L80)
+    
+        @>  function epoc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02EmissionschedulerEpochemissionLacksAccessControlAndCa"
+solodit_id: "55693"
+solodit_slug: |
+    h-02-emissionschedulerepochemission-lacks-access-control-and-can-be-called-by-anyone-to-cause-epoch-to-mint-no-emissions-0x52-none-hyperstable-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal currentepoch;"
+fn_name_regex: ".*(lastEpoch|currentEpoch|epochEmission|minter).*"
+read_var_regex: ".*(currentEpoch|epochEmission|lastEpoch).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "lastEpoch"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return currentepoch > 0;"

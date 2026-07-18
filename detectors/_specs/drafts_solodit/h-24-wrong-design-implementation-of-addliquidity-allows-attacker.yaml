@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "h-24-wrong-design-implementation-of-addliquidity-allows-attacker"
+class_name: "H24WrongDesignImplementationOfAddliquidityAllowsAttacker"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42344 (Code4rena/Vader Protocol)"
+help: |
+    [H-24] Wrong design/implementation of `addLiquidity()` allows attacker to steal funds from the liquidity pool
+wiki_title: |
+    [H-24] Wrong design/implementation of `addLiquidity()` allows attacker to steal funds from the liquidity pool
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    The current design/implementation of Vader pool allows users to `addLiquidity` using arbitrary amounts instead of a fixed ratio of amounts in comparison to Uni v2.
+    
+    We believe this design is flawed and it essentially allows anyone to manipulate the price of the pool easily a
+wiki_exploit_scenario: |
+    Per Solodit #42344: _Submitted by WatchPug_
+    
+    The current design/implementation of Vader pool allows users to `addLiquidity` using arbitrary amounts instead of a fixed ratio of amounts in comparison to Uni v2.
+    
+    We believe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H24WrongDesignImplementationOfAddliquidityAllowsAttacker"
+solodit_id: "42344"
+solodit_slug: |
+    h-24-wrong-designimplementation-of-addliquidity-allows-attacker-to-steal-funds-from-the-liquidity-pool-code4rena-vader-protocol-vader-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

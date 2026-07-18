@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-01-single-step-process-for-critical-ownership-transfer-renounc"
+class_name: "M01SingleStepProcessForCriticalOwnershipTransferRenounc"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24951 (Code4rena/PoolTogether)"
+help: "[M-01] Single-step process for critical ownership transfer/renounce is risky"
+wiki_title: "[M-01] Single-step process for critical ownership transfer/renounce is risky"
+wiki_description: |
+    _Submitted by 0xRajeev_
+    
+    The `SwappableYieldSource` allows owners and asset managers to set/swap/transfer yield sources/funds. As such, the contract ownership plays a critical role in the protocol.
+    
+    Given that `AssetManager` is derived from `Ownable`, the ownership management of this contract defaul
+wiki_exploit_scenario: |
+    Per Solodit #24951: _Submitted by 0xRajeev_
+    
+    The `SwappableYieldSource` allows owners and asset managers to set/swap/transfer yield sources/funds. As such, the contract ownership plays a critical role in the protocol.
+    
+    G
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01SingleStepProcessForCriticalOwnershipTransferRenounc"
+solodit_id: "24951"
+solodit_slug: |
+    m-01-single-step-process-for-critical-ownership-transferrenounce-is-risky-code4rena-pooltogether-pooltogether-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal onlyowner;"
+fn_name_regex: ".*(SwappableYieldSource|AssetManager|Ownable|transferOwnership).*"
+read_var_regex: ".*(onlyOwner|onlyOwnerOrAssetManager|pendingOwner).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SwappableYieldSource"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return onlyowner > 0;"

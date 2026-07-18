@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "vultisig-should-be-burnable"
+class_name: "VultisigShouldBeBurnable"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-06-vultisig"
+help: |
+    EPSec , also found by h2134 chista0x Drynooo stacey , and MrPotatoMagic The Vultisig token, as described in its documentation, is expected to include a burnable feature. However, t
+wiki_title: "Vultisig should be burnable"
+wiki_description: |
+    EPSec , also found by h2134 chista0x Drynooo stacey , and MrPotatoMagic The Vultisig token, as described in its documentation, is expected to include a burnable feature. However, the current implementation of the Vultisig token contract lacks the necessary functions to support token burning. This re
+wiki_exploit_scenario: |
+    Per audit finding: EPSec , also found by h2134 chista0x Drynooo stacey , and MrPotatoMagic The Vultisig token, as described in its documentation, is expected to include a burnable feature. However, the current implement
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VultisigShouldBeBurnable"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(approveAndCall|extraData|receiveApproval).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "approveAndCall"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

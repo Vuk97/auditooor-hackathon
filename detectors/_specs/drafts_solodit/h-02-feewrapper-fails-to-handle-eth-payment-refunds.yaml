@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "h-02-feewrapper-fails-to-handle-eth-payment-refunds"
+class_name: "H02FeewrapperFailsToHandleEthPaymentRefunds"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #48941 (Code4rena/Rubicon)"
+help: "[H-02] `FeeWrapper` fails to handle ETH payment refunds"
+wiki_title: "[H-02] `FeeWrapper` fails to handle ETH payment refunds"
+wiki_description: |
+    The `FeeWrapper` contract can be used to wrap calls that include ETH payments. This is handled by the `_rubicallPayable` function:
+    
+    <https://github.com/code-423n4/2023-04-rubicon/blob/main/contracts/utilities/FeeWrapper.sol#L76-L89>
+    
+    ```solidity
+    76:     function _rubicallPayable(
+    77:         CallPa
+wiki_exploit_scenario: |
+    Per Solodit #48941: The `FeeWrapper` contract can be used to wrap calls that include ETH payments. This is handled by the `_rubicallPayable` function:
+    
+    <https://github.com/code-423n4/2023-04-rubicon/blob/main/contracts/
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02FeewrapperFailsToHandleEthPaymentRefunds"
+solodit_id: "48941"
+solodit_slug: "h-02-feewrapper-fails-to-handle-eth-payment-refunds-code4rena-rubicon-rubicon-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal buyallamountwitheth;"
+fn_name_regex: ".*(FeeWrapper|receive|fallback|buyAllAmountWithETH).*"
+read_var_regex: ".*(buyAllAmountWithETH|fallback|receive).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "FeeWrapper"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return buyallamountwitheth > 0;"

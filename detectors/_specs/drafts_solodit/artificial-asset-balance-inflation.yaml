@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "artificial-asset-balance-inflation"
+class_name: "ArtificialAssetBalanceInflation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #10390 (OpenZeppelin/Opyn Bull Strategy Contracts Audit)"
+help: "Artificial asset balance inflation"
+wiki_title: "Artificial asset balance inflation"
+wiki_description: |
+    All the contracts in scope are susceptible to an asset balance inflation attack, where a user might send ETH or any ERC20 token directly to the protocol contracts.
+    
+    
+    For ETH specifically, the only way to do so is by making use of an intermediate contract that uses `selfdestruct` to force funds direc
+wiki_exploit_scenario: |
+    Per Solodit #10390: All the contracts in scope are susceptible to an asset balance inflation attack, where a user might send ETH or any ERC20 token directly to the protocol contracts.
+    
+    
+    For ETH specifically, the only way
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ArtificialAssetBalanceInflation"
+solodit_id: "10390"
+solodit_slug: "artificial-asset-balance-inflation-openzeppelin-opyn-bull-strategy-contracts-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal farm;"
+fn_name_regex: ".*(selfdestruct|receive|farm|AuctionBull).*"
+write_var_regex: ".*(farm|receive|selfdestruct).*"
+guard_var_regex: ".*(farm|receive|selfdestruct).*"
+vuln_fn_name: "selfdestruct"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "farm = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

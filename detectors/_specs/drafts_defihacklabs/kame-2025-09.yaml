@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "kame-2025-09"
+class_name: "Kame202509"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-09/Kame_exp.sol"
+help: "Kame 2025-09 — swap exploit (18167.880000 USD)"
+wiki_title: "Kame (2025-09) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-09): Kame lost 18167.880000 USD. Bug class: swap. Attack tx: 0x6150ec6b2b1b46d1bcba0cab9c3a77b5bca218fd1cdaad1ddc7a916e4ce792ec.
+wiki_exploit_scenario: |
+    Attacker (0xd43d0660601e613f9097d5c75cd04ee0c19e6f65) exploits Kame via swap: the victim contract 0x14bb98581ac1f1a43fd148db7d7d793308dc4d80 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Kame202509"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

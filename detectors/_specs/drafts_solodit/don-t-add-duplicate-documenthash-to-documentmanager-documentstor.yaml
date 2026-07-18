@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "don-t-add-duplicate-documenthash-to-documentmanager-documentstor"
+class_name: "DonTAddDuplicateDocumenthashToDocumentmanagerDocumentstor"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61184 (Cyfrin/Remora Pledge)"
+help: |
+    Don't add duplicate `documentHash` to `DocumentManager::DocumentStorage::_docHashes` when overwriting via `_setDocument` as this causes panic revert when calling `_removeDocument`
+wiki_title: |
+    Don't add duplicate `documentHash` to `DocumentManager::DocumentStorage::_docHashes` when overwriting via `_setDocument` as this causes panic revert when callin
+wiki_description: |
+    **Description:** `DocumentManager::_setDocument` intentionally allows overwriting but when overwriting it adds an additional duplicate `documentHash` to `_docHashes`:
+    ```solidity
+    function _setDocument(
+        bytes32 documentName,
+        string calldata uri,
+        bytes32 documentHash,
+        bool needSignatur
+wiki_exploit_scenario: |
+    Per Solodit #61184: **Description:** `DocumentManager::_setDocument` intentionally allows overwriting but when overwriting it adds an additional duplicate `documentHash` to `_docHashes`:
+    ```solidity
+    function _setDocument
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DonTAddDuplicateDocumenthashToDocumentmanagerDocumentstor"
+solodit_id: "61184"
+solodit_slug: |
+    dont-add-duplicate-documenthash-to-documentmanagerdocumentstorage_dochashes-when-overwriting-via-_setdocument-as-this-causes-panic-revert-when-calling-_removedocument-cyfrin-none-remora-pledge-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal documenthash;"
+fn_name_regex: ".*(documentHash).*"
+read_var_regex: ".*(documentHash).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "documentHash"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return documenthash > 0;"

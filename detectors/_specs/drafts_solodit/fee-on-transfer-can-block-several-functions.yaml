@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "fee-on-transfer-can-block-several-functions"
+class_name: "FeeOnTransferCanBlockSeveralFunctions"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7099 (Spearbit/Gauntlet)"
+help: "Fee on transfer can block several functions"
+wiki_title: "Fee on transfer can block several functions"
+wiki_description: |
+    ## Token Transfer Fee Risk Analysis
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `AeraVaultV1.sol#L456-L514`
+    
+    ## Description
+    Some tokens have a fee on transfer, for example USDT. Usually, such a fee is not enabled but could be re-enabled at any time. With this fee enabled:
+    
+    - The `withdrawFromPool()` fu
+wiki_exploit_scenario: |
+    Per Solodit #7099: ## Token Transfer Fee Risk Analysis
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `AeraVaultV1.sol#L456-L514`
+    
+    ## Description
+    Some tokens have a fee on transfer, for example USDT. Usually, such a fee is no
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FeeOnTransferCanBlockSeveralFunctions"
+solodit_id: "7099"
+solodit_slug: "fee-on-transfer-can-block-several-functions-spearbit-gauntlet-pdf"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Fee On Transfer"
+state_decl: "uint256 internal balanceof;"
+fn_name_regex: ".*(withdrawFromPool|safeTransfer|withdraw|deposit).*"
+read_var_regex: ".*(balanceOf|calculateAndDistributeManagerFees|deposit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdrawFromPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balanceof > 0;"

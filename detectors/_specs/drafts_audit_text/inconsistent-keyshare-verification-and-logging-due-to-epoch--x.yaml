@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "inconsistent-keyshare-verification-and-logging-due-to-epoch--x"
+class_name: "InconsistentKeyshareVerificationAndLoggingDueToEpochX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Fairyring - Zellic Audit Report"
+help: |
+    In the SendKeyshare function, each keyshare transaction triggers two calls to this function. The first call occurs during the simulate stage, where SendKeyshare is called to preche
+wiki_title: "Inconsistent keyshare verification and logging due to Epoch switch"
+wiki_description: |
+    In the SendKeyshare function, each keyshare transaction triggers two calls to this function. The first call occurs during the simulate stage, where SendKeyshare is called to precheck the transaction's validity without affecting the blockchain state. The second call happens during the execution stage
+wiki_exploit_scenario: |
+    Per audit finding: In the SendKeyshare function, each keyshare transaction triggers two calls to this function. The first call occurs during the simulate stage, where SendKeyshare is called to precheck the transaction's
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentKeyshareVerificationAndLoggingDueToEpochX"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(checkTx).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

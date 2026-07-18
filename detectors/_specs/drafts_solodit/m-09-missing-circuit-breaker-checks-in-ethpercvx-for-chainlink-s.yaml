@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "m-09-missing-circuit-breaker-checks-in-ethpercvx-for-chainlink-s"
+class_name: "M09MissingCircuitBreakerChecksInEthpercvxForChainlinkS"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29997 (Code4rena/Asymmetry Finance)"
+help: "[M-09] Missing circuit breaker checks in `ethPerCvx()` for Chainlink's price feed"
+wiki_title: "[M-09] Missing circuit breaker checks in `ethPerCvx()` for Chainlink's price feed"
+wiki_description: |
+    The `ethPerCvx()` function relies on a Chainlink oracle to fetch the CVX / ETH price:
+    
+    [VotiumStrategyCore.sol#L158-L169](https://github.com/code-423n4/2023-09-asymmetry/blob/main/contracts/strategies/votium/VotiumStrategyCore.sol#L158-L169)
+    
+    ```solidity
+            try chainlinkCvxEthFeed.latestRoundD
+wiki_exploit_scenario: |
+    Per Solodit #29997: The `ethPerCvx()` function relies on a Chainlink oracle to fetch the CVX / ETH price:
+    
+    [VotiumStrategyCore.sol#L158-L169](https://github.com/code-423n4/2023-09-asymmetry/blob/main/contracts/strategie
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09MissingCircuitBreakerChecksInEthpercvxForChainlinkS"
+solodit_id: "29997"
+solodit_slug: |
+    m-09-missing-circuit-breaker-checks-in-ethpercvx-for-chainlinks-price-feed-code4rena-asymmetry-finance-asymmetry-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ethpercvx;"
+fn_name_regex: ".*(ethPerCvx|latestRoundData|minAnswer|maxAnswer).*"
+write_var_regex: ".*(ethPerCvx|latestRoundData|maxAnswer).*"
+guard_var_regex: ".*(ethPerCvx|latestRoundData|maxAnswer).*"
+vuln_fn_name: "ethPerCvx"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "ethpercvx = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

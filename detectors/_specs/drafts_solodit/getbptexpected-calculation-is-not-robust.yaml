@@ -1,0 +1,31 @@
+skeleton: "state_write_without_paired_write"
+name: "getbptexpected-calculation-is-not-robust"
+class_name: "GetbptexpectedCalculationIsNotRobust"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #32987 (OpenZeppelin/Origin Balancer MetaPool Strategy Audit)"
+help: "getBPTExpected Calculation Is Not Robust"
+wiki_title: "getBPTExpected Calculation Is Not Robust"
+wiki_description: |
+    The [`getBPTExpected`](https://github.com/OriginProtocol/origin-dollar/blob/eb11498c376b65696c90981757221b076d6226aa/contracts/contracts/strategies/balancer/BaseBalancerStrategy.sol#L253) functions are used to calculate the minimum amount of BPTs to receive when depositing liquidity, or the maximum
+wiki_exploit_scenario: |
+    Per Solodit #32987: The [`getBPTExpected`](https://github.com/OriginProtocol/origin-dollar/blob/eb11498c376b65696c90981757221b076d6226aa/contracts/contracts/strategies/balancer/BaseBalancerStrategy.sol#L253) functions ar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GetbptexpectedCalculationIsNotRobust"
+solodit_id: "32987"
+solodit_slug: |
+    getbptexpected-calculation-is-not-robust-openzeppelin-none-origin-balancer-metapool-strategy-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getBPTExpected|stETH|frxETH).*"
+primary_var_regex: ".*(frxETH|getBPTExpected|stETH).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

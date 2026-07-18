@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "rewards-remain-unclaimed-when-principaldeposits-is-zero"
+class_name: "RewardsRemainUnclaimedWhenPrincipaldepositsIsZero"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Polygon Staking - Zellic Audit Report"
+help: |
+    When queueValidatorRemoval runs on a vault with principalDeposits equal to zero but containing rewards, these rewards remain unclaimed and are lost in accounting because they are n
+wiki_title: "Rewards remain unclaimed when principalDeposits is zero"
+wiki_description: |
+    When queueValidatorRemoval runs on a vault with principalDeposits equal to zero but containing rewards, these rewards remain unclaimed and are lost in accounting because they are not added to the second entry of ValidatorRemoval: function queueValidatorRemoval(uint256 _validatorId) external onlyOwne
+wiki_exploit_scenario: |
+    Per audit finding: When queueValidatorRemoval runs on a vault with principalDeposits equal to zero but containing rewards, these rewards remain unclaimed and are lost in accounting because they are not added to the seco
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RewardsRemainUnclaimedWhenPrincipaldepositsIsZero"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(queueValidatorRemoval|principalDeposits|onlyOwner).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "queueValidatorRemoval"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

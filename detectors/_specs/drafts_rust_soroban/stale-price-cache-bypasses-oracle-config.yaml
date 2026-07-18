@@ -1,0 +1,19 @@
+id: stale-price-cache-bypasses-oracle-config
+title: "Stale price cache bypasses oracle config changes"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44796"
+bug_class: oracle-cascade
+indicators:
+  - "cache lookup on `(asset,)` before consulting updated `AssetConfig`"
+  - "cache TTL is per-asset and not invalidated on config write"
+victim: "Protocol: config changes (decimals, source, staleness) take effect only after cache ages out."
+exploit_precondition: "Admin reconfigures while cache is warm."
+real_world_example: |
+  V12 #44796 (High): Stale price cache bypasses oracle config changes.
+suggested_remediation: "Bust cache entries in every config-mutating admin path."
+cross_refs:
+  - oracle-cache-not-invalidated-on-config-change

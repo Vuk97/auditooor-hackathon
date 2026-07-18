@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "m04-unchecked-erc20-return-values"
+class_name: "M04UncheckedErc20ReturnValues"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11174 (OpenZeppelin/Notional Audit)"
+help: "[M04] Unchecked ERC20 return values"
+wiki_title: "[M04] Unchecked ERC20 return values"
+wiki_description: |
+    According to the [ERC20 token standard](https://eips.ethereum.org/EIPS/eip-20), many function calls return a `bool` to signal the success or failure of the call. Such functions include `transfer`, `transferFrom` and `approve`. While many tokens throw an exception when these functions are unsuccessfu
+wiki_exploit_scenario: |
+    Per Solodit #11174: According to the [ERC20 token standard](https://eips.ethereum.org/EIPS/eip-20), many function calls return a `bool` to signal the success or failure of the call. Such functions include `transfer`, `tr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04UncheckedErc20ReturnValues"
+solodit_id: "11174"
+solodit_slug: "m04-unchecked-erc20-return-values-openzeppelin-notional-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal approve;"
+fn_name_regex: ".*(transfer|transferFrom|approve|deposit).*"
+write_var_regex: ".*(approve|currencyBalance|deposit).*"
+guard_var_regex: ".*(approve|currencyBalance|deposit).*"
+vuln_fn_name: "transfer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "approve = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

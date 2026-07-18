@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "signature-clash-allows-calls-to-transferreserve-to-steal-nft"
+class_name: "SignatureClashAllowsCallsToTransferreserveToStealNft"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Voyage - Zellic Audit Report"
+help: |
+    The VaultFacet contract has a transferReserve(_vault, _currency, _to, _amount) function meant to be used by the vault owner for recovering any ERC20 assets held by their vault. The
+wiki_title: "Signature clash allows calls to transferReserve to steal NFT"
+wiki_description: |
+    The VaultFacet contract has a transferReserve(_vault, _currency, _to, _amount) function meant to be used by the vault owner for recovering any ERC20 assets held by their vault. The function calls execute on the given vault, instructing it to call transferFrom(from , to, amount) on the address specif
+wiki_exploit_scenario: |
+    Per audit finding: The VaultFacet contract has a transferReserve(_vault, _currency, _to, _amount) function meant to be used by the vault owner for recovering any ERC20 assets held by their vault. The function calls exec
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SignatureClashAllowsCallsToTransferreserveToStealNft"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferReserve|transferFrom).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "transferReserve"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

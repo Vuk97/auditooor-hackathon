@@ -1,0 +1,54 @@
+skeleton: "paired_function_divergence"
+name: "h-02-bonding-token-transfers-dos-after-the-pair-was-created"
+class_name: "H02BondingTokenTransfersDosAfterThePairWasCreated"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36510 (Pashov Audit Group/Moarcandy)"
+help: "[H-02] Bonding token transfers DOS after the pair was created"
+wiki_title: "[H-02] Bonding token transfers DOS after the pair was created"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    **Description**
+    
+    Users are not permitted to transfer bonding tokens before the initial sale is concluded and the Token/WETH pair is created:
+    
+    ```solidity
+        function _update(address from, address to, uint256 value) internal virtual override {
+wiki_exploit_scenario: |
+    Per Solodit #36510: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    **Description**
+    
+    Users are not permitted to transfer bonding tokens before the initial sale is concluded and the Token/WETH pair is created:
+    
+    ``
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02BondingTokenTransfersDosAfterThePairWasCreated"
+solodit_id: "36510"
+solodit_slug: |
+    h-02-bonding-token-transfers-dos-after-the-pair-was-created-pashov-audit-group-none-moarcandy-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(liquidityGoalReached).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "c-01-using-underlying-as-the-input-amount-instead-of-normalized-"
+class_name: "C01UsingUnderlyingAsTheInputAmountInsteadOfNormalized"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36433 (Pashov Audit Group/Ionprotocol)"
+help: "[C-01] Using underlying as the input `amount` instead of normalized balances"
+wiki_title: "[C-01] Using underlying as the input `amount` instead of normalized balances"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    `IonPool` inherits `RewardToken`, an ERC20-based non-rebasing token, to enable the transferability of supply shares. However, during token transfers, it accepts the underlying amount as the `amount` input. It then converts this a
+wiki_exploit_scenario: |
+    Per Solodit #36433: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    `IonPool` inherits `RewardToken`, an ERC20-based non-rebasing token, to enable the transferability of supply shares. However, dur
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01UsingUnderlyingAsTheInputAmountInsteadOfNormalized"
+solodit_id: "36433"
+solodit_slug: |
+    c-01-using-underlying-as-the-input-amount-instead-of-normalized-balances-pashov-audit-group-none-ionprotocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(IonPool|RewardToken|amount|amountNormalized).*"
+write_var_regex: ".*(amount|amountNormalized|balanceOf).*"
+guard_var_regex: ".*(amount|amountNormalized|balanceOf).*"
+vuln_fn_name: "IonPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

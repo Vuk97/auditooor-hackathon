@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "m01-daijoin-cage-prevents-withdrawals"
+class_name: "M01DaijoinCagePreventsWithdrawals"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11577 (OpenZeppelin/Compound Finance – MCD & DSR Integration)"
+help: "[M01] daiJoin.cage prevents withdrawals"
+wiki_title: "[M01] daiJoin.cage prevents withdrawals"
+wiki_description: |
+    Part of the functionality of the DSS system is the ability of the Maker admins to call the function [`cage` in join.sol](https://github.com/makerdao/dss/blob/870d6fddb75090eb177290b1db4e255d2c31075e/src/join.sol#L157), which sets `live = 0`. If this happens, the call to [`daiJoin.exit` within CDaiDe
+wiki_exploit_scenario: |
+    Per Solodit #11577: Part of the functionality of the DSS system is the ability of the Maker admins to call the function [`cage` in join.sol](https://github.com/makerdao/dss/blob/870d6fddb75090eb177290b1db4e255d2c31075e/s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01DaijoinCagePreventsWithdrawals"
+solodit_id: "11577"
+solodit_slug: "m01-daijoincage-prevents-withdrawals-openzeppelin-compound-finance-mcd-dsr-integration-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal admin;"
+fn_name_regex: ".*(cage|doTransferOut|require|pauseGuardian).*"
+write_var_regex: ".*(admin|cage|doTransferOut).*"
+guard_var_regex: ".*(admin|cage|doTransferOut).*"
+vuln_fn_name: "cage"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "admin = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

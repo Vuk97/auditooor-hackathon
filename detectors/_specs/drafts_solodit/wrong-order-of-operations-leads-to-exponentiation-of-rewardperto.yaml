@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_call"
+name: "wrong-order-of-operations-leads-to-exponentiation-of-rewardperto"
+class_name: "WrongOrderOfOperationsLeadsToExponentiationOfRewardperto"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19683 (SigmaPrime/Synthetix)"
+help: "Wrong Order of Operations Leads to Exponentiation of rewardPerTokenStored"
+wiki_title: "Wrong Order of Operations Leads to Exponentiation of rewardPerTokenStored"
+wiki_description: |
+    ## Description
+    
+    The `Unipool.sol` contract was updated in commit `4feb1cb`.
+    
+    The updated `rewardPerToken()` function was modified from:
+    
+    ```
+    rewardPerToken = rewardPerTokenStored + lastTimeRewardApplicable() − lastUpdateTime
+    totalSupply() ∗ rewardRate ∗ 1e18
+    ```
+    
+    to:
+    
+    ```
+    rewardPerToken = rewardPerT
+wiki_exploit_scenario: |
+    Per Solodit #19683: ## Description
+    
+    The `Unipool.sol` contract was updated in commit `4feb1cb`.
+    
+    The updated `rewardPerToken()` function was modified from:
+    
+    ```
+    rewardPerToken = rewardPerTokenStored + lastTimeRewardAppli
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrongOrderOfOperationsLeadsToExponentiationOfRewardperto"
+solodit_id: "19683"
+solodit_slug: |
+    wrong-order-of-operations-leads-to-exponentiation-of-rewardpertokenstored-sigmaprime-none-synthetix-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal rewardpertoken;"
+fn_name_regex: ".*(rewardPerToken|rewardPerTokenStored).*"
+read_var_regex: ".*(rewardPerToken|rewardPerTokenStored).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rewardPerToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return rewardpertoken > 0;"

@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "h-14-missing-access-restriction-on-lockunits-unlockunits"
+class_name: "H14MissingAccessRestrictionOnLockunitsUnlockunits"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42158 (Code4rena/Vader Protocol)"
+help: "[H-14] Missing access restriction on `lockUnits/unlockUnits`"
+wiki_title: "[H-14] Missing access restriction on `lockUnits/unlockUnits`"
+wiki_description: |
+    The `Pool.lockUnits` allows anyone to steal pool tokens from a `member` and assign them to `msg.sender`. Anyone can steal pool tokens from any other user.
+    
+    Recommend adding access control and require that `msg.sender` is the router or another authorized party.
+    
+    **[strictly-scarce (vader) confirmed]
+wiki_exploit_scenario: |
+    Per Solodit #42158: The `Pool.lockUnits` allows anyone to steal pool tokens from a `member` and assign them to `msg.sender`. Anyone can steal pool tokens from any other user.
+    
+    Recommend adding access control and require
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H14MissingAccessRestrictionOnLockunitsUnlockunits"
+solodit_id: "42158"
+solodit_slug: "h-14-missing-access-restriction-on-lockunitsunlockunits-code4rena-vader-protocol-vader-protocol-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal member;"
+fn_name_regex: ".*(member).*"
+read_var_regex: ".*(member).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "member"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return member > 0;"

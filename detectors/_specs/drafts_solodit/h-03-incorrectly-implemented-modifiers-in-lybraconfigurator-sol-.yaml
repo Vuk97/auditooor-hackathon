@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "h-03-incorrectly-implemented-modifiers-in-lybraconfigurator-sol-"
+class_name: "H03IncorrectlyImplementedModifiersInLybraconfiguratorSol"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #21140 (Code4rena/Lybra Finance)"
+help: |
+    [H-03] Incorrectly implemented modifiers in `LybraConfigurator.sol` allow any address to call functions that are supposed to be restricted
+wiki_title: |
+    [H-03] Incorrectly implemented modifiers in `LybraConfigurator.sol` allow any address to call functions that are supposed to be restricted
+wiki_description: |
+    The modifiers `onlyRole` (bytes32 role) and `checkRole` (bytes32 role) are not implemented correctly. This would allow anybody to call sensitive functions that should be restricted.
+    
+    ### Proof of Concept
+    
+    For the POC, I set up a new foundry projects and copied the folders lybra, mocks and OFT in th
+wiki_exploit_scenario: |
+    Per Solodit #21140: The modifiers `onlyRole` (bytes32 role) and `checkRole` (bytes32 role) are not implemented correctly. This would allow anybody to call sensitive functions that should be restricted.
+    
+    ### Proof of Con
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03IncorrectlyImplementedModifiersInLybraconfiguratorSol"
+solodit_id: "21140"
+solodit_slug: |
+    h-03-incorrectly-implemented-modifiers-in-lybraconfiguratorsol-allow-any-address-to-call-functions-that-are-supposed-to-be-restricted-code4rena-lybra-finance-lybra-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Access Control"
+state_decl: "uint256 internal checkrole;"
+fn_name_regex: ".*(onlyRole|checkRole).*"
+write_var_regex: ".*(checkRole|onlyRole).*"
+guard_var_regex: ".*(checkRole|onlyRole).*"
+vuln_fn_name: "onlyRole"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "checkrole = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

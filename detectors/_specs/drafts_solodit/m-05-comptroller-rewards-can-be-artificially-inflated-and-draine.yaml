@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-05-comptroller-rewards-can-be-artificially-inflated-and-draine"
+class_name: "M05ComptrollerRewardsCanBeArtificiallyInflatedAndDraine"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25598 (Code4rena/Union Finance)"
+help: |
+    [M-05] Comptroller rewards can be artificially inflated and drained by manipulating [totalStaked - totalFrozen] (or: wrong rewards calculation)
+wiki_title: |
+    [M-05] Comptroller rewards can be artificially inflated and drained by manipulating [totalStaked - totalFrozen] (or: wrong rewards calculation)
+wiki_description: |
+    _Submitted by kenzo_
+    
+    By adding a small of amount of staking to a normal user scenario, and not approving this small amount as a loan for anybody, a staker can gain disproportionate amounts of comptroller rewards, even to the point of draining the contract.
+    For example:
+    Stakers A,B,C stake 100, 65,
+wiki_exploit_scenario: |
+    Per Solodit #25598: _Submitted by kenzo_
+    
+    By adding a small of amount of staking to a normal user scenario, and not approving this small amount as a loan for anybody, a staker can gain disproportionate amounts of comptro
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05ComptrollerRewardsCanBeArtificiallyInflatedAndDraine"
+solodit_id: "25598"
+solodit_slug: |
+    m-05-comptroller-rewards-can-be-artificially-inflated-and-drained-by-manipulating-totalstaked-totalfrozen-or-wrong-rewards-calculation-code4rena-union-finance-union-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calculaterewards;"
+fn_name_regex: ".*(calculateRewardsByBlocks|calculateRewards|getInflationIndexNew|getInflationIndex).*"
+read_var_regex: ".*(calculateRewards|calculateRewardsByBlocks|effectiveAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "calculateRewardsByBlocks"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calculaterewards > 0;"

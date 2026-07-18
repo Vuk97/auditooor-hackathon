@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "functions-cannot-be-removed-during-upgrades"
+class_name: "FunctionsCannotBeRemovedDuringUpgrades"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Voyage - Zellic Audit Report"
+help: |
+    In getUpgrade(...))), bytes4[] storage existingSelectors = LibAppStorage .ds() .upgradeParam .existingSelectors[msg.sender]; it is populated with null values. Therefore, the follow
+wiki_title: "Functions cannot be removed during upgrades"
+wiki_description: |
+    In getUpgrade(...))), bytes4[] storage existingSelectors = LibAppStorage .ds() .upgradeParam .existingSelectors[msg.sender]; it is populated with null values. Therefore, the following loop to set the remove functions will never initiate: for (uint256 i = 0; i < existingSelectors.length; ) { if (!new
+wiki_exploit_scenario: |
+    Per audit finding: In getUpgrade(...))), bytes4[] storage existingSelectors = LibAppStorage .ds() .upgradeParam .existingSelectors[msg.sender]; it is populated with null values. Therefore, the following loop to set the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FunctionsCannotBeRemovedDuringUpgrades"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getUpgrade|existingSelectors|upgradeParam).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getUpgrade"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

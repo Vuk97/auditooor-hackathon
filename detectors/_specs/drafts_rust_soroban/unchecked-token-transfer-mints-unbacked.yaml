@@ -1,0 +1,21 @@
+id: unchecked-token-transfer-mints-unbacked
+title: "Mint based on requested amount without measuring post-transfer balance delta"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44803"
+bug_class: authorization
+indicators:
+  - "call sequence: `token.transfer(from, pool, amount).unwrap(); atoken.mint_scaled(user, amount, index)`"
+  - "no `balance_before = token.balance(pool); ...; balance_after = token.balance(pool); minted = balance_after - balance_before` pattern"
+  - "`validate_supply_cap_after_interest` checks caller-supplied `amount` rather than measured delta"
+  - "relies on SEP-41 `transfer` returning success without tolerating fee-on-transfer, rebasing, or malicious token semantics"
+victim: "Suppliers: protocol mints aTokens against assets it never received, creating bad debt that gets socialized."
+exploit_precondition: "Listed reserve token is fee-on-transfer, rebasing, upgradeable, or malicious such that `transfer` succeeds but delivers less than requested."
+real_world_example: |
+  V12 #44803 (High): `KineticRouter::supply` mints aTokens for the nominal `amount` after `transfer_from` returns success, without measuring the balance delta at `a_token_address`. Same pattern in `swap_collateral`.
+suggested_remediation: "Wrap every inbound transfer with balance-before/after measurement and mint based on the measured delta, not the caller-supplied amount."
+cross_refs:
+  - caller-supplied-accounting-fact

@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "m-22-minimum-liquidity-checks-missing-bringing-liquidity-below-r"
+class_name: "M22MinimumLiquidityChecksMissingBringingLiquidityBelowR"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2897 (Code4rena/Yieldy)"
+help: "[M-22] MINIMUM_LIQUIDITY checks missing - Bringing Liquidity below required min"
+wiki_title: "[M-22] MINIMUM_LIQUIDITY checks missing - Bringing Liquidity below required min"
+wiki_description: |
+    _Submitted by csanuragjain_
+    
+    Whale who provided most liquidity to the contract can simply use removeLiquidity function and can remove all of his liquidity. This can leave the residual liquidity to be less than MINIMUM_LIQUIDITY which is incorrect.
+    
+    ### Proof of Concept
+    
+    1.  Whale A provided initial
+wiki_exploit_scenario: |
+    Per Solodit #2897: _Submitted by csanuragjain_
+    
+    Whale who provided most liquidity to the contract can simply use removeLiquidity function and can remove all of his liquidity. This can leave the residual liquidity to be
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M22MinimumLiquidityChecksMissingBringingLiquidityBelowR"
+solodit_id: "2897"
+solodit_slug: |
+    m-22-minimum_liquidity-checks-missing-bringing-liquidity-below-required-min-code4rena-yieldy-yieldy-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

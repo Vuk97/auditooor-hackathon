@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "erc721seadrop-owner-can-choose-an-address-they-control-as-the-ad"
+class_name: "Erc721seadropOwnerCanChooseAnAddressTheyControlAsTheAd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6843 (Spearbit/SeaDrop)"
+help: "ERC721SeaDrop owner can choose an address they control as the admin when the constructor is called."
+wiki_title: "ERC721SeaDrop owner can choose an address they control as the admin when the constructor is called."
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    `ERC721SeaDrop.sol#L83`
+    
+    ## Description
+    The owner/creator can call the contract directly (skipping the use of the UI) and set the administrator as themselves or another address that they control. After creating a `PublicDrop` or `TokenGatedDrop`, they can call ei
+wiki_exploit_scenario: |
+    Per Solodit #6843: ## Severity: Medium Risk
+    
+    ## Context
+    `ERC721SeaDrop.sol#L83`
+    
+    ## Description
+    The owner/creator can call the contract directly (skipping the use of the UI) and set the administrator as themselves or an
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Erc721seadropOwnerCanChooseAnAddressTheyControlAsTheAd"
+solodit_id: "6843"
+solodit_slug: |
+    erc721seadrop-owner-can-choose-an-address-they-control-as-the-admin-when-the-constructor-is-spearbit-seadrop-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation, Admin"
+state_decl: "uint256 internal feebps;"
+fn_name_regex: ".*(PublicDrop|TokenGatedDrop|updatePublicDropFee|updateTokenGatedDropFee).*"
+write_var_regex: ".*(feeBps|feeRecipient|feeRecipients).*"
+guard_var_regex: ".*(feeBps|feeRecipient|feeRecipients).*"
+vuln_fn_name: "PublicDrop"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "feebps = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

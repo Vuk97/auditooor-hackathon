@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-01-incorrect-call-argument-in-thorchain-router-transferoutandc"
+class_name: "M01IncorrectCallArgumentInThorchainRouterTransferoutandc"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35737 (Code4rena/Thorchain)"
+help: |
+    [M-01] Incorrect call argument in `THORChain_Router::_transferOutAndCallV5`, leading to grief/steal of `THORChain_Aggregator`'s funds or DoS
+wiki_title: |
+    [M-01] Incorrect call argument in `THORChain_Router::_transferOutAndCallV5`, leading to grief/steal of `THORChain_Aggregator`'s funds or DoS
+wiki_description: |
+    When transferring a token, which is of type fee-on-transfer, in `THORChain_Router::_transferOutAndCallV5`, the token is first deposited to the `THORChain_Aggregator` and then `THORChain_Aggregator::swapOutV5` is called with the same amount. The call will always revert if the `THORChain_Aggregator`
+wiki_exploit_scenario: |
+    Per Solodit #35737: When transferring a token, which is of type fee-on-transfer, in `THORChain_Router::_transferOutAndCallV5`, the token is first deposited to the `THORChain_Aggregator` and then `THORChain_Aggregator::s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01IncorrectCallArgumentInThorchainRouterTransferoutandc"
+solodit_id: "35737"
+solodit_slug: |
+    m-01-incorrect-call-argument-in-thorchain_router_transferoutandcallv5-leading-to-griefsteal-of-thorchain_aggregators-funds-or-dos-code4rena-thorchain-thorchain-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(THORChain_Aggregator|PAXG).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*THORChain_Aggregator.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "THORChain_Aggregator"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

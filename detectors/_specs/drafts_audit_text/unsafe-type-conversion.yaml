@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unsafe-type-conversion"
+class_name: "UnsafeTypeConversion"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "hexens audit Azuro_public"
+help: |
+    The code contains an abundance of type conversions that represent potential risks because of the way Solidity handles conversion when the destination type consists of less bits tha
+wiki_title: "UNSAFE TYPE CONVERSION"
+wiki_description: |
+    The code contains an abundance of type conversions that represent potential risks because of the way Solidity handles conversion when the destination type consists of less bits than the source. This truncation might result in unexpected code behaviour, yet some cases may not be able to reach the pro
+wiki_exploit_scenario: |
+    Per audit finding: The code contains an abundance of type conversions that represent potential risks because of the way Solidity handles conversion when the destination type consists of less bits than the source. This t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnsafeTypeConversion"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addReserve|putBet|updateContribution).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "addReserve"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

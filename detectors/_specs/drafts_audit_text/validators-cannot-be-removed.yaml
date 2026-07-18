@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "validators-cannot-be-removed"
+class_name: "ValidatorsCannotBeRemoved"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Mina Token Bridge EVM - Zellic Audit Report"
+help: |
+    A minter can pass multiple signatures as arguments to the unlock function, signed by various valida- tors, to claim Ether or tokens. Each signature must be signed by a validator th
+wiki_title: "Validators cannot be removed"
+wiki_description: |
+    A minter can pass multiple signatures as arguments to the unlock function, signed by various valida- tors, to claim Ether or tokens. Each signature must be signed by a validator that the owner has added to the whitelist. Validators can be added using the addListValidator function; however, there is
+wiki_exploit_scenario: |
+    Per audit finding: A minter can pass multiple signatures as arguments to the unlock function, signed by various valida- tors, to claim Ether or tokens. Each signature must be signed by a validator that the owner has add
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ValidatorsCannotBeRemoved"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addListValidator).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "addListValidator"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

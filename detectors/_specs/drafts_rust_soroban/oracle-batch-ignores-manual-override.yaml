@@ -1,0 +1,20 @@
+id: oracle-batch-ignores-manual-override
+title: "Batch oracle read path ignores emergency manual override"
+severity: High
+language: rust
+platform: soroban
+source: "watchpug-rev3"
+source_ids:
+  - "WP-H5"
+bug_class: oracle-cascade
+indicators:
+  - "batch price getter reads `LastPriceData`/cache-first without checking `manual_override_price`"
+  - "single-asset path honors manual override but batch path does not"
+  - "inconsistent priority order between batch and single-asset read paths"
+victim: "Protocol during emergencies: manual override set during market stress is bypassed by any caller using the batch path."
+exploit_precondition: "Manual override is in effect; attacker routes through the batch getter (e.g. via liquidation flow)."
+real_world_example: |
+  WatchPug WP-H5 (High): Oracle batch query ignores emergency manual override due to cache priority inconsistency.
+suggested_remediation: "Apply the same priority order (manual override > configured source > fallback) in both single and batch paths. Extract a single resolver used by both."
+cross_refs:
+  - oracle-cache-not-invalidated-on-config-change

@@ -1,0 +1,33 @@
+skeleton: "paired_function_divergence"
+name: "basedynamicfee-hook-can-be-poked-arbitrarily"
+class_name: "BasedynamicfeeHookCanBePokedArbitrarily"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49304 (OpenZeppelin/Uniswap Hooks Library Milestone 1 Audit)"
+help: "BaseDynamicFee Hook Can Be Poked Arbitrarily"
+wiki_title: "BaseDynamicFee Hook Can Be Poked Arbitrarily"
+wiki_description: |
+    The [`BaseDynamicFee` hook contract](https://github.com/OpenZeppelin/uniswap-hooks/blob/f051c147dbf296b2b854de92970905a880cd1d51/src/fee/BaseDynamicFee.sol#L21) has a `virtual` `external` [`poke` function](https://github.com/OpenZeppelin/uniswap-hooks/blob/f051c147dbf296b2b854de92970905a880cd1d51/sr
+wiki_exploit_scenario: |
+    Per Solodit #49304: The [`BaseDynamicFee` hook contract](https://github.com/OpenZeppelin/uniswap-hooks/blob/f051c147dbf296b2b854de92970905a880cd1d51/src/fee/BaseDynamicFee.sol#L21) has a `virtual` `external` [`poke` func
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BasedynamicfeeHookCanBePokedArbitrarily"
+solodit_id: "49304"
+solodit_slug: |
+    basedynamicfee-hook-can-be-poked-arbitrarily-openzeppelin-none-uniswap-hooks-library-milestone-1-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(external|internal|poke).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

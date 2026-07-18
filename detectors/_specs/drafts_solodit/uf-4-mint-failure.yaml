@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "uf-4-mint-failure"
+class_name: "Uf4MintFailure"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20293 (Guardian Audits/Ultimate Fantoms)"
+help: "UF-4 | Mint Failure"
+wiki_title: "UF-4 | Mint Failure"
+wiki_description: |
+    **Description**
+    
+    In `publicMint`, when performing `_earnTo = random() % (_tokenIdCounter.current() +1)`, there is a
+    possibility `_earnTo` is equivalent to `_tokenIdCounter.current()` which yields a `tokenID` for a token that
+    does not exist yet. Therefore, the subsequent call to `ownerOf` will fail a
+wiki_exploit_scenario: |
+    Per Solodit #20293: **Description**
+    
+    In `publicMint`, when performing `_earnTo = random() % (_tokenIdCounter.current() +1)`, there is a
+    possibility `_earnTo` is equivalent to `_tokenIdCounter.current()` which yields a `t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Uf4MintFailure"
+solodit_id: "20293"
+solodit_slug: "uf-4-mint-failure-guardian-audits-none-ultimate-fantoms-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ownerof;"
+fn_name_regex: ".*(publicMint|tokenID|ownerOf).*"
+read_var_regex: ".*(ownerOf|publicMint|tokenID).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "publicMint"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ownerof > 0;"

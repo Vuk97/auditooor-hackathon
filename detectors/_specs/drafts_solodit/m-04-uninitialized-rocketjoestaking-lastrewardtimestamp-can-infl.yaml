@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-04-uninitialized-rocketjoestaking-lastrewardtimestamp-can-infl"
+class_name: "M04UninitializedRocketjoestakingLastrewardtimestampCanInfl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42465 (Code4rena/Trader Joe)"
+help: "[M-04] Uninitialized `RocketJoeStaking.lastRewardTimestamp` can inflate `rJoe` supply"
+wiki_title: "[M-04] Uninitialized `RocketJoeStaking.lastRewardTimestamp` can inflate `rJoe` supply"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `RocketJoeStaking.lastRewardTimestamp` is initialized to zero. Usually, this does not matter as `updatePool` is called before the first deposit and when `joeSupply = joe.balanceOf(address(this)) == 0`, it is set to the current time.
+    
+    ```solidity
+    function updatePool() publ
+wiki_exploit_scenario: |
+    Per Solodit #42465: _Submitted by cmichel_
+    
+    The `RocketJoeStaking.lastRewardTimestamp` is initialized to zero. Usually, this does not matter as `updatePool` is called before the first deposit and when `joeSupply = joe.ba
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04UninitializedRocketjoestakingLastrewardtimestampCanInfl"
+solodit_id: "42465"
+solodit_slug: |
+    m-04-uninitialized-rocketjoestakinglastrewardtimestamp-can-inflate-rjoe-supply-code4rena-trader-joe-trader-joe-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(updatePool|Joe|rJoe|joeSupply).*"
+read_var_regex: ".*(deposit|joeSupply|lastRewardTimestamp).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updatePool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposit > 0;"

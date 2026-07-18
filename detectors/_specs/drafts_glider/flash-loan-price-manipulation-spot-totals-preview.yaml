@@ -1,0 +1,25 @@
+skeleton: "state_write_without_paired_write"
+name: "flash-loan-price-manipulation-spot-totals-preview"
+class_name: "FlashLoanPriceManipulationSpotTotalsPreview"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: flashloan-price-manipulation"
+help: "Flash Loan Price Manipulation (Spot/Totals/Preview)"
+wiki_title: "Flash Loan Price Manipulation (Spot/Totals/Preview)"
+wiki_description: |
+    Flags pricing/preview functions that rely on spot DEX reserves or on-chain balances/totals without TWAP/external oracle protection, exposing them to flash loan manipulation.
+wiki_exploit_scenario: |
+    Per Glider query tags [flashloan, oracle, price-manipulation, dex, spot-price, totals, preview]: Flags pricing/preview functions that rely on spot DEX reserves or on-chain balances/totals without TWAP/external oracle protection, exposing them to flash loan manipulation.
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "FlashLoanPriceManipulationSpotTotalsPreview"
+fn_name_regex: ".*(flash).*"
+primary_var_regex: ".*(balance|amount|position|stake).*"
+paired_var_regex: ".*(flag|status|cleared|isLong|reset).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;

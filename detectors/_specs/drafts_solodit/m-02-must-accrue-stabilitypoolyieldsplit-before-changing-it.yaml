@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-02-must-accrue-stabilitypoolyieldsplit-before-changing-it"
+class_name: "M02MustAccrueStabilitypoolyieldsplitBeforeChangingIt"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53919 (Recon Audits/Quill Finance Report)"
+help: "[M-02] Must accrue `stabilityPoolYieldSplit` before changing it"
+wiki_title: "[M-02] Must accrue `stabilityPoolYieldSplit` before changing it"
+wiki_description: |
+    **Impact**
+    
+    Changing the yield can change the results from `calcPendingSPYield`
+    
+    https://github.com/subvisual/quill/blob/d4a5dcc168dfc315eef6a4c9c465a36c86ca0ddc/contracts/src/ActivePool.sol#L150-L153
+    
+    ```solidity
+        function calcPendingSPYield() external view returns (uint256) {
+            return cal
+wiki_exploit_scenario: |
+    Per Solodit #53919: **Impact**
+    
+    Changing the yield can change the results from `calcPendingSPYield`
+    
+    https://github.com/subvisual/quill/blob/d4a5dcc168dfc315eef6a4c9c465a36c86ca0ddc/contracts/src/ActivePool.sol#L150-L153
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02MustAccrueStabilitypoolyieldsplitBeforeChangingIt"
+solodit_id: "53919"
+solodit_slug: |
+    m-02-must-accrue-stabilitypoolyieldsplit-before-changing-it-recon-audits-none-quill-finance-report-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calcpendingspyield;"
+fn_name_regex: ".*(calcPendingSPYield|mintAggInterest|stabilityPoolYieldSplit).*"
+read_var_regex: ".*(calcPendingSPYield|mintAggInterest).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "calcPendingSPYield"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calcpendingspyield > 0;"

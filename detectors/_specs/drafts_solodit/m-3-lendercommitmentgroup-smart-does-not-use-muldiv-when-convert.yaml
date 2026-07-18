@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-3-lendercommitmentgroup-smart-does-not-use-muldiv-when-convert"
+class_name: "M3LendercommitmentgroupSmartDoesNotUseMuldivWhenConvert"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32380 (Sherlock/Teller Finance)"
+help: |
+    M-3: `LenderCommitmentGroup_Smart` does not use `mulDiv` when converting between token and share amounts, possibly leading to DoS or loss of funds
+wiki_title: |
+    M-3: `LenderCommitmentGroup_Smart` does not use `mulDiv` when converting between token and share amounts, possibly leading to DoS or loss of funds
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-04-teller-finance-judging/issues/39 
+    
+    ## Found by 
+    0x73696d616f
+    ## Summary
+    
+    `LenderCommitmentGroup_Smart` calculates the exchange rate and `_valueOfUnderlying()` without using `mulDiv` from `OpenZeppelin`, which might make it overflow, leading to DoS an
+wiki_exploit_scenario: |
+    Per Solodit #32380: Source: https://github.com/sherlock-audit/2024-04-teller-finance-judging/issues/39 
+    
+    ## Found by 
+    0x73696d616f
+    ## Summary
+    
+    `LenderCommitmentGroup_Smart` calculates the exchange rate and `_valueOfUnder
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M3LendercommitmentgroupSmartDoesNotUseMuldivWhenConvert"
+solodit_id: "32380"
+solodit_slug: |
+    m-3-lendercommitmentgroup_smart-does-not-use-muldiv-when-converting-between-token-and-share-amounts-possibly-leading-to-dos-or-loss-of-funds-sherlock-teller-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addprincipaltocommitmentgroup;"
+fn_name_regex: ".*(LenderCommitmentGroup_Smart|mulDiv|OpenZeppelin|sharesExchangeRate).*"
+read_var_regex: ".*(addPrincipalToCommitmentGroup|mulDiv|poolTotalEstimatedValue).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LenderCommitmentGroup_Smart"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addprincipaltocommitmentgroup > 0;"

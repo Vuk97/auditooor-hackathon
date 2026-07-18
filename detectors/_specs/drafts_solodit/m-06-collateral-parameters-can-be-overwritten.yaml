@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-06-collateral-parameters-can-be-overwritten"
+class_name: "M06CollateralParametersCanBeOverwritten"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1210 (Code4rena/Yeti Finance)"
+help: "[M-06] Collateral parameters can be overwritten"
+wiki_title: "[M-06] Collateral parameters can be overwritten"
+wiki_description: |
+    _Submitted by cmichel, also found by csanuragjain and gzeon_
+    
+    It's possible to repeatedly add the first collateral token in `validCollateral` through the `Whitelist.addCollateral` function.
+    The `validCollateral[0] != _collateral` check will return false and skip further checks.
+    
+    #### POC
+    
+    Owner call
+wiki_exploit_scenario: |
+    Per Solodit #1210: _Submitted by cmichel, also found by csanuragjain and gzeon_
+    
+    It's possible to repeatedly add the first collateral token in `validCollateral` through the `Whitelist.addCollateral` function.
+    The `valid
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06CollateralParametersCanBeOverwritten"
+solodit_id: "1210"
+solodit_slug: "m-06-collateral-parameters-can-be-overwritten-code4rena-yeti-finance-yeti-finance-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addcollateral;"
+fn_name_regex: ".*(validCollateral|addCollateral|collateralParams).*"
+read_var_regex: ".*(addCollateral|collateralParams|validCollateral).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "validCollateral"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addcollateral > 0;"

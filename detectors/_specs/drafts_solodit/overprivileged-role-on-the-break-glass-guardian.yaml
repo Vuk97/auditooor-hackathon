@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "overprivileged-role-on-the-break-glass-guardian"
+class_name: "OverprivilegedRoleOnTheBreakGlassGuardian"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #50144 (Halborn/Governance & Timelock Updates)"
+help: "OVERPRIVILEGED ROLE ON THE BREAK GLASS GUARDIAN"
+wiki_title: "OVERPRIVILEGED ROLE ON THE BREAK GLASS GUARDIAN"
+wiki_description: |
+    ##### Description
+    
+    In the contract GovernorAlpha, the breakGlassGuardian has the authority to call the following functions to update the timelock admin:
+    
+    * GovernorAlpha.\_\_acceptAdminOnTimelock() : The breakGlassGuardian can accept address to be a timelock
+      admin.
+    * GovernorAlpha.\_\_executeSetTi
+wiki_exploit_scenario: |
+    Per Solodit #50144: ##### Description
+    
+    In the contract GovernorAlpha, the breakGlassGuardian has the authority to call the following functions to update the timelock admin:
+    
+    * GovernorAlpha.\_\_acceptAdminOnTimelock() :
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OverprivilegedRoleOnTheBreakGlassGuardian"
+solodit_id: "50144"
+solodit_slug: |
+    overprivileged-role-on-the-break-glass-guardian-halborn-moonwell-governance-timelock-updates-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(breakGlassGuardian|acceptAdmin|pendingAdmin|newPendingAdmin).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "breakGlassGuardian"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

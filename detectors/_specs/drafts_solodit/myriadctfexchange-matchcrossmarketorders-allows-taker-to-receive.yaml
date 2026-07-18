@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_require"
+name: "myriadctfexchange-matchcrossmarketorders-allows-taker-to-receive"
+class_name: "MyriadctfexchangeMatchcrossmarketordersAllowsTakerToReceive"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #65419 (Cyfrin/Myriad Clob)"
+help: |
+    `MyriadCTFExchange::matchCrossMarketOrders` allows taker to receive YES tokens for free when `priceSum > ONE`
+wiki_title: |
+    `MyriadCTFExchange::matchCrossMarketOrders` allows taker to receive YES tokens for free when `priceSum > ONE`
+wiki_description: |
+    **Description:** `matchCrossMarketOrders` requires only `priceSum >= ONE`, not `priceSum == ONE`:
+    
+    ```solidity
+    // MyriadCTFExchange.sol:252
+    require(priceSum >= ONE, "price sum < 1");
+    ```
+    
+    The notional for the last ("taker") order is computed as the remainder:
+    
+    ```solidity
+    // MyriadCTFExchange.sol:26
+wiki_exploit_scenario: |
+    Per Solodit #65419: **Description:** `matchCrossMarketOrders` requires only `priceSum >= ONE`, not `priceSum == ONE`:
+    
+    ```solidity
+    // MyriadCTFExchange.sol:252
+    require(priceSum >= ONE, "price sum < 1");
+    ```
+    
+    The notional
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MyriadctfexchangeMatchcrossmarketordersAllowsTakerToReceive"
+solodit_id: "65419"
+solodit_slug: |
+    myriadctfexchangematchcrossmarketorders-allows-taker-to-receive-yes-tokens-for-free-when-pricesum-one-cyfrin-none-myriad-clob-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal fillamount;"
+fn_name_regex: ".*(matchCrossMarketOrders|fillAmount|totalFees|FeeModule).*"
+write_var_regex: ".*(fillAmount|matchCrossMarketOrders|totalFees).*"
+guard_var_regex: ".*(fillAmount|matchCrossMarketOrders|totalFees).*"
+vuln_fn_name: "matchCrossMarketOrders"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "fillamount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

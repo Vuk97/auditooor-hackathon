@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "insufficient-validation-of-requestid"
+class_name: "InsufficientValidationOfRequestid"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Concrete - Zellic Audit Report"
+help: |
+    The storage variable lastFinalizedRequestId records the last claimed request. And the function prepareWithdrawal is used to process unclaimed requests. Thus, this function should n
+wiki_title: "Insufficient validation of _requestId"
+wiki_description: |
+    The storage variable lastFinalizedRequestId records the last claimed request. And the function prepareWithdrawal is used to process unclaimed requests. Thus, this function should not process a request when its _requestId equals the lastFinalizedRequestId. function prepareWithdrawal(uint256 _requestI
+wiki_exploit_scenario: |
+    Per audit finding: The storage variable lastFinalizedRequestId records the last claimed request. And the function prepareWithdrawal is used to process unclaimed requests. Thus, this function should not process a request
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InsufficientValidationOfRequestid"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(lastFinalizedRequestId|prepareWithdrawal|onlyOwner).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "lastFinalizedRequestId"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

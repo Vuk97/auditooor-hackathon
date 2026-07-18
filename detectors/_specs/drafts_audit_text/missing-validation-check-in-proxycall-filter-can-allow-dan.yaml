@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-validation-check-in-proxycall-filter-can-allow-dan"
+class_name: "MissingValidationCheckInProxycallFilterCanAllowDan"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Revest Resonate Pt. 1 - Zellic Audit Report"
+help: |
+    The proxyCall function has checks to ensure no calls made to it result in a decrease of capital. However, it has incomplete checks to ensure there are no calls made that could resu
+wiki_title: "Missing validation check in proxyCall filter can allow dan-"
+wiki_description: |
+    The proxyCall function has checks to ensure no calls made to it result in a decrease of capital. However, it has incomplete checks to ensure there are no calls made that could result in a future decrease of capital. For example, it currently includes a filter for approve but none for newer functions
+wiki_exploit_scenario: |
+    Per audit finding: The proxyCall function has checks to ensure no calls made to it result in a decrease of capital. However, it has incomplete checks to ensure there are no calls made that could result in a future decre
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingValidationCheckInProxycallFilterCanAllowDan"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(proxyCall|increaseAllowance).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "proxyCall"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "h-4-loan-can-be-written-off-by-anybody-before-overdue-delay-expi"
+class_name: "H4LoanCanBeWrittenOffByAnybodyBeforeOverdueDelayExpi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3569 (Sherlock/Union Finance)"
+help: "H-4: Loan can be written off by anybody before overdue delay expires"
+wiki_title: "H-4: Loan can be written off by anybody before overdue delay expires"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-10-union-finance-judging/issues/115 
+    
+    ## Found by 
+    Bahurum
+    
+    ## Summary
+    When a borrower takes a second loan after a loan that has been written off, this second loan can be written off instantly by any other member due to missing update of last repay bloc
+wiki_exploit_scenario: |
+    Per Solodit #3569: Source: https://github.com/sherlock-audit/2022-10-union-finance-judging/issues/115 
+    
+    ## Found by 
+    Bahurum
+    
+    ## Summary
+    When a borrower takes a second loan after a loan that has been written off, this s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H4LoanCanBeWrittenOffByAnybodyBeforeOverdueDelayExpi"
+solodit_id: "3569"
+solodit_slug: |
+    h-4-loan-can-be-written-off-by-anybody-before-overdue-delay-expires-sherlock-union-finance-union-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(accountBorrows|lastRepay|debtWriteOff|overdueBlocks).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

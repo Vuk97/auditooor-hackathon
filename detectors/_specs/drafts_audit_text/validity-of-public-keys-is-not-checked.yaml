@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "validity-of-public-keys-is-not-checked"
+class_name: "ValidityOfPublicKeysIsNotChecked"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Biconomy Secp256r1 - Zellic Audit Report"
+help: |
+    The Verify function does not check the validity of the public key passKey. To be valid, a public key needs to [3] 1. not be the point at infinity, 2. have coordinates (x, y) satisf
+wiki_title: "Validity of public keys is not checked"
+wiki_description: |
+    The Verify function does not check the validity of the public key passKey. To be valid, a public key needs to [3] 1. not be the point at infinity, 2. have coordinates (x, y) satisfying 0 ≤ x, y < p, and 3. satisfy the equation y 2 = x3 + ax + b modulo p. The public key is only used after conversion
+wiki_exploit_scenario: |
+    Per audit finding: The Verify function does not check the validity of the public key passKey. To be valid, a public key needs to [3] 1. not be the point at infinity, 2. have coordinates (x, y) satisfying 0 ≤ x, y < p, a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ValidityOfPublicKeysIsNotChecked"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(passKey|cobianPoints|pubKeyX).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "passKey"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

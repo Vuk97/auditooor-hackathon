@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_require"
+name: "trustedvolumes-2026-05"
+class_name: "Trustedvolumes202605"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-05/TrustedVolumes_exp.sol"
+help: "TrustedVolumes 2026-05 — rounding exploit (~$5.87M USD)"
+wiki_title: "TrustedVolumes (2026-05) — rounding"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-05): TrustedVolumes lost ~$5.87M USD. Bug class: rounding. Attack tx: 0xc5c61b3ac39d854773b9dc34bd0cdbc8b5bbf75f18551802a0b5881fcb990513.
+wiki_exploit_scenario: |
+    Attacker (unknown) exploits TrustedVolumes via rounding: the victim contract 0xeEeEEe53033F7227d488ae83a27Bc9A9D5051756 exposes a code path that can be triggered without the guard expected by the name_match_missing_require skeleton.
+wiki_recommendation: |
+    Use mulDiv with explicit rounding direction; require the resulting amount to stay within tolerance bounds; never round user-withdraw amounts up.
+contract_name: "Trustedvolumes202605"
+fn_name_regex: ".*(withdraw).*"
+write_var_regex: ".*(admin|owner|balance|amount).*"
+guard_var_regex: ".*(admin|owner|balance|amount).*"
+vuln_fn_name: "withdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(msg.sender == owner, \"!auth\");"
+state_decl: |
+    uint256 internal balance;
+        address internal owner;

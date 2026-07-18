@@ -1,0 +1,50 @@
+skeleton: "paired_function_divergence"
+name: "rounding-functions-are-wrong-for-negative-integers"
+class_name: "RoundingFunctionsAreWrongForNegativeIntegers"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18743 (Spearbit/Primitive)"
+help: "Rounding functions are wrong for negative integers"
+wiki_title: "Rounding functions are wrong for negative integers"
+wiki_description: |
+    ## Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    - **Files**: `AssemblyLib.sol#L297`, `RMM01Portfolio.sol#L139-L143`
+    
+    ## Description
+    The `AssemblyLib.scaleFromWadUpSigned` and `AssemblyLib.scaleFromWadDownSigned` functions operate on `int256` values, which includes negative integers.
+wiki_exploit_scenario: |
+    Per Solodit #18743: ## Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    - **Files**: `AssemblyLib.sol#L297`, `RMM01Portfolio.sol#L139-L143`
+    
+    ## Description
+    The `AssemblyLib.scaleFromWadUpSigned` and `Assembl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RoundingFunctionsAreWrongForNegativeIntegers"
+solodit_id: "18743"
+solodit_slug: "rounding-functions-are-wrong-for-negative-integers-spearbit-none-primitive-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(checkInvariant|liveInvariantWad|nextInvariantWad).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,38 @@
+skeleton: "paired_function_divergence"
+name: "insecure-liquidity-valuation-with-oracle-updates"
+class_name: "InsecureLiquidityValuationWithOracleUpdates"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56817 (MixBytes/XPress)"
+help: "Insecure Liquidity Valuation with Oracle Updates"
+wiki_title: "Insecure Liquidity Valuation with Oracle Updates"
+wiki_description: |
+    ##### Description
+    This issue has been identified within the `addLiquidity` and `removeLiquidity` functions of the `LPManager` contract. 
+    
+    Because Pyth oracles can be updated atomically by users in the same transaction, it is possible to supply liquidity at a low price and subsequently remove it at a
+wiki_exploit_scenario: |
+    Per Solodit #56817: ##### Description
+    This issue has been identified within the `addLiquidity` and `removeLiquidity` functions of the `LPManager` contract. 
+    
+    Because Pyth oracles can be updated atomically by users in the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InsecureLiquidityValuationWithOracleUpdates"
+solodit_id: "56817"
+solodit_slug: "insecure-liquidity-valuation-with-oracle-updates-mixbytes-none-xpress-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity|maxOracleAge|removeLiquidity).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

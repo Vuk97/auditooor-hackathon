@@ -1,0 +1,50 @@
+skeleton: "paired_function_divergence"
+name: "changespotpriceanddelta-only-uses-erc721-version-of-balanceof"
+class_name: "ChangespotpriceanddeltaOnlyUsesErc721VersionOfBalanceof"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18287 (Spearbit/Sudoswap LSSVM2)"
+help: "changeSpotPriceAndDelta() only uses ERC721 version of balanceOf()"
+wiki_title: "changeSpotPriceAndDelta() only uses ERC721 version of balanceOf()"
+wiki_description: |
+    ## Security Analysis Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    `StandardSettings.sol#L227-L294`
+    
+    ## Description
+    The function `changeSpotPriceAndDelta()` uses `balanceOf()` with one parameter. This is the ERC721 variant. In order to support ERC1155, a second parameter of the NFT id has to be supp
+wiki_exploit_scenario: |
+    Per Solodit #18287: ## Security Analysis Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    `StandardSettings.sol#L227-L294`
+    
+    ## Description
+    The function `changeSpotPriceAndDelta()` uses `balanceOf()` with one parameter. This
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChangespotpriceanddeltaOnlyUsesErc721VersionOfBalanceof"
+solodit_id: "18287"
+solodit_slug: "changespotpriceanddelta-only-uses-erc721-version-of-balanceof-spearbit-sudoswap-lssvm2-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balanceOf|changeSpotPriceAndDelta).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

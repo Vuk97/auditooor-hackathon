@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-03-fillorder-executor-can-be-front-run-by-the-order-creator-by"
+class_name: "H03FillorderExecutorCanBeFrontRunByTheOrderCreatorBy"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30259 (Code4rena/Init Capital)"
+help: |
+    [H-03] `fillOrder` executor can be front-run by the order creator by changing order's `limitPrice_e36`, the executor's assets can be stolen
+wiki_title: |
+    [H-03] `fillOrder` executor can be front-run by the order creator by changing order's `limitPrice_e36`, the executor's assets can be stolen
+wiki_description: |
+    <https://github.com/code-423n4/2024-01-init-capital-invitational/blob/main/contracts/hook/MarginTradingHook.sol#L539-L563> 
+    
+    <https://github.com/code-423n4/2024-01-init-capital-invitational/blob/main/contracts/hook/MarginTradingHook.sol#L387>
+    
+    `limitPrice_e36` acts as slippage protection for the or
+wiki_exploit_scenario: |
+    Per Solodit #30259: <https://github.com/code-423n4/2024-01-init-capital-invitational/blob/main/contracts/hook/MarginTradingHook.sol#L539-L563> 
+    
+    <https://github.com/code-423n4/2024-01-init-capital-invitational/blob/main
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03FillorderExecutorCanBeFrontRunByTheOrderCreatorBy"
+solodit_id: "30259"
+solodit_slug: |
+    h-03-fillorder-executor-can-be-front-run-by-the-order-creator-by-changing-orders-limitprice_e36-the-executors-assets-can-be-stolen-code4rena-init-capital-init-capital-git
+solodit_quality: "4.5"
+solodit_rarity: "3"
+solodit_tags: "Front-Running"
+state_decl: "uint256 internal amtout;"
+fn_name_regex: ".*(limitPrice_e36|tokenOut|fillOrder|amtOut).*"
+read_var_regex: ".*(amtOut|fillOrder|limitPrice_e36).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "limitPrice_e36"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amtout > 0;"

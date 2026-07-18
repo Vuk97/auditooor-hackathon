@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-use-of-totalpendingtokens-leads-to-inability-to-re-x"
+class_name: "IncorrectUseOfTotalpendingtokensLeadsToInabilityToReX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Anzen and protocol-v2 - Zellic Audit Report"
+help: |
+    Admins can rescue ERC-1155 tokens in LockedUSDzMarket via rescueERC1155(), and there is a check to ensure they cannot rescue tokens currently reserved for pending orders. function
+wiki_title: "Incorrect use of totalPendingTokens leads to inability to rescue ERC-1155 to-"
+wiki_description: |
+    Admins can rescue ERC-1155 tokens in LockedUSDzMarket via rescueERC1155(), and there is a check to ensure they cannot rescue tokens currently reserved for pending orders. function rescueERC1155(uint256 tokenId, address to, uint256 amount) external onlyRole(DEFAULT_ADMIN_ROLE) { require(amount <= loc
+wiki_exploit_scenario: |
+    Per audit finding: Admins can rescue ERC-1155 tokens in LockedUSDzMarket via rescueERC1155(), and there is a check to ensure they cannot rescue tokens currently reserved for pending orders. function rescueERC1155(uint25
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectUseOfTotalpendingtokensLeadsToInabilityToReX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rescueERC1155|tokenId|onlyRole).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rescueERC1155"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

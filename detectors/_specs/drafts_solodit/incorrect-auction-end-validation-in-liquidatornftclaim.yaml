@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-auction-end-validation-in-liquidatornftclaim"
+class_name: "IncorrectAuctionEndValidationInLiquidatornftclaim"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7290 (Spearbit/Astaria)"
+help: "Incorrect auction end validation in liquidatorNFTClaim()"
+wiki_title: "Incorrect auction end validation in liquidatorNFTClaim()"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    `CollateralToken.sol#L119`
+    
+    ## Description
+    The function `liquidatorNFTClaim()` includes a check to determine if a Seaport auction has ended:
+    
+    ```solidity
+    if (block.timestamp < params.endTime) {
+        // auction hasn't ended yet
+        revert InvalidCollateralState(Inval
+wiki_exploit_scenario: |
+    Per Solodit #7290: ## Severity: High Risk
+    
+    ## Context
+    `CollateralToken.sol#L119`
+    
+    ## Description
+    The function `liquidatorNFTClaim()` includes a check to determine if a Seaport auction has ended:
+    
+    ```solidity
+    if (block.t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectAuctionEndValidationInLiquidatornftclaim"
+solodit_id: "7290"
+solodit_slug: "incorrect-auction-end-validation-in-liquidatornftclaim-spearbit-astaria-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation, Business Logic"
+state_decl: "uint256 internal collateralid;"
+fn_name_regex: ".*(liquidatorNFTClaim|params|collateralIdToAuction|collateralId).*"
+write_var_regex: ".*(collateralId|collateralIdToAuction|isValidOrder).*"
+guard_var_regex: ".*(collateralId|collateralIdToAuction|isValidOrder).*"
+vuln_fn_name: "liquidatorNFTClaim"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "collateralid = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

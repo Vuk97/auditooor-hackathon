@@ -1,0 +1,57 @@
+skeleton: "name_match_missing_call"
+name: "leveraged-positions-can-be-created-before-the-system-start"
+class_name: "LeveragedPositionsCanBeCreatedBeforeTheSystemStart"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #46031 (Cantina/Eggs)"
+help: "Leveraged positions can be created before the system start"
+wiki_title: "Leveraged positions can be created before the system start "
+wiki_description: |
+    ## Eggs.sol Code Review
+    
+    ## Context
+    **File:** Eggs.sol  
+    **Lines:** L151-L154
+    
+    ## Description
+    The protocol contains a `start` storage variable, which only the owner can set:
+    
+    ```solidity
+    function setStart() public onlyOwner {
+        start = true;
+        emit Started(true);
+    }
+    ```
+    
+    Before this point, it sho
+wiki_exploit_scenario: |
+    Per Solodit #46031: ## Eggs.sol Code Review
+    
+    ## Context
+    **File:** Eggs.sol  
+    **Lines:** L151-L154
+    
+    ## Description
+    The protocol contains a `start` storage variable, which only the owner can set:
+    
+    ```solidity
+    function setS
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LeveragedPositionsCanBeCreatedBeforeTheSystemStart"
+solodit_id: "46031"
+solodit_slug: "leveraged-positions-can-be-created-before-the-system-start-cantina-none-eggs-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal buy;"
+fn_name_regex: ".*(start|buy|require|leverage).*"
+read_var_regex: ".*(buy|leverage|require).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "start"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return buy > 0;"

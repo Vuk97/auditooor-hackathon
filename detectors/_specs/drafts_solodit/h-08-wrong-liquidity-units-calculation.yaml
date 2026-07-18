@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "h-08-wrong-liquidity-units-calculation"
+class_name: "H08WrongLiquidityUnitsCalculation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3911 (Code4rena/Vader Protocol)"
+help: "[H-08] Wrong liquidity units calculation"
+wiki_title: "[H-08] Wrong liquidity units calculation"
+wiki_description: |
+    The spec defines the number of LP units to be minted as `units = (P (a B + A b))/(2 A B) * slipAdjustment = P * (part1 + part2) / part3 * slipAdjustments` but the `Utils.calcLiquidityUnits` function computes `((P * part1) + part2) / part3 * slipAdjustments`.
+    
+    The associativity on `P * part1` is wro
+wiki_exploit_scenario: |
+    Per Solodit #3911: The spec defines the number of LP units to be minted as `units = (P (a B + A b))/(2 A B) * slipAdjustment = P * (part1 + part2) / part3 * slipAdjustments` but the `Utils.calcLiquidityUnits` function
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H08WrongLiquidityUnitsCalculation"
+solodit_id: "3911"
+solodit_slug: "h-08-wrong-liquidity-units-calculation-code4rena-vader-protocol-vader-protocol-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal part2;"
+fn_name_regex: ".*(part2).*"
+read_var_regex: ".*(part2).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "part2"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return part2 > 0;"

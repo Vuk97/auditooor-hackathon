@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "not-the-whole-amount-of-reef-is-transferred-due-to-accuracy-loss"
+class_name: "NotTheWholeAmountOfReefIsTransferredDueToAccuracyLoss"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56646 (Zokyo/Sqwid)"
+help: |
+    Not the whole amount of REEF is transferred due to accuracy loss. SqwidMarketplace.sol: functions enterRaffle(), endRaffle().
+wiki_title: |
+    Not the whole amount of REEF is transferred due to accuracy loss. SqwidMarketplace.sol: functions enterRaffle(), endRaffle().
+wiki_description: |
+    **Description**
+    
+     When a user enters a raffle, his message value is divided by 1e18, losing the accuracy of the 
+    message value, since Solidity doesn’t support float numbers. For example, if a user sends 
+    2500000000000000000 (2.5 REEF) and this value is divided by 1e18, the result would be 
+    equal 2 (
+wiki_exploit_scenario: |
+    Per Solodit #56646: **Description**
+    
+     When a user enters a raffle, his message value is divided by 1e18, losing the accuracy of the 
+    message value, since Solidity doesn’t support float numbers. For example, if a user sen
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NotTheWholeAmountOfReefIsTransferredDueToAccuracyLoss"
+solodit_id: "56646"
+solodit_slug: |
+    not-the-whole-amount-of-reef-is-transferred-due-to-accuracy-loss-sqwidmarketplacesol-functions-enterraffle-endraffle-zokyo-none-sqwid-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(endRaffle|enterRaffle).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "endRaffle"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-11-openposition-lack-of-minimum-token0premiumportion-token1pre"
+class_name: "M11OpenpositionLackOfMinimumToken0premiumportionToken1pre"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29708 (Code4rena/Particle Protocol)"
+help: "[M-11] openPosition() Lack of minimum token0PremiumPortion/token1PremiumPortion limit"
+wiki_title: "[M-11] openPosition() Lack of minimum token0PremiumPortion/token1PremiumPortion limit"
+wiki_description: |
+    In `openPosition()`, it allows `token0PremiumPortion` and `token1PremiumPortion` to be 0 at the same time.
+    
+    In this case, if `tokenId` enters `out_of_price`, for example, `UpperOutOfRange`, anyone might be able to input:
+    
+        marginFrom = 0
+        marginTo = 0
+        amountSwap = 0
+        zeroForOne = false
+wiki_exploit_scenario: |
+    Per Solodit #29708: In `openPosition()`, it allows `token0PremiumPortion` and `token1PremiumPortion` to be 0 at the same time.
+    
+    In this case, if `tokenId` enters `out_of_price`, for example, `UpperOutOfRange`, anyone mi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11OpenpositionLackOfMinimumToken0premiumportionToken1pre"
+solodit_id: "29708"
+solodit_slug: |
+    m-11-openposition-lack-of-minimum-token0premiumportiontoken1premiumportion-limit-code4rena-particle-protocol-particle-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidateposition;"
+fn_name_regex: ".*(openPosition|token0PremiumPortion|token1PremiumPortion|tokenId).*"
+read_var_regex: ".*(liquidatePosition|openPosition|out_of_price).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "openPosition"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return liquidateposition > 0;"

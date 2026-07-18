@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "m-03-potentially-unsafe-use-of-forcesafetransfereth"
+class_name: "M03PotentiallyUnsafeUseOfForcesafetransfereth"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18756 (ZachObront/Sound.Xyz)"
+help: "[M-03] Potentially unsafe use of forceSafeTransferETH"
+wiki_title: "[M-03] Potentially unsafe use of forceSafeTransferETH"
+wiki_description: |
+    When a new NFT is minted with the `_mintTo()` function, we check that `msg.value >= t.requiredEtherValue` and then refund the excess at the end of the function using `forceSafeTransferETH()`:
+    
+    ```solidity
+    if (msg.value > t.requiredEtherValue) {
+    SafeTransferLib.forceSafeTransferETH(msg.sender, msg.va
+wiki_exploit_scenario: |
+    Per Solodit #18756: When a new NFT is minted with the `_mintTo()` function, we check that `msg.value >= t.requiredEtherValue` and then refund the excess at the end of the function using `forceSafeTransferETH()`:
+    
+    ```soli
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03PotentiallyUnsafeUseOfForcesafetransfereth"
+solodit_id: "18756"
+solodit_slug: "m-03-potentially-unsafe-use-of-forcesafetransfereth-zachobront-none-soundxyz-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal forcesafetransfereth;"
+fn_name_regex: ".*(forceSafeTransferETH|ETHTransferFailed|PUSH20|SELFDESTRUCT).*"
+write_var_regex: ".*(forceSafeTransferETH|receive).*"
+guard_var_regex: ".*(forceSafeTransferETH|receive).*"
+vuln_fn_name: "forceSafeTransferETH"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "forcesafetransfereth = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

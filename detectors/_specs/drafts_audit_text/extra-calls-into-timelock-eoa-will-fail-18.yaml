@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "extra-calls-into-timelock-eoa-will-fail-18"
+class_name: "ExtraCallsIntoTimelockEoaWillFail18"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Cultured - Zellic Audit Report"
+help: |
+    An important change between the base GMX V1 contracts and this fork is that for long positions, the collateral token no longer has to be the index token: function _validateTokens(a
+wiki_title: "Extra calls into timelock EOA will fail                                         18"
+wiki_description: |
+    An important change between the base GMX V1 contracts and this fork is that for long positions, the collateral token no longer has to be the index token: function _validateTokens(address _collateralToken, address _indexToken, bool _isLong) private view { if (_isLong) { // _validate(_collateralToken
+wiki_exploit_scenario: |
+    Per audit finding: An important change between the base GMX V1 contracts and this fork is that for long positions, the collateral token no longer has to be the index token: function _validateTokens(address _collateralTo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExtraCallsIntoTimelockEoaWillFail18"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(whitelistedTokens|stableTokens|shortableTokens).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "whitelistedTokens"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

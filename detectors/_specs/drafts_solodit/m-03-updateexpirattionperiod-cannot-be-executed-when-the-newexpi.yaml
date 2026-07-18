@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "m-03-updateexpirattionperiod-cannot-be-executed-when-the-newexpi"
+class_name: "M03UpdateexpirattionperiodCannotBeExecutedWhenTheNewexpi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #45257 (Code4rena/Kleidi)"
+help: |
+    [M-03] `UpdateExpirattionPeriod()` cannot be executed when the `newExpirationPeriod` is less than `currentExpirationPeriod`
+wiki_title: |
+    [M-03] `UpdateExpirattionPeriod()` cannot be executed when the `newExpirationPeriod` is less than `currentExpirationPeriod`
+wiki_description: |
+    Safe cannot reduce  `expirationPeriod` to a `newExpirationPeriod` when
+    
+    ```
+        currentTimeStamp < timestamp[id] +  expirationPeriod and
+        currentTimeStamp >= timestamp[id] +  newExpirationPeriod
+    ```
+    
+    where `id` is the `hash` of `updateExpirationPeriod()` and `timestamp[id]` is the timestamp when
+wiki_exploit_scenario: |
+    Per Solodit #45257: Safe cannot reduce  `expirationPeriod` to a `newExpirationPeriod` when
+    
+    ```
+        currentTimeStamp < timestamp[id] +  expirationPeriod and
+        currentTimeStamp >= timestamp[id] +  newExpirationPeriod
+    `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03UpdateexpirattionperiodCannotBeExecutedWhenTheNewexpi"
+solodit_id: "45257"
+solodit_slug: |
+    m-03-updateexpirattionperiod-cannot-be-executed-when-the-newexpirationperiod-is-less-than-currentexpirationperiod-code4rena-kleidi-kleidi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal currenttimestamp;"
+fn_name_regex: ".*(expirationPeriod|newExpirationPeriod|hash|updateExpirationPeriod).*"
+write_var_regex: ".*(currentTimestamp|expirationPeriod|hash).*"
+guard_var_regex: ".*(currentTimestamp|expirationPeriod|hash).*"
+vuln_fn_name: "expirationPeriod"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "currenttimestamp = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "m-03-owner-has-the-power-to-zero-out-user-s-daily-interest-on-re"
+class_name: "M03OwnerHasThePowerToZeroOutUserSDailyInterestOnRe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20474 (Pashov Audit Group/Lizardstarking)"
+help: "[M-03] Owner has the power to zero-out user's daily interest on rewards"
+wiki_title: "[M-03] Owner has the power to zero-out user's daily interest on rewards"
+wiki_description: |
+    **Impact:**
+    High, as users can lose their right to claim accrued rewards
+    
+    **Likelihood:**
+    Low, as it requires a malicious/compromised owner
+    
+    **Description**
+    
+    The `setDepositsActive` method resets `startTimestamp` and `lastGlobalUpdate`. The owner can front-run each `claimReward` transaction and by r
+wiki_exploit_scenario: |
+    Per Solodit #20474: **Impact:**
+    High, as users can lose their right to claim accrued rewards
+    
+    **Likelihood:**
+    Low, as it requires a malicious/compromised owner
+    
+    **Description**
+    
+    The `setDepositsActive` method resets `sta
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03OwnerHasThePowerToZeroOutUserSDailyInterestOnRe"
+solodit_id: "20474"
+solodit_slug: |
+    m-03-owner-has-the-power-to-zero-out-users-daily-interest-on-rewards-pashov-none-lizardstarking-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calculatesharefromtime;"
+fn_name_regex: ".*(setDepositsActive|startTimestamp|lastGlobalUpdate|claimReward).*"
+write_var_regex: ".*(calculateShareFromTime|claimReward|lastGlobalUpdate).*"
+guard_var_regex: ".*(calculateShareFromTime|claimReward|lastGlobalUpdate).*"
+vuln_fn_name: "setDepositsActive"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "calculatesharefromtime = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

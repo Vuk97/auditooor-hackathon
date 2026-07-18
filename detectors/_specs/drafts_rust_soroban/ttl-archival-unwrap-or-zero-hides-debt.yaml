@@ -1,0 +1,24 @@
+id: ttl-archival-unwrap-or-zero-hides-debt
+title: "persistent().get(...).unwrap_or(0) on debt/balance hides live state after TTL expiry"
+severity: Critical
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44792"
+  - "44793"
+bug_class: ttl-archival
+indicators:
+  - "`env.storage().persistent().get::<_, u128>(&DataKey::Debt(user)).unwrap_or(0)` pattern"
+  - "`unwrap_or(0)` / `unwrap_or_default()` on persistent keys used in solvency/health-factor math"
+  - "missing check distinguishing `has()==false` (never set) from expired (archived)"
+  - "reserve counter / next-id key read with `unwrap_or(0)` and used as iteration upper bound"
+victim: "Protocol solvency: on pre-Soroban-23 versions or any Soroban runtime that returns None for archived entries, a borrower can let the debt key expire and withdraw collateral as if the debt were repaid."
+exploit_precondition: "Runtime allows persistent entries to return None (missing) after TTL expiry. Note: Soroban protocol 23+ auto-restores archived entries, invalidating the direct exploit — but the code smell remains a latent defect if TTL semantics change or the same pattern ships on a non-v23 target."
+real_world_example: |
+  V12 #44792 (Critical, V12-self-invalidated on Soroban v23): `DebtToken::get_scaled_debt` returns `0` via `unwrap_or(0)` when `DataKey::Debt(user)` is absent; `validate_user_can_withdraw` passes solvency when `total_debt_base==0`.
+suggested_remediation: "Use `env.storage().persistent().has(&key)` + `.get(...)` and return an explicit ExpiredState error for archived entries that encode authoritative accounting. Use instance storage for small, permanently-needed data. Explicitly bump TTL on every access path."
+cross_refs:
+  - ttl-missing-extend-on-access
+  - ttl-desynced-registries
+  - fail-open-unwrap-or-empty-on-acl-list

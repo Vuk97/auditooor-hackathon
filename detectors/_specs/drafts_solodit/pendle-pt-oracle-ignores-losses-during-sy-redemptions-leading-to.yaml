@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "pendle-pt-oracle-ignores-losses-during-sy-redemptions-leading-to"
+class_name: "PendlePtOracleIgnoresLossesDuringSyRedemptionsLeadingTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63526 (MixBytes/Notional Finance)"
+help: "Pendle PT Oracle Ignores Losses During SY Redemptions, Leading to Over-Valued Collateral"
+wiki_title: "Pendle PT Oracle Ignores Losses During SY Redemptions, Leading to Over-Valued Collateral"
+wiki_description: |
+    ##### Description
+    `PendlePTLib.redeemExpiredPT()` forwards `0` as `minTokenOut` when calling `SY.redeem()`. For SY tokens whose redemption path performs swaps or charges fees, the real amount of underlying received can be materially lower than `SY.exchangeRate()` suggests.
+    
+    Examples:
+    * `apxETH` may
+wiki_exploit_scenario: |
+    Per Solodit #63526: ##### Description
+    `PendlePTLib.redeemExpiredPT()` forwards `0` as `minTokenOut` when calling `SY.redeem()`. For SY tokens whose redemption path performs swaps or charges fees, the real amount of under
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PendlePtOracleIgnoresLossesDuringSyRedemptionsLeadingTo"
+solodit_id: "63526"
+solodit_slug: |
+    pendle-pt-oracle-ignores-losses-during-sy-redemptions-leading-to-over-valued-collateral-mixbytes-none-notional-finance-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal apxeth;"
+fn_name_regex: ".*(minTokenOut|apxETH|PendlePTOracle).*"
+read_var_regex: ".*(apxETH|minTokenOut).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "minTokenOut"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return apxeth > 0;"

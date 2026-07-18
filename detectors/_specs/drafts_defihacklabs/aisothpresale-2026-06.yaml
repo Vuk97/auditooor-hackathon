@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "aisothpresale-2026-06"
+class_name: "Aisothpresale202606"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-06/AISOTHPresale_exp.sol"
+help: "AISOTHPresale 2026-06 — flashloan exploit (30,314.76 USDT)"
+wiki_title: "AISOTHPresale (2026-06) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-06): AISOTHPresale lost 30,314.76 USDT. Bug class: flashloan. Attack tx: 0x11462984d7f5663db9cf95c07c6cd9ff91f5b2d6616268e8dd6a3013e190248c.
+wiki_exploit_scenario: |
+    Attacker (0x627df72cc3fa38c475a414e65cdece09b2b177af) exploits AISOTHPresale via flashloan: the victim contract 0x796c5e8ca10010654dafaef096bd1f4a7ad87672 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Aisothpresale202606"
+trigger_sig_regex: ".*(pancakeCall).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function pancakeCall(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.pancakeCall(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

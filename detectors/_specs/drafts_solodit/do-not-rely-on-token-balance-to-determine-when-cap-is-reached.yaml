@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_require"
+name: "do-not-rely-on-token-balance-to-determine-when-cap-is-reached"
+class_name: "DoNotRelyOnTokenBalanceToDetermineWhenCapIsReached"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7147 (Spearbit/Connext)"
+help: "Do not rely on token balance to determine when cap is reached"
+wiki_title: "Do not rely on token balance to determine when cap is reached"
+wiki_description: |
+    ## Risk Assessment
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    - `BridgeFacet.sol#L492-L495`
+    - `RoutersFacet.sol#L556-L559`
+    
+    ## Description
+    Connext Diamond defines a cap on each token. Any transfer making the total token balance more than the cap is reverted.
+    
+    ```solidity
+    uint256 custodied = IERC20(_lo
+wiki_exploit_scenario: |
+    Per Solodit #7147: ## Risk Assessment
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    - `BridgeFacet.sol#L492-L495`
+    - `RoutersFacet.sol#L556-L559`
+    
+    ## Description
+    Connext Diamond defines a cap on each token. Any transfer makin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DoNotRelyOnTokenBalanceToDetermineWhenCapIsReached"
+solodit_id: "7147"
+solodit_slug: "do-not-rely-on-token-balance-to-determine-when-cap-is-reached-spearbit-connext-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal handleoutgoingasset;"
+fn_name_regex: ".*(handleOutgoingAsset).*"
+write_var_regex: ".*(handleOutgoingAsset).*"
+guard_var_regex: ".*(handleOutgoingAsset).*"
+vuln_fn_name: "handleOutgoingAsset"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "handleoutgoingasset = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

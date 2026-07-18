@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "method-releasetokens-has-multiple-issues"
+class_name: "MethodReleasetokensHasMultipleIssues"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #55847 (Zokyo/Unmarshal)"
+help: "Method releaseTokens has multiple issues"
+wiki_title: "Method releaseTokens has multiple issues"
+wiki_description: |
+    **Description**
+    
+    Method releaseTokens of contract PrivateDistribution, that is invocable only by the contract
+    owner, has set of issues at the moment:
+    - it releases tokens for first 256 registered investors, because of uint8 overflow, if the
+    number of investors is greater than 256;
+    - it does not incr
+wiki_exploit_scenario: |
+    Per Solodit #55847: **Description**
+    
+    Method releaseTokens of contract PrivateDistribution, that is invocable only by the contract
+    owner, has set of issues at the moment:
+    - it releases tokens for first 256 registered inve
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MethodReleasetokensHasMultipleIssues"
+solodit_id: "55847"
+solodit_slug: "method-releasetokens-has-multiple-issues-zokyo-none-unmarshal-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal limit;"
+fn_name_regex: ".*(withdrawTokens|offset|limit).*"
+read_var_regex: ".*(limit|offset|withdrawTokens).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdrawTokens"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return limit > 0;"

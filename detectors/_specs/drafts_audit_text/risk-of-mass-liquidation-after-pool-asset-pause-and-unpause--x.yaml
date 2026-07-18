@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "risk-of-mass-liquidation-after-pool-asset-pause-and-unpause--x"
+class_name: "RiskOfMassLiquidationAfterPoolAssetPauseAndUnpauseX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-benddao"
+help: |
+    oakcobalt Current pausing features allow a pool to be globally paused (all assets borrow, repay, liquidation pausing) and asset pausing (specific asset borrow, repay, liquidation p
+wiki_title: |
+    Risk of mass liquidation after pool/asset pause and unpause, due to borrow interest compounding implementation
+wiki_description: |
+    oakcobalt Current pausing features allow a pool to be globally paused (all assets borrow, repay, liquidation pausing) and asset pausing (specific asset borrow, repay, liquidation pausing). See validatePoolBasic() and validateAssetBasic() which are checked in borrow, repay , and will revert if the po
+wiki_exploit_scenario: |
+    Per audit finding: oakcobalt Current pausing features allow a pool to be globally paused (all assets borrow, repay, liquidation pausing) and asset pausing (specific asset borrow, repay, liquidation pausing). See validat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RiskOfMassLiquidationAfterPoolAssetPauseAndUnpauseX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(validatePoolBasic|validateAssetBasic|assetData).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "validatePoolBasic"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

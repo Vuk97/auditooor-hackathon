@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "m-19-rewards-are-not-accounted-for-properly-in-ntokenapestaking-"
+class_name: "M19RewardsAreNotAccountedForProperlyInNtokenapestaking"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25729 (Code4rena/ParaSpace)"
+help: |
+    [M-19] Rewards are not accounted for properly in NTokenApeStaking contracts, limiting user's collateral
+wiki_title: |
+    [M-19] Rewards are not accounted for properly in NTokenApeStaking contracts, limiting user's collateral
+wiki_description: |
+    <https://github.com/code-423n4/2022-11-paraspace/blob/c6820a279c64a299a783955749fdc977de8f0449/paraspace-core/contracts/protocol/tokenization/libraries/ApeStakingLogic.sol#L253>
+    
+    ApeStakingLogic.sol implements the logic for staking ape coins through the NTokenApeStaking NFT.
+    
+    `getTokenIdStakingAmou
+wiki_exploit_scenario: |
+    Per Solodit #25729: <https://github.com/code-423n4/2022-11-paraspace/blob/c6820a279c64a299a783955749fdc977de8f0449/paraspace-core/contracts/protocol/tokenization/libraries/ApeStakingLogic.sol#L253>
+    
+    ApeStakingLogic.sol
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M19RewardsAreNotAccountedForProperlyInNtokenapestaking"
+solodit_id: "25729"
+solodit_slug: |
+    m-19-rewards-are-not-accounted-for-properly-in-ntokenapestaking-contracts-limiting-users-collateral-code4rena-paraspace-paraspace-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(getTokenIdStakingAmount).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

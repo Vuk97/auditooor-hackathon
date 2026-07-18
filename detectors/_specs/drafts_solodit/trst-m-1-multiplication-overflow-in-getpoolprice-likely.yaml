@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "trst-m-1-multiplication-overflow-in-getpoolprice-likely"
+class_name: "TrstM1MultiplicationOverflowInGetpoolpriceLikely"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18846 (Trust Security/Rysk Uniswapv3Rangeorderreactor)"
+help: "TRST-M-1 multiplication overflow in getPoolPrice() likely"
+wiki_title: "TRST-M-1 multiplication overflow in getPoolPrice() likely"
+wiki_description: |
+    **Description:**
+    `getPoolPrice()` is used in hedgeDelta to get the price directly from Uniswap v3 pool:
+    ```solidity 
+        function getPoolPrice() public view returns (uint256 price, uint256 
+             inversed){
+                (uint160 sqrtPriceX96, , , , , , ) = pool.slot0();
+            uint256 p = uint256
+wiki_exploit_scenario: |
+    Per Solodit #18846: **Description:**
+    `getPoolPrice()` is used in hedgeDelta to get the price directly from Uniswap v3 pool:
+    ```solidity 
+        function getPoolPrice() public view returns (uint256 price, uint256 
+             i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM1MultiplicationOverflowInGetpoolpriceLikely"
+solodit_id: "18846"
+solodit_slug: |
+    trst-m-1-multiplication-overflow-in-getpoolprice-likely-trust-security-none-rysk-uniswapv3rangeorderreactor-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Uniswap, Overflow/Underflow, Decimals"
+state_decl: "uint256 internal getpoolprice;"
+fn_name_regex: ".*(getPoolPrice).*"
+read_var_regex: ".*(getPoolPrice).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getPoolPrice"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getpoolprice > 0;"

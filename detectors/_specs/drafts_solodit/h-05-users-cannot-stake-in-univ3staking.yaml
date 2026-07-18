@@ -1,0 +1,56 @@
+skeleton: "name_match_missing_call"
+name: "h-05-users-cannot-stake-in-univ3staking"
+class_name: "H05UsersCannotStakeInUniv3staking"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41692 (Pashov Audit Group/Dyad)"
+help: "[H-05] Users cannot stake in `UniV3Staking`"
+wiki_title: "[H-05] Users cannot stake in `UniV3Staking`"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    `UniswapV3Staking.stake()` pulls NFTs from the user in the following way:
+    
+    ```solidity
+            positionManager.safeTransferFrom(msg.sender, address(this), tokenId);
+    ```
+    
+    However, this will end up calling the `onERC721Received()`
+wiki_exploit_scenario: |
+    Per Solodit #41692: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    `UniswapV3Staking.stake()` pulls NFTs from the user in the following way:
+    
+    ```solidity
+            positionManager.safeTransferFrom(m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05UsersCannotStakeInUniv3staking"
+solodit_id: "41692"
+solodit_slug: "h-05-users-cannot-stake-in-univ3staking-pashov-audit-group-none-dyad-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal onerc721received;"
+fn_name_regex: ".*(onERC721Received|UniswapV3Staking|stake|safeTransferFrom).*"
+read_var_regex: ".*(onERC721Received|safeTransferFrom|stake).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "onERC721Received"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return onerc721received > 0;"

@@ -1,0 +1,23 @@
+skeleton: "name_match_missing_require"
+name: "unsafe-downcasting-of-integer-types-causing-silent-value-truncation"
+class_name: "UnsafeDowncastingOfIntegerTypesCausingSilentValueTruncation"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: unsafe-type-casting"
+help: "Unsafe downcasting of integer types causing silent value truncation"
+wiki_title: "Unsafe downcasting of integer types causing silent value truncation"
+wiki_description: |
+    Detects explicit type conversions from larger integer types to smaller ones without bounds checking, leading to silent truncation and incorrect values.
+wiki_exploit_scenario: |
+    Per Glider query tags [type-casting, downcasting, truncation, overflow, data-loss]: Detects explicit type conversions from larger integer types to smaller ones without bounds checking, leading to silent truncation and incorrect values.
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "UnsafeDowncastingOfIntegerTypesCausingSilentValueTruncation"
+fn_name_regex: ".*(unsafe).*"
+write_var_regex: ".*(unsafe).*"
+guard_var_regex: ".*(unsafe).*"
+vuln_fn_name: "setParam"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "unsafe = newVal;"
+guard_require_line: "require(newVal <= 10000);"
+state_decl: "uint256 internal unsafe;"

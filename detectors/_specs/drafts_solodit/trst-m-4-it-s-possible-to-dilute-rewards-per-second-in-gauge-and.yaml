@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "trst-m-4-it-s-possible-to-dilute-rewards-per-second-in-gauge-and"
+class_name: "TrstM4ItSPossibleToDiluteRewardsPerSecondInGaugeAnd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18956 (Trust Security/Satin.Exchange)"
+help: "TRST-M-4 It’s possible to dilute rewards per second in Gauge and Internal bribes"
+wiki_title: "TRST-M-4 It’s possible to dilute rewards per second in Gauge and Internal bribes"
+wiki_description: |
+    **Description:**
+    The function `notifyRewardAmount()` is called to distribute new rewards to a gauge or an 
+    internal bribe. In particular, it increases the duration over which the rewards have to be 
+    distributed by **DURATION** every time it’s called:
+    ```solidity 
+        periodFinish[token] = block.time
+wiki_exploit_scenario: |
+    Per Solodit #18956: **Description:**
+    The function `notifyRewardAmount()` is called to distribute new rewards to a gauge or an 
+    internal bribe. In particular, it increases the duration over which the rewards have to be 
+    d
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM4ItSPossibleToDiluteRewardsPerSecondInGaugeAnd"
+solodit_id: "18956"
+solodit_slug: |
+    trst-m-4-its-possible-to-dilute-rewards-per-second-in-gauge-and-internal-bribes-trust-security-none-satinexchange-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimfees;"
+fn_name_regex: ".*(notifyRewardAmount|claimFees|createGauge).*"
+read_var_regex: ".*(claimFees|createGauge|notifyRewardAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "notifyRewardAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimfees > 0;"

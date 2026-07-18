@@ -1,0 +1,30 @@
+skeleton: "state_write_without_paired_write"
+name: "proposals-can-reach-quorum-without-any-votes"
+class_name: "ProposalsCanReachQuorumWithoutAnyVotes"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41265 (OpenZeppelin/Anvil Protocol Audit)"
+help: "Proposals Can Reach Quorum Without Any Votes"
+wiki_title: "Proposals Can Reach Quorum Without Any Votes"
+wiki_description: |
+    The minting of Anvil tokens does not update the total voting power recorded in the `_totalCheckpoints` struct, hence `_totalCheckpoints` is always empty. This empty value is used to [calculate the past total supply of tokens](https://github.com/AmperaFoundation/sol-contracts/blob/c6e940c12044c8994f7
+wiki_exploit_scenario: |
+    Per Solodit #41265: The minting of Anvil tokens does not update the total voting power recorded in the `_totalCheckpoints` struct, hence `_totalCheckpoints` is always empty. This empty value is used to [calculate the pas
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProposalsCanReachQuorumWithoutAnyVotes"
+solodit_id: "41265"
+solodit_slug: "proposals-can-reach-quorum-without-any-votes-openzeppelin-none-anvil-protocol-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getPastTotalSupply|AnvilVotes|GovernorVotesQuorumFractionUpgradeable|quorum).*"
+primary_var_regex: ".*(getPastTotalSupply|quorum).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-05-lack-of-data-validation-when-users-are-claiming-their-art-a"
+class_name: "M05LackOfDataValidationWhenUsersAreClaimingTheirArtA"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41098 (Code4rena/Phi)"
+help: |
+    [M-05] Lack of data validation when users are claiming their art allows malicious user to bypass signature/merkle hash to provide unapproved `ref_`, `artId_` and `imageURI`
+wiki_title: |
+    [M-05] Lack of data validation when users are claiming their art allows malicious user to bypass signature/merkle hash to provide unapproved `ref_`, `artId_` an
+wiki_description: |
+    In the file `PhiFactory.sol`, the lack of checks in `merkleClaim` allows malicious users to bypass the hash check to pass in their own parameter of choice. The 3 variables that could possibly be manipulated (`referral`, `artId` and `imageURI`) and their impact will be each discussed below.
+    
+    ### Mis
+wiki_exploit_scenario: |
+    Per Solodit #41098: In the file `PhiFactory.sol`, the lack of checks in `merkleClaim` allows malicious users to bypass the hash check to pass in their own parameter of choice. The 3 variables that could possibly be mani
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05LackOfDataValidationWhenUsersAreClaimingTheirArtA"
+solodit_id: "41098"
+solodit_slug: |
+    m-05-lack-of-data-validation-when-users-are-claiming-their-art-allows-malicious-user-to-bypass-signaturemerkle-hash-to-provide-unapproved-ref_-artid_-and-imageuri-code4rena-phi-phi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal artid;"
+fn_name_regex: ".*(merkleClaim|referral|artId|imageURI).*"
+write_var_regex: ".*(artId|artId_|encodeData_).*"
+guard_var_regex: ".*(artId|artId_|encodeData_).*"
+vuln_fn_name: "merkleClaim"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "artid = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

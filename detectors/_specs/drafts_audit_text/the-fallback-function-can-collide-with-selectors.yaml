@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "the-fallback-function-can-collide-with-selectors"
+class_name: "TheFallbackFunctionCanCollideWithSelectors"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit WOOFi Swap - Zellic Audit Report"
+help: |
+    The WooracleV2_2 contract contains a fallback onlyAdmin function that takes in compressed data, in order for the admin to be able to update prices without paying as much gas: fallb
+wiki_title: "The fallback function can collide with selectors"
+wiki_description: |
+    The WooracleV2_2 contract contains a fallback onlyAdmin function that takes in compressed data, in order for the admin to be able to update prices without paying as much gas: fallback (bytes calldata _input) external onlyAdmin returns (bytes memory _output) { /* 2 bit: 0: post prices, 1: post states
+wiki_exploit_scenario: |
+    Per audit finding: The WooracleV2_2 contract contains a fallback onlyAdmin function that takes in compressed data, in order for the admin to be able to update prices without paying as much gas: fallback (bytes calldata
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheFallbackFunctionCanCollideWithSelectors"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onlyAdmin).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "onlyAdmin"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

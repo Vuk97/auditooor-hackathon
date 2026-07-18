@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "h-07-reentrancy-attack-during-mint-function-in-position-contract"
+class_name: "H07ReentrancyAttackDuringMintFunctionInPositionContract"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6326 (Code4rena/Tigris Trade)"
+help: |
+    [H-07] reentrancy attack during mint() function in Position contract which can lead to removing of the other user’s limit orders or stealing contract funds because initId is set lo
+wiki_title: |
+    [H-07] reentrancy attack during mint() function in Position contract which can lead to removing of the other user’s limit orders or stealing contract funds beca
+wiki_description: |
+    ## Lines of code
+    
+    https://github.com/code-423n4/2022-12-tigris/blob/588c84b7bb354d20cbca6034544c4faa46e6a80e/contracts/Position.sol#L126-L161
+    
+    
+    ## Vulnerability details
+    
+    ## Impact
+    Function `Position.mint()` has been used in `initiateLimitOrder()` and `initiateMarketOrder()` and it doesn't follow che
+wiki_exploit_scenario: |
+    Per Solodit #6326: ## Lines of code
+    
+    https://github.com/code-423n4/2022-12-tigris/blob/588c84b7bb354d20cbca6034544c4faa46e6a80e/contracts/Position.sol#L126-L161
+    
+    
+    ## Vulnerability details
+    
+    ## Impact
+    Function `Position.m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H07ReentrancyAttackDuringMintFunctionInPositionContract"
+solodit_id: "6326"
+solodit_slug: |
+    h-07-reentrancy-attack-during-mint-function-in-position-contract-which-can-lead-to-removing-of-the-other-users-limit-orders-or-stealing-contract-funds-because-initid-is-set-low-value-code4rena-tigris-trade-tigris-trade-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal accuredinterest;"
+fn_name_regex: ".*(initiateLimitOrder|initiateMarketOrder|initId|safeMint).*"
+read_var_regex: ".*(accuredInterest|addToPosition|cancelLimitOrder).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "initiateLimitOrder"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accuredinterest > 0;"

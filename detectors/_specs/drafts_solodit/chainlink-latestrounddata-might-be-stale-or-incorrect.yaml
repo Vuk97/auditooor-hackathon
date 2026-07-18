@@ -1,0 +1,35 @@
+skeleton: "state_write_without_paired_write"
+name: "chainlink-latestrounddata-might-be-stale-or-incorrect"
+class_name: "ChainlinkLatestrounddataMightBeStaleOrIncorrect"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51091 (Halborn/Exchange V1)"
+help: "CHAINLINK LATESTROUNDDATA MIGHT BE STALE OR INCORRECT"
+wiki_title: "CHAINLINK LATESTROUNDDATA MIGHT BE STALE OR INCORRECT"
+wiki_description: |
+    ##### Description
+    
+    Substance Exchange uses Chainlink as its price oracle. When buying or selling `sUSD`, the `SubstanceUSD` contract queries Chainlink for the underlying token price using the `latestRoundData()` function. This function returns `uint80 roundId`, `int256 answer`, `uint256 startedAt`,
+wiki_exploit_scenario: |
+    Per Solodit #51091: ##### Description
+    
+    Substance Exchange uses Chainlink as its price oracle. When buying or selling `sUSD`, the `SubstanceUSD` contract queries Chainlink for the underlying token price using the `latestR
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainlinkLatestrounddataMightBeStaleOrIncorrect"
+solodit_id: "51091"
+solodit_slug: |
+    chainlink-latestrounddata-might-be-stale-or-incorrect-halborn-substance-exchange-exchange-v1-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(sUSD|SubstanceUSD|latestRoundData|roundId).*"
+primary_var_regex: ".*(answer|getPrice|latestRoundData).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

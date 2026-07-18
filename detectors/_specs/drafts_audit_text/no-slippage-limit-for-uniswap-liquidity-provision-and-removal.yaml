@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "no-slippage-limit-for-uniswap-liquidity-provision-and-removal"
+class_name: "NoSlippageLimitForUniswapLiquidityProvisionAndRemoval"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Singularity - Zellic Audit Report"
+help: |
+    In the _releaseFundsAndPrepareLiquidityProvisionArgs function, the parameters for the mini- mum minted amounts are hardcoded to zero: /** * * Prepare mint parameters */ mintParams.
+wiki_title: "No slippage limit for Uniswap liquidity provision and removal"
+wiki_description: |
+    In the _releaseFundsAndPrepareLiquidityProvisionArgs function, the parameters for the mini- mum minted amounts are hardcoded to zero: /** * * Prepare mint parameters */ mintParams.token0 = tokens[0]; mintParams.token1 = tokens[1]; mintParams.fee = args.poolFee; mintParams.tickLower = args.tickMin; m
+wiki_exploit_scenario: |
+    Per audit finding: In the _releaseFundsAndPrepareLiquidityProvisionArgs function, the parameters for the mini- mum minted amounts are hardcoded to zero: /** * * Prepare mint parameters */ mintParams.token0 = tokens[0];
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoSlippageLimitForUniswapLiquidityProvisionAndRemoval"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(mintParams|poolFee|tickLower).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mintParams"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

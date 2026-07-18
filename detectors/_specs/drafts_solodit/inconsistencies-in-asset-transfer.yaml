@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "inconsistencies-in-asset-transfer"
+class_name: "InconsistenciesInAssetTransfer"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #47859 (OtterSec/Synonym)"
+help: "Inconsistencies In Asset Transfer"
+wiki_title: "Inconsistencies In Asset Transfer"
+wiki_description: |
+    ## TokenBridgeUtilities
+    
+    TokenBridgeUtilities normalizes asset transfer amounts with decimals exceeding eight before sending them and denormalizes the received amount upon reception. This process ensures consistency in handling asset amounts with different decimal precisions. When attempting to depo
+wiki_exploit_scenario: |
+    Per Solodit #47859: ## TokenBridgeUtilities
+    
+    TokenBridgeUtilities normalizes asset transfer amounts with decimals exceeding eight before sending them and denormalizes the received amount upon reception. This process ensu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistenciesInAssetTransfer"
+solodit_id: "47859"
+solodit_slug: "inconsistencies-in-asset-transfer-ottersec-none-synonym-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(assetAmount|costForReturnDelivery|withCCTP|isUsingCCTP).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "assetAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

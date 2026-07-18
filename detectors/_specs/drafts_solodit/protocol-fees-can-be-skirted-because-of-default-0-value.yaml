@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "protocol-fees-can-be-skirted-because-of-default-0-value"
+class_name: "ProtocolFeesCanBeSkirtedBecauseOfDefault0Value"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54828 (Cantina/Sablier)"
+help: "Protocol fees can be skirted because of default 0 value"
+wiki_title: "Protocol fees can be skirted because of default 0 value "
+wiki_description: |
+    ## Context
+    
+    **File:** SablierV2Comptroller.sol#L45-45
+    
+    ## Description
+    
+    Sablier's protocol fees are tracked in the Comptroller contract on a per-asset basis, stored in the following mapping:
+    
+    ```solidity
+    mapping(IERC20 asset => UD60x18 fee) public override protocolFees;
+    ```
+    
+    When a new stream is crea
+wiki_exploit_scenario: |
+    Per Solodit #54828: ## Context
+    
+    **File:** SablierV2Comptroller.sol#L45-45
+    
+    ## Description
+    
+    Sablier's protocol fees are tracked in the Comptroller contract on a per-asset basis, stored in the following mapping:
+    
+    ```solidi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProtocolFeesCanBeSkirtedBecauseOfDefault0Value"
+solodit_id: "54828"
+solodit_slug: "protocol-fees-can-be-skirted-because-of-default-0-value-cantina-none-sablier-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal nodelegatecall;"
+fn_name_regex: ".*(noDelegateCall|setComptroller).*"
+read_var_regex: ".*(noDelegateCall|setComptroller).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "noDelegateCall"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return nodelegatecall > 0;"

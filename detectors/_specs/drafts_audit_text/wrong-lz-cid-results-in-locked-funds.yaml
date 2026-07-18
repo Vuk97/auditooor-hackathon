@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "wrong-lz-cid-results-in-locked-funds"
+class_name: "WrongLzCidResultsInLockedFunds"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Tristero - Zellic Audit Report"
+help: |
+    The placeMaker and placeTaker functions both take an lz_cid argument, which is a unique ID that specifies the destination chain for an order. However, the argument’s value is not c
+wiki_title: "Wrong lz_cid results in locked funds"
+wiki_description: |
+    The placeMaker and placeTaker functions both take an lz_cid argument, which is a unique ID that specifies the destination chain for an order. However, the argument’s value is not checked against the trustedRemoteLookup or spokes mappings to ensure it is a valid value.
+wiki_exploit_scenario: |
+    Per audit finding: The placeMaker and placeTaker functions both take an lz_cid argument, which is a unique ID that specifies the destination chain for an order. However, the argument’s value is not checked against the t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrongLzCidResultsInLockedFunds"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(placeMaker|placeTaker|trustedRemoteLookup).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "placeMaker"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

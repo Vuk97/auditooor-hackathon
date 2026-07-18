@@ -1,0 +1,33 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-12-during-oracle-outages-or-feeder-outages-disagreement-the-pa"
+class_name: "M12DuringOracleOutagesOrFeederOutagesDisagreementThePa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25726 (Code4rena/ParaSpace)"
+help: |
+    [M-12] During oracle outages or feeder outages/disagreement, the `ParaSpaceFallbackOracle` is not used
+wiki_title: |
+    [M-12] During oracle outages or feeder outages/disagreement, the `ParaSpaceFallbackOracle` is not used
+wiki_description: |
+    If the feeders haven't updated their prices within the default six-hour time window, the floor oracle will revert when requests are made to get the current price, and these reverts are not caught by the wrapper oracle which handles the fallback oracle, so rather than using the fallback oracle in th
+wiki_exploit_scenario: |
+    Per Solodit #25726: If the feeders haven't updated their prices within the default six-hour time window, the floor oracle will revert when requests are made to get the current price, and these reverts are not caught by
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12DuringOracleOutagesOrFeederOutagesDisagreementThePa"
+solodit_id: "25726"
+solodit_slug: |
+    m-12-during-oracle-outages-or-feeder-outagesdisagreement-the-paraspacefallbackoracle-is-not-used-code4rena-paraspace-paraspace-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Oracle"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(latestAnswer|getPrice|ParaSpaceFallbackOracle).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

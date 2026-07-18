@@ -1,0 +1,45 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-5-attacker-captures-unclaimed-fees-by-timing-deposit-with-rang"
+class_name: "H5AttackerCapturesUnclaimedFeesByTimingDepositWithRang"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56954 (Sherlock/Burve)"
+help: "H-5: Attacker captures unclaimed fees by timing deposit with range re-entry and price manipulation"
+wiki_title: "H-5: Attacker captures unclaimed fees by timing deposit with range re-entry and price manipulation"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-04-burve-judging/issues/288 
+    
+    This issue has been acknowledged by the team but won't be fixed at this time.
+    
+    ## Found by 
+    Aamirusmani1552, bladeee, cccz, future, mstpr-brainbot
+    
+    ### Summary
+    
+    Whenever users deposit into or withdraw from Burve, the associ
+wiki_exploit_scenario: |
+    Per Solodit #56954: Source: https://github.com/sherlock-audit/2025-04-burve-judging/issues/288 
+    
+    This issue has been acknowledged by the team but won't be fixed at this time.
+    
+    ## Found by 
+    Aamirusmani1552, bladeee, cccz,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H5AttackerCapturesUnclaimedFeesByTimingDepositWithRang"
+solodit_id: "56954"
+solodit_slug: |
+    h-5-attacker-captures-unclaimed-fees-by-timing-deposit-with-range-re-entry-and-price-manipulation-sherlock-burve-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(collectAndCalcCompound|amountInUnitLiqX64).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

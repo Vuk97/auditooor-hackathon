@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "auravault-claim-reward-calculation-does-not-deduct-fees-from-x"
+class_name: "AuravaultClaimRewardCalculationDoesNotDeductFeesFromX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-loopfi"
+help: |
+    crypticdefense , also found by Agontuk and mrMorningstar AuraVault::claim allows users to claim rewards corresponding to the amount of WETH they are depositing in the same call. Pr
+wiki_title: |
+    AuraVault::claim reward calculation does not deduct fees from reward amount, causing DoS or extra rewards lost
+wiki_description: |
+    crypticdefense , also found by Agontuk and mrMorningstar AuraVault::claim allows users to claim rewards corresponding to the amount of WETH they are depositing in the same call. Prior to sending rewards to msg.sender , a percentage of the rewards is sent to the vault locker rewards . However, the pe
+wiki_exploit_scenario: |
+    Per audit finding: crypticdefense , also found by Agontuk and mrMorningstar AuraVault::claim allows users to claim rewards corresponding to the amount of WETH they are depositing in the same call. Prior to sending rewar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AuravaultClaimRewardCalculationDoesNotDeductFeesFromX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(mrMorningstar|rewardToken|secondaryRewardToken).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "mrMorningstar"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "m-06-user-can-initiate-withdraw-for-previous-epoch-if-rebase-has"
+class_name: "M06UserCanInitiateWithdrawForPreviousEpochIfRebaseHas"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2881 (Code4rena/Yieldy)"
+help: "[M-06] User can initiate withdraw for previous epoch if rebase hasn't been called since end of epoch"
+wiki_title: "[M-06] User can initiate withdraw for previous epoch if rebase hasn't been called since end of epoch"
+wiki_description: |
+    _Submitted by 0x52_
+    
+    User is able to withdraw unstaked asset sooner than they should be.
+    
+    ### Proof of Concept
+    
+    `Unstake()` allows the user to bypass the rebase() call by setting \_trigger to false. Since rebase() is bypassed, epoch.number could potentially be stale i.e. doesn't match the Tokemak ep
+wiki_exploit_scenario: |
+    Per Solodit #2881: _Submitted by 0x52_
+    
+    User is able to withdraw unstaked asset sooner than they should be.
+    
+    ### Proof of Concept
+    
+    `Unstake()` allows the user to bypass the rebase() call by setting \_trigger to false. S
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06UserCanInitiateWithdrawForPreviousEpochIfRebaseHas"
+solodit_id: "2881"
+solodit_slug: |
+    m-06-user-can-initiate-withdraw-for-previous-epoch-if-rebase-hasnt-been-called-since-end-of-epoch-code4rena-yieldy-yieldy-contest-git
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Bypass limit, Business Logic"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(Unstake|Rebase).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

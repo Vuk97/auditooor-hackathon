@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "h-1-liquidatepartya-requires-signature-which-doesn-t-have-nonce-"
+class_name: "H1LiquidatepartyaRequiresSignatureWhichDoesnTHaveNonce"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26346 (Sherlock/Symmetrical Update)"
+help: |
+    H-1: `liquidatePartyA` requires signature which doesn't have nonce, making possible unfair liquidation and loss of funds for all parties
+wiki_title: |
+    H-1: `liquidatePartyA` requires signature which doesn't have nonce, making possible unfair liquidation and loss of funds for all parties
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-08-symmetrical-judging/issues/5 
+    
+    ## Found by 
+    panprog, xiaoming90
+    
+    `liquidationSig` provided by liquidator to `liquidatePartyA` doesn't have nonces of neither partyA nor partyB. This means that this signature is valid even if partyA and/or partyB do so
+wiki_exploit_scenario: |
+    Per Solodit #26346: Source: https://github.com/sherlock-audit/2023-08-symmetrical-judging/issues/5 
+    
+    ## Found by 
+    panprog, xiaoming90
+    
+    `liquidationSig` provided by liquidator to `liquidatePartyA` doesn't have nonces of n
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1LiquidatepartyaRequiresSignatureWhichDoesnTHaveNonce"
+solodit_id: "26346"
+solodit_slug: |
+    h-1-liquidatepartya-requires-signature-which-doesnt-have-nonce-making-possible-unfair-liquidation-and-loss-of-funds-for-all-parties-sherlock-symmetrical-update-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidatepartya;"
+fn_name_regex: ".*(liquidationSig|liquidatePartyA).*"
+read_var_regex: ".*(liquidatePartyA|liquidationSig).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidationSig"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return liquidatepartya > 0;"

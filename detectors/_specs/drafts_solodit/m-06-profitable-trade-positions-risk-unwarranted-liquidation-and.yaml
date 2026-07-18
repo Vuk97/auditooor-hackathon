@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "m-06-profitable-trade-positions-risk-unwarranted-liquidation-and"
+class_name: "M06ProfitableTradePositionsRiskUnwarrantedLiquidationAnd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37803 (Pashov Audit Group/GainsNetwork-February)"
+help: "[M-06] Profitable trade positions risk unwarranted liquidation and loss of profit"
+wiki_title: "[M-06] Profitable trade positions risk unwarranted liquidation and loss of profit"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When the liquidator calls `triggerOrder` to liquidate a trade, the `_fromBlock` parameter is set to `tradeInfo.createdBlock`. It is the block where the trade is executed and stored in the system.
+    
+            function _getPriceTriggerOr
+wiki_exploit_scenario: |
+    Per Solodit #37803: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When the liquidator calls `triggerOrder` to liquidate a trade, the `_fromBlock` parameter is set to `tradeInfo.createdBlock`. It is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06ProfitableTradePositionsRiskUnwarrantedLiquidationAnd"
+solodit_id: "37803"
+solodit_slug: |
+    m-06-profitable-trade-positions-risk-unwarranted-liquidation-and-loss-of-profit-pashov-audit-group-none-gainsnetwork-february-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal exactexecution;"
+fn_name_regex: ".*(triggerOrder|exactExecution|executionPrice|liqPrice).*"
+read_var_regex: ".*(exactExecution|executionPrice|liqPrice).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "triggerOrder"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return exactexecution > 0;"

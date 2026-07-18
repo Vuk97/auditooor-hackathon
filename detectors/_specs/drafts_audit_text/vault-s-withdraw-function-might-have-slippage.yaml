@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "vault-s-withdraw-function-might-have-slippage"
+class_name: "VaultSWithdrawFunctionMightHaveSlippage"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Beefy UniswapV3 - Zellic Audit Report"
+help: |
+    The vault contract takes two arguments _minAmount0 and _minAmount1 that are intended for the user to provide the minimum amount of tokens they expect to receive, with the call reve
+wiki_title: "Vault’s withdraw function might have slippage"
+wiki_description: |
+    The vault contract takes two arguments _minAmount0 and _minAmount1 that are intended for the user to provide the minimum amount of tokens they expect to receive, with the call reverting if the amount they would actually receive would be lower than that due to slippage. In the function, the amount th
+wiki_exploit_scenario: |
+    Per audit finding: The vault contract takes two arguments _minAmount0 and _minAmount1 that are intended for the user to provide the minimum amount of tokens they expect to receive, with the call reverting if the amount
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VaultSWithdrawFunctionMightHaveSlippage"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(safeTransfer).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeTransfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

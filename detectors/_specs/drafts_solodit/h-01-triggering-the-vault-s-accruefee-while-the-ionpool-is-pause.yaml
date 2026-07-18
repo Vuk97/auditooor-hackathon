@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "h-01-triggering-the-vault-s-accruefee-while-the-ionpool-is-pause"
+class_name: "H01TriggeringTheVaultSAccruefeeWhileTheIonpoolIsPause"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36434 (Pashov Audit Group/Ionprotocol)"
+help: "[H-01] Triggering the vault's `_accrueFee` while the `IonPool` is paused"
+wiki_title: "[H-01] Triggering the vault's `_accrueFee` while the `IonPool` is paused"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    **Description**
+    
+    When `IonPool` is paused, interest accrual stops, and when Ion Protocol's unpausing the `IonPool`, all `ilks.lastRateUpdate` will be updated to `block.timestamp`, effectively preventing the protocol from accounting for interest
+wiki_exploit_scenario: |
+    Per Solodit #36434: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    **Description**
+    
+    When `IonPool` is paused, interest accrual stops, and when Ion Protocol's unpausing the `IonPool`, all `ilks.lastRateUpdate` wi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01TriggeringTheVaultSAccruefeeWhileTheIonpoolIsPause"
+solodit_id: "36434"
+solodit_slug: |
+    h-01-triggering-the-vaults-_accruefee-while-the-ionpool-is-paused-pashov-audit-group-none-ionprotocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal feeshares;"
+fn_name_regex: ".*(IonPool|totalAssets|newTotalAssets|feeShares).*"
+read_var_regex: ".*(feeShares|newTotalAssets|totalAssets).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "IonPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return feeshares > 0;"

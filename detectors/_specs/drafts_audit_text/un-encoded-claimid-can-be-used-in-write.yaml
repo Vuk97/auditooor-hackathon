@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "un-encoded-claimid-can-be-used-in-write"
+class_name: "UnEncodedClaimidCanBeUsedInWrite"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Valorem - Zellic Audit Report"
+help: |
+    Users are allowed to create a position in an option through the write() function. This allows passing both the optionID, which corresponds to the option at hand, and the claimID, w
+wiki_title: "Un-encoded claimID can be used in write()"
+wiki_description: |
+    Users are allowed to create a position in an option through the write() function. This allows passing both the optionID, which corresponds to the option at hand, and the claimID, which corresponds to the claim that a user has when wanting to redeem the position. Currently, the only performed check i
+wiki_exploit_scenario: |
+    Per audit finding: Users are allowed to create a position in an option through the write() function. This allows passing both the optionID, which corresponds to the option at hand, and the claimID, which corresponds to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnEncodedClaimidCanBeUsedInWrite"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(optionID|claimID|optionId).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "optionID"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

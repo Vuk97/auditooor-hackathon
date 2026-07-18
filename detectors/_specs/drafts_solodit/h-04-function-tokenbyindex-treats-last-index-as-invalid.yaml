@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "h-04-function-tokenbyindex-treats-last-index-as-invalid"
+class_name: "H04FunctionTokenbyindexTreatsLastIndexAsInvalid"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42173 (Code4rena/LarvaLabs Meebits)"
+help: "[H-04] function `tokenByIndex` treats last index as invalid"
+wiki_title: "[H-04] function `tokenByIndex` treats last index as invalid"
+wiki_description: |
+    NFT indexes start from 0:
+    ```solidity
+    // Don't allow a zero index, start counting at 1
+    return value.add(1);
+    ```
+    So if there are 30 tokens, indexes would be 1-30. However, function `tokenByIndex` sets such boundaries:
+    ```solidity
+    require(index > 0 && index < TOKEN_LIMIT);
+    ```
+    This means that the las
+wiki_exploit_scenario: |
+    Per Solodit #42173: NFT indexes start from 0:
+    ```solidity
+    // Don't allow a zero index, start counting at 1
+    return value.add(1);
+    ```
+    So if there are 30 tokens, indexes would be 1-30. However, function `tokenByIndex` sets
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04FunctionTokenbyindexTreatsLastIndexAsInvalid"
+solodit_id: "42173"
+solodit_slug: |
+    h-04-function-tokenbyindex-treats-last-index-as-invalid-code4rena-larvalabs-meebits-larvalabs-meebits-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal tokenbyindex;"
+fn_name_regex: ".*(tokenByIndex).*"
+write_var_regex: ".*(tokenByIndex).*"
+guard_var_regex: ".*(tokenByIndex).*"
+vuln_fn_name: "tokenByIndex"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "tokenbyindex = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

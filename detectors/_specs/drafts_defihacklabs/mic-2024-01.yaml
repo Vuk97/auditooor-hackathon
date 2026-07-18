@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "mic-2024-01"
+class_name: "Mic202401"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-01/MIC_exp.sol"
+help: "MIC 2024-01 — generic exploit (~$500K)"
+wiki_title: "MIC (2024-01) — generic"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-01): MIC lost ~$500K. Bug class: generic. Attack tx: 0x316c35d483b72700e6f4984650d217304146b3732bb148e32fa7f8017843eb24.
+wiki_exploit_scenario: |
+    Attacker (0x1703062d657c1ca439023f0993d870f4707a37ff) exploits MIC via generic: the victim contract 0xb38c2d2d6a168d41aa8eb4cead47e01badbdcf57 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Add the missing guard identified by the skeleton; cross-reference the DeFiHackLabs PoC for the exact bug path.
+contract_name: "Mic202401"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

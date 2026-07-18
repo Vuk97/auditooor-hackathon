@@ -1,0 +1,23 @@
+skeleton: "name_match_missing_require"
+name: "slippage-bounds-exposed-but-not-enforced"
+class_name: "SlippageBoundsExposedButNotEnforced"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: bespoke-swap-slippageprice-guard-avoidance-disable"
+help: "Slippage bounds exposed but not enforced"
+wiki_title: "Slippage bounds exposed but not enforced"
+wiki_description: |
+    Finds swap-style entrypoints that accept user slippage knobs (minOut/maxIn/etc.) but have no guard that references those knobs, while touching pair logic and moving value. This can surface bespoke swap flows (e.g., ZAMM-style transient balance paths) where slippage linkage is non-standard. Unique: f
+wiki_exploit_scenario: |
+    Per Glider query tags [slippage, dex, swap, minamount, maxamount, validation]: Finds swap-style entrypoints that accept user slippage knobs (minOut/maxIn/etc.) but have no guard that references those knobs, while touching pair logic and moving value. This can surface bespoke swa
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "SlippageBoundsExposedButNotEnforced"
+fn_name_regex: ".*(minOut).*"
+write_var_regex: ".*(minout).*"
+guard_var_regex: ".*(minout).*"
+vuln_fn_name: "minOut"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "minout = newVal;"
+guard_require_line: "require(newVal <= 10000);"
+state_decl: "uint256 internal minout;"

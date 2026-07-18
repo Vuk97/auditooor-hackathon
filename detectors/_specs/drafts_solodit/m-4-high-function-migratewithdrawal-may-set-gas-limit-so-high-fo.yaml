@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-4-high-function-migratewithdrawal-may-set-gas-limit-so-high-fo"
+class_name: "M4HighFunctionMigratewithdrawalMaySetGasLimitSoHighFo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6500 (Sherlock/Optimism)"
+help: |
+    M-4: [High] Function MigrateWithdrawal() may set gas limit so high for old withdrawals when migrating them by mistake and they can't be relayed in the L1 and users funds would be l
+wiki_title: |
+    M-4: [High] Function MigrateWithdrawal() may set gas limit so high for old withdrawals when migrating them by mistake and they can't be relayed in the L1 and us
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-optimism-judging/issues/235 
+    
+    ## Found by 
+    unforgiven
+    
+    ## Summary
+    Function `MigrateWithdrawal()` in migrate.go will turn a LegacyWithdrawal into a bedrock style Withdrawal. it should set a min gas limit value for the withdrawals. to calculate a gas l
+wiki_exploit_scenario: |
+    Per Solodit #6500: Source: https://github.com/sherlock-audit/2023-01-optimism-judging/issues/235 
+    
+    ## Found by 
+    unforgiven
+    
+    ## Summary
+    Function `MigrateWithdrawal()` in migrate.go will turn a LegacyWithdrawal into a bed
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M4HighFunctionMigratewithdrawalMaySetGasLimitSoHighFo"
+solodit_id: "6500"
+solodit_slug: |
+    m-4-high-function-migratewithdrawal-may-set-gas-limit-so-high-for-old-withdrawals-when-migrating-them-by-mistake-and-they-cant-be-relayed-in-the-l1-and-users-funds-would-be-lost-sherlock-optimism-optimism-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal relaymessage;"
+fn_name_regex: ".*(MigrateWithdrawal|relayMessage|CrossDomainMessenger).*"
+read_var_regex: ".*(relayMessage).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "MigrateWithdrawal"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return relaymessage > 0;"

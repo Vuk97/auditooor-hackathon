@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "m-08-relpcontract-relp-is-susceptible-to-sandwich-attack-due-to-"
+class_name: "M08RelpcontractRelpIsSusceptibleToSandwichAttackDueTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29470 (Code4rena/Dopex)"
+help: "[M-08] `reLPContract.reLP()` is susceptible to sandwich attack due to user control over `bond()`"
+wiki_title: "[M-08] `reLPContract.reLP()` is susceptible to sandwich attack due to user control over `bond()`"
+wiki_description: |
+    <https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L873> 
+    
+    <https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L930>
+    
+    `RdpxV2Core.bond()` calls `reLPContract.reLP()` at the end of the bonding to adjust the LP for the rDPX/ETH pool a
+wiki_exploit_scenario: |
+    Per Solodit #29470: <https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L873> 
+    
+    <https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L930>
+    
+    `RdpxV2Core.bo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08RelpcontractRelpIsSusceptibleToSandwichAttackDueTo"
+solodit_id: "29470"
+solodit_slug: |
+    m-08-relpcontractrelp-is-susceptible-to-sandwich-attack-due-to-user-control-over-bond-code4rena-dopex-dopex-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity|bond|rdpxV2Core).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

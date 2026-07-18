@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-10-unbounded-loop-in-withdraw-may-cause-rewards-to-be-locked-i"
+class_name: "M10UnboundedLoopInWithdrawMayCauseRewardsToBeLockedI"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42554 (Code4rena/FactoryDAO)"
+help: "[M-10] Unbounded loop in `withdraw()` may cause rewards to be locked in the contract"
+wiki_title: "[M-10] Unbounded loop in `withdraw()` may cause rewards to be locked in the contract"
+wiki_description: |
+    _Submitted by IllIllI_
+    
+    The `withdraw()` has an unbounded loop with external calls. If the gas costs of functions change between when deposits are made and when rewards are withdrawn, or if the gas cost of the deposit (`transferFrom()`) is less than the gas cost of the withdrawal (`transfer()`), the
+wiki_exploit_scenario: |
+    Per Solodit #42554: _Submitted by IllIllI_
+    
+    The `withdraw()` has an unbounded loop with external calls. If the gas costs of functions change between when deposits are made and when rewards are withdrawn, or if the gas co
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10UnboundedLoopInWithdrawMayCauseRewardsToBeLockedI"
+solodit_id: "42554"
+solodit_slug: |
+    m-10-unbounded-loop-in-withdraw-may-cause-rewards-to-be-locked-in-the-contract-code4rena-factorydao-factorydao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal transfer;"
+fn_name_regex: ".*(withdraw|transferFrom|transfer).*"
+write_var_regex: ".*(transfer|transferFrom|withdraw).*"
+guard_var_regex: ".*(transfer|transferFrom|withdraw).*"
+vuln_fn_name: "withdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "transfer = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

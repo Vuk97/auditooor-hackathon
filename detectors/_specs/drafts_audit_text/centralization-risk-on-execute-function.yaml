@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "centralization-risk-on-execute-function"
+class_name: "CentralizationRiskOnExecuteFunction"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero Endpoint V2 (VerifierNetwork) - Zellic Audit Report"
+help: |
+    The execute function restricts the callers to only the admin role: function execute(ExecuteParam[] calldata _params) external onlyRole(ADMIN_ROLE) { for (uint i = 0; i < _params.le
+wiki_title: "Centralization risk on execute function"
+wiki_description: |
+    The execute function restricts the callers to only the admin role: function execute(ExecuteParam[] calldata _params) external onlyRole(ADMIN_ROLE) { for (uint i = 0; i < _params.length; +)i) { /)...)) } } } However, this restriction is unnecessary because the function requires a quorum of valid sign
+wiki_exploit_scenario: |
+    Per audit finding: The execute function restricts the callers to only the admin role: function execute(ExecuteParam[] calldata _params) external onlyRole(ADMIN_ROLE) { for (uint i = 0; i < _params.length; +)i) { /)...))
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CentralizationRiskOnExecuteFunction"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onlyRole).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "onlyRole"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

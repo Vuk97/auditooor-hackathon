@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "unnecessary-operation-in-createfassetfeedebt-when-fassets-equals"
+class_name: "UnnecessaryOperationInCreatefassetfeedebtWhenFassetsEquals"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Flare FAssets - Zellic Audit Report"
+help: |
+    The _createFAssetFeeDebt function performs storage writes and emits a CPFeeDebtChanged event when the amount equals zero. function _createFAssetFeeDebt(address _account, uint256 _f
+wiki_title: "Unnecessary operation in _createFAssetFeeDebt when _fAssets equals"
+wiki_description: |
+    The _createFAssetFeeDebt function performs storage writes and emits a CPFeeDebtChanged event when the amount equals zero. function _createFAssetFeeDebt(address _account, uint256 _fAssets) internal { int256 fAssets = _fAssets.toInt256(); _fAssetFeeDebtOf[_account] += fAssets; totalFAssetFeeDebt += fA
+wiki_exploit_scenario: |
+    Per audit finding: The _createFAssetFeeDebt function performs storage writes and emits a CPFeeDebtChanged event when the amount equals zero. function _createFAssetFeeDebt(address _account, uint256 _fAssets) internal { i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnnecessaryOperationInCreatefassetfeedebtWhenFassetsEquals"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(fAssets|toInt256|totalFAssetFeeDebt).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "fAssets"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

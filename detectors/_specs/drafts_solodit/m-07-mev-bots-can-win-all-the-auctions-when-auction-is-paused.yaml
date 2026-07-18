@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "m-07-mev-bots-can-win-all-the-auctions-when-auction-is-paused"
+class_name: "M07MevBotsCanWinAllTheAuctionsWhenAuctionIsPaused"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20180 (Code4rena/Stader Labs)"
+help: "[M-07] MEV bots can win all the auctions when `Auction` is paused"
+wiki_title: "[M-07] MEV bots can win all the auctions when `Auction` is paused"
+wiki_description: |
+    MEV bots may bid on all the ongoing auctions before `Auction` is paused by frontrunning it with the `addBid` function.
+    
+    This can lead to bots winning all the `auctions` for a fraction of their price. Especially `auctions` that are almost ended, as no one is able to bid until the contract is unpause
+wiki_exploit_scenario: |
+    Per Solodit #20180: MEV bots may bid on all the ongoing auctions before `Auction` is paused by frontrunning it with the `addBid` function.
+    
+    This can lead to bots winning all the `auctions` for a fraction of their price.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07MevBotsCanWinAllTheAuctionsWhenAuctionIsPaused"
+solodit_id: "20180"
+solodit_slug: "m-07-mev-bots-can-win-all-the-auctions-when-auction-is-paused-code4rena-stader-labs-stader-labs-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addbid;"
+fn_name_regex: ".*(Auction|addBid|auctions|pause).*"
+read_var_regex: ".*(addBid|auctions|external).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Auction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addbid > 0;"

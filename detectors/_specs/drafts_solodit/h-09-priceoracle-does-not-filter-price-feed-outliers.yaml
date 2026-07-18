@@ -1,0 +1,40 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-09-priceoracle-does-not-filter-price-feed-outliers"
+class_name: "H09PriceoracleDoesNotFilterPriceFeedOutliers"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1192 (Code4rena/Sublime)"
+help: "[H-09] `PriceOracle` Does Not Filter Price Feed Outliers"
+wiki_title: "[H-09] `PriceOracle` Does Not Filter Price Feed Outliers"
+wiki_description: |
+    _Submitted by leastwood_
+    
+    #### Impact
+    
+    If for whatever reason the Chainlink oracle returns a malformed price due to oracle manipulation or a malfunctioned price, the result will be passed onto users, causing unintended consequences as a result.
+    
+    In the same time it's possible to construct mitigation
+wiki_exploit_scenario: |
+    Per Solodit #1192: _Submitted by leastwood_
+    
+    #### Impact
+    
+    If for whatever reason the Chainlink oracle returns a malformed price due to oracle manipulation or a malfunctioned price, the result will be passed onto users,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H09PriceoracleDoesNotFilterPriceFeedOutliers"
+solodit_id: "1192"
+solodit_slug: "h-09-priceoracle-does-not-filter-price-feed-outliers-code4rena-sublime-sublime-contest-git"
+solodit_quality: "3"
+solodit_rarity: "4.5"
+solodit_tags: "Oracle, TWAP"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(PriceOracle).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

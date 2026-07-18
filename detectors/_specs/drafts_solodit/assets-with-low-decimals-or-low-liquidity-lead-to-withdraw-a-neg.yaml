@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "assets-with-low-decimals-or-low-liquidity-lead-to-withdraw-a-neg"
+class_name: "AssetsWithLowDecimalsOrLowLiquidityLeadToWithdrawANeg"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #17674 (TrailOfBits/Balancer Core)"
+help: "Assets with low decimals or low liquidity lead to withdraw a negligible amount of assets for free"
+wiki_title: "Assets with low decimals or low liquidity lead to withdraw a negligible amount of assets for free"
+wiki_description: |
+    ## Data Validation
+    
+    **Type:** Data Validation  
+    **Target:** BPool.sol  
+    
+    **Difficulty:** Medium  
+    
+    ## Description
+    A rounding issue caused by Solidity's integer arithmetic in `joinPool` allows users to receive free tokens if one of the assets has a low decimal or low liquidity. The amount of assets t
+wiki_exploit_scenario: |
+    Per Solodit #17674: ## Data Validation
+    
+    **Type:** Data Validation  
+    **Target:** BPool.sol  
+    
+    **Difficulty:** Medium  
+    
+    ## Description
+    A rounding issue caused by Solidity's integer arithmetic in `joinPool` allows users to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AssetsWithLowDecimalsOrLowLiquidityLeadToWithdrawANeg"
+solodit_id: "17674"
+solodit_slug: |
+    assets-with-low-decimals-or-low-liquidity-lead-to-withdraw-a-negligible-amount-of-assets-for-free-trailofbits-balancer-core-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bmul;"
+fn_name_regex: ".*(joinPool|bmul|exitPool).*"
+read_var_regex: ".*(bmul|exitPool|joinPool).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "joinPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return bmul > 0;"

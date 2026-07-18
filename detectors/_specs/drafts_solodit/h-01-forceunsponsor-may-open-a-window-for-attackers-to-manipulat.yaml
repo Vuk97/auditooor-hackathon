@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "h-01-forceunsponsor-may-open-a-window-for-attackers-to-manipulat"
+class_name: "H01ForceunsponsorMayOpenAWindowForAttackersToManipulat"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42401 (Code4rena/Sandclock)"
+help: |
+    [H-01] `forceUnsponsor()` may open a window for attackers to manipulate the `_totalShares` and freeze users' funds at a certain deposit amount
+wiki_title: |
+    [H-01] `forceUnsponsor()` may open a window for attackers to manipulate the `_totalShares` and freeze users' funds at a certain deposit amount
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    <https://github.com/code-423n4/2022-01-sandclock/blob/a90ad3824955327597be00bb0bd183a9c228a4fb/sandclock/contracts/Vault.sol#L390-L401>
+    
+    ```solidity
+    if (_force && sponsorAmount > totalUnderlying()) {
+        sponsorToTransfer = totalUnderlying();
+    } else if (!_force) {
+        requir
+wiki_exploit_scenario: |
+    Per Solodit #42401: _Submitted by WatchPug_
+    
+    <https://github.com/code-423n4/2022-01-sandclock/blob/a90ad3824955327597be00bb0bd183a9c228a4fb/sandclock/contracts/Vault.sol#L390-L401>
+    
+    ```solidity
+    if (_force && sponsorAmoun
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01ForceunsponsorMayOpenAWindowForAttackersToManipulat"
+solodit_id: "42401"
+solodit_slug: |
+    h-01-forceunsponsor-may-open-a-window-for-attackers-to-manipulate-the-_totalshares-and-freeze-users-funds-at-a-certain-deposit-amount-code4rena-sandclock-sandclock-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(totalUnderlying|sponsorToTransfer|totalShares|deposit).*"
+read_var_regex: ".*(deposit|newShares|sponsorToTransfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalUnderlying"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposit > 0;"

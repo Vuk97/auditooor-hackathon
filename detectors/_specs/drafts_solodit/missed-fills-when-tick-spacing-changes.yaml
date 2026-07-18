@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "missed-fills-when-tick-spacing-changes"
+class_name: "MissedFillsWhenTickSpacingChanges"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57979 (MixBytes/Algebra Finance)"
+help: "Missed Fills When Tick-Spacing Changes"
+wiki_title: "Missed Fills When Tick-Spacing Changes"
+wiki_description: |
+    ##### Description
+    `LimitOrderManager._getCrossedTicks()` relies on `tickLowerLasts[pool]`, a value recorded under the previous tick-spacing. If governance changes a pool’s tick-spacing (e.g., from 10 to 20), the stored `tickLowerLast` no longer aligns with the new grid. When the next swap occurs, th
+wiki_exploit_scenario: |
+    Per Solodit #57979: ##### Description
+    `LimitOrderManager._getCrossedTicks()` relies on `tickLowerLasts[pool]`, a value recorded under the previous tick-spacing. If governance changes a pool’s tick-spacing (e.g., from 10
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissedFillsWhenTickSpacingChanges"
+solodit_id: "57979"
+solodit_slug: "missed-fills-when-tick-spacing-changes-mixbytes-none-algebra-finance-markdown"
+solodit_quality: "3"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lower;"
+fn_name_regex: ".*(tickLowerLast|lower|upper).*"
+read_var_regex: ".*(lower|tickLowerLast|upper).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tickLowerLast"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return lower > 0;"

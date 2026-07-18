@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "infinite-loop-in-tick-iteration-due-to-misaligned-current-tick"
+class_name: "InfiniteLoopInTickIterationDueToMisalignedCurrentTick"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62524 (OpenZeppelin/OpenZeppelin Uniswap Hooks v1.1.0 RC 2 Audit)"
+help: "Infinite Loop in Tick Iteration Due to Misaligned Current Tick"
+wiki_title: "Infinite Loop in Tick Iteration Due to Misaligned Current Tick"
+wiki_description: |
+    The [`AntiSandwichHook`](https://github.com/OpenZeppelin/uniswap-hooks/blob/3e9fa228ec0f7fe05a95e09e25442466b459a712/src/general/AntiSandwichHook.sol) contract implements an anti-MEV mechanism by storing a snapshot of the pool state at the beginning of each block. As part of this process, the [`_bef
+wiki_exploit_scenario: |
+    Per Solodit #62524: The [`AntiSandwichHook`](https://github.com/OpenZeppelin/uniswap-hooks/blob/3e9fa228ec0f7fe05a95e09e25442466b459a712/src/general/AntiSandwichHook.sol) contract implements an anti-MEV mechanism by stor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InfiniteLoopInTickIterationDueToMisalignedCurrentTick"
+solodit_id: "62524"
+solodit_slug: |
+    infinite-loop-in-tick-iteration-due-to-misaligned-current-tick-openzeppelin-none-openzeppelin-uniswap-hooks-v110-rc-2-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal currenttick;"
+fn_name_regex: ".*(AntiSandwichHook|for|step|tickSpacing).*"
+read_var_regex: ".*(currentTick|for|step).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "AntiSandwichHook"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return currenttick > 0;"

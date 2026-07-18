@@ -1,0 +1,23 @@
+skeleton: "name_match_missing_require"
+name: "bridge-validator-set-update-without-duplicate-validator-check-power-am"
+class_name: "BridgeValidatorSetUpdateWithoutDuplicateValidatorCheckPowerAm"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: lack-of-validator-duplication-check-during-validat"
+help: "Bridge Validator set update without duplicate-validator check (power amplification)"
+wiki_title: "Bridge Validator set update without duplicate-validator check (power amplification)"
+wiki_description: |
+    Finds updateValset-like entrypoints that accept a new validator set but never de-duplicate validator addresses (no pairwise i/j check and no mapping(address=>bool) "seen" gate) in the entrypoint or any directly-called helper (e.g., ValsetUpdate.updateValsetChecks, SignatureUtils.*). This enables a s
+wiki_exploit_scenario: |
+    Per Glider query tags [bridge, consensus, valset, signatures, duplicate, validation]: Finds updateValset-like entrypoints that accept a new validator set but never de-duplicate validator addresses (no pairwise i/j check and no mapping(address=>bool) "seen" gate) in the entrypoint or an
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "BridgeValidatorSetUpdateWithoutDuplicateValidatorCheckPowerAm"
+fn_name_regex: ".*(updateValset).*"
+write_var_regex: ".*(updatevals).*"
+guard_var_regex: ".*(updatevals).*"
+vuln_fn_name: "updateValset"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "updatevals = newVal;"
+guard_require_line: "require(newVal <= 10000);"
+state_decl: "uint256 internal updatevals;"

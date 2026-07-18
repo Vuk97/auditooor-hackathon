@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "swap-and-pop-without-index-fix-up-corrupts-position-s-fungible-a"
+class_name: "SwapAndPopWithoutIndexFixUpCorruptsPositionSFungibleA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62348 (Cyfrin/Licredity)"
+help: "Swap-and-pop without index fix-up corrupts `Position`’s fungible array"
+wiki_title: "Swap-and-pop without index fix-up corrupts `Position`’s fungible array"
+wiki_description: |
+    **Description:** [`Position`](https://github.com/Licredity/licredity-v1-core/blob/e8ae10a7d9f27529e39ca277bf56cef01a807817/src/types/Position.sol#L10-L16) tracks fungible collateral in **two places** that must stay in sync:
+    
+    ```solidity
+    struct Position {
+        address owner;
+        uint256 debtShare;
+wiki_exploit_scenario: |
+    Per Solodit #62348: **Description:** [`Position`](https://github.com/Licredity/licredity-v1-core/blob/e8ae10a7d9f27529e39ca277bf56cef01a807817/src/types/Position.sol#L10-L16) tracks fungible collateral in **two places**
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwapAndPopWithoutIndexFixUpCorruptsPositionSFungibleA"
+solodit_id: "62348"
+solodit_slug: "swap-and-pop-without-index-fix-up-corrupts-positions-fungible-array-cyfrin-none-licredity-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal fungiblestates;"
+fn_name_regex: ".*(Position|fungibleStates|index).*"
+read_var_regex: ".*(fungibleStates|index).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Position"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return fungiblestates > 0;"

@@ -1,0 +1,46 @@
+skeleton: "state_write_without_paired_write"
+name: "order-owner-isn-t-zeroed-after-burning"
+class_name: "OrderOwnerIsnTZeroedAfterBurning"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7261 (Spearbit/CLOBER)"
+help: "Order owner isn't zeroed after burning"
+wiki_title: "Order owner isn't zeroed after burning"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - `OrderBook.sol#L821-L823`
+    - `OrderNFT.sol#L78-L82`
+    - `OrderNFT.sol#L189`
+    
+    ## Description
+    The order's owner is not zeroed out when the NFT is burnt. As a result, while the `onBurn()` method records the NFT to have been transferred to the zero address, `ownerOf()
+wiki_exploit_scenario: |
+    Per Solodit #7261: ## Severity: Medium Risk
+    
+    ## Context
+    - `OrderBook.sol#L821-L823`
+    - `OrderNFT.sol#L78-L82`
+    - `OrderNFT.sol#L189`
+    
+    ## Description
+    The order's owner is not zeroed out when the NFT is burnt. As a result,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OrderOwnerIsnTZeroedAfterBurning"
+solodit_id: "7261"
+solodit_slug: "order-owner-isnt-zeroed-after-burning-spearbit-clober-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Don't update state, NFT"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(onBurn|ownerOf|approve|safeTransferFrom).*"
+primary_var_regex: ".*(approve|onBurn|openOrderAmount).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "h-01-merging-tranches-could-make-loantermination-accounting-inco"
+class_name: "H01MergingTranchesCouldMakeLoanterminationAccountingInco"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35203 (Code4rena/Gondi)"
+help: "[H-01] Merging tranches could make `_loanTermination()` accounting incorrect"
+wiki_title: "[H-01] Merging tranches could make `_loanTermination()` accounting incorrect"
+wiki_description: |
+    In the `Pool` contract, when a loan is repaid or liquidated, a call to the Pool is made for accounting. The `_loanTermination()` function is eventually invoked. This function uses the `loanId` to determine the withdrawal queue to which the loan belongs. If the loan was issued after the last queue,
+wiki_exploit_scenario: |
+    Per Solodit #35203: In the `Pool` contract, when a loan is repaid or liquidated, a call to the Pool is made for accounting. The `_loanTermination()` function is eventually invoked. This function uses the `loanId` to det
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01MergingTranchesCouldMakeLoanterminationAccountingInco"
+solodit_id: "35203"
+solodit_slug: "h-01-merging-tranches-could-make-_loantermination-accounting-incorrect-code4rena-gondi-gondi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getavailabletowithdraw;"
+fn_name_regex: ".*(Pool|loanId|getTotalReceived|getAvailableToWithdraw).*"
+write_var_regex: ".*(getAvailableToWithdraw|getTotalReceived|loanId).*"
+guard_var_regex: ".*(getAvailableToWithdraw|getTotalReceived|loanId).*"
+vuln_fn_name: "Pool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "getavailabletowithdraw = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "risks-of-default-configurations"
+class_name: "RisksOfDefaultConfigurations"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero Endpoint V2 - Zellic Audit Report"
+help: |
+    The OApp can configure requiredConfirmations to 0 on the receiving side to allow quicker message delivery. This should be okay as long as the OApp understands the risk of 0 confirm
+wiki_title: "Risks of default configurations"
+wiki_description: |
+    The OApp can configure requiredConfirmations to 0 on the receiving side to allow quicker message delivery. This should be okay as long as the OApp understands the risk of 0 confirmation transactions. function _verified( address _dvn, bytes32 _headerHash, bytes32 _payloadHash, uint64 _requiredConfirm
+wiki_exploit_scenario: |
+    Per audit finding: The OApp can configure requiredConfirmations to 0 on the receiving side to allow quicker message delivery. This should be okay as long as the OApp understands the risk of 0 confirmation transactions.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RisksOfDefaultConfigurations"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(requiredConfirmations|hashLookup).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "requiredConfirmations"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "venus-the-2026-03"
+class_name: "VenusThe202603"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-03/Venus_THE_exp.sol"
+help: "Venus_THE 2026-03 — reentrancy exploit (still held as raw CAKE + WBNB at the end of the tx)"
+wiki_title: "Venus_THE (2026-03) — reentrancy"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-03): Venus_THE lost still held as raw CAKE + WBNB at the end of the tx. Bug class: reentrancy. Attack tx: 0x4f477e941c12bbf32a58dc12db7bb0cb4d31d41ff25b2457e6af3c15d7f5663f.
+wiki_exploit_scenario: |
+    Attacker (0x43C743e316F40d4511762EEdf6f6D484F67b2F82) exploits Venus_THE via reentrancy: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Apply the nonReentrant modifier (OZ ReentrancyGuard) to every externally-callable state-mutating entry point that transfers value, and follow the checks-effects-interactions pattern.
+contract_name: "VenusThe202603"
+fn_name_regex: ".*(withdraw).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(nonReentrant).*"
+guarded_helper_name: "nonReentrant"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

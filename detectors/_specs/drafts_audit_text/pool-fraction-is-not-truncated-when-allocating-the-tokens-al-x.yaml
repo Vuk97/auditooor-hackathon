@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "pool-fraction-is-not-truncated-when-allocating-the-tokens-al-x"
+class_name: "PoolFractionIsNotTruncatedWhenAllocatingTheTokensAlX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-initia-cosmos"
+help: |
+    ABAIKUNANBAEV At the moment, the function AllocateTokens() uses the Quo() operation when calculating the pool fraction for a particular validator pool. The problem is that it does
+wiki_title: "Pool fraction is not truncated when allocating the tokens allowing to receive more rewards than owed"
+wiki_description: |
+    ABAIKUNANBAEV At the moment, the function AllocateTokens() uses the Quo() operation when calculating the pool fraction for a particular validator pool. The problem is that it does not round down to 0 , allowing to receive a bigger fraction than it actually is. Proof of Concept Let’s take a look at h
+wiki_exploit_scenario: |
+    Per audit finding: ABAIKUNANBAEV At the moment, the function AllocateTokens() uses the Quo() operation when calculating the pool fraction for a particular validator pool. The problem is that it does not round down to 0
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PoolFractionIsNotTruncatedWhenAllocatingTheTokensAlX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(poolFraction|rewardWeight|weightsSum).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "poolFraction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

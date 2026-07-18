@@ -1,0 +1,25 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "unchecked-erc20-transfer-return-values"
+class_name: "UncheckedErc20TransferReturnValues"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: unchecked-erc20-transfer-return-value"
+help: "Unchecked ERC20 transfer return values"
+wiki_title: "Unchecked ERC20 transfer return values"
+wiki_description: |
+    Detects public/external functions that call ERC20 transfer/transferFrom without checking return values and without using SafeERC20 wrappers. Uses Glider APIs for all detection logic following API-first design principles. A hit requires: - Calls ERC20 transfer/transferFrom functions - Does not use Sa
+wiki_exploit_scenario: |
+    Per Glider query tags [token, erc20, unchecked-return, insolvency, theft]: Detects public/external functions that call ERC20 transfer/transferFrom without checking return values and without using SafeERC20 wrappers. Uses Glider APIs for all detection logic following API-firs
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "UncheckedErc20TransferReturnValues"
+trigger_sig_regex: ".*(transferFrom).*"
+required_sibling_regex: ".*(validate|check|verify|assert).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

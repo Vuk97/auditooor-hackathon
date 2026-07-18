@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "btnft-2025-04"
+class_name: "Btnft202504"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-04/BTNFT_exp.sol"
+help: "BTNFT 2025-04 — swap exploit (19025.9193312786235214 BUSD)"
+wiki_title: "BTNFT (2025-04) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-04): BTNFT lost 19025.9193312786235214 BUSD. Bug class: swap. Attack tx: unknown.
+wiki_exploit_scenario: |
+    Attacker (0xbda2a27cdb2ffd4258f3b1ed664ed0f28f9e0fc3) exploits BTNFT via swap: the victim contract 0x0FC91B6Fea2E7A827a8C99C91101ed36c638521B exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Btnft202504"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

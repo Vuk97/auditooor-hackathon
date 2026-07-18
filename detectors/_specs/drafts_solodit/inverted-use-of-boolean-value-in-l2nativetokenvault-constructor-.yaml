@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "inverted-use-of-boolean-value-in-l2nativetokenvault-constructor-"
+class_name: "InvertedUseOfBooleanValueInL2nativetokenvaultConstructor"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #55752 (Codehawks/Era)"
+help: |
+    Inverted use of boolean value in `L2NativeTokenVault.constructor` would cause revert or unnecessary deployment of `bridgedTokenBeacon`
+wiki_title: |
+    Inverted use of boolean value in `L2NativeTokenVault.constructor` would cause revert or unnecessary deployment of `bridgedTokenBeacon`
+wiki_description: |
+    ## Summary
+    
+    The `L2GatewayUpgradeHelper._getForceDeploymentsData` function in `L2GatewayUpgradeHelper` provides the `ForceDeployment` struct used to deploy the `L2NativeTokenVault`. However, the boolean value passed as `shouldDeployBeacon` is interpreted as `_contractsDeployedAlready` in the L2Nativ
+wiki_exploit_scenario: |
+    Per Solodit #55752: ## Summary
+    
+    The `L2GatewayUpgradeHelper._getForceDeploymentsData` function in `L2GatewayUpgradeHelper` provides the `ForceDeployment` struct used to deploy the `L2NativeTokenVault`. However, the boole
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InvertedUseOfBooleanValueInL2nativetokenvaultConstructor"
+solodit_id: "55752"
+solodit_slug: |
+    inverted-use-of-boolean-value-in-l2nativetokenvaultconstructor-would-cause-revert-or-unnecessary-deployment-of-bridgedtokenbeacon-codehawks-zksync-era-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal shoulddeploybeacon;"
+fn_name_regex: ".*(L2GatewayUpgradeHelper|ForceDeployment|L2NativeTokenVault|shouldDeployBeacon).*"
+read_var_regex: ".*(shouldDeployBeacon).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "L2GatewayUpgradeHelper"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return shoulddeploybeacon > 0;"

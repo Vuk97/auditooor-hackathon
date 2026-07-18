@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "msgsenderkeyerror"
+class_name: "Msgsenderkeyerror"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ac"
+help: |
+    `CommitToken.requestRedeem()` uses `msg.sender` (vault address) as `redeemRequests` key; all users' redemptions aggregated under vault address; second user's withdrawal always reve
+wiki_title: "MsgSenderKeyError"
+wiki_description: |
+    `CommitToken.requestRedeem()` uses `msg.sender` (vault address) as `redeemRequests` key; all users' redemptions aggregated under vault address; second user's withdrawal always reverts with `InsufficientBalance`, permanently locking assets.
+wiki_exploit_scenario: |
+    Attacker exploits MsgSenderKeyError as described: `CommitToken.requestRedeem()` uses `msg.sender` (vault address) as `redeemRequests` key; all users' redemptions aggregated under vault address; second user's withdrawal always reverts with `Insufficie
+wiki_recommendation: |
+    ERC4626-style contract where redemption mapping keyed by `msg.sender` inside a function called by vault (operator pattern).
+contract_name: "Msgsenderkeyerror"
+state_decl: "uint256 internal redeemrequests;"
+fn_name_regex: ".*(redeemRequests|InsufficientBalance).*"
+read_var_regex: ".*(redeemRequests).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "redeemRequests"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return redeemrequests > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "unused-mapping-hascollectedfees-in-payments"
+class_name: "UnusedMappingHascollectedfeesInPayments"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Filecoin Services Payments - Zellic Audit Report"
+help: |
+    The hasCollectedFees mapping is declared but never read or written anywhere, so it is a dead state. // Tracks whether a token has ever had fees collected, to prevent duplicates in
+wiki_title: "Unused mapping hasCollectedFees in Payments"
+wiki_description: |
+    The hasCollectedFees mapping is declared but never read or written anywhere, so it is a dead state. // Tracks whether a token has ever had fees collected, to prevent duplicates in feeTokens mapping(address => bool) public hasCollectedFees;
+wiki_exploit_scenario: |
+    Per audit finding: The hasCollectedFees mapping is declared but never read or written anywhere, so it is a dead state. // Tracks whether a token has ever had fees collected, to prevent duplicates in feeTokens mapping(ad
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnusedMappingHascollectedfeesInPayments"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(hasCollectedFees|feeTokens).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "hasCollectedFees"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

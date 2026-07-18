@@ -1,0 +1,27 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "early-lp-pair-creation-reserve-manipulation"
+class_name: "EarlyLpPairCreationReserveManipulation"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ab"
+help: |
+    Creating Uniswap pair before graduation enables reserve manipulation; attacker drains KAS tokens at graduation swap.
+wiki_title: "Early-LP-Pair-Creation-Reserve-Manipulation"
+wiki_description: |
+    Creating Uniswap pair before graduation enables reserve manipulation; attacker drains KAS tokens at graduation swap.
+wiki_exploit_scenario: |
+    Attacker exploits Early-LP-Pair-Creation-Reserve-Manipulation as described: Creating Uniswap pair before graduation enables reserve manipulation; attacker drains KAS tokens at graduation swap.
+wiki_recommendation: |
+    graduation path that calls `IUniswapV2Factory.createPair` without checking if pair already exists, or does not lock LP at graduation.
+contract_name: "EarlyLpPairCreationReserveManipulation"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(early|pair|creation).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

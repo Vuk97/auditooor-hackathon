@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "pledgemanager-refundtokens-doesn-t-decrement-tokenssold-when-ple"
+class_name: "PledgemanagerRefundtokensDoesnTDecrementTokenssoldWhenPle"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61178 (Cyfrin/Remora Pledge)"
+help: |
+    `PledgeManager::refundTokens` doesn't decrement `tokensSold` when pledge hasn't concluded, preventing pledge from reaching its funding goal
+wiki_title: |
+    `PledgeManager::refundTokens` doesn't decrement `tokensSold` when pledge hasn't concluded, preventing pledge from reaching its funding goal
+wiki_description: |
+    **Description:** `PledgeManager::refundTokens` doesn't decrement `tokensSold` when pledge hasn't concluded.
+    
+    **Impact:** The pledge will be prevented from reaching its funding goal since the refunded tokens can't be purchased by other users.
+    
+    **Recommended Mitigation:** `PledgeManager::refundTokens`
+wiki_exploit_scenario: |
+    Per Solodit #61178: **Description:** `PledgeManager::refundTokens` doesn't decrement `tokensSold` when pledge hasn't concluded.
+    
+    **Impact:** The pledge will be prevented from reaching its funding goal since the refunded
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PledgemanagerRefundtokensDoesnTDecrementTokenssoldWhenPle"
+solodit_id: "61178"
+solodit_slug: |
+    pledgemanagerrefundtokens-doesnt-decrement-tokenssold-when-pledge-hasnt-concluded-preventing-pledge-from-reaching-its-funding-goal-cyfrin-none-remora-pledge-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal tokenssold;"
+fn_name_regex: ".*(tokensSold).*"
+read_var_regex: ".*(tokensSold).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tokensSold"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tokenssold > 0;"

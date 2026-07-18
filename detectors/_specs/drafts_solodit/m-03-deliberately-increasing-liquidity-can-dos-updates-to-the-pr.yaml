@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-03-deliberately-increasing-liquidity-can-dos-updates-to-the-pr"
+class_name: "M03DeliberatelyIncreasingLiquidityCanDosUpdatesToThePr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64145 (Code4rena/Megapot)"
+help: "[M-03] Deliberately increasing liquidity can DoS updates to the protocol’s governance parameters."
+wiki_title: "[M-03] Deliberately increasing liquidity can DoS updates to the protocol’s governance parameters."
+wiki_description: |
+    <https://github.com/code-423n4/2025-11-megapot/blob/f0a7297d59c376e38b287b2c56740617dbbfbdc7/contracts/JackpotLPManager.sol# L433>
+    
+    ### Finding description and impact
+    
+    The `JackpotLPManager::setLPPoolCap` function sets the `lpPoolCap` for LPs.
+    However, if the current `lpPool + pendingDeposits` exc
+wiki_exploit_scenario: |
+    Per Solodit #64145: <https://github.com/code-423n4/2025-11-megapot/blob/f0a7297d59c376e38b287b2c56740617dbbfbdc7/contracts/JackpotLPManager.sol# L433>
+    
+    ### Finding description and impact
+    
+    The `JackpotLPManager::setLPPo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03DeliberatelyIncreasingLiquidityCanDosUpdatesToThePr"
+solodit_id: "64145"
+solodit_slug: |
+    m-03-deliberately-increasing-liquidity-can-dos-updates-to-the-protocols-governance-parameters-code4rena-megapot-megapot-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lppoolcap;"
+fn_name_regex: ".*(lpPoolCap|setLPPoolCap|Jackpot).*"
+read_var_regex: ".*(lpPoolCap|setLPPoolCap).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "lpPoolCap"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return lppoolcap > 0;"

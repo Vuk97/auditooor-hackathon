@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "vow-2024-08"
+class_name: "Vow202408"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-08/VOW_exp.sol"
+help: "VOW 2024-08 — flashloan exploit (~ 1M USD)"
+wiki_title: "VOW (2024-08) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-08): VOW lost ~ 1M USD. Bug class: flashloan. Attack tx: 0x758efef41e60c0f218682e2fa027c54d8b67029d193dd7277d6a881a24b9a561.
+wiki_exploit_scenario: |
+    Attacker (0x48de6bf9e301946b0a32b053804c61dc5f00c0c3) exploits VOW via flashloan: the victim contract 0x1bbf25e71ec48b84d773809b4ba55b6f4be946fb exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Vow202408"
+trigger_sig_regex: ".*(uniswapV2Call).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function uniswapV2Call(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.uniswapV2Call(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

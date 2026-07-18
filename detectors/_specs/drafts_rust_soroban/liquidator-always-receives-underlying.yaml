@@ -1,0 +1,18 @@
+id: liquidator-always-receives-underlying
+title: "Liquidator always receives underlying regardless of _receive_a_token flag"
+severity: Medium
+language: rust
+platform: soroban
+source: "watchpug-rev3"
+source_ids:
+  - "WP-M7"
+bug_class: liquidation
+indicators:
+  - "`_receive_a_token: bool` parameter accepted but branch that would keep aTokens for the liquidator is dead or missing"
+  - "always calling `burn_scaled_and_transfer_to(liquidator, ...)` regardless of flag"
+victim: "Liquidators: expected option to receive aTokens is unavailable, forcing exit to underlying."
+exploit_precondition: "Liquidator explicitly requests aTokens."
+real_world_example: |
+  WatchPug WP-M7 (Medium): The liquidator will always receive the underlying asset regardless of `_receive_a_token`.
+suggested_remediation: "Honor the flag: if true, `a_token.transfer(liquidator, amount)` instead of burning+transferring."
+cross_refs: []

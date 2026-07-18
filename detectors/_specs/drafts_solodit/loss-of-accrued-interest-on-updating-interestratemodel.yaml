@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "loss-of-accrued-interest-on-updating-interestratemodel"
+class_name: "LossOfAccruedInterestOnUpdatingInterestratemodel"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49446 (MixBytes/Liquorice)"
+help: "Loss of accrued interest on updating InterestRateModel"
+wiki_title: "Loss of accrued interest on updating InterestRateModel"
+wiki_description: |
+    ##### Description
+    When the `InterestRateModel` is changed for the `LendingPool` in the `Repository`, `LendingPool._accrueInterest()` is not automatically called, which could lead to a loss of accrued interest for both borrowers and suppliers.
+    ##### Recommendation
+    We recommend accruing interest for t
+wiki_exploit_scenario: |
+    Per Solodit #49446: ##### Description
+    When the `InterestRateModel` is changed for the `LendingPool` in the `Repository`, `LendingPool._accrueInterest()` is not automatically called, which could lead to a loss of accrued
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LossOfAccruedInterestOnUpdatingInterestratemodel"
+solodit_id: "49446"
+solodit_slug: "loss-of-accrued-interest-on-updating-interestratemodel-mixbytes-none-liquorice-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(InterestRateModel|LendingPool|Repository).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "InterestRateModel"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

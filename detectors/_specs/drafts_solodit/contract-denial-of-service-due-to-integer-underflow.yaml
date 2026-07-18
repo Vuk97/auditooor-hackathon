@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "contract-denial-of-service-due-to-integer-underflow"
+class_name: "ContractDenialOfServiceDueToIntegerUnderflow"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50591 (Halborn/Archimedes Finance)"
+help: "CONTRACT DENIAL OF SERVICE DUE TO INTEGER UNDERFLOW"
+wiki_title: "CONTRACT DENIAL OF SERVICE DUE TO INTEGER UNDERFLOW"
+wiki_description: |
+    ##### Description
+    
+    When any user calls `createLeveragedPosition()` from `LeverageEngine` contract, `depositCollateralUnderNFT()` is called, and this function also calls `archimedesDeposit()` from the OUSD Vault, in order to actually deposit the `OUSD` provided by the user in the vault and issue the
+wiki_exploit_scenario: |
+    Per Solodit #50591: ##### Description
+    
+    When any user calls `createLeveragedPosition()` from `LeverageEngine` contract, `depositCollateralUnderNFT()` is called, and this function also calls `archimedesDeposit()` from the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ContractDenialOfServiceDueToIntegerUnderflow"
+solodit_id: "50591"
+solodit_slug: "contract-denial-of-service-due-to-integer-underflow-halborn-archimedes-archimedes-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal archimedesdeposit;"
+fn_name_regex: ".*(createLeveragedPosition|LeverageEngine|depositCollateralUnderNFT|archimedesDeposit).*"
+read_var_regex: ".*(archimedesDeposit|createLeveragedPosition|depositCollateralUnderNFT).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "createLeveragedPosition"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return archimedesdeposit > 0;"

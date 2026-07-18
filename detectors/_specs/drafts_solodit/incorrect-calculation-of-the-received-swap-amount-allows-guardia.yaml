@@ -1,0 +1,47 @@
+skeleton: "paired_function_divergence"
+name: "incorrect-calculation-of-the-received-swap-amount-allows-guardia"
+class_name: "IncorrectCalculationOfTheReceivedSwapAmountAllowsGuardia"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #58289 (Spearbit/Aera Contracts v3)"
+help: "Incorrect calculation of the received swap amount allows guardians to bypass the daily loss limit"
+wiki_title: "Incorrect calculation of the received swap amount allows guardians to bypass the daily loss limit"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    - `BaseSlippageHooks.sol#L118-L119`
+    - `BaseSlippageHooks.sol#L132-L133`
+    
+    ## Description
+    Guardians may bypass the daily loss limit and extract funds from the vaults. The root cause is that the `_handleAfterExactOutputSingle()` function assumes that `actualAmountOut`
+wiki_exploit_scenario: |
+    Per Solodit #58289: ## Severity: High Risk
+    
+    ## Context
+    - `BaseSlippageHooks.sol#L118-L119`
+    - `BaseSlippageHooks.sol#L132-L133`
+    
+    ## Description
+    Guardians may bypass the daily loss limit and extract funds from the vaults.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectCalculationOfTheReceivedSwapAmountAllowsGuardia"
+solodit_id: "58289"
+solodit_slug: |
+    incorrect-calculation-of-the-received-swap-amount-allows-guardians-to-bypass-the-daily-loss-limit-spearbit-none-aera-contracts-v3-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(actualAmountOut|exactInput|exactInputSingle).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

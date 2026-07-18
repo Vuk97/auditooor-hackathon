@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "users-will-still-be-able-to-deposit-into-deactivated-pools"
+class_name: "UsersWillStillBeAbleToDepositIntoDeactivatedPools"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40771 (Cantina/OpalProtocol)"
+help: "Users will still be able to deposit into deactivated pools"
+wiki_title: "Users will still be able to deposit into deactivated pools "
+wiki_description: |
+    ## Omnipool Controller Shutdown Analysis
+    
+    ## Context
+    - **File:** Omnipool.sol
+    - **Line:** 879
+    
+    ## Description
+    The `OmnipoolController` has the ability to deactivate pools. This is done by calling the `desactivate()` function of the `Omnipool`:
+    
+    ```solidity
+    function desactivate() external onlyControl
+wiki_exploit_scenario: |
+    Per Solodit #40771: ## Omnipool Controller Shutdown Analysis
+    
+    ## Context
+    - **File:** Omnipool.sol
+    - **Line:** 879
+    
+    ## Description
+    The `OmnipoolController` has the ability to deactivate pools. This is done by calling the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersWillStillBeAbleToDepositIntoDeactivatedPools"
+solodit_id: "40771"
+solodit_slug: "users-will-still-be-able-to-deposit-into-deactivated-pools-cantina-none-opalprotocol-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositfor;"
+fn_name_regex: ".*(OmnipoolController|desactivate|Omnipool|isShutdown).*"
+read_var_regex: ".*(depositFor|desactivate|isShutdown).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "OmnipoolController"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return depositfor > 0;"

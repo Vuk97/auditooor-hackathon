@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "the-abi-encodecall-function-should-be-used-instead-of-abi"
+class_name: "TheAbiEncodecallFunctionShouldBeUsedInsteadOfAbi"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit GammaSwap V1 Core and Implementations (August, 2023)- Zellic Audit Report"
+help: |
+    Project wide, abi.encodeWithSelector is used to encode the function calldata to an external contract. This function does not, however, perform type checking on the arguments.
+wiki_title: "The abi.encodeCall function should be used instead of abi"
+wiki_description: |
+    Project wide, abi.encodeWithSelector is used to encode the function calldata to an external contract. This function does not, however, perform type checking on the arguments.
+wiki_exploit_scenario: |
+    Per audit finding: Project wide, abi.encodeWithSelector is used to encode the function calldata to an external contract. This function does not, however, perform type checking on the arguments.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheAbiEncodecallFunctionShouldBeUsedInsteadOfAbi"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(encodeWithSelector|encodeCall).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "encodeWithSelector"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "unaccounted-collateral-is-mishandled-in-triggerdefault"
+class_name: "UnaccountedCollateralIsMishandledInTriggerdefault"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6952 (Spearbit/Maple Finance)"
+help: "Unaccounted collateral is mishandled in triggerDefault"
+wiki_title: "Unaccounted collateral is mishandled in triggerDefault"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    `pool-v2::LoanManager.sol#L563`
+    
+    ## Description
+    The control flow of `triggerDefault` is partially determined by the value of `MapleLoanLike(loan_).collateral() == 0`. The code later assumes there are 0 collateral tokens in the loan if this value is true, which is
+wiki_exploit_scenario: |
+    Per Solodit #6952: ## Severity: Medium Risk
+    
+    ## Context
+    `pool-v2::LoanManager.sol#L563`
+    
+    ## Description
+    The control flow of `triggerDefault` is partially determined by the value of `MapleLoanLike(loan_).collateral() ==
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnaccountedCollateralIsMishandledInTriggerdefault"
+solodit_id: "6952"
+solodit_slug: "unaccounted-collateral-is-mishandled-in-triggerdefault-spearbit-maple-finance-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal balanceof;"
+fn_name_regex: ".*(triggerDefault|fundsAsset|collateralAsset|setCollateralRemaining).*"
+read_var_regex: ".*(balanceOf|collateralAsset|fundsAsset).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "triggerDefault"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balanceof > 0;"

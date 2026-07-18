@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-08-incorrect-assumption-of-stablecoin-market-stability"
+class_name: "H08IncorrectAssumptionOfStablecoinMarketStability"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6327 (Code4rena/Tigris Trade)"
+help: "[H-08] Incorrect Assumption of Stablecoin Market Stability"
+wiki_title: "[H-08] Incorrect Assumption of Stablecoin Market Stability"
+wiki_description: |
+    <https://github.com/code-423n4/2022-12-tigris/blob/main/contracts/StableVault.sol#L39-L51> 
+    
+    <https://github.com/code-423n4/2022-12-tigris/blob/main/contracts/StableVault.sol#L60-L72>
+    
+    ### Impact
+    
+    The `StableVault` contract attempts to group all types of stablecoins under a single token which can b
+wiki_exploit_scenario: |
+    Per Solodit #6327: <https://github.com/code-423n4/2022-12-tigris/blob/main/contracts/StableVault.sol#L39-L51> 
+    
+    <https://github.com/code-423n4/2022-12-tigris/blob/main/contracts/StableVault.sol#L60-L72>
+    
+    ### Impact
+    
+    Th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H08IncorrectAssumptionOfStablecoinMarketStability"
+solodit_id: "6327"
+solodit_slug: |
+    h-08-incorrect-assumption-of-stablecoin-market-stability-code4rena-tigris-trade-tigris-trade-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(StableVault|deposit|USDT|withdraw).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

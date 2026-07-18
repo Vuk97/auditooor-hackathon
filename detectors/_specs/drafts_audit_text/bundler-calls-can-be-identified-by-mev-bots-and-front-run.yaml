@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "bundler-calls-can-be-identified-by-mev-bots-and-front-run"
+class_name: "BundlerCallsCanBeIdentifiedByMevBotsAndFrontRun"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Nocturne - Zellic Audit Report"
+help: |
+    Since being a bundler is permissionless, anyone can call Teller.processBundle to sub- mit any valid bundle of operations. When submitting a bundle, the bundler pays for the gas spe
+wiki_title: "Bundler calls can be identified by MEV bots and front-run"
+wiki_description: |
+    Since being a bundler is permissionless, anyone can call Teller.processBundle to sub- mit any valid bundle of operations. When submitting a bundle, the bundler pays for the gas spent in both verifying the proofs and executing the actions via Ethereum transaction fees. During the transaction, it then
+wiki_exploit_scenario: |
+    Per audit finding: Since being a bundler is permissionless, anyone can call Teller.processBundle to sub- mit any valid bundle of operations. When submitting a bundle, the bundler pays for the gas spent in both verifying
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BundlerCallsCanBeIdentifiedByMevBotsAndFrontRun"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(processBundle|whenNotPaused|nonReentrant).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "processBundle"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,41 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-06-dispatchfrom-liveness-dos-via-staleoracle-spot-price-manipu"
+class_name: "M06DispatchfromLivenessDosViaStaleoracleSpotPriceManipu"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65033 (Code4rena/Panoptic)"
+help: |
+    [M-06] `dispatchFrom()` liveness DoS via `StaleOracle`: spot price manipulation blocks liquidations, force exercises, and premium settlements
+wiki_title: |
+    [M-06] `dispatchFrom()` liveness DoS via `StaleOracle`: spot price manipulation blocks liquidations, force exercises, and premium settlements
+wiki_description: |
+    `PanopticPool.sol` [L1388-L1389](https://github.com/code-423n4/2025-12-panoptic/blob/fe557748210a529ae414d7c487b6514be0d9e220/contracts/PanopticPool.sol# L1388-L1389)
+    
+    ### Finding description
+    
+    The `PanopticPool.dispatchFrom()` function, which serves as the shared entrypoint for liquidations, force
+wiki_exploit_scenario: |
+    Per Solodit #65033: `PanopticPool.sol` [L1388-L1389](https://github.com/code-423n4/2025-12-panoptic/blob/fe557748210a529ae414d7c487b6514be0d9e220/contracts/PanopticPool.sol# L1388-L1389)
+    
+    ### Finding description
+    
+    The `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06DispatchfromLivenessDosViaStaleoracleSpotPriceManipu"
+solodit_id: "65033"
+solodit_slug: |
+    m-06-dispatchfrom-liveness-dos-via-staleoracle-spot-price-manipulation-blocks-liquidations-force-exercises-and-premium-settlements-code4rena-panoptic-panoptic-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(currentTick|tickDeltaLiquidation|twapTick|dispatchFrom).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

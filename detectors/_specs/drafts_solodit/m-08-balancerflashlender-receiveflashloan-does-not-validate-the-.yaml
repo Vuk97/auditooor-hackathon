@@ -1,0 +1,39 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-08-balancerflashlender-receiveflashloan-does-not-validate-the-"
+class_name: "M08BalancerflashlenderReceiveflashloanDoesNotValidateThe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33671 (Code4rena/BakerFi)"
+help: "[M-08] `BalancerFlashLender#receiveFlashLoan` does not validate the `originalCallData`"
+wiki_title: "[M-08] `BalancerFlashLender#receiveFlashLoan` does not validate the `originalCallData`"
+wiki_description: |
+    ### Impact
+    
+    `receiveFlashLoan` does not validate the `originalCallData`. The attacker can pass any parameters into the `receiveFlashLoan` function and execute any Strategy instruction :`_supplyBorrow` `_repayAndWithdraw` `_payDeb`.
+    
+    ### Proof of Concept
+    
+    The `StrategyLeverage#receiveFlashLoan` func
+wiki_exploit_scenario: |
+    Per Solodit #33671: ### Impact
+    
+    `receiveFlashLoan` does not validate the `originalCallData`. The attacker can pass any parameters into the `receiveFlashLoan` function and execute any Strategy instruction :`_supplyBorrow
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08BalancerflashlenderReceiveflashloanDoesNotValidateThe"
+solodit_id: "33671"
+solodit_slug: |
+    m-08-balancerflashlenderreceiveflashloan-does-not-validate-the-originalcalldata-code4rena-bakerfi-bakerfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(receiveFlashLoan|originalCallData|BalancerFlashLender).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

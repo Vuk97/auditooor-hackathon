@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-16-due-to-inappropriately-short-votingperiod-and-votingdelay-i"
+class_name: "M16DueToInappropriatelyShortVotingperiodAndVotingdelayI"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21161 (Code4rena/Lybra Finance)"
+help: |
+    [M-16] Due to inappropriately short `votingPeriod`  and `votingDelay`, it is nearly impossible for the governance to function correctly.
+wiki_title: |
+    [M-16] Due to inappropriately short `votingPeriod`  and `votingDelay`, it is nearly impossible for the governance to function correctly.
+wiki_description: |
+    ### Proof of Concept
+    
+    When making proposals with the [`Governor`](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/governance/Governor.sol#L299-L308) contract OZ uses `votingPeriod`.
+    
+    ```jsx
+            uint256 snapshot = currentTimepoint + votingDelay();
+            uint256 dur
+wiki_exploit_scenario: |
+    Per Solodit #21161: ### Proof of Concept
+    
+    When making proposals with the [`Governor`](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/governance/Governor.sol#L299-L308) contract OZ uses `vot
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M16DueToInappropriatelyShortVotingperiodAndVotingdelayI"
+solodit_id: "21161"
+solodit_slug: |
+    m-16-due-to-inappropriately-short-votingperiod-and-votingdelay-it-is-nearly-impossible-for-the-governance-to-function-correctly-code4rena-lybra-finance-lybra-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Timing"
+state_decl: "uint256 internal votingdelay;"
+fn_name_regex: ".*(Governor|votingPeriod|votingDelay).*"
+read_var_regex: ".*(votingDelay|votingPeriod).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Governor"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return votingdelay > 0;"

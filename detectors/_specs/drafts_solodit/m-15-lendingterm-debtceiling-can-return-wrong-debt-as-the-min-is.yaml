@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-15-lendingterm-debtceiling-can-return-wrong-debt-as-the-min-is"
+class_name: "M15LendingtermDebtceilingCanReturnWrongDebtAsTheMinIs"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30235 (Code4rena/Ethereum Credit Guild)"
+help: "[M-15] `LendingTerm::debtCeiling()` can return wrong debt as the `min()` is evaluated incorrectly"
+wiki_title: "[M-15] `LendingTerm::debtCeiling()` can return wrong debt as the `min()` is evaluated incorrectly"
+wiki_description: |
+    The `LendingTerm::debtCeiling()` function calculates the min of `creditMinterBuffer, _debtCeiling and _hardCap` as shown below:
+    
+    ```solidity
+    // return min(creditMinterBuffer, hardCap, debtCeiling)
+    if (creditMinterBuffer < _debtCeiling) {
+        return creditMinterBuffer;
+    }
+    if (_hardCap < _debtCeiling)
+wiki_exploit_scenario: |
+    Per Solodit #30235: The `LendingTerm::debtCeiling()` function calculates the min of `creditMinterBuffer, _debtCeiling and _hardCap` as shown below:
+    
+    ```solidity
+    // return min(creditMinterBuffer, hardCap, debtCeiling)
+    if
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15LendingtermDebtceilingCanReturnWrongDebtAsTheMinIs"
+solodit_id: "30235"
+solodit_slug: |
+    m-15-lendingtermdebtceiling-can-return-wrong-debt-as-the-min-is-evaluated-incorrectly-code4rena-ethereum-credit-guild-ethereum-credit-guild-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal creditminterbuffer;"
+fn_name_regex: ".*(min|creditMinterBuffer).*"
+read_var_regex: ".*(creditMinterBuffer|min).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "min"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return creditminterbuffer > 0;"

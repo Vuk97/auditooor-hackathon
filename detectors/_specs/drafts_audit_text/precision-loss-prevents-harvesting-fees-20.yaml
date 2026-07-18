@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "precision-loss-prevents-harvesting-fees-20"
+class_name: "PrecisionLossPreventsHarvestingFees20"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit StakeKit - Zellic Audit Report"
+help: |
+    According to ERC-4626 ↗, the redeem function should deduct an allowance when msg.sender is not the owner, ensuring that only authorized users can redeem shares on behalf of others.
+wiki_title: "Precision loss prevents harvesting fees                              20"
+wiki_description: |
+    According to ERC-4626 ↗, the redeem function should deduct an allowance when msg.sender is not the owner, ensuring that only authorized users can redeem shares on behalf of others. However, in this contract, the redeem function does not enforce any such checks. As a result: • The function directly b
+wiki_exploit_scenario: |
+    Per audit finding: According to ERC-4626 ↗, the redeem function should deduct an allowance when msg.sender is not the owner, ensuring that only authorized users can redeem shares on behalf of others. However, in this co
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PrecisionLossPreventsHarvestingFees20"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(nonReentrant|maxShares|maxRedeem).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "nonReentrant"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "m-05-using-deprecated-function-in-chainlink"
+class_name: "M05UsingDeprecatedFunctionInChainlink"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58109 (Pashov Audit Group/Astrolab)"
+help: "[M-05] Using deprecated function in Chainlink"
+wiki_title: "[M-05] Using deprecated function in Chainlink"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High - Using stale prices leads to inaccurate calculations of total asset values and share prices.
+    
+    **Likelihood:** Low - The return price can be wrong or stale without validating
+    
+    ## Description
+    
+    To convert from USD to input token amount, `StrategyV5Chainlink` uses `IChainl
+wiki_exploit_scenario: |
+    Per Solodit #58109: ## Severity
+    
+    **Impact:** High - Using stale prices leads to inaccurate calculations of total asset values and share prices.
+    
+    **Likelihood:** Low - The return price can be wrong or stale without valida
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05UsingDeprecatedFunctionInChainlink"
+solodit_id: "58109"
+solodit_slug: "m-05-using-deprecated-function-in-chainlink-pashov-audit-group-none-astrolab-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(StrategyV5Chainlink|latestAnswer|ChainlinkUtils|latestRoundData).*"
+primary_var_regex: ".*(latestAnswer|latestRoundData).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

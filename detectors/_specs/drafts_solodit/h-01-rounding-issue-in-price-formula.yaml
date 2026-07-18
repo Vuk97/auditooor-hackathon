@@ -1,0 +1,57 @@
+skeleton: "name_match_missing_call"
+name: "h-01-rounding-issue-in-price-formula"
+class_name: "H01RoundingIssueInPriceFormula"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31729 (Pashov Audit Group/Sofamon)"
+help: "[H-01] Rounding issue in price formula"
+wiki_title: "[H-01] Rounding issue in price formula"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    Here is current formula:
+    
+    ```solidity
+            return (
+                (totalSupply * curveFactor) / (totalSupply - x) - (totalSupply * curveFactor) / totalSupply
+                    - initialPriceFactor / 1000 * x
+            ) * 1 ether;
+wiki_exploit_scenario: |
+    Per Solodit #31729: **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    Here is current formula:
+    
+    ```solidity
+            return (
+                (totalSupply * curveFactor) / (totalSupply - x) - (totalSupp
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01RoundingIssueInPriceFormula"
+solodit_id: "31729"
+solodit_slug: "h-01-rounding-issue-in-price-formula-pashov-none-sofamon-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal curvefactor;"
+fn_name_regex: ".*(curveFactor|initialPriceFactor).*"
+read_var_regex: ".*(curveFactor|initialPriceFactor).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "curveFactor"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return curvefactor > 0;"

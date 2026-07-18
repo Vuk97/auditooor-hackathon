@@ -1,0 +1,19 @@
+id: uncaught-token-call-failures-dos
+title: "Uncaught token call failure in HF validation causes DoS"
+severity: Info
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.46"
+bug_class: error-handling
+indicators:
+  - "HF validation calls `token.balance(user)?` with no graceful fallback"
+  - "any one token failing reverts the entire HF check across all assets"
+victim: "All users with multi-asset positions."
+exploit_precondition: "A reserve token is broken/upgraded to a faulty impl."
+real_world_example: |
+  Halborn 7.46 (INFO): Uncaught token call failures in swap health-factor validation enable DoS.
+suggested_remediation: "Treat individual token call failures as zero-balance or per-asset error; don't propagate to the whole HF path unless fatal."
+cross_refs:
+  - swallowed-cross-contract-error

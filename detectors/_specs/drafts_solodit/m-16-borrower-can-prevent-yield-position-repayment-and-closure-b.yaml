@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-16-borrower-can-prevent-yield-position-repayment-and-closure-b"
+class_name: "M16BorrowerCanPreventYieldPositionRepaymentAndClosureB"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36898 (Code4rena/BendDAO)"
+help: "[M-16] Borrower can prevent yield position repayment and closure by the bot"
+wiki_title: "[M-16] Borrower can prevent yield position repayment and closure by the bot"
+wiki_description: |
+    User may revoke the underlying asset approval from the yield contract and prevent the `botAdmin` from repaying and closing his position. As a result, the debt will not be repaid, leaving the protocol at a loss.
+    
+    ### Proof of Concept
+    
+    Let's take a closer look at the `_repay` function:
+    
+    ```solidity
+wiki_exploit_scenario: |
+    Per Solodit #36898: User may revoke the underlying asset approval from the yield contract and prevent the `botAdmin` from repaying and closing his position. As a result, the debt will not be repaid, leaving the protocol
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M16BorrowerCanPreventYieldPositionRepaymentAndClosureB"
+solodit_id: "36898"
+solodit_slug: |
+    m-16-borrower-can-prevent-yield-position-repayment-and-closure-by-the-bot-code4rena-benddao-benddao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal botadmin;"
+fn_name_regex: ".*(botAdmin|extraAmount|safeTransferFrom|nftDebt).*"
+read_var_regex: ".*(botAdmin|extraAmount|nftDebt).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "botAdmin"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return botadmin > 0;"

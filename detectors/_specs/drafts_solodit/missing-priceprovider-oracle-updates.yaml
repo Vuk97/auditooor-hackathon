@@ -1,0 +1,30 @@
+skeleton: "state_write_without_paired_write"
+name: "missing-priceprovider-oracle-updates"
+class_name: "MissingPriceproviderOracleUpdates"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32855 (OpenZeppelin/Radiant V2 Audit)"
+help: "Missing PriceProvider Oracle Updates"
+wiki_title: "Missing PriceProvider Oracle Updates"
+wiki_description: |
+    The [`PriceProvider`](https://github.com/radiant-capital/v2-core/blob/e8f21f103e17736907b62809d1ad902febc53714/contracts/radiant/oracles/PriceProvider.sol) contract is responsible for providing pricing data to multiple contracts of the protocol. It uses either pool data or one of the following oracl
+wiki_exploit_scenario: |
+    Per Solodit #32855: The [`PriceProvider`](https://github.com/radiant-capital/v2-core/blob/e8f21f103e17736907b62809d1ad902febc53714/contracts/radiant/oracles/PriceProvider.sol) contract is responsible for providing pricin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingPriceproviderOracleUpdates"
+solodit_id: "32855"
+solodit_slug: "missing-priceprovider-oracle-updates-openzeppelin-none-radiant-v2-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(PriceProvider|ChainlinkV3Adapter|UniV3TwapOracle|UniV2TwapOracle).*"
+primary_var_regex: ".*(update).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

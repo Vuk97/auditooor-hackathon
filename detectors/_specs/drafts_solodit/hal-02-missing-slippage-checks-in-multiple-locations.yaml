@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "hal-02-missing-slippage-checks-in-multiple-locations"
+class_name: "Hal02MissingSlippageChecksInMultipleLocations"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52660 (Halborn/Harvest Strategy - Base)"
+help: "(HAL-02) Missing slippage checks in multiple locations"
+wiki_title: "(HAL-02) Missing slippage checks in multiple locations"
+wiki_description: |
+    ##### Description
+    
+    In multiple strategies, when converting reward tokens back to the underlying asset, the code commonly passes a minimum output of `1`:
+    
+    ```
+    IUniversalLiquidator(...).swap(rewardToken, underlying, balance, 1, address(this));
+    ```
+    
+    This does not protect against front-running or sandwi
+wiki_exploit_scenario: |
+    Per Solodit #52660: ##### Description
+    
+    In multiple strategies, when converting reward tokens back to the underlying asset, the code commonly passes a minimum output of `1`:
+    
+    ```
+    IUniversalLiquidator(...).swap(rewardToken
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Hal02MissingSlippageChecksInMultipleLocations"
+solodit_id: "52660"
+solodit_slug: |
+    hal-02-missing-slippage-checks-in-multiple-locations-halborn-harvest-finance-harvest-strategy-base-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(RewardForwarder).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "RewardForwarder"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

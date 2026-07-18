@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "tokendrop-re-entrancy-in-the-claim-function-can-cause-to-drainin"
+class_name: "TokendropReEntrancyInTheClaimFunctionCanCauseToDrainin"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #13468 (ConsenSys/PoolTogether - Pods)"
+help: "TokenDrop: Re-entrancy in the claim function can cause to draining funds"
+wiki_title: "TokenDrop: Re-entrancy in the claim function can cause to draining funds"
+wiki_description: |
+    #### Description
+    
+    
+    If the `asset` token is making a call before the transfer to the `receiver` or to any other 3-d party contract (like it’s happening in the `Pod` token using the `_beforeTokenTransfer` function), the attacker can call the `drop` function inside the `transfer` call here:
+    
+    
+    **code/po
+wiki_exploit_scenario: |
+    Per Solodit #13468: #### Description
+    
+    
+    If the `asset` token is making a call before the transfer to the `receiver` or to any other 3-d party contract (like it’s happening in the `Pod` token using the `_beforeTokenTransfe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokendropReEntrancyInTheClaimFunctionCanCauseToDrainin"
+solodit_id: "13468"
+solodit_slug: |
+    tokendrop-re-entrancy-in-the-claim-function-can-cause-to-draining-funds-consensys-pooltogether-pods-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal asset;"
+fn_name_regex: ".*(asset|receiver|Pod|drop).*"
+read_var_regex: ".*(asset|claim|drop).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "asset"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return asset > 0;"

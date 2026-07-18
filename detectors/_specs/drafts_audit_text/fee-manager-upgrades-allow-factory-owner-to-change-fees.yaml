@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "fee-manager-upgrades-allow-factory-owner-to-change-fees"
+class_name: "FeeManagerUpgradesAllowFactoryOwnerToChangeFees"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Wasabi - Zellic Audit Report"
+help: |
+    The WasabiPoolFactory contract allows its owner to upgrade the feeManager. This fee manager is retrieved by both ERC20 and native ETH pools in option creation and execution. For in
+wiki_title: "Fee manager upgrades allow factory owner to change fees"
+wiki_description: |
+    The WasabiPoolFactory contract allows its owner to upgrade the feeManager. This fee manager is retrieved by both ERC20 and native ETH pools in option creation and execution. For instance, in ERC20WasabiPool, we have function validateAndWithdrawPayment(uint256 _premium, string memory _message) intern
+wiki_exploit_scenario: |
+    Per audit finding: The WasabiPoolFactory contract allows its owner to upgrade the feeManager. This fee manager is retrieved by both ERC20 and native ETH pools in option creation and execution. For instance, in ERC20Wasa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FeeManagerUpgradesAllowFactoryOwnerToChangeFees"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(feeManager|validateAndWithdrawPayment|getFeeManager).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "feeManager"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-mint-rate-limit-implementation-could-be-faster"
+class_name: "TheMintRateLimitImplementationCouldBeFaster"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Apyx Stablecoin - Zellic Audit Report"
+help: |
+    In the MinterV0 contract, there is a time-based rate limit that is implemented using an OZ DoubleEndedQueue. Each time a mint finishes, its amount is pushed onto the back of the qu
+wiki_title: "The mint rate-limit implementation could be faster"
+wiki_description: |
+    In the MinterV0 contract, there is a time-based rate limit that is implemented using an OZ DoubleEndedQueue. Each time a mint finishes, its amount is pushed onto the back of the queue, and then, when the rate limit needs to be checked for new mints, the _cleanMintHistory function is called in order
+wiki_exploit_scenario: |
+    Per audit finding: In the MinterV0 contract, there is a time-based rate limit that is implemented using an OZ DoubleEndedQueue. Each time a mint finishes, its amount is pushed onto the back of the queue, and then, when
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheMintRateLimitImplementationCouldBeFaster"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rateLimitMinted).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "rateLimitMinted"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

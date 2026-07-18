@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "early-eth-refund-breaks-mixed-token-payment"
+class_name: "EarlyEthRefundBreaksMixedTokenPayment"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57981 (MixBytes/Algebra Finance)"
+help: "Early ETH Refund Breaks Mixed-Token Payment"
+wiki_title: "Early ETH Refund Breaks Mixed-Token Payment"
+wiki_description: |
+    ##### Description
+    In `LimitOrderManager.algebraMintCallback()` the debts to the pool are paid in order: first `token0`, then `token1`.
+    
+    When `token0` is not `wNativeToken` but `token1` is, and the user supplies ETH with the call:
+    
+    1. `_pay(token0, …)` executes the ERC-20 branch, transferring `token0
+wiki_exploit_scenario: |
+    Per Solodit #57981: ##### Description
+    In `LimitOrderManager.algebraMintCallback()` the debts to the pool are paid in order: first `token0`, then `token1`.
+    
+    When `token0` is not `wNativeToken` but `token1` is, and the use
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EarlyEthRefundBreaksMixedTokenPayment"
+solodit_id: "57981"
+solodit_slug: "early-eth-refund-breaks-mixed-token-payment-mixbytes-none-algebra-finance-markdown"
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: ""
+state_decl: "uint256 internal token0;"
+fn_name_regex: ".*(token0|token1|wNativeToken|WNativeToken).*"
+read_var_regex: ".*(token0|token1|wNativeToken).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "token0"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return token0 > 0;"

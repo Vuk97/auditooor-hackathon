@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "premature-zeroing-of-epoch-rewards-in-claimundistributedrewards-"
+class_name: "PrematureZeroingOfEpochRewardsInClaimundistributedrewards"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61246 (Cyfrin/Suzaku Core)"
+help: "Premature zeroing of epoch rewards in `claimUndistributedRewards` can block legitimate claims"
+wiki_title: "Premature zeroing of epoch rewards in `claimUndistributedRewards` can block legitimate claims"
+wiki_description: |
+    **Description:** The `claimUndistributedRewards` function allows the `REWARDS_DISTRIBUTOR_ROLE` to collect any rewards for an `epoch` that were not claimed. It includes a check: `if (currentEpoch < epoch + 2) revert EpochStillClaimable(epoch)`. This means it can be called when `currentEpoch >= epoch
+wiki_exploit_scenario: |
+    Per Solodit #61246: **Description:** The `claimUndistributedRewards` function allows the `REWARDS_DISTRIBUTOR_ROLE` to collect any rewards for an `epoch` that were not claimed. It includes a check: `if (currentEpoch < ep
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PrematureZeroingOfEpochRewardsInClaimundistributedrewards"
+solodit_id: "61246"
+solodit_slug: |
+    premature-zeroing-of-epoch-rewards-in-claimundistributedrewards-can-block-legitimate-claims-cyfrin-none-suzaku-core-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimundistributedrewards;"
+fn_name_regex: ".*(claimUndistributedRewards|REWARDS_DISTRIBUTOR_ROLE|epoch).*"
+read_var_regex: ".*(claimUndistributedRewards|epoch).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimUndistributedRewards"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimundistributedrewards > 0;"

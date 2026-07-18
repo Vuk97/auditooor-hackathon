@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "throttledexit-contract-is-affected-by-out-of-gas-error-because-o"
+class_name: "ThrottledexitContractIsAffectedByOutOfGasErrorBecauseO"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #55783 (Zokyo/Allianceblock)"
+help: |
+    ThrottledExit contract is affected by Out-of-gas error, because of usage of cycle to calculate nextAvailableExitBlock in case if current mined block is far in future comparing to i
+wiki_title: |
+    ThrottledExit contract is affected by Out-of-gas error, because of usage of cycle to calculate nextAvailableExitBlock in case if current mined block is far in f
+wiki_description: |
+    **Recommendation**:
+    Instead of doing iterations it is better to use mathematical formula to calculate
+    nextAvailableExitBlock as
+    ```solidity
+    nextAvailableExitBlock = nextAvailableExitBlock + ((block.number - nextAvailableExitBlock) /
+    throttleRoundBlocks + 1) * throttleRoundBlocks
+    ```
+wiki_exploit_scenario: |
+    Per Solodit #55783: **Recommendation**:
+    Instead of doing iterations it is better to use mathematical formula to calculate
+    nextAvailableExitBlock as
+    ```solidity
+    nextAvailableExitBlock = nextAvailableExitBlock + ((block.nu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ThrottledexitContractIsAffectedByOutOfGasErrorBecauseO"
+solodit_id: "55783"
+solodit_slug: |
+    throttledexit-contract-is-affected-by-out-of-gas-error-because-of-usage-of-cycle-to-calculate-nextavailableexitblock-in-case-if-current-mined-block-is-far-in-future-comparing-to-initial-nextavailableexitblock-zokyo-none-allianceblock-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(nextAvailableExitBlock|throttleRoundBlocks).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "nextAvailableExitBlock"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

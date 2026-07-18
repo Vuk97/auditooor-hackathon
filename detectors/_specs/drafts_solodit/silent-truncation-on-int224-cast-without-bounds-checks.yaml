@@ -1,0 +1,39 @@
+skeleton: "paired_function_divergence"
+name: "silent-truncation-on-int224-cast-without-bounds-checks"
+class_name: "SilentTruncationOnInt224CastWithoutBoundsChecks"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61343 (Quantstamp/API3 - Data Feed Proxy Combinators)"
+help: "Silent Truncation on `int224` Cast without Bounds Checks"
+wiki_title: "Silent Truncation on `int224` Cast without Bounds Checks"
+wiki_description: |
+    **Update**
+    Acknowledged in: `94ae5e9`. The client provided the following explanation:
+    
+    > The absence of explicit bounds checks for the int256 to int224 cast in ProductApi3ReaderProxyV1.sol and NormalizedApi3ReaderProxyV1.sol is a deliberate trade-off for gas optimization in the read() functions. Thi
+wiki_exploit_scenario: |
+    Per Solodit #61343: **Update**
+    Acknowledged in: `94ae5e9`. The client provided the following explanation:
+    
+    > The absence of explicit bounds checks for the int256 to int224 cast in ProductApi3ReaderProxyV1.sol and Normali
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SilentTruncationOnInt224CastWithoutBoundsChecks"
+solodit_id: "61343"
+solodit_slug: |
+    silent-truncation-on-int224-cast-without-bounds-checks-quantstamp-api3-data-feed-proxy-combinators-markdown
+solodit_quality: "5"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(int224).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

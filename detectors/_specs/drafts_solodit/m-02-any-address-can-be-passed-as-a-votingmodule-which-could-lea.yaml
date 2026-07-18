@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "m-02-any-address-can-be-passed-as-a-votingmodule-which-could-lea"
+class_name: "M02AnyAddressCanBePassedAsAVotingmoduleWhichCouldLea"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18702 (ZachObront/Optimismgovernor.Md)"
+help: "[M-02] Any address can be passed as a VotingModule, which could lead to abuse"
+wiki_title: "[M-02] Any address can be passed as a VotingModule, which could lead to abuse"
+wiki_description: |
+    In `OptimismGovernorV5.sol`, the `proposeWithModule()` function has the following signature:
+    
+    ```solidity
+    function proposeWithModule(VotingModule module, bytes memory proposalData, string memory description);
+    ```
+    
+    This allows the caller to input a `VotingModule` address, and that module will be used
+wiki_exploit_scenario: |
+    Per Solodit #18702: In `OptimismGovernorV5.sol`, the `proposeWithModule()` function has the following signature:
+    
+    ```solidity
+    function proposeWithModule(VotingModule module, bytes memory proposalData, string memory descr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02AnyAddressCanBePassedAsAVotingmoduleWhichCouldLea"
+solodit_id: "18702"
+solodit_slug: |
+    m-02-any-address-can-be-passed-as-a-votingmodule-which-could-lead-to-abuse-zachobront-none-optimismgovernormd-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal manager;"
+fn_name_regex: ".*(proposeWithModule|VotingModule|manager|proposalId).*"
+write_var_regex: ".*(manager|proposalId|proposeWithModule).*"
+guard_var_regex: ".*(manager|proposalId|proposeWithModule).*"
+vuln_fn_name: "proposeWithModule"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "manager = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

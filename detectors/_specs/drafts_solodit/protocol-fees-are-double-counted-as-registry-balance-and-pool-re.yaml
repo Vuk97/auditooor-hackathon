@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "protocol-fees-are-double-counted-as-registry-balance-and-pool-re"
+class_name: "ProtocolFeesAreDoubleCountedAsRegistryBalanceAndPoolRe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18733 (Spearbit/Primitive)"
+help: "Protocol fees are double-counted as registry balance and pool reserve"
+wiki_title: "Protocol fees are double-counted as registry balance and pool reserve"
+wiki_description: |
+    ## Severity: Critical Risk
+    
+    ## Context
+    Portfolio.sol#L489-L507
+    
+    ## Description
+    When swapping, the registry is credited a `protocolFee`. However, this fee is always reinvested in the pool, meaning the `virtualX` or `virtualY` pool reserves per liquidity increase by `protocolFee / liquidity`. The prot
+wiki_exploit_scenario: |
+    Per Solodit #18733: ## Severity: Critical Risk
+    
+    ## Context
+    Portfolio.sol#L489-L507
+    
+    ## Description
+    When swapping, the registry is credited a `protocolFee`. However, this fee is always reinvested in the pool, meaning the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProtocolFeesAreDoubleCountedAsRegistryBalanceAndPoolRe"
+solodit_id: "18733"
+solodit_slug: "protocol-fees-are-double-counted-as-registry-balance-and-pool-reserve-spearbit-none-primitive-pdf"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(protocolFee|virtualX|virtualY).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

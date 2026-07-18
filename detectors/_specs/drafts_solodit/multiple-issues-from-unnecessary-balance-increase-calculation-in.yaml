@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "multiple-issues-from-unnecessary-balance-increase-calculation-in"
+class_name: "MultipleIssuesFromUnnecessaryBalanceIncreaseCalculationIn"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57165 (Codehawks/Core Contracts)"
+help: "Multiple issues from unnecessary balance increase calculation in DebtToken.mint"
+wiki_title: "Multiple issues from unnecessary balance increase calculation in DebtToken.mint"
+wiki_description: |
+    ## Summary
+    
+    When DebtToken is minted, it checks user's accrued debt interest from previous loan and increases mint amount by accrued debt.
+    
+    However, this calculation is not necessary because accrued debt is already reflected on `usageIndex` increase.
+    
+    This unnecessary calculation brings multiple iss
+wiki_exploit_scenario: |
+    Per Solodit #57165: ## Summary
+    
+    When DebtToken is minted, it checks user's accrued debt interest from previous loan and increases mint amount by accrued debt.
+    
+    However, this calculation is not necessary because accrued d
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MultipleIssuesFromUnnecessaryBalanceIncreaseCalculationIn"
+solodit_id: "57165"
+solodit_slug: |
+    multiple-issues-from-unnecessary-balance-increase-calculation-in-debttokenmint-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balanceof;"
+fn_name_regex: ".*(usageIndex|balanceOf|scaledBalance|scaledAmount).*"
+read_var_regex: ".*(balanceOf|scaledAmount|scaledBalance).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "usageIndex"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balanceof > 0;"

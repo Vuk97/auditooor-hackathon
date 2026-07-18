@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "h-05-funds-in-vault-can-be-temporarily-locked-by-spamming-dust-d"
+class_name: "H05FundsInVaultCanBeTemporarilyLockedBySpammingDustD"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31511 (Pashov Audit Group/Saffron)"
+help: "[H-05] Funds in vault can be temporarily locked by spamming dust deposits and withdrawals"
+wiki_title: "[H-05] Funds in vault can be temporarily locked by spamming dust deposits and withdrawals"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Medium, funds in vault will be temporarily locked
+    
+    **Likelihood:** High, can always occur
+    
+    **Description**
+    
+    `finalizeVaultEndedWithdrawals()` is required to be called to finalize all fixed withdrawals, including on-going fixed withdrawals.
+    
+    The issue is that it iterates thr
+wiki_exploit_scenario: |
+    Per Solodit #31511: **Severity**
+    
+    **Impact:** Medium, funds in vault will be temporarily locked
+    
+    **Likelihood:** High, can always occur
+    
+    **Description**
+    
+    `finalizeVaultEndedWithdrawals()` is required to be called to fina
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05FundsInVaultCanBeTemporarilyLockedBySpammingDustD"
+solodit_id: "31511"
+solodit_slug: |
+    h-05-funds-in-vault-can-be-temporarily-locked-by-spamming-dust-deposits-and-withdrawals-pashov-none-saffron-markdown
+solodit_quality: "2"
+solodit_rarity: "2"
+solodit_tags: ""
+state_decl: "uint256 internal finalizevaultendedwithdrawals;"
+fn_name_regex: ".*(finalizeVaultEndedWithdrawals|fixedOngoingWithdrawalUsers).*"
+write_var_regex: ".*(finalizeVaultEndedWithdrawals|fixedOngoingWithdrawalUsers).*"
+guard_var_regex: ".*(finalizeVaultEndedWithdrawals|fixedOngoingWithdrawalUsers).*"
+vuln_fn_name: "finalizeVaultEndedWithdrawals"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "finalizevaultendedwithdrawals = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

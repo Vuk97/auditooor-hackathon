@@ -1,0 +1,47 @@
+skeleton: "state_write_without_paired_write"
+name: "h-02-givereward-does-not-update-the-stake-balances"
+class_name: "H02GiverewardDoesNotUpdateTheStakeBalances"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #55485 (Pashov Audit Group/Coinflip_2025-02-05)"
+help: "[H-02] `giveReward()` does not update the stake balances"
+wiki_title: "[H-02] `giveReward()` does not update the stake balances"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    In the `Staking` contract, the `giveReward()` function can be called by the owner or the manager to distribute the profit of a staker. However, this function does not update the stake balance of the staker and the total staked am
+wiki_exploit_scenario: |
+    Per Solodit #55485: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    In the `Staking` contract, the `giveReward()` function can be called by the owner or the manager to distribute the profit of a st
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02GiverewardDoesNotUpdateTheStakeBalances"
+solodit_id: "55485"
+solodit_slug: |
+    h-02-givereward-does-not-update-the-stake-balances-pashov-audit-group-none-coinflip_2025-02-05-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(Staking|giveReward).*"
+primary_var_regex: ".*(giveReward).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

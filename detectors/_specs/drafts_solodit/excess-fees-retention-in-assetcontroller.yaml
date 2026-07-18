@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "excess-fees-retention-in-assetcontroller"
+class_name: "ExcessFeesRetentionInAssetcontroller"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52256 (Halborn/Contracts V1)"
+help: "Excess Fees Retention in AssetController"
+wiki_title: "Excess Fees Retention in AssetController"
+wiki_description: |
+    ##### Description
+    
+    The `AssetController` contract does not refund excess fees sent by users when calling `burnAndBridgeMulti` or `resendTransferMulti`. The contract forwards only the specified fees to each adapter without verifying `if msg.value == (computed values of fees)` , potentially leaving un
+wiki_exploit_scenario: |
+    Per Solodit #52256: ##### Description
+    
+    The `AssetController` contract does not refund excess fees sent by users when calling `burnAndBridgeMulti` or `resendTransferMulti`. The contract forwards only the specified fees to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExcessFeesRetentionInAssetcontroller"
+solodit_id: "52256"
+solodit_slug: "excess-fees-retention-in-assetcontroller-halborn-lucid-labs-contracts-v1-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal burnandbridgemulti;"
+fn_name_regex: ".*(AssetController|burnAndBridgeMulti|resendTransferMulti).*"
+write_var_regex: ".*(burnAndBridgeMulti|resendTransferMulti).*"
+guard_var_regex: ".*(burnAndBridgeMulti|resendTransferMulti).*"
+vuln_fn_name: "AssetController"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "burnandbridgemulti = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

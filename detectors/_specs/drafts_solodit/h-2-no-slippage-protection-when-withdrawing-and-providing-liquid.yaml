@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "h-2-no-slippage-protection-when-withdrawing-and-providing-liquid"
+class_name: "H2NoSlippageProtectionWhenWithdrawingAndProvidingLiquid"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #21120 (Sherlock/RealWagmi)"
+help: "H-2: No slippage protection when withdrawing and providing liquidity in rebalanceAll"
+wiki_title: "H-2: No slippage protection when withdrawing and providing liquidity in rebalanceAll"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-06-real-wagmi-judging/issues/94 
+    
+    ## Found by 
+    ast3ros, n33k
+    ## Summary
+    
+    When `rebalanceAll` is called, the liquidity is first withdrawn from the pools and then deposited to new positions. However, there is no slippage protection for these operations.
+wiki_exploit_scenario: |
+    Per Solodit #21120: Source: https://github.com/sherlock-audit/2023-06-real-wagmi-judging/issues/94 
+    
+    ## Found by 
+    ast3ros, n33k
+    ## Summary
+    
+    When `rebalanceAll` is called, the liquidity is first withdrawn from the pools a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H2NoSlippageProtectionWhenWithdrawingAndProvidingLiquid"
+solodit_id: "21120"
+solodit_slug: |
+    h-2-no-slippage-protection-when-withdrawing-and-providing-liquidity-in-rebalanceall-sherlock-none-realwagmi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Slippage"
+state_decl: "uint256 internal amount0min;"
+fn_name_regex: ".*(rebalanceAll|amount0Min|amount1Min|deposit).*"
+read_var_regex: ".*(amount0Min|amount1Min|deposit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rebalanceAll"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount0min > 0;"

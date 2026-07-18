@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "inconsistent-division-of-fixed-side-withdrawals-is-unfair"
+class_name: "InconsistentDivisionOfFixedSideWithdrawalsIsUnfair"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Lido Fixed Income - Zellic Audit Report"
+help: |
+    When fixed-side depositors deposit into the LidoVault, both the amount of stETH shares minted due to their native ETH deposit and the quantity of native ETH deposited are recorded:
+wiki_title: "Inconsistent division of fixed-side withdrawals is unfair"
+wiki_description: |
+    When fixed-side depositors deposit into the LidoVault, both the amount of stETH shares minted due to their native ETH deposit and the quantity of native ETH deposited are recorded: function deposit(uint256 side) external payable { // [...] if (side == FIXED) { // [...] // Stake on Lido /// returns s
+wiki_exploit_scenario: |
+    Per audit finding: When fixed-side depositors deposit into the LidoVault, both the amount of stETH shares minted due to their native ETH deposit and the quantity of native ETH deposited are recorded: function deposit(ui
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentDivisionOfFixedSideWithdrawalsIsUnfair"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stETH|stETHBalanceBefore|stakingBalance).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "stETH"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

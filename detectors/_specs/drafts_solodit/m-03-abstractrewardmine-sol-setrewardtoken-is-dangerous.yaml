@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-03-abstractrewardmine-sol-setrewardtoken-is-dangerous"
+class_name: "M03AbstractrewardmineSolSetrewardtokenIsDangerous"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1098 (Code4rena/Malt Finance)"
+help: "[M-03] AbstractRewardMine.sol#setRewardToken is dangerous"
+wiki_title: "[M-03] AbstractRewardMine.sol#setRewardToken is dangerous"
+wiki_description: |
+    _Submitted by 0x0x0x, also found by harleythedog and hyh_
+    
+    
+    In case the reward token is changed, `totalDeclaredReward` will be changed and likely equal to `0`.  Since `_userStakePadding` and `_globalStakePadding` are accumulated, changing the reward token will not reset those values. Thus, it will c
+wiki_exploit_scenario: |
+    Per Solodit #1098: _Submitted by 0x0x0x, also found by harleythedog and hyh_
+    
+    
+    In case the reward token is changed, `totalDeclaredReward` will be changed and likely equal to `0`.  Since `_userStakePadding` and `_globalS
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03AbstractrewardmineSolSetrewardtokenIsDangerous"
+solodit_id: "1098"
+solodit_slug: |
+    m-03-abstractrewardminesolsetrewardtoken-is-dangerous-code4rena-malt-finance-malt-finance-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal rewardtoken;"
+fn_name_regex: ".*(totalDeclaredReward|rewardToken).*"
+read_var_regex: ".*(rewardToken|totalDeclaredReward).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalDeclaredReward"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return rewardtoken > 0;"

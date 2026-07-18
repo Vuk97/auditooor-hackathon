@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "inconsistent-internal-balances-when-supplying-transfer-on-fee-or"
+class_name: "InconsistentInternalBalancesWhenSupplyingTransferOnFeeOr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #50523 (Halborn/Beanstalk)"
+help: "INCONSISTENT INTERNAL BALANCES WHEN SUPPLYING TRANSFER-ON-FEE OR DEFLATIONARY TOKENS"
+wiki_title: "INCONSISTENT INTERNAL BALANCES WHEN SUPPLYING TRANSFER-ON-FEE OR DEFLATIONARY TOKENS"
+wiki_description: |
+    ##### Description
+    
+    In the library `LibTransfer`, used by the `TokenFacet` contract, the `transferToken()` function assume that the amount of `token` is transferred to the smart contract after calling `token.safeTransferFrom(sender, address(this), amount - receivedAmount);` (and thus it updates the s
+wiki_exploit_scenario: |
+    Per Solodit #50523: ##### Description
+    
+    In the library `LibTransfer`, used by the `TokenFacet` contract, the `transferToken()` function assume that the amount of `token` is transferred to the smart contract after calling
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentInternalBalancesWhenSupplyingTransferOnFeeOr"
+solodit_id: "50523"
+solodit_slug: |
+    inconsistent-internal-balances-when-supplying-transfer-on-fee-or-deflationary-tokens-halborn-beanstalk-beanstalk-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal token;"
+fn_name_regex: ".*(LibTransfer|TokenFacet|transferToken|token).*"
+read_var_regex: ".*(token|transferToken).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LibTransfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return token > 0;"

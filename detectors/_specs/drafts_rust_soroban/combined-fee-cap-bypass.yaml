@@ -1,0 +1,20 @@
+id: combined-fee-cap-bypass
+title: "Combined fee cap bypass via independent caps on sub-fees"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44459"
+bug_class: precision-loss
+indicators:
+  - "individual fee setters each cap at X% but protocol expects `sum_fees <= X%`"
+  - "no aggregate `validate_combined_fees_under_cap()` check"
+victim: "Users: combined fee exceeds intended cap."
+exploit_precondition: "Admin configures each sub-fee to its individual max."
+real_world_example: |
+  V12 #44459 (Low): Combined fee cap bypass.
+suggested_remediation: "Validate sum across all fee fields on every fee setter."
+cross_refs:
+  - unbounded-reserve-factor
+  - fee-ceiling-invariant-bypass

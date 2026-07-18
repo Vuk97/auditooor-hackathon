@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "pyth-maxconf-treated-as-absolute-value"
+class_name: "PythMaxconfTreatedAsAbsoluteValue"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64801 (Spearbit/Buck Labs)"
+help: "Pyth maxConf treated as absolute value"
+wiki_title: "Pyth maxConf treated as absolute value"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    **Context:**  
+    `buckUpgradeProcedure.md#L499-L502`, `OracleAdapterV4.sol#L515-L519`
+    
+    **Description:**  
+    The Pyth configuration parameter `maxConf` is treated as an absolute confidence interval value in 18 decimal price units. The upgrade procedure documents `maxConf` as a p
+wiki_exploit_scenario: |
+    Per Solodit #64801: ## Severity: Medium Risk
+    
+    **Context:**  
+    `buckUpgradeProcedure.md#L499-L502`, `OracleAdapterV4.sol#L515-L519`
+    
+    **Description:**  
+    The Pyth configuration parameter `maxConf` is treated as an absolute c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PythMaxconfTreatedAsAbsoluteValue"
+solodit_id: "64801"
+solodit_slug: "pyth-maxconf-treated-as-absolute-value-spearbit-none-buck-labs-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(maxConf|pythMaxConf|f40ce28|OracleAdapterV5).*"
+primary_var_regex: ".*(f40ce28|maxConf|pythMaxConf).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

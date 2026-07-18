@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "bypass-of-recipient-check-allows-pre-seeding-the-real-pair-a-x"
+class_name: "BypassOfRecipientCheckAllowsPreSeedingTheRealPairAX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-08-gte-perps-and-launchpad"
+help: |
+    0xMilenov , also found by 0xsagetony Bale codegpt dimulski nem0TheFinder nuthan2x roccomania romans , and Web3Vikings launchpad/Launchpad.sol #L800-L842 launchpad/uniswap/GTELaunch
+wiki_title: "Bypass of recipient check allows pre-seeding the real pair and manipulating initial AMM price"
+wiki_description: |
+    0xMilenov , also found by 0xsagetony Bale codegpt dimulski nem0TheFinder nuthan2x roccomania romans , and Web3Vikings launchpad/Launchpad.sol #L800-L842 launchpad/uniswap/GTELaunchpadV2PairFactory.sol #L43-L82 The Launchpad system bonds a new LaunchToken against a quote asset on a bonding curve. Upo
+wiki_exploit_scenario: |
+    Per audit finding: 0xMilenov , also found by 0xsagetony Bale codegpt dimulski nem0TheFinder nuthan2x roccomania romans , and Web3Vikings launchpad/Launchpad.sol #L800-L842 launchpad/uniswap/GTELaunchpadV2PairFactory.sol
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BypassOfRecipientCheckAllowsPreSeedingTheRealPairAX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

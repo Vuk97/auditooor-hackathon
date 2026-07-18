@@ -1,0 +1,33 @@
+skeleton: "state_write_without_paired_write"
+name: "incorrect-lastbalance-update-in-treasury-token-transfer-for-reba"
+class_name: "IncorrectLastbalanceUpdateInTreasuryTokenTransferForReba"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61292 (MixBytes/CryptoLegacy)"
+help: "Incorrect `lastBalance` update in treasury token transfer for rebasing tokens"
+wiki_title: "Incorrect `lastBalance` update in treasury token transfer for rebasing tokens"
+wiki_description: |
+    ##### Description
+    In the `LibCryptoLegacy` library’s `_transferTreasuryTokensToLegacy` function, `td.lastBalance` is updated by adding the difference between the post-transfer balance and the prior balance. This logic miscalculates `lastBalance` under rebasing tokens, leading to incorrect negative r
+wiki_exploit_scenario: |
+    Per Solodit #61292: ##### Description
+    In the `LibCryptoLegacy` library’s `_transferTreasuryTokensToLegacy` function, `td.lastBalance` is updated by adding the difference between the post-transfer balance and the prior ba
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectLastbalanceUpdateInTreasuryTokenTransferForReba"
+solodit_id: "61292"
+solodit_slug: |
+    incorrect-lastbalance-update-in-treasury-token-transfer-for-rebasing-tokens-mixbytes-none-cryptolegacy-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(LibCryptoLegacy|lastBalance|totalClaimed).*"
+primary_var_regex: ".*(lastBalance|totalClaimed).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "rate-check-can-be-subverted-in-vaultorderbook-allocateorder-due-"
+class_name: "RateCheckCanBeSubvertedInVaultorderbookAllocateorderDue"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46687 (Cantina/Royco)"
+help: |
+    Rate check can be subverted in VaultOrderbook.allocateOrder() due to unbounded cam- paign id list length
+wiki_title: |
+    Rate check can be subverted in VaultOrderbook.allocateOrder() due to unbounded cam- paign id list length 
+wiki_description: |
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    The `VaultOrderbook.allocateOrder()` function contains the following logic meant to tally the total reward rate for all tokens in the passed-in campaigns:
+    
+    ```solidity
+    for (uint256 i = 0; i < campaignIds.length; ++i) {
+        /
+wiki_exploit_scenario: |
+    Per Solodit #46687: ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    The `VaultOrderbook.allocateOrder()` function contains the following logic meant to tally the total reward rate for all toke
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RateCheckCanBeSubvertedInVaultorderbookAllocateorderDue"
+solodit_id: "46687"
+solodit_slug: |
+    rate-check-can-be-subverted-in-vaultorderbookallocateorder-due-to-unbounded-cam-paign-id-list-length-cantina-none-royco-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bae257ad;"
+fn_name_regex: ".*(campaignIds|ERC4626i|bae257ad).*"
+write_var_regex: ".*(bae257ad|campaignIds).*"
+guard_var_regex: ".*(bae257ad|campaignIds).*"
+vuln_fn_name: "campaignIds"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "bae257ad = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

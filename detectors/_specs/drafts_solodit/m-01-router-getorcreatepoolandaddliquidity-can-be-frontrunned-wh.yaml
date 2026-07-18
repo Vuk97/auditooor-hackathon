@@ -1,0 +1,40 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-01-router-getorcreatepoolandaddliquidity-can-be-frontrunned-wh"
+class_name: "M01RouterGetorcreatepoolandaddliquidityCanBeFrontrunnedWh"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #43091 (Code4rena/Maverick)"
+help: "[M-01] `Router.getOrCreatePoolAndAddLiquidity` can be frontrunned which leads to price manipulation"
+wiki_title: "[M-01] `Router.getOrCreatePoolAndAddLiquidity` can be frontrunned which leads to price manipulation"
+wiki_description: |
+    `Router.getOrCreatePoolAndAddLiquidity` can be frontrunned which allows the setting of a different initial price.
+    
+    ### Proof of Concept
+    
+    When new Pool is created, it is already initialized with active tick (`Pool.sol#L76`). This allows the pool creator to provide price for assets.
+    So when first LP
+wiki_exploit_scenario: |
+    Per Solodit #43091: `Router.getOrCreatePoolAndAddLiquidity` can be frontrunned which allows the setting of a different initial price.
+    
+    ### Proof of Concept
+    
+    When new Pool is created, it is already initialized with activ
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01RouterGetorcreatepoolandaddliquidityCanBeFrontrunnedWh"
+solodit_id: "43091"
+solodit_slug: |
+    m-01-routergetorcreatepoolandaddliquidity-can-be-frontrunned-which-leads-to-price-manipulation-code4rena-maverick-maverick-git
+solodit_quality: "5"
+solodit_rarity: "0"
+solodit_tags: "Front-Running"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(getOrCreatePoolAndAddLiquidity|addLiquidity|poolParams|tokenId).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "h-01-underflow-in-updatetranscoderwithfees-can-cause-corrupted-d"
+class_name: "H01UnderflowInUpdatetranscoderwithfeesCanCauseCorruptedD"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27047 (Code4rena/Livepeer)"
+help: "[H-01] Underflow in `updateTranscoderWithFees` can cause corrupted data and loss of winning tickets"
+wiki_title: "[H-01] Underflow in `updateTranscoderWithFees` can cause corrupted data and loss of winning tickets"
+wiki_description: |
+    `updateTranscoderWtihFees` can underflow because MathUtils is used instead of PreciseMathUtils.
+    
+    ### Proof of Concept
+    
+    According to [LIP-92](https://github.com/livepeer/LIPs/blob/master/LIPs/LIP-92.md) the initial `treasuryRewardCutRate` will be set to `10%`.
+    
+    `treasuryRewardCutRate` is set with th
+wiki_exploit_scenario: |
+    Per Solodit #27047: `updateTranscoderWtihFees` can underflow because MathUtils is used instead of PreciseMathUtils.
+    
+    ### Proof of Concept
+    
+    According to [LIP-92](https://github.com/livepeer/LIPs/blob/master/LIPs/LIP-92.m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01UnderflowInUpdatetranscoderwithfeesCanCauseCorruptedD"
+solodit_id: "27047"
+solodit_slug: |
+    h-01-underflow-in-updatetranscoderwithfees-can-cause-corrupted-data-and-loss-of-winning-tickets-code4rena-livepeer-livepeer-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal settreasuryrewardcutrate;"
+fn_name_regex: ".*(updateTranscoderWtihFees|treasuryRewardCutRate|setTreasuryRewardCutRate|PreciseMathUtils).*"
+read_var_regex: ".*(setTreasuryRewardCutRate|treasuryRewardCutRate|treasuryRewards).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateTranscoderWtihFees"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return settreasuryrewardcutrate > 0;"

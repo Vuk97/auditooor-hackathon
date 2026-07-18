@@ -1,0 +1,40 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-12-avoid-paying-insurance"
+class_name: "M12AvoidPayingInsurance"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25500 (Code4rena/Tracer)"
+help: "[M-12] avoid paying insurance"
+wiki_title: "[M-12] avoid paying insurance"
+wiki_description: |
+    _Submitted by gpersoon_
+    
+    It's possible to avoid paying insurance in the following way:
+    
+    - once per hour (at the right moment), do the following:
+    1. using a flash loan, or with a large amount of tokens, call `deposit` of `Insurance.sol` to make sure that the pool is sufficiently filled (`poolHoldings
+wiki_exploit_scenario: |
+    Per Solodit #25500: _Submitted by gpersoon_
+    
+    It's possible to avoid paying insurance in the following way:
+    
+    - once per hour (at the right moment), do the following:
+    1. using a flash loan, or with a large amount of tokens
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12AvoidPayingInsurance"
+solodit_id: "25500"
+solodit_slug: "m-12-avoid-paying-insurance-code4rena-tracer-tracer-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(deposit|poolHoldings|poolTarget|executeTrade).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

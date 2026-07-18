@@ -1,0 +1,56 @@
+skeleton: "name_match_missing_require"
+name: "missing-validation-in-masset-redeemto-acknowledged"
+class_name: "MissingValidationInMassetRedeemtoAcknowledged"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #13630 (ConsenSys/mStable 1.1)"
+help: "Missing validation in Masset._redeemTo  Acknowledged"
+wiki_title: "Missing validation in Masset._redeemTo  Acknowledged"
+wiki_description: |
+    #### Resolution
+    
+    
+    
+    An explicit check will be added with the next Masset proxy upgrade.
+    
+    
+    #### Description
+    
+    
+    In function `_redeemTo` the collateralisation ratio is not taken into account unlike in `_redeemMasset`:
+    
+    
+    **code/contracts/masset/Masset.sol:L558-L561**
+    
+    
+    
+    ```
+    uint256 colRatio = StableMath.m
+wiki_exploit_scenario: |
+    Per Solodit #13630: #### Resolution
+    
+    
+    
+    An explicit check will be added with the next Masset proxy upgrade.
+    
+    
+    #### Description
+    
+    
+    In function `_redeemTo` the collateralisation ratio is not taken into account unlike in `_re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingValidationInMassetRedeemtoAcknowledged"
+solodit_id: "13630"
+solodit_slug: "missing-validation-in-masset_redeemto-acknowledged-consensys-mstable-11-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(Masset|ForgeValidator).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "Masset"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

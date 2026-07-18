@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "m-09-assets-with-more-than-18-decimals-are-incorrectly-handled-i"
+class_name: "M09AssetsWithMoreThan18DecimalsAreIncorrectlyHandledI"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31707 (Pashov Audit Group/Fyde)"
+help: "[M-09] Assets with more than 18 decimals are incorrectly handled in UniswapAdaptor"
+wiki_title: "[M-09] Assets with more than 18 decimals are incorrectly handled in UniswapAdaptor"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    Function `_getUniswapPrice()` is supposed to handle cases when the quote token has more than 18 decimals by downscaling the price. However, it will just revert on the first line because `factor` is `uint`:
+    
+    ```solidity
+      function
+wiki_exploit_scenario: |
+    Per Solodit #31707: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    Function `_getUniswapPrice()` is supposed to handle cases when the quote token has more than 18 decimals by downscaling the price.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09AssetsWithMoreThan18DecimalsAreIncorrectlyHandledI"
+solodit_id: "31707"
+solodit_slug: |
+    m-09-assets-with-more-than-18-decimals-are-incorrectly-handled-in-uniswapadaptor-pashov-none-fyde-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal factor;"
+fn_name_regex: ".*(factor|uint).*"
+read_var_regex: ".*(factor|uint).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "factor"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return factor > 0;"

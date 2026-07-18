@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "h-50-compoundstrategy-attempts-to-transfer-out-a-greater-amount-"
+class_name: "H50CompoundstrategyAttemptsToTransferOutAGreaterAmount"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27540 (Code4rena/Tapioca DAO)"
+help: |
+    [H-50] CompoundStrategy attempts to transfer out a greater amount of ETH than will actually be withdrawn, leading to DoS
+wiki_title: |
+    [H-50] CompoundStrategy attempts to transfer out a greater amount of ETH than will actually be withdrawn, leading to DoS
+wiki_description: |
+    Withdrawals will revert whenever there is not sufficient wrapped native tokens to cover loss from integer truncation.
+    
+    ### Proof of Concept
+    
+    `CompoundStrategy._withdraw` calculates the amount of cETH to redeem with `cToken.exchangeRateStored` based on a provided amount of ETH to receive from the wi
+wiki_exploit_scenario: |
+    Per Solodit #27540: Withdrawals will revert whenever there is not sufficient wrapped native tokens to cover loss from integer truncation.
+    
+    ### Proof of Concept
+    
+    `CompoundStrategy._withdraw` calculates the amount of cETH
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H50CompoundstrategyAttemptsToTransferOutAGreaterAmount"
+solodit_id: "27540"
+solodit_slug: |
+    h-50-compoundstrategy-attempts-to-transfer-out-a-greater-amount-of-eth-than-will-actually-be-withdrawn-leading-to-dos-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal redeem;"
+fn_name_regex: ".*(CEther|redeem|redeemInternal).*"
+read_var_regex: ".*(redeem|redeemInternal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "CEther"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return redeem > 0;"

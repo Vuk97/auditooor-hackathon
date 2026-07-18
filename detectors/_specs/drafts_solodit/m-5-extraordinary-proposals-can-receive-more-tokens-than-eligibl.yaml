@@ -1,0 +1,44 @@
+skeleton: "state_write_without_paired_write"
+name: "m-5-extraordinary-proposals-can-receive-more-tokens-than-eligibl"
+class_name: "M5ExtraordinaryProposalsCanReceiveMoreTokensThanEligibl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6302 (Sherlock/Ajna)"
+help: "M-5: Extraordinary proposals can receive more tokens than eligible"
+wiki_title: "M-5: Extraordinary proposals can receive more tokens than eligible"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-ajna-judging/issues/124 
+    
+    ## Found by 
+    berndartmueller
+    
+    ## Summary
+    
+    Two extraordinary proposals proposed at similar times (while no other extraordinary proposals are executed) can request the same amount of tokens (`proposal.tokensRequested`). But if
+wiki_exploit_scenario: |
+    Per Solodit #6302: Source: https://github.com/sherlock-audit/2023-01-ajna-judging/issues/124 
+    
+    ## Found by 
+    berndartmueller
+    
+    ## Summary
+    
+    Two extraordinary proposals proposed at similar times (while no other extraordinar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M5ExtraordinaryProposalsCanReceiveMoreTokensThanEligibl"
+solodit_id: "6302"
+solodit_slug: "m-5-extraordinary-proposals-can-receive-more-tokens-than-eligible-sherlock-ajna-ajna-git"
+solodit_quality: "4"
+solodit_rarity: "5"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(tokensRequested).*"
+primary_var_regex: ".*(tokensRequested).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

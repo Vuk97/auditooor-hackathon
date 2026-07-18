@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "erc721decreaseisolatesupplyonliquidate-missing-clear-lockeraddr"
+class_name: "Erc721decreaseisolatesupplyonliquidateMissingClearLockeraddr"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-benddao"
+help: |
+    bin2chen , also found by oakcobalt When isolateLiquidate(supplyAsCollateral=false) is executed, finally erc721DecreaseIsolateSupplyOnLiquidate() will be executed and the NFT will b
+wiki_title: "erc721DecreaseIsolateSupplyOnLiquidate() missing clear lockerAddr"
+wiki_description: |
+    bin2chen , also found by oakcobalt When isolateLiquidate(supplyAsCollateral=false) is executed, finally erc721DecreaseIsolateSupplyOnLiquidate() will be executed and the NFT will be transferred to the user. function erc721DecreaseIsolateSupplyOnLiquidate ( DataTypes.AssetData storage assetData uint2
+wiki_exploit_scenario: |
+    Per audit finding: bin2chen , also found by oakcobalt When isolateLiquidate(supplyAsCollateral=false) is executed, finally erc721DecreaseIsolateSupplyOnLiquidate() will be executed and the NFT will be transferred to the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Erc721decreaseisolatesupplyonliquidateMissingClearLockeraddr"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(isolateLiquidate|supplyAsCollateral|assetData).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "isolateLiquidate"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

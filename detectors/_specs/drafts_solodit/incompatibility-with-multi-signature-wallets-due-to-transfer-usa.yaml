@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "incompatibility-with-multi-signature-wallets-due-to-transfer-usa"
+class_name: "IncompatibilityWithMultiSignatureWalletsDueToTransferUsa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #50889 (Halborn/coreBTC)"
+help: "Incompatibility with Multi-Signature Wallets Due to .transfer Usage"
+wiki_title: "Incompatibility with Multi-Signature Wallets Due to .transfer Usage"
+wiki_description: |
+    ##### Description
+    
+    The smart contract functions `slashIdleLocker`, `slashThiefLocker`, and `liquidateLocker` use Solidity's `.transfer` method to send Ether (or native tokens) to recipients. While `.transfer` is designed to prevent reentrancy attacks by limiting the gas sent to 2300, it poses signif
+wiki_exploit_scenario: |
+    Per Solodit #50889: ##### Description
+    
+    The smart contract functions `slashIdleLocker`, `slashThiefLocker`, and `liquidateLocker` use Solidity's `.transfer` method to send Ether (or native tokens) to recipients. While `.t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncompatibilityWithMultiSignatureWalletsDueToTransferUsa"
+solodit_id: "50889"
+solodit_slug: "incompatibility-with-multi-signature-wallets-due-to-transfer-usage-halborn-coredao-corebtc-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidatelocker;"
+fn_name_regex: ".*(slashIdleLocker|slashThiefLocker|liquidateLocker).*"
+write_var_regex: ".*(liquidateLocker|slashIdleLocker|slashThiefLocker).*"
+guard_var_regex: ".*(liquidateLocker|slashIdleLocker|slashThiefLocker).*"
+vuln_fn_name: "slashIdleLocker"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "liquidatelocker = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,23 @@
+skeleton: "name_match_missing_require"
+name: "unbounded-loops-with-low-level-external-calls"
+class_name: "UnboundedLoopsWithLowLevelExternalCalls"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: unbounded-loops-with-low-level-external-calls"
+help: "Unbounded Loops with Low-Level External Calls"
+wiki_title: "Unbounded Loops with Low-Level External Calls"
+wiki_description: |
+    Detects loops that contain low-level external calls (call/delegatecall) which can DoS when arrays grow unbounded
+wiki_exploit_scenario: |
+    Per Glider query tags [dos, unbounded loop, external call, gas limit, denial of service]: Detects loops that contain low-level external calls (call/delegatecall) which can DoS when arrays grow unbounded
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "UnboundedLoopsWithLowLevelExternalCalls"
+fn_name_regex: ".*(unbounded).*"
+write_var_regex: ".*(unbounded).*"
+guard_var_regex: ".*(unbounded).*"
+vuln_fn_name: "setParam"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "unbounded = newVal;"
+guard_require_line: "require(newVal <= 10000);"
+state_decl: "uint256 internal unbounded;"

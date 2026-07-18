@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "minter-doesn-t-account-for-depegs-exchange-rates-and-decimal-pre"
+class_name: "MinterDoesnTAccountForDepegsExchangeRatesAndDecimalPre"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62198 (Cyfrin/Syntetika)"
+help: |
+    `Minter` doesn't account for depegs, exchange rates and decimal precision mismatch between `baseAsset` and `hilBTCToken`, which can result in total loss scenarios for both users an
+wiki_title: |
+    `Minter` doesn't account for depegs, exchange rates and decimal precision mismatch between `baseAsset` and `hilBTCToken`, which can result in total loss scenari
+wiki_description: |
+    **Description:** `Minter` supports conversion between two key assets, `baseAsset` and `hilBTCToken`:
+    ```solidity
+        /// @notice The token address of the base asset accepted for deposit (e.g., WBTC or a stablecoin)
+        IERC20 public immutable baseAsset;
+    
+        /// @notice The token address of the HilB
+wiki_exploit_scenario: |
+    Per Solodit #62198: **Description:** `Minter` supports conversion between two key assets, `baseAsset` and `hilBTCToken`:
+    ```solidity
+        /// @notice The token address of the base asset accepted for deposit (e.g., WBTC or
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MinterDoesnTAccountForDepegsExchangeRatesAndDecimalPre"
+solodit_id: "62198"
+solodit_slug: |
+    minter-doesnt-account-for-depegs-exchange-rates-and-decimal-precision-mismatch-between-baseasset-and-hilbtctoken-which-can-result-in-total-loss-scenarios-for-both-users-and-protocol-cyfrin-none-syntetika-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(Minter|baseAsset|hilBTCToken|wBTC).*"
+read_var_regex: ".*(amount|baseAsset|hBTC).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Minter"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "m-1-funds-can-be-stolen-from-the-fixedstrikeoptionteller-contrac"
+class_name: "M1FundsCanBeStolenFromTheFixedstrikeoptiontellerContrac"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20725 (Sherlock/Bond Options)"
+help: |
+    M-1: Funds can be stolen from the `FixedStrikeOptionTeller` contract by creating put option tokens without providing collateral
+wiki_title: |
+    M-1: Funds can be stolen from the `FixedStrikeOptionTeller` contract by creating put option tokens without providing collateral
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-06-bond-judging/issues/61 
+    
+    ## Found by 
+    berndartmueller, pks\_, techOptimizor
+    ## Summary
+    
+    Due to a rounding error when calculating the `quoteAmount` in the `create` function of the `FixedStrikeOptionTeller` contract, it is possible to create (issue) op
+wiki_exploit_scenario: |
+    Per Solodit #20725: Source: https://github.com/sherlock-audit/2023-06-bond-judging/issues/61 
+    
+    ## Found by 
+    berndartmueller, pks\_, techOptimizor
+    ## Summary
+    
+    Due to a rounding error when calculating the `quoteAmount` in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1FundsCanBeStolenFromTheFixedstrikeoptiontellerContrac"
+solodit_id: "20725"
+solodit_slug: |
+    m-1-funds-can-be-stolen-from-the-fixedstrikeoptionteller-contract-by-creating-put-option-tokens-without-providing-collateral-sherlock-none-bond-options-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Missing Check, Rounding"
+state_decl: "uint256 internal amount_;"
+fn_name_regex: ".*(quoteAmount|create|FixedStrikeOptionTeller|amount_).*"
+write_var_regex: ".*(amount_|create|decimals).*"
+guard_var_regex: ".*(amount_|create|decimals).*"
+vuln_fn_name: "quoteAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amount_ = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

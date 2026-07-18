@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "fallback-selector-collision"
+class_name: "FallbackSelectorCollision"
+wave: "12"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "corpus slice slice_ah"
+help: |
+    Admin-facing fallback function taking compressed price data can collide with 4-byte function selectors; inadvertent function dispatch with garbage calldata.
+wiki_title: "Fallback-Selector-Collision"
+wiki_description: |
+    Admin-facing fallback function taking compressed price data can collide with 4-byte function selectors; inadvertent function dispatch with garbage calldata.
+wiki_exploit_scenario: |
+    Attacker exploits Fallback-Selector-Collision as described: Admin-facing fallback function taking compressed price data can collide with 4-byte function selectors; inadvertent function dispatch with garbage calldata.
+wiki_recommendation: "contract with `fallback()` modifier `onlyAdmin` (or role) without `receive()` disambiguation."
+contract_name: "FallbackSelectorCollision"
+state_decl: "uint256 internal onlyadmin;"
+fn_name_regex: ".*(fallback|onlyAdmin|receive).*"
+read_var_regex: ".*(onlyAdmin).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "fallback"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return onlyadmin > 0;"

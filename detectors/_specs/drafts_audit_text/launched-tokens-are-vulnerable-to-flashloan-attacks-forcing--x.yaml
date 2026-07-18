@@ -1,0 +1,29 @@
+skeleton: "paired_function_divergence"
+name: "launched-tokens-are-vulnerable-to-flashloan-attacks-forcing--x"
+class_name: "LaunchedTokensAreVulnerableToFlashloanAttacksForcingX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-04-virtuals-protocol"
+help: |
+    oakcobalt , also found by mbuba666 Bonding.sol only allows a launched memecoin to graduate when gradThreshold is met and enough liquidity ( assetToken balance) is gained through th
+wiki_title: |
+    Launched tokens are vulnerable to flashloan attacks forcing premature graduation, allowing reward manipulation
+wiki_description: |
+    oakcobalt , also found by mbuba666 Bonding.sol only allows a launched memecoin to graduate when gradThreshold is met and enough liquidity ( assetToken balance) is gained through the investor community trading. This ensures the price stability of the agentToken upon graduation. The vulnerability is t
+wiki_exploit_scenario: |
+    Per audit finding: oakcobalt , also found by mbuba666 Bonding.sol only allows a launched memecoin to graduate when gradThreshold is met and enough liquidity ( assetToken balance) is gained through the investor community
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LaunchedTokensAreVulnerableToFlashloanAttacksForcingX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

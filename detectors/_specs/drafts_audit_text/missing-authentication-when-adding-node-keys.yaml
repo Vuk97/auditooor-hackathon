@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-authentication-when-adding-node-keys"
+class_name: "MissingAuthenticationWhenAddingNodeKeys"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit ZetaChain - 6.30.23 Zellic Audit Report"
+help: |
+    The SetNodeKeys message allows a node to supply a public key that will be used for the TSS signing: func (k msgServer) SetNodeKeys(goCtx context.Context, msg *types.MsgSetNodeKeys)
+wiki_title: "Missing authentication when adding node keys"
+wiki_description: |
+    The SetNodeKeys message allows a node to supply a public key that will be used for the TSS signing: func (k msgServer) SetNodeKeys(goCtx context.Context, msg *types.MsgSetNodeKeys) (*types.MsgSetNodeKeysResponse, error) { ctx :) sdk.UnwrapSDKContext(goCtx) addr, err :) sdk.AccAddressFromBech32(msg.C
+wiki_exploit_scenario: |
+    Per audit finding: The SetNodeKeys message allows a node to supply a public key that will be used for the TSS signing: func (k msgServer) SetNodeKeys(goCtx context.Context, msg *types.MsgSetNodeKeys) (*types.MsgSetNodeK
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingAuthenticationWhenAddingNodeKeys"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(msgServer|goCtx).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "msgServer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

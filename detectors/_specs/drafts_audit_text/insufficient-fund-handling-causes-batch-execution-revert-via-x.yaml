@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "insufficient-fund-handling-causes-batch-execution-revert-via-x"
+class_name: "InsufficientFundHandlingCausesBatchExecutionRevertViaX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Megapot AutoSub_BatchPurchase - Zellic Audit Report"
+help: |
+    The createSubscription function allows users to create a subscription for automatic ticket purchases for every drawing. This function validates that the specified number of tickets
+wiki_title: "Insufficient fund handling causes batch-execution revert via underflow             16"
+wiki_description: |
+    The createSubscription function allows users to create a subscription for automatic ticket purchases for every drawing. This function validates that the specified number of tickets does not exceed the maxDailyTickets limit. However, there is no minimum required number of tickets per subscription. As
+wiki_exploit_scenario: |
+    Per audit finding: The createSubscription function allows users to create a subscription for automatic ticket purchases for every drawing. This function validates that the specified number of tickets does not exceed the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InsufficientFundHandlingCausesBatchExecutionRevertViaX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(createSubscription|maxDailyTickets).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "createSubscription"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

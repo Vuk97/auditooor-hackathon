@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "zero-interest-automatically-changed-to-maximum-interest"
+class_name: "ZeroInterestAutomaticallyChangedToMaximumInterest"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Wasabi Perps - Zellic Audit Report"
+help: |
+    When closing a position, the pools compute the amount of interest owed by the user with the _computeInterest function. function _computeInterest(Position calldata _position, uint25
+wiki_title: "Zero interest automatically changed to maximum interest"
+wiki_description: |
+    When closing a position, the pools compute the amount of interest owed by the user with the _computeInterest function. function _computeInterest(Position calldata _position, uint256 _interest) internal view returns (uint256) { uint256 maxInterest = addressProvider.getDebtController() .computeMaxInte
+wiki_exploit_scenario: |
+    Per audit finding: When closing a position, the pools compute the amount of interest owed by the user with the _computeInterest function. function _computeInterest(Position calldata _position, uint256 _interest) interna
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ZeroInterestAutomaticallyChangedToMaximumInterest"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxInterest|addressProvider|getDebtController).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "maxInterest"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

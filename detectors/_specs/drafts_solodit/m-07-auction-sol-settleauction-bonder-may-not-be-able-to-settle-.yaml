@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-07-auction-sol-settleauction-bonder-may-not-be-able-to-settle-"
+class_name: "M07AuctionSolSettleauctionBonderMayNotBeAbleToSettle"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19844 (Code4rena/Kuiper)"
+help: |
+    [M-07] `Auction.sol#settleAuction()` Bonder may not be able to settle a bonded auction, leading to loss of funds
+wiki_title: |
+    [M-07] `Auction.sol#settleAuction()` Bonder may not be able to settle a bonded auction, leading to loss of funds
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    [Auction.sol#L97-L102](https://github.com/code-423n4/2021-12-defiprotocol/blob/205d3766044171e325df6a8bf2e79b37856eece1/contracts/contracts/Auction.sol#L97-L102)
+    
+    ```solidity
+        uint256 a = factory.auctionMultiplier() * basket.ibRatio();
+        uint256 b = (bondBlock - auction
+wiki_exploit_scenario: |
+    Per Solodit #19844: _Submitted by WatchPug_
+    
+    [Auction.sol#L97-L102](https://github.com/code-423n4/2021-12-defiprotocol/blob/205d3766044171e325df6a8bf2e79b37856eece1/contracts/contracts/Auction.sol#L97-L102)
+    
+    ```solidity
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07AuctionSolSettleauctionBonderMayNotBeAbleToSettle"
+solodit_id: "19844"
+solodit_slug: |
+    m-07-auctionsolsettleauction-bonder-may-not-be-able-to-settle-a-bonded-auction-leading-to-loss-of-funds-code4rena-kuiper-kuiper-contest-git_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bondburn;"
+fn_name_regex: ".*(newRatio|minIbRatio|settleAuction|bondPercentDiv).*"
+read_var_regex: ".*(bondBurn|bondForRebalance|bondPercentDiv).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "newRatio"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return bondburn > 0;"

@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "users-cannot-unstake-from-yiedlethstakingetherfi-sol-because-x"
+class_name: "UsersCannotUnstakeFromYiedlethstakingetherfiSolBecauseX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-benddao"
+help: |
+    oakcobalt , also found by 0x73696d616f and bin2chen In YiedlETHStakingEtherfi::stake , users yieldBorrow WETH, convert it to ETH, and stake in Ether.fi’s LiquidityPool. Ether.fi’s
+wiki_title: |
+    Users cannot unstake from YiedlETHStakingEtherfi.sol, because YieldAccount.sol is incompatible with ether.fi’s WithdrawRequestNFT.sol
+wiki_description: |
+    oakcobalt , also found by 0x73696d616f and bin2chen In YiedlETHStakingEtherfi::stake , users yieldBorrow WETH, convert it to ETH, and stake in Ether.fi’s LiquidityPool. Ether.fi’s LiquidityPool will mint eETH (protocol token) to the user’s yieldAccount . Users will unstake() by requesting withdrawal
+wiki_exploit_scenario: |
+    Per audit finding: oakcobalt , also found by 0x73696d616f and bin2chen In YiedlETHStakingEtherfi::stake , users yieldBorrow WETH, convert it to ETH, and stake in Ether.fi’s LiquidityPool. Ether.fi’s LiquidityPool will m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCannotUnstakeFromYiedlethstakingetherfiSolBecauseX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(yieldBorrow|eETH|yieldAccount).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "yieldBorrow"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

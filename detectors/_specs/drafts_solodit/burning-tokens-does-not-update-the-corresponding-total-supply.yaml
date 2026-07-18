@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "burning-tokens-does-not-update-the-corresponding-total-supply"
+class_name: "BurningTokensDoesNotUpdateTheCorrespondingTotalSupply"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #17021 (TrailOfBits/Golem)"
+help: "Burning tokens does not update the corresponding total supply"
+wiki_title: "Burning tokens does not update the corresponding total supply"
+wiki_description: |
+    ## Type: Denial of Service
+    ## Target: GolemTokenNetworkBatching
+    
+    ### Difficulty: High
+    
+    ### Description
+    The burn function in `GolemTokenNetworkBatching` does not update the `totalSupply` in the `GolemTokenNetwork`. Since the burned tokens are deleted and no longer associated with one particular addre
+wiki_exploit_scenario: |
+    Per Solodit #17021: ## Type: Denial of Service
+    ## Target: GolemTokenNetworkBatching
+    
+    ### Difficulty: High
+    
+    ### Description
+    The burn function in `GolemTokenNetworkBatching` does not update the `totalSupply` in the `GolemT
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BurningTokensDoesNotUpdateTheCorrespondingTotalSupply"
+solodit_id: "17021"
+solodit_slug: "burning-tokens-does-not-update-the-corresponding-total-supply-trailofbits-golem-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(GolemTokenNetworkBatching|totalSupply|GolemTokenNetwork|TokenProxy).*"
+primary_var_regex: ".*(totalSupply).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

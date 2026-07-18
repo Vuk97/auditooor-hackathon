@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "vault-can-be-placed-back-into-vulnerable-low-supply-state"
+class_name: "VaultCanBePlacedBackIntoVulnerableLowSupplyState"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #10402 (OpenZeppelin/Pods Finance Ethereum Volatility Vault Audit #2)"
+help: "Vault can be placed back into vulnerable low supply state"
+wiki_title: "Vault can be placed back into vulnerable low supply state"
+wiki_description: |
+    The `BaseVault` contract inherits an issue common to ERC-4626 implementations known as the donation attack. When shares are minted to users, they are calculated by [multiplying the deposited assets by a ratio of the existing shares to current assets](https://github.com/OpenZeppelin/openzeppelin-cont
+wiki_exploit_scenario: |
+    Per Solodit #10402: The `BaseVault` contract inherits an issue common to ERC-4626 implementations known as the donation attack. When shares are minted to users, they are calculated by [multiplying the deposited assets by
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VaultCanBePlacedBackIntoVulnerableLowSupplyState"
+solodit_id: "10402"
+solodit_slug: |
+    vault-can-be-placed-back-into-vulnerable-low-supply-state-openzeppelin-pods-finance-ethereum-volatility-vault-audit-2-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal totalassets;"
+fn_name_regex: ".*(BaseVault|totalAssets).*"
+write_var_regex: ".*(totalAssets).*"
+guard_var_regex: ".*(totalAssets).*"
+vuln_fn_name: "BaseVault"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "totalassets = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

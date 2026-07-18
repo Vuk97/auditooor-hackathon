@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "all-swaps-will-revert-if-the-dynamic-protocol-fee-is-enabled-sin"
+class_name: "AllSwapsWillRevertIfTheDynamicProtocolFeeIsEnabledSin"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63011 (Cyfrin/Sorella L2 Angstrom)"
+help: |
+    All swaps will revert if the dynamic protocol fee is enabled since `hook-config.sol` does not encode the `afterSwapReturnDelta` permission
+wiki_title: |
+    All swaps will revert if the dynamic protocol fee is enabled since `hook-config.sol` does not encode the `afterSwapReturnDelta` permission
+wiki_description: |
+    **Description:** If `AngstromL2::setPoolHookSwapFee` is called by the owner to configure the dynamic hook protocol fee to a non-zero value then the Uniswap V4 delta accounting will result in a revert with `CurrencyNotSettled()`.
+    
+    This happens because the non-zero fee delta will be accounted to the h
+wiki_exploit_scenario: |
+    Per Solodit #63011: **Description:** If `AngstromL2::setPoolHookSwapFee` is called by the owner to configure the dynamic hook protocol fee to a non-zero value then the Uniswap V4 delta accounting will result in a revert
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AllSwapsWillRevertIfTheDynamicProtocolFeeIsEnabledSin"
+solodit_id: "63011"
+solodit_slug: |
+    all-swaps-will-revert-if-the-dynamic-protocol-fee-is-enabled-since-hook-configsol-does-not-encode-the-afterswapreturndelta-permission-cyfrin-none-sorella-l2-angstrom-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal afterswap;"
+fn_name_regex: ".*(CurrencyNotSettled|afterSwapReturnDelta|afterSwap).*"
+write_var_regex: ".*(afterSwap|afterSwapReturnDelta).*"
+guard_var_regex: ".*(afterSwap|afterSwapReturnDelta).*"
+vuln_fn_name: "CurrencyNotSettled"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "afterswap = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

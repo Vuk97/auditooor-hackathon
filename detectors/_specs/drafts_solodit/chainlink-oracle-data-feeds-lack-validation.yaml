@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "chainlink-oracle-data-feeds-lack-validation"
+class_name: "ChainlinkOracleDataFeedsLackValidation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19394 (SigmaPrime/Gearbox)"
+help: "Chainlink Oracle Data Feeds Lack Validation"
+wiki_title: "Chainlink Oracle Data Feeds Lack Validation"
+wiki_description: |
+    ## Description
+    
+    Chainink oracle data feeds lack validation to ensure that the data is fresh and from a complete round. Oracle malfunctions may lead to large scale liquidation events or alternatively it may put the protocol at risk of insolvency.
+    
+    ## Recommendations
+    Validate the output of Chainl
+wiki_exploit_scenario: |
+    Per Solodit #19394: ## Description
+    
+    Chainink oracle data feeds lack validation to ensure that the data is fresh and from a complete round. Oracle malfunctions may lead to large scale liquidation events or alternatively
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainlinkOracleDataFeedsLackValidation"
+solodit_id: "19394"
+solodit_slug: "chainlink-oracle-data-feeds-lack-validation-sigmaprime-none-gearbox-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(latestRoundData).*"
+primary_var_regex: ".*(latestRoundData).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

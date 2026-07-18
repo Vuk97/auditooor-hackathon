@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "h-27-lack-of-a-return-value-handing-in-arbitrumbranchbridgeagent"
+class_name: "H27LackOfAReturnValueHandingInArbitrumbranchbridgeagent"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26061 (Code4rena/Maia DAO Ecosystem)"
+help: |
+    [H-27] Lack of a return value handing in `ArbitrumBranchBridgeAgent._performCall()` could cause users' deposit to be locked in contract
+wiki_title: |
+    [H-27] Lack of a return value handing in `ArbitrumBranchBridgeAgent._performCall()` could cause users' deposit to be locked in contract
+wiki_description: |
+    In `ArbitrumBranchBridgeAgent`, the `_performCall()` is overridden to directly call `RootBridgeAgent.anyExecute()` instead of performing an ``AnyCall`` cross-chain transaction, as `RootBridgeAgent` is also in Arbitrum. However, unlike ``AnyCall``, `ArbitrumBranchBridgeAgent._performCall()` is missi
+wiki_exploit_scenario: |
+    Per Solodit #26061: In `ArbitrumBranchBridgeAgent`, the `_performCall()` is overridden to directly call `RootBridgeAgent.anyExecute()` instead of performing an ``AnyCall`` cross-chain transaction, as `RootBridgeAgent` i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H27LackOfAReturnValueHandingInArbitrumbranchbridgeagent"
+solodit_id: "26061"
+solodit_slug: |
+    h-27-lack-of-a-return-value-handing-in-arbitrumbranchbridgeagent_performcall-could-cause-users-deposit-to-be-locked-in-contract-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal anyexecute;"
+fn_name_regex: ".*(ArbitrumBranchBridgeAgent|AnyCall|RootBridgeAgent|anyExecute).*"
+read_var_regex: ".*(anyExecute).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ArbitrumBranchBridgeAgent"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return anyexecute > 0;"

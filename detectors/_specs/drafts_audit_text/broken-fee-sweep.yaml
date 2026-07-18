@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "broken-fee-sweep"
+class_name: "BrokenFeeSweep"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Maia DAO Ulysses Protocol May 2023 - Zellic Audit Report"
+help: |
+    Whenever execution gas is paid in _payExecutionGas(...))), a fee is taken and stored in the global accumulatedFees. To withdraw these fees, the function sweep() is called by the de
+wiki_title: "Broken fee sweep"
+wiki_description: |
+    Whenever execution gas is paid in _payExecutionGas(...))), a fee is taken and stored in the global accumulatedFees. To withdraw these fees, the function sweep() is called by the designated daoAddress, and the fees are then supposed to be reset afterwards. function sweep() external { if (msg.sender !
+wiki_exploit_scenario: |
+    Per audit finding: Whenever execution gas is paid in _payExecutionGas(...))), a fee is taken and stored in the global accumulatedFees. To withdraw these fees, the function sweep() is called by the designated daoAddress,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BrokenFeeSweep"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(accumulatedFees|daoAddress|safeTransferETH).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "accumulatedFees"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,58 @@
+skeleton: "state_write_without_paired_write"
+name: "makepayment-doesn-t-properly-update-stack-so-most-payments-don-t"
+class_name: "MakepaymentDoesnTProperlyUpdateStackSoMostPaymentsDonT"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7292 (Spearbit/Astaria)"
+help: "makePayment doesn't properly update stack, so most payments don't pay off debt"
+wiki_title: "makePayment doesn't properly update stack, so most payments don't pay off debt"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    LienToken.sol#615-635
+    
+    ## Description
+    As we loop through individual payments in `_makePayment`, each is called with:
+    
+    ```solidity
+    (newStack, spent) = _payment(
+        s,
+        stack,
+        uint8(i),
+        totalCapitalAvailable,
+        address(msg.sender)
+    );
+    ```
+    
+    This call retu
+wiki_exploit_scenario: |
+    Per Solodit #7292: ## Severity: High Risk
+    
+    ## Context
+    LienToken.sol#615-635
+    
+    ## Description
+    As we loop through individual payments in `_makePayment`, each is called with:
+    
+    ```solidity
+    (newStack, spent) = _payment(
+        s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MakepaymentDoesnTProperlyUpdateStackSoMostPaymentsDonT"
+solodit_id: "7292"
+solodit_slug: "makepayment-doesnt-properly-update-stack-so-most-payments-dont-pay-off-debt-spearbit-astaria-pdf"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(newStack|stack|elementRemoved).*"
+primary_var_regex: ".*(elementRemoved|newStack|stack).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

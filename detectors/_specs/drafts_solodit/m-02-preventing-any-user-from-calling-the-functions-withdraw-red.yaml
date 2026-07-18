@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-02-preventing-any-user-from-calling-the-functions-withdraw-red"
+class_name: "M02PreventingAnyUserFromCallingTheFunctionsWithdrawRed"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6039 (Code4rena/Redacted Cartel)"
+help: |
+    [M-02] Preventing any user from calling the functions `withdraw`, `redeem`, or `depositGmx` in contract `AutoPxGmx`
+wiki_title: |
+    [M-02] Preventing any user from calling the functions `withdraw`, `redeem`, or `depositGmx` in contract `AutoPxGmx`
+wiki_description: |
+    It is possible that an attacker can prevent any user from calling the functions `withdraw`, `redeem`, or `depositGmx` in contract `AutoPxGmx` by just manipulating the balance of token `gmxBaseReward`, so that during the function `compound` the swap will be reverted.
+    
+    ### Proof of Concept
+    
+    Whenever
+wiki_exploit_scenario: |
+    Per Solodit #6039: It is possible that an attacker can prevent any user from calling the functions `withdraw`, `redeem`, or `depositGmx` in contract `AutoPxGmx` by just manipulating the balance of token `gmxBaseReward`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02PreventingAnyUserFromCallingTheFunctionsWithdrawRed"
+solodit_id: "6039"
+solodit_slug: |
+    m-02-preventing-any-user-from-calling-the-functions-withdraw-redeem-or-depositgmx-in-contract-autopxgmx-code4rena-redacted-cartel-redacted-cartel-contest-git
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: "Swap, MinOut/MaxIn Validation"
+state_decl: "uint256 internal compound;"
+fn_name_regex: ".*(withdraw|redeem|depositGmx|AutoPxGmx).*"
+read_var_regex: ".*(compound|depositGmx|exactInputSingle).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return compound > 0;"

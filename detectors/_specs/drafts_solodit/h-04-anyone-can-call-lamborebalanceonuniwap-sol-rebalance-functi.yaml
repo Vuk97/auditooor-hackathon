@@ -1,0 +1,37 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-04-anyone-can-call-lamborebalanceonuniwap-sol-rebalance-functi"
+class_name: "H04AnyoneCanCallLamborebalanceonuniwapSolRebalanceFuncti"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49611 (Code4rena/Lambo.win)"
+help: |
+    [H-04] Anyone can call `LamboRebalanceOnUniwap.sol::rebalance()` function with any arbitrary value, leading to rebalancing goal i.e. (1:1 peg) unsuccessful.
+wiki_title: |
+    [H-04] Anyone can call `LamboRebalanceOnUniwap.sol::rebalance()` function with any arbitrary value, leading to rebalancing goal i.e. (1:1 peg) unsuccessful.
+wiki_description: |
+    Anyone can call `LamboRebalanceOnUniwap.sol::rebalance()` function with any arbitrary value, leading to rebalancing goal i.e. (1:1 peg) unsuccessful.
+    
+    The parameters required in `rebalance()` function will are, `uint256 directionMask`, `uint256 amountIn`, `uint256 amountOut`. The typical value sho
+wiki_exploit_scenario: |
+    Per Solodit #49611: Anyone can call `LamboRebalanceOnUniwap.sol::rebalance()` function with any arbitrary value, leading to rebalancing goal i.e. (1:1 peg) unsuccessful.
+    
+    The parameters required in `rebalance()` functi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04AnyoneCanCallLamborebalanceonuniwapSolRebalanceFuncti"
+solodit_id: "49611"
+solodit_slug: |
+    h-04-anyone-can-call-lamborebalanceonuniwapsolrebalance-function-with-any-arbitrary-value-leading-to-rebalancing-goal-ie-11-peg-unsuccessful-code4rena-lambowin-lambowin-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(rebalance|previewRebalance|directionMask).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "bridging-from-starknet-to-starknet-causes-mismatch-between-m-x"
+class_name: "BridgingFromStarknetToStarknetCausesMismatchBetweenMX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-08-chakra"
+help: |
+    fyamf Impact It is possible to bridge assets from Starknet to Starknet by setting to_chain and to_handler to be the same as from_chain and from_handler . This violates the core rul
+wiki_title: |
+    Bridging from Starknet to Starknet causes mismatch between minted ckrBTC and BTC transferred to MuSig2
+wiki_description: |
+    fyamf Impact It is possible to bridge assets from Starknet to Starknet by setting to_chain and to_handler to be the same as from_chain and from_handler . This violates the core rule of the protocol, which is “The contract maintains a consistent state between locking/burning tokens on the source chai
+wiki_exploit_scenario: |
+    Per audit finding: fyamf Impact It is possible to bridge assets from Starknet to Starknet by setting to_chain and to_handler to be the same as from_chain and from_handler . This violates the core rule of the protocol, w
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BridgingFromStarknetToStarknetCausesMismatchBetweenMX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(ckrBTC).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "ckrBTC"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

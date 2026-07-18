@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_call"
+name: "unsafe-type-cast-for-strategy-allocated-in-harvest"
+class_name: "UnsafeTypeCastForStrategyAllocatedInHarvest"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41979 (Spearbit/Euler Earn)"
+help: "Unsafe type cast for strategy.allocated in harvest"
+wiki_title: "Unsafe type cast for strategy.allocated in harvest"
+wiki_description: |
+    ## Risk Assessment Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `EulerEarnVault.sol#L649`
+    
+    ## Description
+    In `_harvestStrategy`, the `strategy.allocated` is updated to the new strategy's total value:
+    
+    ```solidity
+    uint256 eulerEarnShares = IERC4626(_strategy).balanceOf(address(this));
+    uint256 eule
+wiki_exploit_scenario: |
+    Per Solodit #41979: ## Risk Assessment Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `EulerEarnVault.sol#L649`
+    
+    ## Description
+    In `_harvestStrategy`, the `strategy.allocated` is updated to the new strategy's total valu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnsafeTypeCastForStrategyAllocatedInHarvest"
+solodit_id: "41979"
+solodit_slug: "unsafe-type-cast-for-strategyallocated-in-harvest-spearbit-none-euler-earn-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal eulerearnassets;"
+fn_name_regex: ".*(eulerEarnAssets|totalAllocated).*"
+read_var_regex: ".*(eulerEarnAssets|totalAllocated).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "eulerEarnAssets"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return eulerearnassets > 0;"

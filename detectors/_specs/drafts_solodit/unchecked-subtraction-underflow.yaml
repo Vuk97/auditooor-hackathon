@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "unchecked-subtraction-underflow"
+class_name: "UncheckedSubtractionUnderflow"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #10311 (OpenZeppelin/zkSync – L1 Diff Audit (February 2023))"
+help: "Unchecked subtraction underflow"
+wiki_title: "Unchecked subtraction underflow"
+wiki_description: |
+    L2 gas validation performs [an unchecked subtraction](https://github.com/matter-labs/zksync-2-contracts/blob/3f345ce52bc378c4b5d710c80d817db170775049/ethereum/contracts/zksync/facets/Mailbox.sol#L543), and a neighboring comment states that the underflow prevention is enforced by the implementation o
+wiki_exploit_scenario: |
+    Per Solodit #10311: L2 gas validation performs [an unchecked subtraction](https://github.com/matter-labs/zksync-2-contracts/blob/3f345ce52bc378c4b5d710c80d817db170775049/ethereum/contracts/zksync/facets/Mailbox.sol#L543)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UncheckedSubtractionUnderflow"
+solodit_id: "10311"
+solodit_slug: "unchecked-subtraction-underflow-openzeppelin-zksync-l1-diff-audit-february-2023-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal l2gasfortxbody;"
+fn_name_regex: ".*(BOOTLOADER_TX_ENCODING_SPACE|l2GasForTxBody|unchecked).*"
+write_var_regex: ".*(l2GasForTxBody|unchecked).*"
+guard_var_regex: ".*(l2GasForTxBody|unchecked).*"
+vuln_fn_name: "BOOTLOADER_TX_ENCODING_SPACE"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "l2gasfortxbody = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

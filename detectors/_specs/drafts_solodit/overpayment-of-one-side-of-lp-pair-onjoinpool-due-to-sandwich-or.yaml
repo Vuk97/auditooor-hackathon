@@ -1,0 +1,55 @@
+skeleton: "paired_function_divergence"
+name: "overpayment-of-one-side-of-lp-pair-onjoinpool-due-to-sandwich-or"
+class_name: "OverpaymentOfOneSideOfLpPairOnjoinpoolDueToSandwichOr"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7113 (Spearbit/Cron Finance)"
+help: "Overpayment of one side of LP Pair onJoinPool due to sandwich or user error"
+wiki_title: "Overpayment of one side of LP Pair onJoinPool due to sandwich or user error"
+wiki_description: |
+    ## Vulnerability Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    `CronV1Pool.sol#L2048-L2051`
+    
+    ## Description
+    Only one of the two incoming tokens is used to determine the amount of pool tokens minted (`amountLP`) on join:
+    
+    ```solidity
+    amountLP = Math.min(
+        _token0InU112.mul(supplyLP).divDown(_token
+wiki_exploit_scenario: |
+    Per Solodit #7113: ## Vulnerability Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    `CronV1Pool.sol#L2048-L2051`
+    
+    ## Description
+    Only one of the two incoming tokens is used to determine the amount of pool tokens minted (`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OverpaymentOfOneSideOfLpPairOnjoinpoolDueToSandwichOr"
+solodit_id: "7113"
+solodit_slug: |
+    overpayment-of-one-side-of-lp-pair-onjoinpool-due-to-sandwich-or-user-error-spearbit-cron-finance-pdf
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Slippage"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(amountLP).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

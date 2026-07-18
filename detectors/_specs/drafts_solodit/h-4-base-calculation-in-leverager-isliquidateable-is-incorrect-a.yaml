@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "h-4-base-calculation-in-leverager-isliquidateable-is-incorrect-a"
+class_name: "H4BaseCalculationInLeveragerIsliquidateableIsIncorrectA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #55035 (Sherlock/Yieldoor)"
+help: |
+    H-4: Base calculation in `Leverager::isLiquidateable()` is incorrect as the max leverage may be smaller
+wiki_title: |
+    H-4: Base calculation in `Leverager::isLiquidateable()` is incorrect as the max leverage may be smaller
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-02-yieldoor-judging/issues/158 
+    
+    ## Found by 
+    0x73696d616f, future2\_22, iamnmt
+    
+    ### Summary
+    
+    Base calculation in `Leverager::isLiquidateable()` is:
+    `uint256 base = owedAmount * 1e18 / (vp.maxTimesLeverage - 1e18);`.
+    However, the max leverage may not ac
+wiki_exploit_scenario: |
+    Per Solodit #55035: Source: https://github.com/sherlock-audit/2025-02-yieldoor-judging/issues/158 
+    
+    ## Found by 
+    0x73696d616f, future2\_22, iamnmt
+    
+    ### Summary
+    
+    Base calculation in `Leverager::isLiquidateable()` is:
+    `uin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H4BaseCalculationInLeveragerIsliquidateableIsIncorrectA"
+solodit_id: "55035"
+solodit_slug: |
+    h-4-base-calculation-in-leveragerisliquidateable-is-incorrect-as-the-max-leverage-may-be-smaller-sherlock-yieldoor-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Liquidation"
+state_decl: "uint256 internal maxlevtimes;"
+fn_name_regex: ".*(maxLevTimes|Leverager).*"
+read_var_regex: ".*(maxLevTimes).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "maxLevTimes"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return maxlevtimes > 0;"

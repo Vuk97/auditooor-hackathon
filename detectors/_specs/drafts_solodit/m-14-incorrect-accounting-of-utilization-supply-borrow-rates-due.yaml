@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-14-incorrect-accounting-of-utilization-supply-borrow-rates-due"
+class_name: "M14IncorrectAccountingOfUtilizationSupplyBorrowRatesDue"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36896 (Code4rena/BendDAO)"
+help: |
+    [M-14] Incorrect accounting of utilization, supply/borrow rates due to vulnerable implementation in `IsolateLogic::executeIsolateLiquidate`
+wiki_title: |
+    [M-14] Incorrect accounting of utilization, supply/borrow rates due to vulnerable implementation in `IsolateLogic::executeIsolateLiquidate`
+wiki_description: |
+    When an isolate loan (borrow against a single nft token) is auctioned and liquidated, the liquidator (caller of `IsolateLogic::executeIsolateLiquidate`) may need to repay extra amount of debt (`vars.totalExtraAmount`) if the bid amount doesn't fully cover total debt (`vars.totalBorrowAmount`).
+    
+    The
+wiki_exploit_scenario: |
+    Per Solodit #36896: When an isolate loan (borrow against a single nft token) is auctioned and liquidated, the liquidator (caller of `IsolateLogic::executeIsolateLiquidate`) may need to repay extra amount of debt (`vars.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14IncorrectAccountingOfUtilizationSupplyBorrowRatesDue"
+solodit_id: "36896"
+solodit_slug: |
+    m-14-incorrect-accounting-of-utilization-supplyborrow-rates-due-to-vulnerable-implementation-in-isolatelogicexecuteisolateliquidate-code4rena-benddao-benddao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidityadded;"
+fn_name_regex: ".*(liquidityAdded|liquidityTaken|liquidtyAdded).*"
+read_var_regex: ".*(liquidityAdded|liquidityTaken|liquidtyAdded).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidityAdded"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return liquidityadded > 0;"

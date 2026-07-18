@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-calldata-validation-in-buynow-results-in-stolen-nft"
+class_name: "MissingCalldataValidationInBuynowResultsInStolenNft"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Voyage - Zellic Audit Report"
+help: |
+    The _data calldata parameter passed to buyNow(...))) requires a consistency check against the _tokenId parameter. The _tokenId passed is recorded in LibAppStorage.ds().nftIndex[par
+wiki_title: "Missing calldata validation in buyNow results in stolen NFT"
+wiki_description: |
+    The _data calldata parameter passed to buyNow(...))) requires a consistency check against the _tokenId parameter. The _tokenId passed is recorded in LibAppStorage.ds().nftIndex[param.collection][ param.tokenId ] = composeNFTInfo(param); where nftInfo.isCollateral is set to true by composeNFTInfo(...
+wiki_exploit_scenario: |
+    Per audit finding: The _data calldata parameter passed to buyNow(...))) requires a consistency check against the _tokenId parameter. The _tokenId passed is recorded in LibAppStorage.ds().nftIndex[param.collection][ para
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingCalldataValidationInBuynowResultsInStolenNft"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(buyNow|nftIndex|tokenId).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "buyNow"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

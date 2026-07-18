@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "incorrect-invariant-factor-calculation-may-lead-to-a-loss-of-acc"
+class_name: "IncorrectInvariantFactorCalculationMayLeadToALossOfAcc"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51006 (Halborn/Core, Strategies and Periphery)"
+help: "INCORRECT INVARIANT FACTOR CALCULATION MAY LEAD TO A LOSS OF ACCRUED FUNDS"
+wiki_title: "INCORRECT INVARIANT FACTOR CALCULATION MAY LEAD TO A LOSS OF ACCRUED FUNDS"
+wiki_description: |
+    ##### Description
+    
+    The invariant factor formula makes use of the number of decimals of the first token in token pair. The result of this calculation is further used in multiple places across the contracts. For example, when you borrow liquidity from a GammaSwap pool, the protocol calculates that fac
+wiki_exploit_scenario: |
+    Per Solodit #51006: ##### Description
+    
+    The invariant factor formula makes use of the number of decimals of the first token in token pair. The result of this calculation is further used in multiple places across the contr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectInvariantFactorCalculationMayLeadToALossOfAcc"
+solodit_id: "51006"
+solodit_slug: |
+    incorrect-invariant-factor-calculation-may-lead-to-a-loss-of-accrued-funds-halborn-gammaswap-labs-core-strategies-and-periphery-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(lastFeeIndex).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

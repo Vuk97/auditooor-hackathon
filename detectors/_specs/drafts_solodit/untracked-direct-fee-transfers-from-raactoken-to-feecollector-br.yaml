@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "untracked-direct-fee-transfers-from-raactoken-to-feecollector-br"
+class_name: "UntrackedDirectFeeTransfersFromRaactokenToFeecollectorBr"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57223 (Codehawks/Core Contracts)"
+help: "Untracked Direct Fee Transfers from RAACToken to FeeCollector Break Fee Distribution System"
+wiki_title: "Untracked Direct Fee Transfers from RAACToken to FeeCollector Break Fee Distribution System"
+wiki_description: |
+    ## Summary
+    
+    The RAACToken contract sends tax fees directly to the FeeCollector through `transfer()`, bypassing the FeeCollector's accounting system. This causes a mismatch between actual token balances and tracked fees, breaking the fee distribution mechanism as the FeeCollector's internal accountin
+wiki_exploit_scenario: |
+    Per Solodit #57223: ## Summary
+    
+    The RAACToken contract sends tax fees directly to the FeeCollector through `transfer()`, bypassing the FeeCollector's accounting system. This causes a mismatch between actual token balance
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UntrackedDirectFeeTransfersFromRaactokenToFeecollectorBr"
+solodit_id: "57223"
+solodit_slug: |
+    untracked-direct-fee-transfers-from-raactoken-to-feecollector-break-fee-distribution-system-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal burn;"
+fn_name_regex: ".*(transfer|burn).*"
+read_var_regex: ".*(burn|transfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return burn > 0;"

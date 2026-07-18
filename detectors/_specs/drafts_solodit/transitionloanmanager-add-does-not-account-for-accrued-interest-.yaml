@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "transitionloanmanager-add-does-not-account-for-accrued-interest-"
+class_name: "TransitionloanmanagerAddDoesNotAccountForAccruedInterest"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6951 (Spearbit/Maple Finance)"
+help: "TransitionLoanManager.add does not account for accrued interest since last call"
+wiki_title: "TransitionLoanManager.add does not account for accrued interest since last call"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    `pool-v2::TransitionLoanManager.sol#L74`
+    
+    ## Description
+    The `TransitionLoanManager.add` advances the domain start but the accrued interest since the last domain start is not accounted for. It therefore wrongly tracks the `_accountedInterest` variable. If `add` i
+wiki_exploit_scenario: |
+    Per Solodit #6951: ## Severity: Medium Risk
+    
+    ## Context
+    `pool-v2::TransitionLoanManager.sol#L74`
+    
+    ## Description
+    The `TransitionLoanManager.add` advances the domain start but the accrued interest since the last domain s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TransitionloanmanagerAddDoesNotAccountForAccruedInterest"
+solodit_id: "6951"
+solodit_slug: |
+    transitionloanmanageradd-does-not-account-for-accrued-interest-since-last-call-spearbit-maple-finance-pdf
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(add|TransitionLoanManager).*"
+primary_var_regex: ".*(add).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

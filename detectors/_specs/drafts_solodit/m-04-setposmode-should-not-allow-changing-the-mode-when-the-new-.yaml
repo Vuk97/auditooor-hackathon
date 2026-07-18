@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "m-04-setposmode-should-not-allow-changing-the-mode-when-the-new-"
+class_name: "M04SetposmodeShouldNotAllowChangingTheModeWhenTheNew"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29595 (Code4rena/INIT Capital)"
+help: |
+    [M-04] `setPosMode` should not allow changing the mode when the new mode's `canRepay` status is disabled
+wiki_title: |
+    [M-04] `setPosMode` should not allow changing the mode when the new mode's `canRepay` status is disabled
+wiki_description: |
+    In the scenario where the mode's `canRepay` status is set to false, positions using that mode cannot be repaid and liquidated. However, users are allowed to change their position's mode to one where the `canRepay` status is currently set to false. This could be exploited when a position owner obser
+wiki_exploit_scenario: |
+    Per Solodit #29595: In the scenario where the mode's `canRepay` status is set to false, positions using that mode cannot be repaid and liquidated. However, users are allowed to change their position's mode to one where
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04SetposmodeShouldNotAllowChangingTheModeWhenTheNew"
+solodit_id: "29595"
+solodit_slug: |
+    m-04-setposmode-should-not-allow-changing-the-mode-when-the-new-modes-canrepay-status-is-disabled-code4rena-init-capital-init-capital-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal canrepay;"
+fn_name_regex: ".*(canRepay|setPosMode).*"
+write_var_regex: ".*(canRepay|setPosMode).*"
+guard_var_regex: ".*(canRepay|setPosMode).*"
+vuln_fn_name: "canRepay"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "canrepay = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

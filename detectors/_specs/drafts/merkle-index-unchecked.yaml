@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "merkle-index-unchecked"
+class_name: "MerkleIndexUnchecked"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_aa"
+help: |
+    Missing bit-size check on `historicalSummaryIndex` in Merkle tree traversal allows index to overflow and redirect proof path to arbitrary beacon state fields.
+wiki_title: "merkle-index-unchecked"
+wiki_description: |
+    Missing bit-size check on `historicalSummaryIndex` in Merkle tree traversal allows index to overflow and redirect proof path to arbitrary beacon state fields.
+wiki_exploit_scenario: |
+    Attacker exploits merkle-index-unchecked as described: Missing bit-size check on `historicalSummaryIndex` in Merkle tree traversal allows index to overflow and redirect proof path to arbitrary beacon state fields.
+wiki_recommendation: |
+    IR scan for Merkle index comparison pattern — check that every user-supplied index `idx` has a `require(idx < 2**TREE_HEIGHT)` guard.
+contract_name: "MerkleIndexUnchecked"
+state_decl: "mapping(address => uint256) internal balances;"
+fn_name_regex: ".*(historicalSummaryIndex|idx|require).*"
+write_var_regex: ".*(historicalSummaryIndex|idx).*"
+guard_var_regex: ".*(historicalSummaryIndex|idx).*"
+vuln_fn_name: "setParam"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balances[msg.sender] = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

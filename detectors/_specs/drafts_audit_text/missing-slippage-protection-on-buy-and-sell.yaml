@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "missing-slippage-protection-on-buy-and-sell"
+class_name: "MissingSlippageProtectionOnBuyAndSell"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-04-virtuals-protocol"
+help: |
+    EPSec , also found by 0x1982us 0x60scs 0xbc000 0xterrah adam-idarrha b1n4ry bareli BlackAdam BowTiedOriole bytesguard chupinexx classic-k CoheeYang Damola0x danzero Ejineroz Eniwea
+wiki_title: "Missing slippage protection on buy and sell"
+wiki_description: |
+    EPSec , also found by 0x1982us 0x60scs 0xbc000 0xterrah adam-idarrha b1n4ry bareli BlackAdam BowTiedOriole bytesguard chupinexx classic-k CoheeYang Damola0x danzero Ejineroz Eniwealth gregom harsh123 jamshed Jeremias Kweks mihailvichev ngo NHristov PolarizedLight PotEater pro_king Rorschach Severity
+wiki_exploit_scenario: |
+    Per audit finding: EPSec , also found by 0x1982us 0x60scs 0xbc000 0xterrah adam-idarrha b1n4ry bareli BlackAdam BowTiedOriole bytesguard chupinexx classic-k CoheeYang Damola0x danzero Ejineroz Eniwealth gregom harsh123
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingSlippageProtectionOnBuyAndSell"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "h-2-unassigned-pool-earnings-can-be-stolen-when-a-maturity-borro"
+class_name: "H2UnassignedPoolEarningsCanBeStolenWhenAMaturityBorro"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #33153 (Sherlock/Exactly Protocol)"
+help: |
+    H-2: Unassigned pool earnings can be stolen when a maturity borrow is liquidated by depositing at maturity with 1 principal
+wiki_title: |
+    H-2: Unassigned pool earnings can be stolen when a maturity borrow is liquidated by depositing at maturity with 1 principal
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-04-interest-rate-model-judging/issues/114 
+    
+    ## Found by 
+    00xSEV, 0x73696d616f, Trumpero, ether\_sky
+    ## Summary
+    
+    When a borrowed maturity is liquidated, `canDiscount` in `Market::noTransferRepayAtMaturity()` is `false`, which ignores the unassigned earni
+wiki_exploit_scenario: |
+    Per Solodit #33153: Source: https://github.com/sherlock-audit/2024-04-interest-rate-model-judging/issues/114 
+    
+    ## Found by 
+    00xSEV, 0x73696d616f, Trumpero, ether\_sky
+    ## Summary
+    
+    When a borrowed maturity is liquidated, `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H2UnassignedPoolEarningsCanBeStolenWhenAMaturityBorro"
+solodit_id: "33153"
+solodit_slug: |
+    h-2-unassigned-pool-earnings-can-be-stolen-when-a-maturity-borrow-is-liquidated-by-depositing-at-maturity-with-1-principal-sherlock-exactly-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal actualrepayassets;"
+fn_name_regex: ".*(canDiscount|earningsAccumulator|actualRepayAssets|floatingAssets).*"
+read_var_regex: ".*(actualRepayAssets|canDiscount|earningsAccumulator).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "canDiscount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return actualrepayassets > 0;"

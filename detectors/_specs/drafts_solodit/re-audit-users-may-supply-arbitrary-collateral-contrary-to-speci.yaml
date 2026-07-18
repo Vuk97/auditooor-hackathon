@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "re-audit-users-may-supply-arbitrary-collateral-contrary-to-speci"
+class_name: "ReAuditUsersMaySupplyArbitraryCollateralContraryToSpeci"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #60939 (Quantstamp/Archi Finance)"
+help: "(Re-Audit) Users May Supply Arbitrary Collateral Contrary to Specification"
+wiki_title: "(Re-Audit) Users May Supply Arbitrary Collateral Contrary to Specification"
+wiki_description: |
+    **Update**
+    The team fixed the issue by adding the following validation check in `openLendCredit()`:
+    
+    ```
+    require(vaultManagers[_token] != address(0), "CreditCaller: The collateral asset must be one of the borrow tokens");
+    ```
+    
+    **File(s) affected:**`CreditCaller.sol`
+    
+    **Description:** A comment in th
+wiki_exploit_scenario: |
+    Per Solodit #60939: **Update**
+    The team fixed the issue by adding the following validation check in `openLendCredit()`:
+    
+    ```
+    require(vaultManagers[_token] != address(0), "CreditCaller: The collateral asset must be one of
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReAuditUsersMaySupplyArbitraryCollateralContraryToSpeci"
+solodit_id: "60939"
+solodit_slug: |
+    re-audit-users-may-supply-arbitrary-collateral-contrary-to-specification-quantstamp-archi-finance-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calcborrowamount;"
+fn_name_regex: ".*(openLendCredit|CreditCaller|calcBorrowAmount).*"
+read_var_regex: ".*(calcBorrowAmount|openLendCredit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "openLendCredit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calcborrowamount > 0;"

@@ -1,0 +1,19 @@
+id: oracle-cache-ignores-per-asset-freshness
+title: "Cached oracle prices ignore per-asset freshness limits"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44831"
+bug_class: oracle-cascade
+indicators:
+  - "cache read accepts by global cache TTL ignoring `asset.max_staleness`"
+  - "no comparison between `env.ledger().timestamp() - cached.last_update` and per-asset config threshold"
+victim: "Borrowers/suppliers: stale prices in excess of per-asset limits drive undercollateralized borrows."
+exploit_precondition: "Per-asset staleness limit is tighter than cache TTL; attacker warms cache and transacts after price drift."
+real_world_example: |
+  V12 #44831 (High): Cached oracle prices in `PriceOracleContract` served without checking per-asset `max_staleness`.
+suggested_remediation: "On every cache read, enforce `cached_age <= asset_config.max_staleness` and re-fetch if exceeded."
+cross_refs:
+  - oracle-cache-not-invalidated-on-config-change

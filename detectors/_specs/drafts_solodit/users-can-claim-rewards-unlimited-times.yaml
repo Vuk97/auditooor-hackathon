@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "users-can-claim-rewards-unlimited-times"
+class_name: "UsersCanClaimRewardsUnlimitedTimes"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #52623 (Halborn/NodeOps Smart Contracts)"
+help: "Users can claim rewards unlimited times"
+wiki_title: "Users can claim rewards unlimited times"
+wiki_description: |
+    ##### Description
+    
+    In the `StakingContract.sol` contract, users can stake the `NODE.sol` ERC20 token via the `stake()` function, and then based on emissions, inflation rates, total stakes and epochs passed can claim rewards. However, a malicious user can claim rewards as many times as he wants, sinc
+wiki_exploit_scenario: |
+    Per Solodit #52623: ##### Description
+    
+    In the `StakingContract.sol` contract, users can stake the `NODE.sol` ERC20 token via the `stake()` function, and then based on emissions, inflation rates, total stakes and epochs p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanClaimRewardsUnlimitedTimes"
+solodit_id: "52623"
+solodit_slug: "users-can-claim-rewards-unlimited-times-halborn-nodeops-nodeops-smart-contracts-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal baseinflationrate;"
+fn_name_regex: ".*(stake|claimRewards|epochId|releaseEpoch).*"
+write_var_regex: ".*(baseInflationRate|claimRewards|currentSupply).*"
+guard_var_regex: ".*(baseInflationRate|claimRewards|currentSupply).*"
+vuln_fn_name: "stake"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "baseinflationrate = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

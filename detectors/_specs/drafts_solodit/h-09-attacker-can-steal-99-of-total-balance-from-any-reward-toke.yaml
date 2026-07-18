@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "h-09-attacker-can-steal-99-of-total-balance-from-any-reward-toke"
+class_name: "H09AttackerCanSteal99OfTotalBalanceFromAnyRewardToke"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #21994 (Code4rena/Popcorn)"
+help: "[H-09] Attacker can steal 99% of total balance from any reward token in any Staking contract"
+wiki_title: "[H-09] Attacker can steal 99% of total balance from any reward token in any Staking contract"
+wiki_description: |
+    <https://github.com/code-423n4/2023-01-popcorn/blob/main/src/vault/VaultController.sol#L108-L110>
+    
+    <https://github.com/code-423n4/2023-01-popcorn/blob/main/src/vault/VaultController.sol#L483-L503> 
+    
+    <https://github.com/code-423n4/2023-01-popcorn/blob/main/src/utils/MultiRewardStaking.sol#L296-L315>
+wiki_exploit_scenario: |
+    Per Solodit #21994: <https://github.com/code-423n4/2023-01-popcorn/blob/main/src/vault/VaultController.sol#L108-L110>
+    
+    <https://github.com/code-423n4/2023-01-popcorn/blob/main/src/vault/VaultController.sol#L483-L503>
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H09AttackerCanSteal99OfTotalBalanceFromAnyRewardToke"
+solodit_id: "21994"
+solodit_slug: |
+    h-09-attacker-can-steal-99-of-total-balance-from-any-reward-token-in-any-staking-contract-code4rena-popcorn-popcorn-contest-git
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Deposit/Reward tokens, Business Logic, Access Control"
+state_decl: "uint256 internal changerewardspeed;"
+fn_name_regex: ".*(changeRewardSpeed|rewardSpeed|changeStakingRewardSpeeds|rewardsPerSecond).*"
+write_var_regex: ".*(changeRewardSpeed|changeStakingRewardSpeeds|rewardSpeed).*"
+guard_var_regex: ".*(changeRewardSpeed|changeStakingRewardSpeeds|rewardSpeed).*"
+vuln_fn_name: "changeRewardSpeed"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "changerewardspeed = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "liquidations-are-enabled-when-repayments-are-disabled-causing-bo"
+class_name: "LiquidationsAreEnabledWhenRepaymentsAreDisabledCausingBo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57203 (Codehawks/Core Contracts)"
+help: |
+    Liquidations are enabled when repayments are disabled, causing borrowers to lose funds without a chance to repay
+wiki_title: |
+    Liquidations are enabled when repayments are disabled, causing borrowers to lose funds without a chance to repay
+wiki_description: |
+    ## Summary
+    
+    Debt repaying can be temporary disabled by the owner of the `LendingPool` contract, however finalizing liquidations are not disabled during this period. As a result, users' positions can accumulate more borrow interest, go above the liquidation threshold, and be liquidated, while users a
+wiki_exploit_scenario: |
+    Per Solodit #57203: ## Summary
+    
+    Debt repaying can be temporary disabled by the owner of the `LendingPool` contract, however finalizing liquidations are not disabled during this period. As a result, users' positions can a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LiquidationsAreEnabledWhenRepaymentsAreDisabledCausingBo"
+solodit_id: "57203"
+solodit_slug: |
+    liquidations-are-enabled-when-repayments-are-disabled-causing-borrowers-to-lose-funds-without-a-chance-to-repay-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal finalizeliquidation;"
+fn_name_regex: ".*(LendingPool|StabilityPool|finalizeLiquidation|whenNotPaused).*"
+read_var_regex: ".*(finalizeLiquidation|whenNotPaused).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LendingPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return finalizeliquidation > 0;"

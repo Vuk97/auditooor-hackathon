@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "users-can-double-withdraw-their-excess-eth"
+class_name: "UsersCanDoubleWithdrawTheirExcessEth"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #40749 (Cantina/Coinbase)"
+help: "Users can double withdraw their excess ETH"
+wiki_title: "Users can double withdraw their excess ETH "
+wiki_description: |
+    ## MagicSpend Contract Analysis
+    
+    ## Context
+    MagicSpend.sol#L74-L91
+    
+    ## Description
+    When the MagicSpend contract is used as an ERC-4337 compatible paymaster, the user's `withdrawRequest` is used to cover the `UserOp`'s gas fees, and any excess withdrawn ETH is recorded in the `_gasMaxCostExcess` mapp
+wiki_exploit_scenario: |
+    Per Solodit #40749: ## MagicSpend Contract Analysis
+    
+    ## Context
+    MagicSpend.sol#L74-L91
+    
+    ## Description
+    When the MagicSpend contract is used as an ERC-4337 compatible paymaster, the user's `withdrawRequest` is used to cov
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanDoubleWithdrawTheirExcessEth"
+solodit_id: "40749"
+solodit_slug: "users-can-double-withdraw-their-excess-eth-cantina-none-coinbase-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal postop;"
+fn_name_regex: ".*(withdrawRequest|UserOp|withdrawGasExcess|postOp).*"
+read_var_regex: ".*(postOp|withdrawGasExcess|withdrawRequest).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdrawRequest"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return postop > 0;"

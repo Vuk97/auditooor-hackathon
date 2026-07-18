@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "broken-authorization"
+class_name: "BrokenAuthorization"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49431 (MixBytes/Liquorice)"
+help: "Broken authorization"
+wiki_title: "Broken authorization"
+wiki_description: |
+    ##### Description
+    Some functions lack authorization checks for critical actions.
+    
+    **LendingPool Functions:**
+    * `supplyFor()`: Anyone can call this function with arbitrary arguments for `depositor` and `receiver`, enabling the transfer of approved limits from any user to any other user.
+    * `repayFor()
+wiki_exploit_scenario: |
+    Per Solodit #49431: ##### Description
+    Some functions lack authorization checks for critical actions.
+    
+    **LendingPool Functions:**
+    * `supplyFor()`: Anyone can call this function with arbitrary arguments for `depositor` and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BrokenAuthorization"
+solodit_id: "49431"
+solodit_slug: "broken-authorization-mixbytes-none-liquorice-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrowfor;"
+fn_name_regex: ".*(supplyFor|depositor|receiver|repayFor).*"
+read_var_regex: ".*(borrowFor|borrower|depositor).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "supplyFor"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borrowfor > 0;"

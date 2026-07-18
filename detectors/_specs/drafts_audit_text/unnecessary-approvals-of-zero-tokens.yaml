@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "unnecessary-approvals-of-zero-tokens"
+class_name: "UnnecessaryApprovalsOfZeroTokens"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Solera - Zellic Audit Report (March)"
+help: |
+    In multiple places, the contracts first approve zero amount of a token and then approve the intended amount: IERC20(params.borrowToken).approve(address(swapRouter), 0); IERC20(para
+wiki_title: "Unnecessary approvals of zero tokens"
+wiki_description: |
+    In multiple places, the contracts first approve zero amount of a token and then approve the intended amount: IERC20(params.borrowToken).approve(address(swapRouter), 0); IERC20(params.borrowToken).approve(address(swapRouter), borrowAmount); This is unnecessary, as the second approval would overwrite
+wiki_exploit_scenario: |
+    Per audit finding: In multiple places, the contracts first approve zero amount of a token and then approve the intended amount: IERC20(params.borrowToken).approve(address(swapRouter), 0); IERC20(params.borrowToken).appr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnnecessaryApprovalsOfZeroTokens"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(borrowToken|swapRouter|borrowAmount).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "borrowToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

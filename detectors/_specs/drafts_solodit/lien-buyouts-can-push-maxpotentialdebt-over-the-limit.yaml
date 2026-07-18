@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "lien-buyouts-can-push-maxpotentialdebt-over-the-limit"
+class_name: "LienBuyoutsCanPushMaxpotentialdebtOverTheLimit"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7319 (Spearbit/Astaria)"
+help: "Lien buyouts can push maxPotentialDebt over the limit"
+wiki_title: "Lien buyouts can push maxPotentialDebt over the limit"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    LienToken.sol#L143-148
+    
+    ## Description
+    When a lien is bought out, `_buyoutLien` calls `_getMaxPotentialDebtForCollateral` to confirm that this number is lower than the `maxPotentialDebt` specified in the lien. However, this function is called with the existing st
+wiki_exploit_scenario: |
+    Per Solodit #7319: ## Severity: Medium Risk
+    
+    ## Context
+    LienToken.sol#L143-148
+    
+    ## Description
+    When a lien is bought out, `_buyoutLien` calls `_getMaxPotentialDebtForCollateral` to confirm that this number is lower than
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LienBuyoutsCanPushMaxpotentialdebtOverTheLimit"
+solodit_id: "7319"
+solodit_slug: "lien-buyouts-can-push-maxpotentialdebt-over-the-limit-spearbit-astaria-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(maxPotentialDebt).*"
+primary_var_regex: ".*(maxPotentialDebt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

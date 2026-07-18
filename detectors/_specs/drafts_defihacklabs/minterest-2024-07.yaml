@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "minterest-2024-07"
+class_name: "Minterest202407"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-07/Minterest_exp.sol"
+help: "Minterest 2024-07 — flashloan exploit (unknown)"
+wiki_title: "Minterest (2024-07) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-07): Minterest lost unknown. Bug class: flashloan. Attack tx: unknown.
+wiki_exploit_scenario: |
+    Attacker (0x618f768af6291705eb13e0b2e96600b3851911d1) exploits Minterest via flashloan: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Minterest202407"
+trigger_sig_regex: ".*(onFlashLoan).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function onFlashLoan(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.onFlashLoan(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

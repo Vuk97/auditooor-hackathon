@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "a-malicious-dao-pool-can-create-a-token-sale-tier-without-actual"
+class_name: "AMaliciousDaoPoolCanCreateATokenSaleTierWithoutActual"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27298 (Cyfrin/Dexe)"
+help: "A malicious DAO Pool can create a token sale tier without actually transferring any DAO tokens"
+wiki_title: "A malicious DAO Pool can create a token sale tier without actually transferring any DAO tokens"
+wiki_description: |
+    **Description:** `TokenSaleProposalCreate::createTier` is called by a DAO Pool owner to create a new token sale tier. A fundamental prerequisite for creating a tier is that the DAO Pool owner must transfer the `totalTokenProvided` amount of DAO tokens to the `TokenSaleProposal`.
+    
+    Current implementat
+wiki_exploit_scenario: |
+    Per Solodit #27298: **Description:** `TokenSaleProposalCreate::createTier` is called by a DAO Pool owner to create a new token sale tier. A fundamental prerequisite for creating a tier is that the DAO Pool owner must tra
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AMaliciousDaoPoolCanCreateATokenSaleTierWithoutActual"
+solodit_id: "27298"
+solodit_slug: |
+    a-malicious-dao-pool-can-create-a-token-sale-tier-without-actually-transferring-any-dao-tokens-cyfrin-none-cyfrin-dexe-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal dev;"
+fn_name_regex: ".*(totalTokenProvided|TokenSaleProposal|dev|status).*"
+write_var_regex: ".*(dev|status|totalTokenProvided).*"
+guard_var_regex: ".*(dev|status|totalTokenProvided).*"
+vuln_fn_name: "totalTokenProvided"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "dev = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

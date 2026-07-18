@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "while-changing-vote-delegator-from-himself-to-another-user-deleg"
+class_name: "WhileChangingVoteDelegatorFromHimselfToAnotherUserDeleg"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33585 (Cyfrin/Templedao)"
+help: |
+    While changing vote delegator from himself to another user, `_delegateBalances` should not be decreased
+wiki_title: |
+    While changing vote delegator from himself to another user, `_delegateBalances` should not be decreased
+wiki_description: |
+    **Description:** In `setUserVoteDelegate` function, when a user set vote delegator to himeself, his `_delegateBalances` value doesn't contain his `userBalance` from L149.
+    When he changes vote delegator from himself to another user, it subtracts `userBalance` from `_delegateBalances` from L145. But i
+wiki_exploit_scenario: |
+    Per Solodit #33585: **Description:** In `setUserVoteDelegate` function, when a user set vote delegator to himeself, his `_delegateBalances` value doesn't contain his `userBalance` from L149.
+    When he changes vote delegato
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WhileChangingVoteDelegatorFromHimselfToAnotherUserDeleg"
+solodit_id: "33585"
+solodit_slug: |
+    while-changing-vote-delegator-from-himself-to-another-user-_delegatebalances-should-not-be-decreased-cyfrin-none-cyfrin-templedao-v21-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal setuservotedelegate;"
+fn_name_regex: ".*(setUserVoteDelegate|userBalance).*"
+read_var_regex: ".*(setUserVoteDelegate|userBalance).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setUserVoteDelegate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return setuservotedelegate > 0;"

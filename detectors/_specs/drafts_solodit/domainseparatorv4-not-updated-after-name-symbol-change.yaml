@@ -1,0 +1,51 @@
+skeleton: "state_write_without_paired_write"
+name: "domainseparatorv4-not-updated-after-name-symbol-change"
+class_name: "Domainseparatorv4NotUpdatedAfterNameSymbolChange"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7144 (Spearbit/Connext)"
+help: "_domainSeparatorV4() not updated after name /symbol change"
+wiki_title: "_domainSeparatorV4() not updated after name /symbol change"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - `BridgeToken.sol#L58-L63`
+    - `OZERC20.sol#L382-L388`
+    - `OZERC20.sol#L348-L369`
+    - `draft-EIP712.sol`
+    - `EIP712.sol#L69-L75`
+    - `EIP712.sol#L100-L102`
+    
+    ## Description
+    The `BridgeToken` allows updating the name and symbol of a token. However, the `_CACHED_DOMAIN_SEP
+wiki_exploit_scenario: |
+    Per Solodit #7144: ## Severity: Medium Risk
+    
+    ## Context
+    - `BridgeToken.sol#L58-L63`
+    - `OZERC20.sol#L382-L388`
+    - `OZERC20.sol#L348-L369`
+    - `draft-EIP712.sol`
+    - `EIP712.sol#L69-L75`
+    - `EIP712.sol#L100-L102`
+    
+    ## Descriptio
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Domainseparatorv4NotUpdatedAfterNameSymbolChange"
+solodit_id: "7144"
+solodit_slug: "domainseparatorv4-not-updated-after-name-symbol-change-spearbit-connext-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(BridgeToken|permit|DOMAIN_SEPARATOR).*"
+primary_var_regex: ".*(permit).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-3-validateandgetprice-doesn-t-check-if-arbitrum-sequencer-is-d"
+class_name: "M3ValidateandgetpriceDoesnTCheckIfArbitrumSequencerIsD"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6689 (Sherlock/Bond Protocol Update)"
+help: "M-3: _validateAndGetPrice() doesn't check If Arbitrum sequencer is down in Chainlink feeds"
+wiki_title: "M-3: _validateAndGetPrice() doesn't check If Arbitrum sequencer is down in Chainlink feeds"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-02-bond-judging/issues/1 
+    
+    ## Found by 
+    Avci
+    
+    ## Summary
+    When utilizing Chainlink in L2 chains like Arbitrum, it's important to ensure that the prices provided are not falsely perceived as fresh, even when the sequencer is down. This vulnerability could
+wiki_exploit_scenario: |
+    Per Solodit #6689: Source: https://github.com/sherlock-audit/2023-02-bond-judging/issues/1 
+    
+    ## Found by 
+    Avci
+    
+    ## Summary
+    When utilizing Chainlink in L2 chains like Arbitrum, it's important to ensure that the prices pr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M3ValidateandgetpriceDoesnTCheckIfArbitrumSequencerIsD"
+solodit_id: "6689"
+solodit_slug: |
+    m-3-_validateandgetprice-doesnt-check-if-arbitrum-sequencer-is-down-in-chainlink-feeds-sherlock-bond-protocol-update-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "L2 Sequencer, Chainlink, Oracle"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(roundId|priceInt|updatedAt|answeredInRound).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

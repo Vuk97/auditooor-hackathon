@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "votekickpolicy-endvote-might-revert-forever-due-to-underflow"
+class_name: "VotekickpolicyEndvoteMightRevertForeverDueToUnderflow"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27149 (Cyfrin/Streamr)"
+help: "`VoteKickPolicy._endVote()` might revert forever due to underflow"
+wiki_title: "`VoteKickPolicy._endVote()` might revert forever due to underflow"
+wiki_description: |
+    **Severity:** High
+    
+    **Description:** In `onFlag()`, `targetStakeAtRiskWei[target]` might be less than the total rewards for the flagger/reviewers due to rounding.
+    
+    ```solidity
+    File: contracts\OperatorTokenomics\StreamrConfig.sol
+    22:     /**
+    23:      * Minimum amount to pay reviewers+flagger
+    24:
+wiki_exploit_scenario: |
+    Per Solodit #27149: **Severity:** High
+    
+    **Description:** In `onFlag()`, `targetStakeAtRiskWei[target]` might be less than the total rewards for the flagger/reviewers due to rounding.
+    
+    ```solidity
+    File: contracts\Operator
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VotekickpolicyEndvoteMightRevertForeverDueToUnderflow"
+solodit_id: "27149"
+solodit_slug: "votekickpolicy_endvote-might-revert-forever-due-to-underflow-cyfrin-none-cyfrin-streamr-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Overflow/Underflow, Rounding"
+state_decl: "uint256 internal minimumstakewei;"
+fn_name_regex: ".*(onFlag|minimumStakeWei|VoteKickPolicy).*"
+read_var_regex: ".*(minimumStakeWei|onFlag).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "onFlag"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return minimumstakewei > 0;"

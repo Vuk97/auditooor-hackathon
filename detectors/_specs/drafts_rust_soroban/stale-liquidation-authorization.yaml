@@ -1,0 +1,19 @@
+id: stale-liquidation-authorization
+title: "Stale liquidation authorization allows liquidating a now-healthy position"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44455"
+bug_class: liquidation
+indicators:
+  - "authorization created at `prepare` time and executable within a TTL window even after health factor recovers"
+  - "no `hf_check` on `execute_liquidation`"
+victim: "Borrowers who recovered health between prepare and execute."
+exploit_precondition: "HF recovers within TTL window."
+real_world_example: |
+  V12 #44455 (Low): Stale liquidation authorization allows liquidating healthy positions.
+suggested_remediation: "Recheck HF at execute."
+cross_refs:
+  - two-step-liquidation-stale-auth

@@ -1,0 +1,45 @@
+skeleton: "state_write_without_paired_write"
+name: "users-can-collect-interest-from-savingscontract-by-only-staking-"
+class_name: "UsersCanCollectInterestFromSavingscontractByOnlyStaking"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #13628 (ConsenSys/mStable 1.1)"
+help: "Users can collect interest from SavingsContract by only staking mTokens momentarily ✓ Addressed"
+wiki_title: "Users can collect interest from SavingsContract by only staking mTokens momentarily ✓ Addressed"
+wiki_description: |
+    #### Resolution
+    
+    
+    
+    The blocker on collecting interest more than once in 30 minute period. A new APY bounds check has been added to verify that supply isn’t inflated by more than 0.1% within a 30 minutes window.
+    
+    
+    #### Description
+    
+    
+    The SAVE contract allows users to deposit mAssets in return for lend
+wiki_exploit_scenario: |
+    Per Solodit #13628: #### Resolution
+    
+    
+    
+    The blocker on collecting interest more than once in 30 minute period. A new APY bounds check has been added to verify that supply isn’t inflated by more than 0.1% within a 30 minut
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanCollectInterestFromSavingscontractByOnlyStaking"
+solodit_id: "13628"
+solodit_slug: |
+    users-can-collect-interest-from-savingscontract-by-only-staking-mtokens-momentarily-addressed-consensys-mstable-11-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(mAssets|mAsset|timeSinceLastCollection|previousCollection).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

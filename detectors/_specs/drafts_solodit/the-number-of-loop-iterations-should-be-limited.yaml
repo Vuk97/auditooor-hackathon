@@ -1,0 +1,34 @@
+skeleton: "paired_function_divergence"
+name: "the-number-of-loop-iterations-should-be-limited"
+class_name: "TheNumberOfLoopIterationsShouldBeLimited"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28670 (MixBytes/Yearn Finance)"
+help: "The number of loop iterations should be limited"
+wiki_title: "The number of loop iterations should be limited"
+wiki_description: |
+    ##### Description
+    In https://github.com/iearn-finance/yoracle.link/blob/faf1309cbe7a05f70b338351315039eb8e5b9c09/contracts/Keep3rV1Oracle.sol there are internal arrays `_pairs` for addresses and an `observations` map for structures `Observation[]`. The number of elements of these arrays in the logic
+wiki_exploit_scenario: |
+    Per Solodit #28670: ##### Description
+    In https://github.com/iearn-finance/yoracle.link/blob/faf1309cbe7a05f70b338351315039eb8e5b9c09/contracts/Keep3rV1Oracle.sol there are internal arrays `_pairs` for addresses and an `o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheNumberOfLoopIterationsShouldBeLimited"
+solodit_id: "28670"
+solodit_slug: "the-number-of-loop-iterations-should-be-limited-mixbytes-none-yearn-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(observations).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

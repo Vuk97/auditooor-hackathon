@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-05-user-may-get-all-of-the-creator-fees-by-specifying-high-num"
+class_name: "M05UserMayGetAllOfTheCreatorFeesBySpecifyingHighNum"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3168 (Code4rena/Foundation)"
+help: "[M-05] User may get all of the creator fees by specifying high number for himself"
+wiki_title: "[M-05] User may get all of the creator fees by specifying high number for himself"
+wiki_description: |
+    _Submitted by Lambda, also found by 0x52, KIntern&#95;NA, and shenwilly_
+    
+    If one creator specified a share that is larger than `BASIS_POINTS`, the first creator gets all of the royalties. Depending on how these are set (which is not in the control of the project), this can be exploited by the first
+wiki_exploit_scenario: |
+    Per Solodit #3168: _Submitted by Lambda, also found by 0x52, KIntern&#95;NA, and shenwilly_
+    
+    If one creator specified a share that is larger than `BASIS_POINTS`, the first creator gets all of the royalties. Depending on
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05UserMayGetAllOfTheCreatorFeesBySpecifyingHighNum"
+solodit_id: "3168"
+solodit_slug: |
+    m-05-user-may-get-all-of-the-creator-fees-by-specifying-high-number-for-himself-code4rena-foundation-foundation-drop-contest-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal getroyalties;"
+fn_name_regex: ".*(BASIS_POINTS|getRoyalties|totalShares|PercentSplitETH).*"
+write_var_regex: ".*(getRoyalties|totalShares).*"
+guard_var_regex: ".*(getRoyalties|totalShares).*"
+vuln_fn_name: "BASIS_POINTS"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "getroyalties = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

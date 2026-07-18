@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "m-02-lack-of-minimum-feerate-check-may-allow-orders-to-be-fullfi"
+class_name: "M02LackOfMinimumFeerateCheckMayAllowOrdersToBeFullfi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57708 (Kann/FactcheckDotFun)"
+help: "[M-02] Lack of Minimum feeRate check may allow orders to be fullfilled without paying any fees"
+wiki_title: "[M-02] Lack of Minimum feeRate check may allow orders to be fullfilled without paying any fees"
+wiki_description: |
+    ## Severity
+    
+    Medium
+    
+    ## Description
+    
+    The settleMatchedOrders function allows the backend to settle matched orders that
+    were created and matched off-chain. While the contract enforces an upper bound for feeRate, it does
+    not enforce a minimum feerate.
+    This omission allows orders with extremely low fee
+wiki_exploit_scenario: |
+    Per Solodit #57708: ## Severity
+    
+    Medium
+    
+    ## Description
+    
+    The settleMatchedOrders function allows the backend to settle matched orders that
+    were created and matched off-chain. While the contract enforces an upper bound fo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02LackOfMinimumFeerateCheckMayAllowOrdersToBeFullfi"
+solodit_id: "57708"
+solodit_slug: |
+    m-02-lack-of-minimum-feerate-check-may-allow-orders-to-be-fullfilled-without-paying-any-fees-kann-none-factcheckdotfun-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(settleMatchedOrders|feeRate|minFeeRate).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "settleMatchedOrders"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

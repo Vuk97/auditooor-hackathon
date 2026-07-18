@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "borrowers-cannot-withdraw-excess-collateral-after-liquidation-or"
+class_name: "BorrowersCannotWithdrawExcessCollateralAfterLiquidationOr"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26296 (SigmaPrime/Term Finance)"
+help: "Borrowers cannot withdraw excess collateral after liquidation or default"
+wiki_title: "Borrowers cannot withdraw excess collateral after liquidation or default"
+wiki_description: |
+    ## Description
+    
+    Borrowers are unable to withdraw excess collateral after they are entirely liquidated or defaulted. The excess collateral will be locked within the `TermRepoLocker` contract.
+    
+    This issue stems from the check in `externalUnlockCollateral()` on line [282]:
+    
+    ```solidity
+    281 address borr
+wiki_exploit_scenario: |
+    Per Solodit #26296: ## Description
+    
+    Borrowers are unable to withdraw excess collateral after they are entirely liquidated or defaulted. The excess collateral will be locked within the `TermRepoLocker` contract.
+    
+    This iss
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BorrowersCannotWithdrawExcessCollateralAfterLiquidationOr"
+solodit_id: "26296"
+solodit_slug: |
+    borrowers-cannot-withdraw-excess-collateral-after-liquidation-or-default-sigmaprime-none-term-finance-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal externalunlockcollateral;"
+fn_name_regex: ".*(TermRepoLocker|externalUnlockCollateral).*"
+read_var_regex: ".*(externalUnlockCollateral).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "TermRepoLocker"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return externalunlockcollateral > 0;"

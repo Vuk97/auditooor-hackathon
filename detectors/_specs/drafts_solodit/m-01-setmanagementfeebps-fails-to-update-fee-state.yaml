@@ -1,0 +1,47 @@
+skeleton: "state_write_without_paired_write"
+name: "m-01-setmanagementfeebps-fails-to-update-fee-state"
+class_name: "M01SetmanagementfeebpsFailsToUpdateFeeState"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61459 (Pashov Audit Group/Blueberry_2025-03-12)"
+help: "[M-01] `setManagementFeeBps()` fails to update fee state"
+wiki_title: "[M-01] `setManagementFeeBps()` fails to update fee state"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium  
+    
+    **Likelihood:** Medium  
+    
+    ## Description
+    
+    The `setManagementFeeBps()` function in the `HyperEvmVault` contract allows the owner to update the management fee rate. However, it does not update the fee state (e.g., `lastFeeCollectionTimestamp`) when the fee rate is c
+wiki_exploit_scenario: |
+    Per Solodit #61459: ## Severity
+    
+    **Impact:** Medium  
+    
+    **Likelihood:** Medium  
+    
+    ## Description
+    
+    The `setManagementFeeBps()` function in the `HyperEvmVault` contract allows the owner to update the management fee rate. H
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01SetmanagementfeebpsFailsToUpdateFeeState"
+solodit_id: "61459"
+solodit_slug: |
+    m-01-setmanagementfeebps-fails-to-update-fee-state-pashov-audit-group-none-blueberry_2025-03-12-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(setManagementFeeBps|HyperEvmVault|lastFeeCollectionTimestamp).*"
+primary_var_regex: ".*(lastFeeCollectionTimestamp|setManagementFeeBps).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

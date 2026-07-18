@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-11-liquidator-reward-is-not-taken-into-account-when-calculatin"
+class_name: "M11LiquidatorRewardIsNotTakenIntoAccountWhenCalculatin"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25827 (Code4rena/Astaria)"
+help: "[M-11] Liquidator reward is not taken into account when calculating potential debt"
+wiki_title: "[M-11] Liquidator reward is not taken into account when calculating potential debt"
+wiki_description: |
+    Liquidator reward is not taken into account when calculating potential debt. When liquidationInitialAsk is set to the bare minimum, liquidator reward will always come at the expense of vaults late on in the stack.
+    
+    ### Proof of Concept
+    
+    Consider the following test where the vault loses more than 3
+wiki_exploit_scenario: |
+    Per Solodit #25827: Liquidator reward is not taken into account when calculating potential debt. When liquidationInitialAsk is set to the bare minimum, liquidator reward will always come at the expense of vaults late on
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11LiquidatorRewardIsNotTakenIntoAccountWhenCalculatin"
+solodit_id: "25827"
+solodit_slug: |
+    m-11-liquidator-reward-is-not-taken-into-account-when-calculating-potential-debt-code4rena-astaria-astaria-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(liquidationInitialAsk|testProfitFromLiquidatorFee|tokenContract|tokenId).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidationInitialAsk"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

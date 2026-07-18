@@ -1,0 +1,23 @@
+skeleton: "name_match_missing_require"
+name: "public-state-modifying-functions-lacking-pause-protection"
+class_name: "PublicStateModifyingFunctionsLackingPauseProtection"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: public-state-modifying-functions-lacking-pause-pro"
+help: "Public State-Modifying Functions Lacking Pause Protection"
+wiki_title: "Public State-Modifying Functions Lacking Pause Protection"
+wiki_description: |
+    This query identifies public or external functions in contracts inheriting from `Pausable` that modify state variables but do not implement `whenNotPaused` or other access control modifiers. In many protocols, the pause mechanism is a critical safety feature used to halt activity during emergencies 
+wiki_exploit_scenario: |
+    Per Glider query tags [pausable, access-control, circuit-breaker, state-modification]: This query identifies public or external functions in contracts inheriting from `Pausable` that modify state variables but do not implement `whenNotPaused` or other access control modifiers. In many p
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "PublicStateModifyingFunctionsLackingPauseProtection"
+fn_name_regex: ".*(Pausable).*"
+write_var_regex: ".*(pausable).*"
+guard_var_regex: ".*(pausable).*"
+vuln_fn_name: "Pausable"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "pausable = newVal;"
+guard_require_line: "require(newVal <= 10000);"
+state_decl: "uint256 internal pausable;"

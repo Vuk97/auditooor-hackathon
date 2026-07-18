@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-10-delegated-nfts-that-are-withdrawn-while-still-delegated-wil"
+class_name: "M10DelegatedNftsThatAreWithdrawnWhileStillDelegatedWil"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #8747 (Code4rena/Golom)"
+help: "[M-10] Delegated NFTs that are withdrawn while still delegated will remain delegated even after burn"
+wiki_title: "[M-10] Delegated NFTs that are withdrawn while still delegated will remain delegated even after burn"
+wiki_description: |
+    [VoteEscrowCore.sol#L1226-L1236](https://github.com/code-423n4/2022-07-golom/blob/e5efa8f9d6dda92a90b8b2c4902320acf0c26816/contracts/vote-escrow/VoteEscrowCore.sol#L1226-L1236)<br>
+    
+    Burn NFTs remained delegated causing bloat and wasting gas.
+    
+    ### Proof of Concept
+    
+    VoteEscrowDelegation.sol doesn't c
+wiki_exploit_scenario: |
+    Per Solodit #8747: [VoteEscrowCore.sol#L1226-L1236](https://github.com/code-423n4/2022-07-golom/blob/e5efa8f9d6dda92a90b8b2c4902320acf0c26816/contracts/vote-escrow/VoteEscrowCore.sol#L1226-L1236)<br>
+    
+    Burn NFTs remaine
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10DelegatedNftsThatAreWithdrawnWhileStillDelegatedWil"
+solodit_id: "8747"
+solodit_slug: |
+    m-10-delegated-nfts-that-are-withdrawn-while-still-delegated-will-remain-delegated-even-after-burn-code4rena-golom-golom-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getVotes|getPriorVotes|removeDelegation|removeElement).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getVotes"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

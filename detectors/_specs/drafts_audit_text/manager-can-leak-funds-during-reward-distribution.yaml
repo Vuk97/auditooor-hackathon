@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "manager-can-leak-funds-during-reward-distribution"
+class_name: "ManagerCanLeakFundsDuringRewardDistribution"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Yeet October - Zellic Audit Report"
+help: |
+    The StakeV2 contract expects an onlyManager-approved account to execute the reward distribu- tion. If the Zapper contract has an approved Kodiak Vault that can be rounded down to z
+wiki_title: "Manager can leak funds during reward distribution"
+wiki_description: |
+    The StakeV2 contract expects an onlyManager-approved account to execute the reward distribu- tion. If the Zapper contract has an approved Kodiak Vault that can be rounded down to zero, it is possible for rewards to be lost to stakers in StakeV2 during distribution. The executeRewardDistribution() fu
+wiki_exploit_scenario: |
+    Per audit finding: The StakeV2 contract expects an onlyManager-approved account to execute the reward distribu- tion. If the Zapper contract has an approved Kodiak Vault that can be rounded down to zero, it is possible
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ManagerCanLeakFundsDuringRewardDistribution"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onlyManager|executeRewardDistribution|amountIslandTokens).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "onlyManager"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

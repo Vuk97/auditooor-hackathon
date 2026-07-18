@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-22-users-of-a-vault-can-steal-other-user-s-rewards-when-one-va"
+class_name: "M22UsersOfAVaultCanStealOtherUserSRewardsWhenOneVa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49059 (Code4rena/LoopFi)"
+help: |
+    [M-22] Users of a vault can steal other user's rewards when one vault's `lastRewardTime` differs from another vault's `lastRewardTime`
+wiki_title: |
+    [M-22] Users of a vault can steal other user's rewards when one vault's `lastRewardTime` differs from another vault's `lastRewardTime`
+wiki_description: |
+    In `ChefIncentivesController.sol`, the `_newRewards` function calculates the new rewards accumulated since the last update of that specific pool [Line 988-994](https://github.com/code-423n4/2024-07-loopfi/blob/57871f64bdea450c1f04c9a53dc1a78223719164/src/reward/ChefIncentivesController.sol#L988-L99
+wiki_exploit_scenario: |
+    Per Solodit #49059: In `ChefIncentivesController.sol`, the `_newRewards` function calculates the new rewards accumulated since the last update of that specific pool [Line 988-994](https://github.com/code-423n4/2024-07-l
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M22UsersOfAVaultCanStealOtherUserSRewardsWhenOneVa"
+solodit_id: "49059"
+solodit_slug: |
+    m-22-users-of-a-vault-can-steal-other-users-rewards-when-one-vaults-lastrewardtime-differs-from-another-vaults-lastrewardtime-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accountedrewards;"
+fn_name_regex: ".*(handleActionAfter|availableRewards|accountedRewards|lastRewardTime).*"
+read_var_regex: ".*(accountedRewards|availableRewards|handleActionAfter).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "handleActionAfter"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accountedrewards > 0;"

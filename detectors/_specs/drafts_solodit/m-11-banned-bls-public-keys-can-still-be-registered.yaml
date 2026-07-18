@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "m-11-banned-bls-public-keys-can-still-be-registered"
+class_name: "M11BannedBlsPublicKeysCanStillBeRegistered"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5919 (Code4rena/Stakehouse Protocol)"
+help: "[M-11] Banned BLS public keys can still be registered"
+wiki_title: "[M-11] Banned BLS public keys can still be registered"
+wiki_description: |
+    In `registerBLSPublicKeys`, it should be checked (according to the comment and error) if a BLS public key is part of the LSD network and not banned:
+    
+    ```solidity
+    // check if the BLS public key is part of LSD network and is not banned
+    require(isBLSPublicKeyPartOfLSDNetwork(_blsPublicKey) == false, "
+wiki_exploit_scenario: |
+    Per Solodit #5919: In `registerBLSPublicKeys`, it should be checked (according to the comment and error) if a BLS public key is part of the LSD network and not banned:
+    
+    ```solidity
+    // check if the BLS public key is par
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11BannedBlsPublicKeysCanStillBeRegistered"
+solodit_id: "5919"
+solodit_slug: |
+    m-11-banned-bls-public-keys-can-still-be-registered-code4rena-stakehouse-protocol-lsd-network-stakehouse-contest-git
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Validation"
+state_decl: "uint256 internal isblspublickeybanned;"
+fn_name_regex: ".*(registerBLSPublicKeys|isBLSPublicKeyPartOfLSDNetwork|isBLSPublicKeyBanned).*"
+write_var_regex: ".*(isBLSPublicKeyBanned|isBLSPublicKeyPartOfLSDNetwork|registerBLSPublicKeys).*"
+guard_var_regex: ".*(isBLSPublicKeyBanned|isBLSPublicKeyPartOfLSDNetwork|registerBLSPublicKeys).*"
+vuln_fn_name: "registerBLSPublicKeys"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "isblspublickeybanned = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

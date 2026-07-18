@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "unsafe-token-transfer"
+class_name: "UnsafeTokenTransfer"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #56006 (Zokyo/Argo)"
+help: "Unsafe token transfer"
+wiki_title: "Unsafe token transfer"
+wiki_description: |
+    **Description**
+    
+    In contract Staking.sol (argo-yieldfarming-staking-master) there are 4 occurrences of
+    token.transfer(..) or token.transferFrom(..). Although most tokens will revert (in case something
+    went wrong), some may simply return false.
+    
+    **Recommendation**:
+    
+    Add safeTransfer and safeTransferF
+wiki_exploit_scenario: |
+    Per Solodit #56006: **Description**
+    
+    In contract Staking.sol (argo-yieldfarming-staking-master) there are 4 occurrences of
+    token.transfer(..) or token.transferFrom(..). Although most tokens will revert (in case something
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnsafeTokenTransfer"
+solodit_id: "56006"
+solodit_slug: "unsafe-token-transfer-zokyo-none-argo-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferFrom|safeTransfer|safeTransferFrom).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

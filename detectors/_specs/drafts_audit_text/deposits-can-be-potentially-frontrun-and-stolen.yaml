@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "deposits-can-be-potentially-frontrun-and-stolen"
+class_name: "DepositsCanBePotentiallyFrontrunAndStolen"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit BrahmaFi - Zellic Audit Report"
+help: |
+    The shares minted in deposit() are calculated as a ratio of totalVaultFunds() and tot alSupply(). The totalVaultFunds() can be potentially inflated, reducing the amounts of shares
+wiki_title: "Deposits can be potentially frontrun and stolen"
+wiki_description: |
+    The shares minted in deposit() are calculated as a ratio of totalVaultFunds() and tot alSupply(). The totalVaultFunds() can be potentially inflated, reducing the amounts of shares minted (even 0). function deposit(uint256 amountIn, address receiver) ...)) shares = totalSupply() > 0 ? (totalSupply()
+wiki_exploit_scenario: |
+    Per audit finding: The shares minted in deposit() are calculated as a ratio of totalVaultFunds() and tot alSupply(). The totalVaultFunds() can be potentially inflated, reducing the amounts of shares minted (even 0). fun
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DepositsCanBePotentiallyFrontrunAndStolen"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalVaultFunds|alSupply|amountIn).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalVaultFunds"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

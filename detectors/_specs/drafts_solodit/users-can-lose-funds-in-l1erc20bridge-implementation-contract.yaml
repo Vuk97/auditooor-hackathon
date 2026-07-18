@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "users-can-lose-funds-in-l1erc20bridge-implementation-contract"
+class_name: "UsersCanLoseFundsInL1erc20bridgeImplementationContract"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #10321 (OpenZeppelin/zkSync Fee Model and Token Bridge Audit)"
+help: "Users Can Lose Funds in L1ERC20Bridge Implementation Contract"
+wiki_title: "Users Can Lose Funds in L1ERC20Bridge Implementation Contract"
+wiki_description: |
+    The `L1ERC20Bridge` is the implementation contract that is intended to be used with a proxy, so it is good practice to restrict how it can be invoked directly. When the contract is constructed, the `reentrancyGuardInitializer` modifier is executed and the immutable [`_mailbox` address is written](ht
+wiki_exploit_scenario: |
+    Per Solodit #10321: The `L1ERC20Bridge` is the implementation contract that is intended to be used with a proxy, so it is good practice to restrict how it can be invoked directly. When the contract is constructed, the `r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanLoseFundsInL1erc20bridgeImplementationContract"
+solodit_id: "10321"
+solodit_slug: |
+    users-can-lose-funds-in-l1erc20bridge-implementation-contract-openzeppelin-zksync-fee-model-and-token-bridge-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimfaileddeposit;"
+fn_name_regex: ".*(L1ERC20Bridge|reentrancyGuardInitializer|initialize|nonReentrant).*"
+read_var_regex: ".*(claimFailedDeposit|deposit|initialize).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "L1ERC20Bridge"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimfaileddeposit > 0;"

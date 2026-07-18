@@ -1,0 +1,36 @@
+skeleton: "paired_function_divergence"
+name: "h-09-dos-of-launchpad-graduation-via-addliquidity-with-1-wei-don"
+class_name: "H09DosOfLaunchpadGraduationViaAddliquidityWith1WeiDon"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #64857 (Code4rena/GTE)"
+help: "[H-09] DOS of Launchpad Graduation via `addLiquidity` with 1 Wei donation"
+wiki_title: "[H-09] DOS of Launchpad Graduation via `addLiquidity` with 1 Wei donation"
+wiki_description: |
+    `launchpad/Launchpad.sol` [# L500](https://github.com/code-423n4/2025-08-gte-perps/blob/f43e1eedb65e7e0327cfaf4d7608a37d85d2fae7/contracts/launchpad/Launchpad.sol# L500)
+    
+    An attacker can prevent Launchpad token graduation by front-running with a small donation to the target pair and calling `sync(
+wiki_exploit_scenario: |
+    Per Solodit #64857: `launchpad/Launchpad.sol` [# L500](https://github.com/code-423n4/2025-08-gte-perps/blob/f43e1eedb65e7e0327cfaf4d7608a37d85d2fae7/contracts/launchpad/Launchpad.sol# L500)
+    
+    An attacker can prevent Lau
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H09DosOfLaunchpadGraduationViaAddliquidityWith1WeiDon"
+solodit_id: "64857"
+solodit_slug: "h-09-dos-of-launchpad-graduation-via-addliquidity-with-1-wei-donation-code4rena-gte-gte-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity|quote|sync).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

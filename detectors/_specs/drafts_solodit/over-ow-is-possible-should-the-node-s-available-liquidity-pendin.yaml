@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "over-ow-is-possible-should-the-node-s-available-liquidity-pendin"
+class_name: "OverOwIsPossibleShouldTheNodeSAvailableLiquidityPendin"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54748 (Cantina/MetaStreet Labs)"
+help: |
+    Overﬂow is possible should the node 's available liquidity + pending interest exceed type(uint128).max
+wiki_title: |
+    Overﬂow is possible should the node 's available liquidity + pending interest exceed type(uint128).max 
+wiki_description: |
+    ## Context
+    - LiquidityManager.sol#L387-L390
+    - LiquidityManager.sol#L414
+    
+    ## Description
+    The subtraction and addition of a node's available liquidity when it's used and restored are wrapped in unchecked blocks. Because the restoration may include pending interest, it's possible for the addition to ov
+wiki_exploit_scenario: |
+    Per Solodit #54748: ## Context
+    - LiquidityManager.sol#L387-L390
+    - LiquidityManager.sol#L414
+    
+    ## Description
+    The subtraction and addition of a node's available liquidity when it's used and restored are wrapped in unchecke
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OverOwIsPossibleShouldTheNodeSAvailableLiquidityPendin"
+solodit_id: "54748"
+solodit_slug: |
+    overflow-is-possible-should-the-node-s-available-liquidity-pending-interest-exceed-typeuint128max-cantina-none-metastreet-labs-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(testERC20Factory|limit120Max|limit128Max|maxLiquidity).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "testERC20Factory"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

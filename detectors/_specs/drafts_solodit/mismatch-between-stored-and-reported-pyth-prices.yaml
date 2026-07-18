@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "mismatch-between-stored-and-reported-pyth-prices"
+class_name: "MismatchBetweenStoredAndReportedPythPrices"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #51982 (Halborn/v2.1)"
+help: "Mismatch between stored and reported Pyth prices"
+wiki_title: "Mismatch between stored and reported Pyth prices"
+wiki_description: |
+    ##### Description
+    
+    When the price of a given asset falls below `1`, Pyth oracle returns a positive `price` field **BUT** a negative `expo`. However, the contract `PythDataStreamProvider` retrieves such a value from the `dataStore`' s storage, being type-casted as an `uint256`. That makes the contrac
+wiki_exploit_scenario: |
+    Per Solodit #51982: ##### Description
+    
+    When the price of a given asset falls below `1`, Pyth oracle returns a positive `price` field **BUT** a negative `expo`. However, the contract `PythDataStreamProvider` retrieves suc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MismatchBetweenStoredAndReportedPythPrices"
+solodit_id: "51982"
+solodit_slug: "mismatch-between-stored-and-reported-pyth-prices-halborn-rfx-exchange-v21-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal datastore;"
+fn_name_regex: ".*(price|expo|PythDataStreamProvider|dataStore).*"
+read_var_regex: ".*(dataStore|expo|price).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "price"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return datastore > 0;"

@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-30-airdropbroker-when-block-timestamp-lastepochupdate-epoch-du"
+class_name: "M30AirdropbrokerWhenBlockTimestampLastepochupdateEpochDu"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32353 (Code4rena/Tapioca DAO)"
+help: |
+    [M-30] `AirdropBroker`: When `block.timestamp == lastEpochUpdate + EPOCH_DURATION`, users can exercise options in the new epoch.
+wiki_title: |
+    [M-30] `AirdropBroker`: When `block.timestamp == lastEpochUpdate + EPOCH_DURATION`, users can exercise options in the new epoch.
+wiki_description: |
+    In AirdropBroker, when a user receives an airdrop, it should only be able to exercise the options in the current epoch.
+    
+    ```solidity
+        function _participatePhase1() internal returns (uint256 oTAPTokenID) {
+            uint256 _eligibleAmount = phase1Users[msg.sender];
+            if (_eligibleAmount == 0
+wiki_exploit_scenario: |
+    Per Solodit #32353: In AirdropBroker, when a user receives an airdrop, it should only be able to exercise the options in the current epoch.
+    
+    ```solidity
+        function _participatePhase1() internal returns (uint256 oTAPTo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M30AirdropbrokerWhenBlockTimestampLastepochupdateEpochDu"
+solodit_id: "32353"
+solodit_slug: |
+    m-30-airdropbroker-when-blocktimestamp-lastepochupdate-epoch_duration-users-can-exercise-options-in-the-new-epoch-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal exerciseoption;"
+fn_name_regex: ".*(TAP|newEpoch|exerciseOption|AirdropBroker).*"
+read_var_regex: ".*(exerciseOption|newEpoch).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "TAP"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return exerciseoption > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-tmul-script-is-unable-to-handle-small-negative-results"
+class_name: "TheTmulScriptIsUnableToHandleSmallNegativeResults"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit BitVM - Zellic Audit Report"
+help: |
+    The fp_lc_mul macro in bitvm/src/bn254/fq.rs can be used to implement different variants of multiplication for the Fq field, via a function tmul. The inputs to tmul are valuesP xi
+wiki_title: "The tmul script is unable to handle small negative results"
+wiki_description: |
+    The fp_lc_mul macro in bitvm/src/bn254/fq.rs can be used to implement different variants of multiplication for the Fq field, via a function tmul. The inputs to tmul are valuesP xi and yi that are L−1 bigints representing elements of the field Fq, and tmul is intended to compute i=0 si · xi · yi with
+wiki_exploit_scenario: |
+    Per audit finding: The fp_lc_mul macro in bitvm/src/bn254/fq.rs can be used to implement different variants of multiplication for the Fq field, via a function tmul. The inputs to tmul are valuesP xi and yi that are L−1
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheTmulScriptIsUnableToHandleSmallNegativeResults"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(obtainPthe).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "obtainPthe"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

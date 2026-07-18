@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-token-comparison"
+class_name: "IncorrectTokenComparison"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit SoSoValue - Zellic Audit Report"
+help: |
+    Two tokens are compared with the isSameToken function, which calls the calcTokenHash function on the Token structure: function calcTokenHash(Token memory token) internal pure retur
+wiki_title: "Incorrect token comparison"
+wiki_description: |
+    Two tokens are compared with the isSameToken function, which calls the calcTokenHash function on the Token structure: function calcTokenHash(Token memory token) internal pure returns (bytes32) { return keccak256(abi.encodePacked(token.chain, token.symbol, token.addr, token.decimals)); } However, the
+wiki_exploit_scenario: |
+    Per audit finding: Two tokens are compared with the isSameToken function, which calls the calcTokenHash function on the Token structure: function calcTokenHash(Token memory token) internal pure returns (bytes32) { retur
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectTokenComparison"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(isSameToken|calcTokenHash|encodePacked).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "isSameToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

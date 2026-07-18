@@ -1,0 +1,46 @@
+skeleton: "paired_function_divergence"
+name: "users-depositing-to-a-pool-with-unrealized-losses-will-take-on-t"
+class_name: "UsersDepositingToAPoolWithUnrealizedLossesWillTakeOnT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6950 (Spearbit/Maple Finance)"
+help: "Users depositing to a pool with unrealized losses will take on the losses"
+wiki_title: "Users depositing to a pool with unrealized losses will take on the losses"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - `pool-v2::Pool.sol#L278`
+    - `pool-v2::Pool.sol#L275`
+    
+    ## Description
+    The pool share price used for deposits is always the `totalAssets() / totalSupply`. However, the pool share price when redeeming is `totalAssets() - unrealizedLosses() / totalSupply`. The `unre
+wiki_exploit_scenario: |
+    Per Solodit #6950: ## Severity: Medium Risk
+    
+    ## Context
+    - `pool-v2::Pool.sol#L278`
+    - `pool-v2::Pool.sol#L275`
+    
+    ## Description
+    The pool share price used for deposits is always the `totalAssets() / totalSupply`. However,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersDepositingToAPoolWithUnrealizedLossesWillTakeOnT"
+solodit_id: "6950"
+solodit_slug: "users-depositing-to-a-pool-with-unrealized-losses-will-take-on-the-losses-spearbit-maple-finance-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Vault, Front-Running, Business Logic"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(deposit|expectedMinimumShares|maxAssets_).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "registrars-can-overwrite-domain-name-details-of-other-registrars"
+class_name: "RegistrarsCanOverwriteDomainNameDetailsOfOtherRegistrars"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit d3-doma - Zellic Audit Report"
+help: |
+    There is missing validation logic in the nameTokenize() function that creates severe security implications beyond simple duplicate tokenization. This function does not verify wheth
+wiki_title: "Registrars can overwrite domain-name details of other registrars"
+wiki_description: |
+    There is missing validation logic in the nameTokenize() function that creates severe security implications beyond simple duplicate tokenization. This function does not verify whether a token already exists for the domain, allowing registrars to accidentally tokenize the same name multiple times. Thi
+wiki_exploit_scenario: |
+    Per audit finding: There is missing validation logic in the nameTokenize() function that creates severe security implications beyond simple duplicate tokenization. This function does not verify whether a token already e
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RegistrarsCanOverwriteDomainNameDetailsOfOtherRegistrars"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(nameTokenize|nameTokens|approveTokenization).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "nameTokenize"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

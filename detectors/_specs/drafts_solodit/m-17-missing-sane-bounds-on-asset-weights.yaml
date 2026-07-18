@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "m-17-missing-sane-bounds-on-asset-weights"
+class_name: "M17MissingSaneBoundsOnAssetWeights"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6138 (Code4rena/veToken Finance)"
+help: "[M-17] Missing sane bounds on asset weights"
+wiki_title: "[M-17] Missing sane bounds on asset weights"
+wiki_description: |
+    _Submitted by IllIllI_
+    
+    The admin may fat-finger a change, or be malicious, and have the weights be extreme - ranging from zero to `type(uint256).max`, which would cause the booster to pay out unexpected amounts
+    
+    ### Proof of Concept
+    
+    No bounds checks in the update function:
+    
+    ```
+    File: contracts/VeT
+wiki_exploit_scenario: |
+    Per Solodit #6138: _Submitted by IllIllI_
+    
+    The admin may fat-finger a change, or be malicious, and have the weights be extreme - ranging from zero to `type(uint256).max`, which would cause the booster to pay out unexpec
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M17MissingSaneBoundsOnAssetWeights"
+solodit_id: "6138"
+solodit_slug: "m-17-missing-sane-bounds-on-asset-weights-code4rena-vetoken-finance-vetoken-finance-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateveAssetWeight|veAssetOperator|newWeight|onlyOwner).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "updateveAssetWeight"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

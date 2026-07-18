@@ -1,0 +1,33 @@
+skeleton: "paired_function_divergence"
+name: "rewards-can-be-stolen-when-incentivizederc20-tokens-are-recursiv"
+class_name: "RewardsCanBeStolenWhenIncentivizederc20TokensAreRecursiv"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61562 (Cyfrin/Paladin Valkyrie)"
+help: "Rewards can be stolen when `IncentivizedERC20` tokens are recursively provided as liquidity"
+wiki_title: "Rewards can be stolen when `IncentivizedERC20` tokens are recursively provided as liquidity"
+wiki_description: |
+    **Description:** By virtue of the composable nature of DeFi, it is common to have wrapped liquidity tokens that encapsulate some form of yield or other tokenized incentives in a manner similar to Valkyrie. With the ubiquity of LRTs and other forms of re-hypothecation, such as that enabled by Bunni,
+wiki_exploit_scenario: |
+    Per Solodit #61562: **Description:** By virtue of the composable nature of DeFi, it is common to have wrapped liquidity tokens that encapsulate some form of yield or other tokenized incentives in a manner similar to Valk
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RewardsCanBeStolenWhenIncentivizederc20TokensAreRecursiv"
+solodit_id: "61562"
+solodit_slug: |
+    rewards-can-be-stolen-when-incentivizederc20-tokens-are-recursively-provided-as-liquidity-cyfrin-none-paladin-valkyrie-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(notifyTransfer).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

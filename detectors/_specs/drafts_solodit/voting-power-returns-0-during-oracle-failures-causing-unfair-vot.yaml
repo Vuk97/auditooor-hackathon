@@ -1,0 +1,33 @@
+skeleton: "state_write_without_paired_write"
+name: "voting-power-returns-0-during-oracle-failures-causing-unfair-vot"
+class_name: "VotingPowerReturns0DuringOracleFailuresCausingUnfairVot"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64335 (Cyfrin/Symbiotic)"
+help: "Voting power returns 0 during oracle failures causing unfair voting outcomes"
+wiki_title: "Voting power returns 0 during oracle failures causing unfair voting outcomes"
+wiki_description: |
+    **Description:** The `PricedTokensChainlinkVPCalc::stakeToVotingPowerAt` silently returns zero voting power when Chainlink oracles fail or return stale data. Operators lose all voting power without notification creating unintended voting outcomes.
+    
+    The core issue lies in the `ChainlinkPriceFeed.getP
+wiki_exploit_scenario: |
+    Per Solodit #64335: **Description:** The `PricedTokensChainlinkVPCalc::stakeToVotingPowerAt` silently returns zero voting power when Chainlink oracles fail or return stale data. Operators lose all voting power without no
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VotingPowerReturns0DuringOracleFailuresCausingUnfairVot"
+solodit_id: "64335"
+solodit_slug: |
+    voting-power-returns-0-during-oracle-failures-causing-unfair-voting-outcomes-cyfrin-none-symbiotic-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(stakeToVotingPowerAt|getPriceAt|stalenessDuration|roundData).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

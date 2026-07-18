@@ -1,0 +1,19 @@
+id: unchecked-arithmetic-hf-saturation
+title: "Unchecked arithmetic saturates health factor in selective account-data paths"
+severity: Info
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.38"
+bug_class: precision-loss
+indicators:
+  - "`collateral / debt` without checked ops in some HF branches"
+  - "saturation to u128::MAX when `debt == 0` — handled in one place but not another"
+victim: "Protocol: inconsistent HF semantics across paths."
+exploit_precondition: "Specific account data path with checked arithmetic missing."
+real_world_example: |
+  Halborn 7.38 (INFO): Unchecked arithmetic and HF saturation in selective account data path.
+suggested_remediation: "Use `checked_div` throughout; centralize HF computation."
+cross_refs:
+  - deeply-underwater-liquidation-panic

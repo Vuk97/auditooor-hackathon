@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "a-misbehaving-validator-can-influence-voting-outcomes-even-after"
+class_name: "AMisbehavingValidatorCanInfluenceVotingOutcomesEvenAfter"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27316 (Cyfrin/Dexe)"
+help: "A misbehaving validator can influence voting outcomes even after their voting power is reduced to 0"
+wiki_title: "A misbehaving validator can influence voting outcomes even after their voting power is reduced to 0"
+wiki_description: |
+    **Description:** Validators are trusted parties appointed by DAO as a second-level check to prevent malicious proposals from getting executed.
+    The current system is designed with the following constraints:
+    1. Executing `GovValidators::changeBalances` is the only way to assign or withdraw voting powe
+wiki_exploit_scenario: |
+    Per Solodit #27316: **Description:** Validators are trusted parties appointed by DAO as a second-level check to prevent malicious proposals from getting executed.
+    The current system is designed with the following constra
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AMisbehavingValidatorCanInfluenceVotingOutcomesEvenAfter"
+solodit_id: "27316"
+solodit_slug: |
+    a-misbehaving-validator-can-influence-voting-outcomes-even-after-their-voting-power-is-reduced-to-0-cyfrin-none-cyfrin-dexe-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cancelvote;"
+fn_name_regex: ".*(isValidator|vote|cancelVote|GovValidator).*"
+read_var_regex: ".*(cancelVote|isValidator|vote).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "isValidator"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cancelvote > 0;"

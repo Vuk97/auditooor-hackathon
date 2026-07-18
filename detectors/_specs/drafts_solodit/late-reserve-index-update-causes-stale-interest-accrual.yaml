@@ -1,0 +1,39 @@
+skeleton: "state_write_without_paired_write"
+name: "late-reserve-index-update-causes-stale-interest-accrual"
+class_name: "LateReserveIndexUpdateCausesStaleInterestAccrual"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57344 (Codehawks/Core Contracts)"
+help: "Late Reserve Index Update Causes Stale Interest Accrual"
+wiki_title: "Late Reserve Index Update Causes Stale Interest Accrual"
+wiki_description: |
+    ## Summary
+    
+    The reserve indices are updated too late (after liquidity or debt changes occur) resulting in stale interest accrual. This mis-sequencing leads to inaccurate interest rate computations and may distort economic incentives.
+    
+    ## Vulnerability Details
+    
+    The `updateReserveInterests` function i
+wiki_exploit_scenario: |
+    Per Solodit #57344: ## Summary
+    
+    The reserve indices are updated too late (after liquidity or debt changes occur) resulting in stale interest accrual. This mis-sequencing leads to inaccurate interest rate computations and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LateReserveIndexUpdateCausesStaleInterestAccrual"
+solodit_id: "57344"
+solodit_slug: |
+    late-reserve-index-update-causes-stale-interest-accrual-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(updateReserveInterests|updateInterestRatesAndLiquidity).*"
+primary_var_regex: ".*(updateInterestRatesAndLiquidity|updateReserveInterests).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

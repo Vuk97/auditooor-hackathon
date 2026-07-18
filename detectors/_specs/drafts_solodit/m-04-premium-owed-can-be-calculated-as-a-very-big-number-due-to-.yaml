@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m-04-premium-owed-can-be-calculated-as-a-very-big-number-due-to-"
+class_name: "M04PremiumOwedCanBeCalculatedAsAVeryBigNumberDueTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33621 (Code4rena/Panoptic)"
+help: "[M-04] Premium owed can be calculated as a very big number due to reentrancy on uninitialized pools"
+wiki_title: "[M-04] Premium owed can be calculated as a very big number due to reentrancy on uninitialized pools"
+wiki_description: |
+    When minting or burning a position, an attacker can take advantage of reentrancy to make the pool has more `removedLiquidity` than it has. This would make the owed premium to be mistakenly very high value. The issue root cause is reentrancy on an uninitialized pool in SFPM. SFPM initialize pool fun
+wiki_exploit_scenario: |
+    Per Solodit #33621: When minting or burning a position, an attacker can take advantage of reentrancy to make the pool has more `removedLiquidity` than it has. This would make the owed premium to be mistakenly very high
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04PremiumOwedCanBeCalculatedAsAVeryBigNumberDueTo"
+solodit_id: "33621"
+solodit_slug: |
+    m-04-premium-owed-can-be-calculated-as-a-very-big-number-due-to-reentrancy-on-uninitialized-pools-code4rena-panoptic-panoptic-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal locked;"
+fn_name_regex: ".*(removedLiquidity|locked|onERC1155Received|mintTokenizedPosition).*"
+read_var_regex: ".*(locked|mintTokenizedPosition|onERC1155Received).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "removedLiquidity"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return locked > 0;"

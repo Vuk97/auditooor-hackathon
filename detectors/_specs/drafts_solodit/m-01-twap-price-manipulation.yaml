@@ -1,0 +1,46 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-01-twap-price-manipulation"
+class_name: "M01TwapPriceManipulation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41860 (Pashov Audit Group/TitanX)"
+help: "[M-01] TWAP price manipulation"
+wiki_title: "[M-01] TWAP price manipulation"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    The `_getTwaPrice` function in FarmKeeper and `getQuote` function in UniversalBuyAndBurn are vulnerable to price manipulation in Uniswap V3 pools with low observation cardinality. This vulnerability can lead to inaccurate price calc
+wiki_exploit_scenario: |
+    Per Solodit #41860: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    The `_getTwaPrice` function in FarmKeeper and `getQuote` function in UniversalBuyAndBurn are vulnerable to price manipulation in Uni
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01TwapPriceManipulation"
+solodit_id: "41860"
+solodit_slug: "m-01-twap-price-manipulation-pashov-audit-group-none-titanx-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "TWAP"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(getQuote|oldestObservation).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

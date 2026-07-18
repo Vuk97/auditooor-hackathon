@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "shared-configuration-parameters-across-different-asset-types-in-"
+class_name: "SharedConfigurationParametersAcrossDifferentAssetTypesIn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64294 (Cyfrin/Securitize Vaultv2 Rwasegwrap)"
+help: |
+    Shared configuration parameters across different asset types in vault deployers leads to incorrect pricing and fee calculations
+wiki_title: |
+    Shared configuration parameters across different asset types in vault deployers leads to incorrect pricing and fee calculations
+wiki_description: |
+    **Description:** The `VaultDeployer` and `SecuritizeVaultDeployer` contracts maintain shared configuration parameters (`navProvider`, `feeManager`, `redemptionAddress`) that are applied to all deployed vaults regardless of their underlying asset type. When `SegregatedVaultDeployer::deploy()` or `Sec
+wiki_exploit_scenario: |
+    Per Solodit #64294: **Description:** The `VaultDeployer` and `SecuritizeVaultDeployer` contracts maintain shared configuration parameters (`navProvider`, `feeManager`, `redemptionAddress`) that are applied to all deploye
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SharedConfigurationParametersAcrossDifferentAssetTypesIn"
+solodit_id: "64294"
+solodit_slug: |
+    shared-configuration-parameters-across-different-asset-types-in-vault-deployers-leads-to-incorrect-pricing-and-fee-calculations-cyfrin-none-securitize-vaultv2-rwasegwrap-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assettoken;"
+fn_name_regex: ".*(VaultDeployer|SecuritizeVaultDeployer|navProvider|feeManager).*"
+read_var_regex: ".*(assetToken|feeManager|getShareValue).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "VaultDeployer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assettoken > 0;"

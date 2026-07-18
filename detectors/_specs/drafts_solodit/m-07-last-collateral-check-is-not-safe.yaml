@@ -1,0 +1,44 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-07-last-collateral-check-is-not-safe"
+class_name: "M07LastCollateralCheckIsNotSafe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6212 (Code4rena/Backed Protocol)"
+help: "[M-07] Last collateral check is not safe"
+wiki_title: "[M-07] Last collateral check is not safe"
+wiki_description: |
+    Liquidation might work incorrectly.
+    
+    ### Proof of Concept
+    
+    There is a function `purchaseLiquidationAuctionNFT()` to allow liquidators to purchase NFTs on auction.
+    
+    In the line 273, the protocol checks if the current NFT is the last collateral using the `collateralValueCached`.
+    
+    But it might be poss
+wiki_exploit_scenario: |
+    Per Solodit #6212: Liquidation might work incorrectly.
+    
+    ### Proof of Concept
+    
+    There is a function `purchaseLiquidationAuctionNFT()` to allow liquidators to purchase NFTs on auction.
+    
+    In the line 273, the protocol check
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07LastCollateralCheckIsNotSafe"
+solodit_id: "6212"
+solodit_slug: "m-07-last-collateral-check-is-not-safe-code4rena-backed-protocol-papr-contest-git"
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: "Oracle"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(purchaseLiquidationAuctionNFT|collateralValueCached).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

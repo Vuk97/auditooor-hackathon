@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "confidential-transfer-fees-withdrawal-instructions-ignore"
+class_name: "ConfidentialTransferFeesWithdrawalInstructionsIgnore"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit SPL Token - Zellic Audit Report"
+help: |
+    The functions handling the confidential transfer instructions WithdrawWithheldTokensF romAccounts and WithdrawWithheldTokensFromMint ignore some of the restrictions that can be app
+wiki_title: "Confidential transfer fees’ withdrawal instructions ignore"
+wiki_description: |
+    The functions handling the confidential transfer instructions WithdrawWithheldTokensF romAccounts and WithdrawWithheldTokensFromMint ignore some of the restrictions that can be applied to confidential token accounts: • allow_balance_credits: An account can be configured to deny credits to its pendin
+wiki_exploit_scenario: |
+    Per audit finding: The functions handling the confidential transfer instructions WithdrawWithheldTokensF romAccounts and WithdrawWithheldTokensFromMint ignore some of the restrictions that can be applied to confidential
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ConfidentialTransferFeesWithdrawalInstructionsIgnore"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(romAccounts).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "romAccounts"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "zero-value-entityid-allows-wallet-rebinding-12"
+class_name: "ZeroValueEntityidAllowsWalletRebinding12"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit MegaETH Predeposit - Zellic Audit Report"
+help: |
+    All critical configuration and fund-custody operations are guarded solely by onlyOwner. The owner can pause deposits, modify caps, rotate signers, and transfer any ERC-20 balance t
+wiki_title: "Zero-value entityID allows wallet rebinding                          12"
+wiki_description: |
+    All critical configuration and fund-custody operations are guarded solely by onlyOwner. The owner can pause deposits, modify caps, rotate signers, and transfer any ERC-20 balance to treasury via withdrawToTreasury. There is no user-triggered withdrawal path, and no multi-signature or timelock enforc
+wiki_exploit_scenario: |
+    Per audit finding: All critical configuration and fund-custody operations are guarded solely by onlyOwner. The owner can pause deposits, modify caps, rotate signers, and transfer any ERC-20 balance to treasury via withd
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ZeroValueEntityidAllowsWalletRebinding12"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onlyOwner|withdrawToTreasury|safeTransfer).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "onlyOwner"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

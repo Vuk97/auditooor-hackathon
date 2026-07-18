@@ -1,0 +1,40 @@
+skeleton: "state_write_without_paired_write"
+name: "dos-on-stake-accounting-functions-by-bloating-operatornodesarray"
+class_name: "DosOnStakeAccountingFunctionsByBloatingOperatornodesarray"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61259 (Cyfrin/Suzaku Core)"
+help: "DoS on stake accounting functions by bloating `operatorNodesArray` with irremovable nodes"
+wiki_title: "DoS on stake accounting functions by bloating `operatorNodesArray` with irremovable nodes"
+wiki_description: |
+    **Description:** When an operator removes a node the intended flow is:
+    
+    1. `removeNode()` (middleware)
+    2. `calcAndCacheNodeStakeForAllOperators()` (called immediately or by the `updateGlobalNodeStakeOncePerEpoch` modifier)
+       * branch ✔ runs:
+         ```solidity
+         if (nodePendingRemoval[valID] && …)
+wiki_exploit_scenario: |
+    Per Solodit #61259: **Description:** When an operator removes a node the intended flow is:
+    
+    1. `removeNode()` (middleware)
+    2. `calcAndCacheNodeStakeForAllOperators()` (called immediately or by the `updateGlobalNodeStakeO
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DosOnStakeAccountingFunctionsByBloatingOperatornodesarray"
+solodit_id: "61259"
+solodit_slug: |
+    dos-on-stake-accounting-functions-by-bloating-operatornodesarray-with-irremovable-nodes-cyfrin-none-suzaku-core-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(removeNode|calcAndCacheNodeStakeForAllOperators|updateGlobalNodeStakeOncePerEpoch|operatorNodesArray).*"
+primary_var_regex: ".*(calcAndCacheNodeStakeForAllOperators|completeValidatorRemoval|forceUpdateNodes).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

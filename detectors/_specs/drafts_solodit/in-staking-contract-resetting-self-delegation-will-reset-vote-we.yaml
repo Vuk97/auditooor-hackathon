@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "in-staking-contract-resetting-self-delegation-will-reset-vote-we"
+class_name: "InStakingContractResettingSelfDelegationWillResetVoteWe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33580 (Cyfrin/Templedao)"
+help: "In staking contract, resetting self delegation will reset vote weight to zero"
+wiki_title: "In staking contract, resetting self delegation will reset vote weight to zero"
+wiki_description: |
+    **Description:** In `TempleGoldStaking` contract, when a delegate resets self delegation, the vote weights delegated to the delegate will be removed by calling `_updateAccountWeight`.
+    Since zero is passed as new balance parameter, the `stakingTime` of vote weight is reset to zero:
+    ```solidity
+    // Tem
+wiki_exploit_scenario: |
+    Per Solodit #33580: **Description:** In `TempleGoldStaking` contract, when a delegate resets self delegation, the vote weights delegated to the delegate will be removed by calling `_updateAccountWeight`.
+    Since zero is pa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InStakingContractResettingSelfDelegationWillResetVoteWe"
+solodit_id: "33580"
+solodit_slug: |
+    in-staking-contract-resetting-self-delegation-will-reset-vote-weight-to-zero-cyfrin-none-cyfrin-templedao-v21-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal stakingtime;"
+fn_name_regex: ".*(TempleGoldStaking|stakingTime).*"
+read_var_regex: ".*(stakingTime).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "TempleGoldStaking"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return stakingtime > 0;"

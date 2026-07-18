@@ -1,0 +1,45 @@
+skeleton: "paired_function_divergence"
+name: "h-06-bringunusedethbackintogiantpool-can-cause-stuck-ether-funds"
+class_name: "H06BringunusedethbackintogiantpoolCanCauseStuckEtherFunds"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #5893 (Code4rena/Stakehouse Protocol)"
+help: "[H-06] BringUnusedETHBackIntoGiantPool can cause stuck ether funds in Giant Pool"
+wiki_title: "[H-06] BringUnusedETHBackIntoGiantPool can cause stuck ether funds in Giant Pool"
+wiki_description: |
+    ## Lines of code
+    
+    https://github.com/code-423n4/2022-11-stakehouse/blob/main/contracts/liquid-staking/GiantMevAndFeesPool.sol#L126-L138
+    https://github.com/code-423n4/2022-11-stakehouse/blob/main/contracts/liquid-staking/GiantSavETHVaultPool.sol#L137-L158
+    
+    
+    ## Vulnerability details
+    
+    ## Impact
+    withdra
+wiki_exploit_scenario: |
+    Per Solodit #5893: ## Lines of code
+    
+    https://github.com/code-423n4/2022-11-stakehouse/blob/main/contracts/liquid-staking/GiantMevAndFeesPool.sol#L126-L138
+    https://github.com/code-423n4/2022-11-stakehouse/blob/main/contr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06BringunusedethbackintogiantpoolCanCauseStuckEtherFunds"
+solodit_id: "5893"
+solodit_slug: |
+    h-06-bringunusedethbackintogiantpool-can-cause-stuck-ether-funds-in-giant-pool-code4rena-stakehouse-protocol-lsd-network-stakehouse-contest-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

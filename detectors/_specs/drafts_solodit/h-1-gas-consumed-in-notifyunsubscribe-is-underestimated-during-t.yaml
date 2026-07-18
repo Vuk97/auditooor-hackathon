@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "h-1-gas-consumed-in-notifyunsubscribe-is-underestimated-during-t"
+class_name: "H1GasConsumedInNotifyunsubscribeIsUnderestimatedDuringT"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62808 (Sherlock/BMX Deli Swap)"
+help: |
+    H-1: Gas consumed in `notifyUnsubscribe` is underestimated during tests and is greater than 300,000 without pre-warming
+wiki_title: |
+    H-1: Gas consumed in `notifyUnsubscribe` is underestimated during tests and is greater than 300,000 without pre-warming
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-09-bmx-deli-swap-judging/issues/27 
+    
+    ## Found by 
+    cergyk
+    
+    ### Description
+    
+    To protect users against bricked positions by malicious subscriber contracts, `Uniswap V4` notifier allows recovery of a reverting `notifyUnsubscribe` call:
+    
+    [Notifier.sol#L80-L
+wiki_exploit_scenario: |
+    Per Solodit #62808: Source: https://github.com/sherlock-audit/2025-09-bmx-deli-swap-judging/issues/27 
+    
+    ## Found by 
+    cergyk
+    
+    ### Description
+    
+    To protect users against bricked positions by malicious subscriber contracts,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1GasConsumedInNotifyunsubscribeIsUnderestimatedDuringT"
+solodit_id: "62808"
+solodit_slug: |
+    h-1-gas-consumed-in-notifyunsubscribe-is-underestimated-during-tests-and-is-greater-than-300000-without-pre-warming-sherlock-bmx-deli-swap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidity;"
+fn_name_regex: ".*(notifyUnsubscribe|subscriber|unsubscribeGasLimit|PositionManagerAdapter).*"
+write_var_regex: ".*(liquidity|notifyUnsubscribe|subscriber).*"
+guard_var_regex: ".*(liquidity|notifyUnsubscribe|subscriber).*"
+vuln_fn_name: "notifyUnsubscribe"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "liquidity = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

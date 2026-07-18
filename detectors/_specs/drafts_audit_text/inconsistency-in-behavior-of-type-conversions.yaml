@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "inconsistency-in-behavior-of-type-conversions"
+class_name: "InconsistencyInBehaviorOfTypeConversions"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Brevis - Zellic Audit Report"
+help: |
+    The sdk provides a number of different types. To convert between them, sdk/circuit_api.go provides several conversion functions. Converting between types often involves choices; if
+wiki_title: "Inconsistency in behavior of type conversions"
+wiki_description: |
+    The sdk provides a number of different types. To convert between them, sdk/circuit_api.go provides several conversion functions. Converting between types often involves choices; if the target type cannot represent parts of the range of the source type, should conversion fail for values outside of th
+wiki_exploit_scenario: |
+    Per audit finding: The sdk provides a number of different types. To convert between them, sdk/circuit_api.go provides several conversion functions. Converting between types often involves choices; if the target type can
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistencyInBehaviorOfTypeConversions"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(newU248|numBitsPerVar|newI248).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "newU248"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

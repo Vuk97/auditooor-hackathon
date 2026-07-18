@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "h-38-magnetar-contract-has-no-approval-checking"
+class_name: "H38MagnetarContractHasNoApprovalChecking"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27528 (Code4rena/Tapioca DAO)"
+help: "[H-38] Magnetar contract has no approval checking"
+wiki_title: "[H-38] Magnetar contract has no approval checking"
+wiki_description: |
+    The `Magnetar.sol` contract has a lot of useful helper function to carry out operations on user market positions. If a user wishes to use the helper functions, they have to first give approval to the Magnetar contract to manipulate their positions. As an example, for the big bang markets, this is d
+wiki_exploit_scenario: |
+    Per Solodit #27528: The `Magnetar.sol` contract has a lot of useful helper function to carry out operations on user market positions. If a user wishes to use the helper functions, they have to first give approval to the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H38MagnetarContractHasNoApprovalChecking"
+solodit_id: "27528"
+solodit_slug: "h-38-magnetar-contract-has-no-approval-checking-code4rena-tapioca-dao-tapioca-dao-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal erceiver;"
+fn_name_regex: ".*(updateOperator|withdrawToChain|from|erceiver).*"
+write_var_regex: ".*(erceiver|from|receiver).*"
+guard_var_regex: ".*(erceiver|from|receiver).*"
+vuln_fn_name: "updateOperator"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "erceiver = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

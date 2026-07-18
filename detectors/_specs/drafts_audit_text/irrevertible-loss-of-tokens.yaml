@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "irrevertible-loss-of-tokens"
+class_name: "IrrevertibleLossOfTokens"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit ChainLocker - Zellic Audit Report"
+help: |
+    When a seller decides to reject a buyer, the designated buyer address is set to address (0). However, complications may arise in scenarios where a buyer employs different addresses
+wiki_title: "Irrevertible loss of tokens"
+wiki_description: |
+    When a seller decides to reject a buyer, the designated buyer address is set to address (0). However, complications may arise in scenarios where a buyer employs different addresses to send tokens into the locker. In such cases, there is a possibility that residual tokens could remain within the cont
+wiki_exploit_scenario: |
+    Per audit finding: When a seller decides to reject a buyer, the designated buyer address is set to address (0). However, complications may arise in scenarios where a buyer employs different addresses to send tokens into
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IrrevertibleLossOfTokens"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(expirationTime|openEscrowTest|startPrank).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "expirationTime"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

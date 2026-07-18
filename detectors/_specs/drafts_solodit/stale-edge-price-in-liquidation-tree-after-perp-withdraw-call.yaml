@@ -1,0 +1,32 @@
+skeleton: "state_write_without_paired_write"
+name: "stale-edge-price-in-liquidation-tree-after-perp-withdraw-call"
+class_name: "StaleEdgePriceInLiquidationTreeAfterPerpWithdrawCall"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64551 (Cyfrin/Deriverse Dex)"
+help: "Stale edge price in liquidation tree after perp withdraw call"
+wiki_title: "Stale edge price in liquidation tree after perp withdraw call"
+wiki_description: |
+    **Description:** In `perp_withdraw`, after withdrawing funds from a perpetual position, the function does not call `change_edge_px` to update the liquidation price(edge price) in the liquidation tree.
+    
+    When funds are withdrawn, `info.funds` decreases, which affects `total_funds` and consequently the
+wiki_exploit_scenario: |
+    Per Solodit #64551: **Description:** In `perp_withdraw`, after withdrawing funds from a perpetual position, the function does not call `change_edge_px` to update the liquidation price(edge price) in the liquidation tree.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StaleEdgePriceInLiquidationTreeAfterPerpWithdrawCall"
+solodit_id: "64551"
+solodit_slug: "stale-edge-price-in-liquidation-tree-after-perp-withdraw-call-cyfrin-none-deriverse-dex-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(perp_withdraw|change_edge_px|total_funds|long_px).*"
+primary_var_regex: ".*(change_edge_px|long_px|perp_withdraw).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

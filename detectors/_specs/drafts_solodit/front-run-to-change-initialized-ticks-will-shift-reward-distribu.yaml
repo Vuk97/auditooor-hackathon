@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "front-run-to-change-initialized-ticks-will-shift-reward-distribu"
+class_name: "FrontRunToChangeInitializedTicksWillShiftRewardDistribu"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46429 (Cantina/Sorella Labs)"
+help: "Front-run to change initialized ticks will shift reward distribution"
+wiki_title: "Front-run to change initialized ticks will shift reward distribution "
+wiki_description: |
+    ## Vulnerability in GrowthOutsideUpdater.sol
+    
+    ## Context
+    **File:** GrowthOutsideUpdater.sol#L118-L148
+    
+    ## Description
+    When determining the payload section used in `_decodeAndReward`, the node uses potentially stale data which could lead to rewards being misallocated if a malicious user front-runs an
+wiki_exploit_scenario: |
+    Per Solodit #46429: ## Vulnerability in GrowthOutsideUpdater.sol
+    
+    ## Context
+    **File:** GrowthOutsideUpdater.sol#L118-L148
+    
+    ## Description
+    When determining the payload section used in `_decodeAndReward`, the node uses pot
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FrontRunToChangeInitializedTicksWillShiftRewardDistribu"
+solodit_id: "46429"
+solodit_slug: "front-run-to-change-initialized-ticks-will-shift-reward-distribution-cantina-none-sorella-labs-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(startTick|currentTick).*"
+primary_var_regex: ".*(currentTick|startTick).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

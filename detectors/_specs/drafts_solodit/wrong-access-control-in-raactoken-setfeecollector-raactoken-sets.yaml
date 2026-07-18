@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "wrong-access-control-in-raactoken-setfeecollector-raactoken-sets"
+class_name: "WrongAccessControlInRaactokenSetfeecollectorRaactokenSets"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57241 (Codehawks/Core Contracts)"
+help: |
+    Wrong access control in `RAACToken::setFeeCollector`, `RAACToken::setSwapTaxRate`, `RAACToken::setBurnTaxRate`
+wiki_title: |
+    Wrong access control in `RAACToken::setFeeCollector`, `RAACToken::setSwapTaxRate`, `RAACToken::setBurnTaxRate`
+wiki_description: |
+    ## Summary
+    
+    The `RAACToken::setFeeCollector`, `RAACToken::setSwapTaxRate`, `RAACToken::setBurnTaxRate` functions have restricted access to `onlyOwner` that is set up in the constructor. The `RAACToken` contract defines also a `onlyMinter` for resticting some functions only to the `minter`.
+    The RAACM
+wiki_exploit_scenario: |
+    Per Solodit #57241: ## Summary
+    
+    The `RAACToken::setFeeCollector`, `RAACToken::setSwapTaxRate`, `RAACToken::setBurnTaxRate` functions have restricted access to `onlyOwner` that is set up in the constructor. The `RAACToken
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrongAccessControlInRaactokenSetfeecollectorRaactokenSets"
+solodit_id: "57241"
+solodit_slug: |
+    wrong-access-control-in-raactokensetfeecollector-raactokensetswaptaxrate-raactokensetburntaxrate-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal minter;"
+fn_name_regex: ".*(onlyOwner|RAACToken|onlyMinter|minter).*"
+read_var_regex: ".*(minter|onlyMinter|onlyOwner).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "onlyOwner"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return minter > 0;"

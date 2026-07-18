@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-05-withdrawing-eth-collateral-with-max-uint256-amount-value-re"
+class_name: "M05WithdrawingEthCollateralWithMaxUint256AmountValueRe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2338 (Code4rena/Sturdy)"
+help: "[M-05] Withdrawing ETH collateral with max uint256 amount value reverts transaction"
+wiki_title: "[M-05] Withdrawing ETH collateral with max uint256 amount value reverts transaction"
+wiki_description: |
+    _Submitted by berndartmueller, also found by WatchPug_
+    
+    Withdrawing ETH collateral via the `withdrawCollateral` function using `type(uint256).max` for the `_amount` parameter reverts the transaction due to `_asset` being the zero-address and `IERC20Detailed(_asset).decimals()` not working for native
+wiki_exploit_scenario: |
+    Per Solodit #2338: _Submitted by berndartmueller, also found by WatchPug_
+    
+    Withdrawing ETH collateral via the `withdrawCollateral` function using `type(uint256).max` for the `_amount` parameter reverts the transaction d
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05WithdrawingEthCollateralWithMaxUint256AmountValueRe"
+solodit_id: "2338"
+solodit_slug: |
+    m-05-withdrawing-eth-collateral-with-max-uint256-amount-value-reverts-transaction-code4rena-sturdy-sturdy-contest-git
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Decimals"
+state_decl: "uint256 internal withdrawcollateral;"
+fn_name_regex: ".*(withdrawCollateral).*"
+read_var_regex: ".*(withdrawCollateral).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdrawCollateral"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return withdrawcollateral > 0;"

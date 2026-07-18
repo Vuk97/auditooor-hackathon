@@ -1,0 +1,40 @@
+skeleton: "state_write_without_paired_write"
+name: "chainlinkoracle-integration-problems"
+class_name: "ChainlinkoracleIntegrationProblems"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29921 (MixBytes/Conic Finance)"
+help: "ChainlinkOracle integration problems"
+wiki_title: "ChainlinkOracle integration problems"
+wiki_description: |
+    ##### Description
+    
+    There are several shortcomings in the current implementation of the interaction with Chainlink.
+    
+    1. `ChainlinkOracle.isTokenSupported()` returns true if a Chainlink feed exists, but it does not consider the case when it has been abandoned (not updated for a long time):
+    ```
+    functio
+wiki_exploit_scenario: |
+    Per Solodit #29921: ##### Description
+    
+    There are several shortcomings in the current implementation of the interaction with Chainlink.
+    
+    1. `ChainlinkOracle.isTokenSupported()` returns true if a Chainlink feed exists, but
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainlinkoracleIntegrationProblems"
+solodit_id: "29921"
+solodit_slug: "chainlinkoracle-integration-problems-mixbytes-none-conic-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(answeredInRound|heartbeat|latestRoundData|isTokenSupported).*"
+primary_var_regex: ".*(answeredInRound|heartbeat|isTokenSupported).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

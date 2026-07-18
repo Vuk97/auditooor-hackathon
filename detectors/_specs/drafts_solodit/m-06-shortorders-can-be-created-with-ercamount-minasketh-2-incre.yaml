@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-06-shortorders-can-be-created-with-ercamount-minasketh-2-incre"
+class_name: "M06ShortordersCanBeCreatedWithErcamountMinasketh2Incre"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34183 (Code4rena/DittoETH)"
+help: |
+    [M-06] `ShortOrders` can be created with `ercAmount == minAskEth/2`, increasing the gas costs for matching large orders and disincentivizing liquidators from liquidating them
+wiki_title: |
+    [M-06] `ShortOrders` can be created with `ercAmount == minAskEth/2`, increasing the gas costs for matching large orders and disincentivizing liquidators from li
+wiki_description: |
+    A user can create a `ShortOrder` with `ercAmount == minAskEth/2` by matching the `ShortOrder` with a bid that fills it up to `minAskEth/2` and exiting the `ShortRecord` leaving only `minAskEth/2` in the `ShortOrder` with an empty `ShortRecord`.
+    
+    ### Description
+    
+    This issue makes use of two properti
+wiki_exploit_scenario: |
+    Per Solodit #34183: A user can create a `ShortOrder` with `ercAmount == minAskEth/2` by matching the `ShortOrder` with a bid that fills it up to `minAskEth/2` and exiting the `ShortRecord` leaving only `minAskEth/2` in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06ShortordersCanBeCreatedWithErcamountMinasketh2Incre"
+solodit_id: "34183"
+solodit_slug: |
+    m-06-shortorders-can-be-created-with-ercamount-minasketh2-increasing-the-gas-costs-for-matching-large-orders-and-disincentivizing-liquidators-from-liquidating-them-code4rena-dittoeth-dittoeth-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bidmatchalgo;"
+fn_name_regex: ".*(ShortOrder|ShortRecord|bidMatchAlgo|lowestSell).*"
+read_var_regex: ".*(bidMatchAlgo|else|ercAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ShortOrder"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return bidmatchalgo > 0;"

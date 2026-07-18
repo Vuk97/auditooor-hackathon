@@ -1,0 +1,47 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "c-01-using-uniswap-spot-price-is-subject-to-manipulation"
+class_name: "C01UsingUniswapSpotPriceIsSubjectToManipulation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36472 (Pashov Audit Group/Sharwafinance)"
+help: "[C-01] Using Uniswap spot price is subject to manipulation"
+wiki_title: "[C-01] Using Uniswap spot price is subject to manipulation"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    The protocol uses the Uniswap V3 quoter contract to get the current value of the supported tokens in terms of the base token (USDC). The values returned by the quoter are the result of a simulated swap, given the current state of
+wiki_exploit_scenario: |
+    Per Solodit #36472: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    The protocol uses the Uniswap V3 quoter contract to get the current value of the supported tokens in terms of the base token (USD
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01UsingUniswapSpotPriceIsSubjectToManipulation"
+solodit_id: "36472"
+solodit_slug: |
+    c-01-using-uniswap-spot-price-is-subject-to-manipulation-pashov-audit-group-none-sharwafinance-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(provideInitialLiquidity|startPrank|marginTrading|provideERC20).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

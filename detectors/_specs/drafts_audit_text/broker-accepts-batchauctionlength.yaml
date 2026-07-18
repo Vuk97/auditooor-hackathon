@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "broker-accepts-batchauctionlength"
+class_name: "BrokerAcceptsBatchauctionlength"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-reserve"
+help: |
+    [L-05] Broker accepts batchAuctionLength and dutchAuctionLength to be both 0 Links to affected code Description When Broker is initialized, and later re-configured via governance c
+wiki_title: "Broker accepts batchAuctionLength"
+wiki_description: |
+    [L-05] Broker accepts batchAuctionLength and dutchAuctionLength to be both 0 Links to affected code Description When Broker is initialized, and later re-configured via governance calls, it validates the batchAuctionLength and dutchAuctionLength given parameters individually: File: Broker . sol 073 :
+wiki_exploit_scenario: |
+    Per audit finding: [L-05] Broker accepts batchAuctionLength and dutchAuctionLength to be both 0 Links to affected code Description When Broker is initialized, and later re-configured via governance calls, it validates t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BrokerAcceptsBatchauctionlength"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(batchAuctionLength|dutchAuctionLength|setBatchAuctionLength).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "batchAuctionLength"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

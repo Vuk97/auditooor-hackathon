@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "proposals-could-allow-timelock-admin-takeover"
+class_name: "ProposalsCouldAllowTimelockAdminTakeover"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18200 (TrailOfBits/Origin Dollar)"
+help: "Proposals could allow Timelock.admin takeover"
+wiki_title: "Proposals could allow Timelock.admin takeover"
+wiki_description: |
+    ## Description
+    
+    The Governor contract contains special functions to let the guardian queue a transaction to change the `Timelock.admin`. However, a regular Proposal is also allowed to contain a transaction to change the `Timelock.admin`. This poses an unnecessary risk in that an attacker could creat
+wiki_exploit_scenario: |
+    Per Solodit #18200: ## Description
+    
+    The Governor contract contains special functions to let the guardian queue a transaction to change the `Timelock.admin`. However, a regular Proposal is also allowed to contain a transa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProposalsCouldAllowTimelockAdminTakeover"
+solodit_id: "18200"
+solodit_slug: "proposals-could-allow-timelockadmin-takeover-trailofbits-origin-dollar-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal acceptadmin;"
+fn_name_regex: ".*(pendingAdmin|setPendingAdmin|acceptAdmin).*"
+write_var_regex: ".*(acceptAdmin|pendingAdmin|setPendingAdmin).*"
+guard_var_regex: ".*(acceptAdmin|pendingAdmin|setPendingAdmin).*"
+vuln_fn_name: "pendingAdmin"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "acceptadmin = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

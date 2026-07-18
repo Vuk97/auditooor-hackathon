@@ -1,0 +1,38 @@
+skeleton: "paired_function_divergence"
+name: "m-06-getvotingpower-is-not-equipped-to-handle-on-chain-voting"
+class_name: "M06GetvotingpowerIsNotEquippedToHandleOnChainVoting"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24663 (Code4rena/Notional)"
+help: "[M-06] `getVotingPower` Is Not Equipped To Handle On-Chain Voting"
+wiki_title: "[M-06] `getVotingPower` Is Not Equipped To Handle On-Chain Voting"
+wiki_description: |
+    _Submitted by leastwood_
+    
+    As `NOTE` continues to be staked in the `sNOTE` contract, it is important that Notional's governance is able to correctly handle on-chain voting by calculating the relative power `sNOTE` has in terms of its equivalent `NOTE` amount.
+    
+    `getVotingPower` is a useful function in
+wiki_exploit_scenario: |
+    Per Solodit #24663: _Submitted by leastwood_
+    
+    As `NOTE` continues to be staked in the `sNOTE` contract, it is important that Notional's governance is able to correctly handle on-chain voting by calculating the relative p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06GetvotingpowerIsNotEquippedToHandleOnChainVoting"
+solodit_id: "24663"
+solodit_slug: "m-06-getvotingpower-is-not-equipped-to-handle-on-chain-voting-code4rena-notional-notional-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(getPriorVotingPower|getVotingPower|sNOTE).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "blacklisted-anchorgame-in-anchorstateregistry-prevents-submittin"
+class_name: "BlacklistedAnchorgameInAnchorstateregistryPreventsSubmittin"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49506 (Spearbit/Optimism)"
+help: "Blacklisted anchorGame in AnchorStateRegistry prevents submitting L2 root claims to L1"
+wiki_title: "Blacklisted anchorGame in AnchorStateRegistry prevents submitting L2 root claims to L1"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - AnchorStateRegistry.sol#L109-L111
+    - AnchorStateRegistry.sol#L266-L273
+    - FaultDisputeGame.sol#L299-L300
+    - OPContractsManager.sol#L541-L544
+    
+    ## Description
+    `AnchorStateRegistry.getAnchorRoot()` checks if the current `anchorGame` is blacklisted and reverts if so:
+wiki_exploit_scenario: |
+    Per Solodit #49506: ## Severity: Medium Risk
+    
+    ## Context
+    - AnchorStateRegistry.sol#L109-L111
+    - AnchorStateRegistry.sol#L266-L273
+    - FaultDisputeGame.sol#L299-L300
+    - OPContractsManager.sol#L541-L544
+    
+    ## Description
+    `Anchor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BlacklistedAnchorgameInAnchorstateregistryPreventsSubmittin"
+solodit_id: "49506"
+solodit_slug: |
+    blacklisted-anchorgame-in-anchorstateregistry-prevents-submitting-l2-root-claims-to-l1-spearbit-none-optimism-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal anchorgame;"
+fn_name_regex: ".*(anchorGame|getAnchorRoot|DEFENDER_WINS|DISPUTE_GAME_FINALITY_DELAY_SECONDS).*"
+write_var_regex: ".*(anchorGame|anchors|blacklistDisputeGame).*"
+guard_var_regex: ".*(anchorGame|anchors|blacklistDisputeGame).*"
+vuln_fn_name: "anchorGame"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "anchorgame = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

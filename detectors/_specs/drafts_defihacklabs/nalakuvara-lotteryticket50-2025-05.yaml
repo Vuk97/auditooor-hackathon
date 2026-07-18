@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "nalakuvara-lotteryticket50-2025-05"
+class_name: "NalakuvaraLotteryticket50202505"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-05/Nalakuvara_LotteryTicket50_exp.sol"
+help: "Nalakuvara_LotteryTicket50 2025-05 — flashloan exploit (105470 USDC)"
+wiki_title: "Nalakuvara_LotteryTicket50 (2025-05) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-05): Nalakuvara_LotteryTicket50 lost 105470 USDC. Bug class: flashloan. Attack tx: 0x16a99aef4fab36c84ba4616668a03a5b37caa12e2fc48923dba4e711d2094699.
+wiki_exploit_scenario: |
+    Attacker (0x3026c464d3bd6ef0ced0d49e80f171b58176ce32) exploits Nalakuvara_LotteryTicket50 via flashloan: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "NalakuvaraLotteryticket50202505"
+trigger_sig_regex: ".*(uniswapV3FlashCallback).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function uniswapV3FlashCallback(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.uniswapV3FlashCallback(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

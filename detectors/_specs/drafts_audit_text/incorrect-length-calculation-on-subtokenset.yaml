@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-length-calculation-on-subtokenset"
+class_name: "IncorrectLengthCalculationOnSubtokenset"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit SoSoValue - Zellic Audit Report"
+help: |
+    The function subTokenset implements the subtract operation of token sets: function subTokenset(Token[] memory a_, Token[] memory b) internal pure returns (Token[] memory) { Token[]
+wiki_title: "Incorrect length calculation on subTokenset"
+wiki_description: |
+    The function subTokenset implements the subtract operation of token sets: function subTokenset(Token[] memory a_, Token[] memory b) internal pure returns (Token[] memory) { Token[] memory a = copyTokenset(a_); uint newLength = a.length; uint k; for (uint i = 0; i < b.length; i++) { k = a.length; for
+wiki_exploit_scenario: |
+    Per audit finding: The function subTokenset implements the subtract operation of token sets: function subTokenset(Token[] memory a_, Token[] memory b) internal pure returns (Token[] memory) { Token[] memory a = copyToke
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectLengthCalculationOnSubtokenset"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(subTokenset|copyTokenset|newLength).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "subTokenset"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

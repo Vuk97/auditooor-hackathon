@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "reentrancy-for-actions-involving-multiple-assets-allows-drai-x"
+class_name: "ReentrancyForActionsInvolvingMultipleAssetsAllowsDraiX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Singularity - Zellic Audit Report"
+help: |
+    Several actions will cause calls to token contracts to move funds, for example from or to the asset pool. The implementations tend to not follow the checks-effects-interactions pat
+wiki_title: "Reentrancy for actions involving multiple assets allows draining the vault"
+wiki_description: |
+    Several actions will cause calls to token contracts to move funds, for example from or to the asset pool. The implementations tend to not follow the checks-effects-interactions pattern, making exter- nal calls to the asset contracts before relevant nullifiers are marked as used. An attacker can thus
+wiki_exploit_scenario: |
+    Per audit finding: Several actions will cause calls to token contracts to move funds, for example from or to the asset pool. The implementations tend to not follow the checks-effects-interactions pattern, making exter-
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyForActionsInvolvingMultipleAssetsAllowsDraiX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(uniswapLiquidityProvision|curveAddLiquidity|feesDetails).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "uniswapLiquidityProvision"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

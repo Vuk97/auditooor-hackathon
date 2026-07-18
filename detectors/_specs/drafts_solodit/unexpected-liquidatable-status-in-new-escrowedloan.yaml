@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "unexpected-liquidatable-status-in-new-escrowedloan"
+class_name: "UnexpectedLiquidatableStatusInNewEscrowedloan"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50640 (Halborn/P2P Loan)"
+help: "UNEXPECTED LIQUIDATABLE STATUS IN NEW ESCROWEDLOAN"
+wiki_title: "UNEXPECTED LIQUIDATABLE STATUS IN NEW ESCROWEDLOAN"
+wiki_description: |
+    ##### Description
+    
+    In the `EscrowedLoan` contract, the `_healthcheck()` internal function is supposed to check if the loan has the correct collateral ratio. Otherwise, the loan status is set to `LIQUIDATABLE`. The `_healthcheck()` function base on the `_getLatestCollateralRatio()` function, which re
+wiki_exploit_scenario: |
+    Per Solodit #50640: ##### Description
+    
+    In the `EscrowedLoan` contract, the `_healthcheck()` internal function is supposed to check if the loan has the correct collateral ratio. Otherwise, the loan status is set to `LIQUI
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnexpectedLiquidatableStatusInNewEscrowedloan"
+solodit_id: "50640"
+solodit_slug: "unexpected-liquidatable-status-in-new-escrowedloan-halborn-debt-dao-p2p-loan-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal healthcheck;"
+fn_name_regex: ".*(EscrowedLoan|LIQUIDATABLE|healthcheck|releaseSpigot).*"
+read_var_regex: ".*(healthcheck|releaseSpigot|sweep).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "EscrowedLoan"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return healthcheck > 0;"

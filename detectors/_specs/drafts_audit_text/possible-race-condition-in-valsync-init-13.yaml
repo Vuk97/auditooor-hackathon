@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "possible-race-condition-in-valsync-init-13"
+class_name: "PossibleRaceConditionInValsyncInit13"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Omni Network - Zellic Audit Report"
+help: |
+    Due to a lack of validation, the number of votes that can be included in MsgAddVote is limitless. As such, this poses problems as attestations that were registered are deleted afte
+wiki_title: "Possible race condition in valsync init                               13"
+wiki_description: |
+    Due to a lack of validation, the number of votes that can be included in MsgAddVote is limitless. As such, this poses problems as attestations that were registered are deleted after a certain block win- dow. As there is no penalty to double voting and the maximum block size is 100 MB, these un- boun
+wiki_exploit_scenario: |
+    Per audit finding: Due to a lack of validation, the number of votes that can be included in MsgAddVote is limitless. As such, this poses problems as attestations that were registered are deleted after a certain block wi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleRaceConditionInValsyncInit13"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(deleteBefore|sigTable|attTable).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deleteBefore"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

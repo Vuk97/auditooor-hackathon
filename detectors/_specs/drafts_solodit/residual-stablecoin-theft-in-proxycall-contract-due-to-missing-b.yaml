@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "residual-stablecoin-theft-in-proxycall-contract-due-to-missing-b"
+class_name: "ResidualStablecoinTheftInProxycallContractDueToMissingB"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51968 (Halborn/Genius Contracts Re-Assessment)"
+help: "Residual stablecoin Theft in ProxyCall Contract Due to Missing Balance Check"
+wiki_title: "Residual stablecoin Theft in ProxyCall Contract Due to Missing Balance Check"
+wiki_description: |
+    ##### Description
+    
+    When executing a `fillOrder` through GeniusVaultCore, `STABLECOIN` tokens are transferred to `ProxyCall` before executing a swap using `call` function :
+    
+    ```
+    // GeniusVaultCore.sol
+    STABLECOIN.safeTransfer(address(PROXYCALL), order.amountIn - order.fee);
+    (effectiveTokenOut, effecti
+wiki_exploit_scenario: |
+    Per Solodit #51968: ##### Description
+    
+    When executing a `fillOrder` through GeniusVaultCore, `STABLECOIN` tokens are transferred to `ProxyCall` before executing a swap using `call` function :
+    
+    ```
+    // GeniusVaultCore.sol
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ResidualStablecoinTheftInProxycallContractDueToMissingB"
+solodit_id: "51968"
+solodit_slug: |
+    residual-stablecoin-theft-in-proxycall-contract-due-to-missing-balance-check-halborn-shuttle-labs-genius-contracts-re-assessment-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal approvetokenexecuteandverify;"
+fn_name_regex: ".*(fillOrder|STABLECOIN|ProxyCall|call).*"
+read_var_regex: ".*(approveTokenExecuteAndVerify|call|fillOrder).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "fillOrder"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return approvetokenexecuteandverify > 0;"

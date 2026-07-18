@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "precision-loss-prevents-harvesting-fees"
+class_name: "PrecisionLossPreventsHarvestingFees"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit StakeKit - Zellic Audit Report"
+help: |
+    In the current implementation, the computeHarvestFee function returns a percentage of the fee based on the time elapsed since the last harvest. The fee is calculated as a yearly ra
+wiki_title: "Precision loss prevents harvesting fees"
+wiki_description: |
+    In the current implementation, the computeHarvestFee function returns a percentage of the fee based on the time elapsed since the last harvest. The fee is calculated as a yearly rate using 10000 as the denominator for the fee calculation. For example, if the fee is 100 (1%) per year, approximately 0
+wiki_exploit_scenario: |
+    Per audit finding: In the current implementation, the computeHarvestFee function returns a percentage of the fee based on the time elapsed since the last harvest. The fee is calculated as a yearly rate using 10000 as th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PrecisionLossPreventsHarvestingFees"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(computeHarvestFee|timeElapsed|lastStamp).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "computeHarvestFee"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

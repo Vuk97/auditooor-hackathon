@@ -1,0 +1,39 @@
+skeleton: "paired_function_divergence"
+name: "broken-protocol-invariant-decreasing-werc721-totalsupplywithout-"
+class_name: "BrokenProtocolInvariantDecreasingWerc721Totalsupplywithout"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46469 (Cantina/Sweep n Flip)"
+help: "Broken protocol invariant: Decreasing WERC721 totalSupplywithout unlocking different NFTs"
+wiki_title: "Broken protocol invariant: Decreasing WERC721 totalSupplywithout unlocking different NFTs "
+wiki_description: |
+    ## Vulnerability Report: WERC721.sol#L59-L69
+    
+    ## Description
+    The `totalSupply` and `balanceOf` logic in the pool is susceptible to a scenario where users can repeatedly buy the same NFT, artificially decreasing the `totalSupply` while the actual NFTs remain locked in the wrapper contract. This creat
+wiki_exploit_scenario: |
+    Per Solodit #46469: ## Vulnerability Report: WERC721.sol#L59-L69
+    
+    ## Description
+    The `totalSupply` and `balanceOf` logic in the pool is susceptible to a scenario where users can repeatedly buy the same NFT, artificially
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BrokenProtocolInvariantDecreasingWerc721Totalsupplywithout"
+solodit_id: "46469"
+solodit_slug: |
+    broken-protocol-invariant-decreasing-werc721-totalsupplywithout-unlocking-different-nfts-cantina-none-sweep-n-flip-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balanceOf|totalSupply).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

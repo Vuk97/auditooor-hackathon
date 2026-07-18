@@ -1,0 +1,57 @@
+skeleton: "paired_function_divergence"
+name: "h-01-adapterv1-sol-contract-always-uses-the-entire-balance-of-ps"
+class_name: "H01Adapterv1SolContractAlwaysUsesTheEntireBalanceOfPs"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44145 (Shieldify/Possumadapters)"
+help: |
+    [H-01] `AdapterV1.sol` Contract Always Uses the Entire Balance of PSM of the Adapter, Which Can Lead to Weak Slippage
+wiki_title: |
+    [H-01] `AdapterV1.sol` Contract Always Uses the Entire Balance of PSM of the Adapter, Which Can Lead to Weak Slippage
+wiki_description: |
+    ## Severity
+    
+    High Risk
+    
+    ## Reported By
+    
+    [EgisSec](https://twitter.com/EgisSec)
+    
+    ## Description
+    
+    When `setPortalEnergy` is called with `mode = 1` the protocol will first swap PSM for WETH using 1inch, then use PSM and WETH to add liquidity to a Ramses pair.
+    
+    In order to do this, the user has to speci
+wiki_exploit_scenario: |
+    Per Solodit #44145: ## Severity
+    
+    High Risk
+    
+    ## Reported By
+    
+    [EgisSec](https://twitter.com/EgisSec)
+    
+    ## Description
+    
+    When `setPortalEnergy` is called with `mode = 1` the protocol will first swap PSM for WETH using 1inch,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01Adapterv1SolContractAlwaysUsesTheEntireBalanceOfPs"
+solodit_id: "44145"
+solodit_slug: |
+    h-01-adapterv1sol-contract-always-uses-the-entire-balance-of-psm-of-the-adapter-which-can-lead-to-weak-slippage-shieldify-none-possumadapters-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(amountPSM|amountWETH|minPSM).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-condition-check-in-setminlimitorderamountinbase"
+class_name: "IncorrectConditionCheckInSetminlimitorderamountinbase"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit GTE Perps - Zellic Audit Report"
+help: |
+    The setMinLimitOrderAmountInBase function contains an incorrect conditional check. The condition compares the newLimitOrderAmountInBase parameter with the MIN_MIN_LIMIT_ORDER_AMOUN
+wiki_title: "Incorrect condition check in setMinLimitOrderAmountInBase"
+wiki_description: |
+    The setMinLimitOrderAmountInBase function contains an incorrect conditional check. The condition compares the newLimitOrderAmountInBase parameter with the MIN_MIN_LIMIT_ORDER_AMOUNT_BASE constant using the == operator. It should instead use the < operator. function setMinLimitOrderAmountInBase(PerpB
+wiki_exploit_scenario: |
+    Per audit finding: The setMinLimitOrderAmountInBase function contains an incorrect conditional check. The condition compares the newLimitOrderAmountInBase parameter with the MIN_MIN_LIMIT_ORDER_AMOUNT_BASE constant usin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectConditionCheckInSetminlimitorderamountinbase"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setMinLimitOrderAmountInBase|newLimitOrderAmountInBase|minLimitOrderAmountInBase).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setMinLimitOrderAmountInBase"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

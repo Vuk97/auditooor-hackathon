@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "processing-non-existent-withdrawal-requests"
+class_name: "ProcessingNonExistentWithdrawalRequests"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53669 (SigmaPrime/Derive)"
+help: "Processing Non-Existent Withdrawal Requests"
+wiki_title: "Processing Non-Existent Withdrawal Requests"
+wiki_description: |
+    ## Description
+    
+    Anyone can call `processWithdrawalRequests()` and process non-existent withdrawal requests, blocking future legitimate withdrawal requests.
+    
+    The function `processWithdrawalRequests()` doesn’t check if `$.queuedWithdrawalHead` value is less than the last created withdrawal request. As
+wiki_exploit_scenario: |
+    Per Solodit #53669: ## Description
+    
+    Anyone can call `processWithdrawalRequests()` and process non-existent withdrawal requests, blocking future legitimate withdrawal requests.
+    
+    The function `processWithdrawalRequests()`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProcessingNonExistentWithdrawalRequests"
+solodit_id: "53669"
+solodit_slug: "processing-non-existent-withdrawal-requests-sigmaprime-none-derive-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amountshares;"
+fn_name_regex: ".*(processWithdrawalRequests|queuedWithdrawals|depositToken|amountShares).*"
+read_var_regex: ".*(amountShares|depositToken|processWithdrawalRequests).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "processWithdrawalRequests"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amountshares > 0;"

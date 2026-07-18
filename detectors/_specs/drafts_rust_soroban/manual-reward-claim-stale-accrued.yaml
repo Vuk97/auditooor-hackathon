@@ -1,0 +1,20 @@
+id: manual-reward-claim-stale-accrued
+title: "Manual reward claim uses stale accrued balance"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44859"
+bug_class: reward-accounting
+indicators:
+  - "`claim(user, asset)` reads `accrued[user]` without calling `update_user_reward(user, asset)` first"
+  - "claim transfers less than user actually earned"
+victim: "Claiming users."
+exploit_precondition: "User last accrued long ago; claims before a new settlement pass."
+real_world_example: |
+  V12 #44859 (High): Manual reward claims use stale accrued balances.
+suggested_remediation: "Force a settlement pass inside every claim entrypoint."
+cross_refs:
+  - post-exit-settlement-erases-rewards
+  - stale-snapshot-over-claim-rewards

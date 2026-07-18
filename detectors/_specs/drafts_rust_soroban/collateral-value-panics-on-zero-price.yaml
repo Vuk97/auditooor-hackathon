@@ -1,0 +1,19 @@
+id: collateral-value-panics-on-zero-price
+title: "Collateral value helper panics on zero base price"
+severity: Info
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.50"
+bug_class: oracle-cascade
+indicators:
+  - "`collateral_value / base_price` without `if base_price == 0` guard"
+  - "`checked_div` missing or `.unwrap()` on an Option"
+victim: "Protocol: panic bricks all account data calculations for the reserve."
+exploit_precondition: "A base asset's price becomes zero."
+real_world_example: |
+  Halborn 7.50 (INFO): Collateral value helper can panic on zero base price.
+suggested_remediation: "Guard `if base_price == 0 { return Err(ZeroPrice) }` before division."
+cross_refs:
+  - reflector-future-timestamp-panics

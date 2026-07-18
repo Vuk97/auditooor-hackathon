@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "function-constint248-allows-invalid-ranges-for-arguments-ret-x"
+class_name: "FunctionConstint248AllowsInvalidRangesForArgumentsRetX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Brevis - Zellic Audit Report"
+help: |
+    The sdk provides a type Int248 in sdk/api_int248.go for 248-bit signed integers with which the inte- ger range from −2247 to 2247 − 1 can be represented. To represent negative valu
+wiki_title: "Function ConstInt248 allows invalid ranges for arguments, returning incor-"
+wiki_description: |
+    The sdk provides a type Int248 in sdk/api_int248.go for 248-bit signed integers with which the inte- ger range from −2247 to 2247 − 1 can be represented. To represent negative values, two's comple- ment is used. The function ConstInt248 can be used to instantiate an Int248 from a native big.Int valu
+wiki_exploit_scenario: |
+    Per audit finding: The sdk provides a type Int248 in sdk/api_int248.go for 248-bit signed integers with which the inte- ger range from −2247 to 2247 − 1 can be represented. To represent negative values, two's comple- me
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FunctionConstint248AllowsInvalidRangesForArgumentsRetX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(absBits|decomposeBitsExact|twosComplement).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "absBits"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

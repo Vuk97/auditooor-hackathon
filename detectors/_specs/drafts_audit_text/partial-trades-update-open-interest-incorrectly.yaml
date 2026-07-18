@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "partial-trades-update-open-interest-incorrectly"
+class_name: "PartialTradesUpdateOpenInterestIncorrectly"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    The function registerPartialTrade is used by _unregisterTrade to register a partial trade in case the collateral to be withdrawn is less than the initial position of the trade. Whe
+wiki_title: "Partial trades update open-interest incorrectly"
+wiki_description: |
+    The function registerPartialTrade is used by _unregisterTrade to register a partial trade in case the collateral to be withdrawn is less than the initial position of the trade. When this partial trade is registered, the open interest is updated using the function _updateOpenInterestUSDC in registerP
+wiki_exploit_scenario: |
+    Per audit finding: The function registerPartialTrade is used by _unregisterTrade to register a partial trade in case the collateral to be withdrawn is less than the initial position of the trade. When this partial trade
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PartialTradesUpdateOpenInterestIncorrectly"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

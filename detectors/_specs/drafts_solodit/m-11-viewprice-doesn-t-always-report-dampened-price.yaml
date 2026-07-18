@@ -1,0 +1,49 @@
+skeleton: "paired_function_divergence"
+name: "m-11-viewprice-doesn-t-always-report-dampened-price"
+class_name: "M11ViewpriceDoesnTAlwaysReportDampenedPrice"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5740 (Code4rena/Inverse Finance)"
+help: "[M-11] viewPrice doesn’t always report dampened price"
+wiki_title: "[M-11] viewPrice doesn’t always report dampened price"
+wiki_description: |
+    ## Lines of code
+    
+    https://github.com/code-423n4/2022-10-inverse/blob/3e81f0f5908ea99b36e6ab72f13488bbfe622183/src/Oracle.sol#L91
+    
+    
+    ## Vulnerability details
+    
+    ## Impact
+    Oracle's `viewPrice` function doesn't report a dampened price until `getPrice` is called and today's price is updated. This will impa
+wiki_exploit_scenario: |
+    Per Solodit #5740: ## Lines of code
+    
+    https://github.com/code-423n4/2022-10-inverse/blob/3e81f0f5908ea99b36e6ab72f13488bbfe622183/src/Oracle.sol#L91
+    
+    
+    ## Vulnerability details
+    
+    ## Impact
+    Oracle's `viewPrice` function doe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11ViewpriceDoesnTAlwaysReportDampenedPrice"
+solodit_id: "5740"
+solodit_slug: |
+    m-11-viewprice-doesnt-always-report-dampened-price-code4rena-inverse-finance-inverse-finance-contest-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Oracle"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(getCollateralValue|getCreditLimit|getPrice).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

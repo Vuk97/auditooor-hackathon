@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "m-02-settvllimits-incorrectly-assigns-newmaxtotaldeposits-to-max"
+class_name: "M02SettvllimitsIncorrectlyAssignsNewmaxtotaldepositsToMax"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58116 (Pashov Audit Group/Ebisu)"
+help: |
+    [M-02] `setTVLLimits` incorrectly assigns `_newMaxTotalDeposits` to `maxPerDeposit` instead of `maxTotalDeposits`.
+wiki_title: |
+    [M-02] `setTVLLimits` incorrectly assigns `_newMaxTotalDeposits` to `maxPerDeposit` instead of `maxTotalDeposits`.
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium, Because the cap raiser cannot update `maxTotalDeposits` and will wrongly update `maxPerDeposit` with `_newMaxTotalDeposits`.
+    
+    **Likelihood:** Medium, Because it will happened every time cap raiser want to update TVL limits.
+    
+    ## Description
+    
+    Current implementation of
+wiki_exploit_scenario: |
+    Per Solodit #58116: ## Severity
+    
+    **Impact:** Medium, Because the cap raiser cannot update `maxTotalDeposits` and will wrongly update `maxPerDeposit` with `_newMaxTotalDeposits`.
+    
+    **Likelihood:** Medium, Because it will h
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02SettvllimitsIncorrectlyAssignsNewmaxtotaldepositsToMax"
+solodit_id: "58116"
+solodit_slug: |
+    m-02-settvllimits-incorrectly-assigns-_newmaxtotaldeposits-to-maxperdeposit-instead-of-maxtotaldeposits-pashov-audit-group-none-ebisu-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal maxperdeposit;"
+fn_name_regex: ".*(maxTotalDeposits|maxPerDeposit|setTVLLimits).*"
+write_var_regex: ".*(maxPerDeposit|maxTotalDeposits|setTVLLimits).*"
+guard_var_regex: ".*(maxPerDeposit|maxTotalDeposits|setTVLLimits).*"
+vuln_fn_name: "maxTotalDeposits"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "maxperdeposit = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

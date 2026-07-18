@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "user-can-join-after-the-first-question-is-revealed-to-gain-an-ad"
+class_name: "UserCanJoinAfterTheFirstQuestionIsRevealedToGainAnAd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65380 (Cyfrin/Majority Protocol)"
+help: "User can join after the first question is revealed to gain an advantage over other users"
+wiki_title: "User can join after the first question is revealed to gain an advantage over other users"
+wiki_description: |
+    **Description:** Users can join a game while the game is ongoing:
+    ```solidity
+     function joinGame(uint256 _gameId) external {
+            require(
+                games[_gameId].state == SessionState.Created || games[_gameId].state == SessionState.Ongoing,
+                InvalidGameState(SessionState.Created, g
+wiki_exploit_scenario: |
+    Per Solodit #65380: **Description:** Users can join a game while the game is ongoing:
+    ```solidity
+     function joinGame(uint256 _gameId) external {
+            require(
+                games[_gameId].state == SessionState.Created |
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UserCanJoinAfterTheFirstQuestionIsRevealedToGainAnAd"
+solodit_id: "65380"
+solodit_slug: |
+    user-can-join-after-the-first-question-is-revealed-to-gain-an-advantage-over-other-users-cyfrin-none-majority-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(Ongoing).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Ongoing"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

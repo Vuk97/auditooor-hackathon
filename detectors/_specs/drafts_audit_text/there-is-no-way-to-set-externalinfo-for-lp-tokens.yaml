@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "there-is-no-way-to-set-externalinfo-for-lp-tokens"
+class_name: "ThereIsNoWayToSetExternalinfoForLpTokens"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Awaken Swap - Zellic Audit Report"
+help: |
+    The ExternalInfo feature of the TokenContract allows tokens to have arbitrary key-value metadata, with one constant key, awaken_transfer_callback, having the special behavior that
+wiki_title: "There is no way to set ExternalInfo for LP tokens"
+wiki_description: |
+    The ExternalInfo feature of the TokenContract allows tokens to have arbitrary key-value metadata, with one constant key, awaken_transfer_callback, having the special behavior that it specifies a callback to be called upon token transfers. However, the only ways this ExternalInfo state can change are
+wiki_exploit_scenario: |
+    Per audit finding: The ExternalInfo feature of the TokenContract allows tokens to have arbitrary key-value metadata, with one constant key, awaken_transfer_callback, having the special behavior that it specifies a callb
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ThereIsNoWayToSetExternalinfoForLpTokens"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

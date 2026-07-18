@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "completing-unqueued-withdrawal-loses-and-locks-funds"
+class_name: "CompletingUnqueuedWithdrawalLosesAndLocksFunds"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit ether.fi - Zellic Audit Report"
+help: |
+    In the queued withdrawal-deposit process, a user first initiates a queued withdrawal with Eigen- Layer where the withdrawer is set as the Liquifier contract, and then they call dep
+wiki_title: "Completing unqueued withdrawal loses and locks funds"
+wiki_description: |
+    In the queued withdrawal-deposit process, a user first initiates a queued withdrawal with Eigen- Layer where the withdrawer is set as the Liquifier contract, and then they call depositWith- QueuedWithdrawal on Liquifier to get minted a corresponding amount of eETH. This sets an en- try of the mappin
+wiki_exploit_scenario: |
+    Per audit finding: In the queued withdrawal-deposit process, a user first initiates a queued withdrawal with Eigen- Layer where the withdrawer is set as the Liquifier contract, and then they call depositWith- QueuedWith
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CompletingUnqueuedWithdrawalLosesAndLocksFunds"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositWith|eETH|isRegisteredQueuedWithdrawals).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositWith"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

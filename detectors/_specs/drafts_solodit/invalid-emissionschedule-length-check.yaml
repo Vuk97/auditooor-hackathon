@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "invalid-emissionschedule-length-check"
+class_name: "InvalidEmissionscheduleLengthCheck"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51960 (Halborn/Staking-Module)"
+help: "Invalid emissionSchedule length check"
+wiki_title: "Invalid emissionSchedule length check"
+wiki_description: |
+    ##### Description
+    
+    The `AaveDistributionManager` contract allows the direct call to the `configureAssets` function without validating the length of the `emissionSchedule`. This can lead to an out-of-bounds error when fetching the asset index if an invalid `emissionSchedule` length is provided. The i
+wiki_exploit_scenario: |
+    Per Solodit #51960: ##### Description
+    
+    The `AaveDistributionManager` contract allows the direct call to the `configureAssets` function without validating the length of the `emissionSchedule`. This can lead to an out-of-b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InvalidEmissionscheduleLengthCheck"
+solodit_id: "51960"
+solodit_slug: "invalid-emissionschedule-length-check-halborn-bonzo-staking-module-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal configureassets;"
+fn_name_regex: ".*(AaveDistributionManager|configureAssets|emissionSchedule|StakedToken).*"
+write_var_regex: ".*(configureAssets|emissionSchedule).*"
+guard_var_regex: ".*(configureAssets|emissionSchedule).*"
+vuln_fn_name: "AaveDistributionManager"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "configureassets = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,38 @@
+skeleton: "state_write_without_paired_write"
+name: "missing-sequencer-uptime-check-in-bondchainlinkoracle-for-l2-dep"
+class_name: "MissingSequencerUptimeCheckInBondchainlinkoracleForL2Dep"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52257 (Halborn/Contracts V1)"
+help: "Missing Sequencer Uptime Check in BondChainlinkOracle for L2 Deployments"
+wiki_title: "Missing Sequencer Uptime Check in BondChainlinkOracle for L2 Deployments"
+wiki_description: |
+    ##### Description
+    
+    The `BondChainlinkOracle.sol` contract fails to implement a check for the sequencer status on Layer 2 networks (Arbitrum, Optimism, Linea). Specifically, in the `_validateAndGetPrice` function:
+    
+    ```
+    function _validateAndGetPrice(AggregatorV2V3Interface feed_, uint48 updateThreshol
+wiki_exploit_scenario: |
+    Per Solodit #52257: ##### Description
+    
+    The `BondChainlinkOracle.sol` contract fails to implement a check for the sequencer status on Layer 2 networks (Arbitrum, Optimism, Linea). Specifically, in the `_validateAndGetPric
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingSequencerUptimeCheckInBondchainlinkoracleForL2Dep"
+solodit_id: "52257"
+solodit_slug: |
+    missing-sequencer-uptime-check-in-bondchainlinkoracle-for-l2-deployments-halborn-lucid-labs-contracts-v1-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(BondChainlinkOracle|BondChainlinkOracleL2).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

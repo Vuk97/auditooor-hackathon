@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "m-02-reward-time-is-updated-even-when-no-rewards-are-sent"
+class_name: "M02RewardTimeIsUpdatedEvenWhenNoRewardsAreSent"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41695 (Pashov Audit Group/Dyad)"
+help: "[M-02] Reward time is updated even when no rewards are sent"
+wiki_title: "[M-02] Reward time is updated even when no rewards are sent"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    In `UniswapV3Staking` users can claim rewards by calling the `claimRewards` function. However, the `lastRewardTime` is always updated even when they get zero rewards:
+    
+    ```solidity
+        function _claimRewards(uint256 noteId, Stak
+wiki_exploit_scenario: |
+    Per Solodit #41695: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    In `UniswapV3Staking` users can claim rewards by calling the `claimRewards` function. However, the `lastRewardTime` is always u
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02RewardTimeIsUpdatedEvenWhenNoRewardsAreSent"
+solodit_id: "41695"
+solodit_slug: "m-02-reward-time-is-updated-even-when-no-rewards-are-sent-pashov-audit-group-none-dyad-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimrewards;"
+fn_name_regex: ".*(UniswapV3Staking|claimRewards|lastRewardTime|rewardsRate).*"
+write_var_regex: ".*(claimRewards|lastRewardTime|rewardsRate).*"
+guard_var_regex: ".*(claimRewards|lastRewardTime|rewardsRate).*"
+vuln_fn_name: "UniswapV3Staking"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "claimrewards = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "aggregation-of-stale-price-feed-s"
+class_name: "AggregationOfStalePriceFeedS"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61344 (Quantstamp/API3 - Data Feed Proxy Combinators)"
+help: "Aggregation of Stale Price Feed(s)"
+wiki_title: "Aggregation of Stale Price Feed(s)"
+wiki_description: |
+    **Update**
+    Acknowledged in: `e0595d4`. The client provided the following explanation:
+    
+    > The ProductApi3ReaderProxyV1.read() function intentionally returns block.timestamp. This design choice by Api3 reflects that the timestamp accurately marks the on-chain computation time of the derived product va
+wiki_exploit_scenario: |
+    Per Solodit #61344: **Update**
+    Acknowledged in: `e0595d4`. The client provided the following explanation:
+    
+    > The ProductApi3ReaderProxyV1.read() function intentionally returns block.timestamp. This design choice by Api3
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AggregationOfStalePriceFeedS"
+solodit_id: "61344"
+solodit_slug: "aggregation-of-stale-price-feeds-quantstamp-api3-data-feed-proxy-combinators-markdown"
+solodit_quality: "5"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(e0595d4|ProductApi3ReaderProxyV1|MIN).*"
+primary_var_regex: ".*(e0595d4).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

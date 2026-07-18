@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-access-control-on-createaccount-enables-unlimited-proxy"
+class_name: "MissingAccessControlOnCreateaccountEnablesUnlimitedProxy"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Hyperbeat Pay - Zellic Audit Report"
+help: |
+    The ManagementAccountFactory::createAccount function lacks access control, unlike other administrative functions in the factory: function createAccount(address owner_) external ret
+wiki_title: "Missing access control on createAccount enables unlimited proxy-"
+wiki_description: |
+    The ManagementAccountFactory::createAccount function lacks access control, unlike other administrative functions in the factory: function createAccount(address owner_) external returns (address account) { bytes memory initData = abi.encodeWithSelector(ManagementAccount.initialize.selector, owner_, a
+wiki_exploit_scenario: |
+    Per audit finding: The ManagementAccountFactory::createAccount function lacks access control, unlike other administrative functions in the factory: function createAccount(address owner_) external returns (address accoun
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingAccessControlOnCreateaccountEnablesUnlimitedProxy"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(createAccount|initData|encodeWithSelector).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "createAccount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

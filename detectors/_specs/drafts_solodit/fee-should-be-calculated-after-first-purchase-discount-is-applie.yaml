@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "fee-should-be-calculated-after-first-purchase-discount-is-applie"
+class_name: "FeeShouldBeCalculatedAfterFirstPurchaseDiscountIsApplie"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61180 (Cyfrin/Remora Pledge)"
+help: |
+    Fee should be calculated after first purchase discount is applied in `TokenBank::buy` to prevent over-charging users
+wiki_title: |
+    Fee should be calculated after first purchase discount is applied in `TokenBank::buy` to prevent over-charging users
+wiki_description: |
+    **Description:** `TokenBank::buy` calculates the total purchase amount as being composed of:
+    * `stablecoinValue` : value of the tokens
+    * `feeValue` : fee calculated off `stablecoinValue`
+    ```solidity
+            uint64 stablecoinValue = amount * curData.pricePerToken;
+            uint64 feeValue = (stablecoi
+wiki_exploit_scenario: |
+    Per Solodit #61180: **Description:** `TokenBank::buy` calculates the total purchase amount as being composed of:
+    * `stablecoinValue` : value of the tokens
+    * `feeValue` : fee calculated off `stablecoinValue`
+    ```solidity
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FeeShouldBeCalculatedAfterFirstPurchaseDiscountIsApplie"
+solodit_id: "61180"
+solodit_slug: |
+    fee-should-be-calculated-after-first-purchase-discount-is-applied-in-tokenbankbuy-to-prevent-over-charging-users-cyfrin-none-remora-pledge-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal feevalue;"
+fn_name_regex: ".*(stablecoinValue|feeValue).*"
+read_var_regex: ".*(feeValue|stablecoinValue).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "stablecoinValue"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return feevalue > 0;"

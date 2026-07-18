@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "cancelled-redeem-requests-make-shares-permanently-unredeemable"
+class_name: "CancelledRedeemRequestsMakeSharesPermanentlyUnredeemable"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #63081 (Spearbit/Superform v2 Periphery)"
+help: "Cancelled redeem requests make shares permanently unredeemable"
+wiki_title: "Cancelled redeem requests make shares permanently unredeemable"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    - `SuperVaultStrategy.sol#L609`
+    - `SuperVaultStrategy.sol#L612`
+    - `SuperVaultStrategy.sol#L951`
+    
+    ## Summary
+    When a user cancels a pending redeem request, the deletion of the entire `superVaultState[controller]` struct removes properties that are required for subseq
+wiki_exploit_scenario: |
+    Per Solodit #63081: ## Severity: High Risk
+    
+    ## Context
+    - `SuperVaultStrategy.sol#L609`
+    - `SuperVaultStrategy.sol#L612`
+    - `SuperVaultStrategy.sol#L951`
+    
+    ## Summary
+    When a user cancels a pending redeem request, the deletio
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CancelledRedeemRequestsMakeSharesPermanentlyUnredeemable"
+solodit_id: "63081"
+solodit_slug: |
+    cancelled-redeem-requests-make-shares-permanently-unredeemable-spearbit-none-superform-v2-periphery-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accumulatorcostbasis;"
+fn_name_regex: ".*(SuperVaultStrategy|SuperVaultEscrow|fulfillRedeemRequests|INSUFFICIENT_SHARES).*"
+write_var_regex: ".*(accumulatorCostBasis|accumulatorShares|fulfillRedeemRequests).*"
+guard_var_regex: ".*(accumulatorCostBasis|accumulatorShares|fulfillRedeemRequests).*"
+vuln_fn_name: "SuperVaultStrategy"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "accumulatorcostbasis = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

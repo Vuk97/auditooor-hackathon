@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "no-deposit-token-validation"
+class_name: "NoDepositTokenValidation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #56032 (Zokyo/Triall)"
+help: "No deposit token validation"
+wiki_title: "No deposit token validation"
+wiki_description: |
+    **Description**
+    
+    Vesting.sol
+    Since the contract does not have any validation for deposit tokens, consider the usage of
+    SafeERC20 library for transfers of deposit token and ReentrancyGuard in order to prevent
+    reentrancy+fake token attack combination.
+    Potentially affected methods:
+    Vesting.withdrawFund
+wiki_exploit_scenario: |
+    Per Solodit #56032: **Description**
+    
+    Vesting.sol
+    Since the contract does not have any validation for deposit tokens, consider the usage of
+    SafeERC20 library for transfers of deposit token and ReentrancyGuard in order to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoDepositTokenValidation"
+solodit_id: "56032"
+solodit_slug: "no-deposit-token-validation-zokyo-none-triall-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawFunds|transferFrom).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdrawFunds"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

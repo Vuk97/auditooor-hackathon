@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "h-7-limit-orders-are-broken-when-there-are-price-gaps"
+class_name: "H7LimitOrdersAreBrokenWhenThereArePriceGaps"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18633 (Sherlock/GMX)"
+help: "H-7: Limit orders are broken when there are price gaps"
+wiki_title: "H-7: Limit orders are broken when there are price gaps"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-02-gmx-judging/issues/140 
+    
+    ## Found by 
+    IllIllI
+    
+    ## Summary
+    
+    Limit orders fail to execute when the price becomes worse for the order in the block after the order is submitted.
+    
+    
+    ## Vulnerability Detail
+    
+    Limit orders require that all oracle-provided pri
+wiki_exploit_scenario: |
+    Per Solodit #18633: Source: https://github.com/sherlock-audit/2023-02-gmx-judging/issues/140 
+    
+    ## Found by 
+    IllIllI
+    
+    ## Summary
+    
+    Limit orders fail to execute when the price becomes worse for the order in the block after
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H7LimitOrdersAreBrokenWhenThereArePriceGaps"
+solodit_id: "18633"
+solodit_slug: "h-7-limit-orders-are-broken-when-there-are-price-gaps-sherlock-none-gmx-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setExactOrderPrice|orderType|primaryPrice|getPrimaryPrice).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setExactOrderPrice"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

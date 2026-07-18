@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unchecked-transferfrom-return-value-in-deposit"
+class_name: "UncheckedTransferfromReturnValueInDeposit"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Hyperliquid - Zellic Audit Report"
+help: |
+    The bridge handles deposits by transferring an amount of USDC from the sender and emitting a corresponding event. /) An external function anyone can call to deposit usdc into the b
+wiki_title: "Unchecked transferFrom return value in deposit"
+wiki_description: |
+    The bridge handles deposits by transferring an amount of USDC from the sender and emitting a corresponding event. /) An external function anyone can call to deposit usdc into the bridge. /) A deposit event will be emitted crediting the L1 with the usdc. function deposit(uint64 usdc) external whenNot
+wiki_exploit_scenario: |
+    Per audit finding: The bridge handles deposits by transferring an amount of USDC from the sender and emitting a corresponding event. /) An external function anyone can call to deposit usdc into the bridge. /) A deposit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UncheckedTransferfromReturnValueInDeposit"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(whenNotPaused|nonReentrant|usdcToken).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "whenNotPaused"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

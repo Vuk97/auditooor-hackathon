@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "m-06-bypassing-min-initial-deposit"
+class_name: "M06BypassingMinInitialDeposit"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41329 (Pashov Audit Group/AegisVault)"
+help: "[M-06] Bypassing `MIN_INITIAL_DEPOSIT`"
+wiki_title: "[M-06] Bypassing `MIN_INITIAL_DEPOSIT`"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When users first deposit into the Aegis vault (`aegisTotalSupply` is 0), the operation will check if `aegisShares` minted is greater than `MIN_INITIAL_DEPOSIT`. This is designed to prevent attacks from first depositors.
+    
+    ```solidity
+wiki_exploit_scenario: |
+    Per Solodit #41329: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When users first deposit into the Aegis vault (`aegisTotalSupply` is 0), the operation will check if `aegisShares` minted is greater
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06BypassingMinInitialDeposit"
+solodit_id: "41329"
+solodit_slug: "m-06-bypassing-min_initial_deposit-pashov-audit-group-none-aegisvault-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal aegisshares;"
+fn_name_regex: ".*(aegisTotalSupply|aegisShares|MIN_INITIAL_DEPOSIT|withdraw).*"
+read_var_regex: ".*(aegisShares|aegisTotalSupply|withdraw).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "aegisTotalSupply"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return aegisshares > 0;"

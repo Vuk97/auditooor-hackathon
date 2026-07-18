@@ -1,0 +1,32 @@
+skeleton: "paired_function_divergence"
+name: "external-call-to-permit2-allows-stealing-users-tokens"
+class_name: "ExternalCallToPermit2AllowsStealingUsersTokens"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #32754 (OpenZeppelin/Beefy Zap Audit)"
+help: "External Call to Permit2 Allows Stealing Users' Tokens"
+wiki_title: "External Call to Permit2 Allows Stealing Users' Tokens"
+wiki_description: |
+    During an order execution, it is possible to [make arbitrary external calls](https://github.com/beefyfinance/beefy-zap/blob/addd5741a520b10924f1f26cc45208ff5fa88139/contracts/zaps/BeefyZapRouter.sol#L137) to any `stepTarget` except the token manager. A vulnerability arises when setting `stepTarget`
+wiki_exploit_scenario: |
+    Per Solodit #32754: During an order execution, it is possible to [make arbitrary external calls](https://github.com/beefyfinance/beefy-zap/blob/addd5741a520b10924f1f26cc45208ff5fa88139/contracts/zaps/BeefyZapRouter.sol#L
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExternalCallToPermit2AllowsStealingUsersTokens"
+solodit_id: "32754"
+solodit_slug: "external-call-to-permit2-allows-stealing-users-tokens-openzeppelin-none-beefy-zap-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(stepTarget).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

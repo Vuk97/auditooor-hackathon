@@ -1,0 +1,44 @@
+skeleton: "state_write_without_paired_write"
+name: "orderbook-denial-of-service-leveraging-blacklistable-tokens-like"
+class_name: "OrderbookDenialOfServiceLeveragingBlacklistableTokensLike"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7252 (Spearbit/CLOBER)"
+help: "OrderBook Denial of Service leveraging blacklistable tokens like USDC"
+wiki_title: "OrderBook Denial of Service leveraging blacklistable tokens like USDC"
+wiki_description: |
+    ## Severity: Critical Risk
+    
+    ## Context
+    - **Audit Commit**: `OrderBook.sol#L649-L666`
+    - **Dev Commit**: `OrderBook.sol#L687-L706`
+    
+    ## Description
+    The issue was spotted while analyzing additional impact and fix for 67. Proof of concept checked with the original audit commit: `28062f477f571b38fe4f84551
+wiki_exploit_scenario: |
+    Per Solodit #7252: ## Severity: Critical Risk
+    
+    ## Context
+    - **Audit Commit**: `OrderBook.sol#L649-L666`
+    - **Dev Commit**: `OrderBook.sol#L687-L706`
+    
+    ## Description
+    The issue was spotted while analyzing additional impact
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OrderbookDenialOfServiceLeveragingBlacklistableTokensLike"
+solodit_id: "7252"
+solodit_slug: "orderbook-denial-of-service-leveraging-blacklistable-tokens-like-usdc-spearbit-clober-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Blacklisted"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(OrderBook|MAX_ORDERS|OrderNFT|quoteToken).*"
+primary_var_regex: ".*(quoteToken).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

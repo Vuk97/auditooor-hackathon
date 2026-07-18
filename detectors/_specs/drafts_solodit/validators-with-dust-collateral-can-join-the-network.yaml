@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "validators-with-dust-collateral-can-join-the-network"
+class_name: "ValidatorsWithDustCollateralCanJoinTheNetwork"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #37357 (Zokyo/Interplanetary Consensus (Ipc))"
+help: "Validators with dust collateral can join the network"
+wiki_title: "Validators with dust collateral can join the network"
+wiki_description: |
+    **Severity**: High
+    
+    **Status**: Acknowledged
+    
+    SubnetActorManagerFacet.sol - In join function , validators are allowed to join the network to be added to `genesisValidators` in exchange for dust values as low as 1 native coin. This in turn can flood the `s.genesisValidators` array. There is a minimum
+wiki_exploit_scenario: |
+    Per Solodit #37357: **Severity**: High
+    
+    **Status**: Acknowledged
+    
+    SubnetActorManagerFacet.sol - In join function , validators are allowed to join the network to be added to `genesisValidators` in exchange for dust values
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ValidatorsWithDustCollateralCanJoinTheNetwork"
+solodit_id: "37357"
+solodit_slug: |
+    validators-with-dust-collateral-can-join-the-network-zokyo-none-interplanetary-consensus-ipc-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal genesisvalidators;"
+fn_name_regex: ".*(genesisValidators).*"
+write_var_regex: ".*(genesisValidators).*"
+guard_var_regex: ".*(genesisValidators).*"
+vuln_fn_name: "genesisValidators"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "genesisvalidators = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

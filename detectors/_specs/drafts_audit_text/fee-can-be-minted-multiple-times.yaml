@@ -1,0 +1,26 @@
+skeleton: "state_write_without_paired_write"
+name: "fee-can-be-minted-multiple-times"
+class_name: "FeeCanBeMintedMultipleTimes"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit StakeKit - Zellic Audit Report"
+help: |
+    The harvest function is called in deposit, withdraw, mint, and redeem functions. In these functions, the totalUnderlyingStamp and lastStamp are updated at the end of the function.
+wiki_title: "Fee can be minted multiple times"
+wiki_description: |
+    The harvest function is called in deposit, withdraw, mint, and redeem functions. In these functions, the totalUnderlyingStamp and lastStamp are updated at the end of the function. The harvest function can also be called externally for minting a fee to the feeRecipient. The computeHarvestFee function
+wiki_exploit_scenario: |
+    Per audit finding: The harvest function is called in deposit, withdraw, mint, and redeem functions. In these functions, the totalUnderlyingStamp and lastStamp are updated at the end of the function. The harvest function
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FeeCanBeMintedMultipleTimes"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(totalUnderlyingStamp|lastStamp|feeRecipient).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

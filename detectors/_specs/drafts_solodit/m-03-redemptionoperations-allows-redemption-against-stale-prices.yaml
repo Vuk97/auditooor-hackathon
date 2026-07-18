@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "m-03-redemptionoperations-allows-redemption-against-stale-prices"
+class_name: "M03RedemptionoperationsAllowsRedemptionAgainstStalePrices"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53843 (Recon Audits/Apollon Report)"
+help: "[M-03] `RedemptionOperations` allows redemption against stale prices"
+wiki_title: "[M-03] `RedemptionOperations` allows redemption against stale prices"
+wiki_description: |
+    **Impact**
+    
+    The code for `_calculateTroveRedemption` doesn't validate that collaterals nor debts prices are not stale
+    
+    https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87/packages/contracts/contracts/RedemptionOperations.sol#L231-L259
+    
+    ```solidity
+      function _calculateTr
+wiki_exploit_scenario: |
+    Per Solodit #53843: **Impact**
+    
+    The code for `_calculateTroveRedemption` doesn't validate that collaterals nor debts prices are not stale
+    
+    https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87/
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03RedemptionoperationsAllowsRedemptionAgainstStalePrices"
+solodit_id: "53843"
+solodit_slug: |
+    m-03-redemptionoperations-allows-redemption-against-stale-prices-recon-audits-none-apollon-report-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(isDebtToken|RedemptionOperations).*"
+primary_var_regex: ".*(isDebtToken).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-zero-address-check-24"
+class_name: "MissingZeroAddressCheck24"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit RabbitX December 2024 - Zellic Audit Report"
+help: |
+    The vault contracts serve as a management layer for user permissions and staking operations. A user is able to stake tokens or ETH directly. For the first case of token staking, th
+wiki_title: "Missing zero-address check                                                        24"
+wiki_description: |
+    The vault contracts serve as a management layer for user permissions and staking operations. A user is able to stake tokens or ETH directly. For the first case of token staking, the stakeToken func- tion is called, transferring the tokens to the exchange contracts — here, for example, in the contrac
+wiki_exploit_scenario: |
+    Per audit finding: The vault contracts serve as a management layer for user permissions and staking operations. A user is able to stake tokens or ETH directly. For the first case of token staking, the stakeToken func- t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingZeroAddressCheck24"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stakeToken|supportedTokens|minStakes).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "stakeToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

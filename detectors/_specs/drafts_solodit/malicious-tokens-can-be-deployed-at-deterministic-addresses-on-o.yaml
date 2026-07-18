@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "malicious-tokens-can-be-deployed-at-deterministic-addresses-on-o"
+class_name: "MaliciousTokensCanBeDeployedAtDeterministicAddressesOnO"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50077 (Spearbit/Optimism Interop)"
+help: "Malicious tokens can be deployed at deterministic addresses on other chains to steal funds"
+wiki_title: "Malicious tokens can be deployed at deterministic addresses on other chains to steal funds"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    When sending an ERC20 across the SuperchainTokenBridge, we assume that the token has the same address on both chains. In `sendERC20()`, we encode the sent token address in the relay call:
+    
+    ```
+wiki_exploit_scenario: |
+    Per Solodit #50077: ## Severity: High Risk
+    
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    When sending an ERC20 across the SuperchainTokenBridge, we assume that the token has the same
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousTokensCanBeDeployedAtDeterministicAddressesOnO"
+solodit_id: "50077"
+solodit_slug: |
+    malicious-tokens-can-be-deployed-at-deterministic-addresses-on-other-chains-to-steal-funds-spearbit-none-optimism-interop-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal crosschainmint;"
+fn_name_regex: ".*(sendERC20|relayERC20|crosschainMint|CREATE2).*"
+read_var_regex: ".*(crosschainMint|initialize|relayERC20).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "sendERC20"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return crosschainmint > 0;"

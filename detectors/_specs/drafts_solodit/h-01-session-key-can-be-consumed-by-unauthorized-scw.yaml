@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "h-01-session-key-can-be-consumed-by-unauthorized-scw"
+class_name: "H01SessionKeyCanBeConsumedByUnauthorizedScw"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61396 (Shieldify/Etherspot Credibleaccountmodule Mitigation)"
+help: "[H-01] Session Key Can Be Consumed by Unauthorized SCW"
+wiki_title: "[H-01] Session Key Can Be Consumed by Unauthorized SCW"
+wiki_description: |
+    ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    When validating the session to be consumed by calling `CredibleAccountModule::validateUserOp()`. We are enforcing the sender to be a wallet that installed the module and to be `userOp.sender` too.
+    
+    The issue is that there is no check that `userOpHash` is the
+wiki_exploit_scenario: |
+    Per Solodit #61396: ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    When validating the session to be consumed by calling `CredibleAccountModule::validateUserOp()`. We are enforcing the sender to be a wallet that installed the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01SessionKeyCanBeConsumedByUnauthorizedScw"
+solodit_id: "61396"
+solodit_slug: |
+    h-01-session-key-can-be-consumed-by-unauthorized-scw-shieldify-none-etherspot-credibleaccountmodule-mitigation-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal sessionkeysigner;"
+fn_name_regex: ".*(userOpHash|EntryPoint|PackedUserOperation|sessionKeySigner).*"
+write_var_regex: ".*(sessionKeySigner|userOpHash).*"
+guard_var_regex: ".*(sessionKeySigner|userOpHash).*"
+vuln_fn_name: "userOpHash"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "sessionkeysigner = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

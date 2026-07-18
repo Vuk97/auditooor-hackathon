@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "desync-between-bribes-being-paid-and-gauge-distribution-allows-v"
+class_name: "DesyncBetweenBribesBeingPaidAndGaugeDistributionAllowsV"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21386 (Spearbit/Velodrome Finance)"
+help: |
+    Desync between bribes being paid and gauge distribution allows voters to receive bribes without triggering emissions
+wiki_title: |
+    Desync between bribes being paid and gauge distribution allows voters to receive bribes without triggering emissions
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    Voter.sol#L448
+    
+    ## Description
+    Because of the fact that `BribeVotingReward` will award bribes based on the voting power at `EPOCH_END - 1`, but `Minter.update_period()` and `Voter.distribute()` can be called at a time after, some voters may switch their vote befo
+wiki_exploit_scenario: |
+    Per Solodit #21386: ## Severity: Medium Risk
+    
+    ## Context
+    Voter.sol#L448
+    
+    ## Description
+    Because of the fact that `BribeVotingReward` will award bribes based on the voting power at `EPOCH_END - 1`, but `Minter.update_peri
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DesyncBetweenBribesBeingPaidAndGaugeDistributionAllowsV"
+solodit_id: "21386"
+solodit_slug: |
+    desync-between-bribes-being-paid-and-gauge-distribution-allows-voters-to-receive-bribes-without-spearbit-none-velodrome-finance-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(BribeVotingReward).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BribeVotingReward"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

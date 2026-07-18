@@ -1,0 +1,53 @@
+skeleton: "paired_function_divergence"
+name: "h-01-swap-is-vulnerable-to-sandwich-attacks"
+class_name: "H01SwapIsVulnerableToSandwichAttacks"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53302 (Pashov Audit Group/Gacha_2025-01-27)"
+help: "[H-01] `_swap()` is vulnerable to sandwich attacks"
+wiki_title: "[H-01] `_swap()` is vulnerable to sandwich attacks"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    Anyone can buy a ticket from a specified pool, a certain payment token will be used to swap for meme tokens. The swapping process is implemented as below:
+    
+    ```solidity
+        function _swap(
+            address token,
+            uint256 cost
+wiki_exploit_scenario: |
+    Per Solodit #53302: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    Anyone can buy a ticket from a specified pool, a certain payment token will be used to swap for meme tokens. The swapping process i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01SwapIsVulnerableToSandwichAttacks"
+solodit_id: "53302"
+solodit_slug: "h-01-_swap-is-vulnerable-to-sandwich-attacks-pashov-audit-group-none-gacha_2025-01-27-markdown"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Sandwich Attack"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(minTokens).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

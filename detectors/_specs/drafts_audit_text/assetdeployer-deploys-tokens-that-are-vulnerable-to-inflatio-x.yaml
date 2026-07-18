@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "assetdeployer-deploys-tokens-that-are-vulnerable-to-inflatio-x"
+class_name: "AssetdeployerDeploysTokensThatAreVulnerableToInflatioX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Takara Lend Contracts - Zellic Audit Report"
+help: |
+    The AssetDeployer contract deploys the TErc20 contract and sets up the contract's metadata in the Comptroller. During the setup process, 1 Wei of the token is minted with a payment
+wiki_title: "AssetDeployer deploys tokens that are vulnerable to inflation attacks"
+wiki_description: |
+    The AssetDeployer contract deploys the TErc20 contract and sets up the contract's metadata in the Comptroller. During the setup process, 1 Wei of the token is minted with a payment of 1 Wei of the underlying and then burned to the zero address: function deployAsset( // [...] ) public returns (addres
+wiki_exploit_scenario: |
+    Per audit finding: The AssetDeployer contract deploys the TErc20 contract and sets up the contract's metadata in the Comptroller. During the setup process, 1 Wei of the token is minted with a payment of 1 Wei of the und
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AssetdeployerDeploysTokensThatAreVulnerableToInflatioX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(deployAsset|underlyingERC20|tToken).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deployAsset"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

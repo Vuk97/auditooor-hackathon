@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "govpool-delegatetreasury-does-not-verify-transfer-of-tokens-and-"
+class_name: "GovpoolDelegatetreasuryDoesNotVerifyTransferOfTokensAnd"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27303 (Cyfrin/Dexe)"
+help: |
+    `GovPool::delegateTreasury` does not verify transfer of tokens and NFTs to delegatee leading to potential voting manipulation
+wiki_title: |
+    `GovPool::delegateTreasury` does not verify transfer of tokens and NFTs to delegatee leading to potential voting manipulation
+wiki_description: |
+    **Description:** `GovPool::delegateTreasury` transfers ERC20 tokens & specific nfts from DAO treasury to `govUserKeeper`. Based on this transfer, the `tokenBalance` and `nftBalance` of the delegatee is increased. This allows a delegatee to use this delegated voting power to vote in critical proposal
+wiki_exploit_scenario: |
+    Per Solodit #27303: **Description:** `GovPool::delegateTreasury` transfers ERC20 tokens & specific nfts from DAO treasury to `govUserKeeper`. Based on this transfer, the `tokenBalance` and `nftBalance` of the delegatee i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GovpoolDelegatetreasuryDoesNotVerifyTransferOfTokensAnd"
+solodit_id: "27303"
+solodit_slug: |
+    govpooldelegatetreasury-does-not-verify-transfer-of-tokens-and-nfts-to-delegatee-leading-to-potential-voting-manipulation-cyfrin-none-cyfrin-dexe-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal govuserkeeper;"
+fn_name_regex: ".*(govUserKeeper|tokenBalance|nftBalance).*"
+write_var_regex: ".*(govUserKeeper|nftBalance|tokenBalance).*"
+guard_var_regex: ".*(govUserKeeper|nftBalance|tokenBalance).*"
+vuln_fn_name: "govUserKeeper"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "govuserkeeper = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

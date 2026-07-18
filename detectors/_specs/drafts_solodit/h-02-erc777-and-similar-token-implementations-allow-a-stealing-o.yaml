@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "h-02-erc777-and-similar-token-implementations-allow-a-stealing-o"
+class_name: "H02Erc777AndSimilarTokenImplementationsAllowAStealingO"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28760 (Code4rena/Axelar Network)"
+help: "[H-02] ERC777 and similar token implementations allow a stealing of funds when transferring tokens"
+wiki_title: "[H-02] ERC777 and similar token implementations allow a stealing of funds when transferring tokens"
+wiki_description: |
+    A malicious actor can trick a `TokenManager` into thinking that a bigger amount of tokens were transferred. On the destination chain, the malicious actor will be able to receive more tokens than they sent on the source chain.
+    
+    ### Proof of Concept
+    
+    [TokenManagerLockUnlock](https://github.com/code-4
+wiki_exploit_scenario: |
+    Per Solodit #28760: A malicious actor can trick a `TokenManager` into thinking that a bigger amount of tokens were transferred. On the destination chain, the malicious actor will be able to receive more tokens than they
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02Erc777AndSimilarTokenImplementationsAllowAStealingO"
+solodit_id: "28760"
+solodit_slug: |
+    h-02-erc777-and-similar-token-implementations-allow-a-stealing-of-funds-when-transferring-tokens-code4rena-axelar-network-axelar-network-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Reentrancy"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(TokenManager|InterchainTokenService).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "TokenManager"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

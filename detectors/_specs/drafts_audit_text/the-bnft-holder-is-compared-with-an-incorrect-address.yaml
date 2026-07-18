@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-bnft-holder-is-compared-with-an-incorrect-address"
+class_name: "TheBnftHolderIsComparedWithAnIncorrectAddress"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit EtherFi - Zellic Audit Report"
+help: |
+    The function batchDepositWithLiquidityPoolAsBnftHolder could be called in the LiquidityPool contract when isLpBnftHolder is true. If isLpBnftHolder is true, the LiquidityPool is ex
+wiki_title: "The BNFT holder is compared with an incorrect address"
+wiki_description: |
+    The function batchDepositWithLiquidityPoolAsBnftHolder could be called in the LiquidityPool contract when isLpBnftHolder is true. If isLpBnftHolder is true, the LiquidityPool is expected to be the owner of the new BNFT and the BNFT of the validator ID to share the safe with. But internally in the _p
+wiki_exploit_scenario: |
+    Per audit finding: The function batchDepositWithLiquidityPoolAsBnftHolder could be called in the LiquidityPool contract when isLpBnftHolder is true. If isLpBnftHolder is true, the LiquidityPool is expected to be the own
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheBnftHolderIsComparedWithAnIncorrectAddress"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(isLpBnftHolder|torIdToShareWithdrawalSafe).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "isLpBnftHolder"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

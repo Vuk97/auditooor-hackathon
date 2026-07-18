@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-9-flashloanliquidate-jojoflashloan-has-no-slippage-control-whe"
+class_name: "M9FlashloanliquidateJojoflashloanHasNoSlippageControlWhe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18476 (Sherlock/JOJO Exchange)"
+help: "M-9: FlashLoanLiquidate.JOJOFlashLoan has no slippage control when swapping USDC"
+wiki_title: "M-9: FlashLoanLiquidate.JOJOFlashLoan has no slippage control when swapping USDC"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-04-jojo-judging/issues/373 
+    
+    ## Found by 
+    0x52, 0xStalin, Aymen0909, Bauer, Nyx, T1MOH, cccz, peakbolt, rvierdiiev
+    ## Summary
+    FlashLoanLiquidate.JOJOFlashLoan has no slippage control when swapping USDC
+    ## Vulnerability Detail
+    In both GeneralRepay.repayJ
+wiki_exploit_scenario: |
+    Per Solodit #18476: Source: https://github.com/sherlock-audit/2023-04-jojo-judging/issues/373 
+    
+    ## Found by 
+    0x52, 0xStalin, Aymen0909, Bauer, Nyx, T1MOH, cccz, peakbolt, rvierdiiev
+    ## Summary
+    FlashLoanLiquidate.JOJOFlas
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M9FlashloanliquidateJojoflashloanHasNoSlippageControlWhe"
+solodit_id: "18476"
+solodit_slug: |
+    m-9-flashloanliquidatejojoflashloan-has-no-slippage-control-when-swapping-usdc-sherlock-none-jojo-exchange-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(repayJUSD|minReceive|approveTarget|swapTarget).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

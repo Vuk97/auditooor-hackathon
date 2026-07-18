@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-overflow-check-in-addtransientgaswanted"
+class_name: "MissingOverflowCheckInAddtransientgaswanted"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Swisstronik - Zellic Audit Report"
+help: |
+    The AddTransientGasWanted function accumulates the gas into a uint64 without performing an overflow check. If the sum exceeds the maximum value of uint64, it will wrap around to ze
+wiki_title: "Missing overflow check in AddTransientGasWanted"
+wiki_description: |
+    The AddTransientGasWanted function accumulates the gas into a uint64 without performing an overflow check. If the sum exceeds the maximum value of uint64, it will wrap around to zero, leading to incorrect or unpredictable gas accounting. // AddTransientGasWanted adds the cumulative gas wanted in the
+wiki_exploit_scenario: |
+    Per audit finding: The AddTransientGasWanted function accumulates the gas into a uint64 without performing an overflow check. If the sum exceeds the maximum value of uint64, it will wrap around to zero, leading to incor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingOverflowCheckInAddtransientgaswanted"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(gasWanted).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "gasWanted"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

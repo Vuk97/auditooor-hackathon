@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-2-attackers-will-reset-avgstart-of-any-user-making-rewards-stu"
+class_name: "M2AttackersWillResetAvgstartOfAnyUserMakingRewardsStu"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36665 (Sherlock/Exactly Protocol Update - Stacking Contract)"
+help: |
+    M-2: Attackers will reset `avgStart` of any user making rewards stuck for longer and get lost to savings
+wiki_title: |
+    M-2: Attackers will reset `avgStart` of any user making rewards stuck for longer and get lost to savings
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-07-exactly-stacking-contracts-judging/issues/22 
+    
+    ## Found by 
+    0x73696d616f, HackTrace
+    ### Summary
+    
+    `StakedExa::_update()` resets `avgStart[to]` whenever the time passed is bigger than the reference time. An attacker can deposit 1 wei to some user and r
+wiki_exploit_scenario: |
+    Per Solodit #36665: Source: https://github.com/sherlock-audit/2024-07-exactly-stacking-contracts-judging/issues/22 
+    
+    ## Found by 
+    0x73696d616f, HackTrace
+    ### Summary
+    
+    `StakedExa::_update()` resets `avgStart[to]` whenever
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2AttackersWillResetAvgstartOfAnyUserMakingRewardsStu"
+solodit_id: "36665"
+solodit_slug: |
+    m-2-attackers-will-reset-avgstart-of-any-user-making-rewards-stuck-for-longer-and-get-lost-to-savings-sherlock-exactly-protocol-update-stacking-contract-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal avgstart;"
+fn_name_regex: ".*(avgStart|minTime|refTime).*"
+read_var_regex: ".*(avgStart|minTime|refTime).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "avgStart"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return avgstart > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unchecked-approve-return-causes-permanent-fund-loss-in-uda-sol"
+class_name: "UncheckedApproveReturnCausesPermanentFundLossInUdaSol"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-11-garden"
+help: |
+    barah , also found by 0xDemon 0xFBI 0xGutzzz fullstop holtzzx makarov NexusAudits rox_k , and topenga swap/UDA.sol #L38 Finding description The UniqueDepositAddress.initialize() fu
+wiki_title: "Unchecked approve( ) return causes permanent fund loss in UDA.sol"
+wiki_description: |
+    barah , also found by 0xDemon 0xFBI 0xGutzzz fullstop holtzzx makarov NexusAudits rox_k , and topenga swap/UDA.sol #L38 Finding description The UniqueDepositAddress.initialize() function at line 38 ignores the return value of ERC20.approve() : function initialize() public initializer { // ... parame
+wiki_exploit_scenario: |
+    Per audit finding: barah , also found by 0xDemon 0xFBI 0xGutzzz fullstop holtzzx makarov NexusAudits rox_k , and topenga swap/UDA.sol #L38 Finding description The UniqueDepositAddress.initialize() function at line 38 ig
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UncheckedApproveReturnCausesPermanentFundLossInUdaSol"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(initiateOnBehalf|refundAddress|secretHash).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "initiateOnBehalf"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

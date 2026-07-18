@@ -1,0 +1,31 @@
+skeleton: "state_write_without_paired_write"
+name: "proposal-creation-uses-incorrect-erc721power-totalpower-as-nft-p"
+class_name: "ProposalCreationUsesIncorrectErc721powerTotalpowerAsNftP"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27315 (Cyfrin/Dexe)"
+help: "Proposal creation uses incorrect `ERC721Power::totalPower` as nft power not updated before snapshot"
+wiki_title: "Proposal creation uses incorrect `ERC721Power::totalPower` as nft power not updated before snapshot"
+wiki_description: |
+    **Description:** If `GovPool` is configured to use `ERC721Power` nft, when the proposal is created it doesn't recalculate the nft power, just [reads](https://github.com/dexe-network/DeXe-Protocol/tree/f2fe12eeac0c4c63ac39670912640dc91d94bda5/contracts/gov/user-keeper/GovUserKeeper.sol#L331) `ERC721P
+wiki_exploit_scenario: |
+    Per Solodit #27315: **Description:** If `GovPool` is configured to use `ERC721Power` nft, when the proposal is created it doesn't recalculate the nft power, just [reads](https://github.com/dexe-network/DeXe-Protocol/tree
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProposalCreationUsesIncorrectErc721powerTotalpowerAsNftP"
+solodit_id: "27315"
+solodit_slug: |
+    proposal-creation-uses-incorrect-erc721powertotalpower-as-nft-power-not-updated-before-snapshot-cyfrin-none-cyfrin-dexe-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(GovPool|ERC721Power|GovUserKeeper).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

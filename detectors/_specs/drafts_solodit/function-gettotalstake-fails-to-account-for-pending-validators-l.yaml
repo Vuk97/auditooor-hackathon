@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "function-gettotalstake-fails-to-account-for-pending-validators-l"
+class_name: "FunctionGettotalstakeFailsToAccountForPendingValidatorsL"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #34999 (Cyfrin/Casimir)"
+help: "Function `getTotalStake()` fails to account for pending validators, leading to inaccurate accounting"
+wiki_title: "Function `getTotalStake()` fails to account for pending validators, leading to inaccurate accounting"
+wiki_description: |
+    **Description:** The `getTotalStake()` function is the core accounting function to calculate the total stake of the `CasimirManager`. It's used to compute the change for `rewardStakeRatioSum` within the `finalizeReport()` function.
+    
+    ```solidity
+    function getTotalStake() public view returns (uint256 t
+wiki_exploit_scenario: |
+    Per Solodit #34999: **Description:** The `getTotalStake()` function is the core accounting function to calculate the total stake of the `CasimirManager`. It's used to compute the change for `rewardStakeRatioSum` within t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FunctionGettotalstakeFailsToAccountForPendingValidatorsL"
+solodit_id: "34999"
+solodit_slug: |
+    function-gettotalstake-fails-to-account-for-pending-validators-leading-to-inaccurate-accounting-cyfrin-none-casimir-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal activatevalidator;"
+fn_name_regex: ".*(getTotalStake|CasimirManager|rewardStakeRatioSum|finalizeReport).*"
+read_var_regex: ".*(activateValidator|depositValidator|finalizeReport).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getTotalStake"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return activatevalidator > 0;"

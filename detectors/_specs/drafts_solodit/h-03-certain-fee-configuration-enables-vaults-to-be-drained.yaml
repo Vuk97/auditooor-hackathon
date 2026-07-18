@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "h-03-certain-fee-configuration-enables-vaults-to-be-drained"
+class_name: "H03CertainFeeConfigurationEnablesVaultsToBeDrained"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6322 (Code4rena/Tigris Trade)"
+help: "[H-03] Certain fee configuration enables vaults to be drained"
+wiki_title: "[H-03] Certain fee configuration enables vaults to be drained"
+wiki_description: |
+    An overflow in `TradingLibrary.pnl()` enables all funds from the vault contracts to be drained given a certain fee configuration is present.
+    
+    ### Detailed exploit process description
+    
+    When opening a position, any value can be passed as take-profit price. This value is later used in the PNL calculat
+wiki_exploit_scenario: |
+    Per Solodit #6322: An overflow in `TradingLibrary.pnl()` enables all funds from the vault contracts to be drained given a certain fee configuration is present.
+    
+    ### Detailed exploit process description
+    
+    When opening a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03CertainFeeConfigurationEnablesVaultsToBeDrained"
+solodit_id: "6322"
+solodit_slug: |
+    h-03-certain-fee-configuration-enables-vaults-to-be-drained-code4rena-tigris-trade-tigris-trade-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal accinterest;"
+fn_name_regex: ".*(unchecked|Trading|initiateLimitOrder|executeLimitOrder).*"
+write_var_regex: ".*(accInterest|executeLimitOrder|initiateLimitOrder).*"
+guard_var_regex: ".*(accInterest|executeLimitOrder|initiateLimitOrder).*"
+vuln_fn_name: "unchecked"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "accinterest = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

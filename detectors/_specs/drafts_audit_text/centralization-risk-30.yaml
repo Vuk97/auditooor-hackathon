@@ -1,0 +1,26 @@
+skeleton: "state_write_without_paired_write"
+name: "centralization-risk-30"
+class_name: "CentralizationRisk30"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Palmy Finance - Zellic Audit Report"
+help: |
+    An oracle may fail to update and provide the most recent information due to its nature. Therefore, a protocol must verify whether the oracle is supplying outdated information. Palm
+wiki_title: "Centralization risk                                                             30"
+wiki_description: |
+    An oracle may fail to update and provide the most recent information due to its nature. Therefore, a protocol must verify whether the oracle is supplying outdated information. Palmy Finance utilizes a price oracle to obtain a price of an asset. The ChainsightOracle contract has the updateState funct
+wiki_exploit_scenario: |
+    Per audit finding: An oracle may fail to update and provide the most recent information due to its nature. Therefore, a protocol must verify whether the oracle is supplying outdated information. Palmy Finance utilizes a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CentralizationRisk30"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(updateState|submitPrices|backOracle).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,19 @@
+id: emergency-admin-can-unpause
+title: "Emergency admin has unpause authority, breaking pause asymmetry"
+severity: Medium
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44469"
+bug_class: authorization
+indicators:
+  - "`unpause` callable by `emergency_admin` role"
+  - "only `pause` should be emergency-admin; `unpause` should be pool-admin only"
+victim: "Protocol governance: emergency admin can revert a pool-admin decision."
+exploit_precondition: "Compromised or malicious emergency admin."
+real_world_example: |
+  V12 #44469 (Medium): Emergency admin can unpause reserves.
+suggested_remediation: "Role-split: emergency admin may only pause; unpause requires pool admin."
+cross_refs:
+  - missing-require-auth-on-privileged-entrypoint

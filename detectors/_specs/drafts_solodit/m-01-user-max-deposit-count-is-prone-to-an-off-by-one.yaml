@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "m-01-user-max-deposit-count-is-prone-to-an-off-by-one"
+class_name: "M01UserMaxDepositCountIsProneToAnOffByOne"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63358 (Shieldify/Colbfinance Vault)"
+help: "[M-01] User Max Deposit Count Is Prone To an Off by One"
+wiki_title: "[M-01] User Max Deposit Count Is Prone To an Off by One"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `Vault` contract handles gas usage via limiting each individual user's allowed deposits, via the variable `maxDifferentDepositByUser`, which is set to 10 by default. It is used inside `userDeposit()` when checking the length of deposits, if it turns out
+wiki_exploit_scenario: |
+    Per Solodit #63358: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `Vault` contract handles gas usage via limiting each individual user's allowed deposits, via the variable `maxDifferentDepositByUser`, which is set to 10
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01UserMaxDepositCountIsProneToAnOffByOne"
+solodit_id: "63358"
+solodit_slug: "m-01-user-max-deposit-count-is-prone-to-an-off-by-one-shieldify-none-colbfinance-vault-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(Vault|maxDifferentDepositByUser|userDeposit).*"
+primary_var_regex: ".*(maxDifferentDepositByUser|userDeposit).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

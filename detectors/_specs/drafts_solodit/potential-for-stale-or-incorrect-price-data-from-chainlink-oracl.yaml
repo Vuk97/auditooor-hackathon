@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "potential-for-stale-or-incorrect-price-data-from-chainlink-oracl"
+class_name: "PotentialForStaleOrIncorrectPriceDataFromChainlinkOracl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35618 (Zokyo/Sakazuki)"
+help: "Potential for Stale or Incorrect Price Data from Chainlink Oracles"
+wiki_title: "Potential for Stale or Incorrect Price Data from Chainlink Oracles"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**:
+    
+    The `SakazukiSilver` smart contract utilizes Chainlink oracles to obtain real-time exchange rates for ETH/USD and JPY/USD, which are crucial for calculating the dynamic minting prices of NFTs. However, there is a significant risk associat
+wiki_exploit_scenario: |
+    Per Solodit #35618: **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**:
+    
+    The `SakazukiSilver` smart contract utilizes Chainlink oracles to obtain real-time exchange rates for ETH/USD and JPY/USD, which are cruci
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialForStaleOrIncorrectPriceDataFromChainlinkOracl"
+solodit_id: "35618"
+solodit_slug: "potential-for-stale-or-incorrect-price-data-from-chainlink-oracles-zokyo-none-sakazuki-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(SakazukiSilver).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,21 @@
+id: reserve-cap-bypass-swap-collateral
+title: "MAX_USER_RESERVES bypass via swap_collateral"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44588"
+bug_class: input-validation
+indicators:
+  - "`swap_collateral` calls `user_config.set_using_as_collateral(dst, true)` without first invoking `count_active_reserves() < MAX_USER_RESERVES`"
+  - "other paths (supply, borrow) guard the invariant but swap_collateral does not"
+  - "partial-swap leaves source bit set, accumulating active reserves"
+victim: "Protocol: over-fragmented account makes HF/liquidation too expensive to execute."
+exploit_precondition: "Attacker swaps tiny amounts across reserves repeatedly."
+real_world_example: |
+  V12 #44588 (High): Reserve cap bypass freezes liquidation.
+suggested_remediation: "Enforce `MAX_USER_RESERVES` in every path that can create a new active-reserve bit; clear source bit when fully swapped."
+cross_refs:
+  - borrow-limit-inconsistencies-overborrow
+  - dust-transfer-fills-reserve-slots

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-08-a-malicious-receiver-can-cause-another-receiver-to-lose-out"
+class_name: "M08AMaliciousReceiverCanCauseAnotherReceiverToLoseOut"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42187 (Code4rena/NFTX)"
+help: |
+    [M-08] A malicious receiver can cause another receiver to lose out on distributed fees by returning `false` for `tokensReceived` when `receiveRewards` is called on their receiver c
+wiki_title: |
+    [M-08] A malicious receiver can cause another receiver to lose out on distributed fees by returning `false` for `tokensReceived` when `receiveRewards` is called
+wiki_description: |
+    A malicious receiver can cause another receiver to lose out on distributed fees by returning `false` for `tokensReceived` when `receiveRewards` is called on their receiver contract. This causes the fee distributor to double spend the `amountToSend` because the contract incorrectly assumes the retur
+wiki_exploit_scenario: |
+    Per Solodit #42187: A malicious receiver can cause another receiver to lose out on distributed fees by returning `false` for `tokensReceived` when `receiveRewards` is called on their receiver contract. This causes the f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08AMaliciousReceiverCanCauseAnotherReceiverToLoseOut"
+solodit_id: "42187"
+solodit_slug: |
+    m-08-a-malicious-receiver-can-cause-another-receiver-to-lose-out-on-distributed-fees-by-returning-false-for-tokensreceived-when-receiverewards-is-called-on-their-receiver-contract-code4rena-nftx-nftx-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amounttosend;"
+fn_name_regex: ".*(tokensReceived|receiveRewards|amountToSend).*"
+read_var_regex: ".*(amountToSend|receiveRewards|tokensReceived).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tokensReceived"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amounttosend > 0;"

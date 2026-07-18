@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "inconsistent-amountin-handling-in-the-first-swap-of-executeroute"
+class_name: "InconsistentAmountinHandlingInTheFirstSwapOfExecuteroute"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit GTE CLOB and Launchpad- Zellic Audit Report"
+help: |
+    The GTERouter contract includes the _executeUniV2SwapExactTokensForTokens function, which is called in a loop from the executeRoute function to perform a sequence of swaps. The cal
+wiki_title: "Inconsistent amountIn handling in the first swap of executeRoute"
+wiki_description: |
+    The GTERouter contract includes the _executeUniV2SwapExactTokensForTokens function, which is called in a loop from the executeRoute function to perform a sequence of swaps. The caller supplies an initial amountIn and a set of hops data describing the individual swap steps. The amountIn is transferre
+wiki_exploit_scenario: |
+    Per audit finding: The GTERouter contract includes the _executeUniV2SwapExactTokensForTokens function, which is called in a loop from the executeRoute function to perform a sequence of swaps. The caller supplies an init
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentAmountinHandlingInTheFirstSwapOfExecuteroute"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(executeRoute|amountIn).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "executeRoute"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

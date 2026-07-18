@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-8-borrower-collateral-that-they-are-owed-can-get-stuck-in-vaul"
+class_name: "M8BorrowerCollateralThatTheyAreOwedCanGetStuckInVaul"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27405 (Sherlock/Real Wagmi #2)"
+help: |
+    M-8: Borrower collateral that they are owed can get stuck in Vault and not sent back to them after calling `repay`
+wiki_title: |
+    M-8: Borrower collateral that they are owed can get stuck in Vault and not sent back to them after calling `repay`
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-10-real-wagmi-judging/issues/122 
+    
+    ## Found by 
+    HHK, detectiveking
+    
+    There's a case where a borrower calls `borrow`, perhaps does a bunch of intermediate actions like calling `increaseCollateralBalance`, and then calls `repay` a short while later (so fee
+wiki_exploit_scenario: |
+    Per Solodit #27405: Source: https://github.com/sherlock-audit/2023-10-real-wagmi-judging/issues/122 
+    
+    ## Found by 
+    HHK, detectiveking
+    
+    There's a case where a borrower calls `borrow`, perhaps does a bunch of intermediate
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M8BorrowerCollateralThatTheyAreOwedCanGetStuckInVaul"
+solodit_id: "27405"
+solodit_slug: |
+    m-8-borrower-collateral-that-they-are-owed-can-get-stuck-in-vault-and-not-sent-back-to-them-after-calling-repay-sherlock-real-wagmi-2-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrow;"
+fn_name_regex: ".*(borrow|increaseCollateralBalance|repay|Vault).*"
+read_var_regex: ".*(borrow|increaseCollateralBalance|repay).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "borrow"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borrow > 0;"

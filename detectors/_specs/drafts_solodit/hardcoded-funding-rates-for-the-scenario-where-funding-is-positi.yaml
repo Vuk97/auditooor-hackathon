@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "hardcoded-funding-rates-for-the-scenario-where-funding-is-positi"
+class_name: "HardcodedFundingRatesForTheScenarioWhereFundingIsPositi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41279 (Sherlock/Velar Artha PerpDEX)"
+help: "hardcoded funding rates for the scenario where funding is positive"
+wiki_title: "hardcoded funding rates for the scenario where funding is positive"
+wiki_description: |
+    ## hardcoded funding rates for the scenario where funding is positive
+    @internal
+    @view
+    def dynamic_fees() -> DynFees:
+        return DynFees({
+            funding_long   : 10,
+            funding_short  : 0,
+        })
+    
+    @internal
+    @view
+    def lookup() -> PoolState:
+      return PoolState({
+        base_collateral  : 10_000_000
+wiki_exploit_scenario: |
+    Per Solodit #41279: ## hardcoded funding rates for the scenario where funding is positive
+    @internal
+    @view
+    def dynamic_fees() -> DynFees:
+        return DynFees({
+            funding_long   : 10,
+            funding_short  : 0,
+        }
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "HardcodedFundingRatesForTheScenarioWhereFundingIsPositi"
+solodit_id: "41279"
+solodit_slug: "hardcoded-funding-rates-for-the-scenario-where-funding-is-positive-sherlock-velar-artha-perpdex-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(lookupFees|lookupFees2).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "lookupFees"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

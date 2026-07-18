@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "infinite-loop-in-the-exitvalidators-prevents-users-from-calling-"
+class_name: "InfiniteLoopInTheExitvalidatorsPreventsUsersFromCalling"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35005 (Cyfrin/Casimir)"
+help: "Infinite loop in the `exitValidators()` prevents users from calling `requestUnstake()`"
+wiki_title: "Infinite loop in the `exitValidators()` prevents users from calling `requestUnstake()`"
+wiki_description: |
+    **Description:** When users call function `requestUnstake()` to request to unstake their ETH, the `CasimirManager` contract will calculate if the current expected withdrawable balance is enough to cover all the queued unstaking requests. If it is not enough, the function `exitValidators()` will be c
+wiki_exploit_scenario: |
+    Per Solodit #35005: **Description:** When users call function `requestUnstake()` to request to unstake their ETH, the `CasimirManager` contract will calculate if the current expected withdrawable balance is enough to cov
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InfiniteLoopInTheExitvalidatorsPreventsUsersFromCalling"
+solodit_id: "35005"
+solodit_slug: |
+    infinite-loop-in-the-exitvalidators-prevents-users-from-calling-requestunstake-cyfrin-none-casimir-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal exitvalidators;"
+fn_name_regex: ".*(requestUnstake|CasimirManager|exitValidators|stakedValidatorIds).*"
+read_var_regex: ".*(exitValidators|index|requestUnstake).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "requestUnstake"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return exitvalidators > 0;"

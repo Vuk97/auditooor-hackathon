@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "epoch-length-updating-is-underconstrained"
+class_name: "EpochLengthUpdatingIsUnderconstrained"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit PDT Staking V2 - Zellic Audit Report"
+help: |
+    The StakedPDT contract allows the admin to change the epoch length via the updateEpochLength function. The function adjusts the end time for the current epoch accordingly. However,
+wiki_title: "Epoch length updating is underconstrained"
+wiki_description: |
+    The StakedPDT contract allows the admin to change the epoch length via the updateEpochLength function. The function adjusts the end time for the current epoch accordingly. However, the func- tion only constrains the epoch length to be nonzero. As such, the admin can adjust the epoch length such that
+wiki_exploit_scenario: |
+    Per audit finding: The StakedPDT contract allows the admin to change the epoch length via the updateEpochLength function. The function adjusts the end time for the current epoch accordingly. However, the func- tion only
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EpochLengthUpdatingIsUnderconstrained"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateEpochLength|currentEpochId|endTime).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateEpochLength"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

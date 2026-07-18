@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "stale-prices-could-be-returned"
+class_name: "StalePricesCouldBeReturned"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21081 (AuditOne/Redstone)"
+help: "Stale Prices could be returned"
+wiki_title: "Stale Prices could be returned"
+wiki_description: |
+    **Description:**
+    
+    It was observed that there is no check to validate that price feed timestamp (in this case blockTimestamp) is recent. If price feed was not updated recently then old prices would be returned by latestRoundData function.
+    
+    **Recommendations:**
+    
+    Validate that blockTimestamp is recent.
+wiki_exploit_scenario: |
+    Per Solodit #21081: **Description:**
+    
+    It was observed that there is no check to validate that price feed timestamp (in this case blockTimestamp) is recent. If price feed was not updated recently then old prices would be
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StalePricesCouldBeReturned"
+solodit_id: "21081"
+solodit_slug: "stale-prices-could-be-returned-auditone-none-redstone-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(latestRoundData).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "latestRoundData"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

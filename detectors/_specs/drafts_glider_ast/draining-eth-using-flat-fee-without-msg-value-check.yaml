@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "draining-eth-using-flat-fee-without-msg-value-check"
+class_name: "DrainingEthUsingFlatFeeWithoutMsgValueCheck"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider AST: draining-eth-using-flat-fee-without-msgvalue-check"
+help: "Draining ETH Using Flat Fee Without msg.value Check"
+wiki_title: "Draining ETH Using Flat Fee Without msg.value Check"
+wiki_description: |
+    Detects payable bridge-style entry points that forward ETH (low-level call with value, transfer, send) without require/assert that reference msg.value (via callee_values / GlobalFilters).
+wiki_exploit_scenario: |
+    Tags [bridge, fee, msg.value, drain, validator, critical]: Detects payable bridge-style entry points that forward ETH (low-level call with value, transfer, send) without require/assert that reference msg.value (via callee_values / GlobalFilters).
+wiki_recommendation: "Apply the access check implied by the Glider query filter."
+contract_name: "DrainingEthUsingFlatFeeWithoutMsgValueCheck"
+fn_name_regex: ".*"
+read_var_regex: ".*draining.*"
+required_call_regex: ".*(validate|check|verify|require).*"
+guarded_helper_name: "_validateGuard"
+vuln_fn_name: "drainingFn"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return draining > 0;"
+state_decl: "uint256 internal draining;"

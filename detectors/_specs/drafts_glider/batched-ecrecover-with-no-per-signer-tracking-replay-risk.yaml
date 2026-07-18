@@ -1,0 +1,25 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "batched-ecrecover-with-no-per-signer-tracking-replay-risk"
+class_name: "BatchedEcrecoverWithNoPerSignerTrackingReplayRisk"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: batch-signature-reuse-exploits"
+help: "Batched ecrecover with no per-signer tracking (replay risk)"
+wiki_title: "Batched ecrecover with no per-signer tracking (replay risk)"
+wiki_description: |
+    Flags public/external functions that loop over signatures for ecrecover without nonce/used tracking or dedup/sorting guards, allowing signature replay across calls.
+wiki_exploit_scenario: |
+    Per Glider query tags [signature, ecrecover, multisig, replay, deduplication, nonce]: Flags public/external functions that loop over signatures for ecrecover without nonce/used tracking or dedup/sorting guards, allowing signature replay across calls.
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "BatchedEcrecoverWithNoPerSignerTrackingReplayRisk"
+trigger_sig_regex: ".*(batched).*"
+required_sibling_regex: ".*(validate|check|verify|assert).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

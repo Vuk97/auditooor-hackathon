@@ -1,0 +1,29 @@
+skeleton: "paired_function_divergence"
+name: "incorrect-pair-address-derivation-breaks-recipient-validatio-x"
+class_name: "IncorrectPairAddressDerivationBreaksRecipientValidatioX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-08-gte-perps-and-launchpad"
+help: |
+    [L-02] Incorrect Pair Address Derivation Breaks Recipient Validation Impact: Fund theft through recipient validation bypass Location: Launchpad.sol - pairFor() and _assertValidReci
+wiki_title: |
+    Incorrect Pair Address Derivation Breaks Recipient Validation Impact: Fund theft through recipient validation bypass Location: Launchpad.sol - pairFor()
+wiki_description: |
+    [L-02] Incorrect Pair Address Derivation Breaks Recipient Validation Impact: Fund theft through recipient validation bypass Location: Launchpad.sol - pairFor() and _assertValidRecipient() Description: The pairFor() function in Launchpad uses a different salt for address derivation than the actual pa
+wiki_exploit_scenario: |
+    Per audit finding: [L-02] Incorrect Pair Address Derivation Breaks Recipient Validation Impact: Fund theft through recipient validation bypass Location: Launchpad.sol - pairFor() and _assertValidRecipient() Description:
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectPairAddressDerivationBreaksRecipientValidatioX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

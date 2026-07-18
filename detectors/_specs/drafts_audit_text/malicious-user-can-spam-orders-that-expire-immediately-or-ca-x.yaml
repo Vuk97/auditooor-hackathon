@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "malicious-user-can-spam-orders-that-expire-immediately-or-ca-x"
+class_name: "MaliciousUserCanSpamOrdersThatExpireImmediatelyOrCaX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-07-gte-spot-clob-and-router"
+help: |
+    gesha17 clob/CLOB.sol #L592 When creating an order, there are no restrictions on a minimum time the order can be valid, meaning a user can create an order with a cancelTimestamp th
+wiki_title: |
+    Malicious user can spam orders that expire immediately or cancel them immediately to wipe out legit orders from a book with orders only on one side
+wiki_description: |
+    gesha17 clob/CLOB.sol #L592 When creating an order, there are no restrictions on a minimum time the order can be valid, meaning a user can create an order with a cancelTimestamp that is the very next second. Also, there is an upper bound on how many limits each side of a book can have - maxNumLimits
+wiki_exploit_scenario: |
+    Per audit finding: gesha17 clob/CLOB.sol #L592 When creating an order, there are no restrictions on a minimum time the order can be valid, meaning a user can create an order with a cancelTimestamp that is the very next
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousUserCanSpamOrdersThatExpireImmediatelyOrCaX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(cancelTimestamp|maxNumLimitsPerSide|newOrder).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "cancelTimestamp"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

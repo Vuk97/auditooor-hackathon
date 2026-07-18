@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "rebalance-will-be-completely-dossed-if-okx-commision-rate-go-x"
+class_name: "RebalanceWillBeCompletelyDossedIfOkxCommisionRateGoX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-lambowin"
+help: |
+    inh3l , also found by Bauchibred Evo , and MSaptarshi Rebalancing interacts with OKXRouter to swap weth for tokens in certain pools and vice versa. But OKXRouter may charge commiss
+wiki_title: "Rebalance will be completely dossed if OKX commision rate goes beyond the fee limits"
+wiki_description: |
+    inh3l , also found by Bauchibred Evo , and MSaptarshi Rebalancing interacts with OKXRouter to swap weth for tokens in certain pools and vice versa. But OKXRouter may charge commissions on both the from token and to token, which reduces potential profit to be made from the rebalance operation, if hig
+wiki_exploit_scenario: |
+    Per audit finding: inh3l , also found by Bauchibred Evo , and MSaptarshi Rebalancing interacts with OKXRouter to swap weth for tokens in certain pools and vice versa. But OKXRouter may charge commissions on both the fro
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RebalanceWillBeCompletelyDossedIfOkxCommisionRateGoX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onMorphoFlashLoan|directionMask|amountIn).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "onMorphoFlashLoan"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

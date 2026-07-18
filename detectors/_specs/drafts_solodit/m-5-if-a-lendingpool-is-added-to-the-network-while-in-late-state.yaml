@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "m-5-if-a-lendingpool-is-added-to-the-network-while-in-late-state"
+class_name: "M5IfALendingpoolIsAddedToTheNetworkWhileInLateState"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6626 (Sherlock/Carapace)"
+help: "M-5: If a `lendingPool` is added to the network while in `late` state, can be defaulted instantly"
+wiki_title: "M-5: If a `lendingPool` is added to the network while in `late` state, can be defaulted instantly"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-02-carapace-judging/issues/151 
+    
+    ## Found by 
+    Allarious
+    
+    ## Summary
+    If a lending pool is added to a protection pool, the `defaultStateManager` sets the `currentState` to late without setting the late timestamp. This can enable anyone in the network to b
+wiki_exploit_scenario: |
+    Per Solodit #6626: Source: https://github.com/sherlock-audit/2023-02-carapace-judging/issues/151 
+    
+    ## Found by 
+    Allarious
+    
+    ## Summary
+    If a lending pool is added to a protection pool, the `defaultStateManager` sets the `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M5IfALendingpoolIsAddedToTheNetworkWhileInLateState"
+solodit_id: "6626"
+solodit_slug: |
+    m-5-if-a-lendingpool-is-added-to-the-network-while-in-late-state-can-be-defaulted-instantly-sherlock-carapace-carapace-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(defaultStateManager|currentState|late|lateTimestamp).*"
+primary_var_regex: ".*(currentState|defaultStateManager|late).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

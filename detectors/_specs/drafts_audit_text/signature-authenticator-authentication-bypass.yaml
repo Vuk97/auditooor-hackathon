@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "signature-authenticator-authentication-bypass"
+class_name: "SignatureAuthenticatorAuthenticationBypass"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Osmosis Authentication Abstraction - Zellic Audit Report"
+help: |
+    For legacy support, the signature authenticator is used by default for any accounts without any registered authenticators. The signature authenticator implements the GetAuthenticat
+wiki_title: "Signature authenticator authentication bypass"
+wiki_description: |
+    For legacy support, the signature authenticator is used by default for any accounts without any registered authenticators. The signature authenticator implements the GetAuthenticationData handler for the Authenticator interface. The handler parses signers and signatures from the transaction and retu
+wiki_exploit_scenario: |
+    Per audit finding: For legacy support, the signature authenticator is used by default for any accounts without any registered authenticators. The signature authenticator implements the GetAuthenticationData handler for
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SignatureAuthenticatorAuthenticationBypass"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(authData|neverWriteCacheCtx|msgIndex).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "authData"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

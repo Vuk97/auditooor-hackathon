@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "deposit-cancellation-may-fail-if-the-etherfinode-version-is--x"
+class_name: "DepositCancellationMayFailIfTheEtherfinodeVersionIsX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit EtherFi - Zellic Audit Report"
+help: |
+    The functions batchCancelDeposit and batchCancelDepositAsBnftHolder do not call _upda- teEtherFiNode to update the etherFiNode version. These functions internally call unRegisterVa
+wiki_title: "Deposit cancellation may fail if the etherFiNode version is not updated"
+wiki_description: |
+    The functions batchCancelDeposit and batchCancelDepositAsBnftHolder do not call _upda- teEtherFiNode to update the etherFiNode version. These functions internally call unRegisterVal- idator in etherFiNode, which has a modifier ensureLatestVersion to ensure that the version of the etherFiNode is not
+wiki_exploit_scenario: |
+    Per audit finding: The functions batchCancelDeposit and batchCancelDepositAsBnftHolder do not call _upda- teEtherFiNode to update the etherFiNode version. These functions internally call unRegisterVal- idator in etherFi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DepositCancellationMayFailIfTheEtherfinodeVersionIsX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(batchCancelDeposit|batchCancelDepositAsBnftHolder|teEtherFiNode).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "batchCancelDeposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

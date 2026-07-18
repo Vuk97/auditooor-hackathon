@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "m-2-operationalstaking-may-not-possess-enough-cqt-for-the-last-w"
+class_name: "M2OperationalstakingMayNotPossessEnoughCqtForTheLastW"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30209 (Sherlock/Covalent)"
+help: "M-2: OperationalStaking may not possess enough CQT for the last withdrawal"
+wiki_title: "M-2: OperationalStaking may not possess enough CQT for the last withdrawal"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-11-covalent-judging/issues/39 
+    
+    ## Found by 
+    aslanbek, bitsurfer, cheatcode, dany.armstrong90
+    ## Summary
+    Both `_sharesToTokens` and `_tokensToShares` round down instead of rounding off against the user. This can result in users withdrawing few weis more
+wiki_exploit_scenario: |
+    Per Solodit #30209: Source: https://github.com/sherlock-audit/2023-11-covalent-judging/issues/39 
+    
+    ## Found by 
+    aslanbek, bitsurfer, cheatcode, dany.armstrong90
+    ## Summary
+    Both `_sharesToTokens` and `_tokensToShares` rou
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2OperationalstakingMayNotPossessEnoughCqtForTheLastW"
+solodit_id: "30209"
+solodit_slug: "m-2-operationalstaking-may-not-possess-enough-cqt-for-the-last-withdrawal-sherlock-covalent-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal stake;"
+fn_name_regex: ".*(stake|unstake|totalUnlockedValue|REWARD_REDEEM_THRESHOLD).*"
+write_var_regex: ".*(stake|totalUnlockedValue|transferUnstakedOut).*"
+guard_var_regex: ".*(stake|totalUnlockedValue|transferUnstakedOut).*"
+vuln_fn_name: "stake"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "stake = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

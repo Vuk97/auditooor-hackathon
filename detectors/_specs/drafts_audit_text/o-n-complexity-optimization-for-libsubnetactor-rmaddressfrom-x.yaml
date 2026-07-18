@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "o-n-complexity-optimization-for-libsubnetactor-rmaddressfrom-x"
+class_name: "ONComplexityOptimizationForLibsubnetactorRmaddressfromX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-recall"
+help: |
+    [L-05] O(n) complexity optimization for @LibSubnetActor.rmAddressFromBalanceKey() rmAddressFromBalanceKey in LibSubnetActor.sol uses an unbounded loop to find and remove an address
+wiki_title: "O(n) complexity optimization for @LibSubnetActor.rmAddressFromBalanceKey() rmAddressFromBalanceKey"
+wiki_description: |
+    [L-05] O(n) complexity optimization for @LibSubnetActor.rmAddressFromBalanceKey() rmAddressFromBalanceKey in LibSubnetActor.sol uses an unbounded loop to find and remove an address from the genesis balance keys array. If the array becomes large, this enables high gas costs or even out-of-gas errors.
+wiki_exploit_scenario: |
+    Per audit finding: [L-05] O(n) complexity optimization for @LibSubnetActor.rmAddressFromBalanceKey() rmAddressFromBalanceKey in LibSubnetActor.sol uses an unbounded loop to find and remove an address from the genesis ba
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ONComplexityOptimizationForLibsubnetactorRmaddressfromX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rmAddressFromBalanceKey|appStorage|genesisBalanceKeys).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "rmAddressFromBalanceKey"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-10-the-user-is-enforced-to-overpay-for-the-fallback-gas-when-c"
+class_name: "M10TheUserIsEnforcedToOverpayForTheFallbackGasWhenC"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26079 (Code4rena/Maia DAO Ecosystem)"
+help: "[M-10] The user is enforced to overpay for the `fallback` gas when calling `retryDeposit`"
+wiki_title: "[M-10] The user is enforced to overpay for the `fallback` gas when calling `retryDeposit`"
+wiki_description: |
+    `BranchBridgeAgent.retryDeposit` is used to top up a previous deposit and perform a call afterward. The modifier `requiresFallbackGas` is added to the method to verify that enough gas is deposited to pay for an eventual `fallback` call. The same is done when creating a new deposit.
+    
+    - `retryDeposit
+wiki_exploit_scenario: |
+    Per Solodit #26079: `BranchBridgeAgent.retryDeposit` is used to top up a previous deposit and perform a call afterward. The modifier `requiresFallbackGas` is added to the method to verify that enough gas is deposited to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10TheUserIsEnforcedToOverpayForTheFallbackGasWhenC"
+solodit_id: "26079"
+solodit_slug: |
+    m-10-the-user-is-enforced-to-overpay-for-the-fallback-gas-when-calling-retrydeposit-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal fallback;"
+fn_name_regex: ".*(requiresFallbackGas|fallback|retryDeposit).*"
+read_var_regex: ".*(fallback|requiresFallbackGas|retryDeposit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "requiresFallbackGas"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return fallback > 0;"

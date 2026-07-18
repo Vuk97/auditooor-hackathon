@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_require"
+name: "m-11-changing-a-strategy-can-be-bricked"
+class_name: "M11ChangingAStrategyCanBeBricked"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1289 (Code4rena/Sandclock)"
+help: "[M-11] Changing a strategy can be bricked"
+wiki_title: "[M-11] Changing a strategy can be bricked"
+wiki_description: |
+    _Submitted by kenzo, also found by danb and harleythedog_
+    
+    A vault wouldn't let the strategy be changed unless the strategy holds no funds.
+    
+    Since anybody can send funds to the strategy, a griefing attack is possible.
+    
+    #### Impact
+    
+    Strategy couldn't be changed.
+    
+    #### Proof of Concept
+    
+    `setStrategy`
+wiki_exploit_scenario: |
+    Per Solodit #1289: _Submitted by kenzo, also found by danb and harleythedog_
+    
+    A vault wouldn't let the strategy be changed unless the strategy holds no funds.
+    
+    Since anybody can send funds to the strategy, a griefing at
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11ChangingAStrategyCanBeBricked"
+solodit_id: "1289"
+solodit_slug: "m-11-changing-a-strategy-can-be-bricked-code4rena-sandclock-sandclock-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal investedassets;"
+fn_name_regex: ".*(setStrategy|investedAssets).*"
+write_var_regex: ".*(investedAssets|setStrategy).*"
+guard_var_regex: ".*(investedAssets|setStrategy).*"
+vuln_fn_name: "setStrategy"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "investedassets = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

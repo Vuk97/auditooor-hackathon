@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "h-13-kelp-finalizecooldown-cannot-claim-the-withdrawal-if-advers"
+class_name: "H13KelpFinalizecooldownCannotClaimTheWithdrawalIfAdvers"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35126 (Sherlock/Notional Leveraged Vaults: Pendle PT and Vault Incentives)"
+help: |
+    H-13: `Kelp:_finalizeCooldown` cannot claim the withdrawal if adversary would requestWithdrawals with dust amount for the holder
+wiki_title: |
+    H-13: `Kelp:_finalizeCooldown` cannot claim the withdrawal if adversary would requestWithdrawals with dust amount for the holder
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-06-leveraged-vaults-judging/issues/105 
+    
+    ## Found by 
+    BiasedMerc, lemonmon, xiaoming90
+    ## Summary
+    
+    If an adversary calls `LidoWithdraw.requestWithdrawals` with some dust stETH amount and the `KelpCooldownHolder`'s address, the withdrawal will be locked.
+wiki_exploit_scenario: |
+    Per Solodit #35126: Source: https://github.com/sherlock-audit/2024-06-leveraged-vaults-judging/issues/105 
+    
+    ## Found by 
+    BiasedMerc, lemonmon, xiaoming90
+    ## Summary
+    
+    If an adversary calls `LidoWithdraw.requestWithdrawals
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H13KelpFinalizecooldownCannotClaimTheWithdrawalIfAdvers"
+solodit_id: "35126"
+solodit_slug: |
+    h-13-kelp_finalizecooldown-cannot-claim-the-withdrawal-if-adversary-would-requestwithdrawals-with-dust-amount-for-the-holder-sherlock-notional-leveraged-vaults-pendle-pt-and-vault-incentives-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimwithdrawal;"
+fn_name_regex: ".*(KelpCooldownHolder|rescueTokens|claimWithdrawal|WithdraManager).*"
+read_var_regex: ".*(claimWithdrawal|exitVault|finalizeCooldown).*"
+required_call_regex: ".*claimWithdrawal.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "KelpCooldownHolder"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimwithdrawal > 0;"

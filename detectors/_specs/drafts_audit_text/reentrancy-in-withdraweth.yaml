@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "reentrancy-in-withdraweth"
+class_name: "ReentrancyInWithdraweth"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Asymmetry Finanace safETH - Zellic Audit Report"
+help: |
+    SafEth supports preminting, where the owner of the contract can stake some ETH and create a supply of SafEth. Staking into this supply is significantly cheaper (in gas) than exchan
+wiki_title: "Reentrancy in withdrawEth"
+wiki_description: |
+    SafEth supports preminting, where the owner of the contract can stake some ETH and create a supply of SafEth. Staking into this supply is significantly cheaper (in gas) than exchanging every derivative. Whenever a user tries to stake an amount less than what is preminted, the input ETH will go to th
+wiki_exploit_scenario: |
+    Per audit finding: SafEth supports preminting, where the owner of the contract can stake some ETH and create a supply of SafEth. Staking into this supply is significantly cheaper (in gas) than exchanging every derivativ
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyInWithdraweth"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(ethToClaim|withdrawEth|onlyOwner).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "ethToClaim"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

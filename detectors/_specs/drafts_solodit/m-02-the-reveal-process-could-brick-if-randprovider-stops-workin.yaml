@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-02-the-reveal-process-could-brick-if-randprovider-stops-workin"
+class_name: "M02TheRevealProcessCouldBrickIfRandproviderStopsWorkin"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25400 (Code4rena/Art Gobblers)"
+help: "[M-02] The reveal process could brick if `randProvider` stops working"
+wiki_title: "[M-02] The reveal process could brick if `randProvider` stops working"
+wiki_description: |
+    It could become impossible to reveal gobblers which leads any new minted gobbler to have an `emissionMultiple` of `0` forever, preventing them from minting any goo.
+    
+    ### Proof of Concept
+    
+    In `ArtGobblers.sol` calling `requestRandomSeed()` sets `gobblerRevealsData.waitingForSeed = true`, which makes
+wiki_exploit_scenario: |
+    Per Solodit #25400: It could become impossible to reveal gobblers which leads any new minted gobbler to have an `emissionMultiple` of `0` forever, preventing them from minting any goo.
+    
+    ### Proof of Concept
+    
+    In `ArtGobb
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02TheRevealProcessCouldBrickIfRandproviderStopsWorkin"
+solodit_id: "25400"
+solodit_slug: |
+    m-02-the-reveal-process-could-brick-if-randprovider-stops-working-code4rena-art-gobblers-art-gobblers-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal acceptrandomseed;"
+fn_name_regex: ".*(emissionMultiple|requestRandomSeed|revealGobblers|upgradeRandProvider).*"
+read_var_regex: ".*(acceptRandomSeed|emissionMultiple|randProvider).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "emissionMultiple"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return acceptrandomseed > 0;"

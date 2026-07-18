@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "user-can-withdraw-all-collateral-when-a-position-has-enough-prof"
+class_name: "UserCanWithdrawAllCollateralWhenAPositionHasEnoughProf"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37999 (Codehawks/Zaros)"
+help: |
+    User can withdraw all collateral when a position has enough profit so if liquidated no collateral can be deducted
+wiki_title: |
+    User can withdraw all collateral when a position has enough profit so if liquidated no collateral can be deducted
+wiki_description: |
+    ## Summary
+    
+    In `TradingAccountBranch::withdrawMargin`, it is checked that the margin balance is greater than the required initial margin once collateral has been withdrawn:
+    <https://github.com/Cyfrin/2024-07-zaros/blob/69ccf428b745058bea08804b3f3d961d31406ba8/src/perpetuals/branches/TradingAccountBr
+wiki_exploit_scenario: |
+    Per Solodit #37999: ## Summary
+    
+    In `TradingAccountBranch::withdrawMargin`, it is checked that the margin balance is greater than the required initial margin once collateral has been withdrawn:
+    <https://github.com/Cyfrin/
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UserCanWithdrawAllCollateralWhenAPositionHasEnoughProf"
+solodit_id: "37999"
+solodit_slug: |
+    user-can-withdraw-all-collateral-when-a-position-has-enough-profit-so-if-liquidated-no-collateral-can-be-deducted-codehawks-zaros-git
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawMargin|liquidateAccounts|amountToDeposit|wstEth).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "withdrawMargin"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-17-users-can-bypass-auction-mechanism-for-lendercommitmentgrou"
+class_name: "M17UsersCanBypassAuctionMechanismForLendercommitmentgrou"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32394 (Sherlock/Teller Finance)"
+help: |
+    M-17: Users can bypass auction mechanism for `LenderCommitmentGroup_Smart` liquidation mechanism for loans that are close to end of loan
+wiki_title: |
+    M-17: Users can bypass auction mechanism for `LenderCommitmentGroup_Smart` liquidation mechanism for loans that are close to end of loan
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-04-teller-finance-judging/issues/289 
+    
+    ## Found by 
+    pkqs90
+    
+    ## Summary
+    
+    `LenderCommitmentGroup_Smart` has an auction mechanism for users to help liquidate default loans. The auction begins from 8x of amountOwed gradually decreasing to 0x. However, for l
+wiki_exploit_scenario: |
+    Per Solodit #32394: Source: https://github.com/sherlock-audit/2024-04-teller-finance-judging/issues/289 
+    
+    ## Found by 
+    pkqs90
+    
+    ## Summary
+    
+    `LenderCommitmentGroup_Smart` has an auction mechanism for users to help liquidat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M17UsersCanBypassAuctionMechanismForLendercommitmentgrou"
+solodit_id: "32394"
+solodit_slug: |
+    m-17-users-can-bypass-auction-mechanism-for-lendercommitmentgroup_smart-liquidation-mechanism-for-loans-that-are-close-to-end-of-loan-sherlock-teller-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calculatenextduedate;"
+fn_name_regex: ".*(LenderCommitmentGroup_Smart|getLoanDefaultTimestamp|calculateNextDueDate|dueDate).*"
+read_var_regex: ".*(calculateNextDueDate|dueDate|endOfLoan).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LenderCommitmentGroup_Smart"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calculatenextduedate > 0;"

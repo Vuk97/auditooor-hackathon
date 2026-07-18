@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "h-01-adversary-can-abuse-a-quirk-of-compound-redemption-to-manip"
+class_name: "H01AdversaryCanAbuseAQuirkOfCompoundRedemptionToManip"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16009 (Code4rena/Reserve)"
+help: |
+    [H-01] Adversary can abuse a quirk of compound redemption to manipulate the underlying exchange rate and maliciously disable cToken collaterals
+wiki_title: |
+    [H-01] Adversary can abuse a quirk of compound redemption to manipulate the underlying exchange rate and maliciously disable cToken collaterals
+wiki_description: |
+    Adversary can maliciously disable cToken collateral to cause loss to rToken during restructuring.
+    
+    ### Proof of Concept
+    
+        if (referencePrice < prevReferencePrice) {
+            markStatus(CollateralStatus.DISABLED);
+        }
+    
+    CTokenNonFiatCollateral and CTokenFiatCollateral both use the default refresh
+wiki_exploit_scenario: |
+    Per Solodit #16009: Adversary can maliciously disable cToken collateral to cause loss to rToken during restructuring.
+    
+    ### Proof of Concept
+    
+        if (referencePrice < prevReferencePrice) {
+            markStatus(CollateralSt
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01AdversaryCanAbuseAQuirkOfCompoundRedemptionToManip"
+solodit_id: "16009"
+solodit_slug: |
+    h-01-adversary-can-abuse-a-quirk-of-compound-redemption-to-manipulate-the-underlying-exchange-rate-and-maliciously-disable-ctoken-collaterals-code4rena-reserve-reserve-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(cToken|rToken|referencePrice|prevReferencePrice).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "cToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

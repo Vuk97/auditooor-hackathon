@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-1-accountv1-flashactionbycreditor-can-be-used-to-drain-assets-"
+class_name: "H1Accountv1FlashactionbycreditorCanBeUsedToDrainAssets"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30445 (Sherlock/Arcadia)"
+help: "H-1: `AccountV1#flashActionByCreditor` can be used to drain assets from account without withdrawing"
+wiki_title: "H-1: `AccountV1#flashActionByCreditor` can be used to drain assets from account without withdrawing"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-12-arcadia-judging/issues/140 
+    
+    ## Found by 
+    0x52
+    ## Summary
+    
+    `AccountV1#flashActionByCreditor` is designed to allow atomic flash actions moving funds from the `owner` of the account. By making the account own itself, these arbitrary calls can be used t
+wiki_exploit_scenario: |
+    Per Solodit #30445: Source: https://github.com/sherlock-audit/2023-12-arcadia-judging/issues/140 
+    
+    ## Found by 
+    0x52
+    ## Summary
+    
+    `AccountV1#flashActionByCreditor` is designed to allow atomic flash actions moving funds fr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1Accountv1FlashactionbycreditorCanBeUsedToDrainAssets"
+solodit_id: "30445"
+solodit_slug: |
+    h-1-accountv1flashactionbycreditor-can-be-used-to-drain-assets-from-account-without-withdrawing-sherlock-arcadia-git
+solodit_quality: "5"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(owner|ERC721|creditor|flashActionByCreditor).*"
+required_sibling_regex: ".*liquidator.*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

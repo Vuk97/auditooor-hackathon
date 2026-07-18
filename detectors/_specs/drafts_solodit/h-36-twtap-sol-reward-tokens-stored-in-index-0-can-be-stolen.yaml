@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "h-36-twtap-sol-reward-tokens-stored-in-index-0-can-be-stolen"
+class_name: "H36TwtapSolRewardTokensStoredInIndex0CanBeStolen"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27526 (Code4rena/Tapioca DAO)"
+help: "[H-36] `twTAP.sol`: Reward tokens stored in index 0 can be stolen"
+wiki_title: "[H-36] `twTAP.sol`: Reward tokens stored in index 0 can be stolen"
+wiki_description: |
+    The function `claimAndSendRewards` can be called to collect rewards accrued by the twTAP position. This function can only be called by the `TapOFT.sol` contract during a crosschain operation. Thus a user on chain A can call `claimRewards` and on chain B, the function `_claimRewards` will be called
+wiki_exploit_scenario: |
+    Per Solodit #27526: The function `claimAndSendRewards` can be called to collect rewards accrued by the twTAP position. This function can only be called by the `TapOFT.sol` contract during a crosschain operation. Thus a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H36TwtapSolRewardTokensStoredInIndex0CanBeStolen"
+solodit_id: "27526"
+solodit_slug: "h-36-twtapsol-reward-tokens-stored-in-index-0-can-be-stolen-code4rena-tapioca-dao-tapioca-dao-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(claimAndSendRewards|claimRewards|rewardTokens|amount).*"
+write_var_regex: ".*(amount|claimAndSendRewards|claimRewards).*"
+guard_var_regex: ".*(amount|claimAndSendRewards|claimRewards).*"
+vuln_fn_name: "claimAndSendRewards"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "checks-to-limit-parameters-missing"
+class_name: "ChecksToLimitParametersMissing"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit StaFi - Zellic Audit Report"
+help: |
+    Both the init and setParams, migrate functions are used for modifying the contract’s most important state variables, such as the _eraSeconds, the _minStakeAmount, and more. However
+wiki_title: "Checks to limit parameters missing"
+wiki_description: |
+    Both the init and setParams, migrate functions are used for modifying the contract’s most important state variables, such as the _eraSeconds, the _minStakeAmount, and more. However, both functions lack proper checks to ensure that the parameters are within acceptable ranges or that they are not set
+wiki_exploit_scenario: |
+    Per audit finding: Both the init and setParams, migrate functions are used for modifying the contract’s most important state variables, such as the _eraSeconds, the _minStakeAmount, and more. However, both functions lac
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChecksToLimitParametersMissing"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setParams|eraSeconds|onlyAdmin).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setParams"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

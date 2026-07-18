@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "an-allowed-signer-can-sign-mints-with-malicious-parameters"
+class_name: "AnAllowedSignerCanSignMintsWithMaliciousParameters"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6835 (Spearbit/SeaDrop)"
+help: "An allowed signer can sign mints with malicious parameters"
+wiki_title: "An allowed signer can sign mints with malicious parameters"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context 
+    - SeaDrop.sol#L259-L266 
+    - SeaDrop.sol#L318-L319 
+    
+    ## Description 
+    An allowed signer (SeaDrop.sol#L318-L319) can sign mints that have either:
+    - `mintParams.feeBps` equal to 0.
+    - A custom `feeRecipient` with `mintParams.restrictFeeRecipients` equal to false to circ
+wiki_exploit_scenario: |
+    Per Solodit #6835: ## Severity: High Risk
+    
+    ## Context 
+    - SeaDrop.sol#L259-L266 
+    - SeaDrop.sol#L318-L319 
+    
+    ## Description 
+    An allowed signer (SeaDrop.sol#L318-L319) can sign mints that have either:
+    - `mintParams.feeBps`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnAllowedSignerCanSignMintsWithMaliciousParameters"
+solodit_id: "6835"
+solodit_slug: "an-allowed-signer-can-sign-mints-with-malicious-parameters-spearbit-seadrop-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "NFT"
+state_decl: "uint256 internal dropstageindex;"
+fn_name_regex: ".*(feeRecipient|ERC721SeaDrop|SignedMintParams|dropStageIndex).*"
+read_var_regex: ".*(dropStageIndex|feeBps|feeRecipient).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "feeRecipient"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return dropstageindex > 0;"

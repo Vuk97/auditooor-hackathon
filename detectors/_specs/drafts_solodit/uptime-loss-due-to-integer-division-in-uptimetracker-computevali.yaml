@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "uptime-loss-due-to-integer-division-in-uptimetracker-computevali"
+class_name: "UptimeLossDueToIntegerDivisionInUptimetrackerComputevali"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61257 (Cyfrin/Suzaku Core)"
+help: |
+    Uptime loss due to integer division in `UptimeTracker::computeValidatorUptime` can make validator lose entire rewards for an epoch
+wiki_title: |
+    Uptime loss due to integer division in `UptimeTracker::computeValidatorUptime` can make validator lose entire rewards for an epoch
+wiki_description: |
+    **Description:** `UptimeTracker::computeValidatorUptime` loses validator uptime due to integer division truncation when distributing uptime across multiple epochs. This results in validators losing reward eligibility for uptime they legitimately earned.
+    
+    ```solidity
+    // UptimeTracker::computeValidato
+wiki_exploit_scenario: |
+    Per Solodit #61257: **Description:** `UptimeTracker::computeValidatorUptime` loses validator uptime due to integer division truncation when distributing uptime across multiple epochs. This results in validators losing re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UptimeLossDueToIntegerDivisionInUptimetrackerComputevali"
+solodit_id: "61257"
+solodit_slug: |
+    uptime-loss-due-to-integer-division-in-uptimetrackercomputevalidatoruptime-can-make-validator-lose-entire-rewards-for-an-epoch-cyfrin-none-suzaku-core-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal computevalidatoruptime;"
+fn_name_regex: ".*(computeValidatorUptime|minRequiredTime).*"
+write_var_regex: ".*(computeValidatorUptime|minRequiredTime).*"
+guard_var_regex: ".*(computeValidatorUptime|minRequiredTime).*"
+vuln_fn_name: "computeValidatorUptime"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "computevalidatoruptime = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "reentrant-modifier-misuse-nonreentrant-functions-calling-each-other-ca"
+class_name: "ReentrantModifierMisuseNonreentrantFunctionsCallingEachOtherCa"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: non-reentrant-functions-calling-each-other-causes"
+help: "Reentrant Modifier Misuse — nonReentrant Functions Calling Each Other Causes DoS"
+wiki_title: "Reentrant Modifier Misuse — nonReentrant Functions Calling Each Other Causes DoS"
+wiki_description: |
+    The function is marked as `nonReentrant`, yet it is invoked by another `nonReentrant` function. Since the `nonReentrant` modifier relies on a state lock to prevent reentrancy, any attempt by one nonReentrant function to call another will trigger the lock and cause the transaction to revert. This cre
+wiki_exploit_scenario: |
+    Per Glider query tags [Reentrancy, Modifiers, DoS]: The function is marked as `nonReentrant`, yet it is invoked by another `nonReentrant` function. Since the `nonReentrant` modifier relies on a state lock to prevent reentrancy, any attempt by one nonRe
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "ReentrantModifierMisuseNonreentrantFunctionsCallingEachOtherCa"
+fn_name_regex: ".*(nonReentrant).*"
+read_var_regex: ".*(nonreentra).*"
+required_call_regex: ".*(accrue|update|sync|validate|check).*"
+guarded_helper_name: "_guard"
+vuln_fn_name: "nonReentrant"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return nonreentra > 0;"
+state_decl: "uint256 internal nonreentra;"

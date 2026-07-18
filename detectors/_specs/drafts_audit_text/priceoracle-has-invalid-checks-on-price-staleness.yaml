@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "priceoracle-has-invalid-checks-on-price-staleness"
+class_name: "PriceoracleHasInvalidChecksOnPriceStaleness"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-benddao"
+help: |
+    oakcobalt , also found by Ch_301 bin2chen , and SpicyMeatball There are two checks on price staleness in PriceOracle::getAssetPriceFromChainlink , but both checks are invalid. upda
+wiki_title: "PriceOracle has invalid checks on price staleness"
+wiki_description: |
+    oakcobalt , also found by Ch_301 bin2chen , and SpicyMeatball There are two checks on price staleness in PriceOracle::getAssetPriceFromChainlink , but both checks are invalid. updatedAt != 0 - In chainlink aggregator, the price is updated at a set heartbeat and a threshold of deviation. updatedAt sh
+wiki_exploit_scenario: |
+    Per audit finding: oakcobalt , also found by Ch_301 bin2chen , and SpicyMeatball There are two checks on price staleness in PriceOracle::getAssetPriceFromChainlink , but both checks are invalid. updatedAt != 0 - In chai
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PriceoracleHasInvalidChecksOnPriceStaleness"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getAssetPriceFromChainlink|updatedAt|answeredInRound).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "getAssetPriceFromChainlink"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

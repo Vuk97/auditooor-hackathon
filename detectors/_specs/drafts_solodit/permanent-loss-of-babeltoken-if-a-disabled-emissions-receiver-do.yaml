@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "permanent-loss-of-babeltoken-if-a-disabled-emissions-receiver-do"
+class_name: "PermanentLossOfBabeltokenIfADisabledEmissionsReceiverDo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #38429 (Cyfrin/Bima)"
+help: |
+    Permanent loss of `BabelToken` if a disabled emissions receiver doesn't call `Vault::allocateNewEmissions`
+wiki_title: |
+    Permanent loss of `BabelToken` if a disabled emissions receiver doesn't call `Vault::allocateNewEmissions`
+wiki_description: |
+    **Description:** `BabelToken` is permanently lost if a disabled emissions receiver doesn't call `Vault::allocateNewEmissions` as:
+    * `Vault::_allocateTotalWeekly` allocates `BabelToken` according to total weekly votes which contain votes for disabled receivers
+    * if a disabled receiver doesn't call `V
+wiki_exploit_scenario: |
+    Per Solodit #38429: **Description:** `BabelToken` is permanently lost if a disabled emissions receiver doesn't call `Vault::allocateNewEmissions` as:
+    * `Vault::_allocateTotalWeekly` allocates `BabelToken` according to to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PermanentLossOfBabeltokenIfADisabledEmissionsReceiverDo"
+solodit_id: "38429"
+solodit_slug: |
+    permanent-loss-of-babeltoken-if-a-disabled-emissions-receiver-doesnt-call-vaultallocatenewemissions-cyfrin-none-bima-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(BabelToken).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BabelToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

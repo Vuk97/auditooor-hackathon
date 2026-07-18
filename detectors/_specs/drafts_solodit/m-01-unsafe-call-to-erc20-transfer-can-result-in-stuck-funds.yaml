@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "m-01-unsafe-call-to-erc20-transfer-can-result-in-stuck-funds"
+class_name: "M01UnsafeCallToErc20TransferCanResultInStuckFunds"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20309 (Pashov Audit Group/Zerem)"
+help: "[M-01] Unsafe call to `ERC20::transfer` can result in stuck funds"
+wiki_title: "[M-01] Unsafe call to `ERC20::transfer` can result in stuck funds"
+wiki_description: |
+    **Proof of Concept**
+    
+    In the `_sendFunds` method we have the following code for transferring ERC20 tokens
+    
+    ```solidity
+    IERC20(underlyingToken).transfer(receiver, amount);
+    ```
+    
+    The problem is that the `transfer` function from ERC20 returns a bool to indicate if the transfer was a success or not. As t
+wiki_exploit_scenario: |
+    Per Solodit #20309: **Proof of Concept**
+    
+    In the `_sendFunds` method we have the following code for transferring ERC20 tokens
+    
+    ```solidity
+    IERC20(underlyingToken).transfer(receiver, amount);
+    ```
+    
+    The problem is that the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01UnsafeCallToErc20TransferCanResultInStuckFunds"
+solodit_id: "20309"
+solodit_slug: "m-01-unsafe-call-to-erc20transfer-can-result-in-stuck-funds-pashov-none-zerem-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lockthreshold;"
+fn_name_regex: ".*(transfer|lockThreshold|SafeERC20|safeTransfer).*"
+read_var_regex: ".*(lockThreshold|safeTransfer|transfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return lockthreshold > 0;"

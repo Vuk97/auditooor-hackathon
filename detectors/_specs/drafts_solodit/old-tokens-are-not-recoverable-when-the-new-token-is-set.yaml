@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "old-tokens-are-not-recoverable-when-the-new-token-is-set"
+class_name: "OldTokensAreNotRecoverableWhenTheNewTokenIsSet"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #50150 (Halborn/Token Sale & Comptroller Updates)"
+help: "OLD TOKENS ARE NOT RECOVERABLE WHEN THE NEW TOKEN IS SET"
+wiki_title: "OLD TOKENS ARE NOT RECOVERABLE WHEN THE NEW TOKEN IS SET"
+wiki_description: |
+    ##### Description
+    
+    The privileged address can set the token. However, when the token is set to another address, the old tokens cannot be retrieved using the contract.
+    
+    * Admin sets allocation via setAllocations function.
+    * After the time, the user claims allocations.
+    * Admin sets new token on the co
+wiki_exploit_scenario: |
+    Per Solodit #50150: ##### Description
+    
+    The privileged address can set the token. However, when the token is set to another address, the old tokens cannot be retrieved using the contract.
+    
+    * Admin sets allocation via setA
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OldTokensAreNotRecoverableWhenTheNewTokenIsSet"
+solodit_id: "50150"
+solodit_slug: |
+    old-tokens-are-not-recoverable-when-the-new-token-is-set-halborn-moonwell-token-sale-comptroller-updates-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setAllocations|setTokenAddress|newTokenAddress|adminOnly).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setAllocations"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "stale-price-issue-in-narwhalpriceaggregator"
+class_name: "StalePriceIssueInNarwhalpriceaggregator"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44690 (Zokyo/Narwhal Finance)"
+help: "Stale Price Issue in NarwhalPriceAggregator"
+wiki_title: "Stale Price Issue in NarwhalPriceAggregator"
+wiki_description: |
+    **Severity** : Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In the NarwhalPriceAggregator smart contract, the function tokenPriceUSDT() queries the latest price for the USDT token using the Pyth Oracle. The function does not perform a check to ensure that the returned price is not stale . As a res
+wiki_exploit_scenario: |
+    Per Solodit #44690: **Severity** : Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In the NarwhalPriceAggregator smart contract, the function tokenPriceUSDT() queries the latest price for the USDT token using the Pyth Ora
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StalePriceIssueInNarwhalpriceaggregator"
+solodit_id: "44690"
+solodit_slug: "stale-price-issue-in-narwhalpriceaggregator-zokyo-none-narwhal-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(tokenPriceUSDT|publishTime|priceFeed).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

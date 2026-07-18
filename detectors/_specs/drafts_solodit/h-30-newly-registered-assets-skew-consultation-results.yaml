@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "h-30-newly-registered-assets-skew-consultation-results"
+class_name: "H30NewlyRegisteredAssetsSkewConsultationResults"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1015 (Code4rena/Vader Protocol)"
+help: "[H-30] Newly Registered Assets Skew Consultation Results"
+wiki_title: "[H-30] Newly Registered Assets Skew Consultation Results"
+wiki_description: |
+    _Submitted by leastwood_
+    
+    #### Impact
+    
+    The `TwapOracle.consult()` function iterates over all token pairs which belong to either `VADER` or USDV\` and then calculates the price of the respective asset by using both UniswapV2 and Chainlink price data. This helps to further protect against price manipu
+wiki_exploit_scenario: |
+    Per Solodit #1015: _Submitted by leastwood_
+    
+    #### Impact
+    
+    The `TwapOracle.consult()` function iterates over all token pairs which belong to either `VADER` or USDV\` and then calculates the price of the respective asset
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H30NewlyRegisteredAssetsSkewConsultationResults"
+solodit_id: "1015"
+solodit_slug: |
+    h-30-newly-registered-assets-skew-consultation-results-code4rena-vader-protocol-vader-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Oracle"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(price1Average|require|sumUSD).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

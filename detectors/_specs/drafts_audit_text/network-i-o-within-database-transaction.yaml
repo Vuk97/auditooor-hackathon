@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "network-i-o-within-database-transaction"
+class_name: "NetworkIOWithinDatabaseTransaction"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Jovay Relayer - Zellic Audit Report"
+help: |
+    In ReliableTxServiceImpl, the processL1NotFinalizedTx() and processL2NotFinalizedTx() methods wrap their processing logic inside transactionTemplate.execute(). Within this transact
+wiki_title: "Network I/O within database transaction"
+wiki_description: |
+    In ReliableTxServiceImpl, the processL1NotFinalizedTx() and processL2NotFinalizedTx() methods wrap their processing logic inside transactionTemplate.execute(). Within this transaction scope, network RPC calls to Ethereum nodes are made (e.g., l1Client.queryTx(), queryTxReceipt(), sendRawTx()). // Re
+wiki_exploit_scenario: |
+    Per audit finding: In ReliableTxServiceImpl, the processL1NotFinalizedTx() and processL2NotFinalizedTx() methods wrap their processing logic inside transactionTemplate.execute(). Within this transaction scope, network R
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NetworkIOWithinDatabaseTransaction"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(processL1NotFinalizedTx|processL2NotFinalizedTx|transactionTemplate).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

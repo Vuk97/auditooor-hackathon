@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-01-the-shortorder-verification-bug-on-the-redemptionfacet-prop"
+class_name: "M01TheShortorderVerificationBugOnTheRedemptionfacetProp"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34178 (Code4rena/DittoETH)"
+help: |
+    [M-01] The `shortOrder` verification bug on the `RedemptionFacet::proposeRedemption()` allows an attacker to leave a small `shortOrder` on the order book, leading to the protocol's
+wiki_title: |
+    [M-01] The `shortOrder` verification bug on the `RedemptionFacet::proposeRedemption()` allows an attacker to leave a small `shortOrder` on the order book, leadi
+wiki_description: |
+    The `BidOrdersFacet::bidMatchAlgo()` allows a `shortOrder` to be partially matched and leave its `ercAmount * price < minAskEth` due to the [`DUST_FACTOR` constant](https://github.com/code-423n4/2024-03-dittoeth/blob/91faf46078bb6fe8ce9f55bcb717e5d2d302d22e/contracts/facets/BidOrdersFacet.sol#L190)
+wiki_exploit_scenario: |
+    Per Solodit #34178: The `BidOrdersFacet::bidMatchAlgo()` allows a `shortOrder` to be partially matched and leave its `ercAmount * price < minAskEth` due to the [`DUST_FACTOR` constant](https://github.com/code-423n4/2024
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01TheShortorderVerificationBugOnTheRedemptionfacetProp"
+solodit_id: "34178"
+solodit_slug: |
+    m-01-the-shortorder-verification-bug-on-the-redemptionfacetproposeredemption-allows-an-attacker-to-leave-a-small-shortorder-on-the-order-book-leading-to-the-protocols-bad-debt-code4rena-dittoeth-dittoeth-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ercamount;"
+fn_name_regex: ".*(shortOrder|DUST_FACTOR|shortRecord|ercAmount).*"
+read_var_regex: ".*(ercAmount|ercEscrowed|ethCollateral).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "shortOrder"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ercamount > 0;"

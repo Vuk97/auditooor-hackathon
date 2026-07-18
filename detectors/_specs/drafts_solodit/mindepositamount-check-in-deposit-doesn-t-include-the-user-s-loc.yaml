@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "mindepositamount-check-in-deposit-doesn-t-include-the-user-s-loc"
+class_name: "MindepositamountCheckInDepositDoesnTIncludeTheUserSLoc"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54116 (Cantina/Gentleman Labs)"
+help: "minDepositAmount check in deposit() doesn't include the user 's locked balance"
+wiki_title: "minDepositAmount check in deposit() doesn't include the user 's locked balance "
+wiki_description: |
+    ## DegenLockToken.sol #L107-L110
+    
+    ## Description
+    The `deposit()` function ensures that the amount currently being deposited is not less than `minDepositAmount`:
+    
+    ```solidity
+    function deposit(uint256 amount) external nonReentrant {
+        if (amount < minDepositAmount) {
+            revert MinimumDepositNot
+wiki_exploit_scenario: |
+    Per Solodit #54116: ## DegenLockToken.sol #L107-L110
+    
+    ## Description
+    The `deposit()` function ensures that the amount currently being deposited is not less than `minDepositAmount`:
+    
+    ```solidity
+    function deposit(uint256 a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MindepositamountCheckInDepositDoesnTIncludeTheUserSLoc"
+solodit_id: "54116"
+solodit_slug: |
+    mindepositamount-check-in-deposit-doesnt-include-the-user-s-locked-balance-cantina-none-gentleman-labs-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(deposit|minDepositAmount).*"
+read_var_regex: ".*(deposit|minDepositAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposit > 0;"

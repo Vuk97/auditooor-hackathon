@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "step-transition-for-end-tx-not-constrained"
+class_name: "StepTransitionForEndTxNotConstrained"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Scroll zkEVM - Zellic Audit Report"
+help: |
+    The EVM circuit, which constrains the actual execution of instruction in the EVM, is organized around steps. For each step, a StepState is stored, containing the following data: pu
+wiki_title: "Step transition for end_tx not constrained"
+wiki_description: |
+    The EVM circuit, which constrains the actual execution of instruction in the EVM, is organized around steps. For each step, a StepState is stored, containing the following data: pub(crate) struct StepState<F> { /// The execution state selector for the step pub(crate) execution_state: DynamicSelector
+wiki_exploit_scenario: |
+    Per audit finding: The EVM circuit, which constrains the actual execution of instruction in the EVM, is organized around steps. For each step, a StepState is stored, containing the following data: pub(crate) struct Step
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StepTransitionForEndTxNotConstrained"
+state_decl: "uint256 internal rw_counter;"
+fn_name_regex: ".*(rw_counter).*"
+read_var_regex: ".*(rw_counter).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rw_counter"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return rw_counter > 0;"

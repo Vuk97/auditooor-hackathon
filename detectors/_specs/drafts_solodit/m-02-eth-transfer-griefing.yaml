@@ -1,0 +1,56 @@
+skeleton: "name_match_missing_call"
+name: "m-02-eth-transfer-griefing"
+class_name: "M02EthTransferGriefing"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31688 (Pashov Audit Group/Frontrunmarket)"
+help: "[M-02] ETH transfer griefing"
+wiki_title: "[M-02] ETH transfer griefing"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    `forceCancelOrder()` uses a direct address call to send ETH to buyer and seller on refund in ETH.
+    
+    ```
+        if (offer.exToken == address(0)) {
+          // refund ETH
+          if (buyerRefundValue > 0 && buyer != address(0)) {
+            (bo
+wiki_exploit_scenario: |
+    Per Solodit #31688: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    `forceCancelOrder()` uses a direct address call to send ETH to buyer and seller on refund in ETH.
+    
+    ```
+        if (offer.exToken == ad
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02EthTransferGriefing"
+solodit_id: "31688"
+solodit_slug: "m-02-eth-transfer-griefing-pashov-none-frontrunmarket-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal canceloffer;"
+fn_name_regex: ".*(forceCancelOrder|settleFilled|settle2Steps|cancelOffer).*"
+read_var_regex: ".*(cancelOffer|forceCancelOrder|settle2Steps).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "forceCancelOrder"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return canceloffer > 0;"

@@ -1,0 +1,19 @@
+id: public-swap-executor-drains-adapter
+title: "Public swap executors can drain adapter-held balances"
+severity: Medium
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44837"
+bug_class: authorization
+indicators:
+  - "adapter's `execute_swap` is public with no caller check"
+  - "uses adapter's own balance as swap input"
+victim: "Protocol: adapter balance swept by anyone."
+exploit_precondition: "Adapter transiently holds balances."
+real_world_example: |
+  V12 #44837 (Medium): Public swap executors can drain adapter-held balances.
+suggested_remediation: "Gate executor to pool/router only."
+cross_refs:
+  - missing-require-auth-on-privileged-entrypoint

@@ -1,0 +1,33 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-01-invalid-handling-of-flash-loan-fees-in-positionaction-oncre"
+class_name: "M01InvalidHandlingOfFlashLoanFeesInPositionactionOncre"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49113 (Code4rena/LoopFi)"
+help: |
+    [M-01] Invalid handling of flash loan fees in `PositionAction::onCreditFlashLoan`, forcing it to always revert
+wiki_title: |
+    [M-01] Invalid handling of flash loan fees in `PositionAction::onCreditFlashLoan`, forcing it to always revert
+wiki_description: |
+    When users take a flash loan, an amount is sent to the receiver, and then some action takes place, after that action that sent amount is expected to be paid and some fee. Users can also call `PositionAction::decreaseLever` through a proxy, to "Decrease the leverage of a position by taking out a cre
+wiki_exploit_scenario: |
+    Per Solodit #49113: When users take a flash loan, an amount is sent to the receiver, and then some action takes place, after that action that sent amount is expected to be paid and some fee. Users can also call `Positio
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01InvalidHandlingOfFlashLoanFeesInPositionactionOncre"
+solodit_id: "49113"
+solodit_slug: |
+    m-01-invalid-handling-of-flash-loan-fees-in-positionactiononcreditflashloan-forcing-it-to-always-revert-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(onCreditFlashLoan).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "m-06-in-multirewardstaking-addrewardtoken-rewardspersecond-is-no"
+class_name: "M06InMultirewardstakingAddrewardtokenRewardspersecondIsNo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #22003 (Code4rena/Popcorn)"
+help: |
+    [M-06] In `MultiRewardStaking.addRewardToken()`, `rewardsPerSecond` is not accurate enough to handle all type of reward tokens.
+wiki_title: |
+    [M-06] In `MultiRewardStaking.addRewardToken()`, `rewardsPerSecond` is not accurate enough to handle all type of reward tokens.
+wiki_description: |
+    The raw `rewardsPerSecond` might be too big for some ERC20 tokens and it wouldn't work as intended.
+    
+    ### Proof of Concept
+    
+    As we can see from `_accrueStatic()`, the `rewardsPerSecond` is a raw amount without any multiplier.
+    
+    ```solidity
+      function _accrueStatic(RewardInfo memory rewards) internal v
+wiki_exploit_scenario: |
+    Per Solodit #22003: The raw `rewardsPerSecond` might be too big for some ERC20 tokens and it wouldn't work as intended.
+    
+    ### Proof of Concept
+    
+    As we can see from `_accrueStatic()`, the `rewardsPerSecond` is a raw amount
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06InMultirewardstakingAddrewardtokenRewardspersecondIsNo"
+solodit_id: "22003"
+solodit_slug: |
+    m-06-in-multirewardstakingaddrewardtoken-rewardspersecond-is-not-accurate-enough-to-handle-all-type-of-reward-tokens-code4rena-popcorn-popcorn-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal rewardspersecond;"
+fn_name_regex: ".*(rewardsPerSecond).*"
+read_var_regex: ".*(rewardsPerSecond).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rewardsPerSecond"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return rewardspersecond > 0;"

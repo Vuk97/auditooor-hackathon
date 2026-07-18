@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "reentrancy-in-function-leave-leads-to-halting-of-bottom-up-c-x"
+class_name: "ReentrancyInFunctionLeaveLeadsToHaltingOfBottomUpCX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-recall"
+help: |
+    sin1st3r__ Prerequisite Knowledge How stake & unstake operations work in a not yet bootstrapped subnet: In a pre-bootstrap subnet, when a validator joins the subnet using the funct
+wiki_title: "Reentrancy in function leave() leads to halting of bottom up checkpoints"
+wiki_description: |
+    sin1st3r__ Prerequisite Knowledge How stake & unstake operations work in a not yet bootstrapped subnet: In a pre-bootstrap subnet, when a validator joins the subnet using the function SubnetActorManagerFacet::stake() and then decides to add more stake by calling the function SubnetActorManagerFacet:
+wiki_exploit_scenario: |
+    Per audit finding: sin1st3r__ Prerequisite Knowledge How stake & unstake operations work in a not yet bootstrapped subnet: In a pre-bootstrap subnet, when a validator joins the subnet using the function SubnetActorManag
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyInFunctionLeaveLeadsToHaltingOfBottomUpCX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(whenNotPaused|notKilled|collateralSource).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "whenNotPaused"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,42 @@
+skeleton: "paired_function_divergence"
+name: "h-05-malicious-strategy-can-lead-to-loss-of-funds"
+class_name: "H05MaliciousStrategyCanLeadToLossOfFunds"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #21990 (Code4rena/Popcorn)"
+help: "[H-05] Malicious strategy can lead to loss of funds"
+wiki_title: "[H-05] Malicious strategy can lead to loss of funds"
+wiki_description: |
+    A malicious strategy has access to the adapter's storage and can therefore freely change any values.
+    
+    ### Proof of Concept
+    
+    Because `AdapterBase` calls the `Strategy` using `delegatecall`, the `Strategy` has access to the calling contract's storage and can be manipulated directly.
+    
+    In the following
+wiki_exploit_scenario: |
+    Per Solodit #21990: A malicious strategy has access to the adapter's storage and can therefore freely change any values.
+    
+    ### Proof of Concept
+    
+    Because `AdapterBase` calls the `Strategy` using `delegatecall`, the `Strat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05MaliciousStrategyCanLeadToLossOfFunds"
+solodit_id: "21990"
+solodit_slug: "h-05-malicious-strategy-can-lead-to-loss-of-funds-code4rena-popcorn-popcorn-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(delegatecall|harvest|highWaterMark).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

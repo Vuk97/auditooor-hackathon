@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "signatures-in-circuits-are-not-domain-separated"
+class_name: "SignaturesInCircuitsAreNotDomainSeparated"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Singularity - Zellic Audit Report"
+help: |
+    The circuits contain and verify a Schnorr signature of the relevant data (such as input and output notes) for the action, as in this snippet from the join circuit. let m = std::has
+wiki_title: "Signatures in circuits are not domain separated"
+wiki_description: |
+    The circuits contain and verify a Schnorr signature of the relevant data (such as input and output notes) for the action, as in this snippet from the join circuit. let m = std::hash::mimc::mimc_bn254([ in_note_1, in_note_2, in_nullifier_1, in_nullifier_2, out_note_1, ]); let m_bytes = fuzk::to_bytes
+wiki_exploit_scenario: |
+    Per audit finding: The circuits contain and verify a Schnorr signature of the relevant data (such as input and output notes) for the action, as in this snippet from the join circuit. let m = std::hash::mimc::mimc_bn254(
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SignaturesInCircuitsAreNotDomainSeparated"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

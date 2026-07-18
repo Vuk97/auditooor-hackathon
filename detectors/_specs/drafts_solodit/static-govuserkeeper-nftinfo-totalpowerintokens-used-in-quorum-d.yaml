@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "static-govuserkeeper-nftinfo-totalpowerintokens-used-in-quorum-d"
+class_name: "StaticGovuserkeeperNftinfoTotalpowerintokensUsedInQuorumD"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27304 (Cyfrin/Dexe)"
+help: |
+    Static `GovUserKeeper::_nftInfo.totalPowerInTokens` used in quorum denominator can incorrectly make it impossible to reach quorum
+wiki_title: |
+    Static `GovUserKeeper::_nftInfo.totalPowerInTokens` used in quorum denominator can incorrectly make it impossible to reach quorum
+wiki_description: |
+    **Description:** Consider the following factors:
+    
+    1) `GovPoolVote::_quorumReached()` [uses](https://github.com/dexe-network/DeXe-Protocol/tree/f2fe12eeac0c4c63ac39670912640dc91d94bda5/contracts/libs/gov/gov-pool/GovPoolVote.sol#L337) `GovUserKeeper::getTotalVoteWeight()` as the denominator for deter
+wiki_exploit_scenario: |
+    Per Solodit #27304: **Description:** Consider the following factors:
+    
+    1) `GovPoolVote::_quorumReached()` [uses](https://github.com/dexe-network/DeXe-Protocol/tree/f2fe12eeac0c4c63ac39670912640dc91d94bda5/contracts/libs/g
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StaticGovuserkeeperNftinfoTotalpowerintokensUsedInQuorumD"
+solodit_id: "27304"
+solodit_slug: |
+    static-govuserkeeper_nftinfototalpowerintokens-used-in-quorum-denominator-can-incorrectly-make-it-impossible-to-reach-quorum-cyfrin-none-cyfrin-dexe-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(ERC721Power).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "ERC721Power"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

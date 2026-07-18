@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-02-oraclepoolofferhandler-s-getfactors-allows-exact-tokenid-of"
+class_name: "H02OraclepoolofferhandlerSGetfactorsAllowsExactTokenidOf"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35263 (Code4rena/Gondi)"
+help: |
+    [H-02] OraclePoolOfferHandler's `_getFactors` allows exact `tokenId` offer terms to be used for collection offers. A borrower can take on a loan with incorrect terms
+wiki_title: |
+    [H-02] OraclePoolOfferHandler's `_getFactors` allows exact `tokenId` offer terms to be used for collection offers. A borrower can take on a loan with incorrect 
+wiki_description: |
+    In MultiSourceLoan.sol, a loan `offerExectuion` can be either a collection offer or an exact collateral token Id match offer. In a collection offer, the loanOffer's `collateralTokenId` doesn't have to match the borrower-supplied token id.
+    
+    **1. `MutlisSourceLoan::_checkValidators`:**
+    
+    The condition
+wiki_exploit_scenario: |
+    Per Solodit #35263: In MultiSourceLoan.sol, a loan `offerExectuion` can be either a collection offer or an exact collateral token Id match offer. In a collection offer, the loanOffer's `collateralTokenId` doesn't have to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02OraclepoolofferhandlerSGetfactorsAllowsExactTokenidOf"
+solodit_id: "35263"
+solodit_slug: |
+    h-02-oraclepoolofferhandlers-_getfactors-allows-exact-tokenid-offer-terms-to-be-used-for-collection-offers-a-borrower-can-take-on-a-loan-with-incorrect-terms-code4rena-gondi-gondi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal collateraltokenid;"
+fn_name_regex: ".*(offerExectuion|collateralTokenId|tokenId).*"
+read_var_regex: ".*(collateralTokenId|offerExectuion).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "offerExectuion"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return collateraltokenid > 0;"

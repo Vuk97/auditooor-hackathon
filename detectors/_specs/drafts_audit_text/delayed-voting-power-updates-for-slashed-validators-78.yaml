@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "delayed-voting-power-updates-for-slashed-validators-78"
+class_name: "DelayedVotingPowerUpdatesForSlashedValidators78"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Babylon Genesis Chain - Zellic Audit Report"
+help: |
+    The EncSign function uses the private key and message to derive a deterministic nonce ↗. nonce := btcec.NonceRFC6979( privKeyBytes[:], msgHash, rfc6979ExtraDataV0[:], nil, iteratio
+wiki_title: "Delayed voting-power updates for slashed validators                                78"
+wiki_description: |
+    The EncSign function uses the private key and message to derive a deterministic nonce ↗. nonce := btcec.NonceRFC6979( privKeyBytes[:], msgHash, rfc6979ExtraDataV0[:], nil, iteration, ) This results in the same nonce being used when producing adaptor signatures for the same mes- sage with different e
+wiki_exploit_scenario: |
+    Per audit finding: The EncSign function uses the private key and message to derive a deterministic nonce ↗. nonce := btcec.NonceRFC6979( privKeyBytes[:], msgHash, rfc6979ExtraDataV0[:], nil, iteration, ) This results in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DelayedVotingPowerUpdatesForSlashedValidators78"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(privKeyBytes|msgHash|rfc6979ExtraDataV0).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "privKeyBytes"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

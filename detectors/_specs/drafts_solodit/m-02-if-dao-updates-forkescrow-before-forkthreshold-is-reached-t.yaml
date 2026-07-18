@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "m-02-if-dao-updates-forkescrow-before-forkthreshold-is-reached-t"
+class_name: "M02IfDaoUpdatesForkescrowBeforeForkthresholdIsReachedT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20191 (Code4rena/Nouns DAO)"
+help: |
+    [M-02] If DAO updates `forkEscrow` before `forkThreshold` is reached, the user's escrowed Nouns will be lost
+wiki_title: |
+    [M-02] If DAO updates `forkEscrow` before `forkThreshold` is reached, the user's escrowed Nouns will be lost
+wiki_description: |
+    During the escrow period, users can escrow to or withdraw from forkEscrow their Nouns.
+    
+    During the escrow period, proposals can be executed.
+    
+    ```solidity
+        function withdrawFromForkEscrow(NounsDAOStorageV3.StorageV3 storage ds, uint256[] calldata tokenIds) external {
+            if (isForkPeriodActiv
+wiki_exploit_scenario: |
+    Per Solodit #20191: During the escrow period, users can escrow to or withdraw from forkEscrow their Nouns.
+    
+    During the escrow period, proposals can be executed.
+    
+    ```solidity
+        function withdrawFromForkEscrow(NounsDAOS
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02IfDaoUpdatesForkescrowBeforeForkthresholdIsReachedT"
+solodit_id: "20191"
+solodit_slug: |
+    m-02-if-dao-updates-forkescrow-before-forkthreshold-is-reached-the-users-escrowed-nouns-will-be-lost-code4rena-nouns-dao-nouns-dao-git
+solodit_quality: "0"
+solodit_rarity: "5"
+solodit_tags: "Business Logic, Fund Lock"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(forkEscrow|forkThreshold).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "forkEscrow"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

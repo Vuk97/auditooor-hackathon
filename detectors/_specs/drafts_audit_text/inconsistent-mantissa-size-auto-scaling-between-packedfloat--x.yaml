@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "inconsistent-mantissa-size-auto-scaling-between-packedfloat--x"
+class_name: "InconsistentMantissaSizeAutoScalingBetweenPackedfloatX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-04-forte-float128-solidity-library"
+help: |
+    montecristo Library has “mantissa size auto-scaling” rule to achieve the following: In other words, the library down scales the size of the mantissa to make sure it is as gas effic
+wiki_title: |
+    Inconsistent mantissa size auto-scaling between packedFloat encoding and calculations will lead to unacceptable rounding errors
+wiki_description: |
+    montecristo Library has “mantissa size auto-scaling” rule to achieve the following: In other words, the library down scales the size of the mantissa to make sure it is as gas efficient as possible, but it up scales to make sure it keeps a minimum level of precision. The library prioritizes precision
+wiki_exploit_scenario: |
+    Per audit finding: montecristo Library has “mantissa size auto-scaling” rule to achieve the following: In other words, the library down scales the size of the mantissa to make sure it is as gas efficient as possible, bu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentMantissaSizeAutoScalingBetweenPackedfloatX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(toPackedFloat|packedFloat|digitsMantissa).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "toPackedFloat"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

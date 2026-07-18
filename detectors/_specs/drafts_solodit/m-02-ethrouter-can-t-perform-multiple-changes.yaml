@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "m-02-ethrouter-can-t-perform-multiple-changes"
+class_name: "M02EthrouterCanTPerformMultipleChanges"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #43388 (Code4rena/Caviar)"
+help: "[M-02] EthRouter can't perform multiple changes"
+wiki_title: "[M-02] EthRouter can't perform multiple changes"
+wiki_description: |
+    EthRouter is meant to support multiple changes in one tx, but that would fail.
+    
+    ### Proof of Concept
+    
+    The function `EthRouter.change` sends `msg.value` to pool in a for loop:
+    
+    ```js
+    for (uint256 i = 0; i < changes.length; i++) {
+        Change memory _change = changes[i];
+    
+        ...
+    
+        // execute chang
+wiki_exploit_scenario: |
+    Per Solodit #43388: EthRouter is meant to support multiple changes in one tx, but that would fail.
+    
+    ### Proof of Concept
+    
+    The function `EthRouter.change` sends `msg.value` to pool in a for loop:
+    
+    ```js
+    for (uint256 i =
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02EthrouterCanTPerformMultipleChanges"
+solodit_id: "43388"
+solodit_slug: "m-02-ethrouter-cant-perform-multiple-changes-code4rena-caviar-caviar-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(inputTokenIds|inputTokenWeights|inputProof|stolenNftProofs).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "inputTokenIds"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

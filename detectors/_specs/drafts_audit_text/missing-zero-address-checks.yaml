@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-zero-address-checks"
+class_name: "MissingZeroAddressChecks"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "hexens audit 1inch_FusionMode_Hexens.2"
+help: |
+    1. In St1inch.sol:setFeeReceiver the parameter feeReceiver_ is not checked against the zero address. If this address is set to address(0), then the early withdrawal function would
+wiki_title: "MISSING ZERO ADDRESS CHECKS"
+wiki_description: |
+    1. In St1inch.sol:setFeeReceiver the parameter feeReceiver_ is not checked against the zero address. If this address is set to address(0), then the early withdrawal function would always revert.
+wiki_exploit_scenario: |
+    Per audit finding: 1. In St1inch.sol:setFeeReceiver the parameter feeReceiver_ is not checked against the zero address. If this address is set to address(0), then the early withdrawal function would always revert.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingZeroAddressChecks"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setFeeReceiver).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setFeeReceiver"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

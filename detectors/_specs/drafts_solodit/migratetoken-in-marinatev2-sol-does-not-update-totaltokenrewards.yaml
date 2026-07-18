@@ -1,0 +1,38 @@
+skeleton: "state_write_without_paired_write"
+name: "migratetoken-in-marinatev2-sol-does-not-update-totaltokenrewards"
+class_name: "MigratetokenInMarinatev2SolDoesNotUpdateTotaltokenrewards"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57561 (Zokyo/Umami)"
+help: "`migrateToken` in MarinateV2.sol does not update `totalTokenRewardsPerStake`."
+wiki_title: "`migrateToken` in MarinateV2.sol does not update `totalTokenRewardsPerStake`."
+wiki_description: |
+    **Description**
+    
+    MarinateV2.sol - migrate Token transfers reward tokens to another address and does not update the value of total Token RewardsPerStake accordingly, which shall in turn cause loss of funds to some stakers trying to collect rewards.
+    
+    **Recommendation**
+    
+    Ensure `totalTokenRewardsPerSta
+wiki_exploit_scenario: |
+    Per Solodit #57561: **Description**
+    
+    MarinateV2.sol - migrate Token transfers reward tokens to another address and does not update the value of total Token RewardsPerStake accordingly, which shall in turn cause loss of f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MigratetokenInMarinatev2SolDoesNotUpdateTotaltokenrewards"
+solodit_id: "57561"
+solodit_slug: "migratetoken-in-marinatev2sol-does-not-update-totaltokenrewardsperstake-zokyo-none-umami-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(totalTokenRewardsPerStake|migrateToken).*"
+primary_var_regex: ".*(migrateToken|totalTokenRewardsPerStake).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

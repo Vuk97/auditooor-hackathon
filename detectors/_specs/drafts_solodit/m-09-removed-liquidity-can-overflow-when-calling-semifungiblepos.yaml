@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "m-09-removed-liquidity-can-overflow-when-calling-semifungiblepos"
+class_name: "M09RemovedLiquidityCanOverflowWhenCallingSemifungiblepos"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33685 (Code4rena/Panoptic)"
+help: |
+    [M-09] Removed liquidity can overflow when calling `SemiFungiblePositionManager.mintTokenizedPosition` function
+wiki_title: |
+    [M-09] Removed liquidity can overflow when calling `SemiFungiblePositionManager.mintTokenizedPosition` function
+wiki_description: |
+    The following `mintTokenizedPosition` function eventually calls the `_createLegInAMM` function below.
+    
+    <https://github.com/code-423n4/2024-04-panoptic/blob/855f58414589e93fa62e34890118164e8ac7822f/contracts/SemiFungiblePositionManager.sol#L504-L527>
+    
+    ```solidity
+        function mintTokenizedPosition(
+wiki_exploit_scenario: |
+    Per Solodit #33685: The following `mintTokenizedPosition` function eventually calls the `_createLegInAMM` function below.
+    
+    <https://github.com/code-423n4/2024-04-panoptic/blob/855f58414589e93fa62e34890118164e8ac7822f/co
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09RemovedLiquidityCanOverflowWhenCallingSemifungiblepos"
+solodit_id: "33685"
+solodit_slug: |
+    m-09-removed-liquidity-can-overflow-when-calling-semifungiblepositionmanagerminttokenizedposition-function-code4rena-panoptic-panoptic-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal minttokenizedposition;"
+fn_name_regex: ".*(mintTokenizedPosition|unchecked).*"
+write_var_regex: ".*(mintTokenizedPosition|unchecked).*"
+guard_var_regex: ".*(mintTokenizedPosition|unchecked).*"
+vuln_fn_name: "mintTokenizedPosition"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "minttokenizedposition = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

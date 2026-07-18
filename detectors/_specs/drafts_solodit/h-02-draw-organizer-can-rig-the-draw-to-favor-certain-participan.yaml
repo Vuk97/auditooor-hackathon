@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-02-draw-organizer-can-rig-the-draw-to-favor-certain-participan"
+class_name: "H02DrawOrganizerCanRigTheDrawToFavorCertainParticipan"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6395 (Code4rena/Forgeries)"
+help: "[H-02] Draw organizer can rig the draw to favor certain participants such as their own account."
+wiki_title: "[H-02] Draw organizer can rig the draw to favor certain participants such as their own account."
+wiki_description: |
+    In RandomDraw, the host initiates a draw using `startDraw()` or `redraw()` if the redraw draw expiry has passed. Actual use of Chainlink oracle is done in `\_requestRoll`:
+    
+        request.currentChainlinkRequestId = coordinator.requestRandomWords({
+            keyHash: settings.keyHash,
+            subId: set
+wiki_exploit_scenario: |
+    Per Solodit #6395: In RandomDraw, the host initiates a draw using `startDraw()` or `redraw()` if the redraw draw expiry has passed. Actual use of Chainlink oracle is done in `\_requestRoll`:
+    
+        request.currentChainli
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02DrawOrganizerCanRigTheDrawToFavorCertainParticipan"
+solodit_id: "6395"
+solodit_slug: |
+    h-02-draw-organizer-can-rig-the-draw-to-favor-certain-participants-such-as-their-own-account-code4rena-forgeries-forgeries-contest-git
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal fulfillrandomwords;"
+fn_name_regex: ".*(startDraw|redraw|requestRandomWords|minimumRequestConfirmations).*"
+read_var_regex: ".*(fulfillRandomWords|minimumRequestConfirmations|redraw).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "startDraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return fulfillrandomwords > 0;"

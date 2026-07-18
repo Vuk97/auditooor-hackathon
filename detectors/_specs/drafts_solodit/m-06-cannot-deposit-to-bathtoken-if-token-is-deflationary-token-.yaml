@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "m-06-cannot-deposit-to-bathtoken-if-token-is-deflationary-token-"
+class_name: "M06CannotDepositToBathtokenIfTokenIsDeflationaryToken"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2503 (Code4rena/Rubicon)"
+help: "[M-06] Cannot deposit to BathToken if token is Deflationary Token (BathHouse.sol)"
+wiki_title: "[M-06] Cannot deposit to BathToken if token is Deflationary Token (BathHouse.sol)"
+wiki_description: |
+    _Submitted by PP1004, also found by unforgiven, GimelSec, and camden_
+    
+    Function `openBathTokenSpawnAndSignal` will alway revert when `newBathTokenUnderlying` or `desiredPairedAsset` is deflationary token
+    
+    ### Proof of Concept
+    
+    There are ERC20 tokens that may make certain customizations to their ERC2
+wiki_exploit_scenario: |
+    Per Solodit #2503: _Submitted by PP1004, also found by unforgiven, GimelSec, and camden_
+    
+    Function `openBathTokenSpawnAndSignal` will alway revert when `newBathTokenUnderlying` or `desiredPairedAsset` is deflationary to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06CannotDepositToBathtokenIfTokenIsDeflationaryToken"
+solodit_id: "2503"
+solodit_slug: |
+    m-06-cannot-deposit-to-bathtoken-if-token-is-deflationary-token-bathhousesol-code4rena-rubicon-rubicon-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(desiredPairedAsset|initialLiquidityNew|newBathTokenUnderlying).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

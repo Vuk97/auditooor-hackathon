@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "h-21-malicious-user-can-call-borrowing-calculatecumulativerate-a"
+class_name: "H21MaliciousUserCanCallBorrowingCalculatecumulativerateA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45474 (Sherlock/Autonomint Colored Dollar V1)"
+help: |
+    H-21: Malicious user can call `borrowing::calculateCumulativeRate()` any number of times to inflate debt rate as `lastEventTime` is not updated
+wiki_title: |
+    H-21: Malicious user can call `borrowing::calculateCumulativeRate()` any number of times to inflate debt rate as `lastEventTime` is not updated
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-11-autonomint-judging/issues/778 
+    
+    ## Found by 
+    0x37, 0x73696d616f, 0xAadi, Audinarey, Cybrid, EgisSecurity, John44, KobbyEugene, PeterSR, RampageAudit, almurhasan, durov, onthehunt, super\_jack, volodya
+    
+    ### Summary
+    
+    [borrowing::calculateCumulativeRate
+wiki_exploit_scenario: |
+    Per Solodit #45474: Source: https://github.com/sherlock-audit/2024-11-autonomint-judging/issues/778 
+    
+    ## Found by 
+    0x37, 0x73696d616f, 0xAadi, Audinarey, Cybrid, EgisSecurity, John44, KobbyEugene, PeterSR, RampageAudit,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H21MaliciousUserCanCallBorrowingCalculatecumulativerateA"
+solodit_id: "45474"
+solodit_slug: |
+    h-21-malicious-user-can-call-borrowingcalculatecumulativerate-any-number-of-times-to-inflate-debt-rate-as-lasteventtime-is-not-updated-sherlock-autonomint-colored-dollar-v1-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(lastEventTime).*"
+primary_var_regex: ".*(lastEventTime).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-access-control-for-multicall"
+class_name: "MissingAccessControlForMulticall"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Maia DAO Ulysses Protocol May 2023 - Zellic Audit Report"
+help: |
+    The function anyExecuteSignedDepositMultiple lacks the requiresAgent modifier, which makes it callable by anyone. function anyExecuteSignedDepositMultiple( bytes1 funcId, bytes mem
+wiki_title: "Missing access control for Multicall"
+wiki_description: |
+    The function anyExecuteSignedDepositMultiple lacks the requiresAgent modifier, which makes it callable by anyone. function anyExecuteSignedDepositMultiple( bytes1 funcId, bytes memory rlpEncodedData, DepositMultipleParams calldata, address userAccount, uint24 fromChainId ) external payable returns (
+wiki_exploit_scenario: |
+    Per audit finding: The function anyExecuteSignedDepositMultiple lacks the requiresAgent modifier, which makes it callable by anyone. function anyExecuteSignedDepositMultiple( bytes1 funcId, bytes memory rlpEncodedData,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingAccessControlForMulticall"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(anyExecuteSignedDepositMultiple|requiresAgent|funcId).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "anyExecuteSignedDepositMultiple"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

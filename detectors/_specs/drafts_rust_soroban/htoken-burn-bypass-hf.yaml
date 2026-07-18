@@ -1,0 +1,19 @@
+id: htoken-burn-bypass-hf
+title: "Callers outside pool can burn aTokens without sender HF check"
+severity: Medium
+language: rust
+platform: soroban
+source: "watchpug-rev3"
+source_ids:
+  - "WP-M8"
+bug_class: health-factor
+indicators:
+  - "`burn_from(from, amount)` entrypoint callable by non-pool callers"
+  - "burn path does not invoke HF validation or liquidity_index update"
+victim: "Borrowers whose aToken balance is forcibly burned to zero, voiding their collateral."
+exploit_precondition: "Attacker bypasses pool-only check (in combination with missing-require_auth issues) or the burn path is explicitly public."
+real_world_example: |
+  WatchPug WP-M8 (Medium): Callers outside the pool can burn aTokens with no sender HF check.
+suggested_remediation: "Gate burn_from to pool only AND run HF validation."
+cross_refs:
+  - htoken-transfer-skips-sender-health-check

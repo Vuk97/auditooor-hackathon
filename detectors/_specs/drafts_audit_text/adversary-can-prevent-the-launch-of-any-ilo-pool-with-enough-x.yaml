@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "adversary-can-prevent-the-launch-of-any-ilo-pool-with-enough-x"
+class_name: "AdversaryCanPreventTheLaunchOfAnyIloPoolWithEnoughX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-06-vultisig"
+help: |
+    juancito , also found by nnez iam_emptyset , and 0xc0ffEE Impact It is possible to prevent the launch of any ILO pool at any time, including pools that have reached their total rai
+wiki_title: |
+    Adversary can prevent the launch of any ILO pool with enough raised capital at any moment by providing single-sided liquidity
+wiki_description: |
+    juancito , also found by nnez iam_emptyset , and 0xc0ffEE Impact It is possible to prevent the launch of any ILO pool at any time, including pools that have reached their total raised amount. This can be done at any time and the cost for the attacker is negligible. Not only this is a DOS of the whol
+wiki_exploit_scenario: |
+    Per audit finding: juancito , also found by nnez iam_emptyset , and 0xc0ffEE Impact It is possible to prevent the launch of any ILO pool at any time, including pools that have reached their total raised amount. This can
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AdversaryCanPreventTheLaunchOfAnyIloPoolWithEnoughX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimRefund|uniV3PoolAddress|launchTime).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "claimRefund"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

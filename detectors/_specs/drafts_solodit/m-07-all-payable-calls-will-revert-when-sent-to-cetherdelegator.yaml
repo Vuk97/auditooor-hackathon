@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "m-07-all-payable-calls-will-revert-when-sent-to-cetherdelegator"
+class_name: "M07AllPayableCallsWillRevertWhenSentToCetherdelegator"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31820 (ZachObront/Fungify)"
+help: "[M-07] All payable calls will revert when sent to CEtherDelegator"
+wiki_title: "[M-07] All payable calls will revert when sent to CEtherDelegator"
+wiki_description: |
+    The Delegator contracts are intended to pass along any calls to their corresponding implementations.
+    
+    Some delegators perform this logic by manually implementing each underlying function. Others (such as `CEtherDelegator.sol`) simply use a fallback function which is intended to capture all possible
+wiki_exploit_scenario: |
+    Per Solodit #31820: The Delegator contracts are intended to pass along any calls to their corresponding implementations.
+    
+    Some delegators perform this logic by manually implementing each underlying function. Others (such
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07AllPayableCallsWillRevertWhenSentToCetherdelegator"
+solodit_id: "31820"
+solodit_slug: "m-07-all-payable-calls-will-revert-when-sent-to-cetherdelegator-zachobront-none-fungify-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal delegatetoimplementation;"
+fn_name_regex: ".*(delegateToImplementation|fallback|receive).*"
+write_var_regex: ".*(delegateToImplementation|fallback|receive).*"
+guard_var_regex: ".*(delegateToImplementation|fallback|receive).*"
+vuln_fn_name: "delegateToImplementation"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "delegatetoimplementation = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

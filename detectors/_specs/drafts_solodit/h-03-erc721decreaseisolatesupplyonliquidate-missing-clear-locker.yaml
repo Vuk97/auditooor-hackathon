@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "h-03-erc721decreaseisolatesupplyonliquidate-missing-clear-locker"
+class_name: "H03Erc721decreaseisolatesupplyonliquidateMissingClearLocker"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36877 (Code4rena/BendDAO)"
+help: "[H-03] `erc721DecreaseIsolateSupplyOnLiquidate()` missing clear `lockerAddr`"
+wiki_title: "[H-03] `erc721DecreaseIsolateSupplyOnLiquidate()` missing clear `lockerAddr`"
+wiki_description: |
+    When `isolateLiquidate(supplyAsCollateral=false)` is executed, finally `erc721DecreaseIsolateSupplyOnLiquidate()` will be executed and the NFT will be transferred to the user.
+    
+    ```solidity
+      function erc721DecreaseIsolateSupplyOnLiquidate(
+        DataTypes.AssetData storage assetData,
+        uint256[] me
+wiki_exploit_scenario: |
+    Per Solodit #36877: When `isolateLiquidate(supplyAsCollateral=false)` is executed, finally `erc721DecreaseIsolateSupplyOnLiquidate()` will be executed and the NFT will be transferred to the user.
+    
+    ```solidity
+      function
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03Erc721decreaseisolatesupplyonliquidateMissingClearLocker"
+solodit_id: "36877"
+solodit_slug: "h-03-erc721decreaseisolatesupplyonliquidate-missing-clear-lockeraddr-code4rena-benddao-benddao-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(isolateLiquidate|erc721DecreaseIsolateSupplyOnLiquidate|tokenData|deposit).*"
+read_var_regex: ".*(deposit|erc721DecreaseIsolateSupplyOnLiquidate|isolateLiquidate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "isolateLiquidate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposit > 0;"

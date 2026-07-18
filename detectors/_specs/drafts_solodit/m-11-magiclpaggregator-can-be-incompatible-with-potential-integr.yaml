@@ -1,0 +1,40 @@
+skeleton: "state_write_without_paired_write"
+name: "m-11-magiclpaggregator-can-be-incompatible-with-potential-integr"
+class_name: "M11MagiclpaggregatorCanBeIncompatibleWithPotentialIntegr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32067 (Code4rena/Abracadabra Money)"
+help: |
+    [M-11] `MagicLpAggregator` can be incompatible with potential integrators due to incorrect `latestRoundData` function
+wiki_title: |
+    [M-11] `MagicLpAggregator` can be incompatible with potential integrators due to incorrect `latestRoundData` function
+wiki_description: |
+    `MagicLpAggregator` does not update the `roundId`, `startAt`, `updatedAt` and `answeredInRound` to correct values.
+    
+    [MagicLpAggregator.sol#L48-L50](https://github.com/code-423n4/2024-03-abracadabra-money/blob/main/src/oracles/aggregators/MagicLpAggregator.sol#L48-L50)
+    
+    ```solidity
+        function late
+wiki_exploit_scenario: |
+    Per Solodit #32067: `MagicLpAggregator` does not update the `roundId`, `startAt`, `updatedAt` and `answeredInRound` to correct values.
+    
+    [MagicLpAggregator.sol#L48-L50](https://github.com/code-423n4/2024-03-abracadabra-m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11MagiclpaggregatorCanBeIncompatibleWithPotentialIntegr"
+solodit_id: "32067"
+solodit_slug: |
+    m-11-magiclpaggregator-can-be-incompatible-with-potential-integrators-due-to-incorrect-latestrounddata-function-code4rena-abracadabra-money-abracadabra-money-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(MagicLpAggregator|roundId|startAt|updatedAt).*"
+primary_var_regex: ".*(answeredInRound|baseOracle|latestRoundData).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

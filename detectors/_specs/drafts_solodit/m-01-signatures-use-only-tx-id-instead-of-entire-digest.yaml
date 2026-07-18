@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "m-01-signatures-use-only-tx-id-instead-of-entire-digest"
+class_name: "M01SignaturesUseOnlyTxIdInsteadOfEntireDigest"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25507 (Code4rena/Connext)"
+help: "[M-01] Signatures use only tx ID instead of entire digest"
+wiki_title: "[M-01] Signatures use only tx ID instead of entire digest"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The signature check in `recoverFulfillSignature()` only uses transaction ID (along with the relayer fee) which can be accidentally reused by the user, in which case the older signatures with the older relayer fees can be replayed.  The signature should be on the entire digest
+wiki_exploit_scenario: |
+    Per Solodit #25507: _Submitted by cmichel_
+    
+    The signature check in `recoverFulfillSignature()` only uses transaction ID (along with the relayer fee) which can be accidentally reused by the user, in which case the older s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01SignaturesUseOnlyTxIdInsteadOfEntireDigest"
+solodit_id: "25507"
+solodit_slug: "m-01-signatures-use-only-tx-id-instead-of-entire-digest-code4rena-connext-connext-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal fulfill;"
+fn_name_regex: ".*(recoverFulfillSignature|hashInvariantTransactionData|fulfill|recoverCancelSignature).*"
+read_var_regex: ".*(fulfill|hashInvariantTransactionData|preparedBlockNumber).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "recoverFulfillSignature"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return fulfill > 0;"

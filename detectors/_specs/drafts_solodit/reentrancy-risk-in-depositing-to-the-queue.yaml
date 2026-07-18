@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "reentrancy-risk-in-depositing-to-the-queue"
+class_name: "ReentrancyRiskInDepositingToTheQueue"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #10415 (OpenZeppelin/Pods Finance Ethereum Volatility Vault Audit #1)"
+help: "Reentrancy risk in depositing to the queue"
+wiki_title: "Reentrancy risk in depositing to the queue"
+wiki_description: |
+    The internal [`_deposit`](https://github.com/pods-finance/yield-contracts/blob/9389ab46e9ecdd1ea1fd7228c9d9c6821c00f057/contracts/vaults/BaseVault.sol#L407) function handles user deposits, transferring a specified amount of `stETH` from `msg.sender` to the vault. Before moving the funds, it adds the
+wiki_exploit_scenario: |
+    Per Solodit #10415: The internal [`_deposit`](https://github.com/pods-finance/yield-contracts/blob/9389ab46e9ecdd1ea1fd7228c9d9c6821c00f057/contracts/vaults/BaseVault.sol#L407) function handles user deposits, transferrin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyRiskInDepositingToTheQueue"
+solodit_id: "10415"
+solodit_slug: |
+    reentrancy-risk-in-depositing-to-the-queue-openzeppelin-pods-finance-ethereum-volatility-vault-audit-1-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Weird ERC20, Reentrancy, ERC777"
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(stETH|processQueuedDeposits|deposit|BaseVault).*"
+read_var_regex: ".*(deposit|processQueuedDeposits|stETH).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "stETH"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposit > 0;"

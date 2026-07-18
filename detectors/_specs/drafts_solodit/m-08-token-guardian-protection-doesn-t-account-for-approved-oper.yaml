@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "m-08-token-guardian-protection-doesn-t-account-for-approved-oper"
+class_name: "M08TokenGuardianProtectionDoesnTAccountForApprovedOper"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28987 (Code4rena/Lens Protocol)"
+help: "[M-08] Token guardian protection doesn't account for approved operators in `approve()`"
+wiki_title: "[M-08] Token guardian protection doesn't account for approved operators in `approve()`"
+wiki_description: |
+    According to the [README](https://github.com/code-423n4/2023-07-lens/tree/main#definition-of-words-and-terms-in-lens-codebase), when an address has token guardian enabled, approvals should not work for the tokens owned by that address:
+    
+    > **Token Guardian:** Protection mechanism for the tokens held
+wiki_exploit_scenario: |
+    Per Solodit #28987: According to the [README](https://github.com/code-423n4/2023-07-lens/tree/main#definition-of-words-and-terms-in-lens-codebase), when an address has token guardian enabled, approvals should not work f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08TokenGuardianProtectionDoesnTAccountForApprovedOper"
+solodit_id: "28987"
+solodit_slug: |
+    m-08-token-guardian-protection-doesnt-account-for-approved-operators-in-approve-code4rena-lens-protocol-lens-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal approve;"
+fn_name_regex: ".*(approve|setApprovalForAll|enableTokenGuardian).*"
+write_var_regex: ".*(approve|enableTokenGuardian|setApprovalForAll).*"
+guard_var_regex: ".*(approve|enableTokenGuardian|setApprovalForAll).*"
+vuln_fn_name: "approve"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "approve = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

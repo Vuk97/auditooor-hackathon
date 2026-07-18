@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "isolateredeem-revert-in-case-revert-on-zero-value-transfers--x"
+class_name: "IsolateredeemRevertInCaseRevertOnZeroValueTransfersX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-benddao"
+help: |
+    Ch_301 One of the features of this protocol is that the borrower can redeem his loan (under the Isolate Lending ) after his loan goes into auction state (before the end of the auct
+wiki_title: "isolateRedeem() revert in case Revert-on-zero-value-transfers tokens"
+wiki_description: |
+    Ch_301 One of the features of this protocol is that the borrower can redeem his loan (under the Isolate Lending ) after his loan goes into auction state (before the end of the auction) by simply invoking IsolateLiquidation.sol#isolateRedeem() . However, in order to keep the liquidators incentivized
+wiki_exploit_scenario: |
+    Per audit finding: Ch_301 One of the features of this protocol is that the borrower can redeem his loan (under the Isolate Lending ) after his loan goes into auction state (before the end of the auction) by simply invok
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IsolateredeemRevertInCaseRevertOnZeroValueTransfersX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(isolateRedeem|bidFine|bidFineFactor).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "isolateRedeem"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

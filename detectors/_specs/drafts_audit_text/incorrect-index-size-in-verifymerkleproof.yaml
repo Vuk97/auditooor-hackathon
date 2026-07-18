@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-index-size-in-verifymerkleproof"
+class_name: "IncorrectIndexSizeInVerifymerkleproof"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "hexens audit Hexens_Polygon_zkEVM_PUBLIC_27.02.23"
+help: |
+    In the contract DepositContract.sol The index is of size uint64, and as the merkle tree levels are 32, the most signiﬁcant bits of the index can be manipulated to double spend with
+wiki_title: "INCORRECT INDEX SIZE IN VERIFYMERKLEPROOF"
+wiki_description: |
+    In the contract DepositContract.sol The index is of size uint64, and as the merkle tree levels are 32, the most signiﬁcant bits of the index can be manipulated to double spend with the same index. As the functions calling this context are using correct size of index (uint32) this issue is with lower
+wiki_exploit_scenario: |
+    Per audit finding: In the contract DepositContract.sol The index is of size uint64, and as the merkle tree levels are 32, the most signiﬁcant bits of the index can be manipulated to double spend with the same index. As
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectIndexSizeInVerifymerkleproof"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(verifyMerkleProof|leafHash|smtProof).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "verifyMerkleProof"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

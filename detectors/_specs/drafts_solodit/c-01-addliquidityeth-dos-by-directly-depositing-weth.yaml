@@ -1,0 +1,49 @@
+skeleton: "paired_function_divergence"
+name: "c-01-addliquidityeth-dos-by-directly-depositing-weth"
+class_name: "C01AddliquidityethDosByDirectlyDepositingWeth"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45429 (Pashov Audit Group/Stardusts_2024-12-19)"
+help: "[C-01] `AddLiquidityETH` DoS by directly depositing WETH"
+wiki_title: "[C-01] `AddLiquidityETH` DoS by directly depositing WETH"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    When 16ETH is accumulated in the protocol, the protocol will call `_graduate()` to add 16ETH and 200M Stardust Tokens as liquidity. The minOut amount of Stardust Token is the same as the desired amount, which means the protocol doe
+wiki_exploit_scenario: |
+    Per Solodit #45429: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    When 16ETH is accumulated in the protocol, the protocol will call `_graduate()` to add 16ETH and 200M Stardust Tokens as liquidity.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01AddliquidityethDosByDirectlyDepositingWeth"
+solodit_id: "45429"
+solodit_slug: |
+    c-01-addliquidityeth-dos-by-directly-depositing-weth-pashov-audit-group-none-stardusts_2024-12-19-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(sync).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

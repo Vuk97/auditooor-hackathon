@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "liquidation-cannot-be-closed-even-with-healthy-position-due-to-s"
+class_name: "LiquidationCannotBeClosedEvenWithHealthyPositionDueToS"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57184 (Codehawks/Core Contracts)"
+help: "Liquidation Cannot Be Closed Even With Healthy Position Due To Strict Debt Check"
+wiki_title: "Liquidation Cannot Be Closed Even With Healthy Position Due To Strict Debt Check"
+wiki_description: |
+    ## Summary
+    
+    The `closeLiquidation()` function in the `LendingPool` contract requires users to repay their debt almost entirely (below a dust threshold of 1e6) to close a liquidation, rather than checking if their position has returned to a healthy state through the health factor. This prevents users
+wiki_exploit_scenario: |
+    Per Solodit #57184: ## Summary
+    
+    The `closeLiquidation()` function in the `LendingPool` contract requires users to repay their debt almost entirely (below a dust threshold of 1e6) to close a liquidation, rather than check
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LiquidationCannotBeClosedEvenWithHealthyPositionDueToS"
+solodit_id: "57184"
+solodit_slug: |
+    liquidation-cannot-be-closed-even-with-healthy-position-due-to-strict-debt-check-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal closeliquidation;"
+fn_name_regex: ".*(closeLiquidation|LendingPool|DUST_THRESHOLD|healthFactorLiquidationThreshold).*"
+write_var_regex: ".*(closeLiquidation|foundryup|healthFactorLiquidationThreshold).*"
+guard_var_regex: ".*(closeLiquidation|foundryup|healthFactorLiquidationThreshold).*"
+vuln_fn_name: "closeLiquidation"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "closeliquidation = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

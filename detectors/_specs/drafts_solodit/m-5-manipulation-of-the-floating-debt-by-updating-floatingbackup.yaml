@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "m-5-manipulation-of-the-floating-debt-by-updating-floatingbackup"
+class_name: "M5ManipulationOfTheFloatingDebtByUpdatingFloatingbackup"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33158 (Sherlock/Exactly Protocol)"
+help: "M-5: Manipulation of the floating debt by updating `floatingBackupBorrowed`"
+wiki_title: "M-5: Manipulation of the floating debt by updating `floatingBackupBorrowed`"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-04-interest-rate-model-judging/issues/72 
+    
+    ## Found by 
+    0x73696d616f, KupiaSec, Shield, santipu\_
+    ## Summary
+    
+    An attacker can update the variable `floatingBackupBorrowed` without updating the floating debt. This will change the utilization rate of the m
+wiki_exploit_scenario: |
+    Per Solodit #33158: Source: https://github.com/sherlock-audit/2024-04-interest-rate-model-judging/issues/72 
+    
+    ## Found by 
+    0x73696d616f, KupiaSec, Shield, santipu\_
+    ## Summary
+    
+    An attacker can update the variable `floati
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M5ManipulationOfTheFloatingDebtByUpdatingFloatingbackup"
+solodit_id: "33158"
+solodit_slug: |
+    m-5-manipulation-of-the-floating-debt-by-updating-floatingbackupborrowed-sherlock-exactly-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(floatingBackupBorrowed|floatingDebt|floatingAssets).*"
+primary_var_regex: ".*(floatingAssets|floatingBackupBorrowed|floatingDebt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

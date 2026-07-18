@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "accumulation-of-vested-or-unlocked-tokens"
+class_name: "AccumulationOfVestedOrUnlockedTokens"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Metavest - Zellic Audit Report"
+help: |
+    Calculating the amount of vested tokens is based on the time elapsed since the vestingStartTime and the current vesting rate. The calculation of the amount of unlocked tokens is si
+wiki_title: "Accumulation of vested or unlocked tokens"
+wiki_description: |
+    Calculating the amount of vested tokens is based on the time elapsed since the vestingStartTime and the current vesting rate. The calculation of the amount of unlocked tokens is similar. function getVestedTokenAmount() public view returns (uint256) { if(block.timestamp<allocation.vestingStartTime) r
+wiki_exploit_scenario: |
+    Per audit finding: Calculating the amount of vested tokens is based on the time elapsed since the vestingStartTime and the current vesting rate. The calculation of the amount of unlocked tokens is similar. function getV
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AccumulationOfVestedOrUnlockedTokens"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(vestingStartTime|getVestedTokenAmount|terminationTime).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "vestingStartTime"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

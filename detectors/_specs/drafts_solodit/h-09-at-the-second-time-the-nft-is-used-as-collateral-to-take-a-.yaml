@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "h-09-at-the-second-time-the-nft-is-used-as-collateral-to-take-a-"
+class_name: "H09AtTheSecondTimeTheNftIsUsedAsCollateralToTakeA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25804 (Code4rena/Astaria)"
+help: |
+    [H-09] At the second time the nft is used as collateral to take a loan, the debt repayment via auction fund can be failed when liquidation
+wiki_title: |
+    [H-09] At the second time the nft is used as collateral to take a loan, the debt repayment via auction fund can be failed when liquidation
+wiki_description: |
+    <https://github.com/code-423n4/2023-01-astaria/blob/1bfc58b42109b839528ab1c21dc9803d663df898/src/ClearingHouse.sol#L143-L146>
+    
+    When a user transfer an NFT to `CollateralToken` contract, it will toggle the function `CollateralToken.onERC721Received()`. In this function if there didn't exist any `cle
+wiki_exploit_scenario: |
+    Per Solodit #25804: <https://github.com/code-423n4/2023-01-astaria/blob/1bfc58b42109b839528ab1c21dc9803d663df898/src/ClearingHouse.sol#L143-L146>
+    
+    When a user transfer an NFT to `CollateralToken` contract, it will toggl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H09AtTheSecondTimeTheNftIsUsedAsCollateralToTakeA"
+solodit_id: "25804"
+solodit_slug: |
+    h-09-at-the-second-time-the-nft-is-used-as-collateral-to-take-a-loan-the-debt-repayment-via-auction-fund-can-be-failed-when-liquidation-code4rena-astaria-astaria-git
+solodit_quality: "2"
+solodit_rarity: "3"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(CollateralToken|clearingHouse|collateralId|safeApprove).*"
+primary_var_regex: ".*(clearingHouse|collateralId|safeApprove).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_call"
+name: "repay-paused-but-liquidation-enabled"
+class_name: "RepayPausedButLiquidationEnabled"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #37522 (Zokyo/Cedro Finance)"
+help: "Repay paused but Liquidation enabled"
+wiki_title: "Repay paused but Liquidation enabled"
+wiki_description: |
+    **Severity**: High
+    
+    **Status**: Acknowledged
+    
+    **Description**
+    
+    The protocol can enter a state where repay is paused for borrowers but liquidation is open. 
+    ```solidity
+     function repayRequest(
+           bytes32 id,
+           uint256 amount,
+           bytes32 route,
+           uint256 airdropAmount
+       ) external p
+wiki_exploit_scenario: |
+    Per Solodit #37522: **Severity**: High
+    
+    **Status**: Acknowledged
+    
+    **Description**
+    
+    The protocol can enter a state where repay is paused for borrowers but liquidation is open. 
+    ```solidity
+     function repayRequest(
+           b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RepayPausedButLiquidationEnabled"
+solodit_id: "37522"
+solodit_slug: "repay-paused-but-liquidation-enabled-zokyo-none-cedro-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(repayRequest|airdropAmount|nonReentrant|protocolPause).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "repayRequest"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

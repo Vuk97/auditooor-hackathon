@@ -1,0 +1,51 @@
+skeleton: "paired_function_divergence"
+name: "malicious-front-end-can-sneak-intermediate-ownership-changes-to-"
+class_name: "MaliciousFrontEndCanSneakIntermediateOwnershipChangesTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18304 (Spearbit/Sudoswap LSSVM2)"
+help: "Malicious front-end can sneak intermediate ownership changes to perform unauthorized actions"
+wiki_title: "Malicious front-end can sneak intermediate ownership changes to perform unauthorized actions"
+wiki_description: |
+    ## Security Analysis Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `LSSVMPair.sol#L653-L667`
+    
+    ## Description
+    LSSVMPair implements an `onlyOwner` multicall function to allow the owner to batch multiple calls. Natspec indicates that this is "Intended for withdrawing/altering pool pricing in one tx,
+wiki_exploit_scenario: |
+    Per Solodit #18304: ## Security Analysis Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `LSSVMPair.sol#L653-L667`
+    
+    ## Description
+    LSSVMPair implements an `onlyOwner` multicall function to allow the owner to batch multip
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousFrontEndCanSneakIntermediateOwnershipChangesTo"
+solodit_id: "18304"
+solodit_slug: |
+    malicious-front-end-can-sneak-intermediate-ownership-changes-to-perform-unauthorized-actions-spearbit-sudoswap-lssvm2-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(onOwnershipTransferred|onlyOwner|transferOwnership).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

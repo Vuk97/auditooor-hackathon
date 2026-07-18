@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-12-validatorwithdrawalvault-settlefunds-doesn-t-check-amount-t"
+class_name: "M12ValidatorwithdrawalvaultSettlefundsDoesnTCheckAmountT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20185 (Code4rena/Stader Labs)"
+help: |
+    [M-12] `ValidatorWithdrawalVault.settleFunds` doesn't check amount that user has inside `NodeELRewardVault` to pay for penalty
+wiki_title: |
+    [M-12] `ValidatorWithdrawalVault.settleFunds` doesn't check amount that user has inside `NodeELRewardVault` to pay for penalty
+wiki_description: |
+    `ValidatorWithdrawalVault.settleFunds` doesn't check amount that user has inside `NodeELRewardVault` to pay for penalty. That value can increase operator's earned amount, which can avoid slashing.
+    
+    ### Proof of Concept
+    
+    When a validator withdraws from beacon chain the `ValidatorWithdrawalVault.sett
+wiki_exploit_scenario: |
+    Per Solodit #20185: `ValidatorWithdrawalVault.settleFunds` doesn't check amount that user has inside `NodeELRewardVault` to pay for penalty. That value can increase operator's earned amount, which can avoid slashing.
+    
+    #
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12ValidatorwithdrawalvaultSettlefundsDoesnTCheckAmountT"
+solodit_id: "20185"
+solodit_slug: |
+    m-12-validatorwithdrawalvaultsettlefunds-doesnt-check-amount-that-user-has-inside-nodeelrewardvault-to-pay-for-penalty-code4rena-stader-labs-stader-labs-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal block;"
+fn_name_regex: ".*(NodeELRewardVault|ValidatorWithdrawalVault|mev|block).*"
+read_var_regex: ".*(block|mev).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "NodeELRewardVault"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return block > 0;"

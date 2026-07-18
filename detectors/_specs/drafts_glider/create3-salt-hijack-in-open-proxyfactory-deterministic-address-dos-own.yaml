@@ -1,0 +1,23 @@
+skeleton: "semantic_create3_open_salt_factory"
+name: "create3-salt-hijack-in-open-proxyfactory-deterministic-address-dos-own"
+class_name: "Create3SaltHijackInOpenProxyfactoryDeterministicAddressDosOwn"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: create3-salt-hijack-leads-to-deterministic-address"
+help: "CREATE3 salt hijack in open ProxyFactory (deterministic address DoS/ownership)"
+wiki_title: "CREATE3 salt hijack in open ProxyFactory (deterministic address DoS/ownership)"
+wiki_description: |
+    Flags factory contracts that expose public/external deployment functions using CREATE3 with caller-supplied salts, without access control or commit-then-reveal. The deployed address depends only on (factory, salt, bytecode) - constructor arguments do not affect the address, enabling frontrunning att
+wiki_exploit_scenario: |
+    Per Glider query tags [factory, create3, salt, deploy, frontrun, dos, address-hijack]: Flags factory contracts that expose public/external deployment functions using CREATE3 with caller-supplied salts, without access control or commit-then-reveal. The deployed address depends only on (f
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "Create3SaltHijackInOpenProxyfactoryDeterministicAddressDosOwn"
+contract_anchor_regex: "(CREATE3|create3|ProxyFactory|SaltFactory|deployDeterministic|computeAddress)"
+fn_name_regex: "^(deploy|deployProxy|deployClone|create|createProxy|createDeterministic|create3)$"
+salt_param_regex: "\\b(bytes32|uint256|bytes|uint)\\s+salt\\b"
+create3_salt_regex: "(CREATE3|create3|\\.deploy\\s*\\(\\s*salt|deployDeterministic\\s*\\([^;]*salt|keccak256\\s*\\([^)]*salt)"
+guard_regex: "(onlyOwner|onlyRole|onlyAdmin|onlyAuthorized|AccessControl|commitHash|revealSalt|saltCommit|saltOf\\s*\\[|(?:keccak256|abi\\.encode(?:Packed)?)\\s*\\([^)]*msg\\.sender[^)]*salt|(?:keccak256|abi\\.encode(?:Packed)?)\\s*\\([^)]*salt[^)]*msg\\.sender)"
+fixtures:
+  vuln: detectors/fixtures/create3_salt_hijack_in_open_proxyfactory_deterministic_address_dos_own/positive.sol
+  clean: detectors/fixtures/create3_salt_hijack_in_open_proxyfactory_deterministic_address_dos_own/clean.sol

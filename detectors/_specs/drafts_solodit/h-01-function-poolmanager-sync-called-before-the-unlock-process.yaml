@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_call"
+name: "h-01-function-poolmanager-sync-called-before-the-unlock-process"
+class_name: "H01FunctionPoolmanagerSyncCalledBeforeTheUnlockProcess"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #43546 (Pashov Audit Group/Bunni-August)"
+help: "[H-01] Function `poolManager.sync` called before the unlock process"
+wiki_title: "[H-01] Function `poolManager.sync` called before the unlock process"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    In the `BunniHook` contract, there is a function call to `poolManager.sync` at line `BunniHook#L501`, which comes before the initiation of an `unlock` process at line `BunniHook#L505`.
+    
+    ```solidity
+    File: BunniHook.sol
+    465:     fu
+wiki_exploit_scenario: |
+    Per Solodit #43546: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    In the `BunniHook` contract, there is a function call to `poolManager.sync` at line `BunniHook#L501`, which comes before the init
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01FunctionPoolmanagerSyncCalledBeforeTheUnlockProcess"
+solodit_id: "43546"
+solodit_slug: |
+    h-01-function-poolmanagersync-called-before-the-unlock-process-pashov-audit-group-none-bunni-august-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal onlywhenunlocked;"
+fn_name_regex: ".*(BunniHook|unlock|sync|poolManager).*"
+read_var_regex: ".*(onlyWhenUnlocked|poolManager|sync).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BunniHook"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return onlywhenunlocked > 0;"

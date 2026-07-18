@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "balancerlbpswapper-init-can-be-front-run-to-potentially-steal-to"
+class_name: "BalancerlbpswapperInitCanBeFrontRunToPotentiallyStealTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #13300 (ConsenSys/Fei Protocol v2 Phase 1)"
+help: "BalancerLBPSwapper - init() can be front-run to potentially steal tokens"
+wiki_title: "BalancerLBPSwapper - init() can be front-run to potentially steal tokens"
+wiki_description: |
+    #### Description
+    
+    
+    The deployment process for `BalancerLBPSwapper` appears to be the following:
+    
+    
+    1. deploy `BalancerLBPSwapper`.
+    2. run `ILiquidityBootstrappingPoolFactory.create()` proving the newly deployed swapper address as the owner of the pool.
+    3. initialize `BalancerLBPSwapper.init()` with t
+wiki_exploit_scenario: |
+    Per Solodit #13300: #### Description
+    
+    
+    The deployment process for `BalancerLBPSwapper` appears to be the following:
+    
+    
+    1. deploy `BalancerLBPSwapper`.
+    2. run `ILiquidityBootstrappingPoolFactory.create()` proving the newly
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BalancerlbpswapperInitCanBeFrontRunToPotentiallyStealTo"
+solodit_id: "13300"
+solodit_slug: |
+    balancerlbpswapper-init-can-be-front-run-to-potentially-steal-tokens-consensys-fei-protocol-v2-phase-1-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal init;"
+fn_name_regex: ".*(BalancerLBPSwapper|init|tokenSpent|tokenReceived).*"
+read_var_regex: ".*(init|tokenReceived|tokenSpent).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BalancerLBPSwapper"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return init > 0;"

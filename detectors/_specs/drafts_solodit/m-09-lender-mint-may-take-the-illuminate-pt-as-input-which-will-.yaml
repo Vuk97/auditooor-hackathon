@@ -1,0 +1,39 @@
+skeleton: "paired_function_divergence"
+name: "m-09-lender-mint-may-take-the-illuminate-pt-as-input-which-will-"
+class_name: "M09LenderMintMayTakeTheIlluminatePtAsInputWhichWill"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25293 (Code4rena/Illuminate)"
+help: |
+    [M-09] `Lender.mint()` May Take The Illuminate PT As Input Which Will Transfer And Mint More Illuminate PT Cause an Infinite Supply
+wiki_title: |
+    [M-09] `Lender.mint()` May Take The Illuminate PT As Input Which Will Transfer And Mint More Illuminate PT Cause an Infinite Supply
+wiki_description: |
+    _Submitted by kirk-baird, also found by cccz, kenzo, and unforgiven_
+    
+    [Lender.mint()](https://github.com/code-423n4/2022-06-illuminate/blob/912be2a90ded4a557f121fe565d12ec48d0c4684/lender/Lender.sol#L167-L183) may use `p = 0` which will mean `principal` is the same as `principalToken(u, m)` i.e. the
+wiki_exploit_scenario: |
+    Per Solodit #25293: _Submitted by kirk-baird, also found by cccz, kenzo, and unforgiven_
+    
+    [Lender.mint()](https://github.com/code-423n4/2022-06-illuminate/blob/912be2a90ded4a557f121fe565d12ec48d0c4684/lender/Lender.sol#L
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09LenderMintMayTakeTheIlluminatePtAsInputWhichWill"
+solodit_id: "25293"
+solodit_slug: |
+    m-09-lendermint-may-take-the-illuminate-pt-as-input-which-will-transfer-and-mint-more-illuminate-pt-cause-an-infinite-supply-code4rena-illuminate-illuminate-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(approve|principal|principalToken).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

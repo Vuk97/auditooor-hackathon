@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "tokens-are-not-approved-to-a-new-pool-helper"
+class_name: "TokensAreNotApprovedToANewPoolHelper"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #56444 (Zokyo/Radiant Capital)"
+help: "Tokens are not approved to a new pool helper."
+wiki_title: "Tokens are not approved to a new pool helper."
+wiki_description: |
+    **Description**
+    
+    LockZap.sol: setPoolHelper(). 
+    After the LockZap.sol initialization, it requires granting an unlimited allowance to_poolHelper in WETH and RDNT tokens. However, when a new pool is set with the function setPoolHelper(), allowance is not granted to a new pool helper. Thus the protocol
+wiki_exploit_scenario: |
+    Per Solodit #56444: **Description**
+    
+    LockZap.sol: setPoolHelper(). 
+    After the LockZap.sol initialization, it requires granting an unlimited allowance to_poolHelper in WETH and RDNT tokens. However, when a new pool is set
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokensAreNotApprovedToANewPoolHelper"
+solodit_id: "56444"
+solodit_slug: "tokens-are-not-approved-to-a-new-pool-helper-zokyo-none-radiant-capital-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setPoolHelper).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setPoolHelper"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

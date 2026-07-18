@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "m-04-new-vest-reset-unlockbegin-of-existing-vest-without-removin"
+class_name: "M04NewVestResetUnlockbeginOfExistingVestWithoutRemovin"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1983 (Code4rena/BadgerDAO)"
+help: "[M-04] New vest reset `unlockBegin` of existing vest without removing vested amount"
+wiki_title: "[M-04] New vest reset `unlockBegin` of existing vest without removing vested amount"
+wiki_description: |
+    _Submitted by gzeon, also found by cccz, TrungOre, minhquanym, cmichel, 0xDjango, and rayn_
+    
+    <https://github.com/code-423n4/2022-04-badger-citadel/blob/18f8c392b6fc303fe95602eba6303725023e53da/src/StakedCitadelVester.sol#L143>
+    
+    <https://github.com/code-423n4/2022-04-badger-citadel/blob/18f8c392b6fc3
+wiki_exploit_scenario: |
+    Per Solodit #1983: _Submitted by gzeon, also found by cccz, TrungOre, minhquanym, cmichel, 0xDjango, and rayn_
+    
+    <https://github.com/code-423n4/2022-04-badger-citadel/blob/18f8c392b6fc303fe95602eba6303725023e53da/src/Sta
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04NewVestResetUnlockbeginOfExistingVestWithoutRemovin"
+solodit_id: "1983"
+solodit_slug: |
+    m-04-new-vest-reset-unlockbegin-of-existing-vest-without-removing-vested-amount-code4rena-badgerdao-badger-citadel-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Don't update state, Missing-Logic, Overflow/Underflow"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(vest|claimableBalance|claimedAmounts|unlockBegin).*"
+primary_var_regex: ".*(claimableBalance|claimedAmounts|vest).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

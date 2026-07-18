@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-event-emissions-for-configuration-changes"
+class_name: "LackOfEventEmissionsForConfigurationChanges"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Takara Lend Contracts - Zellic Audit Report"
+help: |
+    Compared to the upstream, this project adds a few significant admin-only configuration change functions, such as these: function updateLiquidateWhiteList(address user, bool state)
+wiki_title: "Lack of event emissions for configuration changes"
+wiki_description: |
+    Compared to the upstream, this project adds a few significant admin-only configuration change functions, such as these: function updateLiquidateWhiteList(address user, bool state) public { require(msg.sender == admin, "Unauthorized"); if (state) { require(!liquidatorWhiteList[user], "User is already
+wiki_exploit_scenario: |
+    Per audit finding: Compared to the upstream, this project adds a few significant admin-only configuration change functions, such as these: function updateLiquidateWhiteList(address user, bool state) public { require(msg
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfEventEmissionsForConfigurationChanges"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateLiquidateWhiteList|liquidatorWhiteList|triggerLiquidation).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "updateLiquidateWhiteList"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

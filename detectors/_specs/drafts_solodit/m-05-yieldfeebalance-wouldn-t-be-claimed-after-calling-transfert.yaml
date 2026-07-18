@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-05-yieldfeebalance-wouldn-t-be-claimed-after-calling-transfert"
+class_name: "M05YieldfeebalanceWouldnTBeClaimedAfterCallingTransfert"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30671 (Code4rena/PoolTogether)"
+help: "[M-05] `yieldFeeBalance` wouldn't be claimed after calling `transferTokensOut()`"
+wiki_title: "[M-05] `yieldFeeBalance` wouldn't be claimed after calling `transferTokensOut()`"
+wiki_description: |
+    `yieldFeeBalance` wouldn't be claimed after calling `transferTokensOut()` due to the twab supply limit.
+    
+    ### Proof of Concept
+    
+    When `_tokenOut == address(this)`, `liquidatableBalanceOf()` mints shares to the receiver and accumulates `yieldFeeBalance` accordingly.
+    
+    But when it checks the maximum liq
+wiki_exploit_scenario: |
+    Per Solodit #30671: `yieldFeeBalance` wouldn't be claimed after calling `transferTokensOut()` due to the twab supply limit.
+    
+    ### Proof of Concept
+    
+    When `_tokenOut == address(this)`, `liquidatableBalanceOf()` mints share
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05YieldfeebalanceWouldnTBeClaimedAfterCallingTransfert"
+solodit_id: "30671"
+solodit_slug: |
+    m-05-yieldfeebalance-wouldnt-be-claimed-after-calling-transfertokensout-code4rena-pooltogether-pooltogether-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidyield;"
+fn_name_regex: ".*(yieldFeeBalance|transferTokensOut|liquidatableBalanceOf|liquidYield).*"
+read_var_regex: ".*(liquidYield|liquidatableBalanceOf|transferTokensOut).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "yieldFeeBalance"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return liquidyield > 0;"

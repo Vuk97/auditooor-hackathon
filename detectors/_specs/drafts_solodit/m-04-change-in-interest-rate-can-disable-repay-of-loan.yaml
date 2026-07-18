@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "m-04-change-in-interest-rate-can-disable-repay-of-loan"
+class_name: "M04ChangeInInterestRateCanDisableRepayOfLoan"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25597 (Code4rena/Union Finance)"
+help: "[M-04] Change in interest rate can disable repay of loan"
+wiki_title: "[M-04] Change in interest rate can disable repay of loan"
+wiki_description: |
+    _Submitted by pmerkleplant_
+    
+    #### Impact
+    The ability of a borrower to repay a loan is disabled if the interest rate is
+    set too high by the `InterestRateModel`.
+    
+    However, there is neither a check when setting the interest rate nor an
+    indication in the `IInterestRateModel`'s specs of this behavior.
+    
+    B
+wiki_exploit_scenario: |
+    Per Solodit #25597: _Submitted by pmerkleplant_
+    
+    #### Impact
+    The ability of a borrower to repay a loan is disabled if the interest rate is
+    set too high by the `InterestRateModel`.
+    
+    However, there is neither a check when
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04ChangeInInterestRateCanDisableRepayOfLoan"
+solodit_id: "25597"
+solodit_slug: "m-04-change-in-interest-rate-can-disable-repay-of-loan-code4rena-union-finance-union-finance-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(InterestRateModel|IInterestRateModel|FixedInterestRateModel).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "InterestRateModel"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

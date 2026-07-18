@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-35-removing-a-uniswapv3gauge-via-uniswapv3gaugefactory-does-no"
+class_name: "M35RemovingAUniswapv3gaugeViaUniswapv3gaugefactoryDoesNo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26104 (Code4rena/Maia DAO Ecosystem)"
+help: |
+    [M-35] Removing a `UniswapV3Gauge` via `UniswapV3GaugeFactory` does not actually remove it from the `UniswapV3Staker`. The gauge still gains rewards and can be staked too (even tho
+wiki_title: |
+    [M-35] Removing a `UniswapV3Gauge` via `UniswapV3GaugeFactory` does not actually remove it from the `UniswapV3Staker`. The gauge still gains rewards and can be 
+wiki_description: |
+    Gauge factories have a [`BaseV2GaugeFactory::removeGauge`](https://github.com/code-423n4/2023-05-maia/blob/main/src/gauges/factories/BaseV2GaugeFactory.sol#L130-L137) that removes the indicated gauge and marks it as deprecated for the corresponding [`bHermesGauges` and `bHermesBoost`](https://githu
+wiki_exploit_scenario: |
+    Per Solodit #26104: Gauge factories have a [`BaseV2GaugeFactory::removeGauge`](https://github.com/code-423n4/2023-05-maia/blob/main/src/gauges/factories/BaseV2GaugeFactory.sol#L130-L137) that removes the indicated gauge
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M35RemovingAUniswapv3gaugeViaUniswapv3gaugefactoryDoesNo"
+solodit_id: "26104"
+solodit_slug: |
+    m-35-removing-a-uniswapv3gauge-via-uniswapv3gaugefactory-does-not-actually-remove-it-from-the-uniswapv3staker-the-gauge-still-gains-rewards-and-can-be-staked-too-even-though-deprecated-plus-old-stakers-can-game-the-rewards-of-new-stakers-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal aftercreateremoved;"
+fn_name_regex: ".*(bHermesGauges|bHermesBoost|UniswapV3Gauge|UniswapV3GaugeFactory).*"
+read_var_regex: ".*(afterCreateRemoved|bHermesBoost|bHermesGauges).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "bHermesGauges"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return aftercreateremoved > 0;"

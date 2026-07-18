@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "not-working-method-bulkmint"
+class_name: "NotWorkingMethodBulkmint"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57432 (Zokyo/Metropolis)"
+help: "Not working method bulkMint."
+wiki_title: "Not working method bulkMint."
+wiki_description: |
+    **Description**
+    
+    AccessTokenContract.sol function bulkMint()
+    
+    The bulkMint method sequentially calls the_internalMint method, which in turn checks the
+    
+    user's passport balance limit. That is, calling BulkMint with the number of -5, but with a limit of 1 - the transaction will be terminated on the se
+wiki_exploit_scenario: |
+    Per Solodit #57432: **Description**
+    
+    AccessTokenContract.sol function bulkMint()
+    
+    The bulkMint method sequentially calls the_internalMint method, which in turn checks the
+    
+    user's passport balance limit. That is, calling
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NotWorkingMethodBulkmint"
+solodit_id: "57432"
+solodit_slug: "not-working-method-bulkmint-zokyo-none-metropolis-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(bulkMint|balanceOf|toWallet|numberOfMints).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "bulkMint"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

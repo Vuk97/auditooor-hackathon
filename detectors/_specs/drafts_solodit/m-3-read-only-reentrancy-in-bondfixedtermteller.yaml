@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "m-3-read-only-reentrancy-in-bondfixedtermteller"
+class_name: "M3ReadOnlyReentrancyInBondfixedtermteller"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3759 (Sherlock/Bond Protocol)"
+help: "M-3: Read-only reentrancy in BondFixedTermTeller"
+wiki_title: "M-3: Read-only reentrancy in BondFixedTermTeller"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-11-bond-judging/issues/23 
+    
+    ## Found by 
+    Zarf
+    
+    ## Summary
+    
+    When minting new ERC1155 bonds in the `BondFixedTermTeller` contract, the total supply of this specific bond is updated after the new bonds are sent to the recipient, which introduces a reentran
+wiki_exploit_scenario: |
+    Per Solodit #3759: Source: https://github.com/sherlock-audit/2022-11-bond-judging/issues/23 
+    
+    ## Found by 
+    Zarf
+    
+    ## Summary
+    
+    When minting new ERC1155 bonds in the `BondFixedTermTeller` contract, the total supply of this
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M3ReadOnlyReentrancyInBondfixedtermteller"
+solodit_id: "3759"
+solodit_slug: "m-3-read-only-reentrancy-in-bondfixedtermteller-sherlock-bond-bond-protocol-git"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Reentrancy"
+state_decl: "uint256 internal create;"
+fn_name_regex: ".*(BondFixedTermTeller|create|ERC1155TokenReceiver|recipient_).*"
+read_var_regex: ".*(create|recipient_|tokenMetadata).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BondFixedTermTeller"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return create > 0;"

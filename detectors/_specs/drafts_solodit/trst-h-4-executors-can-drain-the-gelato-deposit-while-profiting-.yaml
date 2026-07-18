@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "trst-h-4-executors-can-drain-the-gelato-deposit-while-profiting-"
+class_name: "TrstH4ExecutorsCanDrainTheGelatoDepositWhileProfiting"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18810 (Trust Security/Brahma)"
+help: "TRST-H-4 Executors can drain the Gelato deposit while profiting from free gas"
+wiki_title: "TRST-H-4 Executors can drain the Gelato deposit while profiting from free gas"
+wiki_description: |
+    **Description:**
+    As discussed, `claimExecutionFees()` charges the user for gas fees. Since wallet is not trusted, the payment is wrapped and checked that the balance increased by the required amount.
+    
+    ```solidity
+        if (feeToken != ETH) {
+          uint256 initialBalance = IERC20(feeToken).balanceOf(re
+wiki_exploit_scenario: |
+    Per Solodit #18810: **Description:**
+    As discussed, `claimExecutionFees()` charges the user for gas fees. Since wallet is not trusted, the payment is wrapped and checked that the balance increased by the required amount.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstH4ExecutorsCanDrainTheGelatoDepositWhileProfiting"
+solodit_id: "18810"
+solodit_slug: |
+    trst-h-4-executors-can-drain-the-gelato-deposit-while-profiting-from-free-gas-trust-security-none-brahma-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimexecutionfees;"
+fn_name_regex: ".*(claimExecutionFees).*"
+read_var_regex: ".*(claimExecutionFees).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimExecutionFees"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimexecutionfees > 0;"

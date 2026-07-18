@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "user-can-double-claim-airdrop"
+class_name: "UserCanDoubleClaimAirdrop"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #65323 (Cyfrin/Statusl)"
+help: "User can double claim airdrop"
+wiki_title: "User can double claim airdrop"
+wiki_description: |
+    **Description:** `KarmaAirdrop.sol` is pausable. That's because there is functionality to update `merkleRoot`: when it's updated, previously unclaimed tokens are added to the new `merkleRoot`. So following scenario is possible:
+    1) User have not claimed. `merkleRoot` will be updated to include some n
+wiki_exploit_scenario: |
+    Per Solodit #65323: **Description:** `KarmaAirdrop.sol` is pausable. That's because there is functionality to update `merkleRoot`: when it's updated, previously unclaimed tokens are added to the new `merkleRoot`. So foll
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UserCanDoubleClaimAirdrop"
+solodit_id: "65323"
+solodit_slug: "user-can-double-claim-airdrop-cyfrin-none-statusl-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal merkleroot;"
+fn_name_regex: ".*(merkleRoot|whenNotPaused).*"
+read_var_regex: ".*(merkleRoot|whenNotPaused).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "merkleRoot"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return merkleroot > 0;"

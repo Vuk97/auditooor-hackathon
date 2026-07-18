@@ -1,0 +1,22 @@
+id: public-initializer-first-caller-takeover
+title: "Public initializer allows first-caller to seize admin"
+severity: Critical
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44834"
+  - "44869"
+bug_class: authorization
+indicators:
+  - "function named `initialize` with a caller-supplied `admin: Address` argument and no deployer-binding check"
+  - "initializer pattern `if storage::is_initialized(&env) { return Err(AlreadyInitialized) }` with no check that the caller is the known deployer/factory"
+  - "initializer persists caller-chosen router/oracle/factory dependency addresses that later privileged paths trust"
+  - "no atomic deploy+init pattern: contract is deployed in one tx and `initialize` is exposed for later invocation"
+victim: "Protocol operator and all future users: attacker front-runs initialization, becomes permanent admin, can mint/upgrade/config everything."
+exploit_precondition: "Freshly deployed contract instance whose `initialize` has not yet been invoked. Attacker mempool-monitors or preempts the deployer."
+real_world_example: |
+  V12 #44834 (Critical): LiquidationEngineContract, PoolConfiguratorContract, InterestRateStrategyContract, IncentivesContract, TokenContract, AquariusSwapAdapter, SoroswapSwapAdapter all expose public `initialize` that stores caller-chosen admin and then seals the instance with `is_initialized=true`.
+suggested_remediation: "Bind first-time setup to a trusted deployer or precommitted admin (e.g. constructor arg stored before the public entry point is reachable) OR make deployment and initialization atomic in a single transaction."
+cross_refs:
+  - missing-require-auth-on-privileged-entrypoint

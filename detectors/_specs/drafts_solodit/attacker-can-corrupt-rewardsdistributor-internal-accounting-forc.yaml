@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "attacker-can-corrupt-rewardsdistributor-internal-accounting-forc"
+class_name: "AttackerCanCorruptRewardsdistributorInternalAccountingForc"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31316 (Cyfrin/Solidly)"
+help: |
+    Attacker can corrupt `RewardsDistributor` internal accounting forcing LP token incentive deposits to revert for tokens like `cUSDCv3`
+wiki_title: |
+    Attacker can corrupt `RewardsDistributor` internal accounting forcing LP token incentive deposits to revert for tokens like `cUSDCv3`
+wiki_description: |
+    **Description:** Some tokens like [cUSDCv3](https://etherscan.io/address/0x9e4dde024f7ea5cf13d5f09c51a1555305c99f0c#code#F1#L930) contains a special case for `amount == type(uint256).max` in their transfer functions that results in only the user's balance being transferred.
+    
+    For such tokens in this
+wiki_exploit_scenario: |
+    Per Solodit #31316: **Description:** Some tokens like [cUSDCv3](https://etherscan.io/address/0x9e4dde024f7ea5cf13d5f09c51a1555305c99f0c#code#F1#L930) contains a special case for `amount == type(uint256).max` in their tra
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AttackerCanCorruptRewardsdistributorInternalAccountingForc"
+solodit_id: "31316"
+solodit_slug: |
+    attacker-can-corrupt-rewardsdistributor-internal-accounting-forcing-lp-token-incentive-deposits-to-revert-for-tokens-like-cusdcv3-cyfrin-none-cyfrin-solidlyv3-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cusdcv3;"
+fn_name_regex: ".*(depositLPTokenIncentive|cUSDCv3|RewardsDistributor).*"
+read_var_regex: ".*(cUSDCv3|depositLPTokenIncentive).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositLPTokenIncentive"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cusdcv3 > 0;"

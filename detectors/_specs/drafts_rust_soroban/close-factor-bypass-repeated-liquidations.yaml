@@ -1,0 +1,20 @@
+id: close-factor-bypass-repeated-liquidations
+title: "Close factor bypassed via repeated liquidations in same transaction"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44569"
+bug_class: liquidation
+indicators:
+  - "close-factor check uses instant total_debt rather than beginning-of-tx total_debt"
+  - "no per-tx liquidation counter"
+victim: "Borrowers: attacker liquidates up to close_factor, pulls the ratio back, liquidates again, etc., draining position."
+exploit_precondition: "Position stays liquidatable after first partial liquidation."
+real_world_example: |
+  V12 #44569 (Low): Close factor limit bypassed via repeated liquidations in same transaction.
+suggested_remediation: "Record per-tx cumulative liquidated debt; disallow more than close_factor per tx per position."
+cross_refs:
+  - engine-uses-uncapped-debt-for-liquidation
+  - close-factor-bypass-via-dust-clamping

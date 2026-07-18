@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-02-price-manipulation-occurs-through-order-dependent-state-upd"
+class_name: "M02PriceManipulationOccursThroughOrderDependentStateUpd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58703 (Shieldify/Multipli Vault)"
+help: "[M-02] Price Manipulation Occurs Through Order-Dependent State Updates"
+wiki_title: "[M-02] Price Manipulation Occurs Through Order-Dependent State Updates"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `addFundsAndFulfillRedeem()` function in the `VaultFundManager` contract contains a critical ordering issue that can lead to inconsistent `lastPricePerShare` calculations. The vulnerability arises from the sequence of operations where the aggregated und
+wiki_exploit_scenario: |
+    Per Solodit #58703: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `addFundsAndFulfillRedeem()` function in the `VaultFundManager` contract contains a critical ordering issue that can lead to inconsistent `lastPricePerSh
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02PriceManipulationOccursThroughOrderDependentStateUpd"
+solodit_id: "58703"
+solodit_slug: |
+    m-02-price-manipulation-occurs-through-order-dependent-state-updates-shieldify-none-multipli-vault-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(addFundsAndFulfillRedeem|VaultFundManager|lastPricePerShare|assetsWithFee).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

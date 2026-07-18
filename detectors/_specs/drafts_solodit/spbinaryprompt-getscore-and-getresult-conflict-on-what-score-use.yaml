@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "spbinaryprompt-getscore-and-getresult-conflict-on-what-score-use"
+class_name: "SpbinarypromptGetscoreAndGetresultConflictOnWhatScoreUse"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65386 (Cyfrin/Majority Protocol)"
+help: |
+    `SPBinaryPrompt::getScore` and `getResult` conflict on what score users who didn't participate should receive, `getScore` also rewards users who got the wrong answer
+wiki_title: |
+    `SPBinaryPrompt::getScore` and `getResult` conflict on what score users who didn't participate should receive, `getScore` also rewards users who got the wrong a
+wiki_description: |
+    **Description:** `SPBinaryPrompt::getScore` returns 0 if a user didn't participate, but `getResult` calls `getScore`, and if the score is 0, returns `xpTIers[1]`.
+    
+    `SPBinaryPrompt::getScore` also gives users a score based on the probability prediction even if the user chose the wrong answer, since i
+wiki_exploit_scenario: |
+    Per Solodit #65386: **Description:** `SPBinaryPrompt::getScore` returns 0 if a user didn't participate, but `getResult` calls `getScore`, and if the score is 0, returns `xpTIers[1]`.
+    
+    `SPBinaryPrompt::getScore` also give
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SpbinarypromptGetscoreAndGetresultConflictOnWhatScoreUse"
+solodit_id: "65386"
+solodit_slug: |
+    spbinarypromptgetscore-and-getresult-conflict-on-what-score-users-who-didnt-participate-should-receive-getscore-also-rewards-users-who-got-the-wrong-answer-cyfrin-none-majority-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getresult;"
+fn_name_regex: ".*(getResult|getScore).*"
+read_var_regex: ".*(getResult|getScore).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getResult"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getresult > 0;"

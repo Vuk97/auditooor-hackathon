@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-05-unsafe-casting-from-uint256-to-uint16-could-cause-ticket-pr"
+class_name: "M05UnsafeCastingFromUint256ToUint16CouldCauseTicketPr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #8907 (Code4rena/Wenwin)"
+help: |
+    [M-05] Unsafe casting from `uint256` to `uint16` could cause ticket prizes to become much smaller than intended
+wiki_title: |
+    [M-05] Unsafe casting from `uint256` to `uint16` could cause ticket prizes to become much smaller than intended
+wiki_description: |
+    In `LotterySetup.sol`, the `packFixedRewards()` function packs a `uint256` array into a `uint256` through bitwise arithmetic:
+    
+    [`LotterySetup.sol#L164-L176`](https://github.com/code-423n4/2023-03-wenwin/blob/main/src/LotterySetup.sol#L164-L176):
+    
+    ```solidity
+    function packFixedRewards(uint256[] memo
+wiki_exploit_scenario: |
+    Per Solodit #8907: In `LotterySetup.sol`, the `packFixedRewards()` function packs a `uint256` array into a `uint256` through bitwise arithmetic:
+    
+    [`LotterySetup.sol#L164-L176`](https://github.com/code-423n4/2023-03-wen
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05UnsafeCastingFromUint256ToUint16CouldCauseTicketPr"
+solodit_id: "8907"
+solodit_slug: |
+    m-05-unsafe-casting-from-uint256-to-uint16-could-cause-ticket-prizes-to-become-much-smaller-than-intended-code4rena-wenwin-wenwin-contest-git
+solodit_quality: "4.995898613731441"
+solodit_rarity: "3.995898613731441"
+solodit_tags: ""
+state_decl: "uint256 internal divisor;"
+fn_name_regex: ".*(packFixedRewards|winTier|uint16|divisor).*"
+read_var_regex: ".*(divisor|packFixedRewards|uint16).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "packFixedRewards"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return divisor > 0;"

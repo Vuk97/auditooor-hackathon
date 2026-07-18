@@ -1,0 +1,34 @@
+skeleton: "paired_function_divergence"
+name: "m-04-malicious-emissiontoken-could-poison-rewards-for-a-market"
+class_name: "M04MaliciousEmissiontokenCouldPoisonRewardsForAMarket"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26840 (Code4rena/Moonwell)"
+help: "[M-04] Malicious `emissionToken` could poison rewards for a market"
+wiki_title: "[M-04] Malicious `emissionToken` could poison rewards for a market"
+wiki_description: |
+    When distributing rewards for a market, each `emissionConfig` is looped over and sent rewards for. `disburseBorrowerRewardsInternal` as an example, the same holds true for `disburseSupplierRewardsInternal`:
+    
+    <https://github.com/code-423n4/2023-07-moonwell/blob/main/src/core/MultiRewardDistributor/M
+wiki_exploit_scenario: |
+    Per Solodit #26840: When distributing rewards for a market, each `emissionConfig` is looped over and sent rewards for. `disburseBorrowerRewardsInternal` as an example, the same holds true for `disburseSupplierRewardsInt
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04MaliciousEmissiontokenCouldPoisonRewardsForAMarket"
+solodit_id: "26840"
+solodit_slug: "m-04-malicious-emissiontoken-could-poison-rewards-for-a-market-code4rena-moonwell-moonwell-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(disburseBorrowerRewardsInternal|disburseSupplierRewardsInternal|emissionConfig).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

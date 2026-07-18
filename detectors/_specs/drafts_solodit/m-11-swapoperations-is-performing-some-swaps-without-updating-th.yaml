@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "m-11-swapoperations-is-performing-some-swaps-without-updating-th"
+class_name: "M11SwapoperationsIsPerformingSomeSwapsWithoutUpdatingTh"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53851 (Recon Audits/Apollon Report)"
+help: |
+    [M-11] `SwapOperations` is performing some swaps without updating the price, resulting in incorrect fees being charged
+wiki_title: |
+    [M-11] `SwapOperations` is performing some swaps without updating the price, resulting in incorrect fees being charged
+wiki_description: |
+    **Impact**
+    Operations such as: `swapExactTokensForTokens`, `swapTokensForExactTokens` receive `_priceUpdateData` but update the price only at the `_swap` operation
+    
+    `_swap` uses `getAmountsOut` and `getAmountsIn` to determine the price at which to charge fees at
+    
+    https://github.com/blkswnStudio/ap/b
+wiki_exploit_scenario: |
+    Per Solodit #53851: **Impact**
+    Operations such as: `swapExactTokensForTokens`, `swapTokensForExactTokens` receive `_priceUpdateData` but update the price only at the `_swap` operation
+    
+    `_swap` uses `getAmountsOut` and `g
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11SwapoperationsIsPerformingSomeSwapsWithoutUpdatingTh"
+solodit_id: "53851"
+solodit_slug: |
+    m-11-swapoperations-is-performing-some-swaps-without-updating-the-price-resulting-in-incorrect-fees-being-charged-recon-audits-none-apollon-report-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(getAmountsIn|getAmountsOut|getSwapFee).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

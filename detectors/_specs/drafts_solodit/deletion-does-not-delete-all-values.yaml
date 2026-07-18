@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "deletion-does-not-delete-all-values"
+class_name: "DeletionDoesNotDeleteAllValues"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #37360 (Zokyo/Interplanetary Consensus (Ipc))"
+help: "Deletion does not delete all values"
+wiki_title: "Deletion does not delete all values"
+wiki_description: |
+    **Severity**: High
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In LibQuorum.sol, the function `pruneQuorums()` can be problematic on line: 143 
+    ```solidity
+    delete self.quorumSignatureSenders[h];
+    ```
+    That's because `quorumSignatureSenders` is a mapping containing a struct which is containing a mapping. A
+wiki_exploit_scenario: |
+    Per Solodit #37360: **Severity**: High
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In LibQuorum.sol, the function `pruneQuorums()` can be problematic on line: 143 
+    ```solidity
+    delete self.quorumSignatureSenders[h];
+    ```
+    That'
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DeletionDoesNotDeleteAllValues"
+solodit_id: "37360"
+solodit_slug: "deletion-does-not-delete-all-values-zokyo-none-interplanetary-consensus-ipc-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal prunequorums;"
+fn_name_regex: ".*(pruneQuorums|quorumSignatureSenders).*"
+read_var_regex: ".*(pruneQuorums|quorumSignatureSenders).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "pruneQuorums"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return prunequorums > 0;"

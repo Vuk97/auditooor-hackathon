@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "h-01-owner-cannot-withdraw-all-interest-due-to-wrong-calculation"
+class_name: "H01OwnerCannotWithdrawAllInterestDueToWrongCalculation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29312 (Code4rena/Canto)"
+help: |
+    [H-01] Owner cannot withdraw all interest due to wrong calculation of accrued interest in `WithdrawCarry`
+wiki_title: |
+    [H-01] Owner cannot withdraw all interest due to wrong calculation of accrued interest in `WithdrawCarry`
+wiki_description: |
+    The current `withdrawCarry` function in the contract underestimates the accrued interest due to a miscalculation. This error prevents the rightful owner from withdrawing their accrued interest, effectively locking the assets. The primary issue lies in the calculation of `maximumWithdrawable` within
+wiki_exploit_scenario: |
+    Per Solodit #29312: The current `withdrawCarry` function in the contract underestimates the accrued interest due to a miscalculation. This error prevents the rightful owner from withdrawing their accrued interest, effec
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01OwnerCannotWithdrawAllInterestDueToWrongCalculation"
+solodit_id: "29312"
+solodit_slug: |
+    h-01-owner-cannot-withdraw-all-interest-due-to-wrong-calculation-of-accrued-interest-in-withdrawcarry-code4rena-canto-canto-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal exchangerate;"
+fn_name_regex: ".*(withdrawCarry|maximumWithdrawable|exchangeRate|CNOTE).*"
+write_var_regex: ".*(exchangeRate|maximumWithdrawable|withdrawCarry).*"
+guard_var_regex: ".*(exchangeRate|maximumWithdrawable|withdrawCarry).*"
+vuln_fn_name: "withdrawCarry"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "exchangerate = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

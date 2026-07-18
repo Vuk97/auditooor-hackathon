@@ -1,0 +1,47 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-5-repayer-can-brick-lending-functionality-of-lendercommitmentg"
+class_name: "M5RepayerCanBrickLendingFunctionalityOfLendercommitmentg"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44220 (Sherlock/Teller Lender Groups Update Audit)"
+help: "M-5: Repayer can brick lending functionality of `LenderCommitmentGroup_Smart` by repaying excess"
+wiki_title: "M-5: Repayer can brick lending functionality of `LenderCommitmentGroup_Smart` by repaying excess"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-11-teller-finance-update-judging/issues/46 
+    
+    ## Found by 
+    OpaBatyo, hash
+    ### Summary
+    
+    `LenderCommitmentGroup_Smart` doesn't handle excess repayments making it possible to brick the lending functionality 
+    
+    ### Root Cause
+    
+    The [`getTotalPrincipalTokensOut
+wiki_exploit_scenario: |
+    Per Solodit #44220: Source: https://github.com/sherlock-audit/2024-11-teller-finance-update-judging/issues/46 
+    
+    ## Found by 
+    OpaBatyo, hash
+    ### Summary
+    
+    `LenderCommitmentGroup_Smart` doesn't handle excess repayments maki
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M5RepayerCanBrickLendingFunctionalityOfLendercommitmentg"
+solodit_id: "44220"
+solodit_slug: |
+    m-5-repayer-can-brick-lending-functionality-of-lendercommitmentgroup_smart-by-repaying-excess-sherlock-teller-lender-groups-update-audit-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(LenderCommitmentGroup_Smart|getTotalPrincipalTokensOutstandingInActiveLoans|totalPrincipalTokensRepaid|totalPrincipalTokensLended).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

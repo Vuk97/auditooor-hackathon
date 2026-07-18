@@ -1,0 +1,35 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-04-flash-loan-risk-mitigation-is-optional-and-not-robust-enoug"
+class_name: "M04FlashLoanRiskMitigationIsOptionalAndNotRobustEnoug"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #413 (Code4rena/Gro Protocol)"
+help: "[M-04] Flash loan risk mitigation is optional and not robust enough"
+wiki_title: "[M-04] Flash loan risk mitigation is optional and not robust enough"
+wiki_description: |
+    _Submitted by 0xRajeev_
+    
+    The `switchEoaOnly()` allows the owner to disable `preventSmartContracts` (the project’s plan apparently is to do so after the beta-period) which will allow any smart contract to interact with the protocol and potentially exploit any underlying flash loan vulnerabilities whi
+wiki_exploit_scenario: |
+    Per Solodit #413: _Submitted by 0xRajeev_
+    
+    The `switchEoaOnly()` allows the owner to disable `preventSmartContracts` (the project’s plan apparently is to do so after the beta-period) which will allow any smart contract
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04FlashLoanRiskMitigationIsOptionalAndNotRobustEnoug"
+solodit_id: "413"
+solodit_slug: |
+    m-04-flash-loan-risk-mitigation-is-optional-and-not-robust-enough-code4rena-gro-protocol-gro-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(switchEoaOnly|preventSmartContracts).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

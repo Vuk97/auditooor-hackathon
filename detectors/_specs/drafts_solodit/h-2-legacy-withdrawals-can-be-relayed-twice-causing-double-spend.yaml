@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "h-2-legacy-withdrawals-can-be-relayed-twice-causing-double-spend"
+class_name: "H2LegacyWithdrawalsCanBeRelayedTwiceCausingDoubleSpend"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18553 (Sherlock/Optimism Update)"
+help: "H-2: Legacy withdrawals can be relayed twice, causing double spending of bridged assets"
+wiki_title: "H-2: Legacy withdrawals can be relayed twice, causing double spending of bridged assets"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-03-optimism-judging/issues/87 
+    
+    ## Found by 
+    Jeiwan
+    
+    ## Summary
+    `L2CrossDomainMessenger.relayMessage` checks that legacy messages have not been relayed by reading from the `successfulMessages` state variable, however the contract's storage will wiped du
+wiki_exploit_scenario: |
+    Per Solodit #18553: Source: https://github.com/sherlock-audit/2023-03-optimism-judging/issues/87 
+    
+    ## Found by 
+    Jeiwan
+    
+    ## Summary
+    `L2CrossDomainMessenger.relayMessage` checks that legacy messages have not been relayed b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H2LegacyWithdrawalsCanBeRelayedTwiceCausingDoubleSpend"
+solodit_id: "18553"
+solodit_slug: |
+    h-2-legacy-withdrawals-can-be-relayed-twice-causing-double-spending-of-bridged-assets-sherlock-none-optimism-update-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal relaymessage;"
+fn_name_regex: ".*(successfulMessages|CrossDomainMessengerLegacySpacer0|CrossDomainMessengerLegacySpacer1|relayMessage).*"
+read_var_regex: ".*(relayMessage|successfulMessages).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "successfulMessages"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return relaymessage > 0;"

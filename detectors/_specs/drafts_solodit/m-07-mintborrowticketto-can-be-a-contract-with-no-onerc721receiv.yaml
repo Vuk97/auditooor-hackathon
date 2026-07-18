@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-07-mintborrowticketto-can-be-a-contract-with-no-onerc721receiv"
+class_name: "M07MintborrowtickettoCanBeAContractWithNoOnerc721receiv"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1862 (Code4rena/Backed Protocol)"
+help: |
+    [M-07] `mintBorrowTicketTo` can be a contract with no `onERC721Received` method, which may cause the BorrowTicket NFT to be frozen and put users' funds at risk
+wiki_title: |
+    [M-07] `mintBorrowTicketTo` can be a contract with no `onERC721Received` method, which may cause the BorrowTicket NFT to be frozen and put users' funds at risk
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    [NFTLoanFacilitator.sol#L102-L102](https://github.com/code-423n4/2022-04-backed/blob/e8015d7c4b295af131f017e646ba1b99c8f608f0/contracts/NFTLoanFacilitator.sol#L102-L102)<br>
+    
+    ```solidity
+    IERC721Mintable(borrowTicketContract).mint(mintBorrowTicketTo, id);
+    ```
+    
+    [NFTLoanTicket.
+wiki_exploit_scenario: |
+    Per Solodit #1862: _Submitted by WatchPug_
+    
+    [NFTLoanFacilitator.sol#L102-L102](https://github.com/code-423n4/2022-04-backed/blob/e8015d7c4b295af131f017e646ba1b99c8f608f0/contracts/NFTLoanFacilitator.sol#L102-L102)<br>
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07MintborrowtickettoCanBeAContractWithNoOnerc721receiv"
+solodit_id: "1862"
+solodit_slug: |
+    m-07-mintborrowticketto-can-be-a-contract-with-no-onerc721received-method-which-may-cause-the-borrowticket-nft-to-be-frozen-and-put-users-funds-at-risk-code4rena-backed-protocol-backed-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal createloan;"
+fn_name_regex: ".*(mintBorrowTicketTo|onERC721Received|createLoan|BorrowTicket).*"
+read_var_regex: ".*(createLoan|mintBorrowTicketTo|onERC721Received).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mintBorrowTicketTo"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return createloan > 0;"

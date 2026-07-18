@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "silent-unpack-failure-lowers-quorum-17"
+class_name: "SilentUnpackFailureLowersQuorum17"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit All in Bits - Zellic Audit Report"
+help: |
+    The Tally helper in the keeper is used to iterate over votes and return the tally results of a proposal based on the voting power. The quorum and threshold required for the proposa
+wiki_title: "Silent unpack failure lowers quorum                                           17"
+wiki_description: |
+    The Tally helper in the keeper is used to iterate over votes and return the tally results of a proposal based on the voting power. The quorum and threshold required for the proposal are fetched through the getQuorumAndThreshold helper. The previous implementation for getQuorumAndThreshold would iter
+wiki_exploit_scenario: |
+    Per audit finding: The Tally helper in the keeper is used to iterate over votes and return the tally results of a proposal based on the voting power. The quorum and threshold required for the proposal are fetched throug
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SilentUnpackFailureLowersQuorum17"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getQuorumAndThreshold).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getQuorumAndThreshold"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

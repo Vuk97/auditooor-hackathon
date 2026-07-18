@@ -1,0 +1,70 @@
+from __future__ import annotations
+
+import re
+import subprocess
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+
+HERE = Path(__file__).resolve().parent
+REPO_ROOT = HERE.parent.parent
+RUST_DETECT = REPO_ROOT / "tools" / "rust-detect.py"
+FIXTURES = REPO_ROOT / "detectors" / "rust_wave1" / "test_fixtures"
+DETECTOR_ID = "bridge_manager_burn_without_owner_check_fire10"
+_HIT_RE = re.compile(rf"^=== {DETECTOR_ID}\s+\((\d+) hits\)", re.MULTILINE)
+
+
+def _run_fixture(fixture: Path) -> int:
+    with tempfile.NamedTemporaryFile(suffix=".log", delete=False) as tf:
+        log_path = Path(tf.name)
+    try:
+        proc = subprocess.run(
+            [
+                sys.executable,
+                str(RUST_DETECT),
+                str(FIXTURES),
+                "--only",
+                DETECTOR_ID,
+                "--file",
+                str(fixture),
+                "--log",
+                str(log_path),
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=False,
+        )
+        if proc.returncode != 0:
+            raise AssertionError(proc.stderr or proc.stdout)
+        text = log_path.read_text(encoding="utf-8", errors="ignore")
+        match = _HIT_RE.search(text)
+        return int(match.group(1)) if match else 0
+    finally:
+        log_path.unlink(missing_ok=True)
+
+
+class RustBridgeManagerBurnWithoutOwnerCheckFire10Tests(unittest.TestCase):
+    def test_fire10_positive_fixture_fires(self) -> None:
+        hits = _run_fixture(
+            FIXTURES / "bridge_manager_burn_without_owner_check_fire10_positive.rs"
+        )
+        self.assertGreaterEqual(hits, 1)
+
+    def test_confirmed_corpus_fixture_fires(self) -> None:
+        hits = _run_fixture(
+            FIXTURES / "bridge_manager_burns_nft_without_checking_owner_positive.rs"
+        )
+        self.assertGreaterEqual(hits, 1)
+
+    def test_guarded_fixture_is_silent(self) -> None:
+        hits = _run_fixture(
+            FIXTURES / "bridge_manager_burn_without_owner_check_fire10_negative.rs"
+        )
+        self.assertEqual(hits, 0)
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -1,0 +1,45 @@
+skeleton: "state_write_without_paired_write"
+name: "redstonecoreoracle-could-allow-picking-up-new-price-that-are-old"
+class_name: "RedstonecoreoracleCouldAllowPickingUpNewPriceThatAreOld"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35784 (Spearbit/Euler Labs - Euler Price Oracle)"
+help: "RedstoneCoreOracle could allow picking up new price that are older compared to the current one"
+wiki_title: "RedstoneCoreOracle could allow picking up new price that are older compared to the current one"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - **File:** RedstoneCoreOracle.sol
+    - **Lines:** L70-L93
+    
+    ## Description
+    The current logic of the RedstoneCoreOracle implementation uses `block.timestamp` as the timestamp to which a price has been observed instead of the real observation timestamp that is bound t
+wiki_exploit_scenario: |
+    Per Solodit #35784: ## Severity: Medium Risk
+    
+    ## Context
+    - **File:** RedstoneCoreOracle.sol
+    - **Lines:** L70-L93
+    
+    ## Description
+    The current logic of the RedstoneCoreOracle implementation uses `block.timestamp` as the ti
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RedstonecoreoracleCouldAllowPickingUpNewPriceThatAreOld"
+solodit_id: "35784"
+solodit_slug: |
+    redstonecoreoracle-could-allow-picking-up-new-price-that-are-older-compared-to-the-current-one-spearbit-none-euler-labs-euler-price-oracle-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(validateTimestamp|maxPriceStaleness|cacheUpdatedAt|cachedPrice).*"
+primary_var_regex: ".*(cacheUpdatedAt|cachedPrice|maxPriceStaleness).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

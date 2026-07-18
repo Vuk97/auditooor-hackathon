@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-06-allowing-multiple-bounties-to-be-live-at-once-creates-race-"
+class_name: "M06AllowingMultipleBountiesToBeLiveAtOnceCreatesRace"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31772 (ZachObront/Alongside)"
+help: "[M-06] Allowing multiple bounties to be live at once creates race condition"
+wiki_title: "[M-06] Allowing multiple bounties to be live at once creates race condition"
+wiki_description: |
+    When the `authority` address sets up a bounty in `HashStore.sol`, they call `setHash()`, which adds the bounty hash to the `isValidHash` mapping:
+    ```solidity
+    function setHash(bytes32 _hash, bool isValid) external {
+        if (msg.sender != authority) revert HashStoreAuth();
+        isValidHash[_hash] = isV
+wiki_exploit_scenario: |
+    Per Solodit #31772: When the `authority` address sets up a bounty in `HashStore.sol`, they call `setHash()`, which adds the bounty hash to the `isValidHash` mapping:
+    ```solidity
+    function setHash(bytes32 _hash, bool isVal
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06AllowingMultipleBountiesToBeLiveAtOnceCreatesRace"
+solodit_id: "31772"
+solodit_slug: |
+    m-06-allowing-multiple-bounties-to-be-live-at-once-creates-race-condition-zachobront-none-alongside-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal authority;"
+fn_name_regex: ".*(authority|setHash|isValidHash|bountyHash).*"
+read_var_regex: ".*(authority|bountyHash|isValidHash).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "authority"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return authority > 0;"

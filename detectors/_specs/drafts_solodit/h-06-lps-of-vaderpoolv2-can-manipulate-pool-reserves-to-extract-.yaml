@@ -1,0 +1,45 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-06-lps-of-vaderpoolv2-can-manipulate-pool-reserves-to-extract-"
+class_name: "H06LpsOfVaderpoolv2CanManipulatePoolReservesToExtract"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42421 (Code4rena/Vader Protocol)"
+help: "[H-06] LPs of `VaderPoolV2` can manipulate pool reserves to extract funds from the reserve."
+wiki_title: "[H-06] LPs of `VaderPoolV2` can manipulate pool reserves to extract funds from the reserve."
+wiki_description: |
+    _Submitted by TomFrenchBlockchain, also found by hyh_
+    
+    Impermanent loss protection can be exploited to drain the reserve.
+    
+    #### Proof of Concept
+    
+    In `VaderPoolV2.burn` we calculate the current losses that the LP has made to impermanent loss.
+    
+    <https://github.com/code-423n4/2021-12-vader/blob/fd27870
+wiki_exploit_scenario: |
+    Per Solodit #42421: _Submitted by TomFrenchBlockchain, also found by hyh_
+    
+    Impermanent loss protection can be exploited to drain the reserve.
+    
+    #### Proof of Concept
+    
+    In `VaderPoolV2.burn` we calculate the current losses
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06LpsOfVaderpoolv2CanManipulatePoolReservesToExtract"
+solodit_id: "42421"
+solodit_slug: |
+    h-06-lps-of-vaderpoolv2-can-manipulate-pool-reserves-to-extract-funds-from-the-reserve-code4rena-vader-protocol-vader-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(VaderPoolV2).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,52 @@
+skeleton: "paired_function_divergence"
+name: "h-01-votingreward-not-set-on-gauge"
+class_name: "H01VotingrewardNotSetOnGauge"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #58068 (Pashov Audit Group/KittenSwap_2025-06-12)"
+help: "[H-01] `votingReward` not set on `Gauge`"
+wiki_title: "[H-01] `votingReward` not set on `Gauge`"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    The `Gauge` contract does not set the `votingReward` during its initialization and does not have a setter function for it.
+    
+    As a result, when `notifyRewardAmount()` is called and fees are claimed from the pair, the transaction wi
+wiki_exploit_scenario: |
+    Per Solodit #58068: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    The `Gauge` contract does not set the `votingReward` during its initialization and does not have a setter function for it.
+    
+    As a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01VotingrewardNotSetOnGauge"
+solodit_id: "58068"
+solodit_slug: "h-01-votingreward-not-set-on-gauge-pashov-audit-group-none-kittenswap_2025-06-12-markdown"
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(notifyRewardAmount|votingReward).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

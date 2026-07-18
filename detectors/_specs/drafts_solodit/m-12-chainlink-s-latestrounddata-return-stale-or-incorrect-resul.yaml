@@ -1,0 +1,39 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-12-chainlink-s-latestrounddata-return-stale-or-incorrect-resul"
+class_name: "M12ChainlinkSLatestrounddataReturnStaleOrIncorrectResul"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6659 (Sherlock/Blueberry)"
+help: "M-12: Chainlink's latestRoundData  return stale or incorrect result"
+wiki_title: "M-12: Chainlink's latestRoundData  return stale or incorrect result"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-02-blueberry-judging/issues/94 
+    
+    ## Found by 
+    8olidity, tsvetanovv, WatchDogs, Nyx, Avci, obront, Aymen0909, SPYBOY, HonorLt, csanuragjain, koxuan, evan, rbserver, hl\_, peanuts, Chinmay
+    
+    ## Summary
+    https://github.com/sherlock-audit/2023-02-blueberry/bl
+wiki_exploit_scenario: |
+    Per Solodit #6659: Source: https://github.com/sherlock-audit/2023-02-blueberry-judging/issues/94 
+    
+    ## Found by 
+    8olidity, tsvetanovv, WatchDogs, Nyx, Avci, obront, Aymen0909, SPYBOY, HonorLt, csanuragjain, koxuan, evan,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12ChainlinkSLatestrounddataReturnStaleOrIncorrectResul"
+solodit_id: "6659"
+solodit_slug: "m-12-chainlinks-latestrounddata-return-stale-or-incorrect-result-sherlock-blueberry-blueberry-git"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Stale Price, Oracle, Missing-Logic, Data Validation"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(latestRoundData|getPrice|remappedTokens|maxDelayTime).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

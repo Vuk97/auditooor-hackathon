@@ -1,0 +1,23 @@
+skeleton: "name_match_missing_require"
+name: "pancakeswap-v3-flashloan-callback-pancakev3swapcallback-lacks-sender-v"
+class_name: "PancakeswapV3FlashloanCallbackPancakev3swapcallbackLacksSenderV"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: pancake-swap-v3-flashloan-callback-pancake-v3swap"
+help: "PancakeSwap V3 Flashloan callback `pancakeV3SwapCallback` Lacks Sender Validation"
+wiki_title: "PancakeSwap V3 Flashloan callback `pancakeV3SwapCallback` Lacks Sender Validation"
+wiki_description: |
+    The `pancakeV3SwapCallback` function in some PancakeSwap V3's flashloan receiver contracts is vulnerable because it **does not verify** that the caller (`msg.sender`) is the legitimate PancakeSwap protocol contract. This critical missing check allows **any external address** to directly call `pancak
+wiki_exploit_scenario: |
+    Per Glider query tags [PancakeSwap, flashLoan, lack-of-access-control]: The `pancakeV3SwapCallback` function in some PancakeSwap V3's flashloan receiver contracts is vulnerable because it **does not verify** that the caller (`msg.sender`) is the legitimate PancakeSwap pro
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "PancakeswapV3FlashloanCallbackPancakev3swapcallbackLacksSenderV"
+fn_name_regex: ".*(pancakeV3SwapCallback).*"
+write_var_regex: ".*(pancakev3s).*"
+guard_var_regex: ".*(pancakev3s).*"
+vuln_fn_name: "pancakeV3SwapCallback"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "pancakev3s = newVal;"
+guard_require_line: "require(newVal <= 10000);"
+state_decl: "uint256 internal pancakev3s;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "possible-runtime-crash-when-setting-hash-lookups"
+class_name: "PossibleRuntimeCrashWhenSettingHashLookups"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero TON - Zellic Audit Report"
+help: |
+    When updating hash lookups in UlnConnection::utils::setHashLookup, if the requested entry does not exist, a null value is returned instead of an empty_cell(). This leads to a runti
+wiki_title: "Possible runtime crash when setting hash lookups"
+wiki_description: |
+    When updating hash lookups in UlnConnection::utils::setHashLookup, if the requested entry does not exist, a null value is returned instead of an empty_cell(). This leads to a runtime crash when attempting further operations on null. Specifically, in the following code, if hashLookups is not empty_ce
+wiki_exploit_scenario: |
+    Per audit finding: When updating hash lookups in UlnConnection::utils::setHashLookup, if the requested entry does not exist, a null value is returned instead of an empty_cell(). This leads to a runtime crash when attemp
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleRuntimeCrashWhenSettingHashLookups"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setHashLookup|hashLookups|addressLookup).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setHashLookup"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

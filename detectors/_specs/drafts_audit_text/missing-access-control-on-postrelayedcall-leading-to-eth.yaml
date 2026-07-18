@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-access-control-on-postrelayedcall-leading-to-eth"
+class_name: "MissingAccessControlOnPostrelayedcallLeadingToEth"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Voyage - Zellic Audit Report"
+help: |
+    The VoyagePaymaster:)postRelayedCall function is lacking any access control check. The function invokes refundGas on a vault supplied by the caller to refund a caller controlled am
+wiki_title: "Missing access control on postRelayedCall leading to ETH"
+wiki_description: |
+    The VoyagePaymaster:)postRelayedCall function is lacking any access control check. The function invokes refundGas on a vault supplied by the caller to refund a caller controlled amount of ETH to the treasury address. function postRelayedCall( bytes calldata context, bool success, uint256 gasUseWitho
+wiki_exploit_scenario: |
+    Per audit finding: The VoyagePaymaster:)postRelayedCall function is lacking any access control check. The function invokes refundGas on a vault supplied by the caller to refund a caller controlled amount of ETH to the t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingAccessControlOnPostrelayedcallLeadingToEth"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(postRelayedCall|refundGas|gasUseWithoutPost).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "postRelayedCall"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

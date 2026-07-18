@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "scroll-2024-05"
+class_name: "Scroll202405"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-05/SCROLL_exp.sol"
+help: "SCROLL 2024-05 — oracle exploit (~76 ETH)"
+wiki_title: "SCROLL (2024-05) — oracle"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-05): SCROLL lost ~76 ETH. Bug class: oracle. Attack tx: 0x661505c39efe1174da44e0548158db95e8e71ce867d5b7190b9eabc9f314fe91.
+wiki_exploit_scenario: |
+    Attacker (0x55Db954F0121E09ec838a20c216eABf35Ca32cDD) exploits SCROLL via oracle: the victim contract 0xe51D3dE9b81916D383eF97855C271250852eC7B7 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Replace spot-price reads with a TWAP wrapper (e.g., Uniswap V3 OracleLibrary.consult) and require a minimum observation window; sanity-check prices against a reference oracle.
+contract_name: "Scroll202405"
+trigger_sig_regex: ".*(getPrice).*"
+required_sibling_regex: ".*(validatePrice).*"
+target_interface_decl: "interface IT { function getPrice(uint256) external; function validatePrice(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "readPrice"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.getPrice(x)"
+sibling_call: "target.validatePrice(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

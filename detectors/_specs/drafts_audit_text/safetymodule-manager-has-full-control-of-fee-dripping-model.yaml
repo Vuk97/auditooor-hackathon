@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "safetymodule-manager-has-full-control-of-fee-dripping-model"
+class_name: "SafetymoduleManagerHasFullControlOfFeeDrippingModel"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Safety Module - Zellic Audit Report"
+help: |
+    The protocol has the ability to collect fees from SafetyModules. The fee-dripping model of Safety- Module calculates the amount of fees. Specifically, invoking the dripFactor() fun
+wiki_title: "SafetyModule Manager has full control of fee-dripping model"
+wiki_description: |
+    The protocol has the ability to collect fees from SafetyModules. The fee-dripping model of Safety- Module calculates the amount of fees. Specifically, invoking the dripFactor() function in the fee- dripping model contract, SafetyModule calculates the amount of assets that are dripped as fees. The ad
+wiki_exploit_scenario: |
+    Per audit finding: The protocol has the ability to collect fees from SafetyModules. The fee-dripping model of Safety- Module calculates the amount of fees. Specifically, invoking the dripFactor() function in the fee- dr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SafetymoduleManagerHasFullControlOfFeeDrippingModel"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(dripFactor).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "dripFactor"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

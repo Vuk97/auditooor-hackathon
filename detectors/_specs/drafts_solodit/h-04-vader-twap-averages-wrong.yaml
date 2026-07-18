@@ -1,0 +1,40 @@
+skeleton: "paired_function_divergence"
+name: "h-04-vader-twap-averages-wrong"
+class_name: "H04VaderTwapAveragesWrong"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1237 (Code4rena/Vader Protocol)"
+help: "[H-04] Vader TWAP averages wrong"
+wiki_title: "[H-04] Vader TWAP averages wrong"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The vader price in `LiquidityBasedTWAP.getVaderPrice` is computed using the `pastLiquidityWeights` and `pastTotalLiquidityWeight` return values of the `syncVaderPrice`.
+    
+    The `syncVaderPrice` function does not initialize all weights and the total liquidity weight does not equa
+wiki_exploit_scenario: |
+    Per Solodit #1237: _Submitted by cmichel_
+    
+    The vader price in `LiquidityBasedTWAP.getVaderPrice` is computed using the `pastLiquidityWeights` and `pastTotalLiquidityWeight` return values of the `syncVaderPrice`.
+    
+    The `s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04VaderTwapAveragesWrong"
+solodit_id: "1237"
+solodit_slug: "h-04-vader-twap-averages-wrong-code4rena-vader-protocol-vader-protocol-contest-git"
+solodit_quality: "3.5"
+solodit_rarity: "3"
+solodit_tags: "TWAP"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(pastLiquidityWeights|pastTotalLiquidityWeight|syncVaderPrice).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

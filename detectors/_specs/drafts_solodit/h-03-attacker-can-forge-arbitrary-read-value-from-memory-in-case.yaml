@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "h-03-attacker-can-forge-arbitrary-read-value-from-memory-in-case"
+class_name: "H03AttackerCanForgeArbitraryReadValueFromMemoryInCase"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30276 (Code4rena/zkSync)"
+help: "[H-03] Attacker can forge arbitrary read value from memory in case `skip_if_legitimate_fat_ptr`"
+wiki_title: "[H-03] Attacker can forge arbitrary read value from memory in case `skip_if_legitimate_fat_ptr`"
+wiki_description: |
+    Attempting to read a word that spans across the pointer bound start`+`offset should return zero bytes for the addresses. When offset `>=` length, the result should be completely zeros, so we can skip the read. However, in current implementation, this case is not handled properly so that attacker ca
+wiki_exploit_scenario: |
+    Per Solodit #30276: Attempting to read a word that spans across the pointer bound start`+`offset should return zero bytes for the addresses. When offset `>=` length, the result should be completely zeros, so we can skip
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03AttackerCanForgeArbitraryReadValueFromMemoryInCase"
+solodit_id: "30276"
+solodit_slug: |
+    h-03-attacker-can-forge-arbitrary-read-value-from-memory-in-case-skip_if_legitimate_fat_ptr-code4rena-zksync-zksync-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bytes_out_of_bound;"
+fn_name_regex: ".*(skip_if_legitimate_fat_ptr|bytes_out_of_bound|bytes_to_cleanup_out_of_bounds).*"
+write_var_regex: ".*(bytes_out_of_bound|bytes_to_cleanup_out_of_bounds|skip_if_legitimate_fat_ptr).*"
+guard_var_regex: ".*(bytes_out_of_bound|bytes_to_cleanup_out_of_bounds|skip_if_legitimate_fat_ptr).*"
+vuln_fn_name: "skip_if_legitimate_fat_ptr"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "bytes_out_of_bound = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

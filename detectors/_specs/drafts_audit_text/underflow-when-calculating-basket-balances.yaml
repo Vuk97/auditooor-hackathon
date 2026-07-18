@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "underflow-when-calculating-basket-balances"
+class_name: "UnderflowWhenCalculatingBasketBalances"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Cove - Zellic Audit Report"
+help: |
+    The _processInternalTrades function handles the internal trades between baskets. It calculates the initial buy amount and the net buy amount for each trade. The function then check
+wiki_title: "Underflow when calculating basket balances"
+wiki_description: |
+    The _processInternalTrades function handles the internal trades between baskets. It calculates the initial buy amount and the net buy amount for each trade. The function then checks if the net buy amount is within the min and max amount limits. It then checks whether the calculated net buy and trade
+wiki_exploit_scenario: |
+    Per audit finding: The _processInternalTrades function handles the internal trades between baskets. It calculates the initial buy amount and the net buy amount for each trade. The function then checks if the net buy amo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnderflowWhenCalculatingBasketBalances"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(internalTrades|basketBalances|swapFee).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "internalTrades"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "m-04-eth-may-get-stuck-in-contract"
+class_name: "M04EthMayGetStuckInContract"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #4055 (Code4rena/FairSide)"
+help: "[M-04] Eth may get stuck in contract"
+wiki_title: "[M-04] Eth may get stuck in contract"
+wiki_description: |
+    The Istanbul hardfork increases the gas cost of the SLOAD operation and therefore breaks some existing smart contracts.
+    
+    In file `withdrawable.sol`, contract uses `transfer()` to send eth from contract to EOA due which eth can get stuck.
+    
+    The reason behind this is that, after the Istanbul hardfork,
+wiki_exploit_scenario: |
+    Per Solodit #4055: The Istanbul hardfork increases the gas cost of the SLOAD operation and therefore breaks some existing smart contracts.
+    
+    In file `withdrawable.sol`, contract uses `transfer()` to send eth from contra
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04EthMayGetStuckInContract"
+solodit_id: "4055"
+solodit_slug: "m-04-eth-may-get-stuck-in-contract-code4rena-fairside-fairside-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal call;"
+fn_name_regex: ".*(transfer|send|call).*"
+read_var_regex: ".*(call|send|transfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return call > 0;"

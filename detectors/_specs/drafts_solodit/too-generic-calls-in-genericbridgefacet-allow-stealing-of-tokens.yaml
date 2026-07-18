@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_require"
+name: "too-generic-calls-in-genericbridgefacet-allow-stealing-of-tokens"
+class_name: "TooGenericCallsInGenericbridgefacetAllowStealingOfTokens"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7040 (Spearbit/LI.FI)"
+help: "Too generic calls in GenericBridgeFacet allow stealing of tokens"
+wiki_title: "Too generic calls in GenericBridgeFacet allow stealing of tokens"
+wiki_description: |
+    ## Security Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    - `GenericBridgeFacet.sol#L69-L120`
+    - `LibSwap.sol#L30-L68`
+    
+    ## Description
+    With the contract `GenericBridgeFacet`, the functions `swapAndStartBridgeTokensGeneric()` (via `LibSwap.swap()`) and `_startBridge()` allow arbitrary function calls,
+wiki_exploit_scenario: |
+    Per Solodit #7040: ## Security Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    - `GenericBridgeFacet.sol#L69-L120`
+    - `LibSwap.sol#L30-L68`
+    
+    ## Description
+    With the contract `GenericBridgeFacet`, the functions `swapAndStar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TooGenericCallsInGenericbridgefacetAllowStealingOfTokens"
+solodit_id: "7040"
+solodit_slug: "too-generic-calls-in-genericbridgefacet-allow-stealing-of-tokens-spearbit-lifi-pdf"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Reentrancy, External Call, Access Control"
+state_decl: "uint256 internal completebridgetokensviastargate;"
+fn_name_regex: ".*(GenericBridgeFacet|swapAndStartBridgeTokensGeneric|transferFrom|nonReentrant).*"
+write_var_regex: ".*(completeBridgeTokensViaStargate|nonReentrant|swapAndStartBridgeTokensGeneric).*"
+guard_var_regex: ".*(completeBridgeTokensViaStargate|nonReentrant|swapAndStartBridgeTokensGeneric).*"
+vuln_fn_name: "GenericBridgeFacet"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "completebridgetokensviastargate = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

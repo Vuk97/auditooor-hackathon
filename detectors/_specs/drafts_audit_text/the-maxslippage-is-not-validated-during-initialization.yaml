@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-maxslippage-is-not-validated-during-initialization"
+class_name: "TheMaxslippageIsNotValidatedDuringInitialization"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Frax - Zellic Audit Report"
+help: |
+    The initialize function of the RWARedemptionCoordinator contract does not validate the value of the maxSlippage parameter. As a result, it is possible to initialize the contract wi
+wiki_title: "The maxSlippage is not validated during initialization"
+wiki_description: |
+    The initialize function of the RWARedemptionCoordinator contract does not validate the value of the maxSlippage parameter. As a result, it is possible to initialize the contract with a maxSlippage value that exceeds the PERCENT_SCALE (1e5), which may lead to incorrect slippage checks. function initi
+wiki_exploit_scenario: |
+    Per audit finding: The initialize function of the RWARedemptionCoordinator contract does not validate the value of the maxSlippage parameter. As a result, it is possible to initialize the contract with a maxSlippage val
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheMaxslippageIsNotValidatedDuringInitialization"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxSlippage|wasInitialized).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "maxSlippage"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

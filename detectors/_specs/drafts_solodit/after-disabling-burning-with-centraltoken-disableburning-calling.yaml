@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "after-disabling-burning-with-centraltoken-disableburning-calling"
+class_name: "AfterDisablingBurningWithCentraltokenDisableburningCalling"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63783 (Cyfrin/Remora Dynamic Tokens)"
+help: |
+    After disabling burning with `CentralToken::disableBurning` calling `PaymentSettler::enableBurning` leads to stuck funds
+wiki_title: |
+    After disabling burning with `CentralToken::disableBurning` calling `PaymentSettler::enableBurning` leads to stuck funds
+wiki_description: |
+    **Description:** Burning of child tokens can be disabled, even after `PaymentSettler::enableBurning(...)` is called by and admin calling `CentralToken::disableBurning()` directly.
+    
+    The correct way to re-enable burning is to call `CentralToken::enableBurning(burnPayout)` (even though the `burnPayout`
+wiki_exploit_scenario: |
+    Per Solodit #63783: **Description:** Burning of child tokens can be disabled, even after `PaymentSettler::enableBurning(...)` is called by and admin calling `CentralToken::disableBurning()` directly.
+    
+    The correct way to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AfterDisablingBurningWithCentraltokenDisableburningCalling"
+solodit_id: "63783"
+solodit_slug: |
+    after-disabling-burning-with-centraltokendisableburning-calling-paymentsettlerenableburning-leads-to-stuck-funds-cyfrin-none-remora-dynamic-tokens-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal burnpayout;"
+fn_name_regex: ".*(burnPayout|TokenData|totalBurnPayout|PaymentSettler).*"
+write_var_regex: ".*(burnPayout|preBurnSupply|totalBurnPayout).*"
+guard_var_regex: ".*(burnPayout|preBurnSupply|totalBurnPayout).*"
+vuln_fn_name: "burnPayout"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "burnpayout = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

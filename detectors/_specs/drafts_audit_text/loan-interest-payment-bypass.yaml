@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "loan-interest-payment-bypass"
+class_name: "LoanInterestPaymentBypass"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "hexens audit RociFi SMA_public"
+help: |
+    In LoanManager.sol:repay a user can repay the borrowed amount and generated interest of their loan. The interest is based on the duration and APR. The interest is also added into a
+wiki_title: "LOAN INTEREST PAYMENT BYPASS"
+wiki_description: |
+    In LoanManager.sol:repay a user can repay the borrowed amount and generated interest of their loan. The interest is based on the duration and APR. The interest is also added into a pool’s value with loan.pool.updatePoolValue. The pool’s value determines the worth of a pool’s shares, which are minted
+wiki_exploit_scenario: |
+    Per audit finding: In LoanManager.sol:repay a user can repay the borrowed amount and generated interest of their loan. The interest is based on the duration and APR. The interest is also added into a pool’s value with l
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LoanInterestPaymentBypass"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updatePoolValue|loanId|ifNotPaused).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "updatePoolValue"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

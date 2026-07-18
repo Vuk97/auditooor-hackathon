@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "first-pool-depositor-can-be-front-run-and-have-part-of-their-dep"
+class_name: "FirstPoolDepositorCanBeFrontRunAndHavePartOfTheirDep"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6949 (Spearbit/Maple Finance)"
+help: "First pool depositor can be front-run and have part of their deposit stolen"
+wiki_title: "First pool depositor can be front-run and have part of their deposit stolen"
+wiki_description: |
+    ## High Risk Severity Report
+    
+    ## Context
+    - **File:** pool-v2::Pool.sol
+    - **Line:** #L73
+    
+    ## Description
+    The first deposit with a `totalSupply` of zero shares will mint shares equal to the deposited amount. This makes it possible to deposit the smallest unit of a token and profit off a rounding issue
+wiki_exploit_scenario: |
+    Per Solodit #6949: ## High Risk Severity Report
+    
+    ## Context
+    - **File:** pool-v2::Pool.sol
+    - **Line:** #L73
+    
+    ## Description
+    The first deposit with a `totalSupply` of zero shares will mint shares equal to the deposited am
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FirstPoolDepositorCanBeFrontRunAndHavePartOfTheirDep"
+solodit_id: "6949"
+solodit_slug: |
+    first-pool-depositor-can-be-front-run-and-have-part-of-their-deposit-stolen-spearbit-maple-finance-pdf
+solodit_quality: "4.666666666666667"
+solodit_rarity: "3.666666666666667"
+solodit_tags: "First Depositor Issue"
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(totalSupply|deposit|initialSupply|INITIAL_BURN_AMOUNT).*"
+write_var_regex: ".*(deposit|initialSupply|totalSupply).*"
+guard_var_regex: ".*(deposit|initialSupply|totalSupply).*"
+vuln_fn_name: "totalSupply"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "deposit = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "tokens-with-callback-support-can-inflate-the-actualamount-11"
+class_name: "TokensWithCallbackSupportCanInflateTheActualamount11"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit SatLayer Pool (Patch) - Zellic Audit Report"
+help: |
+    The SatlayerPoolV2::withdraw function does not follow the checks-effects-interactions pattern, and it contains a potential reentrancy issue. function withdraw(address _token) exter
+wiki_title: "Tokens with callback support can inflate the actualAmount                  11"
+wiki_description: |
+    The SatlayerPoolV2::withdraw function does not follow the checks-effects-interactions pattern, and it contains a potential reentrancy issue. function withdraw(address _token) external { if (withdrawAmounts[_token][msg.sender] == 0) revert WithdrawAmountCannotBeZero(); if (block.timestamp < withdrawT
+wiki_exploit_scenario: |
+    Per audit finding: The SatlayerPoolV2::withdraw function does not follow the checks-effects-interactions pattern, and it contains a potential reentrancy issue. function withdraw(address _token) external { if (withdrawAm
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokensWithCallbackSupportCanInflateTheActualamount11"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawAmounts|withdrawTimes|safeTransfer).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "withdrawAmounts"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

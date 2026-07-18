@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-rpl-stake-calculation-during-withdrawal"
+class_name: "IncorrectRplStakeCalculationDuringWithdrawal"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53680 (SigmaPrime/Rocketpool)"
+help: "Incorrect RPL Stake Calculation During Withdrawal"
+wiki_title: "Incorrect RPL Stake Calculation During Withdrawal"
+wiki_description: |
+    ## Description
+    Check on line [415] does not take into account the amount of locked RPL balance, which should not be accounted for in the total withdrawable balance:
+    
+    ```solidity
+    uint256 rplStake = getNodeRPLStake(msg.sender);
+    uint256 lockedStake = getNodeRPLLocked(msg.sender);
+    require(rplStake >= _a
+wiki_exploit_scenario: |
+    Per Solodit #53680: ## Description
+    Check on line [415] does not take into account the amount of locked RPL balance, which should not be accounted for in the total withdrawable balance:
+    
+    ```solidity
+    uint256 rplStake = get
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectRplStakeCalculationDuringWithdrawal"
+solodit_id: "53680"
+solodit_slug: "incorrect-rpl-stake-calculation-during-withdrawal-sigmaprime-none-rocketpool-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rplStake|getNodeRPLStake|lockedStake|getNodeRPLLocked).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rplStake"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-size-check-in-zstd-decompression-32"
+class_name: "MissingSizeCheckInZstdDecompression32"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Jovay Relayer - Zellic Audit Report"
+help: |
+    The RollupAggregator accumulates chunks in memory until a batch is committed. The batch-commit condition only checks the compressed data size against the blob limit, with no restri
+wiki_title: "Missing size check in Zstd decompression                                          32"
+wiki_description: |
+    The RollupAggregator accumulates chunks in memory until a batch is committed. The batch-commit condition only checks the compressed data size against the blob limit, with no restriction on the raw (uncompressed) data size. This creates a dangerous gap: if data compresses extremely well, the raw data
+wiki_exploit_scenario: |
+    Per audit finding: The RollupAggregator accumulates chunks in memory until a batch is committed. The batch-commit condition only checks the compressed data size against the blob limit, with no restriction on the raw (un
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingSizeCheckInZstdDecompression32"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(buildL2NextChunk|getGrowingBatchInfo|chunkList).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "buildL2NextChunk"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

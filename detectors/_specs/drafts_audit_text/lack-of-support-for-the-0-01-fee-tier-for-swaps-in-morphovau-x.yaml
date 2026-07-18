@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-support-for-the-0-01-fee-tier-for-swaps-in-morphovau-x"
+class_name: "LackOfSupportForThe001FeeTierForSwapsInMorphovauX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Concrete - Zellic Audit Report"
+help: |
+    MorphoVaultStrategy performs token swaps on Uniswap for backgroundSwap and _autoCompoundRewards. Prior to a swap, the validateFeeTier function in the UniswapV3HelperV1 library chec
+wiki_title: "Lack of support for the 0.01% fee tier for swaps in MorphoVaultStrategy"
+wiki_description: |
+    MorphoVaultStrategy performs token swaps on Uniswap for backgroundSwap and _autoCompoundRewards. Prior to a swap, the validateFeeTier function in the UniswapV3HelperV1 library checks the pool fee: function validateFeeTier(uint24 fee) public pure { if (fee != 500 && fee != 3000 && fee != 10000) { rev
+wiki_exploit_scenario: |
+    Per audit finding: MorphoVaultStrategy performs token swaps on Uniswap for backgroundSwap and _autoCompoundRewards. Prior to a swap, the validateFeeTier function in the UniswapV3HelperV1 library checks the pool fee: fun
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfSupportForThe001FeeTierForSwapsInMorphovauX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(backgroundSwap|validateFeeTier).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "backgroundSwap"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "h-02-update-market-nextepoch-calculation-incorrect"
+class_name: "H02UpdateMarketNextepochCalculationIncorrect"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30072 (Code4rena/Canto)"
+help: "[H-02] update_market() nextEpoch calculation incorrect"
+wiki_title: "[H-02] update_market() nextEpoch calculation incorrect"
+wiki_description: |
+    A very important logic of `update_market()` is to update `accCantoPerShare`.
+    When updating, if it crosses the epoch boundary, it needs to use the corresponding epoch's `cantoPerBlock[epoch]`.
+    For example:
+    cantoPerBlock\[100000] = 100
+    cantoPerBlock\[200000] = 0       (No reward)
+    lastRewardBlock = 19
+wiki_exploit_scenario: |
+    Per Solodit #30072: A very important logic of `update_market()` is to update `accCantoPerShare`.
+    When updating, if it crosses the epoch boundary, it needs to use the corresponding epoch's `cantoPerBlock[epoch]`.
+    For exa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02UpdateMarketNextepochCalculationIncorrect"
+solodit_id: "30072"
+solodit_slug: "h-02-update_market-nextepoch-calculation-incorrect-code4rena-canto-canto-git"
+solodit_quality: "5"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal acccantopershare;"
+fn_name_regex: ".*(update_market|accCantoPerShare|nextEpoch).*"
+write_var_regex: ".*(accCantoPerShare|nextEpoch|update_market).*"
+guard_var_regex: ".*(accCantoPerShare|nextEpoch|update_market).*"
+vuln_fn_name: "update_market"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "acccantopershare = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

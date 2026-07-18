@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "risk-of-unlimited-slippage-in-nesteddca-swaps"
+class_name: "RiskOfUnlimitedSlippageInNesteddcaSwaps"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29680 (TrailOfBits/Mass)"
+help: "Risk of unlimited slippage in NestedDca swaps"
+wiki_title: "Risk of unlimited slippage in NestedDca swaps"
+wiki_description: |
+    ## Diﬃculty: Low
+    
+    ## Type: Data Validation
+    
+    ## Description
+    
+    The swaps executed by the `NestedDca` contract from Uniswap V3 allow unlimited slippage because the slippage protection is assigned to a memory variable that is not passed on to the next function executing the swap.
+    
+    When executing swaps on
+wiki_exploit_scenario: |
+    Per Solodit #29680: ## Diﬃculty: Low
+    
+    ## Type: Data Validation
+    
+    ## Description
+    
+    The swaps executed by the `NestedDca` contract from Uniswap V3 allow unlimited slippage because the slippage protection is assigned to a mem
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RiskOfUnlimitedSlippageInNesteddcaSwaps"
+solodit_id: "29680"
+solodit_slug: "risk-of-unlimited-slippage-in-nesteddca-swaps-trailofbits-none-mass-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal performdca;"
+fn_name_regex: ".*(NestedDca|swapParams|performDca).*"
+write_var_regex: ".*(performDca|swapParams).*"
+guard_var_regex: ".*(performDca|swapParams).*"
+vuln_fn_name: "NestedDca"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "performdca = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

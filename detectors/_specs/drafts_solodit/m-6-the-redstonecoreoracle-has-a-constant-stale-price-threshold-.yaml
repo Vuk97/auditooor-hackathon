@@ -1,0 +1,49 @@
+skeleton: "state_write_without_paired_write"
+name: "m-6-the-redstonecoreoracle-has-a-constant-stale-price-threshold-"
+class_name: "M6TheRedstonecoreoracleHasAConstantStalePriceThreshold"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41300 (Sherlock/Sentiment V2)"
+help: |
+    M-6: The RedstoneCoreOracle has a constant stale price threshold, this is dangerous to use with tokens that have a smaller threshold as the oracle will report stale prices as valid
+wiki_title: |
+    M-6: The RedstoneCoreOracle has a constant stale price threshold, this is dangerous to use with tokens that have a smaller threshold as the oracle will report s
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-08-sentiment-v2-judging/issues/126 
+    
+    The protocol has acknowledged this issue.
+    
+    ## Found by 
+    000000, AlexCzm, Obsidian, eeshenggoh
+    ### Summary
+    
+    Different tokens have different `STALE_PRICE_THRESHOLD`. The protocol uses a constant `STALE_PRICE_THRESHOLD
+wiki_exploit_scenario: |
+    Per Solodit #41300: Source: https://github.com/sherlock-audit/2024-08-sentiment-v2-judging/issues/126 
+    
+    The protocol has acknowledged this issue.
+    
+    ## Found by 
+    000000, AlexCzm, Obsidian, eeshenggoh
+    ### Summary
+    
+    Different
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M6TheRedstonecoreoracleHasAConstantStalePriceThreshold"
+solodit_id: "41300"
+solodit_slug: |
+    m-6-the-redstonecoreoracle-has-a-constant-stale-price-threshold-this-is-dangerous-to-use-with-tokens-that-have-a-smaller-threshold-as-the-oracle-will-report-stale-prices-as-valid-sherlock-sentiment-v2-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(STALE_PRICE_THRESHOLD).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

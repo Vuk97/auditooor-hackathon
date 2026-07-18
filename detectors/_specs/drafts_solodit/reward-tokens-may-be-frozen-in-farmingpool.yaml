@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "reward-tokens-may-be-frozen-in-farmingpool"
+class_name: "RewardTokensMayBeFrozenInFarmingpool"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28114 (MixBytes/1Inch)"
+help: "Reward tokens may be frozen in `FarmingPool`"
+wiki_title: "Reward tokens may be frozen in `FarmingPool`"
+wiki_description: |
+    ##### Description
+    https://github.com/1inch/farming/blob/7a007ec7784cca2899889e99e46cf06d5788a7d9/contracts/accounting/FarmAccounting.sol#L19
+    Farmed tokens amount is calculated when a farm duration > 0, so if the distributor starts farming with duration 0, nobody will farm and, starting the next farm
+wiki_exploit_scenario: |
+    Per Solodit #28114: ##### Description
+    https://github.com/1inch/farming/blob/7a007ec7784cca2899889e99e46cf06d5788a7d9/contracts/accounting/FarmAccounting.sol#L19
+    Farmed tokens amount is calculated when a farm duration > 0
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RewardTokensMayBeFrozenInFarmingpool"
+solodit_id: "28114"
+solodit_slug: "reward-tokens-may-be-frozen-in-farmingpool-mixbytes-none-1inch-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(FarmingPool).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "FarmingPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

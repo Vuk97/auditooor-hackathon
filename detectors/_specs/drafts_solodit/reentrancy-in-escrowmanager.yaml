@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "reentrancy-in-escrowmanager"
+class_name: "ReentrancyInEscrowmanager"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44334 (MixBytes/EYWA)"
+help: "Reentrancy in `EscrowManager`"
+wiki_title: "Reentrancy in `EscrowManager`"
+wiki_description: |
+    ##### Description
+    
+    OpenZeppelin ERC721 NFT implementations invoke the receiver whenever the `safeTransferFrom()` or `safeMint()` methods are called.
+    
+    A hacker can exploit this mechanism by triggering a callback from `EscrowManager` during the execution of methods such as `createLock()` (when `_safeM
+wiki_exploit_scenario: |
+    Per Solodit #44334: ##### Description
+    
+    OpenZeppelin ERC721 NFT implementations invoke the receiver whenever the `safeTransferFrom()` or `safeMint()` methods are called.
+    
+    A hacker can exploit this mechanism by triggering
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyInEscrowmanager"
+solodit_id: "44334"
+solodit_slug: "reentrancy-in-escrowmanager-mixbytes-none-eywa-markdown"
+solodit_quality: "0"
+solodit_rarity: "5"
+solodit_tags: "Reentrancy"
+state_decl: "uint256 internal createlock;"
+fn_name_regex: ".*(safeTransferFrom|safeMint|EscrowManager|createLock).*"
+read_var_regex: ".*(createLock|deboost|lockAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeTransferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return createlock > 0;"

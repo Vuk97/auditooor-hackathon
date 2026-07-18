@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "h-3-ragetrade-senior-vault-usdc-deposits-are-subject-to-utilizat"
+class_name: "H3RagetradeSeniorVaultUsdcDepositsAreSubjectToUtilizat"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6254 (Sherlock/UXD Protocol)"
+help: |
+    H-3: RageTrade senior vault USDC deposits are subject to utilization caps which can lock deposits for long periods of time leading to UXD instability
+wiki_title: |
+    H-3: RageTrade senior vault USDC deposits are subject to utilization caps which can lock deposits for long periods of time leading to UXD instability
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-uxd-judging/issues/253 
+    
+    ## Found by 
+    clems4ever, ctf\_sec, 0x52, 0xNazgul
+    
+    ## Summary
+    
+    RageTrade senior vault requires that it maintains deposits above and beyond the current amount loaned to the junior vault. Currently this is set at 90%, that is t
+wiki_exploit_scenario: |
+    Per Solodit #6254: Source: https://github.com/sherlock-audit/2023-01-uxd-judging/issues/253 
+    
+    ## Found by 
+    clems4ever, ctf\_sec, 0x52, 0xNazgul
+    
+    ## Summary
+    
+    RageTrade senior vault requires that it maintains deposits abo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H3RagetradeSeniorVaultUsdcDepositsAreSubjectToUtilizat"
+solodit_id: "6254"
+solodit_slug: |
+    h-3-ragetrade-senior-vault-usdc-deposits-are-subject-to-utilization-caps-which-can-lock-deposits-for-long-periods-of-time-leading-to-uxd-instability-sherlock-uxd-uxd-protocol-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Min/Max Cap Validation, Business Logic"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(beforeWithdraw|maxUtilization|totalUsdcBorrowed|totalAssets).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "beforeWithdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,49 @@
+skeleton: "paired_function_divergence"
+name: "m-01-award-is-still-distributed-when-there-aren-t-any-stakers-al"
+class_name: "M01AwardIsStillDistributedWhenThereArenTAnyStakersAl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16041 (Code4rena/Mute.io)"
+help: |
+    [M-01] Award is still distributed when there aren't any stakers, allowing users to get reward without staking
+wiki_title: |
+    [M-01] Award is still distributed when there aren't any stakers, allowing users to get reward without staking
+wiki_description: |
+    Consider the update modifier for the amplifier.
+    
+        modifier update() {
+                if (_mostRecentValueCalcTime == 0) {
+                    _mostRecentValueCalcTime = firstStakeTime;
+                }
+    
+                uint256 totalCurrentStake = totalStake();
+    
+                if (totalCurrentStake > 0 && _mostRe
+wiki_exploit_scenario: |
+    Per Solodit #16041: Consider the update modifier for the amplifier.
+    
+        modifier update() {
+                if (_mostRecentValueCalcTime == 0) {
+                    _mostRecentValueCalcTime = firstStakeTime;
+                }
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01AwardIsStillDistributedWhenThereArenTAnyStakersAl"
+solodit_id: "16041"
+solodit_slug: |
+    m-01-award-is-still-distributed-when-there-arent-any-stakers-allowing-users-to-get-reward-without-staking-code4rena-muteio-mute-switch-versus-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

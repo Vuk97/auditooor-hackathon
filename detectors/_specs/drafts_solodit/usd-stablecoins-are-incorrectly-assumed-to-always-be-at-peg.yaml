@@ -1,0 +1,33 @@
+skeleton: "paired_function_divergence"
+name: "usd-stablecoins-are-incorrectly-assumed-to-always-be-at-peg"
+class_name: "UsdStablecoinsAreIncorrectlyAssumedToAlwaysBeAtPeg"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #38336 (Cyfrin/The Standard Smart Vault)"
+help: "USD stablecoins are incorrectly assumed to always be at peg"
+wiki_title: "USD stablecoins are incorrectly assumed to always be at peg"
+wiki_description: |
+    **Description:** [`SmartVaultV4::yieldVaultCollateral`](https://github.com/the-standard/smart-vault/blob/c6837d4a296fe8a6e4bb5e0280a66d6eb8a40361/contracts/SmartVaultV4.sol#L79-L103) returns the value of collateral held in yield positions for a given Smart Vault. For all Gamma Vaults other than the
+wiki_exploit_scenario: |
+    Per Solodit #38336: **Description:** [`SmartVaultV4::yieldVaultCollateral`](https://github.com/the-standard/smart-vault/blob/c6837d4a296fe8a6e4bb5e0280a66d6eb8a40361/contracts/SmartVaultV4.sol#L79-L103) returns the value
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsdStablecoinsAreIncorrectlyAssumedToAlwaysBeAtPeg"
+solodit_id: "38336"
+solodit_slug: |
+    usd-stablecoins-are-incorrectly-assumed-to-always-be-at-peg-cyfrin-none-the-standard-smart-vault-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

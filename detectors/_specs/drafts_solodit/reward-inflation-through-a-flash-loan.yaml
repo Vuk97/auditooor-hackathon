@@ -1,0 +1,38 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "reward-inflation-through-a-flash-loan"
+class_name: "RewardInflationThroughAFlashLoan"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #59251 (Quantstamp/Sperax - Farms)"
+help: "Reward Inflation Through a Flash Loan"
+wiki_title: "Reward Inflation Through a Flash Loan"
+wiki_description: |
+    **Update**
+    Marked as "Fixed" by the client. Addressed in: `e1359d81959883d4485f09e48e28afa970627d89`. The client provided the following explanation:
+    
+    > Added a depositTs in struct Deposit, it is updated in deposit() and increaseDeposit() and validated in withdraw() and decreaseDeposit()
+    
+    This has be
+wiki_exploit_scenario: |
+    Per Solodit #59251: **Update**
+    Marked as "Fixed" by the client. Addressed in: `e1359d81959883d4485f09e48e28afa970627d89`. The client provided the following explanation:
+    
+    > Added a depositTs in struct Deposit, it is updat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RewardInflationThroughAFlashLoan"
+solodit_id: "59251"
+solodit_slug: "reward-inflation-through-a-flash-loan-quantstamp-sperax-farms-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(e1359d81959883d4485f09e48e28afa970627d89|Deposit).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

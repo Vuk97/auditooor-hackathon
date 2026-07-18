@@ -1,0 +1,19 @@
+id: expired-debt-ceiling-storage
+title: "Expired debt-ceiling storage disables borrow limit checks"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44849"
+bug_class: ttl-archival
+indicators:
+  - "`get_debt_ceiling(asset).unwrap_or(0)` or `unwrap_or(u128::MAX)` on expired key"
+  - "missing ceiling interpreted as 'no ceiling' (unlimited)"
+victim: "Protocol: debt grows past intended limit after TTL expiry."
+exploit_precondition: "Debt-ceiling key ages out."
+real_world_example: |
+  V12 #44849 (High, V12-self-invalidated on v23): Expired debt-ceiling storage disables borrow limit checks.
+suggested_remediation: "Fail-closed on missing ceiling; store in instance storage."
+cross_refs:
+  - ttl-archival-unwrap-or-zero-hides-debt

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-sendoft-function-call-can-be-blocked"
+class_name: "TheSendoftFunctionCallCanBeBlocked"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero OFT Wrapper Audit (January 19th 2023) - Zellic Audit Report"
+help: |
+    The contract owner can set any bps value of the variables defaultBps and the oftBps [_oft] in the range from 0 to the maximum BPS_DENOMINATOR inclusive. But during the sendOFT func
+wiki_title: "The sendOFT function call can be blocked"
+wiki_description: |
+    The contract owner can set any bps value of the variables defaultBps and the oftBps [_oft] in the range from 0 to the maximum BPS_DENOMINATOR inclusive. But during the sendOFT function call, the getAmountAndFees function will check that the final bps value is less than BPS_DENOMINATOR and revert the
+wiki_exploit_scenario: |
+    Per audit finding: The contract owner can set any bps value of the variables defaultBps and the oftBps [_oft] in the range from 0 to the maximum BPS_DENOMINATOR inclusive. But during the sendOFT function call, the getAm
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheSendoftFunctionCallCanBeBlocked"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(defaultBps|oftBps|sendOFT).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "defaultBps"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

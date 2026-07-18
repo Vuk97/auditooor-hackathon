@@ -1,0 +1,58 @@
+skeleton: "name_match_missing_call"
+name: "slippagetol-does-not-adjust-for-decimal-differences"
+class_name: "SlippagetolDoesNotAdjustForDecimalDifferences"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7237 (Spearbit/Connext)"
+help: "_slippageTol does not adjust for decimal differences"
+wiki_title: "_slippageTol does not adjust for decimal differences"
+wiki_description: |
+    ## Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    AssetLogic.sol#L273
+    
+    ## Description
+    Users set the slippage tolerance in percentage. The `assetLogic` calculates:
+    
+    ```
+    minReceived = (_amount * _slippageTol) / s.LIQUIDITY_FEE_DENOMINATOR
+    ```
+    
+    Then `assetLogic` uses `minReceived` in the
+wiki_exploit_scenario: |
+    Per Solodit #7237: ## Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    AssetLogic.sol#L273
+    
+    ## Description
+    Users set the slippage tolerance in percentage. The `assetLogic` calculates:
+    
+    ```
+    minReceived = (_a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SlippagetolDoesNotAdjustForDecimalDifferences"
+solodit_id: "7237"
+solodit_slug: "slippagetol-does-not-adjust-for-decimal-differences-spearbit-connext-pdf"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Wrong Math, Decimals"
+state_decl: "uint256 internal assetin;"
+fn_name_regex: ".*(assetLogic|minReceived|assetIn|assetOut).*"
+read_var_regex: ".*(assetIn|assetLogic|assetOut).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "assetLogic"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assetin > 0;"

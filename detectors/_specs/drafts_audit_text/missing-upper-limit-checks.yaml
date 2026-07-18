@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-upper-limit-checks"
+class_name: "MissingUpperLimitChecks"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "hexens audit Babylon-jan-2023"
+help: |
+    The function BabylonCore.sol:startListing doesn’t check an upper limit for some variables. For example: ● timeStart (creator can start a listing and indicate a timestamp for a very
+wiki_title: "MISSING UPPER LIMIT CHECKS"
+wiki_description: |
+    The function BabylonCore.sol:startListing doesn’t check an upper limit for some variables. For example: ● timeStart (creator can start a listing and indicate a timestamp for a very long period of time) ● totalTickets (creator can start a listing and indicate a very large number of tickets) ● price (
+wiki_exploit_scenario: |
+    Per audit finding: The function BabylonCore.sol:startListing doesn’t check an upper limit for some variables. For example: ● timeStart (creator can start a listing and indicate a timestamp for a very long period of time
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingUpperLimitChecks"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(startListing|timeStart|totalTickets).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "startListing"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

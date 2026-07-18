@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-13-rentpayload-s-signature-can-be-replayed"
+class_name: "M13RentpayloadSSignatureCanBeReplayed"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30540 (Code4rena/reNFT)"
+help: "[M-13] `RentPayload`'s signature can be replayed"
+wiki_title: "[M-13] `RentPayload`'s signature can be replayed"
+wiki_description: |
+    A malicious user could potentially fulfill all `PAY` orders that own the same value of `zonehash`.
+    
+    ### Proof of Concept
+    
+    The rental process in `reNFT` can simply be described as follows:
+    
+    1.  `lender` create either `BASE` or `PAY` order, which includes a `zoneHash`.
+    2.  `renter` fulfills the renta
+wiki_exploit_scenario: |
+    Per Solodit #30540: A malicious user could potentially fulfill all `PAY` orders that own the same value of `zonehash`.
+    
+    ### Proof of Concept
+    
+    The rental process in `reNFT` can simply be described as follows:
+    
+    1.  `lende
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M13RentpayloadSSignatureCanBeReplayed"
+solodit_id: "30540"
+solodit_slug: "m-13-rentpayloads-signature-can-be-replayed-code4rena-renft-renft-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Replay Attack"
+state_decl: "uint256 internal fulfiller;"
+fn_name_regex: ".*(PAY|zonehash|reNFT|lender).*"
+read_var_regex: ".*(fulfiller|lender|metadata).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "PAY"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return fulfiller > 0;"

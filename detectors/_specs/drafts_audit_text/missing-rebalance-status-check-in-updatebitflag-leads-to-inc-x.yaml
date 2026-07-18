@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-rebalance-status-check-in-updatebitflag-leads-to-inc-x"
+class_name: "MissingRebalanceStatusCheckInUpdatebitflagLeadsToIncX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Cove - Zellic Audit Report"
+help: |
+    The updateBitFlag() function lacks a rebalance-status check. function updateBitFlag(address basket, uint256 bitFlag) external onlyRole(_TIMELOCK_ROLE) { // Checks // Check if baske
+wiki_title: "Missing rebalance-status check in updateBitFlag() leads to incorrect rebal-"
+wiki_description: |
+    The updateBitFlag() function lacks a rebalance-status check. function updateBitFlag(address basket, uint256 bitFlag) external onlyRole(_TIMELOCK_ROLE) { // Checks // Check if basket exists uint256 indexPlusOne = _bmStorage.basketTokenToIndexPlusOne[basket]; if (indexPlusOne == 0) { revert BasketToke
+wiki_exploit_scenario: |
+    Per audit finding: The updateBitFlag() function lacks a rebalance-status check. function updateBitFlag(address basket, uint256 bitFlag) external onlyRole(_TIMELOCK_ROLE) { // Checks // Check if basket exists uint256 ind
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingRebalanceStatusCheckInUpdatebitflagLeadsToIncX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateBitFlag|bitFlag|onlyRole).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "updateBitFlag"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

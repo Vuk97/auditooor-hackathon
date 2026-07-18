@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-25-incorrect-assumption-in-poolmath-sol-can-cause-underflow-wh"
+class_name: "M25IncorrectAssumptionInPoolmathSolCanCauseUnderflowWh"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31136 (Code4rena/Salty.IO)"
+help: "[M-25] Incorrect assumption in PoolMath.sol can cause underflow when zapping is used"
+wiki_title: "[M-25] Incorrect assumption in PoolMath.sol can cause underflow when zapping is used"
+wiki_description: |
+    [\_zapSwapAmount()](https://github.com/code-423n4/2024-01-salty/blob/main/src/pools/PoolMath.sol#L191-L192) assumes that:
+    
+    ```js
+    191:		// r1 * z0 guaranteed to be greater than r0 * z1 per the conditional check in _determineZapSwapAmount
+    192:        uint256 C = r0 * ( r1 * z0 - r0 * z1 ) / ( r1 + z1
+wiki_exploit_scenario: |
+    Per Solodit #31136: [\_zapSwapAmount()](https://github.com/code-423n4/2024-01-salty/blob/main/src/pools/PoolMath.sol#L191-L192) assumes that:
+    
+    ```js
+    191:		// r1 * z0 guaranteed to be greater than r0 * z1 per the conditi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M25IncorrectAssumptionInPoolmathSolCanCauseUnderflowWh"
+solodit_id: "31136"
+solodit_slug: |
+    m-25-incorrect-assumption-in-poolmathsol-can-cause-underflow-when-zapping-is-used-code4rena-saltyio-saltyio-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal maximummsb;"
+fn_name_regex: ".*(maximumMSB).*"
+read_var_regex: ".*(maximumMSB).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "maximumMSB"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return maximummsb > 0;"

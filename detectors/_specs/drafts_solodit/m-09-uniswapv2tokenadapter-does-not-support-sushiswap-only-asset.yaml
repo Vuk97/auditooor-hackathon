@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-09-uniswapv2tokenadapter-does-not-support-sushiswap-only-asset"
+class_name: "M09Uniswapv2tokenadapterDoesNotSupportSushiswapOnlyAsset"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42303 (Code4rena/Mochi)"
+help: "[M-09] `UniswapV2TokenAdapter` does not support Sushiswap-only assets"
+wiki_title: "[M-09] `UniswapV2TokenAdapter` does not support Sushiswap-only assets"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `UniswapV2TokenAdapter.supports` function calls its `aboveLiquidity` function which returns the UniswapV2 liquidity if the pair exists.
+    If this is below `minimumLiquidity`, the `supports` function will return `false`.
+    
+    However, it could be that the `Sushiswap` pair has lo
+wiki_exploit_scenario: |
+    Per Solodit #42303: _Submitted by cmichel_
+    
+    The `UniswapV2TokenAdapter.supports` function calls its `aboveLiquidity` function which returns the UniswapV2 liquidity if the pair exists.
+    If this is below `minimumLiquidity`,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09Uniswapv2tokenadapterDoesNotSupportSushiswapOnlyAsset"
+solodit_id: "42303"
+solodit_slug: "m-09-uniswapv2tokenadapter-does-not-support-sushiswap-only-assets-code4rena-mochi-mochi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal aboveliquidity;"
+fn_name_regex: ".*(aboveLiquidity|minimumLiquidity|supports|Sushiswap).*"
+read_var_regex: ".*(aboveLiquidity|minimumLiquidity|supports).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "aboveLiquidity"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return aboveliquidity > 0;"

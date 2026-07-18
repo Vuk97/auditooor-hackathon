@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-5-positionmanager-will-revert-when-trying-to-return-back-to-us"
+class_name: "M5PositionmanagerWillRevertWhenTryingToReturnBackToUs"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30628 (Sherlock/Smilee Finance)"
+help: |
+    M-5: PositionManager will revert when trying to return back to user excess of the premium transferred from the user when minting position
+wiki_title: |
+    M-5: PositionManager will revert when trying to return back to user excess of the premium transferred from the user when minting position
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-02-smilee-finance-judging/issues/40 
+    
+    ## Found by 
+    juan, panprog
+    ## Summary
+    
+    `PositionManager.mint` calculates preliminary premium to be paid for buying the option and transfers it from the user. The actual premium paid may differ, and if it's smaller,
+wiki_exploit_scenario: |
+    Per Solodit #30628: Source: https://github.com/sherlock-audit/2024-02-smilee-finance-judging/issues/40 
+    
+    ## Found by 
+    juan, panprog
+    ## Summary
+    
+    `PositionManager.mint` calculates preliminary premium to be paid for buying
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M5PositionmanagerWillRevertWhenTryingToReturnBackToUs"
+solodit_id: "30628"
+solodit_slug: |
+    m-5-positionmanager-will-revert-when-trying-to-return-back-to-user-excess-of-the-premium-transferred-from-the-user-when-minting-position-sherlock-smilee-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Denial-Of-Service"
+state_decl: "uint256 internal safetransferfrom;"
+fn_name_regex: ".*(safeTransferFrom|PositionManager|transferFrom).*"
+read_var_regex: ".*(safeTransferFrom|transferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeTransferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return safetransferfrom > 0;"

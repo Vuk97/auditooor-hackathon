@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_require"
+name: "missing-owner-check-on-from-when-transferring-tokens"
+class_name: "MissingOwnerCheckOnFromWhenTransferringTokens"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7256 (Spearbit/CLOBER)"
+help: "Missing owner check on from when transferring tokens"
+wiki_title: "Missing owner check on from when transferring tokens"
+wiki_description: |
+    ## Security Report
+    
+    ## Severity: High Risk
+    
+    ### Context
+    `OrderNFT.sol#L207`
+    
+    ### Description
+    The `OrderNFT.transferFrom`/`safeTransferFrom` methods use the internal `_transfer` function. While they check approvals on `msg.sender` through `_isApprovedOrOwner(msg.sender, tokenId)`, it is never checked
+wiki_exploit_scenario: |
+    Per Solodit #7256: ## Security Report
+    
+    ## Severity: High Risk
+    
+    ### Context
+    `OrderNFT.sol#L207`
+    
+    ### Description
+    The `OrderNFT.transferFrom`/`safeTransferFrom` methods use the internal `_transfer` function. While they ch
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingOwnerCheckOnFromWhenTransferringTokens"
+solodit_id: "7256"
+solodit_slug: "missing-owner-check-on-from-when-transferring-tokens-spearbit-clober-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation, Ownership, NFT"
+state_decl: "uint256 internal from;"
+fn_name_regex: ".*(safeTransferFrom|from|transferFrom).*"
+write_var_regex: ".*(from|safeTransferFrom|transferFrom).*"
+guard_var_regex: ".*(from|safeTransferFrom|transferFrom).*"
+vuln_fn_name: "safeTransferFrom"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "from = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

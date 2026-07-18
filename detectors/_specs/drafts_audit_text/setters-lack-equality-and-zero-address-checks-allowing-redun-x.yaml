@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "setters-lack-equality-and-zero-address-checks-allowing-redun-x"
+class_name: "SettersLackEqualityAndZeroAddressChecksAllowingRedunX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-10-ramses-exchange"
+help: |
+    [L-12] Setters lack equality and zero address checks, allowing redundant updates and risk of invalid address assignment Setting the same address as the existing feeCollector result
+wiki_title: |
+    Setters lack equality and zero address checks, allowing redundant updates and risk of invalid address assignment Setting the same address as the existing feeCol
+wiki_description: |
+    [L-12] Setters lack equality and zero address checks, allowing redundant updates and risk of invalid address assignment Setting the same address as the existing feeCollector results in unnecessary events being emitted and wasted gas costs. If the fee collector is mistakenly set to address(0) , any c
+wiki_exploit_scenario: |
+    Per audit finding: [L-12] Setters lack equality and zero address checks, allowing redundant updates and risk of invalid address assignment Setting the same address as the existing feeCollector results in unnecessary eve
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SettersLackEqualityAndZeroAddressChecksAllowingRedunX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(feeCollector|setFeeCollector|advancePeriod).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "feeCollector"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

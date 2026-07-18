@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "islong-flag-not-reset-on-liquidation-long-position-grief"
+class_name: "IslongFlagNotResetOnLiquidationLongPositionGrief"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ae"
+help: |
+    liquidatePosition deletes margin but not isLong; stale flag causes _updatePosition to call _close on zero-amount position, reverting; attacker blocks all new longs.
+wiki_title: "isLong Flag Not Reset on Liquidation — Long Position Grief"
+wiki_description: |
+    liquidatePosition deletes margin but not isLong; stale flag causes _updatePosition to call _close on zero-amount position, reverting; attacker blocks all new longs.
+wiki_exploit_scenario: |
+    Attacker exploits isLong Flag Not Reset on Liquidation — Long Position Grief as described: liquidatePosition deletes margin but not isLong; stale flag causes _updatePosition to call _close on zero-amount position, reverting; attacker blocks all new longs.
+wiki_recommendation: "liquidation functions that zero position.amount without resetting position.isLong."
+contract_name: "IslongFlagNotResetOnLiquidationLongPositionGrief"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(islong|flag|reset).*"
+read_var_regex: ".*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "islong"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

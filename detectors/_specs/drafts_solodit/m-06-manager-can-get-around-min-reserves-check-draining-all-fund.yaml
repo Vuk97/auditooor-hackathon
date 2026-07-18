@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "m-06-manager-can-get-around-min-reserves-check-draining-all-fund"
+class_name: "M06ManagerCanGetAroundMinReservesCheckDrainingAllFund"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6068 (Code4rena/prePO)"
+help: "[M-06] Manager can get around min reserves check, draining all funds from Collateral.sol"
+wiki_title: "[M-06] Manager can get around min reserves check, draining all funds from Collateral.sol"
+wiki_description: |
+    When a manager withdraws funds from Collateral.sol, there is a check in the `managerWithdrawHook` to confirm that they aren't pushing the contract below the minimum reserve balance.
+    
+    ```solidity
+    require(collateral.getReserve() - _amountAfterFee >= getMinReserve(), "reserve would fall below minimum"
+wiki_exploit_scenario: |
+    Per Solodit #6068: When a manager withdraws funds from Collateral.sol, there is a check in the `managerWithdrawHook` to confirm that they aren't pushing the contract below the minimum reserve balance.
+    
+    ```solidity
+    requ
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06ManagerCanGetAroundMinReservesCheckDrainingAllFund"
+solodit_id: "6068"
+solodit_slug: |
+    m-06-manager-can-get-around-min-reserves-check-draining-all-funds-from-collateralsol-code4rena-prepo-prepo-contest-git
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Bypass limit"
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(managerWithdrawHook|withdraw|deposit|managerWithdraw).*"
+write_var_regex: ".*(deposit|managerWithdraw|managerWithdrawHook).*"
+guard_var_regex: ".*(deposit|managerWithdraw|managerWithdrawHook).*"
+vuln_fn_name: "managerWithdrawHook"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "deposit = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

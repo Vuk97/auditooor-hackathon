@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "m-14-placebid-possible-participation-in-auctions-that-have-been-"
+class_name: "M14PlacebidPossibleParticipationInAuctionsThatHaveBeen"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20783 (Code4rena/Venus Protocol)"
+help: "[M-14] placeBid() Possible participation in auctions that have been modified"
+wiki_title: "[M-14] placeBid() Possible participation in auctions that have been modified"
+wiki_description: |
+    `placeBid()` lacks checking if auctions are restarted and participated in that are not expected by the user, which may result in the user losing funds.
+    
+    ### Proof of Concept
+    
+    When the user makes a bid, simply pass in `comptroller` and `bidBps` with the following code:
+    
+    ```solidity
+        function plac
+wiki_exploit_scenario: |
+    Per Solodit #20783: `placeBid()` lacks checking if auctions are restarted and participated in that are not expected by the user, which may result in the user losing funds.
+    
+    ### Proof of Concept
+    
+    When the user makes a bi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14PlacebidPossibleParticipationInAuctionsThatHaveBeen"
+solodit_id: "20783"
+solodit_slug: |
+    m-14-placebid-possible-participation-in-auctions-that-have-been-modified-code4rena-venus-protocol-venus-protocol-isolated-pools-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bidbps;"
+fn_name_regex: ".*(placeBid|comptroller|bidBps|Auction).*"
+write_var_regex: ".*(bidBps|comptroller|placeBid).*"
+guard_var_regex: ".*(bidBps|comptroller|placeBid).*"
+vuln_fn_name: "placeBid"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "bidbps = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

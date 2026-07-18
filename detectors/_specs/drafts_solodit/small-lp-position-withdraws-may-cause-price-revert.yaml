@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "small-lp-position-withdraws-may-cause-price-revert"
+class_name: "SmallLpPositionWithdrawsMayCausePriceRevert"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63527 (MixBytes/Notional Finance)"
+help: "Small LP Position Withdraws May Cause `price()` Revert"
+wiki_title: "Small LP Position Withdraws May Cause `price()` Revert"
+wiki_description: |
+    ##### Description
+    When `BaseLPLib.initiateWithdraw()` is called and a user has a very small LP position, the proportional exit 
+    from the Curve/Convex pool can return `exitBalances[i] == 0` for one of the two tokens (due to integer division and token decimals).
+    
+    A withdraw request in `initiateWithdra
+wiki_exploit_scenario: |
+    Per Solodit #63527: ##### Description
+    When `BaseLPLib.initiateWithdraw()` is called and a user has a very small LP position, the proportional exit 
+    from the Curve/Convex pool can return `exitBalances[i] == 0` for one of
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SmallLpPositionWithdrawsMayCausePriceRevert"
+solodit_id: "63527"
+solodit_slug: "small-lp-position-withdraws-may-cause-price-revert-mixbytes-none-notional-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getwithdrawrequestvalue;"
+fn_name_regex: ".*(initiateWithdraw|require|getWithdrawRequestValue|price).*"
+write_var_regex: ".*(getWithdrawRequestValue|initiateWithdraw|require).*"
+guard_var_regex: ".*(getWithdrawRequestValue|initiateWithdraw|require).*"
+vuln_fn_name: "initiateWithdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "getwithdrawrequestvalue = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "m-09-decrementweightuntilfree-has-a-possible-infinite-loop"
+class_name: "M09DecrementweightuntilfreeHasAPossibleInfiniteLoop"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26078 (Code4rena/Maia DAO Ecosystem)"
+help: "[M-09] `_decrementWeightUntilFree()` has a possible infinite loop"
+wiki_title: "[M-09] `_decrementWeightUntilFree()` has a possible infinite loop"
+wiki_description: |
+    ### Proof of Concept
+    
+    In the loop of the `_decrementWeightUntilFree()` method, the position of `i++` is wrong, which may lead to an infinite loop.
+    
+    ```solidity
+        function _decrementWeightUntilFree(address user, uint256 weight) internal nonReentrant {
+    ...
+            for (uint256 i = 0; i < size && (u
+wiki_exploit_scenario: |
+    Per Solodit #26078: ### Proof of Concept
+    
+    In the loop of the `_decrementWeightUntilFree()` method, the position of `i++` is wrong, which may lead to an infinite loop.
+    
+    ```solidity
+        function _decrementWeightUntilFree(
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09DecrementweightuntilfreeHasAPossibleInfiniteLoop"
+solodit_id: "26078"
+solodit_slug: |
+    m-09-_decrementweightuntilfree-has-a-possible-infinite-loop-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(nonReentrant|userFreeWeight|totalFreed|gaugeList).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "nonReentrant"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

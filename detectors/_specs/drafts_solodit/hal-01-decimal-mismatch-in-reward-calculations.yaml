@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "hal-01-decimal-mismatch-in-reward-calculations"
+class_name: "Hal01DecimalMismatchInRewardCalculations"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52659 (Halborn/Harvest Strategy - Base)"
+help: "(HAL-01) Decimal mismatch in reward calculations"
+wiki_title: "(HAL-01) Decimal mismatch in reward calculations"
+wiki_description: |
+    ##### Description
+    
+    When computing rewards, the `PotPool` contract uses the pool’s **LP token decimals** (set via `_setupDecimals`) in `rewardPerToken(...)` and then divides by `10^(rewardToken.decimals())` in the `earned(...)` function. In other words:
+    
+    * `rewardPerToken(rt)` multiplies by `10^(pool
+wiki_exploit_scenario: |
+    Per Solodit #52659: ##### Description
+    
+    When computing rewards, the `PotPool` contract uses the pool’s **LP token decimals** (set via `_setupDecimals`) in `rewardPerToken(...)` and then divides by `10^(rewardToken.decimal
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Hal01DecimalMismatchInRewardCalculations"
+solodit_id: "52659"
+solodit_slug: |
+    hal-01-decimal-mismatch-in-reward-calculations-halborn-harvest-finance-harvest-strategy-base-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal earned;"
+fn_name_regex: ".*(PotPool|rewardPerToken|earned).*"
+read_var_regex: ".*(earned|rewardPerToken).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "PotPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return earned > 0;"

@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "m-01-reentrancy-at-requestloan-allows-requesting-a-loan-without-"
+class_name: "M01ReentrancyAtRequestloanAllowsRequestingALoanWithout"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2131 (Code4rena/Abracadabra Money)"
+help: "[M-01] Reentrancy at _requestLoan allows requesting a loan without supplying collateral"
+wiki_title: "[M-01] Reentrancy at _requestLoan allows requesting a loan without supplying collateral"
+wiki_description: |
+    _Submitted by kenzo, also found by WatchPug, GimelSec, Czar102, and AuditsAreUS_
+    
+    <https://github.com/code-423n4/2022-04-abranft/blob/main/contracts/NFTPair.sol#L218>
+    
+    <https://github.com/code-423n4/2022-04-abranft/blob/main/contracts/NFTPairWithOracle.sol#L238>
+    
+    `_requestLoan` makes an external cal
+wiki_exploit_scenario: |
+    Per Solodit #2131: _Submitted by kenzo, also found by WatchPug, GimelSec, Czar102, and AuditsAreUS_
+    
+    <https://github.com/code-423n4/2022-04-abranft/blob/main/contracts/NFTPair.sol#L218>
+    
+    <https://github.com/code-423n4/2
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01ReentrancyAtRequestloanAllowsRequestingALoanWithout"
+solodit_id: "2131"
+solodit_slug: |
+    m-01-reentrancy-at-_requestloan-allows-requesting-a-loan-without-supplying-collateral-code4rena-abracadabra-money-abranft-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(afterTokenTransfer|removeCollateral|requestLoan).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

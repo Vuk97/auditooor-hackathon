@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "swelllib-bot-can-delete-active-validators-when-bot-methods-are-p"
+class_name: "SwelllibBotCanDeleteActiveValidatorsWhenBotMethodsAreP"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31978 (Cyfrin/Swell Barracuda)"
+help: "`SwellLib.BOT` can delete active validators when bot methods are paused"
+wiki_title: "`SwellLib.BOT` can delete active validators when bot methods are paused"
+wiki_description: |
+    **Description:** Almost all of the functions callable by `SwellLib.BOT` contain the following check to prevent bot functions from working when bot methods are paused:
+    
+    ```solidity
+    if (AccessControlManager.botMethodsPaused()) {
+      revert SwellLib.BotMethodsPaused();
+    }
+    ```
+    
+    The one exception is [`NodeO
+wiki_exploit_scenario: |
+    Per Solodit #31978: **Description:** Almost all of the functions callable by `SwellLib.BOT` contain the following check to prevent bot functions from working when bot methods are paused:
+    
+    ```solidity
+    if (AccessControlMan
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwelllibBotCanDeleteActiveValidatorsWhenBotMethodsAreP"
+solodit_id: "31978"
+solodit_slug: |
+    swelllibbot-can-delete-active-validators-when-bot-methods-are-paused-cyfrin-none-cyfrin-swell-barracuda-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(botMethodsPaused|deleteActiveValidators|isBot|hasRole).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "botMethodsPaused"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

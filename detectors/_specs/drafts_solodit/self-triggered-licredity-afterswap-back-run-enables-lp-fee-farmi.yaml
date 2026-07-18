@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "self-triggered-licredity-afterswap-back-run-enables-lp-fee-farmi"
+class_name: "SelfTriggeredLicredityAfterswapBackRunEnablesLpFeeFarmi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62349 (Cyfrin/Licredity)"
+help: "Self-triggered `Licredity::_afterSwap` back-run enables LP fee farming"
+wiki_title: "Self-triggered `Licredity::_afterSwap` back-run enables LP fee farming"
+wiki_description: |
+    **Description:** When price hits or goes below 1, [`Licredity::_afterSwap`](https://github.com/Licredity/licredity-v1-core/blob/e8ae10a7d9f27529e39ca277bf56cef01a807817/src/Licredity.sol#L734-L753) auto back-runs a swap to push price up:
+    ```solidity
+    if (sqrtPriceX96 <= ONE_SQRT_PRICE_X96) {
+        // b
+wiki_exploit_scenario: |
+    Per Solodit #62349: **Description:** When price hits or goes below 1, [`Licredity::_afterSwap`](https://github.com/Licredity/licredity-v1-core/blob/e8ae10a7d9f27529e39ca277bf56cef01a807817/src/Licredity.sol#L734-L753) au
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SelfTriggeredLicredityAfterswapBackRunEnablesLpFeeFarmi"
+solodit_id: "62349"
+solodit_slug: "self-triggered-licredity_afterswap-back-run-enables-lp-fee-farming-cyfrin-none-licredity-markdown"
+solodit_quality: "5"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal baseamountavailable;"
+fn_name_regex: ".*(baseAmountAvailable|debtAmountOutstanding).*"
+read_var_regex: ".*(baseAmountAvailable|debtAmountOutstanding).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "baseAmountAvailable"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return baseamountavailable > 0;"

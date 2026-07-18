@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "future-stakers-are-paid-with-rewards-that-have-been-accrued-from"
+class_name: "FutureStakersArePaidWithRewardsThatHaveBeenAccruedFrom"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35294 (Codehawks/TempleGold)"
+help: |
+    Future stakers are paid with rewards that have been accrued from the past due to miscalculation in userRewardPerTokenPaid and _perTokenReward.
+wiki_title: |
+    Future stakers are paid with rewards that have been accrued from the past due to miscalculation in userRewardPerTokenPaid and _perTokenReward.
+wiki_description: |
+    ## Summary
+    
+    Furure stakers are always vested rewards using the total `rewardPerToken` without deducting how much `rewardPerToken` has already been accumulated before they stake.
+    
+    Any new staker will be rewarded with `rewardData.rewardPerTokenStored` that have been accumulated since creation of contr
+wiki_exploit_scenario: |
+    Per Solodit #35294: ## Summary
+    
+    Furure stakers are always vested rewards using the total `rewardPerToken` without deducting how much `rewardPerToken` has already been accumulated before they stake.
+    
+    Any new staker will b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FutureStakersArePaidWithRewardsThatHaveBeenAccruedFrom"
+solodit_id: "35294"
+solodit_slug: |
+    future-stakers-are-paid-with-rewards-that-have-been-accrued-from-the-past-due-to-miscalculation-in-userrewardpertokenpaid-and-_pertokenreward-codehawks-templegold-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal rewardpertoken;"
+fn_name_regex: ".*(rewardPerToken|stake|updateReward|userRewardPerTokenPaid).*"
+read_var_regex: ".*(rewardPerToken|stake|updateReward).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rewardPerToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return rewardpertoken > 0;"

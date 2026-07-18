@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-07-malicious-users-are-able-to-bypass-the-tax-payment-using-ma"
+class_name: "M07MaliciousUsersAreAbleToBypassTheTaxPaymentUsingMa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29355 (Code4rena/Open Dollar)"
+help: "[M-07] Malicious users are able to bypass the Tax payment using making a Fake BasicActions Contract"
+wiki_title: "[M-07] Malicious users are able to bypass the Tax payment using making a Fake BasicActions Contract"
+wiki_description: |
+    Users can interact with the protocol without paying any taxes.
+    
+    ### Proof of Concept
+    
+    Whenever a user wants to interact with the protocol (E.g: lock collateral, generate debt, repay debt, etc) he/she should make a call to their proxy contract and the proxy contract will make a delegatecall to Basic
+wiki_exploit_scenario: |
+    Per Solodit #29355: Users can interact with the protocol without paying any taxes.
+    
+    ### Proof of Concept
+    
+    Whenever a user wants to interact with the protocol (E.g: lock collateral, generate debt, repay debt, etc) he/she
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07MaliciousUsersAreAbleToBypassTheTaxPaymentUsingMa"
+solodit_id: "29355"
+solodit_slug: |
+    m-07-malicious-users-are-able-to-bypass-the-tax-payment-using-making-a-fake-basicactions-contract-code4rena-open-dollar-open-dollar-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(repayAllDebt|repayDebtAndFreeTokenCollateral|repayAllDebtAndFreeTokenCollateral).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "repayAllDebt"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

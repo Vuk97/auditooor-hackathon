@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_require"
+name: "aml-requirement-checks-skipped-if-no-aml-attribute-for-user"
+class_name: "AmlRequirementChecksSkippedIfNoAmlAttributeForUser"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #37959 (Spearbit/Tradable onchain v2)"
+help: "AML requirement checks skipped if no AML attribute for user"
+wiki_title: "AML requirement checks skipped if no AML attribute for user"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    QuadrataKYCVerifier.sol#L199
+    
+    ## Description
+    The `_isExpired` function returns false when `attribute.epoch == 0`, which happens when the attribute is missing and was not set by any Quadrata issuer.
+    
+    ```solidity
+    /// Checks if an attribute is expired.
+    function _isExp
+wiki_exploit_scenario: |
+    Per Solodit #37959: ## Severity: High Risk
+    
+    ## Context
+    QuadrataKYCVerifier.sol#L199
+    
+    ## Description
+    The `_isExpired` function returns false when `attribute.epoch == 0`, which happens when the attribute is missing and was
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AmlRequirementChecksSkippedIfNoAmlAttributeForUser"
+solodit_id: "37959"
+solodit_slug: "aml-requirement-checks-skipped-if-no-aml-attribute-for-user-spearbit-none-tradable-onchain-v2-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amlattribute;"
+fn_name_regex: ".*(amlAttribute|verifyEligibility|keccak256).*"
+write_var_regex: ".*(amlAttribute|keccak256|verifyEligibility).*"
+guard_var_regex: ".*(amlAttribute|keccak256|verifyEligibility).*"
+vuln_fn_name: "amlAttribute"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amlattribute = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

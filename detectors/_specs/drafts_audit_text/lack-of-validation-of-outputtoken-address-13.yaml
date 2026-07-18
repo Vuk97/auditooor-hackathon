@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-validation-of-outputtoken-address-13"
+class_name: "LackOfValidationOfOutputtokenAddress13"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Odos Cross-Chain Contracts - Zellic Audit Report"
+help: |
+    The OdosRouter and AcrossHook contracts use the zero address to represent the native token when interacting with the SpokePool contract. When the input token is the zero address, t
+wiki_title: "Lack of validation of outputToken address                    13"
+wiki_description: |
+    The OdosRouter and AcrossHook contracts use the zero address to represent the native token when interacting with the SpokePool contract. When the input token is the zero address, these contracts call the SpokePool's deposit function with value in Ether. function _executeSpokePoolCall(address inputTo
+wiki_exploit_scenario: |
+    Per audit finding: The OdosRouter and AcrossHook contracts use the zero address to represent the native token when interacting with the SpokePool contract. When the input token is the zero address, these contracts call
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfValidationOfOutputtokenAddress13"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(inputToken|callData|safeIncreaseAllowance).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "inputToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

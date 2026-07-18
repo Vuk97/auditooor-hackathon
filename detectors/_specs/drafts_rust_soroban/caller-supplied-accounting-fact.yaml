@@ -1,0 +1,23 @@
+id: caller-supplied-accounting-fact
+title: "Caller-supplied accounting data (balances, supply, seize amount) treated as truth"
+severity: Critical
+language: rust
+platform: soroban
+source: "halborn-2025-09 | k2-v12"
+source_ids:
+  - "7.2"
+  - "44803"
+bug_class: authorization
+indicators:
+  - "entrypoint parameters like `total_supply: u128`, `user_balance: u128`, `collateral_reserve: ReserveData`, `collateral_to_seize: u128` without on-chain re-derivation"
+  - "incentives `handle_action(caller, token, total_supply, user_balance)` without reading supply/balance from token contract"
+  - "liquidator entrypoint that persists `collateral_to_seize` from a caller arg without recomputing from reserve+oracle"
+  - "treasury `deposit(user, amount)` that updates accounting without verifying the token transfer succeeded (no balance delta check)"
+victim: "Protocol solvency: attacker forges inflated balances to inflate reward indices and drain funded rewards, or over-seize collateral during liquidation."
+exploit_precondition: "Entry point is callable by unauthenticated external user; caller-provided 'facts' are trusted without reading from the authoritative source."
+real_world_example: |
+  Halborn 7.2 (CRITICAL): Liquidator `atomic_flash_liquidation(caller, user, collateral_to_seize, collateral_reserve: &ReserveData, debt_reserve: &ReserveData, ...)` persists the supplied reserve snapshots and seize amount. PoC inflated `collateral_to_seize` by 50% and the router burned exactly that amount.
+suggested_remediation: "Derive all accounting-relevant state from authoritative on-chain reads: load reserve data from the router's storage, read balances/supply from the token contract, compute seize amounts locally. Drop caller-supplied 'data' parameters."
+cross_refs:
+  - unchecked-token-transfer-mints-unbacked
+  - treasury-deposit-without-transfer-check

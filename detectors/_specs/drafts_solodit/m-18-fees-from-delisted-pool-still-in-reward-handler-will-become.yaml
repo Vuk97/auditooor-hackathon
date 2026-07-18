@@ -1,0 +1,49 @@
+skeleton: "state_write_without_paired_write"
+name: "m-18-fees-from-delisted-pool-still-in-reward-handler-will-become"
+class_name: "M18FeesFromDelistedPoolStillInRewardHandlerWillBecome"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2613 (Code4rena/Backd)"
+help: "[M-18] Fees from delisted pool still in reward handler will become stuck after delisting"
+wiki_title: "[M-18] Fees from delisted pool still in reward handler will become stuck after delisting"
+wiki_description: |
+    _Submitted by 0x52_
+    
+    Unclaimed fees from pool will be stuck.
+    
+    ### Proof of Concept
+    
+    When delisting a pool the pool's reference is removed from address provider:
+    
+    <https://github.com/code-423n4/2022-05-backd/blob/2a5664d35cde5b036074edef3c1369b984d10010/protocol/contracts/Controller.sol#L63>
+    
+    Burning
+wiki_exploit_scenario: |
+    Per Solodit #2613: _Submitted by 0x52_
+    
+    Unclaimed fees from pool will be stuck.
+    
+    ### Proof of Concept
+    
+    When delisting a pool the pool's reference is removed from address provider:
+    
+    <https://github.com/code-423n4/2022-05
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18FeesFromDelistedPoolStillInRewardHandlerWillBecome"
+solodit_id: "2613"
+solodit_slug: |
+    m-18-fees-from-delisted-pool-still-in-reward-handler-will-become-stuck-after-delisting-code4rena-backd-backd-tokenomics-contest-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Fund Lock, Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(burnFees).*"
+primary_var_regex: ".*(burnFees).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

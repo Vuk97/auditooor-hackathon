@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "m-03-gas-used-mismatch-in-failed-contract-calls-can-lead-to-wron"
+class_name: "M03GasUsedMismatchInFailedContractCallsCanLeadToWron"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49277 (Code4rena/Nibiru)"
+help: "[M-03] Gas used mismatch in failed contract calls can lead to wrong gas deductions"
+wiki_title: "[M-03] Gas used mismatch in failed contract calls can lead to wrong gas deductions"
+wiki_description: |
+    In `call_contract.go`, when a contract call fails, the code only consumes gas for the failed transaction but does not account for previously accumulated block gas usage. This creates a mismatch between the actual gas used in the block and what gets consumed in the gas meter.
+    
+    The issue occurs in th
+wiki_exploit_scenario: |
+    Per Solodit #49277: In `call_contract.go`, when a contract call fails, the code only consumes gas for the failed transaction but does not account for previously accumulated block gas usage. This creates a mismatch betwe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03GasUsedMismatchInFailedContractCallsCanLeadToWron"
+solodit_id: "49277"
+solodit_slug: |
+    m-03-gas-used-mismatch-in-failed-contract-calls-can-lead-to-wrong-gas-deductions-code4rena-nibiru-nibiru-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(CallContractWithInput).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "CallContractWithInput"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

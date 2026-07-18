@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "unbounded-depositqueue-dos"
+class_name: "UnboundedDepositqueueDos"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ab"
+help: |
+    `quexCallback` iterates the entire `depositQueue` in one tx; attacker spams zero-amount deposits to create unbounded loop.
+wiki_title: "Unbounded-DepositQueue-DoS"
+wiki_description: |
+    `quexCallback` iterates the entire `depositQueue` in one tx; attacker spams zero-amount deposits to create unbounded loop.
+wiki_exploit_scenario: |
+    Attacker exploits Unbounded-DepositQueue-DoS as described: `quexCallback` iterates the entire `depositQueue` in one tx; attacker spams zero-amount deposits to create unbounded loop.
+wiki_recommendation: "callback that iterates `depositQueue` without per-tx pagination or queue-size cap."
+contract_name: "UnboundedDepositqueueDos"
+state_decl: "uint256 internal depositqueue;"
+fn_name_regex: ".*(quexCallback|depositQueue).*"
+read_var_regex: ".*(depositQueue|quexCallback).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "quexCallback"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return depositqueue > 0;"

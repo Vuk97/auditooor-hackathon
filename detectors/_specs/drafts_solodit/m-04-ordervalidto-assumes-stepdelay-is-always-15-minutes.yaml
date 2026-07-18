@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "m-04-ordervalidto-assumes-stepdelay-is-always-15-minutes"
+class_name: "M04OrdervalidtoAssumesStepdelayIsAlways15Minutes"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57958 (Pashov Audit Group/Cove_2024-12-30)"
+help: "[M-04] `orderValidTo` assumes `stepDelay` is always 15 minutes"
+wiki_title: "[M-04] `orderValidTo` assumes `stepDelay` is always 15 minutes"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When the rebalance process is performed and incorporates `externalTrades`, it will set `orderValidTo` to 15 minutes since ` executeTokenSwap` is called by the token swap executor. This will set a deadline for the swap process to not
+wiki_exploit_scenario: |
+    Per Solodit #57958: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When the rebalance process is performed and incorporates `externalTrades`, it will set `orderValidTo` to 15 minutes since ` executeT
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04OrdervalidtoAssumesStepdelayIsAlways15Minutes"
+solodit_id: "57958"
+solodit_slug: |
+    m-04-ordervalidto-assumes-stepdelay-is-always-15-minutes-pashov-audit-group-none-cove_2024-12-30-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal completerebalance;"
+fn_name_regex: ".*(externalTrades|orderValidTo|completeRebalance|stepDelay).*"
+write_var_regex: ".*(completeRebalance|externalTrades|orderValidTo).*"
+guard_var_regex: ".*(completeRebalance|externalTrades|orderValidTo).*"
+vuln_fn_name: "externalTrades"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "completerebalance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

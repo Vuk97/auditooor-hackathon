@@ -1,0 +1,20 @@
+id: swallowed-cross-contract-error
+title: "Cross-contract errors silently swallowed, misreporting success"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.17"
+bug_class: error-handling
+indicators:
+  - "`let _ = target.try_method(...)` pattern that discards the result"
+  - "`match result { Ok => ..., Err(_) => Ok(()) }` where error should propagate"
+  - "`if !result.is_ok() { return true }` pattern"
+victim: "Protocol: fee sweeps, flash-loan premium transfers, and related flows silently fail; funds are 'forgotten'."
+exploit_precondition: "A downstream cross-contract call fails (e.g. token paused)."
+real_world_example: |
+  Halborn 7.17 (LOW): Swallowed cross-contract errors misreport success and lose fees.
+suggested_remediation: "Propagate every Err; only swallow when explicitly documented and the invariant is preserved."
+cross_refs:
+  - uncaught-token-call-failures-dos

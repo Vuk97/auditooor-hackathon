@@ -1,0 +1,26 @@
+skeleton: "state_write_without_paired_write"
+name: "reentrancy-risk-in-provepossession-during-fee-refund-15"
+class_name: "ReentrancyRiskInProvepossessionDuringFeeRefund15"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Proof of Data Possession - Zellic Audit Report"
+help: |
+    The nextProvingPeriod function, before initializing the next period, first removes all roots that were previously scheduled for removal by the proof-set owner. If, as a result of r
+wiki_title: "Reentrancy risk in provePossession during fee refund                       15"
+wiki_description: |
+    The nextProvingPeriod function, before initializing the next period, first removes all roots that were previously scheduled for removal by the proof-set owner. If, as a result of removeRoots, all roots are deleted and the proof set becomes empty, the proofSetLastProvenEpoch and nextChallengeEpoch fo
+wiki_exploit_scenario: |
+    Per audit finding: The nextProvingPeriod function, before initializing the next period, first removes all roots that were previously scheduled for removal by the proof-set owner. If, as a result of removeRoots, all root
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyRiskInProvepossessionDuringFeeRefund15"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(nextProvingPeriod|removeRoots|proofSetLastProvenEpoch).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

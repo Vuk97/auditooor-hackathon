@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "m-26-imprecise-calculations-in-launchfor-lead-to-less-liquidity-"
+class_name: "M26ImpreciseCalculationsInLaunchforLeadToLessLiquidity"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61853 (Code4rena/Virtuals Protocol)"
+help: |
+    [M-26] Imprecise calculations in `launchFor()` lead to less liquidity be added to the pair via the router
+wiki_title: |
+    [M-26] Imprecise calculations in `launchFor()` lead to less liquidity be added to the pair via the router
+wiki_description: |
+    <https://github.com/code-423n4/2025-04-virtuals-protocol/blob/main/contracts/fun/Bonding.sol# L215-L216>
+    
+    ### Finding description and impact
+    
+    Solidity rounds down the result of an integer division, and because of that, it is always recommended to multiply before dividing to avoid that precision lo
+wiki_exploit_scenario: |
+    Per Solodit #61853: <https://github.com/code-423n4/2025-04-virtuals-protocol/blob/main/contracts/fun/Bonding.sol# L215-L216>
+    
+    ### Finding description and impact
+    
+    Solidity rounds down the result of an integer division,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M26ImpreciseCalculationsInLaunchforLeadToLessLiquidity"
+solodit_id: "61853"
+solodit_slug: |
+    m-26-imprecise-calculations-in-launchfor-lead-to-less-liquidity-be-added-to-the-pair-via-the-router-code4rena-virtuals-protocol-virtuals-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(assetRate|launchFor|liquidity).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,20 @@
+id: single-asset-cap-check-forgives-debt
+title: "Single-asset cap check wrongfully forgives all remaining debt"
+severity: Critical
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44846"
+bug_class: liquidation
+indicators:
+  - "if single-asset cap reached, routine clamps residual debt to 0 rather than carrying forward"
+  - "`if new_debt > cap { remaining = 0 }` branch"
+victim: "Protocol: debt silently forgiven when cap is hit."
+exploit_precondition: "Debt growth hits the cap."
+real_world_example: |
+  V12 #44846 (Critical): Single-asset cap check wrongfully forgives all remaining debt.
+suggested_remediation: "On cap hit, leave the remainder as debt; don't zero it."
+cross_refs:
+  - dust-cleanup-burns-more-than-accounted
+  - exact-collateral-liquidation-skips-deficit

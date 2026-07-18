@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-queuewithdraw-function-lacks-a-zero-value-check-for-the--x"
+class_name: "TheQueuewithdrawFunctionLacksAZeroValueCheckForTheX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit GTE Perps - Zellic Audit Report"
+help: |
+    The queueWithdraw() function does not validate that the shares parameter is nonzero. Consequently, a user can call queueWithdraw() with a shares value of zero. This action adds an
+wiki_title: "The queueWithdraw function lacks a zero-value check for the shares param-"
+wiki_description: |
+    The queueWithdraw() function does not validate that the shares parameter is nonzero. Consequently, a user can call queueWithdraw() with a shares value of zero. This action adds an unnecessary withdrawal request to the queue. function queueWithdraw(uint256 shares) external { if (queuedShares[msg.send
+wiki_exploit_scenario: |
+    Per audit finding: The queueWithdraw() function does not validate that the shares parameter is nonzero. Consequently, a user can call queueWithdraw() with a shares value of zero. This action adds an unnecessary withdraw
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheQueuewithdrawFunctionLacksAZeroValueCheckForTheX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(queueWithdraw|queuedShares|balanceOf).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "queueWithdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

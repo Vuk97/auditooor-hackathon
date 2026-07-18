@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "rewardsdeposit"
+class_name: "Rewardsdeposit"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-08-phi"
+help: |
+    [L-01] RewardsDeposit and Deposit events can be spam emitted with 0 value deposits through external function handleRewardsAndGetValueSent() The handleRewardsAndGetValueSent() funct
+wiki_title: "RewardsDeposit"
+wiki_description: |
+    [L-01] RewardsDeposit and Deposit events can be spam emitted with 0 value deposits through external function handleRewardsAndGetValueSent() The handleRewardsAndGetValueSent() function is called from the PhiNFT1155.sol contracts deployed. This function currently is externally exposed which means even
+wiki_exploit_scenario: |
+    Per audit finding: [L-01] RewardsDeposit and Deposit events can be spam emitted with 0 value deposits through external function handleRewardsAndGetValueSent() The handleRewardsAndGetValueSent() function is called from t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Rewardsdeposit"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(handleRewardsAndGetValueSent|depositRewards|rewardsData).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "handleRewardsAndGetValueSent"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

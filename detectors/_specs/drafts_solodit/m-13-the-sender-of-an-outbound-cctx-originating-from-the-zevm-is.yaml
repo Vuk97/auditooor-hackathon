@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-13-the-sender-of-an-outbound-cctx-originating-from-the-zevm-is"
+class_name: "M13TheSenderOfAnOutboundCctxOriginatingFromTheZevmIs"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36942 (Code4rena/ZetaChain)"
+help: |
+    [M-13] The `Sender` of an outbound cctx originating from the zEVM is potentially set to an incorrect sender address resulting in lost assets during a refund
+wiki_title: |
+    [M-13] The `Sender` of an outbound cctx originating from the zEVM is potentially set to an incorrect sender address resulting in lost assets during a refund
+wiki_description: |
+    If an intermediary contract is used on the zEVM when interacting with the `ZetaConnectorZEVM` contract or ZRC-20 tokens, potential refunds are sent to the transaction signer instead of the intermediary contract, allowing users to steal assets by crafting a cctx that fails and refunds the assets to
+wiki_exploit_scenario: |
+    Per Solodit #36942: If an intermediary contract is used on the zEVM when interacting with the `ZetaConnectorZEVM` contract or ZRC-20 tokens, potential refunds are sent to the transaction signer instead of the intermedia
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M13TheSenderOfAnOutboundCctxOriginatingFromTheZevmIs"
+solodit_id: "36942"
+solodit_slug: |
+    m-13-the-sender-of-an-outbound-cctx-originating-from-the-zevm-is-potentially-set-to-an-incorrect-sender-address-resulting-in-lost-assets-during-a-refund-code4rena-zetachain-zetachain-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal emittingcontract;"
+fn_name_regex: ".*(ZetaConnectorZEVM|PostTxProcessing|ZetaSent|Withdrawal).*"
+read_var_regex: ".*(emittingContract).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ZetaConnectorZEVM"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return emittingcontract > 0;"

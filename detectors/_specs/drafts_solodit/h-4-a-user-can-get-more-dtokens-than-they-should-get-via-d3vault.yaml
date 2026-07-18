@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "h-4-a-user-can-get-more-dtokens-than-they-should-get-via-d3vault"
+class_name: "H4AUserCanGetMoreDtokensThanTheyShouldGetViaD3vault"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20844 (Sherlock/DODO V3)"
+help: |
+    H-4: A user can get more dTokens than they should get via `D3VaultFunding.userDeposit()`, due to accounting issues in `D3VaultLiquidation.liquidate()`
+wiki_title: |
+    H-4: A user can get more dTokens than they should get via `D3VaultFunding.userDeposit()`, due to accounting issues in `D3VaultLiquidation.liquidate()`
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-06-dodo-judging/issues/211 
+    
+    ## Found by 
+    0xkaden, dirk\_y, lemonmon, seeques
+    ## Summary
+    
+    The vault token balance (`assetInfo[debt].balance`) is not updated during liquidation (`D3VaultLiquidation.liquidate()`).
+    
+    Thus, a user who calls `D3VaultFunding.u
+wiki_exploit_scenario: |
+    Per Solodit #20844: Source: https://github.com/sherlock-audit/2023-06-dodo-judging/issues/211 
+    
+    ## Found by 
+    0xkaden, dirk\_y, lemonmon, seeques
+    ## Summary
+    
+    The vault token balance (`assetInfo[debt].balance`) is not upda
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H4AUserCanGetMoreDtokensThanTheyShouldGetViaD3vault"
+solodit_id: "20844"
+solodit_slug: |
+    h-4-a-user-can-get-more-dtokens-than-they-should-get-via-d3vaultfundinguserdeposit-due-to-accounting-issues-in-d3vaultliquidationliquidate-sherlock-none-dodo-v3-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(assetInfo|userDeposit|dTokens|dToken).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "assetInfo"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

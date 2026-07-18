@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "function-changeallocations-does-not-check-vaultidle-status-b-x"
+class_name: "FunctionChangeallocationsDoesNotCheckVaultidleStatusBX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Concrete - Zellic Audit Report"
+help: |
+    The changeAllocations function in the ConcreteMultiStrategyVault contract does not check the vaultIdle status before redistributing assets: function changeAllocations( Strategy[] s
+wiki_title: "Function changeAllocations does not check vaultIdle status before redis-"
+wiki_description: |
+    The changeAllocations function in the ConcreteMultiStrategyVault contract does not check the vaultIdle status before redistributing assets: function changeAllocations( Strategy[] storage strategies, Allocation[] calldata allocations_, bool redistribute, address asset ) external { // [...] if (redist
+wiki_exploit_scenario: |
+    Per audit finding: The changeAllocations function in the ConcreteMultiStrategyVault contract does not check the vaultIdle status before redistributing assets: function changeAllocations( Strategy[] storage strategies, A
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FunctionChangeallocationsDoesNotCheckVaultidleStatusBX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(changeAllocations|vaultIdle|pullFundsFromStrategies).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "changeAllocations"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

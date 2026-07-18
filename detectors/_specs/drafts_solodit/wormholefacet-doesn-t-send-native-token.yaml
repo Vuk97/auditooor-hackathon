@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "wormholefacet-doesn-t-send-native-token"
+class_name: "WormholefacetDoesnTSendNativeToken"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7047 (Spearbit/LI.FI)"
+help: "WormholeFacet doesn’t send native token"
+wiki_title: "WormholeFacet doesn’t send native token"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    `WormholeFacet.sol#L36-L103`
+    
+    ## Description
+    The functions of `WormholeFacet` allow sending the native token; however, they don’t actually send it across the bridge, causing the native token to stay stuck in the LiFi Diamond and get lost for the sender.
+    
+    ```solid
+wiki_exploit_scenario: |
+    Per Solodit #7047: ## Severity: Medium Risk
+    
+    ## Context
+    `WormholeFacet.sol#L36-L103`
+    
+    ## Description
+    The functions of `WormholeFacet` allow sending the native token; however, they don’t actually send it across the bridg
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WormholefacetDoesnTSendNativeToken"
+solodit_id: "7047"
+solodit_slug: "wormholefacet-doesnt-send-native-token-spearbit-lifi-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Payable, Fund Lock"
+state_decl: "uint256 internal payable;"
+fn_name_regex: ".*(WormholeFacet|payable|wrapAndTransferETH).*"
+read_var_regex: ".*(payable|wrapAndTransferETH).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "WormholeFacet"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return payable > 0;"

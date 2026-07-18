@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-haircut-asset-value-conversion-in-stbl-pt1-issuer-gene"
+class_name: "IncorrectHaircutAssetValueConversionInStblPt1IssuerGene"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64362 (Cyfrin/Stbl)"
+help: "Incorrect haircut asset value conversion in `STBL_PT1_Issuer::generateMetaData`"
+wiki_title: "Incorrect haircut asset value conversion in `STBL_PT1_Issuer::generateMetaData`"
+wiki_description: |
+    **Description:** `STBL_PT1_Issuer::generateMetaData` (and its `STBL_LT1_Issuer` counterpart) uses the wrong oracle conversion function when calculating `haircutAmountAssetValue`, resulting in mathematically incorrect values being stored in NFT metadata.  The function uses `fetchForwardPrice()` that
+wiki_exploit_scenario: |
+    Per Solodit #64362: **Description:** `STBL_PT1_Issuer::generateMetaData` (and its `STBL_LT1_Issuer` counterpart) uses the wrong oracle conversion function when calculating `haircutAmountAssetValue`, resulting in mathemat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectHaircutAssetValueConversionInStblPt1IssuerGene"
+solodit_id: "64362"
+solodit_slug: |
+    incorrect-haircut-asset-value-conversion-in-stbl_pt1_issuergeneratemetadata-cyfrin-none-stbl-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal fetchforwardprice;"
+fn_name_regex: ".*(STBL_LT1_Issuer|haircutAmountAssetValue|fetchForwardPrice|stableValueGross).*"
+read_var_regex: ".*(fetchForwardPrice|haircutAmountAssetValue|stableValueGross).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "STBL_LT1_Issuer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return fetchforwardprice > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "reentrancy-in-nfcs-token-minting"
+class_name: "ReentrancyInNfcsTokenMinting"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "hexens audit RociFi SMA_public"
+help: |
+    In the function mintToken reentrancy is possible via the call to _safeMint, which in-turn calls _checkOnERC721Received and passes the execution ﬂow to the receiving contract (if th
+wiki_title: "REENTRANCY IN NFCS TOKEN MINTING"
+wiki_description: |
+    In the function mintToken reentrancy is possible via the call to _safeMint, which in-turn calls _checkOnERC721Received and passes the execution ﬂow to the receiving contract (if the receiver is a contract). However, no impactful attack vectors were found for the scope but the possibility to hijack t
+wiki_exploit_scenario: |
+    Per audit finding: In the function mintToken reentrancy is possible via the call to _safeMint, which in-turn calls _checkOnERC721Received and passes the execution ﬂow to the receiving contract (if the receiver is a cont
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyInNfcsTokenMinting"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(mintToken|ifNotPaused|checkVersion).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mintToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

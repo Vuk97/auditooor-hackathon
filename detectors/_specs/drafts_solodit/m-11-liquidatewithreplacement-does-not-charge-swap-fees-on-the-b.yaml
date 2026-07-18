@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-11-liquidatewithreplacement-does-not-charge-swap-fees-on-the-b"
+class_name: "M11LiquidatewithreplacementDoesNotChargeSwapFeesOnTheB"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #38050 (Code4rena/Size)"
+help: "[M-11] `LiquidateWithReplacement` does not charge swap fees on the borrower"
+wiki_title: "[M-11] `LiquidateWithReplacement` does not charge swap fees on the borrower"
+wiki_description: |
+    When a user places a credit sell limit order, it may be either:
+    1. Bought by other users.
+    2. Bought by the `LiquidateWithReplacement` action.
+    
+    However, for case number 2, it does not charge a swap fee for the borrower, which contradicts to the swap fee definition.
+    
+    ### Bug Description
+    
+    Let's first
+wiki_exploit_scenario: |
+    Per Solodit #38050: When a user places a credit sell limit order, it may be either:
+    1. Bought by other users.
+    2. Bought by the `LiquidateWithReplacement` action.
+    
+    However, for case number 2, it does not charge a swap fe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11LiquidatewithreplacementDoesNotChargeSwapFeesOnTheB"
+solodit_id: "38050"
+solodit_slug: "m-11-liquidatewithreplacement-does-not-charge-swap-fees-on-the-borrower-code4rena-size-size-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal duedate;"
+fn_name_regex: ".*(LiquidateWithReplacement|dueDate|BuyCreditMarket).*"
+read_var_regex: ".*(dueDate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LiquidateWithReplacement"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return duedate > 0;"

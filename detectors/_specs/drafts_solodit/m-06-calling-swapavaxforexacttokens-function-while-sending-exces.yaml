@@ -1,0 +1,51 @@
+skeleton: "paired_function_divergence"
+name: "m-06-calling-swapavaxforexacttokens-function-while-sending-exces"
+class_name: "M06CallingSwapavaxforexacttokensFunctionWhileSendingExces"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5716 (Code4rena/Trader Joe)"
+help: |
+    [M-06] Calling swapAVAXForExactTokens function while sending excess amount cannot refund such excess amount
+wiki_title: |
+    [M-06] Calling swapAVAXForExactTokens function while sending excess amount cannot refund such excess amount
+wiki_description: |
+    ## Lines of code
+    
+    https://github.com/code-423n4/2022-10-traderjoe/blob/main/src/LBRouter.sol#L485-L521
+    
+    
+    ## Vulnerability details
+    
+    ## Impact
+    When calling the `swapAVAXForExactTokens`  function, `if (msg.value > amountsIn[0]) _safeTransferAVAX(_to, amountsIn[0] - msg.value)` is executed, which is for
+wiki_exploit_scenario: |
+    Per Solodit #5716: ## Lines of code
+    
+    https://github.com/code-423n4/2022-10-traderjoe/blob/main/src/LBRouter.sol#L485-L521
+    
+    
+    ## Vulnerability details
+    
+    ## Impact
+    When calling the `swapAVAXForExactTokens`  function, `if (m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06CallingSwapavaxforexacttokensFunctionWhileSendingExces"
+solodit_id: "5716"
+solodit_slug: |
+    m-06-calling-swapavaxforexacttokens-function-while-sending-excess-amount-cannot-refund-such-excess-amount-code4rena-trader-joe-trader-joe-v2-contest-git
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Wrong Math"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(swapAVAXForExactTokens).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

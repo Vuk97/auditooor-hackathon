@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "cdpvault-sol-liquidatepositionbaddebt-doesn-t-correctly-hand-x"
+class_name: "CdpvaultSolLiquidatepositionbaddebtDoesnTCorrectlyHandX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-10-loopfi"
+help: |
+    pkqs90 , also found by 0xAlix2 Impact When liquidating bad debt, the profit and loss is not correctly handled. This will cause incorrect accounting to lpETH stakers. Bug Descriptio
+wiki_title: "CDPVault.sol#liquidatePositionBadDebt() doesn’t correctly handle profit and loss"
+wiki_description: |
+    pkqs90 , also found by 0xAlix2 Impact When liquidating bad debt, the profit and loss is not correctly handled. This will cause incorrect accounting to lpETH stakers. Bug Description Note: This is based on the 2024-07 Loopfi audit H-12 issue. This protocol team applied a fix, but the fix is incomplet
+wiki_exploit_scenario: |
+    Per audit finding: pkqs90 , also found by 0xAlix2 Impact When liquidating bad debt, the profit and loss is not correctly handled. This will cause incorrect accounting to lpETH stakers. Bug Description Note: This is base
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CdpvaultSolLiquidatepositionbaddebtDoesnTCorrectlyHandX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(lpETH|repayCreditAccount|debtData).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "lpETH"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

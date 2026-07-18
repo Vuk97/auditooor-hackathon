@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-1-margintrading-sol-the-whole-balance-and-not-just-the-traded-"
+class_name: "M1MargintradingSolTheWholeBalanceAndNotJustTheTraded"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18567 (Sherlock/DODO Margin Trading)"
+help: |
+    M-1: MarginTrading.sol: The whole balance and not just the traded funds are deposited into Aave when a trade is opened
+wiki_title: |
+    M-1: MarginTrading.sol: The whole balance and not just the traded funds are deposited into Aave when a trade is opened
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-05-dodo-judging/issues/72 
+    
+    ## Found by 
+    roguereddwarf
+    ## Summary
+    It's expected by the protocol that funds can be in the `MarginTrading` contract without being deposited into Aave as margin.
+    
+    We can see this by looking at the `MarginTradingFactory.depos
+wiki_exploit_scenario: |
+    Per Solodit #18567: Source: https://github.com/sherlock-audit/2023-05-dodo-judging/issues/72 
+    
+    ## Found by 
+    roguereddwarf
+    ## Summary
+    It's expected by the protocol that funds can be in the `MarginTrading` contract without
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1MargintradingSolTheWholeBalanceAndNotJustTheTraded"
+solodit_id: "18567"
+solodit_slug: |
+    m-1-margintradingsol-the-whole-balance-and-not-just-the-traded-funds-are-deposited-into-aave-when-a-trade-is-opened-sherlock-none-dodo-margin-trading-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Aave, Business Logic"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(MarginTrading).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "MarginTrading"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

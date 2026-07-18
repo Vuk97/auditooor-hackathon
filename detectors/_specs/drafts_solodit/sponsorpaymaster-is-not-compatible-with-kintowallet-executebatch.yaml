@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "sponsorpaymaster-is-not-compatible-with-kintowallet-executebatch"
+class_name: "SponsorpaymasterIsNotCompatibleWithKintowalletExecutebatch"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30500 (MixBytes/Kinto)"
+help: "SponsorPaymaster is not compatible with KintoWallet.executeBatch()"
+wiki_title: "SponsorPaymaster is not compatible with KintoWallet.executeBatch()"
+wiki_description: |
+    ##### Description
+    
+    `KintoWallet.executeBatch()` makes multiple calls to a list of `address[] calldata dest`.
+    But SponsorPaymaster strictly chooses the first input address as a sponsor for gas costs, and it is only one address.
+    ```
+    address targetAccount =  address(bytes20(userOp.callData[16:]));
+    ```
+wiki_exploit_scenario: |
+    Per Solodit #30500: ##### Description
+    
+    `KintoWallet.executeBatch()` makes multiple calls to a list of `address[] calldata dest`.
+    But SponsorPaymaster strictly chooses the first input address as a sponsor for gas costs, a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SponsorpaymasterIsNotCompatibleWithKintowalletExecutebatch"
+solodit_id: "30500"
+solodit_slug: "sponsorpaymaster-is-not-compatible-with-kintowalletexecutebatch-mixbytes-none-kinto-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal dest;"
+fn_name_regex: ".*(targetAccount|executeBatch|dest).*"
+read_var_regex: ".*(dest|executeBatch|targetAccount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "targetAccount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return dest > 0;"

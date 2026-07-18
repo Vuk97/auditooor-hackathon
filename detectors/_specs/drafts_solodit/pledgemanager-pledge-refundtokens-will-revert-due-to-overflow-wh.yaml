@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "pledgemanager-pledge-refundtokens-will-revert-due-to-overflow-wh"
+class_name: "PledgemanagerPledgeRefundtokensWillRevertDueToOverflowWh"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61172 (Cyfrin/Remora Pledge)"
+help: |
+    `PledgeManager::pledge`, `refundTokens` will revert due to overflow when `pricePerToken * numTokens > type(uint32).max`
+wiki_title: |
+    `PledgeManager::pledge`, `refundTokens` will revert due to overflow when `pricePerToken * numTokens > type(uint32).max`
+wiki_description: |
+    **Description:** `PledgeManager::pledge` multiplies two `uint32` variables and stores the result into a `uint256`, attempting to account for when the multiplication returns a value greater than `type(uint32).max`:
+    ```solidity
+    uint256 stablecoinAmount = pricePerToken * numTokens; // account for overf
+wiki_exploit_scenario: |
+    Per Solodit #61172: **Description:** `PledgeManager::pledge` multiplies two `uint32` variables and stores the result into a `uint256`, attempting to account for when the multiplication returns a value greater than `type(
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PledgemanagerPledgeRefundtokensWillRevertDueToOverflowWh"
+solodit_id: "61172"
+solodit_slug: |
+    pledgemanagerpledge-refundtokens-will-revert-due-to-overflow-when-pricepertoken-numtokens-typeuint32max-cyfrin-none-remora-pledge-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal numtokens;"
+fn_name_regex: ".*(uint32|pricePerToken|stablecoinAmount|numTokens).*"
+read_var_regex: ".*(numTokens|pricePerToken|stablecoinAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "uint32"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return numtokens > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "silovault-sol-markets-with-assets-that-revert-on-zero-approv-x"
+class_name: "SilovaultSolMarketsWithAssetsThatRevertOnZeroApprovX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-03-silo-finance"
+help: |
+    Fitro , also found by grearlake nuthan2x , and Samueltroydomi Finding description and impact To remove a market from the vault, the supply cap must be set to 0. However, when this
+wiki_title: "SiloVault.sol :: Markets with assets that revert on zero approvals cannot be removed."
+wiki_description: |
+    Fitro , also found by grearlake nuthan2x , and Samueltroydomi Finding description and impact To remove a market from the vault, the supply cap must be set to 0. However, when this happens, the market’s allowance to use tokens from the vault is also reset to 0. The issue arises because some tokens re
+wiki_exploit_scenario: |
+    Per audit finding: Fitro , also found by grearlake nuthan2x , and Samueltroydomi Finding description and impact To remove a market from the vault, the supply cap must be set to 0. However, when this happens, the market’
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SilovaultSolMarketsWithAssetsThatRevertOnZeroApprovX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(submitMarketRemoval|onlyCuratorRole|removableAt).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "submitMarketRemoval"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

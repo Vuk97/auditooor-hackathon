@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "m-08-liquiditypool-can-be-dos-when-a-complete-withdrawal-is-perf"
+class_name: "M08LiquiditypoolCanBeDosWhenACompleteWithdrawalIsPerf"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20245 (Code4rena/Polynomial Protocol)"
+help: "[M-08] LiquidityPool can be DoS when a complete withdrawal is performed"
+wiki_title: "[M-08] LiquidityPool can be DoS when a complete withdrawal is performed"
+wiki_description: |
+    `LiquidityPool` can be DoS when all funds are withdrawn from the pool, causing `getTokenPrice()` to revert due to zero `totalSupply()`.
+    
+    ### Impact
+    
+    The  `LiquidityPool` will not be able to proceed and requires new deployment of the contracts.
+    
+    ### Detailed Explanation
+    
+    The `LiquidityPool.getTokenP
+wiki_exploit_scenario: |
+    Per Solodit #20245: `LiquidityPool` can be DoS when all funds are withdrawn from the pool, causing `getTokenPrice()` to revert due to zero `totalSupply()`.
+    
+    ### Impact
+    
+    The  `LiquidityPool` will not be able to proceed a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08LiquiditypoolCanBeDosWhenACompleteWithdrawalIsPerf"
+solodit_id: "20245"
+solodit_slug: |
+    m-08-liquiditypool-can-be-dos-when-a-complete-withdrawal-is-performed-code4rena-polynomial-protocol-polynomial-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal gettokenprice;"
+fn_name_regex: ".*(LiquidityPool|getTokenPrice|totalSupply|totalFunds).*"
+write_var_regex: ".*(getTokenPrice|totalFunds|totalSupply).*"
+guard_var_regex: ".*(getTokenPrice|totalFunds|totalSupply).*"
+vuln_fn_name: "LiquidityPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "gettokenprice = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

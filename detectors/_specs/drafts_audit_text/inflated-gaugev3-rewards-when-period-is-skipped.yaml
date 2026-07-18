@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "inflated-gaugev3-rewards-when-period-is-skipped"
+class_name: "InflatedGaugev3RewardsWhenPeriodIsSkipped"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-10-ramses-exchange"
+help: |
+    rileyholterhus , also found by MrPotatoMagic The GaugeV3 contract distributes rewards based on the proportion of liquidity that each position had in range over each 1-week “period”
+wiki_title: "Inflated GaugeV3 rewards when period is skipped"
+wiki_description: |
+    rileyholterhus , also found by MrPotatoMagic The GaugeV3 contract distributes rewards based on the proportion of liquidity that each position had in range over each 1-week “period”. This is calculated by cachePeriodEarned() in the gauge, which calls positionPeriodSecondsInRange() on the RamsesV3Pool
+wiki_exploit_scenario: |
+    Per audit finding: rileyholterhus , also found by MrPotatoMagic The GaugeV3 contract distributes rewards based on the proportion of liquidity that each position had in range over each 1-week “period”. This is calculated
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InflatedGaugev3RewardsWhenPeriodIsSkipped"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(cachePeriodEarned|positionPeriodSecondsInRange|periodCumulativesInside).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "cachePeriodEarned"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

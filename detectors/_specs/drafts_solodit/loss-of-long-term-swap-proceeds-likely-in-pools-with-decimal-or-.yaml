@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "loss-of-long-term-swap-proceeds-likely-in-pools-with-decimal-or-"
+class_name: "LossOfLongTermSwapProceedsLikelyInPoolsWithDecimalOr"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7114 (Spearbit/Cron Finance)"
+help: "Loss of Long-Term Swap Proceeds Likely in Pools With Decimal or Price Imbalances"
+wiki_title: "Loss of Long-Term Swap Proceeds Likely in Pools With Decimal or Price Imbalances"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    `VirtualOrders.sol#L166`
+    
+    ## Description
+    This TWAMM implementation tracks the proceeds of long-term swaps efficiently via accumulated values called "scaled proceeds" for each token. In every order block interval (OBI), the scaled proceeds for e.g. the sale of token
+wiki_exploit_scenario: |
+    Per Solodit #7114: ## Severity: High Risk
+    
+    ## Context
+    `VirtualOrders.sol#L166`
+    
+    ## Description
+    This TWAMM implementation tracks the proceeds of long-term swaps efficiently via accumulated values called "scaled proceeds"
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LossOfLongTermSwapProceedsLikelyInPoolsWithDecimalOr"
+solodit_id: "7114"
+solodit_slug: |
+    loss-of-long-term-swap-proceeds-likely-in-pools-with-decimal-or-price-imbalances-spearbit-cron-finance-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Overflow/Underflow, Decimals"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(currentBlock|orderExpiryBlock|scaledProceeds|salesRate).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "currentBlock"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

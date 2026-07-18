@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "h-1-lack-of-slippage-protection-leads-to-loss-of-protocol-funds"
+class_name: "H1LackOfSlippageProtectionLeadsToLossOfProtocolFunds"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41475 (Sherlock/Cork Protocol)"
+help: "H-1: Lack of slippage protection leads to loss of protocol funds"
+wiki_title: "H-1: Lack of slippage protection leads to loss of protocol funds"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-08-cork-protocol-judging/issues/66 
+    
+    ## Found by 
+    0x6a70, 0x73696d616f, 0xjoi, 0xnbvc, 4b, 4gontuk, Abhan1041, MohammedRizwan, Pheonix, StraawHaat, alphacipher, boringslav, ivanonchain, sakshamguruji, vinica\_boy
+    ## Summary
+    
+    There is no slippage protect
+wiki_exploit_scenario: |
+    Per Solodit #41475: Source: https://github.com/sherlock-audit/2024-08-cork-protocol-judging/issues/66 
+    
+    ## Found by 
+    0x6a70, 0x73696d616f, 0xjoi, 0xnbvc, 4b, 4gontuk, Abhan1041, MohammedRizwan, Pheonix, StraawHaat, alpha
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1LackOfSlippageProtectionLeadsToLossOfProtocolFunds"
+solodit_id: "41475"
+solodit_slug: "h-1-lack-of-slippage-protection-leads-to-loss-of-protocol-funds-sherlock-cork-protocol-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(removeLiquidity|swapExactTokensForTokens).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

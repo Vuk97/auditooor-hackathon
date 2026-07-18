@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "execute-allows-you-to-execute-unsuccessful-tasks-in-the-future"
+class_name: "ExecuteAllowsYouToExecuteUnsuccessfulTasksInTheFuture"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27982 (MixBytes/CloudWalk)"
+help: "`_execute` allows you to execute unsuccessful tasks in the future"
+wiki_title: "`_execute` allows you to execute unsuccessful tasks in the future"
+wiki_description: |
+    ##### Description
+    
+    If the transaction is unsuccessful, then a revert will occur in the code (https://github.com/cloudwalk/brlc-multisig/blob/b5d6c2b6273162d5666d48649890b15a113df7a7/contracts/base/MultiSigWalletBase.sol#L378):
+    
+    ```
+    (bool success, bytes memory data) = transaction.to.call{ 
+        value:
+wiki_exploit_scenario: |
+    Per Solodit #27982: ##### Description
+    
+    If the transaction is unsuccessful, then a revert will occur in the code (https://github.com/cloudwalk/brlc-multisig/blob/b5d6c2b6273162d5666d48649890b15a113df7a7/contracts/base/Mul
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExecuteAllowsYouToExecuteUnsuccessfulTasksInTheFuture"
+solodit_id: "27982"
+solodit_slug: "execute-allows-you-to-execute-unsuccessful-tasks-in-the-future-mixbytes-none-cloudwalk-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal configureowners;"
+fn_name_regex: ".*(expirationTime|configureOwners|revert).*"
+read_var_regex: ".*(configureOwners|expirationTime|revert).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "expirationTime"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return configureowners > 0;"

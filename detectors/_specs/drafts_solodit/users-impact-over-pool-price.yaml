@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "users-impact-over-pool-price"
+class_name: "UsersImpactOverPoolPrice"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #48393 (OtterSec/Vertex Protocol)"
+help: "Users Impact Over Pool Price"
+wiki_title: "Users Impact Over Pool Price"
+wiki_description: |
+    ## Technical Explanation
+    
+    In both engines, `mintLp` is taking the value of the base token as `quoteAmountLowX18` if the supply is zero. As users can set whatever price they want initially, it is not preferred to leave some control over the pricing to users.
+    
+    ### Code Snippet
+    ```solidity
+    contracts/Sp
+wiki_exploit_scenario: |
+    Per Solodit #48393: ## Technical Explanation
+    
+    In both engines, `mintLp` is taking the value of the base token as `quoteAmountLowX18` if the supply is zero. As users can set whatever price they want initially, it is not p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersImpactOverPoolPrice"
+solodit_id: "48393"
+solodit_slug: "users-impact-over-pool-price-ottersec-none-vertex-protocol-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal mintlp;"
+fn_name_regex: ".*(mintLp|quoteAmountLowX18).*"
+read_var_regex: ".*(mintLp|quoteAmountLowX18).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mintLp"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return mintlp > 0;"

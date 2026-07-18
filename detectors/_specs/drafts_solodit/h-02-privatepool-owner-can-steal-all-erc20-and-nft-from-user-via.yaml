@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "h-02-privatepool-owner-can-steal-all-erc20-and-nft-from-user-via"
+class_name: "H02PrivatepoolOwnerCanStealAllErc20AndNftFromUserVia"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16244 (Code4rena/Caviar)"
+help: "[H-02] PrivatePool owner can steal all ERC20 and NFT from user via arbitrary execution"
+wiki_title: "[H-02] PrivatePool owner can steal all ERC20 and NFT from user via arbitrary execution"
+wiki_description: |
+    In the current implementation of the PrivatePool.sol, the function execute is meant to claim airdrop, however, we cannot assume the owner is trusted because anyone can permissionlessly create private pool.
+    
+    ```solidity
+    /// @notice Executes a transaction from the pool account to a target contract. T
+wiki_exploit_scenario: |
+    Per Solodit #16244: In the current implementation of the PrivatePool.sol, the function execute is meant to claim airdrop, however, we cannot assume the owner is trusted because anyone can permissionlessly create private
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02PrivatepoolOwnerCanStealAllErc20AndNftFromUserVia"
+solodit_id: "16244"
+solodit_slug: |
+    h-02-privatepool-owner-can-steal-all-erc20-and-nft-from-user-via-arbitrary-execution-code4rena-caviar-caviar-private-pools-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(returnData|onlyOwner|transferFrom).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "returnData"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "raw-data-may-be-overwritten-by-index-reuse"
+class_name: "RawDataMayBeOverwrittenByIndexReuse"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Brevis - Zellic Audit Report"
+help: |
+    The rawData type in sdk/app.go is used to hold receipt, storage, and transaction data. There are two fields, a list ordered and a map special. The idea is that generally, data will
+wiki_title: "Raw data may be overwritten by index reuse"
+wiki_description: |
+    The rawData type in sdk/app.go is used to hold receipt, storage, and transaction data. There are two fields, a list ordered and a map special. The idea is that generally, data will be added to ordered, but in order to be able to pin certain data points to a specific index, they may be added to speci
+wiki_exploit_scenario: |
+    Per audit finding: The rawData type in sdk/app.go is used to hold receipt, storage, and transaction data. There are two fields, a list ordered and a map special. The idea is that generally, data will be added to ordered
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RawDataMayBeOverwrittenByIndexReuse"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rawData).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rawData"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

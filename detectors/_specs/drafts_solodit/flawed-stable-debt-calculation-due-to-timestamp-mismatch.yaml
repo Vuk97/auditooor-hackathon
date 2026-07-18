@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "flawed-stable-debt-calculation-due-to-timestamp-mismatch"
+class_name: "FlawedStableDebtCalculationDueToTimestampMismatch"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28716 (MixBytes/AAVE)"
+help: "Flawed Stable Debt Calculation Due to Timestamp Mismatch"
+wiki_title: "Flawed Stable Debt Calculation Due to Timestamp Mismatch"
+wiki_description: |
+    ##### Description
+    https://github.com/aave/protocol-v2/blob/f435b2fa0ac589852ca3dd6ae2b0fbfbc7079d54/contracts/libraries/logic/ReserveLogic.sol#L341-L347 
+    
+    Value `vars.previousStableDebt` calculated this way is actually the current stable debt and always equals to `vars.currentStableDebt`.
+    
+    ```solidi
+wiki_exploit_scenario: |
+    Per Solodit #28716: ##### Description
+    https://github.com/aave/protocol-v2/blob/f435b2fa0ac589852ca3dd6ae2b0fbfbc7079d54/contracts/libraries/logic/ReserveLogic.sol#L341-L347 
+    
+    Value `vars.previousStableDebt` calculated th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FlawedStableDebtCalculationDueToTimestampMismatch"
+solodit_id: "28716"
+solodit_slug: "flawed-stable-debt-calculation-due-to-timestamp-mismatch-mixbytes-none-aave-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(StableDebtToken).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "StableDebtToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

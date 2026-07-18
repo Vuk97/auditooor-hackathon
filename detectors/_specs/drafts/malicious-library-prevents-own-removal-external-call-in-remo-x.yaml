@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "malicious-library-prevents-own-removal-external-call-in-remo-x"
+class_name: "MaliciousLibraryPreventsOwnRemovalExternalCallInRemoX"
+wave: "12"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "corpus slice slice_ag"
+help: |
+    `removeLzMessageLib` calls `ISendLib(_messageLib).withdrawFee()` before marking disabled; malicious library reverts, preventing its own removal.
+wiki_title: "Malicious Library Prevents Own Removal (External Call in removeLzMessageLib)"
+wiki_description: |
+    `removeLzMessageLib` calls `ISendLib(_messageLib).withdrawFee()` before marking disabled; malicious library reverts, preventing its own removal.
+wiki_exploit_scenario: |
+    Attacker exploits Malicious Library Prevents Own Removal (External Call in removeLzMessageLib) as described: `removeLzMessageLib` calls `ISendLib(_messageLib).withdrawFee()` before marking disabled; malicious library reverts, preventing its own removal.
+wiki_recommendation: "removal function making external call to the address being removed."
+contract_name: "MaliciousLibraryPreventsOwnRemovalExternalCallInRemoX"
+state_decl: "uint256 internal removelzmessagelib;"
+fn_name_regex: ".*(removeLzMessageLib).*"
+read_var_regex: ".*(removeLzMessageLib).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "removeLzMessageLib"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return removelzmessagelib > 0;"

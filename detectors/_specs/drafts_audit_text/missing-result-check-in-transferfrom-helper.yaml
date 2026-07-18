@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "missing-result-check-in-transferfrom-helper"
+class_name: "MissingResultCheckInTransferfromHelper"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Tristero - Zellic Audit Report"
+help: |
+    Hourglass uses the following functions to transfer ERC-20 tokens into and out of the contract: /)TransferFunctions function transferFrom (address tkn, address from, uint amt) inter
+wiki_title: "Missing result check in transferFrom helper"
+wiki_description: |
+    Hourglass uses the following functions to transfer ERC-20 tokens into and out of the contract: /)TransferFunctions function transferFrom (address tkn, address from, uint amt) internal returns (bool s) { (s,) = tkn.call(abi.encodeWithSelector(IERC20_.transferFrom.selector, from, address(this), amt));
+wiki_exploit_scenario: |
+    Per audit finding: Hourglass uses the following functions to transfer ERC-20 tokens into and out of the contract: /)TransferFunctions function transferFrom (address tkn, address from, uint amt) internal returns (bool s)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingResultCheckInTransferfromHelper"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferFrom|encodeWithSelector|cETH).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

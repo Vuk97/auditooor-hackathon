@@ -1,0 +1,29 @@
+skeleton: "paired_function_divergence"
+name: "using-a-single-pool-creates-one-sided-risk-and-reduces-rebal-x"
+class_name: "UsingASinglePoolCreatesOneSidedRiskAndReducesRebalX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-lambowin"
+help: |
+    [QA-02] Using a single pool creates one-sided risk and reduces rebalancing efficiency Proof of Concept Take a look at function initialize ( address _multiSign address _vETH address
+wiki_title: |
+    Using a single pool creates one-sided risk and reduces rebalancing efficiency Proof of Concept Take a look at
+wiki_description: |
+    [QA-02] Using a single pool creates one-sided risk and reduces rebalancing efficiency Proof of Concept Take a look at function initialize ( address _multiSign address _vETH address _uniswap uint24 _fee ) public initializer { require ( _multiSign != address ( 0 ), "Invalid _multiSign address" ); requ
+wiki_exploit_scenario: |
+    Per audit finding: [QA-02] Using a single pool creates one-sided risk and reduces rebalancing efficiency Proof of Concept Take a look at function initialize ( address _multiSign address _vETH address _uniswap uint24 _fe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsingASinglePoolCreatesOneSidedRiskAndReducesRebalX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

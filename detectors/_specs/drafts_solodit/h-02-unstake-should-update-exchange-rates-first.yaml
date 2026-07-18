@@ -1,0 +1,46 @@
+skeleton: "state_write_without_paired_write"
+name: "h-02-unstake-should-update-exchange-rates-first"
+class_name: "H02UnstakeShouldUpdateExchangeRatesFirst"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #913 (Code4rena/Covalent)"
+help: "[H-02] unstake should update exchange rates first"
+wiki_title: "[H-02] unstake should update exchange rates first"
+wiki_description: |
+    ## Handle
+    
+    cmichel
+    
+    
+    ## Vulnerability details
+    
+    The `unstake` function does not immediately update the exchange rates. It first computes the `validatorSharesRemove = tokensToShares(amount, v.exchangeRate)` **with the old exchange rate**.
+    
+    Only afterwards, it updates the exchange rates (if the validat
+wiki_exploit_scenario: |
+    Per Solodit #913: ## Handle
+    
+    cmichel
+    
+    
+    ## Vulnerability details
+    
+    The `unstake` function does not immediately update the exchange rates. It first computes the `validatorSharesRemove = tokensToShares(amount, v.exchangeRa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02UnstakeShouldUpdateExchangeRatesFirst"
+solodit_id: "913"
+solodit_slug: "h-02-unstake-should-update-exchange-rates-first-code4rena-covalent-covalent-contest-git"
+solodit_quality: "3"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(unstake|redeemAllRewards|rewards|updateGlobalExchangeRate).*"
+primary_var_regex: ".*(redeemAllRewards|rewards|unstake).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

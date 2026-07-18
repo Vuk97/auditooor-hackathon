@@ -1,0 +1,39 @@
+skeleton: "state_write_without_paired_write"
+name: "h-02-basket-sol-auctionburn-a-failed-auction-will-freeze-part-of"
+class_name: "H02BasketSolAuctionburnAFailedAuctionWillFreezePartOf"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19818 (Code4rena/Kuiper)"
+help: "[H-02] `Basket.sol#auctionBurn()` A failed auction will freeze part of the funds"
+wiki_title: "[H-02] `Basket.sol#auctionBurn()` A failed auction will freeze part of the funds"
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    <https://github.com/code-423n4/2021-09-defiProtocol/blob/main/contracts/contracts/Basket.sol#L102-L108>
+    
+    Given the `auctionBurn()` function will `_burn()` the auction bond without updating the `ibRatio`. Once the bond of a failed auction is burned, the proportional underlyin
+wiki_exploit_scenario: |
+    Per Solodit #19818: _Submitted by WatchPug_
+    
+    <https://github.com/code-423n4/2021-09-defiProtocol/blob/main/contracts/contracts/Basket.sol#L102-L108>
+    
+    Given the `auctionBurn()` function will `_burn()` the auction bond wit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02BasketSolAuctionburnAFailedAuctionWillFreezePartOf"
+solodit_id: "19818"
+solodit_slug: |
+    h-02-basketsolauctionburn-a-failed-auction-will-freeze-part-of-the-funds-code4rena-kuiper-kuiper-contest-git_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(auctionBurn|ibRatio|totalSupply).*"
+primary_var_regex: ".*(auctionBurn|ibRatio|totalSupply).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

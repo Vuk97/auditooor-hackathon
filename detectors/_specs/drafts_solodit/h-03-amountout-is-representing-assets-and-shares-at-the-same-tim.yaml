@@ -1,0 +1,33 @@
+skeleton: "paired_function_divergence"
+name: "h-03-amountout-is-representing-assets-and-shares-at-the-same-tim"
+class_name: "H03AmountoutIsRepresentingAssetsAndSharesAtTheSameTim"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26363 (Code4rena/PoolTogether)"
+help: "[H-03] `_amountOut` is representing assets and shares at the same time in the `liquidate` function"
+wiki_title: "[H-03] `_amountOut` is representing assets and shares at the same time in the `liquidate` function"
+wiki_description: |
+    In the `liquidate` function from the `Vault` contract, the input argument `_amountOut` is used as if it was representing a value of asset amounts and share amounts at the same time; which is impossible as there is a conversion rate between them. This error will make the `liquidate` function behave
+wiki_exploit_scenario: |
+    Per Solodit #26363: In the `liquidate` function from the `Vault` contract, the input argument `_amountOut` is used as if it was representing a value of asset amounts and share amounts at the same time; which is impossib
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03AmountoutIsRepresentingAssetsAndSharesAtTheSameTim"
+solodit_id: "26363"
+solodit_slug: |
+    h-03-_amountout-is-representing-assets-and-shares-at-the-same-time-in-the-liquidate-function-code4rena-pooltogether-pooltogether-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(liquidate).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

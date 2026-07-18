@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "m-1-zivoeydl-distributeyield-will-revert-if-protocolrecipients-r"
+class_name: "M1ZivoeydlDistributeyieldWillRevertIfProtocolrecipientsR"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32402 (Sherlock/Zivoe)"
+help: |
+    M-1: ZivoeYDL::distributeYield() will revert if protocolRecipients recipients length is smaller than residualRecipients
+wiki_title: |
+    M-1: ZivoeYDL::distributeYield() will revert if protocolRecipients recipients length is smaller than residualRecipients
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-03-zivoe-judging/issues/15 
+    
+    ## Found by 
+    BiasedMerc
+    ## Summary
+    
+    `ZivoeYDL::distributeYield` incorrectly accesses `_protocol[i]` instead of `_residual[i]`, and there are no checks anywhere within the code that ensures that both arrays are of the same le
+wiki_exploit_scenario: |
+    Per Solodit #32402: Source: https://github.com/sherlock-audit/2024-03-zivoe-judging/issues/15 
+    
+    ## Found by 
+    BiasedMerc
+    ## Summary
+    
+    `ZivoeYDL::distributeYield` incorrectly accesses `_protocol[i]` instead of `_residual[i]
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1ZivoeydlDistributeyieldWillRevertIfProtocolrecipientsR"
+solodit_id: "32402"
+solodit_slug: |
+    m-1-zivoeydldistributeyield-will-revert-if-protocolrecipients-recipients-length-is-smaller-than-residualrecipients-sherlock-zivoe-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal distributeyield;"
+fn_name_regex: ".*(distributeYield|protocolRecipients|residualRecipients|recipients).*"
+write_var_regex: ".*(distributeYield|proportions|protocolRecipients).*"
+guard_var_regex: ".*(distributeYield|proportions|protocolRecipients).*"
+vuln_fn_name: "distributeYield"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "distributeyield = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

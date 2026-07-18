@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-01-paymaster-will-refund-spentonpubdata-to-user"
+class_name: "H01PaymasterWillRefundSpentonpubdataToUser"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #33188 (Code4rena/zkSync)"
+help: "[H-01] `paymaster` will refund `spentOnPubdata` to user"
+wiki_title: "[H-01] `paymaster` will refund `spentOnPubdata` to user"
+wiki_description: |
+    A very important modification of this update is that the GAS spent by `pubdata` is collected at the final step of the transaction.
+    
+    But if there is a `paymaster`, when executing `paymaster.postTransaction(_maxRefundedGas)`,
+    `_maxRefundedGas` does not subtract the `spentOnPubdata`.
+    
+    `bootloader.yul`
+wiki_exploit_scenario: |
+    Per Solodit #33188: A very important modification of this update is that the GAS spent by `pubdata` is collected at the final step of the transaction.
+    
+    But if there is a `paymaster`, when executing `paymaster.postTransa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01PaymasterWillRefundSpentonpubdataToUser"
+solodit_id: "33188"
+solodit_slug: "h-01-paymaster-will-refund-spentonpubdata-to-user-code4rena-zksync-zksync-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal paymaster;"
+fn_name_regex: ".*(pubdata|paymaster|spentOnPubdata).*"
+read_var_regex: ".*(paymaster|pubdata|spentOnPubdata).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "pubdata"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return paymaster > 0;"

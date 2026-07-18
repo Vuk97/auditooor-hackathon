@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "calling-paymentsettler-setstablecoin-can-lead-to-inability-of-ho"
+class_name: "CallingPaymentsettlerSetstablecoinCanLeadToInabilityOfHo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63787 (Cyfrin/Remora Dynamic Tokens)"
+help: |
+    Calling `PaymentSettler::setStableCoin` can lead to inability of holders to claim funds and old stablecoin being trapped in the contract
+wiki_title: |
+    Calling `PaymentSettler::setStableCoin` can lead to inability of holders to claim funds and old stablecoin being trapped in the contract
+wiki_description: |
+    **Description:** An admin can call `PaymentSettler::setStablecoin` at any time. As the code is currently design this should only be done when the stablecoin balance of the contract is zero, which is a very rare occurrence given that many tokens will be at various stages of the their lifecycle.
+    
+    For
+wiki_exploit_scenario: |
+    Per Solodit #63787: **Description:** An admin can call `PaymentSettler::setStablecoin` at any time. As the code is currently design this should only be done when the stablecoin balance of the contract is zero, which is a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CallingPaymentsettlerSetstablecoinCanLeadToInabilityOfHo"
+solodit_id: "63787"
+solodit_slug: |
+    calling-paymentsettlersetstablecoin-can-lead-to-inability-of-holders-to-claim-funds-and-old-stablecoin-being-trapped-in-the-contract-cyfrin-none-remora-dynamic-tokens-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal setstablecoin;"
+fn_name_regex: ".*(setStablecoin).*"
+read_var_regex: ".*(setStablecoin).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setStablecoin"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return setstablecoin > 0;"

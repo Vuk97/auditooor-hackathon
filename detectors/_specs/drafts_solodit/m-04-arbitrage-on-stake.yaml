@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "m-04-arbitrage-on-stake"
+class_name: "M04ArbitrageOnStake"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2879 (Code4rena/Yieldy)"
+help: "[M-04] Arbitrage on `stake()`"
+wiki_title: "[M-04] Arbitrage on `stake()`"
+wiki_description: |
+    _Submitted by BowTiedWardens, also found by WatchPug_
+    
+    Issue: there is a huge arb opportunity for people who deposit 1 block before the `rebase()`.
+    
+    Consequences: then they can call `instantUnstakeReserve` or `instantUnstakeCurve` to unstake the staked amount, in this way the profit that needs to be
+wiki_exploit_scenario: |
+    Per Solodit #2879: _Submitted by BowTiedWardens, also found by WatchPug_
+    
+    Issue: there is a huge arb opportunity for people who deposit 1 block before the `rebase()`.
+    
+    Consequences: then they can call `instantUnstakeRes
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04ArbitrageOnStake"
+solodit_id: "2879"
+solodit_slug: "m-04-arbitrage-on-stake-code4rena-yieldy-yieldy-contest-git"
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal instantunstakecurve;"
+fn_name_regex: ".*(rebase|instantUnstakeReserve|instantUnstakeCurve|YIELD_TOKEN).*"
+write_var_regex: ".*(instantUnstakeCurve|instantUnstakeReserve|rebase).*"
+guard_var_regex: ".*(instantUnstakeCurve|instantUnstakeReserve|rebase).*"
+vuln_fn_name: "rebase"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "instantunstakecurve = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

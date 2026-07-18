@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "virtual-pools-detached-from-the-corresponding-algebrapool-result"
+class_name: "VirtualPoolsDetachedFromTheCorrespondingAlgebrapoolResult"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27884 (MixBytes/Algebra Finance)"
+help: "Virtual pools detached from the corresponding `AlgebraPool` result in an inconsistent state"
+wiki_title: "Virtual pools detached from the corresponding `AlgebraPool` result in an inconsistent state"
+wiki_description: |
+    ##### Description
+    In cases where `AlgebraPool` connected to `VirtualAlgebraPool` catches a revert during a call to the `crossTo` function, the pool will reset its `activeIncentive` parameter to the 0 address here: https://github.com/cryptoalgebra/Algebra/blob/7290fad656bfa89db3743c52af631154f6a8a2d5
+wiki_exploit_scenario: |
+    Per Solodit #27884: ##### Description
+    In cases where `AlgebraPool` connected to `VirtualAlgebraPool` catches a revert during a call to the `crossTo` function, the pool will reset its `activeIncentive` parameter to the 0
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VirtualPoolsDetachedFromTheCorrespondingAlgebrapoolResult"
+solodit_id: "27884"
+solodit_slug: |
+    virtual-pools-detached-from-the-corresponding-algebrapool-result-in-an-inconsistent-state-mixbytes-none-algebra-finance-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal activeincentive;"
+fn_name_regex: ".*(AlgebraPool|VirtualAlgebraPool|crossTo|activeIncentive).*"
+read_var_regex: ".*(activeIncentive|crossTo|deactivated).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "AlgebraPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return activeincentive > 0;"

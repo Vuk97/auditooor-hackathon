@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "tranche-redeem-calls-super-withdraw-instead-of-super-redeem-caus"
+class_name: "TrancheRedeemCallsSuperWithdrawInsteadOfSuperRedeemCaus"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63225 (Cyfrin/Strata Tranches)"
+help: |
+    `Tranche::redeem` calls `super.withdraw` instead of `super.redeem` causing users to receive fewer assets
+wiki_title: |
+    `Tranche::redeem` calls `super.withdraw` instead of `super.redeem` causing users to receive fewer assets
+wiki_description: |
+    **Description:** The `Tranche::redeem` function contains a bug where it calls `super.withdraw(shares, receiver, owner)` instead of `super.redeem(shares, receiver, owner)`. This causes the function to incorrectly treat the shares parameter as an assets parameter, leading to wrong calculations.
+    
+    ```so
+wiki_exploit_scenario: |
+    Per Solodit #63225: **Description:** The `Tranche::redeem` function contains a bug where it calls `super.withdraw(shares, receiver, owner)` instead of `super.redeem(shares, receiver, owner)`. This causes the function to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrancheRedeemCallsSuperWithdrawInsteadOfSuperRedeemCaus"
+solodit_id: "63225"
+solodit_slug: |
+    trancheredeem-calls-superwithdraw-instead-of-superredeem-causing-users-to-receive-fewer-assets-cyfrin-none-strata-tranches-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateAccounting|makeAddr|startPrank|jrtVault).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateAccounting"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

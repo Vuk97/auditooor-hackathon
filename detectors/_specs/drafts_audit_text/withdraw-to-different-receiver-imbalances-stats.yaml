@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "withdraw-to-different-receiver-imbalances-stats"
+class_name: "WithdrawToDifferentReceiverImbalancesStats"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    When withdrawing from a Tranche, the owner may specify a different receiver for the withdrawn assets per the ERC-4626 specification. When this happens, the _withdraw internal funct
+wiki_title: "Withdraw to different receiver imbalances stats"
+wiki_description: |
+    When withdrawing from a Tranche, the owner may specify a different receiver for the withdrawn assets per the ERC-4626 specification. When this happens, the _withdraw internal function tracks the statistics as follows: function _withdraw( address caller, address receiver, address owner, uint256 asset
+wiki_exploit_scenario: |
+    Per audit finding: When withdrawing from a Tranche, the owner may specify a different receiver for the withdrawn assets per the ERC-4626 specification. When this happens, the _withdraw internal function tracks the stati
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WithdrawToDifferentReceiverImbalancesStats"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(principalAssetsDeposited|totalPrincipalDeposited|principalSharesDeposited).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "principalAssetsDeposited"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

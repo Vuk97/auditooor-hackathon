@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "m-11-in-the-revertbatch-function-inchallenge-is-set-to-false-inc"
+class_name: "M11InTheRevertbatchFunctionInchallengeIsSetToFalseInc"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41883 (Sherlock/MorphL2)"
+help: |
+    M-11: In the `revertBatch` function, `inChallenge` is set to `false` incorrectly, causing challenges to continue after the protocol is paused.
+wiki_title: |
+    M-11: In the `revertBatch` function, `inChallenge` is set to `false` incorrectly, causing challenges to continue after the protocol is paused.
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-08-morphl2-judging/issues/220 
+    
+    ## Found by 
+    0xRajkumar, mstpr-brainbot, p0wd3r, ulas
+    ### Summary
+    
+    An unchecked batch reversion will cause challenge invalidation for any committed batch, leading to batch rollback issues for challengers, as the isChallen
+wiki_exploit_scenario: |
+    Per Solodit #41883: Source: https://github.com/sherlock-audit/2024-08-morphl2-judging/issues/220 
+    
+    ## Found by 
+    0xRajkumar, mstpr-brainbot, p0wd3r, ulas
+    ### Summary
+    
+    An unchecked batch reversion will cause challenge inva
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11InTheRevertbatchFunctionInchallengeIsSetToFalseInc"
+solodit_id: "41883"
+solodit_slug: |
+    m-11-in-the-revertbatch-function-inchallenge-is-set-to-false-incorrectly-causing-challenges-to-continue-after-the-protocol-is-paused-sherlock-morphl2-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal challengestate;"
+fn_name_regex: ".*(inChallenge|challengeState|isChallenged|revertBatch).*"
+write_var_regex: ".*(challengeState|inChallenge|isChallenged).*"
+guard_var_regex: ".*(challengeState|inChallenge|isChallenged).*"
+vuln_fn_name: "inChallenge"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "challengestate = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

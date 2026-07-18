@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "inconsistent-handling-of-infinite-allowance-in-withdraw"
+class_name: "InconsistentHandlingOfInfiniteAllowanceInWithdraw"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Concrete - Zellic Audit Report"
+help: |
+    The ConcreteMultiStrategyVault contract inherits from OpenZeppelin's ERC-20 implementation, which uses type(uint256).max as a sentinel value to represent infinite allowance. The st
+wiki_title: "Inconsistent handling of infinite allowance in _withdraw"
+wiki_description: |
+    The ConcreteMultiStrategyVault contract inherits from OpenZeppelin's ERC-20 implementation, which uses type(uint256).max as a sentinel value to represent infinite allowance. The standard internal _spendAllowance function preserves this infinite approval by not decreasing the allowance when it is set
+wiki_exploit_scenario: |
+    Per audit finding: The ConcreteMultiStrategyVault contract inherits from OpenZeppelin's ERC-20 implementation, which uses type(uint256).max as a sentinel value to represent infinite allowance. The standard internal _spe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentHandlingOfInfiniteAllowanceInWithdraw"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(currentAllowance|feeShares).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "currentAllowance"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

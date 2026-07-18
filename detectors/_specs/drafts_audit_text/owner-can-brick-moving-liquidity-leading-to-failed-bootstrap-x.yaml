@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "owner-can-brick-moving-liquidity-leading-to-failed-bootstrap-x"
+class_name: "OwnerCanBrickMovingLiquidityLeadingToFailedBootstrapX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-01-iq-ai"
+help: |
+    [L-05] Owner can brick moving liquidity leading to failed bootstraping phases This issue is more of a governance risk. If the owner increments stage to a non-zero value before the
+wiki_title: |
+    Owner can brick moving liquidity leading to failed bootstraping phases This issue is more of a governance risk. If the owner increments stage to a non-zero valu
+wiki_description: |
+    [L-05] Owner can brick moving liquidity leading to failed bootstraping phases This issue is more of a governance risk. If the owner increments stage to a non-zero value before the liquidity is moved for an agent, moving liquidity would become impossible and would always revert when moveLiquidity() i
+wiki_exploit_scenario: |
+    Per audit finding: [L-05] Owner can brick moving liquidity leading to failed bootstraping phases This issue is more of a governance risk. If the owner increments stage to a non-zero value before the liquidity is moved f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OwnerCanBrickMovingLiquidityLeadingToFailedBootstrapX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(moveLiquidity|setAgentStage|setStage).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "moveLiquidity"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

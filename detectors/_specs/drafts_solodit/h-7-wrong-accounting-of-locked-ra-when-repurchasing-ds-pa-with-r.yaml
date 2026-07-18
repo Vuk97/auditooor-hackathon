@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "h-7-wrong-accounting-of-locked-ra-when-repurchasing-ds-pa-with-r"
+class_name: "H7WrongAccountingOfLockedRaWhenRepurchasingDsPaWithR"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41481 (Sherlock/Cork Protocol)"
+help: "H-7: Wrong accounting of locked RA when repurchasing DS+PA with RA"
+wiki_title: "H-7: Wrong accounting of locked RA when repurchasing DS+PA with RA"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-08-cork-protocol-judging/issues/155 
+    
+    ## Found by 
+    0x73696d616f, dimulski, vinica\_boy
+    ## Summary
+    
+    Users have the option to repurchase DS + PA by providing RA to the PSM. A portion of the RA provided is taken as a fee, and this fee is used to mint CT +
+wiki_exploit_scenario: |
+    Per Solodit #41481: Source: https://github.com/sherlock-audit/2024-08-cork-protocol-judging/issues/155 
+    
+    ## Found by 
+    0x73696d616f, dimulski, vinica\_boy
+    ## Summary
+    
+    Users have the option to repurchase DS + PA by providi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H7WrongAccountingOfLockedRaWhenRepurchasingDsPaWithR"
+solodit_id: "41481"
+solodit_slug: "h-7-wrong-accounting-of-locked-ra-when-repurchasing-dspa-with-ra-sherlock-cork-protocol-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(lockFrom|lockUnchecked|provideLiqudityWithFee).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

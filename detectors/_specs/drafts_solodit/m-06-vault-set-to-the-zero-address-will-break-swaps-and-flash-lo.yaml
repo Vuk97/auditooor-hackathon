@@ -1,0 +1,35 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-06-vault-set-to-the-zero-address-will-break-swaps-and-flash-lo"
+class_name: "M06VaultSetToTheZeroAddressWillBreakSwapsAndFlashLo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28854 (Code4rena/QuickSwap and StellaSwap)"
+help: "[M-06] Vault set to the zero-address will break swaps and flash loans in all deployed pools"
+wiki_title: "[M-06] Vault set to the zero-address will break swaps and flash loans in all deployed pools"
+wiki_description: |
+    Collected community fees from each swap and flash loan are immediately sent to the defined `AlgebraFactor.vaultAddress` address. Contrary to the used pull pattern in Uniswap V3.
+    
+    Having fees (ERC-20 tokens) immediately sent to the vault within each swap and flash loan, opens up potential issues if
+wiki_exploit_scenario: |
+    Per Solodit #28854: Collected community fees from each swap and flash loan are immediately sent to the defined `AlgebraFactor.vaultAddress` address. Contrary to the used pull pattern in Uniswap V3.
+    
+    Having fees (ERC-20
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06VaultSetToTheZeroAddressWillBreakSwapsAndFlashLo"
+solodit_id: "28854"
+solodit_slug: |
+    m-06-vault-set-to-the-zero-address-will-break-swaps-and-flash-loans-in-all-deployed-pools-code4rena-quickswap-and-stellaswap-quickswap-and-stellaswap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(AlgebraPool|swap|swapSupportingFeeOnInputTokens|flash).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

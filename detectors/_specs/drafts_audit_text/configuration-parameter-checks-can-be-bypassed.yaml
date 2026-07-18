@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "configuration-parameter-checks-can-be-bypassed"
+class_name: "ConfigurationParameterChecksCanBeBypassed"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Avon - Zellic Audit Report"
+help: |
+    In the contracts AvonPool and Vault, some functions wrap the function schedule of the contract TimelockController to conveniently schedule updates to the contract settings and perf
+wiki_title: "Configuration parameter checks can be bypassed"
+wiki_description: |
+    In the contracts AvonPool and Vault, some functions wrap the function schedule of the contract TimelockController to conveniently schedule updates to the contract settings and perform some sanity checks, such as the functions updateFlashLoanFee and updateManagerFees. However, for some functions that
+wiki_exploit_scenario: |
+    Per audit finding: In the contracts AvonPool and Vault, some functions wrap the function schedule of the contract TimelockController to conveniently schedule updates to the contract settings and perform some sanity chec
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ConfigurationParameterChecksCanBeBypassed"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateFlashLoanFee|updateManagerFees|flashLoanFee).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "updateFlashLoanFee"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

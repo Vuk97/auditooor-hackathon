@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "reentrancy-of-fee-payment-can-be-used-to-circumvent-max-mints-pe"
+class_name: "ReentrancyOfFeePaymentCanBeUsedToCircumventMaxMintsPe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6837 (Spearbit/SeaDrop)"
+help: "Reentrancy of fee payment can be used to circumvent max mints per wallet check"
+wiki_title: "Reentrancy of fee payment can be used to circumvent max mints per wallet check"
+wiki_description: |
+    ## Vulnerability Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    `SeaDrop.sol#L586`
+    
+    ## Description
+    In case of a `mintPublic` call, the function `_checkMintQuantity` checks whether the minter has exceeded the parameter `maxMintsPerWallet`, among other things. However, re-entrancy in the above fee disp
+wiki_exploit_scenario: |
+    Per Solodit #6837: ## Vulnerability Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    `SeaDrop.sol#L586`
+    
+    ## Description
+    In case of a `mintPublic` call, the function `_checkMintQuantity` checks whether the minter has exceed
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyOfFeePaymentCanBeUsedToCircumventMaxMintsPe"
+solodit_id: "6837"
+solodit_slug: "reentrancy-of-fee-payment-can-be-used-to-circumvent-max-mints-per-wallet-check-spearbit-seadrop-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Reentrancy, Bypass limit"
+state_decl: "uint256 internal attack;"
+fn_name_regex: ".*(mintPublic|maxMintsPerWallet|feeRecipient|attack).*"
+read_var_regex: ".*(attack|creatorPaymentAddress|feeRecipient).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mintPublic"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return attack > 0;"

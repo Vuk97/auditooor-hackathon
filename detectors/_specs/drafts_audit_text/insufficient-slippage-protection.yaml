@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "insufficient-slippage-protection"
+class_name: "InsufficientSlippageProtection"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Fractal Protocol v2- Zellic Audit Report"
+help: |
+    The codebase has several areas where slippage checks are either absent or insufficient to guard against MEV attacks. Some of these areas are listed below. All instances of depositC
+wiki_title: "Insufficient slippage protection"
+wiki_description: |
+    The codebase has several areas where slippage checks are either absent or insufficient to guard against MEV attacks. Some of these areas are listed below. All instances of depositCurveConvex in the various strategies: function depositCurveConvex( uint256 amount, uint256[3] calldata amounts, uint256
+wiki_exploit_scenario: |
+    Per audit finding: The codebase has several areas where slippage checks are either absent or insufficient to guard against MEV attacks. Some of these areas are listed below. All instances of depositCurveConvex in the va
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InsufficientSlippageProtection"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

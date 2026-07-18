@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "m-7-having-no-deposits-in-stakedexa-will-lead-to-stuck-rewards-w"
+class_name: "M7HavingNoDepositsInStakedexaWillLeadToStuckRewardsW"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36670 (Sherlock/Exactly Protocol Update - Stacking Contract)"
+help: "M-7: Having no deposits in `StakedEXA` will lead to stuck rewards when harvesting"
+wiki_title: "M-7: Having no deposits in `StakedEXA` will lead to stuck rewards when harvesting"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-07-exactly-stacking-contracts-judging/issues/48 
+    
+    ## Found by 
+    0x73696d616f, KupiaSec
+    ### Summary
+    
+    The provider in `StakedEXA` is free to distributed rewards as it pleases and there is an automated way to distribute via `StakedEXA::harvest()`. The harve
+wiki_exploit_scenario: |
+    Per Solodit #36670: Source: https://github.com/sherlock-audit/2024-07-exactly-stacking-contracts-judging/issues/48 
+    
+    ## Found by 
+    0x73696d616f, KupiaSec
+    ### Summary
+    
+    The provider in `StakedEXA` is free to distributed rew
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M7HavingNoDepositsInStakedexaWillLeadToStuckRewardsW"
+solodit_id: "36670"
+solodit_slug: |
+    m-7-having-no-deposits-in-stakedexa-will-lead-to-stuck-rewards-when-harvesting-sherlock-exactly-protocol-update-stacking-contract-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(StakedEXA|totalSupply).*"
+primary_var_regex: ".*(totalSupply).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

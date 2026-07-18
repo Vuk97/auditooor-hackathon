@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "nblgame-2024-01"
+class_name: "Nblgame202401"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-01/NBLGAME_exp.sol"
+help: "NBLGAME 2024-01 — flashloan exploit (~$180K)"
+wiki_title: "NBLGAME (2024-01) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-01): NBLGAME lost ~$180K. Bug class: flashloan. Attack tx: 0xf4fc3b638f1a377cf22b729199a9aeb27fc62fe2983a65c4d14b99ee5c5b2328.
+wiki_exploit_scenario: |
+    Attacker (0x1fd0a6a5e232eeba8020a40535ad07013ec4ef12) exploits NBLGAME via flashloan: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Nblgame202401"
+trigger_sig_regex: ".*(uniswapV3FlashCallback).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function uniswapV3FlashCallback(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.uniswapV3FlashCallback(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

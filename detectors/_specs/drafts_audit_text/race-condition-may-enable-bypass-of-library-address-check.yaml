@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "race-condition-may-enable-bypass-of-library-address-check"
+class_name: "RaceConditionMayEnableBypassOfLibraryAddressCheck"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero Core - Zellic Audit Report"
+help: |
+    An obscure scenario may allow a malicious actor to bypass the ULN library address check in receivePayload: /) authentication to prevent cross-version message validation /) protects
+wiki_title: "Race condition may enable bypass of library address check"
+wiki_description: |
+    An obscure scenario may allow a malicious actor to bypass the ULN library address check in receivePayload: /) authentication to prevent cross-version message validation /) protects against a malicious library from passing arbitrary data if (uaConfig.receiveVersion == DEFAULT_VERSION) { require(defau
+wiki_exploit_scenario: |
+    Per audit finding: An obscure scenario may allow a malicious actor to bypass the ULN library address check in receivePayload: /) authentication to prevent cross-version message validation /) protects against a malicious
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RaceConditionMayEnableBypassOfLibraryAddressCheck"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(receivePayload|uaConfig|receiveVersion).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "receivePayload"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

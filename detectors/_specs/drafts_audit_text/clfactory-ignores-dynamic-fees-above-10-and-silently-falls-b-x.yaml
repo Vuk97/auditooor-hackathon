@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "clfactory-ignores-dynamic-fees-above-10-and-silently-falls-b-x"
+class_name: "ClfactoryIgnoresDynamicFeesAbove10AndSilentlyFallsBX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-10-hybra-finance"
+help: |
+    niffylord , also found by JuggerNaut63 ljj Nexarion , and ZanyBonzy CLFactory.sol [#L176-L189[( ) Summary Governance can configure DynamicSwapFeeModule with fees up to 50%, but CLF
+wiki_title: "CLFactory ignores dynamic fees above 10% and silently falls back to default"
+wiki_description: |
+    niffylord , also found by JuggerNaut63 ljj Nexarion , and ZanyBonzy CLFactory.sol [#L176-L189[( ) Summary Governance can configure DynamicSwapFeeModule with fees up to 50%, but CLFactory.getSwapFee discards any value above 100_000 ppm (10%) and falls back to the tick-spacing default (often 500 ppm =
+wiki_exploit_scenario: |
+    Per audit finding: niffylord , also found by JuggerNaut63 ljj Nexarion , and ZanyBonzy CLFactory.sol [#L176-L189[( ) Summary Governance can configure DynamicSwapFeeModule with fees up to 50%, but CLFactory.getSwapFee di
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ClfactoryIgnoresDynamicFeesAbove10AndSilentlyFallsBX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getSwapFee|tickSpacingToFee|feeCap).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "getSwapFee"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-reward-capping"
+class_name: "IncorrectRewardCapping"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #47772 (OtterSec/USDV)"
+help: "Incorrect Reward Capping"
+wiki_title: "Incorrect Reward Capping"
+wiki_description: |
+    ## VaultManager and Mint Rate Limiting
+    
+    VaultManager uses `mintRateLimiter` to limit the amount of USDV that can be minted for each token over time. Since rewards are also distributed in the form of minting USDV, they should also be subject to rate limits.
+    
+    To allow distribution when the total rewar
+wiki_exploit_scenario: |
+    Per Solodit #47772: ## VaultManager and Mint Rate Limiting
+    
+    VaultManager uses `mintRateLimiter` to limit the amount of USDV that can be minted for each token over time. Since rewards are also distributed in the form of m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectRewardCapping"
+solodit_id: "47772"
+solodit_slug: "incorrect-reward-capping-ottersec-none-usdv-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal distributereward;"
+fn_name_regex: ".*(mintRateLimiter|distributeReward|rateLimitedRewardInUSDV).*"
+read_var_regex: ".*(distributeReward|mintRateLimiter|rateLimitedRewardInUSDV).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mintRateLimiter"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return distributereward > 0;"

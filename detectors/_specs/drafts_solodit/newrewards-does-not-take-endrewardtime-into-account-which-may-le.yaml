@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_require"
+name: "newrewards-does-not-take-endrewardtime-into-account-which-may-le"
+class_name: "NewrewardsDoesNotTakeEndrewardtimeIntoAccountWhichMayLe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40827 (Cantina/ZeroLend)"
+help: |
+    _newrewards does not take endrewardtime into account, which may lead to incorrect alloca- tion of rewards
+wiki_title: |
+    _newrewards does not take endrewardtime into account, which may lead to incorrect alloca- tion of rewards 
+wiki_description: |
+    ## End Reward Time
+    
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    `endRewardTime` represents the end time of the current emission of rewards. For example, if the current time is `t0`, `rewardsPerSecond = 20`, and `availableRewards = 8000`, then: 
+    
+    ```
+    endRewardTime = 80
+wiki_exploit_scenario: |
+    Per Solodit #40827: ## End Reward Time
+    
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    `endRewardTime` represents the end time of the current emission of rewards. For example, if the current
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NewrewardsDoesNotTakeEndrewardtimeIntoAccountWhichMayLe"
+solodit_id: "40827"
+solodit_slug: |
+    newrewards-does-not-take-endrewardtime-into-account-which-may-lead-to-incorrect-alloca-tion-of-rewards-cantina-none-zerolend-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal endreward;"
+fn_name_regex: ".*(endRewardTime|updateCadence|endReward|lastRewardTime).*"
+write_var_regex: ".*(endReward|endRewardTime|lastRewardTime).*"
+guard_var_regex: ".*(endReward|endRewardTime|lastRewardTime).*"
+vuln_fn_name: "endRewardTime"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "endreward = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

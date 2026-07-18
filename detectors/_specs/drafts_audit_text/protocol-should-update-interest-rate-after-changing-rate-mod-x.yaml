@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "protocol-should-update-interest-rate-after-changing-rate-mod-x"
+class_name: "ProtocolShouldUpdateInterestRateAfterChangingRateModX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-benddao"
+help: |
+    SpicyMeatball Impact After updating the interest model, the protocol does not update the interest rate, resulting in interest being calculated at the old model rates for some time.
+wiki_title: "Protocol should update interest rate after changing rate model in the configurator module"
+wiki_description: |
+    SpicyMeatball Impact After updating the interest model, the protocol does not update the interest rate, resulting in interest being calculated at the old model rates for some time. Proof of Concept The pool admin can change rate model in the Configurator.sol module: function executeSetAssetLendingRa
+wiki_exploit_scenario: |
+    Per audit finding: SpicyMeatball Impact After updating the interest model, the protocol does not update the interest rate, resulting in interest being calculated at the old model rates for some time. Proof of Concept Th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProtocolShouldUpdateInterestRateAfterChangingRateModX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(executeSetAssetLendingRate|poolId|groupId).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "executeSetAssetLendingRate"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

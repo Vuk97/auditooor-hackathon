@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "potential-withdrawal-lock"
+class_name: "PotentialWithdrawalLock"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28730 (MixBytes/Yearn Finance)"
+help: "Potential withdrawal lock"
+wiki_title: "Potential withdrawal lock"
+wiki_description: |
+    ##### Description
+    At this line: https://github.com/iearn-finance/yearn-vaults/blob/054034304c7912d227d460feadc23177103de0b9/contracts/Vault.vy#L787
+    
+    ```solidity
+    amountNeeded: uint256 = value - self.token.balanceOf(self)
+    ```
+    
+    In case if the result of withdrawals in the previous loop iteration `self.t
+wiki_exploit_scenario: |
+    Per Solodit #28730: ##### Description
+    At this line: https://github.com/iearn-finance/yearn-vaults/blob/054034304c7912d227d460feadc23177103de0b9/contracts/Vault.vy#L787
+    
+    ```solidity
+    amountNeeded: uint256 = value - self.to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialWithdrawalLock"
+solodit_id: "28730"
+solodit_slug: "potential-withdrawal-lock-mixbytes-none-yearn-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amountneeded;"
+fn_name_regex: ".*(value|amountNeeded).*"
+write_var_regex: ".*(amountNeeded|value).*"
+guard_var_regex: ".*(amountNeeded|value).*"
+vuln_fn_name: "value"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amountneeded = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "vlts3-9-withdrawal-queue-priority-bypass-for-feeless-instant-wit"
+class_name: "Vlts39WithdrawalQueuePriorityBypassForFeelessInstantWit"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56685 (Hexens/Valantis)"
+help: "[VLTS3-9] Withdrawal queue priority bypass for feeless instant withdrawal"
+wiki_title: "[VLTS3-9] Withdrawal queue priority bypass for feeless instant withdrawal"
+wiki_description: |
+    **Severity:** High
+    
+    **Description:** When a `Withdrawal` is created, it references the `cumulativeAmountToken1ClaimableLPWithdrawalCheckpoint` pointer to track when a claim is allowed, according to the existing withdrawal queue.
+    ```
+      LPWithdrawals[idLPWithdrawal] = LPWithdrawalRequest({
+          recip
+wiki_exploit_scenario: |
+    Per Solodit #56685: **Severity:** High
+    
+    **Description:** When a `Withdrawal` is created, it references the `cumulativeAmountToken1ClaimableLPWithdrawalCheckpoint` pointer to track when a claim is allowed, according to th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Vlts39WithdrawalQueuePriorityBypassForFeelessInstantWit"
+solodit_id: "56685"
+solodit_slug: |
+    vlts3-9-withdrawal-queue-priority-bypass-for-feeless-instant-withdrawal-hexens-none-valantis-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cumulativeamounttoken1claimablelpwithdrawal;"
+fn_name_regex: ".*(Withdrawal|cumulativeAmountToken1ClaimableLPWithdrawalCheckpoint|cumulativeAmountToken1ClaimableLPWithdrawal|update).*"
+read_var_regex: ".*(cumulativeAmountToken1ClaimableLPWithdrawal|cumulativeAmountToken1ClaimableLPWithdrawalCheckpoint|update).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Withdrawal"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cumulativeamounttoken1claimablelpwithdrawal > 0;"

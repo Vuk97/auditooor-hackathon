@@ -1,0 +1,42 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "inconsistent-pausing-mechanism-leading-to-potential-fund-loss"
+class_name: "InconsistentPausingMechanismLeadingToPotentialFundLoss"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52925 (Cantina/Ludex Labs)"
+help: "Inconsistent Pausing Mechanism Leading to Potential Fund Loss"
+wiki_title: "Inconsistent Pausing Mechanism Leading to Potential Fund Loss "
+wiki_description: |
+    ## Entropy Callback Issue Report
+    
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    The `entropyCallback` function is currently restricted by the `whenNotPaused` modifier, meaning it cannot execute if the contract is paused between a spin request and the callback. Since the
+wiki_exploit_scenario: |
+    Per Solodit #52925: ## Entropy Callback Issue Report
+    
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    The `entropyCallback` function is currently restricted by the `whenNotPaused` modifier, me
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentPausingMechanismLeadingToPotentialFundLoss"
+solodit_id: "52925"
+solodit_slug: "inconsistent-pausing-mechanism-leading-to-potential-fund-loss-cantina-none-ludex-labs-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(entropyCallback|whenNotPaused|refundGame|ff57744b).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

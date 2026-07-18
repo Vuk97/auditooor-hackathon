@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-02-unauthorize-can-be-front-run-so-that-the-malicious-authoriz"
+class_name: "M02UnauthorizeCanBeFrontRunSoThatTheMaliciousAuthoriz"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6577 (Code4rena/Drips Protocol)"
+help: |
+    [M-02] `unauthorize()` can be front-run so that the malicious authorized user would get their authority back
+wiki_title: |
+    [M-02] `unauthorize()` can be front-run so that the malicious authorized user would get their authority back
+wiki_description: |
+    The `Caller` contract enables users to authorize other users to execute tx on their behalf.
+    This option enables the authorized/delegated user to add more users to the authorized users list.
+    In case the original user is trying to remove an authorized user (i.e. run `unauthorize()`), the delegated us
+wiki_exploit_scenario: |
+    Per Solodit #6577: The `Caller` contract enables users to authorize other users to execute tx on their behalf.
+    This option enables the authorized/delegated user to add more users to the authorized users list.
+    In case t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02UnauthorizeCanBeFrontRunSoThatTheMaliciousAuthoriz"
+solodit_id: "6577"
+solodit_slug: |
+    m-02-unauthorize-can-be-front-run-so-that-the-malicious-authorized-user-would-get-their-authority-back-code4rena-drips-protocol-drips-protocol-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal unauthorize;"
+fn_name_regex: ".*(Caller|unauthorize|unauthorized).*"
+read_var_regex: ".*(unauthorize|unauthorized).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Caller"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return unauthorize > 0;"

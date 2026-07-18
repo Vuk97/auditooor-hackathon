@@ -1,0 +1,27 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "ambientcrocswapdex-2026-06"
+class_name: "Ambientcrocswapdex202606"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-06/AmbientCrocSwapDex_exp.sol"
+help: |
+    AmbientCrocSwapDex 2026-06 — flashloan exploit (~67.85 ETH after final USDC->WETH conversion and ETH forwarding)
+wiki_title: "AmbientCrocSwapDex (2026-06) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-06): AmbientCrocSwapDex lost ~67.85 ETH after final USDC->WETH conversion and ETH forwarding. Bug class: flashloan. Attack tx: 0xb2fc668c42623261074de6fc30d583efede2b0e20d7aded42b7b634f9322ff52.
+wiki_exploit_scenario: |
+    Attacker (0x0000000000037e625b2502c26029aea237f102af) exploits AmbientCrocSwapDex via flashloan: the victim contract 0xAaAaAAAaA24eEeb8d57D431224f73832bC34f688 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Ambientcrocswapdex202606"
+trigger_sig_regex: ".*(receiveFlashLoan).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function receiveFlashLoan(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.receiveFlashLoan(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

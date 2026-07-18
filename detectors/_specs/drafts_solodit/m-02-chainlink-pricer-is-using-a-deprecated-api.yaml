@@ -1,0 +1,34 @@
+skeleton: "state_write_without_paired_write"
+name: "m-02-chainlink-pricer-is-using-a-deprecated-api"
+class_name: "M02ChainlinkPricerIsUsingADeprecatedApi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2215 (Code4rena/bunker.finance)"
+help: "[M-02] Chainlink pricer is using a deprecated API"
+wiki_title: "[M-02] Chainlink pricer is using a deprecated API"
+wiki_description: |
+    According to Chainlink's documentation, the latestAnswer function is deprecated. This function might suddenly stop working if Chainlink stop supporting deprecated APIs. And the old API can return stale data.
+    
+    ### Proof of Concept
+    
+    [PriceOracleImplementation.sol#L29-L30](https://github.com/bunkerfin
+wiki_exploit_scenario: |
+    Per Solodit #2215: According to Chainlink's documentation, the latestAnswer function is deprecated. This function might suddenly stop working if Chainlink stop supporting deprecated APIs. And the old API can return sta
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02ChainlinkPricerIsUsingADeprecatedApi"
+solodit_id: "2215"
+solodit_slug: "m-02-chainlink-pricer-is-using-a-deprecated-api-code4rena-bunkerfinance-bunkerfinance-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(latestAnswer|latestRoundData).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

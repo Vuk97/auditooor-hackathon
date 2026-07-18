@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "m-07-impossible-to-open-a-position-with-a-large-marginto"
+class_name: "M07ImpossibleToOpenAPositionWithALargeMarginto"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29704 (Code4rena/Particle Protocol)"
+help: "[M-07] Impossible to open a position with a large `marginTo`"
+wiki_title: "[M-07] Impossible to open a position with a large `marginTo`"
+wiki_description: |
+    `marginTo/From` is a way to both cover your position and increase your premium when opening a position. There is however a unintended limit on how much `marginTo` you can provide when opening a position.
+    
+    When doing the swap to increase leverage, the `amountToMinimum` (minimum received amount) is c
+wiki_exploit_scenario: |
+    Per Solodit #29704: `marginTo/From` is a way to both cover your position and increase your premium when opening a position. There is however a unintended limit on how much `marginTo` you can provide when opening a posit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07ImpossibleToOpenAPositionWithALargeMarginto"
+solodit_id: "29704"
+solodit_slug: |
+    m-07-impossible-to-open-a-position-with-a-large-marginto-code4rena-particle-protocol-particle-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addpremium;"
+fn_name_regex: ".*(marginTo|amountToMinimum|addPremium|openPosition).*"
+write_var_regex: ".*(addPremium|amountToMinimum|marginTo).*"
+guard_var_regex: ".*(addPremium|amountToMinimum|marginTo).*"
+vuln_fn_name: "marginTo"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "addpremium = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

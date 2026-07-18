@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-03-signature-replay-attacks-for-different-identities-nonce-on-"
+class_name: "H03SignatureReplayAttacksForDifferentIdentitiesNonceOn"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25587 (Code4rena/Ambire)"
+help: "[H-03] Signature replay attacks for different identities (nonce on wrong party)"
+wiki_title: "[H-03] Signature replay attacks for different identities (nonce on wrong party)"
+wiki_description: |
+    _Submitted by cmichel, also found by WatchPug_
+    
+    A single `QuickAccount` can serve as the "privilege" for multiple identities, see the comment in `QuickAccManager.sol`:
+    
+    > NOTE: a single accHash can control multiple identities, as long as those identities set it's hash in privileges\[address(this)].
+wiki_exploit_scenario: |
+    Per Solodit #25587: _Submitted by cmichel, also found by WatchPug_
+    
+    A single `QuickAccount` can serve as the "privilege" for multiple identities, see the comment in `QuickAccManager.sol`:
+    
+    > NOTE: a single accHash can co
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03SignatureReplayAttacksForDifferentIdentitiesNonceOn"
+solodit_id: "25587"
+solodit_slug: |
+    h-03-signature-replay-attacks-for-different-identities-nonce-on-wrong-party-code4rena-ambire-ambire-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal acchash;"
+fn_name_regex: ".*(QuickAccount|send|identity|hash).*"
+read_var_regex: ".*(accHash|cancel|hash).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "QuickAccount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return acchash > 0;"

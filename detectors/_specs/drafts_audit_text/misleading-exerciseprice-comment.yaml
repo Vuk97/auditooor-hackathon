@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "misleading-exerciseprice-comment"
+class_name: "MisleadingExercisepriceComment"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Metavest - Zellic Audit Report"
+help: |
+    It appears that exercisePrice is defined as the number of option tokens that one payment token can purchase. In the test script MetaVestControllerTest, the exercisePrice is set to
+wiki_title: "Misleading exercisePrice comment"
+wiki_description: |
+    It appears that exercisePrice is defined as the number of option tokens that one payment token can purchase. In the test script MetaVestControllerTest, the exercisePrice is set to 1e18 and the payment token uses a six-decimal format. For example, if the payment token is USDC, 1 USDC could currently
+wiki_exploit_scenario: |
+    Per audit finding: It appears that exercisePrice is defined as the number of option tokens that one payment token can purchase. In the test script MetaVestControllerTest, the exercisePrice is set to 1e18 and the payment
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MisleadingExercisepriceComment"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(exercisePrice|onlyController|updatePrice).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "exercisePrice"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,41 @@
+schema_version: auditooor.hackerman_record.v1
+record_id: vyper-cve:cve-2022-37937:curve-y-pool-virtual_price-feed-vyper-0.3.4:pre-fix:ac6ba39692e3
+source_audit_ref: vyper-cve:cve-2022-37937:curve-y-pool-virtual_price-feed-vyper-0.3.4:pre-fix
+target_domain: dex
+target_language: vyper
+target_repo: curvefi/curve-contract
+target_component: "Curve y-pool virtual_price feed (Vyper <0.3.4)"
+function_shape:
+  raw_signature: "def get_virtual_price() -> uint256: view"
+  shape_tags:
+    - vyper-compiler-saturating-arithmetic-reentrancy
+    - vyper-vyper-compiler-bug
+    - affected-vyper-0.3.4
+bug_class: vyper-compiler-bug
+attack_class: vyper-compiler-saturating-arithmetic-reentrancy
+attacker_role: unprivileged
+attacker_action_sequence: "Deposit a precision-crafted token amount into a Vyper pool whose invariant relies on a fixed-point intermediate. The saturated multiplication overflows the documented decimal range, inflating the recorded virtual_price. Borrow against the same pool's LP token at the manipulated virtual_price to extract value before the next legitimate trade renormalises."
+required_preconditions:
+  - "pool compiled with Vyper <0.3.4 and exposes a virtual_price that depends on fixed-point math"
+  - "external lending market accepts the LP token as collateral at the on-chain virtual_price"
+  - "attacker can craft deposit amounts that drive the intermediate into the unmoduloed range"
+  - mitigation_state=pre-fix
+impact_class: theft
+impact_actor: depositor-class
+impact_dollar_class: $100K-$1M
+fix_pattern: "Vyper 0.3.4 added the missing modulo and bound check for fixed-point saturating ops. Pools using virtual_price as collateral must additionally clamp the on-chain feed to a sanity range or use a TWAP."
+fix_anti_pattern_avoided: "treating raw virtual_price as a trusted oracle without bound checking against an independent source"
+severity_at_finding: high
+year: 2022
+cross_language_analogues:
+  - target_language: solidity
+    pattern_translation: "Solidity equivalent: any FixedPointMathLib usage that casts a wider integer to a narrower fixed-point type without an explicit modulo/bound assertion."
+related_records:
+  - vyper-cve:cve-2022-37937:curve-y-pool-virtual_price-feed-vyper-0.3.4:post-fix-migrated-histor:350054e3648d
+  - vyper-cve:cve-2022-37937:curve-y-pool-virtual_price-feed-vyper-0.3.4:post-fix-not-migrated:39e08a585dc5
+  - vyper-cve:cve-2022-37937:vyper-fixed-point-intermediate:post-fix-migrated-histor:d6372720e0c2
+  - vyper-cve:cve-2022-37937:vyper-fixed-point-intermediate:post-fix-not-migrated:c42d1f3193b3
+  - vyper-cve:cve-2022-37937:vyper-fixed-point-intermediate:pre-fix:0b56b92c1b86
+  - vyper-cve:cve-2022-37937:vyper-stableswap-invariant-integral:post-fix-migrated-histor:1c760ed2d910
+  - vyper-cve:cve-2022-37937:vyper-stableswap-invariant-integral:post-fix-not-migrated:e78e1b28ada2
+  - vyper-cve:cve-2022-37937:vyper-stableswap-invariant-integral:pre-fix:5e4e74f7822b

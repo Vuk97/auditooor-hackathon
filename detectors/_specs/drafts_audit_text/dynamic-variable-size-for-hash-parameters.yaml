@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "dynamic-variable-size-for-hash-parameters"
+class_name: "DynamicVariableSizeForHashParameters"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Hyperlane Starknet - Zellic Audit Report"
+help: |
+    The digest and domain_hash functions in checkpoint_lib.cairo, the format_message function in message.cairo, and the domain_hash function in validator_announce.cairo try to follow t
+wiki_title: "Dynamic variable size for hash parameters"
+wiki_description: |
+    The digest and domain_hash functions in checkpoint_lib.cairo, the format_message function in message.cairo, and the domain_hash function in validator_announce.cairo try to follow the be- havior of abi.encodePacked by appending the ByteData struct with the size calculated with the u{64,256}_word_size
+wiki_exploit_scenario: |
+    Per audit finding: The digest and domain_hash functions in checkpoint_lib.cairo, the format_message function in message.cairo, and the domain_hash function in validator_announce.cairo try to follow the be- havior of abi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DynamicVariableSizeForHashParameters"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(encodePacked).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "encodePacked"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

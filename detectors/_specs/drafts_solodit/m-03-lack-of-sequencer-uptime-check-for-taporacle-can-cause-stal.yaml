@@ -1,0 +1,45 @@
+skeleton: "state_write_without_paired_write"
+name: "m-03-lack-of-sequencer-uptime-check-for-taporacle-can-cause-stal"
+class_name: "M03LackOfSequencerUptimeCheckForTaporacleCanCauseStal"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31441 (Pashov Audit Group/Tapiocadao)"
+help: "[M-03] Lack of sequencer uptime check for `TapOracle` can cause stale prices"
+wiki_title: "[M-03] Lack of sequencer uptime check for `TapOracle` can cause stale prices"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Medium, oracle price will be stale
+    **Likelihood:** Medium, occurs during period of sequencer downtime
+    
+    **Description**
+    
+    `TapOracle` takes an average of 3 TWAP prices from UniswapV3 pool with an interval of at least 4 hours (based on `FETCH_TIME`). The 3 TWAP prices are stor
+wiki_exploit_scenario: |
+    Per Solodit #31441: **Severity**
+    
+    **Impact:** Medium, oracle price will be stale
+    **Likelihood:** Medium, occurs during period of sequencer downtime
+    
+    **Description**
+    
+    `TapOracle` takes an average of 3 TWAP prices from Uni
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03LackOfSequencerUptimeCheckForTaporacleCanCauseStal"
+solodit_id: "31441"
+solodit_slug: |
+    m-03-lack-of-sequencer-uptime-check-for-taporacle-can-cause-stale-prices-pashov-none-tapiocadao-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(TapOracle|FETCH_TIME|get).*"
+primary_var_regex: ".*(get).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,42 @@
+{
+  "schema": "auditooor.novel_vector_0day_pipeline_fixtures.v1",
+  "kit": "rebate_conservation_controls",
+  "description": "Proof-fixture pair for the NOVEL-VECTOR / true-0-day pipeline (Phase 7). Distinct from the evm_zero_day_pipeline kit, which proves a KNOWN-CLASS bug (ERC4626 first-depositor inflation, which has a dedicated corpus detector). Here the bug is a TARGET-SPECIFIC conservation invariant (totalCredits <= rebatePool) that must be DERIVED from the target's own spec; no pre-existing detector / known-class pattern matches it. The engine must search the unmodified source for an unknown violation of the derived invariant, prove it on the real entrypoint, and pass the clean negative control.",
+  "proof_contract": "derive target-specific invariant from spec -> engine searches source for unknown violation -> prove on real entrypoint -> clean negative control passes",
+  "true_0day_contract_doc": "../../../docs/NOVEL_VECTOR_TRUE_0DAY_CONTRACT_2026-05-30.md",
+  "distinct_from": {
+    "kit": "evm_zero_day_pipeline",
+    "why": "evm_zero_day_pipeline proves a KNOWN bug class (ERC4626 share-price inflation) that already has a detector; this kit proves a bug ONLY visible as a violation of a target-declared invariant, with source_corpus_match=false and known_class_match=false."
+  },
+  "spec_source": "rebate_conservation_vuln/SPEC.md",
+  "expected_miner_output": "expected_spec_invariants.jsonl",
+  "fixtures": [
+    {
+      "role": "vulnerable",
+      "dir": "rebate_conservation_vuln",
+      "target": "RebateLedger.sol",
+      "spec_source": "SPEC.md",
+      "poc": "RebateLedger.invariant.t.sol",
+      "proof_manifest": "spec_invariant_proof.json",
+      "expected_verdict": "caught",
+      "source_corpus_match": false,
+      "known_class_match": false,
+      "violated_spec_invariant_id": "INV-REBATE-CONSERVATION",
+      "expected_failing_property": "invariant_rebateConservation",
+      "expected_failing_test": "test_conservation_broken_on_epoch_boundary"
+    },
+    {
+      "role": "negative-control",
+      "dir": "rebate_conservation_clean",
+      "target": "RebateLedger.sol",
+      "poc": "RebateLedger.invariant.t.sol",
+      "proof_manifest": "spec_invariant_proof.json",
+      "expected_verdict": "clean",
+      "source_corpus_match": false,
+      "known_class_match": false,
+      "violated_spec_invariant_id": "INV-REBATE-CONSERVATION",
+      "expected_passing_property": "invariant_rebateConservation",
+      "expected_passing_test": "test_conservation_holds_on_epoch_boundary"
+    }
+  ]
+}

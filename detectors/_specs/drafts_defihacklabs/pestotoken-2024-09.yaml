@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "pestotoken-2024-09"
+class_name: "Pestotoken202409"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-09/PestoToken_exp.sol"
+help: "PestoToken 2024-09 — flashloan exploit (1.4K USD)"
+wiki_title: "PestoToken (2024-09) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-09): PestoToken lost 1.4K USD. Bug class: flashloan. Attack tx: 0x3d5b4a0d560e8dd750239b578e2b85921b523835b644714dc239a2db70cf067c.
+wiki_exploit_scenario: |
+    Attacker (0x7248939f65bdd23aab9eaab1bc4a4f909567486e) exploits PestoToken via flashloan: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Pestotoken202409"
+trigger_sig_regex: ".*(uniswapV3FlashCallback).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function uniswapV3FlashCallback(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.uniswapV3FlashCallback(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

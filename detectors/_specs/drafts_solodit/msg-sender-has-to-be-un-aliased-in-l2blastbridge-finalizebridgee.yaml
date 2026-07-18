@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_call"
+name: "msg-sender-has-to-be-un-aliased-in-l2blastbridge-finalizebridgee"
+class_name: "MsgSenderHasToBeUnAliasedInL2blastbridgeFinalizebridgee"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29873 (Spearbit/DRAFT)"
+help: "msg.sender has to be un-aliased in L2BlastBridge.finalizeBridgeETHDirect()"
+wiki_title: "msg.sender has to be un-aliased in L2BlastBridge.finalizeBridgeETHDirect()"
+wiki_description: |
+    ## Severity
+    **Critical Risk**
+    
+    ## Context
+    L2BlastBridge.sol#L48
+    
+    ## Description
+    `L2BlastBridge.finalizeBridgeETHDirect()` checks that `msg.sender` is `L1BlastBridge`:
+    
+    ```solidity
+    require(msg.sender == address(OTHER_BRIDGE), "StandardBridge: function can only be called from the other bridge");
+    ```
+wiki_exploit_scenario: |
+    Per Solodit #29873: ## Severity
+    **Critical Risk**
+    
+    ## Context
+    L2BlastBridge.sol#L48
+    
+    ## Description
+    `L2BlastBridge.finalizeBridgeETHDirect()` checks that `msg.sender` is `L1BlastBridge`:
+    
+    ```solidity
+    require(msg.sender =
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MsgSenderHasToBeUnAliasedInL2blastbridgeFinalizebridgee"
+solodit_id: "29873"
+solodit_slug: "msgsender-has-to-be-un-aliased-in-l2blastbridgefinalizebridgeethdirect-spearbit-none-draft-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal steth;"
+fn_name_regex: ".*(L1BlastBridge|OTHER_BRIDGE|L2BlastBridge|stETH).*"
+read_var_regex: ".*(stETH).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "L1BlastBridge"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return steth > 0;"

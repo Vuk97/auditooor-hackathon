@@ -1,0 +1,50 @@
+skeleton: "paired_function_divergence"
+name: "owner-can-reset-feebps-set-byadmin-for-token-gated-drops"
+class_name: "OwnerCanResetFeebpsSetByadminForTokenGatedDrops"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6845 (Spearbit/SeaDrop)"
+help: "owner can reset feeBps set byadmin for token gated drops"
+wiki_title: "owner can reset feeBps set byadmin for token gated drops"
+wiki_description: |
+    ## Medium Risk Report
+    
+    **Severity:** Medium Risk  
+    **Context:** 
+    - ERC721SeaDrop.sol#L233-L245
+    - SeaDrop.sol#L860
+    - SeaDrop.sol#L889-L890  
+    
+    **Description:**  
+    Only the admin can call `updateTokenGatedDropFee` to update `feeBps`. However, the owner can call `updateTokenGatedDrop(address seaDropImpl,
+wiki_exploit_scenario: |
+    Per Solodit #6845: ## Medium Risk Report
+    
+    **Severity:** Medium Risk  
+    **Context:** 
+    - ERC721SeaDrop.sol#L233-L245
+    - SeaDrop.sol#L860
+    - SeaDrop.sol#L889-L890  
+    
+    **Description:**  
+    Only the admin can call `updateTokenGate
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OwnerCanResetFeebpsSetByadminForTokenGatedDrops"
+solodit_id: "6845"
+solodit_slug: "owner-can-reset-feebps-set-byadmin-for-token-gated-drops-spearbit-seadrop-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Admin, Access Control"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(allowedNftToken|feeBps|restrictFeeRecipients).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

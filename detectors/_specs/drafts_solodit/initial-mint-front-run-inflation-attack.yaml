@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "initial-mint-front-run-inflation-attack"
+class_name: "InitialMintFrontRunInflationAttack"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62659 (MixBytes/NUTS Finance)"
+help: "Initial Mint Front-Run Inflation Attack"
+wiki_title: "Initial Mint Front-Run Inflation Attack"
+wiki_description: |
+    ##### Description
+    This issue has been identified within the `mint()` function of the `SelfPeggingAsset` contract.
+    
+    An attacker can front-run the initial liquidity provider by depositing a minimal amount (for example, 1 wei) before the first legitimate mint, bypassing the `_minMintAmount` protection.
+wiki_exploit_scenario: |
+    Per Solodit #62659: ##### Description
+    This issue has been identified within the `mint()` function of the `SelfPeggingAsset` contract.
+    
+    An attacker can front-run the initial liquidity provider by depositing a minimal amou
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InitialMintFrontRunInflationAttack"
+solodit_id: "62659"
+solodit_slug: "initial-mint-front-run-inflation-attack-mixbytes-none-nuts-finance-markdown"
+solodit_quality: "5"
+solodit_rarity: "3.5"
+solodit_tags: ""
+state_decl: "uint256 internal minmintamount;"
+fn_name_regex: ".*(mint|SelfPeggingAsset|minMintAmount|totalSupply).*"
+read_var_regex: ".*(minMintAmount|mint|totalShares).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mint"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return minmintamount > 0;"

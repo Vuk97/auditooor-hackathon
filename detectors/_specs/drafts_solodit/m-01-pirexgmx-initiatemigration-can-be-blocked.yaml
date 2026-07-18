@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "m-01-pirexgmx-initiatemigration-can-be-blocked"
+class_name: "M01PirexgmxInitiatemigrationCanBeBlocked"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6038 (Code4rena/Redacted Cartel)"
+help: "[M-01] `PirexGmx.initiateMigration` can be blocked"
+wiki_title: "[M-01] `PirexGmx.initiateMigration` can be blocked"
+wiki_description: |
+    `PirexGmx.initiateMigration` can be blocked so contract will not be able to migrate his funds to another contract using gmx.
+    
+    ### Proof of Concept
+    
+    PirexGmx was designed with the thought that the current contract can be changed with another during migration.
+    
+    `PirexGmx.initiateMigration` is the fir
+wiki_exploit_scenario: |
+    Per Solodit #6038: `PirexGmx.initiateMigration` can be blocked so contract will not be able to migrate his funds to another contract using gmx.
+    
+    ### Proof of Concept
+    
+    PirexGmx was designed with the thought that the cur
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01PirexgmxInitiatemigrationCanBeBlocked"
+solodit_id: "6038"
+solodit_slug: "m-01-pirexgmxinitiatemigration-can-be-blocked-code4rena-redacted-cartel-redacted-cartel-contest-git"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Revert By Sending Dust, Initialization"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(initiateMigration|newContract|whenPaused|onlyOwner).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "initiateMigration"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

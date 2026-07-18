@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-pointer-bounds-checks-in-tx-display-translation"
+class_name: "MissingPointerBoundsChecksInTxDisplayTranslation"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Cosmos SDK Sign Mode Textual - Zellic Audit Report"
+help: |
+    The following code is missing pointer bounds checks when writing the last two bytes: if (src[srcLen - 1] =) ' ' |) src[srcLen - 1] =) '@') { if (src[dstLen - 1] + 1 > dstLen) { ret
+wiki_title: "Missing pointer bounds checks in tx_display_translation"
+wiki_description: |
+    The following code is missing pointer bounds checks when writing the last two bytes: if (src[srcLen - 1] =) ' ' |) src[srcLen - 1] =) '@') { if (src[dstLen - 1] + 1 > dstLen) { return parser_unexpected_value; } *dst+) = '@'; } /) Terminate string *dst = 0; Also, the check inside the if statement see
+wiki_exploit_scenario: |
+    Per audit finding: The following code is missing pointer bounds checks when writing the last two bytes: if (src[srcLen - 1] =) ' ' |) src[srcLen - 1] =) '@') { if (src[dstLen - 1] + 1 > dstLen) { return parser_unexpecte
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingPointerBoundsChecksInTxDisplayTranslation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(srcLen|dstLen).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "srcLen"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

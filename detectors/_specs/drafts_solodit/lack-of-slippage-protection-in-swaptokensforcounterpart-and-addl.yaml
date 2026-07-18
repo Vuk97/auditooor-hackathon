@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "lack-of-slippage-protection-in-swaptokensforcounterpart-and-addl"
+class_name: "LackOfSlippageProtectionInSwaptokensforcounterpartAndAddl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51662 (Halborn/Qoda DAO)"
+help: |
+    Lack of slippage protection in `swapTokensForCounterpart` and `addLiquidity` makes external calls to UniswapV2 Router revert consistently
+wiki_title: |
+    Lack of slippage protection in `swapTokensForCounterpart` and `addLiquidity` makes external calls to UniswapV2 Router revert consistently
+wiki_description: |
+    ##### Description
+    
+    Frontrunning is a common issue in decentralized finance (DeFi) applications, where malicious bots monitor the transaction mempool and execute transactions before others to capitalize on price fluctuations or arbitrage opportunities.
+    
+    To mitigate the risk of frontrunning, and also
+wiki_exploit_scenario: |
+    Per Solodit #51662: ##### Description
+    
+    Frontrunning is a common issue in decentralized finance (DeFi) applications, where malicious bots monitor the transaction mempool and execute transactions before others to capitaliz
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfSlippageProtectionInSwaptokensforcounterpartAndAddl"
+solodit_id: "51662"
+solodit_slug: |
+    lack-of-slippage-protection-in-swaptokensforcounterpart-and-addliquidity-makes-external-calls-to-uniswapv2-router-revert-consistently-halborn-steadily-consulting-inc-qoda-dao-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity|amountOutMin|swapTokensForCounterpart).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

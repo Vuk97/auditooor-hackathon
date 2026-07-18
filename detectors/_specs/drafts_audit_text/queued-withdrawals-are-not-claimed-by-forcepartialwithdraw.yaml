@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "queued-withdrawals-are-not-claimed-by-forcepartialwithdraw"
+class_name: "QueuedWithdrawalsAreNotClaimedByForcepartialwithdraw"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit EtherFi - Zellic Audit Report"
+help: |
+    The function forcePartialWithdraw could be called by an admin to force a partial withdrawal. This function internally calls _getTotalRewardsPayoutsFromSafe, which in turn calls get
+wiki_title: "Queued withdrawals are not claimed by forcePartialWithdraw"
+wiki_description: |
+    The function forcePartialWithdraw could be called by an admin to force a partial withdrawal. This function internally calls _getTotalRewardsPayoutsFromSafe, which in turn calls getRewardsPay- outs in the etherFiNode manager, which calls withdrawableBalanceInExecutionLayer to calcu- late the rewards
+wiki_exploit_scenario: |
+    Per audit finding: The function forcePartialWithdraw could be called by an admin to force a partial withdrawal. This function internally calls _getTotalRewardsPayoutsFromSafe, which in turn calls getRewardsPay- outs in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "QueuedWithdrawalsAreNotClaimedByForcepartialwithdraw"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(forcePartialWithdraw|getRewardsPay|etherFiNode).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "forcePartialWithdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

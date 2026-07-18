@@ -1,0 +1,25 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "erc-721-burn-without-check"
+class_name: "Erc721BurnWithoutCheck"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: erc-721-tokens-can-be-burned-by-anyone"
+help: "ERC-721 burn without check"
+wiki_title: "ERC-721 burn without check"
+wiki_description: |
+    Main contracts exposing burn(uint256) that calls _burn(uint256), with no modifiers, and no msg.sender usage in the function body.
+wiki_exploit_scenario: |
+    Per Glider query tags [ERC-721, access-control, burn]: Main contracts exposing burn(uint256) that calls _burn(uint256), with no modifiers, and no msg.sender usage in the function body.
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "Erc721BurnWithoutCheck"
+trigger_sig_regex: ".*(erc).*"
+required_sibling_regex: ".*(validate|check|verify|assert).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

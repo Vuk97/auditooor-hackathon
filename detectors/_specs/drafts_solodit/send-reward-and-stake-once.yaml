@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "send-reward-and-stake-once"
+class_name: "SendRewardAndStakeOnce"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6795 (Spearbit/Sense)"
+help: "Send Reward And Stake Once"
+wiki_title: "Send Reward And Stake Once"
+wiki_description: |
+    ## High Risk Report
+    
+    **Severity:** High Risk  
+    **Context:** `Divider.sol#L157-180`, `Divider.sol#L511-547`  
+    
+    ## Situation
+    A reward and stake can be sent from `settleSeries()` or `backfillScale()`. However, this should only be done once. Luckily, `settleSeries()` can’t be run twice as this is preven
+wiki_exploit_scenario: |
+    Per Solodit #6795: ## High Risk Report
+    
+    **Severity:** High Risk  
+    **Context:** `Divider.sol#L157-180`, `Divider.sol#L511-547`  
+    
+    ## Situation
+    A reward and stake can be sent from `settleSeries()` or `backfillScale()`. Ho
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SendRewardAndStakeOnce"
+solodit_id: "6795"
+solodit_slug: "send-reward-and-stake-once-spearbit-sense-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal backfillscale;"
+fn_name_regex: ".*(settleSeries|backfillScale|stakeSize).*"
+write_var_regex: ".*(backfillScale|settleSeries|stakeSize).*"
+guard_var_regex: ".*(backfillScale|settleSeries|stakeSize).*"
+vuln_fn_name: "settleSeries"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "backfillscale = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

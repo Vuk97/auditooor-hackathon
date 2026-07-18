@@ -1,0 +1,54 @@
+skeleton: "name_match_missing_call"
+name: "malicious-actor-can-overwrite-other-s-user-state-via-1-wei-vault"
+class_name: "MaliciousActorCanOverwriteOtherSUserStateVia1WeiVault"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #63075 (Spearbit/Superform v2 Periphery)"
+help: "Malicious actor can overwrite other's user state via 1 wei vault share transfer to steal fund"
+wiki_title: "Malicious actor can overwrite other's user state via 1 wei vault share transfer to steal fund"
+wiki_description: |
+    ## Critical Risk Assessment
+    
+    ## Severity
+    **Critical Risk**
+    
+    ## Context
+    `SuperVault.sol#L509-L515`
+    
+    ## Description
+    When transferring SuperVault shares, the code copies the entire state from the "from" account to the "to" account.
+    
+    ```solidity
+    // called like this in _update
+    ISuperVaultStrategy.SuperVa
+wiki_exploit_scenario: |
+    Per Solodit #63075: ## Critical Risk Assessment
+    
+    ## Severity
+    **Critical Risk**
+    
+    ## Context
+    `SuperVault.sol#L509-L515`
+    
+    ## Description
+    When transferring SuperVault shares, the code copies the entire state from the "from"
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousActorCanOverwriteOtherSUserStateVia1WeiVault"
+solodit_id: "63075"
+solodit_slug: |
+    malicious-actor-can-overwrite-others-user-state-via-1-wei-vault-share-transfer-to-steal-fund-spearbit-none-superform-v2-periphery-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accumulatorcostbasis;"
+fn_name_regex: ".*(SuperVaultState|accumulatorCostBasis|accumulatorShares|requestRedeem).*"
+read_var_regex: ".*(accumulatorCostBasis|accumulatorShares|pendingCostBasis).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SuperVaultState"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accumulatorcostbasis > 0;"

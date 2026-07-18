@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "mnbd1-4-tokens-cannot-graduate-if-an-attacker-transfers-kas-to-t"
+class_name: "Mnbd14TokensCannotGraduateIfAnAttackerTransfersKasToT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62422 (Hexens/Moonbound)"
+help: "[MNBD1-4] Tokens cannot graduate if an attacker transfers KAS to the BondingCurvePool contract"
+wiki_title: "[MNBD1-4] Tokens cannot graduate if an attacker transfers KAS to the BondingCurvePool contract"
+wiki_description: |
+    **Severity:** Medium
+    
+    **Path:** contracts/BondingCurvePool.sol#L247-L260 
+    
+    **Description:** The `BondingCurvePool::graduateToken()` function is responsible for creating a new `ZealousSwapPair` between the MoonBound token and KAS. It does this by using the KAS collected during the bonding curve phase
+wiki_exploit_scenario: |
+    Per Solodit #62422: **Severity:** Medium
+    
+    **Path:** contracts/BondingCurvePool.sol#L247-L260 
+    
+    **Description:** The `BondingCurvePool::graduateToken()` function is responsible for creating a new `ZealousSwapPair` between
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Mnbd14TokensCannotGraduateIfAnAttackerTransfersKasToT"
+solodit_id: "62422"
+solodit_slug: |
+    mnbd1-4-tokens-cannot-graduate-if-an-attacker-transfers-kas-to-the-bondingcurvepool-contract-hexens-none-moonbound-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(currentPrice|graduationFeeKAS|graduationPriceKAS).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

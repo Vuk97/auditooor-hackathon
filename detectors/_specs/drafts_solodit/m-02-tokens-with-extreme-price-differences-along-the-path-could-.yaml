@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-02-tokens-with-extreme-price-differences-along-the-path-could-"
+class_name: "M02TokensWithExtremePriceDifferencesAlongThePathCould"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31836 (ZachObront/Splits Oracle)"
+help: "[M-02] Tokens with extreme price differences along the path could round price to zero"
+wiki_title: "[M-02] Tokens with extreme price differences along the path could round price to zero"
+wiki_description: |
+    In the unlikely event that the price ratio between two tokens is more than `1e18:1`, the oracle will round the price down zero.
+    
+    While the largest price ratio I can currently find is `BTC/SHIB` (which can be calculated using [SHIB/ETH](https://etherscan.io/address/0x8dD1CD88F43aF196ae478e91b9F5E4Ac6
+wiki_exploit_scenario: |
+    Per Solodit #31836: In the unlikely event that the price ratio between two tokens is more than `1e18:1`, the oracle will round the price down zero.
+    
+    While the largest price ratio I can currently find is `BTC/SHIB` (which
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02TokensWithExtremePriceDifferencesAlongThePathCould"
+solodit_id: "31836"
+solodit_slug: |
+    m-02-tokens-with-extreme-price-differences-along-the-path-could-round-price-to-zero-zachobront-none-splits-oracle-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(readContract|divWadDown).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "readContract"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

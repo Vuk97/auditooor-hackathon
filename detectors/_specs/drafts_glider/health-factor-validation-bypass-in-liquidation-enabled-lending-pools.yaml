@@ -1,0 +1,25 @@
+skeleton: "state_write_without_paired_write"
+name: "health-factor-validation-bypass-in-liquidation-enabled-lending-pools"
+class_name: "HealthFactorValidationBypassInLiquidationEnabledLendingPools"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: liquidation-without-health-factor-validation"
+help: "Health-Factor Validation Bypass in Liquidation-Enabled Lending Pools"
+wiki_title: "Health-Factor Validation Bypass in Liquidation-Enabled Lending Pools"
+wiki_description: |
+    Finds lending pools that expose liquidation flows and also have redeem/withdraw logic where the sequence burn-position -> health-check -> transfer is used while the health-check path depends on balanceOf(address(this)). This can overestimate collateral and bypass intended solvency protection (UniLen
+wiki_exploit_scenario: |
+    Per Glider query tags [lending, liquidation, health-factor, redeem, stale-balance]: Finds lending pools that expose liquidation flows and also have redeem/withdraw logic where the sequence burn-position -> health-check -> transfer is used while the health-check path depends on balanc
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "HealthFactorValidationBypassInLiquidationEnabledLendingPools"
+fn_name_regex: ".*(balanceOf).*"
+primary_var_regex: ".*(balance|amount|position|stake).*"
+paired_var_regex: ".*(flag|status|cleared|isLong|reset).*"
+vuln_fn_name: "balanceOf"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;

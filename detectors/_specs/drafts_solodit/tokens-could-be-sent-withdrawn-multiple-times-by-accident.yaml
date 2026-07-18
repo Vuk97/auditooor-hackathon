@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "tokens-could-be-sent-withdrawn-multiple-times-by-accident"
+class_name: "TokensCouldBeSentWithdrawnMultipleTimesByAccident"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6860 (Spearbit/Paladin)"
+help: "Tokens could be sent / withdrawn multiple times by accident"
+wiki_title: "Tokens could be sent / withdrawn multiple times by accident"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    `QuestBoard.sol#L678-L815`
+    
+    ## Description
+    Functions `closeQuestPeriod()` and `closePartOfQuestPeriod()` have similar functionality but interfere with each other.
+    
+    1. Suppose you have closed the first quest of a period via `closePartOfQuestPeriod()`. Now you cannot
+wiki_exploit_scenario: |
+    Per Solodit #6860: ## Severity: High Risk
+    
+    ## Context
+    `QuestBoard.sol#L678-L815`
+    
+    ## Description
+    Functions `closeQuestPeriod()` and `closePartOfQuestPeriod()` have similar functionality but interfere with each other.
+    
+    1
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokensCouldBeSentWithdrawnMultipleTimesByAccident"
+solodit_id: "6860"
+solodit_slug: "tokens-could-be-sent-withdrawn-multiple-times-by-accident-spearbit-paladin-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal closepartofquestperiod;"
+fn_name_regex: ".*(closeQuestPeriod|closePartOfQuestPeriod|withdrawableAmount|withdrawUnusedRewards).*"
+read_var_regex: ".*(closePartOfQuestPeriod|closeQuestPeriod|withdrawUnusedRewards).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "closeQuestPeriod"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return closepartofquestperiod > 0;"

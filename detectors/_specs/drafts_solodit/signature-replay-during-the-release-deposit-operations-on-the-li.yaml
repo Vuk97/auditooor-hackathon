@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "signature-replay-during-the-release-deposit-operations-on-the-li"
+class_name: "SignatureReplayDuringTheReleaseDepositOperationsOnTheLi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35581 (Zokyo/Chainport)"
+help: "Signature replay during the release/deposit operations on the LiquidityManager."
+wiki_title: "Signature replay during the release/deposit operations on the LiquidityManager."
+wiki_description: |
+    **Severity**: High
+    
+    **Status**: Resolved 
+    
+    **Description**
+    
+    LiquidityManager.sol: preRelease(), depositToClosePreRelease()
+    
+    1) In the preRelease() operation: nonce is not a part of the signature and is not validated to
+    be used, thus it can be re-used. And in that case the amount in `amountsPerNonce`
+wiki_exploit_scenario: |
+    Per Solodit #35581: **Severity**: High
+    
+    **Status**: Resolved 
+    
+    **Description**
+    
+    LiquidityManager.sol: preRelease(), depositToClosePreRelease()
+    
+    1) In the preRelease() operation: nonce is not a part of the signature and i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SignatureReplayDuringTheReleaseDepositOperationsOnTheLi"
+solodit_id: "35581"
+solodit_slug: |
+    signature-replay-during-the-releasedeposit-operations-on-the-liquiditymanager-zokyo-none-chainport-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amountspernonce;"
+fn_name_regex: ".*(amountsPerNonce|depositToClosePreRelease|preRelease|isArbitrageNonceUsed).*"
+read_var_regex: ".*(amountsPerNonce|depositToClose|depositToClosePreRelease).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "amountsPerNonce"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amountspernonce > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "bounty-does-not-work-with-low-decimal-tokens"
+class_name: "BountyDoesNotWorkWithLowDecimalTokens"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Alkimiya - Zellic Audit Report"
+help: |
+    The _startBounty and _endBounty functions in the SilicaPools contract calculates the bounty amount based on the collateral amount and the bounty fraction. However, the collateral t
+wiki_title: "Bounty does not work with low-decimal tokens"
+wiki_description: |
+    The _startBounty and _endBounty functions in the SilicaPools contract calculates the bounty amount based on the collateral amount and the bounty fraction. However, the collateral token could have a low decimal. In this case, the bounty amount is not ex- pected to be calculated correctly because the
+wiki_exploit_scenario: |
+    Per audit finding: The _startBounty and _endBounty functions in the SilicaPools contract calculates the bounty amount based on the collateral amount and the bounty fraction. However, the collateral token could have a lo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BountyDoesNotWorkWithLowDecimalTokens"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(poolParams|poolHash|hashPool).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "poolParams"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

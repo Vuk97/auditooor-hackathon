@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-15-users-newly-created-positions-can-be-prematurely-closed-and"
+class_name: "M15UsersNewlyCreatedPositionsCanBePrematurelyClosedAnd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32281 (Code4rena/Revert Lend)"
+help: |
+    [M-15] Users' newly created positions can be prematurely closed and removed from the vault directly after they are created
+wiki_title: |
+    [M-15] Users' newly created positions can be prematurely closed and removed from the vault directly after they are created
+wiki_description: |
+    A user can create a position by calling the `create` function or by simply sending the NFT to the vault via `safeTransferFrom`. Both of those methods will trigger the `V3Vault::onERC721Received` function:
+    
+    [V3Vault::onERC721Received](https://github.com/code-423n4/2024-03-revert-lend/blob/main/src/V
+wiki_exploit_scenario: |
+    Per Solodit #32281: A user can create a position by calling the `create` function or by simply sending the NFT to the vault via `safeTransferFrom`. Both of those methods will trigger the `V3Vault::onERC721Received` func
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15UsersNewlyCreatedPositionsCanBePrematurelyClosedAnd"
+solodit_id: "32281"
+solodit_slug: |
+    m-15-users-newly-created-positions-can-be-prematurely-closed-and-removed-from-the-vault-directly-after-they-are-created-code4rena-revert-lend-revert-lend-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(create|safeTransferFrom|amount).*"
+write_var_regex: ".*(amount|create|safeTransferFrom).*"
+guard_var_regex: ".*(amount|create|safeTransferFrom).*"
+vuln_fn_name: "create"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

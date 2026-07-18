@@ -1,0 +1,18 @@
+id: quote-helper-mutates-persistent-close-factor
+title: "Quote helper (view-like) mutates persistent close_factor state"
+severity: Medium
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44854"
+bug_class: liquidation
+indicators:
+  - "function advertised as read-only `quote_*` calls `storage::set_close_factor(...)`"
+  - "side-effectful setter inside a helper consumed by the liquidation flow"
+victim: "Protocol: quoting from off-chain/view context mutates on-chain state."
+exploit_precondition: "Any caller invokes the quote helper."
+real_world_example: |
+  V12 #44854 (Medium): Quote helper mutates persistent close-factor state.
+suggested_remediation: "Read-only helpers must not write. Extract the pure calculation into a side-effect-free function."
+cross_refs: []

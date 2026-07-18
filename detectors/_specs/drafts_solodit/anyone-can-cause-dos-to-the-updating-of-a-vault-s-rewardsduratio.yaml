@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "anyone-can-cause-dos-to-the-updating-of-a-vault-s-rewardsduratio"
+class_name: "AnyoneCanCauseDosToTheUpdatingOfAVaultSRewardsduratio"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49855 (Spearbit/Infrared Contracts)"
+help: "Anyone can cause DoS to the updating of a vault's rewardsDuration"
+wiki_title: "Anyone can cause DoS to the updating of a vault's rewardsDuration"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    MultiRewards.sol#L345-L352
+    
+    ## Summary
+    The check in `MultiRewards.sol::_setRewardsDuration()` requires that an InfraredVault's `rewardsDuration` can only be updated after the last running reward period has ended. However, anyone can cause DoS to such a call, prev
+wiki_exploit_scenario: |
+    Per Solodit #49855: ## Severity: Medium Risk
+    
+    ## Context
+    MultiRewards.sol#L345-L352
+    
+    ## Summary
+    The check in `MultiRewards.sol::_setRewardsDuration()` requires that an InfraredVault's `rewardsDuration` can only be update
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyoneCanCauseDosToTheUpdatingOfAVaultSRewardsduratio"
+solodit_id: "49855"
+solodit_slug: |
+    anyone-can-cause-dos-to-the-updating-of-a-vaults-rewardsduration-spearbit-none-infrared-contracts-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal periodfinish;"
+fn_name_regex: ".*(rewardsDuration|periodFinish|rewardRate|updateRewardsDurationForVault).*"
+read_var_regex: ".*(periodFinish|rewardRate|rewardsDuration).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rewardsDuration"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return periodfinish > 0;"

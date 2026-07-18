@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "h-10-hijack-token-pool-by-burning-liquidity-token"
+class_name: "H10HijackTokenPoolByBurningLiquidityToken"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #495 (Code4rena/Spartan Protocol)"
+help: "[H-10] Hijack token pool by burning liquidity token"
+wiki_title: "[H-10] Hijack token pool by burning liquidity token"
+wiki_description: |
+    _Submitted by jonah1005_
+    
+    `Pool` allows users to burn lp tokens without withdrawing the tokens. This allows the hacker to mutate the pools' rate to a point that no one can get any lp token anymore (even if depositing token).
+    
+    The liquidity tokens are calculated at `Utils:calcLiquidityUnits`
+    ```solid
+wiki_exploit_scenario: |
+    Per Solodit #495: _Submitted by jonah1005_
+    
+    `Pool` allows users to burn lp tokens without withdrawing the tokens. This allows the hacker to mutate the pools' rate to a point that no one can get any lp token anymore (ev
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H10HijackTokenPoolByBurningLiquidityToken"
+solodit_id: "495"
+solodit_slug: |
+    h-10-hijack-token-pool-by-burning-liquidity-token-code4rena-spartan-protocol-spartan-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal burn;"
+fn_name_regex: ".*(Pool|totalSupply|PoolFactory|burn).*"
+read_var_regex: ".*(burn|totalSupply).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Pool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return burn > 0;"

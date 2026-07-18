@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-09-depositethovertargetweight-malicious-modifications-poolidar"
+class_name: "M09DepositethovertargetweightMaliciousModificationsPoolidar"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20182 (Code4rena/Stader Labs)"
+help: "[M-09] `depositETHOverTargetWeight()` malicious modifications `poolIdArrayIndexForExcessDeposit`"
+wiki_title: "[M-09] `depositETHOverTargetWeight()` malicious modifications `poolIdArrayIndexForExcessDeposit`"
+wiki_description: |
+    Malicious modification in favor of your own funds' allocation rounds.
+    
+    ### Proof of Concept
+    
+    `poolIdArrayIndexForExcessDeposit` is used to save `depositETHOverTargetWeight()`, which `Pool` is given priority for allocation in the next round.
+    
+    The current implementation rolls over to the next `pool`,
+wiki_exploit_scenario: |
+    Per Solodit #20182: Malicious modification in favor of your own funds' allocation rounds.
+    
+    ### Proof of Concept
+    
+    `poolIdArrayIndexForExcessDeposit` is used to save `depositETHOverTargetWeight()`, which `Pool` is given p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09DepositethovertargetweightMaliciousModificationsPoolidar"
+solodit_id: "20182"
+solodit_slug: |
+    m-09-depositethovertargetweight-malicious-modifications-poolidarrayindexforexcessdeposit-code4rena-stader-labs-stader-labs-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositethovertargetweight;"
+fn_name_regex: ".*(poolIdArrayIndexForExcessDeposit|depositETHOverTargetWeight|Pool|pool).*"
+read_var_regex: ".*(depositETHOverTargetWeight|pool|poolAllocationForExcessETHDeposit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "poolIdArrayIndexForExcessDeposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return depositethovertargetweight > 0;"

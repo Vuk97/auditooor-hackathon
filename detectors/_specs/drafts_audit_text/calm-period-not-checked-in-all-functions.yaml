@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "calm-period-not-checked-in-all-functions"
+class_name: "CalmPeriodNotCheckedInAllFunctions"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Beefy UniswapV3 - Zellic Audit Report"
+help: |
+    The onlyCalmPeriods modifier is a critical safety component of the strategy, as it is used to prevent deposits and harvests when the current price is not within 1% of the time-weig
+wiki_title: "Calm period not checked in all functions"
+wiki_description: |
+    The onlyCalmPeriods modifier is a critical safety component of the strategy, as it is used to prevent deposits and harvests when the current price is not within 1% of the time-weighted average price (TWAP) over the last 60 seconds. This is to protect against price manipulation by an attacker during
+wiki_exploit_scenario: |
+    Per audit finding: The onlyCalmPeriods modifier is a critical safety component of the strategy, as it is used to prevent deposits and harvests when the current price is not within 1% of the time-weighted average price (
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CalmPeriodNotCheckedInAllFunctions"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onlyCalmPeriods|currentTick|twapTick).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "onlyCalmPeriods"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

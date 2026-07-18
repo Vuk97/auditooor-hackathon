@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "anybody-can-sign-unlockdeposittx-for-expired-deposits"
+class_name: "AnybodyCanSignUnlockdeposittxForExpiredDeposits"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "hexens audit Camino_Network_Security_review_20.02 "
+help: |
+    The function VerifyUnlockDepositedUTXOs veriﬁes transaction credentials against inputs via VerifyMultisigTransfer only for non-deposit UTXOs. if isDeposited = lockedOut.DepositTxID
+wiki_title: "ANYBODY CAN SIGN UNLOCKDEPOSITTX FOR EXPIRED DEPOSITS"
+wiki_description: |
+    The function VerifyUnlockDepositedUTXOs veriﬁes transaction credentials against inputs via VerifyMultisigTransfer only for non-deposit UTXOs. if isDeposited = lockedOut.DepositTxID != ids.Empty; !isDeposited { return nil, errUnlockingUnlockedUTXO } /* … */ if isDeposited { /* this branch lacks Verif
+wiki_exploit_scenario: |
+    Per audit finding: The function VerifyUnlockDepositedUTXOs veriﬁes transaction credentials against inputs via VerifyMultisigTransfer only for non-deposit UTXOs. if isDeposited = lockedOut.DepositTxID != ids.Empty; !isDe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnybodyCanSignUnlockdeposittxForExpiredDeposits"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(isDeposited|lockedOut|errUnlockingUnlockedUTXO).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "isDeposited"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

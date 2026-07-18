@@ -1,0 +1,41 @@
+skeleton: "state_write_without_paired_write"
+name: "m-1-getpriceineth-in-tellororacle-sol-doesn-t-uses-the-best-prac"
+class_name: "M1GetpriceinethInTellororacleSolDoesnTUsesTheBestPrac"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27093 (Sherlock/Tokemak)"
+help: |
+    M-1: `getPriceInEth` in  `TellorOracle.sol` doesn't uses the best practices recommended by Tellor which can cause wrong pricing
+wiki_title: |
+    M-1: `getPriceInEth` in  `TellorOracle.sol` doesn't uses the best practices recommended by Tellor which can cause wrong pricing
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-06-tokemak-judging/issues/351 
+    
+    ## Found by 
+    Vagner
+    The function `getPriceInEth` it is used to call Tellor oracle to check the prices of different assets but the implementation doesn't respect the best practices recommended by Tellor which can cause wro
+wiki_exploit_scenario: |
+    Per Solodit #27093: Source: https://github.com/sherlock-audit/2023-06-tokemak-judging/issues/351 
+    
+    ## Found by 
+    Vagner
+    The function `getPriceInEth` it is used to call Tellor oracle to check the prices of different assets
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1GetpriceinethInTellororacleSolDoesnTUsesTheBestPrac"
+solodit_id: "27093"
+solodit_slug: |
+    m-1-getpriceineth-in-tellororaclesol-doesnt-uses-the-best-practices-recommended-by-tellor-which-can-cause-wrong-pricing-sherlock-tokemak-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getPriceInEth|getDataBefore|DEFAULT_PRICING_TIMEOUT|tellorStoredTimeout).*"
+primary_var_regex: ".*(getDataBefore|getPriceInEth|tellorStoredTimeout).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

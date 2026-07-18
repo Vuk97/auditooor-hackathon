@@ -1,0 +1,41 @@
+skeleton: "state_write_without_paired_write"
+name: "h-06-stabilizernode-stabilize-uses-stale-globalimpliedcollateral"
+class_name: "H06StabilizernodeStabilizeUsesStaleGlobalimpliedcollateral"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16078 (Code4rena/Malt Protocol)"
+help: |
+    [H-06] StabilizerNode.stabilize uses stale GlobalImpliedCollateralService data, which will make stabilize incorrect
+wiki_title: |
+    [H-06] StabilizerNode.stabilize uses stale GlobalImpliedCollateralService data, which will make stabilize incorrect
+wiki_description: |
+    In StabilizerNode.stabilize, `impliedCollateralService.syncGlobalCollateral()` is called only at the end of the function to synchronize the GlobalImpliedCollateralService data.
+    
+    ```solidity
+        if (!_shouldAdjustSupply(exchangeRate, stabilizeToPeg)) {
+          lastStabilize = block.timestamp;
+          im
+wiki_exploit_scenario: |
+    Per Solodit #16078: In StabilizerNode.stabilize, `impliedCollateralService.syncGlobalCollateral()` is called only at the end of the function to synchronize the GlobalImpliedCollateralService data.
+    
+    ```solidity
+        if (!
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06StabilizernodeStabilizeUsesStaleGlobalimpliedcollateral"
+solodit_id: "16078"
+solodit_slug: |
+    h-06-stabilizernodestabilize-uses-stale-globalimpliedcollateralservice-data-which-will-make-stabilize-incorrect-code4rena-malt-protocol-malt-protocol-versus-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getCollateralizedMalt).*"
+primary_var_regex: ".*(getCollateralizedMalt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

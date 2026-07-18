@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "m-01-the-chainlink-price-feed-s-input-is-not-properly-validated"
+class_name: "M01TheChainlinkPriceFeedSInputIsNotProperlyValidated"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20566 (Pashov Audit Group/Florence Finance)"
+help: "[M-01] The Chainlink price feed's input is not properly validated"
+wiki_title: "[M-01] The Chainlink price feed's input is not properly validated"
+wiki_description: |
+    **Impact:**
+    High, as it can result in the application working with an incorrect asset price
+    
+    **Likelihood:**
+    Low, as Chainlink oracles are mostly reliable, but there has been occurrences of this issue before
+    
+    **Description**
+    
+    The code in `LoanVault::getFundingTokenExchangeRate` uses a Chainlink pric
+wiki_exploit_scenario: |
+    Per Solodit #20566: **Impact:**
+    High, as it can result in the application working with an incorrect asset price
+    
+    **Likelihood:**
+    Low, as Chainlink oracles are mostly reliable, but there has been occurrences of this issue
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01TheChainlinkPriceFeedSInputIsNotProperlyValidated"
+solodit_id: "20566"
+solodit_slug: "m-01-the-chainlink-price-feeds-input-is-not-properly-validated-pashov-none-florence-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getFundingTokenExchangeRate|exchangeRate|fundingTokenChainLinkFeeds|fundingToken).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

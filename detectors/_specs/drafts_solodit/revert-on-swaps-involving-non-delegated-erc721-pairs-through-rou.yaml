@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "revert-on-swaps-involving-non-delegated-erc721-pairs-through-rou"
+class_name: "RevertOnSwapsInvolvingNonDelegatedErc721PairsThroughRou"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46468 (Cantina/Sweep n Flip)"
+help: "Revert on swaps involving non-delegated ERC721 pairs through RouterCollection"
+wiki_title: "Revert on swaps involving non-delegated ERC721 pairs through RouterCollection "
+wiki_description: |
+    ## Context
+    - **File References**: UniswapV2Factory.sol#L66, UniswapV2Library.sol#L102-L122
+    
+    ## Description
+    The current design of the router and factory system for delegated pairs (non-wrapped ERC721 tokens) introduces a significant limitation:
+    
+    1. **Pair Not Marked as Delegated**: The `delegates` ma
+wiki_exploit_scenario: |
+    Per Solodit #46468: ## Context
+    - **File References**: UniswapV2Factory.sol#L66, UniswapV2Library.sol#L102-L122
+    
+    ## Description
+    The current design of the router and factory system for delegated pairs (non-wrapped ERC721 t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RevertOnSwapsInvolvingNonDelegatedErc721PairsThroughRou"
+solodit_id: "46468"
+solodit_slug: |
+    revert-on-swaps-involving-non-delegated-erc721-pairs-through-routercollection-cantina-none-sweep-n-flip-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(createPair|delegates|getAmountsIn).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

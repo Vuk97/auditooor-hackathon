@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "fixedtermloanhook-looks-at-block-timestamp-instead-of"
+class_name: "FixedtermloanhookLooksAtBlockTimestampInsteadOf"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-08-wildcat"
+help: |
+    deadrxsezzz The idea of FixedTermLoanHook is to only allow for withdrawals after a certain term end time. However, the problem is that the current implementation does not look at t
+wiki_title: "FixedTermLoanHook looks at block.timestamp instead of"
+wiki_description: |
+    deadrxsezzz The idea of FixedTermLoanHook is to only allow for withdrawals after a certain term end time. However, the problem is that the current implementation does not look at the expiry, but instead at the block.timestamp . function onQueueWithdrawal ( address lender uint32 /* expiry */ uint /*
+wiki_exploit_scenario: |
+    Per audit finding: deadrxsezzz The idea of FixedTermLoanHook is to only allow for withdrawals after a certain term end time. However, the problem is that the current implementation does not look at the expiry, but inste
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FixedtermloanhookLooksAtBlockTimestampInsteadOf"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onQueueWithdrawal|scaledAmount|hooksData).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "onQueueWithdrawal"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "trst-m-4-truncation-in-reward-calculation-could-cause-leakage-of"
+class_name: "TrstM4TruncationInRewardCalculationCouldCauseLeakageOf"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18882 (Trust Security/Ninja Yield Farming )"
+help: "TRST-M-4 truncation in reward calculation could cause leakage of rewards"
+wiki_title: "TRST-M-4 truncation in reward calculation could cause leakage of rewards"
+wiki_description: |
+    **Description:**
+    In ComplexRewarder.sol, `updatePool()` call updates values in the specified pool.
+    ```solidity
+          uint lpSupply = IVault(VAULT).balance();
+              if (lpSupply > 0) {
+          uint time = block.timestamp - pool.lastRewardTime;
+                    uint reward = totalAllocPoint == 0 ? 0
+wiki_exploit_scenario: |
+    Per Solodit #18882: **Description:**
+    In ComplexRewarder.sol, `updatePool()` call updates values in the specified pool.
+    ```solidity
+          uint lpSupply = IVault(VAULT).balance();
+              if (lpSupply > 0) {
+          uint t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM4TruncationInRewardCalculationCouldCauseLeakageOf"
+solodit_id: "18882"
+solodit_slug: |
+    trst-m-4-truncation-in-reward-calculation-could-cause-leakage-of-rewards-trust-security-none-ninja-yield-farming-v3-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal updatepool;"
+fn_name_regex: ".*(updatePool).*"
+read_var_regex: ".*(updatePool).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updatePool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return updatepool > 0;"

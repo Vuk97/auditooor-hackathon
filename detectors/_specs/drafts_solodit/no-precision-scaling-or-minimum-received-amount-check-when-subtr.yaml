@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "no-precision-scaling-or-minimum-received-amount-check-when-subtr"
+class_name: "NoPrecisionScalingOrMinimumReceivedAmountCheckWhenSubtr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31304 (Cyfrin/Thermae)"
+help: |
+    No precision scaling or minimum received amount check when subtracting `relayerFeeAmount` can revert due to underflow or return less tokens to user than specified
+wiki_title: |
+    No precision scaling or minimum received amount check when subtracting `relayerFeeAmount` can revert due to underflow or return less tokens to user than specifi
+wiki_description: |
+    **Description:** `PorticoFinish::payOut` L376 attempts to subtract the `relayerFeeAmount` from the final post-bridge and post-swap token balance:
+    ```solidity
+    finalUserAmount = finalToken.balanceOf(address(this)) - relayerFeeAmount;
+    ```
+    
+    There is [no precision scaling](https://dacian.me/precision-los
+wiki_exploit_scenario: |
+    Per Solodit #31304: **Description:** `PorticoFinish::payOut` L376 attempts to subtract the `relayerFeeAmount` from the final post-bridge and post-swap token balance:
+    ```solidity
+    finalUserAmount = finalToken.balanceOf(add
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoPrecisionScalingOrMinimumReceivedAmountCheckWhenSubtr"
+solodit_id: "31304"
+solodit_slug: |
+    no-precision-scaling-or-minimum-received-amount-check-when-subtracting-relayerfeeamount-can-revert-due-to-underflow-or-return-less-tokens-to-user-than-specified-cyfrin-none-cyfrin-thermae-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal relayerfeeamount;"
+fn_name_regex: ".*(relayerFeeAmount|PorticoFinish).*"
+write_var_regex: ".*(relayerFeeAmount).*"
+guard_var_regex: ".*(relayerFeeAmount).*"
+vuln_fn_name: "relayerFeeAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "relayerfeeamount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

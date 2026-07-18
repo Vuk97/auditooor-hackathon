@@ -1,0 +1,45 @@
+skeleton: "state_write_without_paired_write"
+name: "m-5-d3oracle-will-return-the-wrong-price-if-the-chainlink-aggreg"
+class_name: "M5D3oracleWillReturnTheWrongPriceIfTheChainlinkAggreg"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20852 (Sherlock/DODO V3)"
+help: |
+    M-5: D3Oracle will return the wrong price if the Chainlink aggregator returns price outside min/max range
+wiki_title: |
+    M-5: D3Oracle will return the wrong price if the Chainlink aggregator returns price outside min/max range
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-06-dodo-judging/issues/129 
+    
+    ## Found by 
+    0xdice91, BugHunter101, MohammedRizwan, PRAISE, Proxy, dirk\_y, kutugu
+    ## Summary
+    
+    Chainlink oracles have a min and max price that they return. If the price goes below the minimum price the oracle will not retur
+wiki_exploit_scenario: |
+    Per Solodit #20852: Source: https://github.com/sherlock-audit/2023-06-dodo-judging/issues/129 
+    
+    ## Found by 
+    0xdice91, BugHunter101, MohammedRizwan, PRAISE, Proxy, dirk\_y, kutugu
+    ## Summary
+    
+    Chainlink oracles have a min
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M5D3oracleWillReturnTheWrongPriceIfTheChainlinkAggreg"
+solodit_id: "20852"
+solodit_slug: |
+    m-5-d3oracle-will-return-the-wrong-price-if-the-chainlink-aggregator-returns-price-outside-minmax-range-sherlock-none-dodo-v3-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getPrice|getOriginalPrice).*"
+primary_var_regex: ".*(getOriginalPrice|getPrice).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

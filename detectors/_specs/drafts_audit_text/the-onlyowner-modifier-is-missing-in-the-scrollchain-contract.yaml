@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-onlyowner-modifier-is-missing-in-the-scrollchain-contract"
+class_name: "TheOnlyownerModifierIsMissingInTheScrollchainContract"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Scroll - 09.27.23 Zellic Audit Report"
+help: |
+    In the ScrollChain contract, the importGenesisBatch function works as an initializer for the contract. It sets the initial committed batches’ hash and the first finalized state roo
+wiki_title: "The onlyOwner modifier is missing in the ScrollChain contract"
+wiki_description: |
+    In the ScrollChain contract, the importGenesisBatch function works as an initializer for the contract. It sets the initial committed batches’ hash and the first finalized state root, which are fundamental for the contract to function properly. Currently, there is no check on whether the function is
+wiki_exploit_scenario: |
+    Per audit finding: In the ScrollChain contract, the importGenesisBatch function works as an initializer for the contract. It sets the initial committed batches’ hash and the first finalized state root, which are fundame
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheOnlyownerModifierIsMissingInTheScrollchainContract"
+state_decl: "uint256 internal datahash;"
+fn_name_regex: ".*(dataHash|lastBlockHash).*"
+write_var_regex: ".*(dataHash|lastBlockHash).*"
+guard_var_regex: ".*(dataHash|lastBlockHash).*"
+vuln_fn_name: "dataHash"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "datahash = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "honest-users-could-be-permanently-dos-d-from-withdrawing-the-x"
+class_name: "HonestUsersCouldBePermanentlyDosDFromWithdrawingTheX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-loopfi"
+help: |
+    Bauchibred Proof of Concept ChefIncentivesController#Claim() is a public function and callable by anyone. When claiming, there is a need to vest the tokens , now this vesting direc
+wiki_title: "Honest users could be permanently DOS’d from withdrawing their vested tokens/rewards"
+wiki_description: |
+    Bauchibred Proof of Concept ChefIncentivesController#Claim() is a public function and callable by anyone. When claiming, there is a need to vest the tokens , now this vesting directly vests to the multifeedistributor . In MultiFeeDistribution#vestTokens() , there is a logic to only allow pushing a n
+wiki_exploit_scenario: |
+    Per audit finding: Bauchibred Proof of Concept ChefIncentivesController#Claim() is a public function and callable by anyone. When claiming, there is a need to vest the tokens , now this vesting directly vests to the mul
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "HonestUsersCouldBePermanentlyDosDFromWithdrawingTheX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(vestTokens).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "vestTokens"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

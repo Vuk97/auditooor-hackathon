@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "in-authorizeliquidate-when-healthfactor-is-equal-to-constants-de"
+class_name: "InAuthorizeliquidateWhenHealthfactorIsEqualToConstantsDe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16230 (Spearbit/Morpho)"
+help: |
+    In _authorizeLiquidate , when healthFactor is equal to Constants.DEFAULT_LIQUIDATION_THRESHOLD Morpho is wrongly setting close factor to DEFAULT_CLOSE_FACTOR
+wiki_title: |
+    In _authorizeLiquidate , when healthFactor is equal to Constants.DEFAULT_LIQUIDATION_THRESHOLD Morpho is wrongly setting close factor to DEFAULT_CLOSE_FACTOR
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    PositionsManagerInternal.sol#L181-L190
+    
+    ## Description
+    When the borrower's `healthFactor` is equal to `Constants.MIN_LIQUIDATION_THRESHOLD`, Morpho is returning the wrong value for the `closeFactor`, allowing only liquidate 50% of the collateral instead of the wh
+wiki_exploit_scenario: |
+    Per Solodit #16230: ## Severity: Medium Risk
+    
+    ## Context
+    PositionsManagerInternal.sol#L181-L190
+    
+    ## Description
+    When the borrower's `healthFactor` is equal to `Constants.MIN_LIQUIDATION_THRESHOLD`, Morpho is returning th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InAuthorizeliquidateWhenHealthfactorIsEqualToConstantsDe"
+solodit_id: "16230"
+solodit_slug: |
+    in-_authorizeliquidate-when-healthfactor-is-equal-to-constantsdefault_liquidation_threshold-spearbit-morpho-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal closefactor;"
+fn_name_regex: ".*(healthFactor|closeFactor|priceOracleSentinel|validateLiquidationCall).*"
+read_var_regex: ".*(closeFactor|healthFactor|priceOracleSentinel).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "healthFactor"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return closefactor > 0;"

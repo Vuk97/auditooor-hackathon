@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "m-08-auction-bonder-can-steal-user-funds-if-bond-block-is-high-e"
+class_name: "M08AuctionBonderCanStealUserFundsIfBondBlockIsHighE"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19836 (Code4rena/Kuiper)"
+help: "[M-08] Auction bonder can steal user funds if bond block is high enough"
+wiki_title: "[M-08] Auction bonder can steal user funds if bond block is high enough"
+wiki_description: |
+    _Submitted by kenzo_.
+    
+    After an auction has started, as time passes and according to the `bondBlock`, `newRatio` (which starts at 2\*ibRatio) gets smaller and smaller and therefore less and less tokens need to remain in the basket.
+    This is not capped, and after a while, `newRatio` can become smaller
+wiki_exploit_scenario: |
+    Per Solodit #19836: _Submitted by kenzo_.
+    
+    After an auction has started, as time passes and according to the `bondBlock`, `newRatio` (which starts at 2\*ibRatio) gets smaller and smaller and therefore less and less token
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08AuctionBonderCanStealUserFundsIfBondBlockIsHighE"
+solodit_id: "19836"
+solodit_slug: |
+    m-08-auction-bonder-can-steal-user-funds-if-bond-block-is-high-enough-code4rena-kuiper-kuiper-contest-git_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bondblock;"
+fn_name_regex: ".*(bondBlock|newRatio|ibRatio).*"
+write_var_regex: ".*(bondBlock|ibRatio|newRatio).*"
+guard_var_regex: ".*(bondBlock|ibRatio|newRatio).*"
+vuln_fn_name: "bondBlock"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "bondblock = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "vester-incorrect-burn"
+class_name: "VesterIncorrectBurn"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit GammaSwap Staking - Zellic Audit Report"
+help: |
+    Vesting is the process of locking tokens for a certain interval of time, after which the tokens are returned with rewards. The function _updateVesting, that is called to up- date v
+wiki_title: "Vester incorrect burn"
+wiki_description: |
+    Vesting is the process of locking tokens for a certain interval of time, after which the tokens are returned with rewards. The function _updateVesting, that is called to up- date vesting states burns esToken, which represent the users locked tokens, from the account. This is incorrect as locked esTo
+wiki_exploit_scenario: |
+    Per audit finding: Vesting is the process of locking tokens for a certain interval of time, after which the tokens are returned with rewards. The function _updateVesting, that is called to up- date vesting states burns
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VesterIncorrectBurn"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(esToken|esTokens|lastVestingTimes).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "esToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,27 @@
+skeleton: "state_write_without_paired_write"
+name: "flashlender-sol-flashloan-should-use-mintprofit-to-mint-fees-x"
+class_name: "FlashlenderSolFlashloanShouldUseMintprofitToMintFeesX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-loopfi"
+help: |
+    pkqs90 , also found by 0xAlix2 hearmen web3km Bigsam lian886 Infect3d Bauchibred crypticdefense Spearmint grearlake Ruhum karsar , and hash When using flashlender to create loans,
+wiki_title: |
+    Flashlender.sol#flashLoan() should use mintProfit() to mint fees, as the current implementation may lead to locked up WETH in PoolV3
+wiki_description: |
+    pkqs90 , also found by 0xAlix2 hearmen web3km Bigsam lian886 Infect3d Bauchibred crypticdefense Spearmint grearlake Ruhum karsar , and hash When using flashlender to create loans, there is small amount of fees. The fees are sent to PoolV3 and is spread out to the lpETH stakers. The issue is, the cur
+wiki_exploit_scenario: |
+    Per audit finding: pkqs90 , also found by 0xAlix2 hearmen web3km Bigsam lian886 Infect3d Bauchibred crypticdefense Spearmint grearlake Ruhum karsar , and hash When using flashlender to create loans, there is small amoun
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FlashlenderSolFlashloanShouldUseMintprofitToMintFeesX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(lpETH|repayCreditAccount|mintProfit).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

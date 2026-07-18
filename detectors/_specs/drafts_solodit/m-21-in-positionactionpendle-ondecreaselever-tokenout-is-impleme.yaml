@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "m-21-in-positionactionpendle-ondecreaselever-tokenout-is-impleme"
+class_name: "M21InPositionactionpendleOndecreaseleverTokenoutIsImpleme"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49058 (Code4rena/LoopFi)"
+help: "[M-21] In `PositionActionPendle::_onDecreaseLever`, `tokenOut` is implemented incorrectly"
+wiki_title: "[M-21] In `PositionActionPendle::_onDecreaseLever`, `tokenOut` is implemented incorrectly"
+wiki_description: |
+    The function `PositionActionPendle::_onDecreaseLever` is a  hook to decrease lever by withdrawing collateral from the CDPVault. But the current implementation is wrong if `leverParams.auxAction.args.length` is 0, `_onWithdraw` is called here, but the `tokenOut` still returns 0.
+    
+    ```solidity
+        fun
+wiki_exploit_scenario: |
+    Per Solodit #49058: The function `PositionActionPendle::_onDecreaseLever` is a  hook to decrease lever by withdrawing collateral from the CDPVault. But the current implementation is wrong if `leverParams.auxAction.args.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M21InPositionactionpendleOndecreaseleverTokenoutIsImpleme"
+solodit_id: "49058"
+solodit_slug: |
+    m-21-in-positionactionpendle_ondecreaselever-tokenout-is-implemented-incorrectly-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal tokenout;"
+fn_name_regex: ".*(tokenOut).*"
+read_var_regex: ".*(tokenOut).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tokenOut"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tokenout > 0;"

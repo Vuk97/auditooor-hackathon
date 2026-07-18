@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "trst-h-1-createuniswaprangeorder-charges-manager-instead-of-pool"
+class_name: "TrstH1CreateuniswaprangeorderChargesManagerInsteadOfPool"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18844 (Trust Security/Rysk Uniswapv3Rangeorderreactor)"
+help: "TRST-H-1 createUniswapRangeOrder() charges manager instead of pool"
+wiki_title: "TRST-H-1 createUniswapRangeOrder() charges manager instead of pool"
+wiki_description: |
+    **Description:**
+    **_createUniswapRangeOrder()** can be called either from manager flow, with **createUniswapRangeOrder()**, or pool-induced from **hedgeDelta()**. The issue is that the 
+    function assumes the sender is the parentLiquidityPool, for example:
+    
+    ```solidity
+            if (inversed && balance
+wiki_exploit_scenario: |
+    Per Solodit #18844: **Description:**
+    **_createUniswapRangeOrder()** can be called either from manager flow, with **createUniswapRangeOrder()**, or pool-induced from **hedgeDelta()**. The issue is that the 
+    function assum
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstH1CreateuniswaprangeorderChargesManagerInsteadOfPool"
+solodit_id: "18844"
+solodit_slug: |
+    trst-h-1-createuniswaprangeorder-charges-manager-instead-of-pool-trust-security-none-rysk-uniswapv3rangeorderreactor-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(createUniswapRangeOrder|hedgeDelta|parentLiquidityPool|amountDesired).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "createUniswapRangeOrder"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

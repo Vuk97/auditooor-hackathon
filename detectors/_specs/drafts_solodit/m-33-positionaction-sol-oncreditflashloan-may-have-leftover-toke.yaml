@@ -1,0 +1,45 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-33-positionaction-sol-oncreditflashloan-may-have-leftover-toke"
+class_name: "M33PositionactionSolOncreditflashloanMayHaveLeftoverToke"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49070 (Code4rena/LoopFi)"
+help: |
+    [M-33] `PositionAction.sol#onCreditFlashLoan` may have leftover tokens after conducting `leverParams.auxSwap`
+wiki_title: |
+    [M-33] `PositionAction.sol#onCreditFlashLoan` may have leftover tokens after conducting `leverParams.auxSwap`
+wiki_description: |
+    First, let's inspect how deposit `decreaseLever` with swap enabled works:
+    
+    1. Borrow loans from flashLender.
+    2. Repays CDPVault debt with the borrowed loans.
+    3. Withdraws collateral from CDPVault.
+    4. Conducts a `leverParams.primarySwap` and swap collateral to debt token.
+    
+    Now, step 4 is an `EXACT_O
+wiki_exploit_scenario: |
+    Per Solodit #49070: First, let's inspect how deposit `decreaseLever` with swap enabled works:
+    
+    1. Borrow loans from flashLender.
+    2. Repays CDPVault debt with the borrowed loans.
+    3. Withdraws collateral from CDPVault.
+    4.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M33PositionactionSolOncreditflashloanMayHaveLeftoverToke"
+solodit_id: "49070"
+solodit_slug: |
+    m-33-positionactionsoloncreditflashloan-may-have-leftover-tokens-after-conducting-leverparamsauxswap-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(decreaseLever|EXACT_OUT|residualAmount|EXACT_IN).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

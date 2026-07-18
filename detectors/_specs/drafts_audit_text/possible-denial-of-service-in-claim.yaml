@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "possible-denial-of-service-in-claim"
+class_name: "PossibleDenialOfServiceInClaim"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit STFX - Zellic Audit Report"
+help: |
+    When vestingAddresses attempt to claim, the system iterates through all addresses and sends funds accordingly. However, if the size of the vestingAddresses array be- comes too larg
+wiki_title: "Possible denial of service in claim"
+wiki_description: |
+    When vestingAddresses attempt to claim, the system iterates through all addresses and sends funds accordingly. However, if the size of the vestingAddresses array be- comes too large, a denial-of-service gas error can occur, preventing anyone from being able to claim funds.
+wiki_exploit_scenario: |
+    Per audit finding: When vestingAddresses attempt to claim, the system iterates through all addresses and sends funds accordingly. However, if the size of the vestingAddresses array be- comes too large, a denial-of-servi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleDenialOfServiceInClaim"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(vestingAddresses).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "vestingAddresses"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

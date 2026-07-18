@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-08-beforeratio-taken-before-interest-accrual-in-liquidations"
+class_name: "M08BeforeratioTakenBeforeInterestAccrualInLiquidations"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31821 (ZachObront/Fungify)"
+help: "[M-08] `beforeRatio` taken before interest accrual in liquidations"
+wiki_title: "[M-08] `beforeRatio` taken before interest accrual in liquidations"
+wiki_description: |
+    In `batchLiquidateBorrow()`, the fundamental check on the liquidation is that the account debt ratio after is less than or equal to what it was before.
+    
+    ```solidity
+    if ((err != uint(Error.NO_ERROR) && err != uint(Error.TOO_LITTLE_INTEREST_RESERVE)) || afterRatio > beforeRatio) {
+        revert Liquidate
+wiki_exploit_scenario: |
+    Per Solodit #31821: In `batchLiquidateBorrow()`, the fundamental check on the liquidation is that the account debt ratio after is less than or equal to what it was before.
+    
+    ```solidity
+    if ((err != uint(Error.NO_ERROR) &&
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08BeforeratioTakenBeforeInterestAccrualInLiquidations"
+solodit_id: "31821"
+solodit_slug: "m-08-beforeratio-taken-before-interest-accrual-in-liquidations-zachobront-none-fungify-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal afterratio;"
+fn_name_regex: ".*(batchLiquidateBorrow|beforeRatio|afterRatio).*"
+read_var_regex: ".*(afterRatio|batchLiquidateBorrow|beforeRatio).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "batchLiquidateBorrow"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return afterratio > 0;"

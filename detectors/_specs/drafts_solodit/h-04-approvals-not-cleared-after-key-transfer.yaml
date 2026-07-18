@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "h-04-approvals-not-cleared-after-key-transfer"
+class_name: "H04ApprovalsNotClearedAfterKeyTransfer"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1076 (Code4rena/Unlock Protocol)"
+help: "[H-04] Approvals not cleared after key transfer"
+wiki_title: "[H-04] Approvals not cleared after key transfer"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The locks implement three different approval types, see `onlyKeyManagerOrApproved` for an overview:
+    
+    *   key manager (map `keyManagerOf`)
+    *   single-person approvals (map `approved`). Cleared by `_clearApproval` or `_setKeyManagerOf`
+    *   operator approvals (map `managerToOper
+wiki_exploit_scenario: |
+    Per Solodit #1076: _Submitted by cmichel_
+    
+    The locks implement three different approval types, see `onlyKeyManagerOrApproved` for an overview:
+    
+    *   key manager (map `keyManagerOf`)
+    *   single-person approvals (map `appr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04ApprovalsNotClearedAfterKeyTransfer"
+solodit_id: "1076"
+solodit_slug: "h-04-approvals-not-cleared-after-key-transfer-code4rena-unlock-protocol-unlock-protocol-contest-git"
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Approve, Allowance"
+state_decl: "uint256 internal approved;"
+fn_name_regex: ".*(onlyKeyManagerOrApproved|keyManagerOf|approved|managerToOperatorApproved).*"
+read_var_regex: ".*(approved|from|keyManagerOf).*"
+required_call_regex: ".*transferFrom.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "onlyKeyManagerOrApproved"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return approved > 0;"

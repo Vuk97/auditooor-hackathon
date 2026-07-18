@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "initial-lp-deposit-is-impossible-due-to-miscalculation"
+class_name: "InitialLpDepositIsImpossibleDueToMiscalculation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #51004 (Halborn/Core, Strategies and Periphery)"
+help: "INITIAL LP DEPOSIT IS IMPOSSIBLE DUE TO MISCALCULATION"
+wiki_title: "INITIAL LP DEPOSIT IS IMPOSSIBLE DUE TO MISCALCULATION"
+wiki_description: |
+    ##### Description
+    
+    The `_depositNoPull()` function in the `BaseStrategy` contract does not work properly. The first deposit is reverted with the `ZeroAmount()` error.
+    
+    In the `_depositNoPull()` function, the `updateIndex()` internal function is invoked with `accFeeIndex`, `lastFeeIndex` and `lastCFM
+wiki_exploit_scenario: |
+    Per Solodit #51004: ##### Description
+    
+    The `_depositNoPull()` function in the `BaseStrategy` contract does not work properly. The first deposit is reverted with the `ZeroAmount()` error.
+    
+    In the `_depositNoPull()` functi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InitialLpDepositIsImpossibleDueToMiscalculation"
+solodit_id: "51004"
+solodit_slug: |
+    initial-lp-deposit-is-impossible-due-to-miscalculation-halborn-gammaswap-labs-core-strategies-and-periphery-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accfeeindex;"
+fn_name_regex: ".*(BaseStrategy|ZeroAmount|updateIndex|accFeeIndex).*"
+read_var_regex: ".*(accFeeIndex|devShares|lastCFMMFeeIndex).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BaseStrategy"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accfeeindex > 0;"

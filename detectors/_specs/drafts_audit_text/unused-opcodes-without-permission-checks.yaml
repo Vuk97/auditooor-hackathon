@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unused-opcodes-without-permission-checks"
+class_name: "UnusedOpcodesWithoutPermissionChecks"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero TON - Zellic Audit Report"
+help: |
+    Within both the ULN and OApp opcode handling logic, there are opcodes that appear to be unused or unimplemented and are not included in their corresponding permission checks. Uln::
+wiki_title: "Unused opcodes without permission checks"
+wiki_description: |
+    Within both the ULN and OApp opcode handling logic, there are opcodes that appear to be unused or unimplemented and are not included in their corresponding permission checks. Uln::OP::ULN_QUOTE This opcode seems referenced in _executeOpcode but not actually used, with no _checkPermis- sions entry. A
+wiki_exploit_scenario: |
+    Per audit finding: Within both the ULN and OApp opcode handling logic, there are opcodes that appear to be unused or unimplemented and are not included in their corresponding permission checks. Uln::OP::ULN_QUOTE This o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnusedOpcodesWithoutPermissionChecks"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(ulnQuote|assertConnection|assertOwner).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "ulnQuote"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

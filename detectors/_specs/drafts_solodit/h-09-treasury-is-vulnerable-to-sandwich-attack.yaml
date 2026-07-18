@@ -1,0 +1,53 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-09-treasury-is-vulnerable-to-sandwich-attack"
+class_name: "H09TreasuryIsVulnerableToSandwichAttack"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #930 (Code4rena/Mochi)"
+help: "[H-09] treasury is vulnerable to sandwich attack"
+wiki_title: "[H-09] treasury is vulnerable to sandwich attack"
+wiki_description: |
+    ## Handle
+    
+    jonah1005
+    
+    
+    ## Vulnerability details
+    
+    ## treasury is vulnerable to sandwich attack.
+    
+    
+    ## Impact
+    There's a permissionless function `veCRVlock` in MochiTreasury. Since everyone can trigger this function, the attacker can launch a sandwich attack with flashloan to steal the funds.
+    [MochiTrea
+wiki_exploit_scenario: |
+    Per Solodit #930: ## Handle
+    
+    jonah1005
+    
+    
+    ## Vulnerability details
+    
+    ## treasury is vulnerable to sandwich attack.
+    
+    
+    ## Impact
+    There's a permissionless function `veCRVlock` in MochiTreasury. Since everyone can trigger th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H09TreasuryIsVulnerableToSandwichAttack"
+solodit_id: "930"
+solodit_slug: "h-09-treasury-is-vulnerable-to-sandwich-attack-code4rena-mochi-mochi-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Front-Running"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(veCRVlock|onlyOwner).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "ownership-of-proxyadmin-may-be-transferred-to-any-wallet"
+class_name: "OwnershipOfProxyadminMayBeTransferredToAnyWallet"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19280 (SigmaPrime/BLS Wallet)"
+help: "Ownership of ProxyAdmin May Be Transferred To Any Wallet"
+wiki_title: "Ownership of ProxyAdmin May Be Transferred To Any Wallet"
+wiki_description: |
+    ## Description
+    
+    The function `walletAdminCall()` is used by BLS wallets to call functions in `ProxyAdmin`. However, it may be hijacked to transfer ownership of `ProxyAdmin` to the wallet.
+    
+    `walletAdminCall()` propagates calls from a `BLSWallet` to `ProxyAdmin`. The intention is to allow a wallet to
+wiki_exploit_scenario: |
+    Per Solodit #19280: ## Description
+    
+    The function `walletAdminCall()` is used by BLS wallets to call functions in `ProxyAdmin`. However, it may be hijacked to transfer ownership of `ProxyAdmin` to the wallet.
+    
+    `walletAdmi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OwnershipOfProxyadminMayBeTransferredToAnyWallet"
+solodit_id: "19280"
+solodit_slug: "ownership-of-proxyadmin-may-be-transferred-to-any-wallet-sigmaprime-none-bls-wallet-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal newowner;"
+fn_name_regex: ".*(walletAdminCall|ProxyAdmin|BLSWallet|TransparentUpgradeableProxy).*"
+write_var_regex: ".*(newOwner|onlyOwner|transferOwnership).*"
+guard_var_regex: ".*(newOwner|onlyOwner|transferOwnership).*"
+vuln_fn_name: "walletAdminCall"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "newowner = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

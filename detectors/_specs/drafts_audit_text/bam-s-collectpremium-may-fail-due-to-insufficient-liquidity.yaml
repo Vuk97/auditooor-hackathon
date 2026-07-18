@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "bam-s-collectpremium-may-fail-due-to-insufficient-liquidity"
+class_name: "BamSCollectpremiumMayFailDueToInsufficientLiquidity"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Blackhaven (Core Contracts) - Zellic Audit Report"
+help: |
+    The collectPremium function swaps RBT for USDM via Uniswap V3 with a slippage tolerance (default 5%): function _swapToUSDM(uint256 _amount) internal { // [...] if (rbtOracle != add
+wiki_title: "BAM's collectPremium may fail due to insufficient liquidity"
+wiki_description: |
+    The collectPremium function swaps RBT for USDM via Uniswap V3 with a slippage tolerance (default 5%): function _swapToUSDM(uint256 _amount) internal { // [...] if (rbtOracle != address(0)) { uint256 rbtPrice = IOracle(rbtOracle).getPrice(); uint256 expectedUSDM = (_amount * rbtPrice) / 1e18; amountO
+wiki_exploit_scenario: |
+    Per audit finding: The collectPremium function swaps RBT for USDM via Uniswap V3 with a slippage tolerance (default 5%): function _swapToUSDM(uint256 _amount) internal { // [...] if (rbtOracle != address(0)) { uint256 r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BamSCollectpremiumMayFailDueToInsufficientLiquidity"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(collectPremium|rbtOracle|rbtPrice).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "collectPremium"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "m-11-getoracledata-maxexternaldeposit-not-accurate"
+class_name: "M11GetoracledataMaxexternaldepositNotAccurate"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30174 (Sherlock/Notional Update #5)"
+help: "M-11: getOracleData() maxExternalDeposit not accurate"
+wiki_title: "M-11: getOracleData() maxExternalDeposit not accurate"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-12-notional-update-5-judging/issues/49 
+    
+    ## Found by 
+    bin2chen
+    ## Summary
+    in `getOracleData() ` 
+    The calculation of `maxExternalDeposit` lacks consideration for `reserve.accruedToTreasury`.
+    This leads to `maxExternalDeposit` being too large, causing `Tr
+wiki_exploit_scenario: |
+    Per Solodit #30174: Source: https://github.com/sherlock-audit/2023-12-notional-update-5-judging/issues/49 
+    
+    ## Found by 
+    bin2chen
+    ## Summary
+    in `getOracleData() ` 
+    The calculation of `maxExternalDeposit` lacks considerat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11GetoracledataMaxexternaldepositNotAccurate"
+solodit_id: "30174"
+solodit_slug: "m-11-getoracledata-maxexternaldeposit-not-accurate-sherlock-notional-update-5-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getoracledata;"
+fn_name_regex: ".*(maxExternalDeposit|getOracleData).*"
+write_var_regex: ".*(getOracleData|maxExternalDeposit).*"
+guard_var_regex: ".*(getOracleData|maxExternalDeposit).*"
+vuln_fn_name: "maxExternalDeposit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "getoracledata = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

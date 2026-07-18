@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "arbitrary-calls"
+class_name: "ArbitraryCalls"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Megapot v2 - Zellic Audit Report"
+help: |
+    In the case in which _claimedAmount is 0, a malicious user can do any arbitrary calls with any arbitrary calldata. function _bridgeFunds(RelayTxData memory _bridgeDetails, uint256
+wiki_title: "Arbitrary calls"
+wiki_description: |
+    In the case in which _claimedAmount is 0, a malicious user can do any arbitrary calls with any arbitrary calldata. function _bridgeFunds(RelayTxData memory _bridgeDetails, uint256 _claimedAmount) private { ... (bool success,) = _bridgeDetails.to.call(_bridgeDetails.data); ... if (preUSDCBalance - po
+wiki_exploit_scenario: |
+    Per audit finding: In the case in which _claimedAmount is 0, a malicious user can do any arbitrary calls with any arbitrary calldata. function _bridgeFunds(RelayTxData memory _bridgeDetails, uint256 _claimedAmount) priv
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ArbitraryCalls"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(preUSDCBalance|postUSDCBalance).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "preUSDCBalance"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

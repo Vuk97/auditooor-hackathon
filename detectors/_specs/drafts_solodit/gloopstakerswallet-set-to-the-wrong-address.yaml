@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "gloopstakerswallet-set-to-the-wrong-address"
+class_name: "GloopstakerswalletSetToTheWrongAddress"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51844 (Halborn/GMI and Lending)"
+help: "gloopStakersWallet set to the wrong address"
+wiki_title: "gloopStakersWallet set to the wrong address"
+wiki_description: |
+    ##### Description
+    
+    Upon deployment, `LendingPool`'s constructor sets to `gloopStakersWallet` to `msg.sender`:
+    
+    <https://github.com/GloopFinance/gm-lending-protocol/blob/37c4ebbf16e997a5aefad9c8c6715af8454ed14d/src/LendingPool.sol#L41>
+    
+    ```
+        constructor() Auth(Auth(msg.sender).owner(), Auth(msg.se
+wiki_exploit_scenario: |
+    Per Solodit #51844: ##### Description
+    
+    Upon deployment, `LendingPool`'s constructor sets to `gloopStakersWallet` to `msg.sender`:
+    
+    <https://github.com/GloopFinance/gm-lending-protocol/blob/37c4ebbf16e997a5aefad9c8c6715af
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GloopstakerswalletSetToTheWrongAddress"
+solodit_id: "51844"
+solodit_slug: "gloopstakerswallet-set-to-the-wrong-address-halborn-gloop-finance-gmi-and-lending-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accrueinterest;"
+fn_name_regex: ".*(LendingPool|gloopStakersWallet|LendingPoolFactory|accrueInterest).*"
+read_var_regex: ".*(accrueInterest|borrow|gloopStakersWallet).*"
+required_call_regex: ".*accrueInterest.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LendingPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accrueinterest > 0;"

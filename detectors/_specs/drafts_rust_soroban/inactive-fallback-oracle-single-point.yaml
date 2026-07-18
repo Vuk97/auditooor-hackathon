@@ -1,0 +1,20 @@
+id: inactive-fallback-oracle-single-point
+title: "Fallback oracle configured but never consulted on primary failure"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.33"
+bug_class: oracle-cascade
+indicators:
+  - "`get_asset_price(asset)` returns `Err(PrimaryFeedFailed)` without trying `fallback_oracle`"
+  - "`set_fallback_oracle` admin setter exists but no read path invokes it"
+  - "primary feed check wrapped in `?` instead of explicit `match` with fallback branch"
+victim: "Protocol: single-oracle reliance despite a configured fallback, increasing DoS risk."
+exploit_precondition: "Primary feed fails/stales."
+real_world_example: |
+  Halborn 7.33 (LOW): Inactive fallback oracle results in single-oracle reliance.
+suggested_remediation: "Every price read path must try primary, and on error try fallback, logging the source used."
+cross_refs:
+  - oracle-missing-blocks-liquidation

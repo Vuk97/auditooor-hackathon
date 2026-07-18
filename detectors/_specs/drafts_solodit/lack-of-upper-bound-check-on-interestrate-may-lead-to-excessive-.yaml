@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-upper-bound-check-on-interestrate-may-lead-to-excessive-"
+class_name: "LackOfUpperBoundCheckOnInterestrateMayLeadToExcessive"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20927 (AuditOne/Coinlend)"
+help: "Lack of Upper Bound Check on interestRate May Lead to Excessive Interest Rates"
+wiki_title: "Lack of Upper Bound Check on interestRate May Lead to Excessive Interest Rates"
+wiki_description: |
+    **Description:** 
+    
+    The createLoanLend & createLoanBorrow functions currently check whether the interestRate is at least 1, but there is no upper bound check, allowing for excessively high interest rates. Moreover, the code seems to mistakenly check ltv again in the same line, which is probably a cod
+wiki_exploit_scenario: |
+    Per Solodit #20927: **Description:** 
+    
+    The createLoanLend & createLoanBorrow functions currently check whether the interestRate is at least 1, but there is no upper bound check, allowing for excessively high interest rat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfUpperBoundCheckOnInterestrateMayLeadToExcessive"
+solodit_id: "20927"
+solodit_slug: |
+    lack-of-upper-bound-check-on-interestrate-may-lead-to-excessive-interest-rates-auditone-none-coinlend-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(createLoanLend|createLoanBorrow|interestRate).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "createLoanLend"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

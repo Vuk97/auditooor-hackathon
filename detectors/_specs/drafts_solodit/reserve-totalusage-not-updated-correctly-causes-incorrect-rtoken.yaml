@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "reserve-totalusage-not-updated-correctly-causes-incorrect-rtoken"
+class_name: "ReserveTotalusageNotUpdatedCorrectlyCausesIncorrectRtoken"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57383 (Codehawks/Core Contracts)"
+help: "reserve.totalUsage not updated correctly causes incorrect Rtoken minting/burning"
+wiki_title: "reserve.totalUsage not updated correctly causes incorrect Rtoken minting/burning"
+wiki_description: |
+    ## Summary
+    
+    Not updating the reserve.totalUsage correctly
+    
+    ## Vulnerability Details
+    
+    Firstly, the reserve.totalUsage is the total amount of debt owed by the borrowers including the interest accrued. This can be seen by noticing when the totalUsage is updated(it is updated after a repay/borrow etc is
+wiki_exploit_scenario: |
+    Per Solodit #57383: ## Summary
+    
+    Not updating the reserve.totalUsage correctly
+    
+    ## Vulnerability Details
+    
+    Firstly, the reserve.totalUsage is the total amount of debt owed by the borrowers including the interest accrued. T
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReserveTotalusageNotUpdatedCorrectlyCausesIncorrectRtoken"
+solodit_id: "57383"
+solodit_slug: |
+    reservetotalusage-not-updated-correctly-causes-incorrect-rtoken-mintingburning-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(totalUsage|totalSupply|debtToken|usageIndex).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

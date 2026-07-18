@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "challenges-accepted-on-destroying-agent-reward-drain-loop"
+class_name: "ChallengesAcceptedOnDestroyingAgentRewardDrainLoop"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ae"
+help: |
+    challenge functions don't check DESTROYING status; proofs not marked used; attacker repeatedly calls illegalPaymentChallenge to drain agent vault.
+wiki_title: "Challenges Accepted on DESTROYING Agent — Reward Drain Loop"
+wiki_description: |
+    challenge functions don't check DESTROYING status; proofs not marked used; attacker repeatedly calls illegalPaymentChallenge to drain agent vault.
+wiki_exploit_scenario: |
+    Attacker exploits Challenges Accepted on DESTROYING Agent — Reward Drain Loop as described: challenge functions don't check DESTROYING status; proofs not marked used; attacker repeatedly calls illegalPaymentChallenge to drain agent vault.
+wiki_recommendation: "challenge functions lacking status-gating check; proof-replay guard absence."
+contract_name: "ChallengesAcceptedOnDestroyingAgentRewardDrainLoop"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(challenges|accepted|destroying).*"
+read_var_regex: ".*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "challenges"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

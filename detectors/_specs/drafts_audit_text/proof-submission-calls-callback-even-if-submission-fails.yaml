@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "proof-submission-calls-callback-even-if-submission-fails"
+class_name: "ProofSubmissionCallsCallbackEvenIfSubmissionFails"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Brevis - Zellic Audit Report"
+help: |
+    The function SubmitProof, implemented in sdk/app.go, can be used by the client to submit a proof. After starting the submission, if an error occurs, the function returns immediatel
+wiki_title: "Proof submission calls callback even if submission fails"
+wiki_description: |
+    The function SubmitProof, implemented in sdk/app.go, can be used by the client to submit a proof. After starting the submission, if an error occurs, the function returns immediately with the error: res, err := q.gc.SubmitProof(&gwproto.SubmitAppCircuitProofRequest{ QueryKey: &gwproto.QueryKey{ Query
+wiki_exploit_scenario: |
+    Per audit finding: The function SubmitProof, implemented in sdk/app.go, can be used by the client to submit a proof. After starting the submission, if an error occurs, the function returns immediately with the error: re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProofSubmissionCallsCallbackEvenIfSubmissionFails"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(queryId|dstChainId|waitFinal).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "queryId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

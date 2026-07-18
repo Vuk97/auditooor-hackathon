@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-usage-of-minoutputamount-in-executetwostepredemption-c"
+class_name: "IncorrectUsageOfMinoutputamountInExecutetwostepredemptionC"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64271 (Cyfrin/Securitize Onofframp Bridge)"
+help: "Incorrect usage of minOutputAmount in executeTwoStepRedemption can cause unnecessary reverts"
+wiki_title: "Incorrect usage of minOutputAmount in executeTwoStepRedemption can cause unnecessary reverts"
+wiki_description: |
+    **Description:** In the `RedemptionManager::executeTwoStepRedemption` function, the following call is made:
+    
+    ```solidity
+    params.liquidityProvider.supplyTo(contractAddress, params.liquidityTokenAmount, params.minOutputAmount);
+    ```
+    
+    Here, `params.minOutputAmount` is used as the minimum expected return
+wiki_exploit_scenario: |
+    Per Solodit #64271: **Description:** In the `RedemptionManager::executeTwoStepRedemption` function, the following call is made:
+    
+    ```solidity
+    params.liquidityProvider.supplyTo(contractAddress, params.liquidityTokenAmount,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectUsageOfMinoutputamountInExecutetwostepredemptionC"
+solodit_id: "64271"
+solodit_slug: |
+    incorrect-usage-of-minoutputamount-in-executetwostepredemption-can-cause-unnecessary-reverts-cyfrin-none-securitize-onofframp-bridge-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal minoutputamount;"
+fn_name_regex: ".*(supplyTo|minOutputAmount).*"
+read_var_regex: ".*(minOutputAmount|supplyTo).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "supplyTo"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return minoutputamount > 0;"

@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "ocl-1-potential-gas-dos"
+class_name: "Ocl1PotentialGasDos"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27193 (Guardian Audits/GMX)"
+help: "OCL-1 | Potential Gas DoS"
+wiki_title: "OCL-1 | Potential Gas DoS"
+wiki_description: |
+    **Description**
+    
+    There is a potential DoS with the `setPrices` function, as the lengths of the `tokens`, `signers`, `compactedOracleBlockNumbers`, and `compactedPrices` arrays are unbounded. The `for` loop through these arrays in addition to memory expansion costs may result in gas fees exceeding th
+wiki_exploit_scenario: |
+    Per Solodit #27193: **Description**
+    
+    There is a potential DoS with the `setPrices` function, as the lengths of the `tokens`, `signers`, `compactedOracleBlockNumbers`, and `compactedPrices` arrays are unbounded. The `for`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Ocl1PotentialGasDos"
+solodit_id: "27193"
+solodit_slug: "ocl-1-potential-gas-dos-guardian-audits-none-gmx-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal compactedoracleblocknumbers;"
+fn_name_regex: ".*(setPrices|tokens|signers|compactedOracleBlockNumbers).*"
+write_var_regex: ".*(compactedOracleBlockNumbers|compactedPrices|for).*"
+guard_var_regex: ".*(compactedOracleBlockNumbers|compactedPrices|for).*"
+vuln_fn_name: "setPrices"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "compactedoracleblocknumbers = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

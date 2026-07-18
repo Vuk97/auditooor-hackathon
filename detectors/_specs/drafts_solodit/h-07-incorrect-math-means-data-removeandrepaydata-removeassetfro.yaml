@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "h-07-incorrect-math-means-data-removeandrepaydata-removeassetfro"
+class_name: "H07IncorrectMathMeansDataRemoveandrepaydataRemoveassetfro"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #32318 (Code4rena/Tapioca DAO)"
+help: |
+    [H-07] Incorrect math means `data.removeAndRepayData.removeAssetFromSGL` will never work once SGL has accrued interest
+wiki_title: |
+    [H-07] Incorrect math means `data.removeAndRepayData.removeAssetFromSGL` will never work once SGL has accrued interest
+wiki_description: |
+    The code to remove shares from Singularity is as follows:
+    
+    <https://github.com/Tapioca-DAO/tapioca-periph/blob/2ddbcb1cde03b548e13421b2dba66435d2ac8eb5/contracts/Magnetar/modules/MagnetarOptionModule.sol#L158-L159>
+    
+    ```solidity
+                singularity_.removeAsset(data.user, removeAssetTo, share);
+wiki_exploit_scenario: |
+    Per Solodit #32318: The code to remove shares from Singularity is as follows:
+    
+    <https://github.com/Tapioca-DAO/tapioca-periph/blob/2ddbcb1cde03b548e13421b2dba66435d2ac8eb5/contracts/Magnetar/modules/MagnetarOptionModule
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H07IncorrectMathMeansDataRemoveandrepaydataRemoveassetfro"
+solodit_id: "32318"
+solodit_slug: |
+    h-07-incorrect-math-means-dataremoveandrepaydataremoveassetfromsgl-will-never-work-once-sgl-has-accrued-interest-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal fraction;"
+fn_name_regex: ".*(share|fraction).*"
+read_var_regex: ".*(fraction|share).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "share"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return fraction > 0;"

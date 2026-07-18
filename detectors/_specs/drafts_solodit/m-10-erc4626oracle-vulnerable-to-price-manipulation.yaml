@@ -1,0 +1,44 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-10-erc4626oracle-vulnerable-to-price-manipulation"
+class_name: "M10Erc4626oracleVulnerableToPriceManipulation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3366 (Sherlock/Sentiment)"
+help: "M-10: ERC4626Oracle Vulnerable To Price Manipulation"
+wiki_title: "M-10: ERC4626Oracle Vulnerable To Price Manipulation"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-08-sentiment-judging/tree/main/133-M 
+    ## Found by 
+    xiaoming90, IllIllI
+    
+    ## Summary
+    
+    ERC4626 oracle is vulnerable to price manipulation. This allows an attacker to increase or decrease the price to carry out various attacks against the protocol.
+    
+    ## Vuln
+wiki_exploit_scenario: |
+    Per Solodit #3366: Source: https://github.com/sherlock-audit/2022-08-sentiment-judging/tree/main/133-M 
+    ## Found by 
+    xiaoming90, IllIllI
+    
+    ## Summary
+    
+    ERC4626 oracle is vulnerable to price manipulation. This allows an at
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10Erc4626oracleVulnerableToPriceManipulation"
+solodit_id: "3366"
+solodit_slug: "m-10-erc4626oracle-vulnerable-to-price-manipulation-sherlock-sentiment-sentiment-git"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Oracle, Flash Loan, ERC4626"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(getPrice|ERC4626Oracle|previewRedeem|convertToAssets).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

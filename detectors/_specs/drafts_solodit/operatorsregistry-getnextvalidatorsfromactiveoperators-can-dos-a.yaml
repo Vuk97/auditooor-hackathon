@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_require"
+name: "operatorsregistry-getnextvalidatorsfromactiveoperators-can-dos-a"
+class_name: "OperatorsregistryGetnextvalidatorsfromactiveoperatorsCanDosA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7010 (Spearbit/Liquid Collective)"
+help: |
+    OperatorsRegistry._getNextValidatorsFromActiveOperators can DOS Alluvial staking if there's anoperator with funded==stopped and funded == min(limit, keys)
+wiki_title: |
+    OperatorsRegistry._getNextValidatorsFromActiveOperators can DOS Alluvial staking if there's anoperator with funded==stopped and funded == min(limit, keys)
+wiki_description: |
+    ## Severity: Critical Risk
+    
+    ## Context
+    OperatorsRegistry.1.sol#L403-L454
+    
+    ## Description
+    This issue is also related to `OperatorsRegistry._getNextValidatorsFromActiveOperators` which should not consider stopped when picking a validator.
+    
+    Consider a scenario where we have:
+    
+    ### Operators
+    - **Op at in
+wiki_exploit_scenario: |
+    Per Solodit #7010: ## Severity: Critical Risk
+    
+    ## Context
+    OperatorsRegistry.1.sol#L403-L454
+    
+    ## Description
+    This issue is also related to `OperatorsRegistry._getNextValidatorsFromActiveOperators` which should not consid
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OperatorsregistryGetnextvalidatorsfromactiveoperatorsCanDosA"
+solodit_id: "7010"
+solodit_slug: |
+    operatorsregistry_getnextvalidatorsfromactiveoperators-can-dos-alluvial-staking-if-theres-an-spearbit-liquid-collective-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation, Business Logic"
+state_decl: "uint256 internal op1;"
+fn_name_regex: ".*(op1|op2|selectedOperatorIndex).*"
+write_var_regex: ".*(op1|op2|selectedOperatorIndex).*"
+guard_var_regex: ".*(op1|op2|selectedOperatorIndex).*"
+vuln_fn_name: "op1"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "op1 = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

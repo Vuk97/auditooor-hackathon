@@ -1,0 +1,46 @@
+skeleton: "paired_function_divergence"
+name: "m-15-malicious-actors-can-front-run-setyieldconvenabled"
+class_name: "M15MaliciousActorsCanFrontRunSetyieldconvenabled"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52767 (Sherlock/Peapods)"
+help: "M-15: Malicious actors can front-run setYieldConvEnabled"
+wiki_title: "M-15: Malicious actors can front-run setYieldConvEnabled"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/313 
+    
+    ## Found by 
+    pashap9990
+    
+    ### Root Cause
+    
+    AutoCompoundingPodLp'owner can enable or disable processing reward tokens through `AutoCompoundingPodLp::setYieldConvEnabled` but when owner decides to enable with sets yie
+wiki_exploit_scenario: |
+    Per Solodit #52767: Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/313 
+    
+    ## Found by 
+    pashap9990
+    
+    ### Root Cause
+    
+    AutoCompoundingPodLp'owner can enable or disable processing reward token
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15MaliciousActorsCanFrontRunSetyieldconvenabled"
+solodit_id: "52767"
+solodit_slug: "m-15-malicious-actors-can-front-run-setyieldconvenabled-sherlock-peapods-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

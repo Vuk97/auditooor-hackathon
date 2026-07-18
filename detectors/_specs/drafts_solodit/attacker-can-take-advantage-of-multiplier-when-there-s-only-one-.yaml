@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "attacker-can-take-advantage-of-multiplier-when-there-s-only-one-"
+class_name: "AttackerCanTakeAdvantageOfMultiplierWhenThereSOnlyOne"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #40672 (Cantina/Goat Tech)"
+help: |
+    Attacker can take advantage of multiplier when there 's only one second left, allowing them to fraudulently gain voting power
+wiki_title: |
+    Attacker can take advantage of multiplier when there 's only one second left, allowing them to fraudulently gain voting power 
+wiki_description: |
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    In the main stake function, we have a require statement that checks whether our `duration_` should be equal to zero or greater than or equal to `_minDuration`:
+    
+    ```solidity
+    require(
+        duration_ == 0 || duration_ >= _minDur
+wiki_exploit_scenario: |
+    Per Solodit #40672: ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    In the main stake function, we have a require statement that checks whether our `duration_` should be equal to zero or great
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AttackerCanTakeAdvantageOfMultiplierWhenThereSOnlyOne"
+solodit_id: "40672"
+solodit_slug: |
+    attacker-can-take-advantage-of-multiplier-when-there-s-only-one-second-left-allowing-them-to-fraudulently-gain-voting-power-cantina-none-goat-tech-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calmintstakingpower;"
+fn_name_regex: ".*(duration_|calMintStakingPower|lockTime_|lockAmount_).*"
+write_var_regex: ".*(calMintStakingPower|duration_|lockAmount_).*"
+guard_var_regex: ".*(calMintStakingPower|duration_|lockAmount_).*"
+vuln_fn_name: "duration_"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "calmintstakingpower = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

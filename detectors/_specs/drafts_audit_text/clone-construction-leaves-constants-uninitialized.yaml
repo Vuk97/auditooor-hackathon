@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "clone-construction-leaves-constants-uninitialized"
+class_name: "CloneConstructionLeavesConstantsUninitialized"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Lido Fixed Income - Zellic Audit Report"
+help: |
+    The LidoVault contract contains state variables that are implicitly initialized to constant values: contract LidoVault is ILidoVaultInitializer, ILidoVault { // [...] /// @notice M
+wiki_title: "Clone construction leaves constants uninitialized"
+wiki_description: |
+    The LidoVault contract contains state variables that are implicitly initialized to constant values: contract LidoVault is ILidoVaultInitializer, ILidoVault { // [...] /// @notice Minimum amount of ETH that can be deposited for variable or fixed side users uint256 public minimumDepositAmount = 0.01 e
+wiki_exploit_scenario: |
+    Per audit finding: The LidoVault contract contains state variables that are implicitly initialized to constant values: contract LidoVault is ILidoVaultInitializer, ILidoVault { // [...] /// @notice Minimum amount of ETH
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CloneConstructionLeavesConstantsUninitialized"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(minimumDepositAmount|minimumFixedDepositBps|createVault).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "minimumDepositAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

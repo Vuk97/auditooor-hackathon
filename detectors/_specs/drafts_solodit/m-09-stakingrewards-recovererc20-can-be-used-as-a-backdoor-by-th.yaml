@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "m-09-stakingrewards-recovererc20-can-be-used-as-a-backdoor-by-th"
+class_name: "M09StakingrewardsRecovererc20CanBeUsedAsABackdoorByTh"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5790 (Code4rena/Y2k Finance)"
+help: |
+    [M-09] StakingRewards: recoverERC20() can be used as a backdoor by the owner to retrieve rewardsToken
+wiki_title: |
+    [M-09] StakingRewards: recoverERC20() can be used as a backdoor by the owner to retrieve rewardsToken
+wiki_description: |
+    Similar to <https://github.com/code-423n4/2022-02-concur-findings/issues/210>
+    StakingRewards.recoverERC20 rightfully checks against the stakingToken being sweeped away.
+    However, there’s no check against the rewardsToken.
+    This is the case of an admin privilege, which allows the owner to sweep the re
+wiki_exploit_scenario: |
+    Per Solodit #5790: Similar to <https://github.com/code-423n4/2022-02-concur-findings/issues/210>
+    StakingRewards.recoverERC20 rightfully checks against the stakingToken being sweeped away.
+    However, there’s no check agai
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09StakingrewardsRecovererc20CanBeUsedAsABackdoorByTh"
+solodit_id: "5790"
+solodit_slug: |
+    m-09-stakingrewards-recovererc20-can-be-used-as-a-backdoor-by-the-owner-to-retrieve-rewardstoken-code4rena-y2k-finance-y2k-finance-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(recoverERC20|stakingToken|rewardsToken|tokenAddress).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "recoverERC20"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

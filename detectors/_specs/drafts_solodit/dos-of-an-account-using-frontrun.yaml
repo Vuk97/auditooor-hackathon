@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "dos-of-an-account-using-frontrun"
+class_name: "DosOfAnAccountUsingFrontrun"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30496 (MixBytes/Kinto)"
+help: "DoS of an account using frontrun"
+wiki_title: "DoS of an account using frontrun"
+wiki_description: |
+    ##### Description
+    
+    - https://github.com/KintoXYZ/kinto-core/blob/f7dd98f66b9dfba1f73758703b808051196e740b/src/wallet/KintoWalletFactory.sol#L130
+    
+    In `KintoWalletFactory`, a hacker can make a `deployContract` frontrun before calling `createAccount`. Thus, `deployContract` will create a valid `KintoWa
+wiki_exploit_scenario: |
+    Per Solodit #30496: ##### Description
+    
+    - https://github.com/KintoXYZ/kinto-core/blob/f7dd98f66b9dfba1f73758703b808051196e740b/src/wallet/KintoWalletFactory.sol#L130
+    
+    In `KintoWalletFactory`, a hacker can make a `deployCo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DosOfAnAccountUsingFrontrun"
+solodit_id: "30496"
+solodit_slug: "dos-of-an-account-using-frontrun-mixbytes-none-kinto-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Front-Running, DOS"
+state_decl: "uint256 internal createaccount;"
+fn_name_regex: ".*(KintoWalletFactory|deployContract|createAccount|KintoWallet).*"
+read_var_regex: ".*(createAccount|deployContract|owners).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "KintoWalletFactory"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return createaccount > 0;"

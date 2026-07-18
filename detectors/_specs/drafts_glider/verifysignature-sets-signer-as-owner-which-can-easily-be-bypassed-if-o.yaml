@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "verifysignature-sets-signer-as-owner-which-can-easily-be-bypassed-if-o"
+class_name: "VerifysignatureSetsSignerAsOwnerWhichCanEasilyBeBypassedIfO"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: verify-signature-sets-signer-as-owner-which-alows"
+help: |
+    verifySignature sets signer as 'owner()' which can easily be bypassed if ownership is renounced thus giving malicious actors admin privileges
+wiki_title: |
+    verifySignature sets signer as 'owner()' which can easily be bypassed if ownership is renounced thus giving malicious actors admin privileges
+wiki_description: |
+    When ownership is renounces, owner() becomes address(0), and as verifySignature utilizes 'ecrecover' with a direct comparison against the supposed signer and return of ecrecover making it trivial to pass a address(0) == address(0) check when ownership is renounced thus allowing admin protected funct
+wiki_exploit_scenario: |
+    Per Glider query tags [Signatures, Access Control]: When ownership is renounces, owner() becomes address(0), and as verifySignature utilizes 'ecrecover' with a direct comparison against the supposed signer and return of ecrecover making it trivial to p
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "VerifysignatureSetsSignerAsOwnerWhichCanEasilyBeBypassedIfO"
+fn_name_regex: ".*(verifySignature).*"
+write_var_regex: ".*(verifysign).*"
+guard_var_regex: ".*(verifysign).*"
+vuln_fn_name: "verifySignature"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "verifysign = newVal;"
+guard_require_line: "require(newVal <= 10000);"
+state_decl: "uint256 internal verifysign;"

@@ -1,0 +1,46 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "possible-sandwich-attack"
+class_name: "PossibleSandwichAttack"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37890 (Zokyo/Ember)"
+help: "Possible Sandwich Attack"
+wiki_title: "Possible Sandwich Attack"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In the contract EmberVualt.sol, the function liquidateToken() can be sandwich attacked due to having unlimited slippage and deadline. 
+    
+    The code snippet above has zero and the max value of uint256 for slippage and deadline. This means that
+wiki_exploit_scenario: |
+    Per Solodit #37890: **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In the contract EmberVualt.sol, the function liquidateToken() can be sandwich attacked due to having unlimited slippage and deadline. 
+    
+    The
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleSandwichAttack"
+solodit_id: "37890"
+solodit_slug: "possible-sandwich-attack-zokyo-none-ember-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(liquidateToken).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

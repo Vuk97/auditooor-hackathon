@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "index-returned-overwrites-an-existing-element"
+class_name: "IndexReturnedOverwritesAnExistingElement"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44685 (Zokyo/Narwhal Finance)"
+help: "Index returned overwrites an existing element"
+wiki_title: "Index returned overwrites an existing element"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In TradingStorage.sol - Methods: firstEmptyTradeIndex, firstEmptyOpenLimitIndex() returns index = 0 if all the array slots are occupied. This in turn overrides the first element (i.e. 0).
+    
+    **Recommendation** 
+    
+    Revert if all occupied (i.e.
+wiki_exploit_scenario: |
+    Per Solodit #44685: **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In TradingStorage.sol - Methods: firstEmptyTradeIndex, firstEmptyOpenLimitIndex() returns index = 0 if all the array slots are occupied. Th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IndexReturnedOverwritesAnExistingElement"
+solodit_id: "44685"
+solodit_slug: "index-returned-overwrites-an-existing-element-zokyo-none-narwhal-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(firstEmptyTradeIndex|firstEmptyOpenLimitIndex|allOccupied).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "firstEmptyTradeIndex"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

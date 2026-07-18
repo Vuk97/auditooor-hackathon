@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "c-01-the-layerzero-implementation-contract-is-the-receiver-of-da"
+class_name: "C01TheLayerzeroImplementationContractIsTheReceiverOfDa"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41382 (Pashov Audit Group/StationX)"
+help: |
+    [C-01] The LayerZero implementation contract is the receiver of DAOs fees on cross-chain buy operations
+wiki_title: |
+    [C-01] The LayerZero implementation contract is the receiver of DAOs fees on cross-chain buy operations
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    Whenever a cross-chain DAO is created via `createCrossChainERC20DAO()` or `createCrossChainERC721DAO()`, it assigns the `ownerAddress` as the `msg.sender`. The problem is that the `msg.sender` will always be the LayerZero Deployer
+wiki_exploit_scenario: |
+    Per Solodit #41382: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    Whenever a cross-chain DAO is created via `createCrossChainERC20DAO()` or `createCrossChainERC721DAO()`, it assigns the `ownerAddre
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01TheLayerzeroImplementationContractIsTheReceiverOfDa"
+solodit_id: "41382"
+solodit_slug: |
+    c-01-the-layerzero-implementation-contract-is-the-receiver-of-daos-fees-on-cross-chain-buy-operations-pashov-audit-group-none-stationx-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal call;"
+fn_name_regex: ".*(createCrossChainERC20DAO|createCrossChainERC721DAO|ownerAddress|call).*"
+write_var_regex: ".*(call|createCrossChainERC20DAO|createCrossChainERC721DAO).*"
+guard_var_regex: ".*(call|createCrossChainERC20DAO|createCrossChainERC721DAO).*"
+vuln_fn_name: "createCrossChainERC20DAO"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "call = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,33 @@
+skeleton: "paired_function_divergence"
+name: "h-02-unrestricted-claiming-of-fees-due-to-missing-balance-update"
+class_name: "H02UnrestrictedClaimingOfFeesDueToMissingBalanceUpdate"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35078 (Code4rena/Curves Protocol)"
+help: "[H-02] Unrestricted claiming of fees due to missing balance updates in `FeeSplitter`"
+wiki_title: "[H-02] Unrestricted claiming of fees due to missing balance updates in `FeeSplitter`"
+wiki_description: |
+    The `FeeSplitter` contract is designed to distribute fees among token holders. It employs an accumulator pattern to distribute rewards over time among users who do not sell or withdraw their tokens as ERC20s. This pattern works by maintaining an accumulator representing the cumulative total of the
+wiki_exploit_scenario: |
+    Per Solodit #35078: The `FeeSplitter` contract is designed to distribute fees among token holders. It employs an accumulator pattern to distribute rewards over time among users who do not sell or withdraw their tokens a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02UnrestrictedClaimingOfFeesDueToMissingBalanceUpdate"
+solodit_id: "35078"
+solodit_slug: |
+    h-02-unrestricted-claiming-of-fees-due-to-missing-balance-updates-in-feesplitter-code4rena-curves-protocol-curves-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(onBalanceChange|transferCurvesToken).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

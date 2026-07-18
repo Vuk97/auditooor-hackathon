@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "nounsdaologicv1fork-s-quit-performing-external-calls-in-between-"
+class_name: "Nounsdaologicv1forkSQuitPerformingExternalCallsInBetween"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21326 (Spearbit/Nouns DAO)"
+help: |
+    NounsDAOLogicV1Fork's quit() performing external calls in-between total supply and balance reads can allow for treasury funds stealing via cross-contract reentrancy
+wiki_title: |
+    NounsDAOLogicV1Fork's quit() performing external calls in-between total supply and balance reads can allow for treasury funds stealing via cross-contract reentr
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    NounsDAOLogicV1Fork.sol#L201-L222
+    
+    ## Description
+    Let's suppose there is an initiative group of nouns holders that performed a fork, claimed, and immediately quit (say for pure financial reasons). Right after that, it is `block.timestamp < forkingPeriodEndTimesta
+wiki_exploit_scenario: |
+    Per Solodit #21326: ## Severity: Medium Risk
+    
+    ## Context
+    NounsDAOLogicV1Fork.sol#L201-L222
+    
+    ## Description
+    Let's suppose there is an initiative group of nouns holders that performed a fork, claimed, and immediately quit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Nounsdaologicv1forkSQuitPerformingExternalCallsInBetween"
+solodit_id: "21326"
+solodit_slug: |
+    nounsdaologicv1forks-quit-performing-external-calls-in-between-total-supply-and-balance-spearbit-none-nouns-dao-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal checkgovernanceactive;"
+fn_name_regex: ".*(checkGovernanceActive|safeTransfer|IERC20|NounsDAOLogicV1Fork).*"
+read_var_regex: ".*(checkGovernanceActive|safeTransfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "checkGovernanceActive"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return checkgovernanceactive > 0;"

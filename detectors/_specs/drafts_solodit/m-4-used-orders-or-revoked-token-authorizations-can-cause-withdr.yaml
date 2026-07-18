@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-4-used-orders-or-revoked-token-authorizations-can-cause-withdr"
+class_name: "M4UsedOrdersOrRevokedTokenAuthorizationsCanCauseWithdr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5653 (Sherlock/Opyn Crab Netting)"
+help: |
+    M-4: Used orders or revoked token authorizations can cause `withdrawAuction` and `depositAuction` to fail
+wiki_title: |
+    M-4: Used orders or revoked token authorizations can cause `withdrawAuction` and `depositAuction` to fail
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-11-opyn-judging/issues/60 
+    
+    ## Found by 
+    indijanc, Haruxe, seyni, zimu, Jeiwan, thec00n
+    
+    ## Summary
+    The owner must ensure that all orders are valid before submitting an auction, as a single order failure can revert an entire auction. The current impleme
+wiki_exploit_scenario: |
+    Per Solodit #5653: Source: https://github.com/sherlock-audit/2022-11-opyn-judging/issues/60 
+    
+    ## Found by 
+    indijanc, Haruxe, seyni, zimu, Jeiwan, thec00n
+    
+    ## Summary
+    The owner must ensure that all orders are valid befor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M4UsedOrdersOrRevokedTokenAuthorizationsCanCauseWithdr"
+solodit_id: "5653"
+solodit_slug: |
+    m-4-used-orders-or-revoked-token-authorizations-can-cause-withdrawauction-and-depositauction-to-fail-sherlock-opyn-opyn-crab-netting-git
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Grief Attack"
+state_decl: "uint256 internal checkorder;"
+fn_name_regex: ".*(withdrawAuction|depositAuction|setNonceTrue|checkOrder).*"
+read_var_regex: ".*(checkOrder|depositAuction|setNonceTrue).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdrawAuction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return checkorder > 0;"

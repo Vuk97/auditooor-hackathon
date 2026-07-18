@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "reentrancy-in-rafflemintv1-withdrawnonraffleproceeds"
+class_name: "ReentrancyInRafflemintv1Withdrawnonraffleproceeds"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50502 (Halborn/Proof of Play / Pirate Nation)"
+help: "REENTRANCY IN RAFFLEMINTV1.WITHDRAWNONRAFFLEPROCEEDS"
+wiki_title: "REENTRANCY IN RAFFLEMINTV1.WITHDRAWNONRAFFLEPROCEEDS"
+wiki_description: |
+    ##### Description
+    
+    In the contract `RaffleMintV1`, the function `withdrawNonRaffleProceeds()` is vulnerable to reentrancy as it updates the `nonRaffleWithdrawableProceeds` after the `payable(_msgSender()).call{value: proceeds}("");`:
+    
+    #### RaffleMintV1.sol
+    
+    ```
+    /* @notice Allows contract owner to wi
+wiki_exploit_scenario: |
+    Per Solodit #50502: ##### Description
+    
+    In the contract `RaffleMintV1`, the function `withdrawNonRaffleProceeds()` is vulnerable to reentrancy as it updates the `nonRaffleWithdrawableProceeds` after the `payable(_msgSende
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyInRafflemintv1Withdrawnonraffleproceeds"
+solodit_id: "50502"
+solodit_slug: |
+    reentrancy-in-rafflemintv1withdrawnonraffleproceeds-halborn-proof-of-play-proof-of-play-pirate-nation-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal nonrafflewithdrawableproceeds;"
+fn_name_regex: ".*(RaffleMintV1|withdrawNonRaffleProceeds|nonRaffleWithdrawableProceeds|nonReentrant).*"
+read_var_regex: ".*(nonRaffleWithdrawableProceeds|nonReentrant|withdrawNonRaffleProceeds).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "RaffleMintV1"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return nonrafflewithdrawableproceeds > 0;"

@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "partial-match-can-lead-to-underflow-locking-user-funds"
+class_name: "PartialMatchCanLeadToUnderflowLockingUserFunds"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50771 (Halborn/Passage)"
+help: "PARTIAL MATCH CAN LEAD TO UNDERFLOW LOCKING USER FUNDS"
+wiki_title: "PARTIAL MATCH CAN LEAD TO UNDERFLOW LOCKING USER FUNDS"
+wiki_description: |
+    ##### Description
+    
+    When matching an order through the `matchIn()` and `matchOut()` the `v.inCnt` or `v.outCnt` variables are meant to be the number of fully matched orders to reduce the counters with. However, these variables are being increased even when there is a partial match, meaning all, not e
+wiki_exploit_scenario: |
+    Per Solodit #50771: ##### Description
+    
+    When matching an order through the `matchIn()` and `matchOut()` the `v.inCnt` or `v.outCnt` variables are meant to be the number of fully matched orders to reduce the counters with.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PartialMatchCanLeadToUnderflowLockingUserFunds"
+solodit_id: "50771"
+solodit_slug: "partial-match-can-lead-to-underflow-locking-user-funds-halborn-bracketfi-passage-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal automatch;"
+fn_name_regex: ".*(matchIn|matchOut|autoMatch|cancelInv).*"
+write_var_regex: ".*(autoMatch|cancelInv|matchIn).*"
+guard_var_regex: ".*(autoMatch|cancelInv|matchIn).*"
+vuln_fn_name: "matchIn"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "automatch = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

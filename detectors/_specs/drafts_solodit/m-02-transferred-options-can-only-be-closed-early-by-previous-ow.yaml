@@ -1,0 +1,42 @@
+skeleton: "paired_function_divergence"
+name: "m-02-transferred-options-can-only-be-closed-early-by-previous-ow"
+class_name: "M02TransferredOptionsCanOnlyBeClosedEarlyByPreviousOw"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #55639 (0x52/Buffer)"
+help: "[M-02] Transferred options can only be closed early by previous owner"
+wiki_title: "[M-02] Transferred options can only be closed early by previous owner"
+wiki_description: |
+    **Details**
+    
+    [BufferRouter.sol#L197-L205](https://github.com/Buffer-Finance/Buffer-Protocol-v2_5/blob/84b6060b4447b2550de595202e8820c7f515988b/contracts/core/BufferRouter.sol#L197-L205)
+    
+                (address signer, ) = getAccountMapping(queuedTrade.user);
+    
+                bool isUserSignValid = Validat
+wiki_exploit_scenario: |
+    Per Solodit #55639: **Details**
+    
+    [BufferRouter.sol#L197-L205](https://github.com/Buffer-Finance/Buffer-Protocol-v2_5/blob/84b6060b4447b2550de595202e8820c7f515988b/contracts/core/BufferRouter.sol#L197-L205)
+    
+                (
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02TransferredOptionsCanOnlyBeClosedEarlyByPreviousOw"
+solodit_id: "55639"
+solodit_slug: "m-02-transferred-options-can-only-be-closed-early-by-previous-owner-0x52-none-buffer-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

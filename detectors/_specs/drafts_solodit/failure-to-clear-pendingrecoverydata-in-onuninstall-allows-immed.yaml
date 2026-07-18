@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "failure-to-clear-pendingrecoverydata-in-onuninstall-allows-immed"
+class_name: "FailureToClearPendingrecoverydataInOnuninstallAllowsImmed"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #56740 (OpenZeppelin/Matter Labs Guardian Recovery Validator Audit)"
+help: |
+    Failure to Clear pendingRecoveryData in onUninstall Allows Immediate Account Recovery Upon Reconnection
+wiki_title: |
+    Failure to Clear pendingRecoveryData in onUninstall Allows Immediate Account Recovery Upon Reconnection
+wiki_description: |
+    The [`onUninstall` function](https://github.com/matter-labs/zksync-sso-clave-contracts/blob/c7714c0fe0a33a23acce5aa20355f088d330b4f7/src/validators/GuardianRecoveryValidator.sol#L84) can clear all data associated with guardians of a specific account, but it cannot clear the `pendingRecoveryData` map
+wiki_exploit_scenario: |
+    Per Solodit #56740: The [`onUninstall` function](https://github.com/matter-labs/zksync-sso-clave-contracts/blob/c7714c0fe0a33a23acce5aa20355f088d330b4f7/src/validators/GuardianRecoveryValidator.sol#L84) can clear all dat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FailureToClearPendingrecoverydataInOnuninstallAllowsImmed"
+solodit_id: "56740"
+solodit_slug: |
+    failure-to-clear-pendingrecoverydata-in-onuninstall-allows-immediate-account-recovery-upon-reconnection-openzeppelin-none-matter-labs-guardian-recovery-validator-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addvalidationkey;"
+fn_name_regex: ".*(onUninstall|pendingRecoveryData|GuardianRecoveryValidator|addValidationKey).*"
+write_var_regex: ".*(addValidationKey|onUninstall|pendingRecoveryData).*"
+guard_var_regex: ".*(addValidationKey|onUninstall|pendingRecoveryData).*"
+vuln_fn_name: "onUninstall"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "addvalidationkey = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

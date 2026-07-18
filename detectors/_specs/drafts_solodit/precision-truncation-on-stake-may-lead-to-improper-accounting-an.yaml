@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_call"
+name: "precision-truncation-on-stake-may-lead-to-improper-accounting-an"
+class_name: "PrecisionTruncationOnStakeMayLeadToImproperAccountingAn"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #58596 (Spearbit/Kinetiq LST)"
+help: "Precision Truncation on Stake May Lead to Improper Accounting and Protocol Insolvency"
+wiki_title: "Precision Truncation on Stake May Lead to Improper Accounting and Protocol Insolvency"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    In the `StakingManager` contract, `_distributeStake` sends HYPE to the L1 via:
+    
+    ```solidity
+    (bool success,) = payable(L1_HYPE_CONTRACT).call{value: truncatedAmount}("");
+    ```
+    
+    The `truncatedAmount` is
+wiki_exploit_scenario: |
+    Per Solodit #58596: ## Severity: High Risk
+    
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    In the `StakingManager` contract, `_distributeStake` sends HYPE to the L1 via:
+    
+    ```solidity
+    (bool su
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PrecisionTruncationOnStakeMayLeadToImproperAccountingAn"
+solodit_id: "58596"
+solodit_slug: |
+    precision-truncation-on-stake-may-lead-to-improper-accounting-and-protocol-insolvency-spearbit-none-kinetiq-lst-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amounttostake;"
+fn_name_regex: ".*(StakingManager|truncatedAmount|hypeBuffer|amountToStake).*"
+read_var_regex: ".*(amountToStake|hypeBuffer|totalStaked).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "StakingManager"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amounttostake > 0;"

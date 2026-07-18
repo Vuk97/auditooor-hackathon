@@ -1,0 +1,46 @@
+skeleton: "state_write_without_paired_write"
+name: "aaveoracle-contract-does-not-verify-price-staleness"
+class_name: "AaveoracleContractDoesNotVerifyPriceStaleness"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #38307 (Immunefi/ZeroLend)"
+help: "AaveOracle contract does not verify price staleness"
+wiki_title: "AaveOracle contract does not verify price staleness"
+wiki_description: |
+    Report type: Smart Contract
+    
+    
+    Target: https://explorer.zksync.io/address/0x785765De3E9ac3D8eEb42B4724A7FEA8990142B8
+    
+    Impacts:
+    - Direct theft of any user funds, whether at-rest or in-motion, other than unclaimed yield
+    
+    ## Description
+    ## Brief/Intro
+    **AaveOracle** contract relies on Pyth oracles to re
+wiki_exploit_scenario: |
+    Per Solodit #38307: Report type: Smart Contract
+    
+    
+    Target: https://explorer.zksync.io/address/0x785765De3E9ac3D8eEb42B4724A7FEA8990142B8
+    
+    Impacts:
+    - Direct theft of any user funds, whether at-rest or in-motion, other than
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AaveoracleContractDoesNotVerifyPriceStaleness"
+solodit_id: "38307"
+solodit_slug: "aaveoracle-contract-does-not-verify-price-staleness-immunefi-zerolend-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getAssetPrice|assetsSources|latestAnswer|getPriceUnsafe).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

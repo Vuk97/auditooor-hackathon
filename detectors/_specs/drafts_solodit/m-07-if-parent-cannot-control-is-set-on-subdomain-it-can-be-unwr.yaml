@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-07-if-parent-cannot-control-is-set-on-subdomain-it-can-be-unwr"
+class_name: "M07IfParentCannotControlIsSetOnSubdomainItCanBeUnwr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5551 (Code4rena/ENS)"
+help: |
+    [M-07] If `PARENT_CANNOT_CONTROL` is set on subdomain, it can be unwrapped then wrapped by its owner and then parent can control it again before the expiry
+wiki_title: |
+    [M-07] If `PARENT_CANNOT_CONTROL` is set on subdomain, it can be unwrapped then wrapped by its owner and then parent can control it again before the expiry
+wiki_description: |
+    [NameWrapper.sol#L955-L961](https://github.com/code-423n4/2022-07-ens/blob/ff6e59b9415d0ead7daf31c2ed06e86d9061ae22/contracts/wrapper/NameWrapper.sol#L955-L961)<br>
+    
+    There is a general incorrect logic of allowing to burn only `PARENT_CANNOT_CONTROL` fuse without burning `CANNOT_UNWRAP` fuse. If onl
+wiki_exploit_scenario: |
+    Per Solodit #5551: [NameWrapper.sol#L955-L961](https://github.com/code-423n4/2022-07-ens/blob/ff6e59b9415d0ead7daf31c2ed06e86d9061ae22/contracts/wrapper/NameWrapper.sol#L955-L961)<br>
+    
+    There is a general incorrect logi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07IfParentCannotControlIsSetOnSubdomainItCanBeUnwr"
+solodit_id: "5551"
+solodit_slug: |
+    m-07-if-parent_cannot_control-is-set-on-subdomain-it-can-be-unwrapped-then-wrapped-by-its-owner-and-then-parent-can-control-it-again-before-the-expiry-code4rena-ens-ens-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(PARENT_CANNOT_CONTROL|CANNOT_UNWRAP|NameWrapper).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "PARENT_CANNOT_CONTROL"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

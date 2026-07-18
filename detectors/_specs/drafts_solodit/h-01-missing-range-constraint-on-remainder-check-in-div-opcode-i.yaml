@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "h-01-missing-range-constraint-on-remainder-check-in-div-opcode-i"
+class_name: "H01MissingRangeConstraintOnRemainderCheckInDivOpcodeI"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30274 (Code4rena/zkSync)"
+help: "[H-01] Missing range constraint on remainder check in `div` opcode implementation"
+wiki_title: "[H-01] Missing range constraint on remainder check in `div` opcode implementation"
+wiki_description: |
+    When calculating the remainder of the `div` instruction, the circuit needs to verify that the remainder is less than the divisor. It does this by subtracting the divisor from the remainder and enforcing that the borrow flow is true.
+    
+    <https://github.com/code-423n4/2023-10-zksync/blob/main/code/era-
+wiki_exploit_scenario: |
+    Per Solodit #30274: When calculating the remainder of the `div` instruction, the circuit needs to verify that the remainder is less than the divisor. It does this by subtracting the divisor from the remainder and enforc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01MissingRangeConstraintOnRemainderCheckInDivOpcodeI"
+solodit_id: "30274"
+solodit_slug: |
+    h-01-missing-range-constraint-on-remainder-check-in-div-opcode-implementation-code4rena-zksync-zksync-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal div;"
+fn_name_regex: ".*(div|subtraction_result_unchecked|remainder_is_less_than_divisor).*"
+write_var_regex: ".*(div|remainder_is_less_than_divisor|subtraction_result_unchecked).*"
+guard_var_regex: ".*(div|remainder_is_less_than_divisor|subtraction_result_unchecked).*"
+vuln_fn_name: "div"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "div = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

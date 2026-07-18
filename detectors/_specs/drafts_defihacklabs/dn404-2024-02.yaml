@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "dn404-2024-02"
+class_name: "Dn404202402"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-02/DN404_exp.sol"
+help: "DN404 2024-02 — reentrancy exploit (200K)"
+wiki_title: "DN404 (2024-02) — reentrancy"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-02): DN404 lost 200K. Bug class: reentrancy. Attack tx: 0xbeef09ee9d694d2b24f3f367568cc6ba1dad591ea9f969c36e5b181fd301be82.
+wiki_exploit_scenario: |
+    Attacker (0xd215ffaf0f85fb6f93f11e49bd6175ad58af0dfd) exploits DN404 via reentrancy: the victim contract 0x2c7112245fc4af701ebf90399264a7e89205dad4 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Apply the nonReentrant modifier (OZ ReentrancyGuard) to every externally-callable state-mutating entry point that transfers value, and follow the checks-effects-interactions pattern.
+contract_name: "Dn404202402"
+fn_name_regex: ".*(withdraw).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(nonReentrant).*"
+guarded_helper_name: "nonReentrant"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

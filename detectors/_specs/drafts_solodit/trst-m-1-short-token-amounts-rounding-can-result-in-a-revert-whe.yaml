@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "trst-m-1-short-token-amounts-rounding-can-result-in-a-revert-whe"
+class_name: "TrstM1ShortTokenAmountsRoundingCanResultInARevertWhe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20275 (Trust Security/Timeswap)"
+help: "TRST-M-1 Short token amounts rounding can result in a revert when burning options"
+wiki_title: "TRST-M-1 Short token amounts rounding can result in a revert when burning options"
+wiki_description: |
+    **Description:**
+    In `OptionLibrary.mint()`, when computing the amount of shorts in a GivenTokensAndLongs
+    transaction, the "round up" flag is set to **false**, but, during burning in `OptionLibrary.burn()`, it's
+    set to **true**. This can result in a reverted transaction when burning all previously mi
+wiki_exploit_scenario: |
+    Per Solodit #20275: **Description:**
+    In `OptionLibrary.mint()`, when computing the amount of shorts in a GivenTokensAndLongs
+    transaction, the "round up" flag is set to **false**, but, during burning in `OptionLibrary.bur
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM1ShortTokenAmountsRoundingCanResultInARevertWhe"
+solodit_id: "20275"
+solodit_slug: |
+    trst-m-1-short-token-amounts-rounding-can-result-in-a-revert-when-burning-options-trust-security-none-timeswap-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalPosition|roundUp|roundDown|givenTokensAndLong).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "totalPosition"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "m-01-no-check-for-sequencer-uptime-can-lead-to-dutch-auctions-fa"
+class_name: "M01NoCheckForSequencerUptimeCanLeadToDutchAuctionsFa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30221 (Code4rena/Ethereum Credit Guild)"
+help: "[M-01] No check for sequencer uptime can lead to dutch auctions failing or executing at bad prices"
+wiki_title: "[M-01] No check for sequencer uptime can lead to dutch auctions failing or executing at bad prices"
+wiki_description: |
+    The `AuctionHouse` contract implements a Dutch auction mechanism to recover debt from collateral. However, there is no check for sequencer uptime, which could lead to auctions failing or executing at unfavorable prices.
+    
+    The current deployment parameters allow auctions to succeed without a loss to
+wiki_exploit_scenario: |
+    Per Solodit #30221: The `AuctionHouse` contract implements a Dutch auction mechanism to recover debt from collateral. However, there is no check for sequencer uptime, which could lead to auctions failing or executing at
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01NoCheckForSequencerUptimeCanLeadToDutchAuctionsFa"
+solodit_id: "30221"
+solodit_slug: |
+    m-01-no-check-for-sequencer-uptime-can-lead-to-dutch-auctions-failing-or-executing-at-bad-prices-code4rena-ethereum-credit-guild-ethereum-credit-guild-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Chain Reorganization Attack"
+state_decl: "uint256 internal midpoint;"
+fn_name_regex: ".*(AuctionHouse|midPoint).*"
+write_var_regex: ".*(midPoint).*"
+guard_var_regex: ".*(midPoint).*"
+vuln_fn_name: "AuctionHouse"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "midpoint = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "users-cannot-make-compensation-when-the-due-date-is-within-t-x"
+class_name: "UsersCannotMakeCompensationWhenTheDueDateIsWithinTX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-06-size"
+help: |
+    [L-05] Users cannot make compensation when the due date is within the minimum tenor period Note: At the judge’s request here , this downgraded issue from the same warden has been i
+wiki_title: |
+    Users cannot make compensation when the due date is within the minimum tenor period Note: At the judge’s request
+wiki_description: |
+    [L-05] Users cannot make compensation when the due date is within the minimum tenor period Note: At the judge’s request here , this downgraded issue from the same warden has been included in this report for completeness. Impact Users can repay their debts partially. If they have other credits with d
+wiki_exploit_scenario: |
+    Per audit finding: [L-05] Users cannot make compensation when the due date is within the minimum tenor period Note: At the judge’s request here , this downgraded issue from the same warden has been included in this repo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCannotMakeCompensationWhenTheDueDateIsWithinTX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(validateCompensate|creditPositionToCompensateId|debtPositionToRepay).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "validateCompensate"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

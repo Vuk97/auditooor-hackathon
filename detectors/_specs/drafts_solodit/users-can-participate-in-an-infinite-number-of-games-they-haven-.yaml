@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "users-can-participate-in-an-infinite-number-of-games-they-haven-"
+class_name: "UsersCanParticipateInAnInfiniteNumberOfGamesTheyHaven"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #65374 (Cyfrin/Majority Protocol)"
+help: |
+    Users can participate in an infinite number of games they haven't joined, bypassing all entry fee requirements while still becoming winners and claiming prizes
+wiki_title: |
+    Users can participate in an infinite number of games they haven't joined, bypassing all entry fee requirements while still becoming winners and claiming prizes
+wiki_description: |
+    **Description:** `SessionManager::commitReaction` only checks that the user has joined `_gameId`, but doesn't verify that `_questionId` belongs to `_gameId`:
+    ```solidity
+     function commitReaction(uint256 _gameId, uint256 _questionId, bytes32 _commit)
+            external
+            onlyState(_gameId, Sessio
+wiki_exploit_scenario: |
+    Per Solodit #65374: **Description:** `SessionManager::commitReaction` only checks that the user has joined `_gameId`, but doesn't verify that `_questionId` belongs to `_gameId`:
+    ```solidity
+     function commitReaction(uint2
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanParticipateInAnInfiniteNumberOfGamesTheyHaven"
+solodit_id: "65374"
+solodit_slug: |
+    users-can-participate-in-an-infinite-number-of-games-they-havent-joined-bypassing-all-entry-fee-requirements-while-still-becoming-winners-and-claiming-prizes-cyfrin-none-majority-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal commitreaction;"
+fn_name_regex: ".*(commitReaction|gameId).*"
+read_var_regex: ".*(commitReaction|gameId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "commitReaction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return commitreaction > 0;"

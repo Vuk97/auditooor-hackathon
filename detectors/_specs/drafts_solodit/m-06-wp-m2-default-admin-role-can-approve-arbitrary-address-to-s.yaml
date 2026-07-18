@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "m-06-wp-m2-default-admin-role-can-approve-arbitrary-address-to-s"
+class_name: "M06WpM2DefaultAdminRoleCanApproveArbitraryAddressToS"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25628 (Code4rena/Livepeer)"
+help: |
+    [M-06] [WP-M2] `DEFAULT_ADMIN_ROLE` can approve arbitrary address to spend any amount from the `L1Escrow` contract
+wiki_title: |
+    [M-06] [WP-M2] `DEFAULT_ADMIN_ROLE` can approve arbitrary address to spend any amount from the `L1Escrow` contract
+wiki_description: |
+    _Submitted by WatchPug_.
+    
+    <https://github.com/livepeer/arbitrum-lpt-bridge/blob/ebf68d11879c2798c5ec0735411b08d0bea4f287/contracts/L1/escrow/L1Escrow.sol#L21-L28>
+    
+    ```solidity
+    function approve(
+        address _token,
+        address _spender,
+        uint256 _value
+    ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        A
+wiki_exploit_scenario: |
+    Per Solodit #25628: _Submitted by WatchPug_.
+    
+    <https://github.com/livepeer/arbitrum-lpt-bridge/blob/ebf68d11879c2798c5ec0735411b08d0bea4f287/contracts/L1/escrow/L1Escrow.sol#L21-L28>
+    
+    ```solidity
+    function approve(
+        ad
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06WpM2DefaultAdminRoleCanApproveArbitraryAddressToS"
+solodit_id: "25628"
+solodit_slug: |
+    m-06-wp-m2-default_admin_role-can-approve-arbitrary-address-to-spend-any-amount-from-the-l1escrow-contract-code4rena-livepeer-livepeer-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal approve;"
+fn_name_regex: ".*(DEFAULT_ADMIN_ROLE|L1Escrow|approve|l1LPT).*"
+read_var_regex: ".*(approve|l1Gateway|l1LPT).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "DEFAULT_ADMIN_ROLE"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return approve > 0;"

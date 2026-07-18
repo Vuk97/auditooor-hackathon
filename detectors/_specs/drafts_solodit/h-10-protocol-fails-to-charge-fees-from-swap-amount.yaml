@@ -1,0 +1,34 @@
+skeleton: "paired_function_divergence"
+name: "h-10-protocol-fails-to-charge-fees-from-swap-amount"
+class_name: "H10ProtocolFailsToChargeFeesFromSwapAmount"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #64858 (Code4rena/GTE)"
+help: "[H-10] Protocol fails to charge fees from swap amount"
+wiki_title: "[H-10] Protocol fails to charge fees from swap amount"
+wiki_description: |
+    `launchpad/uniswap/GTELaunchpadV2Pair.sol` [# L231](https://github.com/code-423n4/2025-08-gte-perps/blob/f43e1eedb65e7e0327cfaf4d7608a37d85d2fae7/contracts/launchpad/uniswap/GTELaunchpadV2Pair.sol# L231)
+    
+    The GTE uniswap contract fails to charge fee for swaps and update balAdjusted by fees charged
+wiki_exploit_scenario: |
+    Per Solodit #64858: `launchpad/uniswap/GTELaunchpadV2Pair.sol` [# L231](https://github.com/code-423n4/2025-08-gte-perps/blob/f43e1eedb65e7e0327cfaf4d7608a37d85d2fae7/contracts/launchpad/uniswap/GTELaunchpadV2Pair.sol#
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H10ProtocolFailsToChargeFeesFromSwapAmount"
+solodit_id: "64858"
+solodit_slug: "h-10-protocol-fails-to-charge-fees-from-swap-amount-code4rena-gte-gte-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

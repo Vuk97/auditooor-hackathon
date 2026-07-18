@@ -1,0 +1,20 @@
+id: htoken-self-transfer-balance-inflation
+title: "aToken self-transfer inflates balance (unrestricted protocol drain)"
+severity: Critical
+language: rust
+platform: soroban
+source: "watchpug-rev3"
+source_ids:
+  - "WP-C4"
+bug_class: health-factor
+indicators:
+  - "`transfer(from, to, amount)` without `if from == to { return Ok(()) }` short-circuit"
+  - "balance subtract-then-add sequence that mis-orders reads/writes on self-transfer"
+victim: "Protocol: attacker inflates aToken balance at will, drains underlying."
+exploit_precondition: "Public transfer entrypoint accepts `from == to`."
+real_world_example: |
+  WatchPug WP-C4 (Critical): aToken self-transfer balance inflation enabling unrestricted drain.
+suggested_remediation: "Reject `from == to` OR use a single atomic storage update that is mathematically equivalent to no-op."
+cross_refs:
+  - htoken-transfer-skips-sender-health-check
+  - scaled-share-rounding-mismatch

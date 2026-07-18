@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "the-endauction-function-attempts-to-send-native-tokens-to-the-st"
+class_name: "TheEndauctionFunctionAttemptsToSendNativeTokensToTheSt"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57285 (Codehawks/Core Contracts)"
+help: "The endAuction function attempts to send native tokens to the StabilityPool, which does not support"
+wiki_title: "The endAuction function attempts to send native tokens to the StabilityPool, which does not support"
+wiki_description: |
+    ## Summary
+    
+    The endAuction function attempts to send native tokens to the StabilityPool after auction is end, however due to StabilityPool not implement receive{} function , this function can be dos.
+    
+    And transfer() only use 2300 gas, this transaction can be revert due to out-of-gas too
+    
+    ## Vulnerab
+wiki_exploit_scenario: |
+    Per Solodit #57285: ## Summary
+    
+    The endAuction function attempts to send native tokens to the StabilityPool after auction is end, however due to StabilityPool not implement receive{} function , this function can be dos.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheEndauctionFunctionAttemptsToSendNativeTokensToTheSt"
+solodit_id: "57285"
+solodit_slug: |
+    the-endauction-function-attempts-to-send-native-tokens-to-the-stabilitypool-which-does-not-support-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(endAuction|veRAACToken|crvUSDToken|rToken).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "endAuction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

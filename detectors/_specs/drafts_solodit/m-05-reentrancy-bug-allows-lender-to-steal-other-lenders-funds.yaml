@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-05-reentrancy-bug-allows-lender-to-steal-other-lenders-funds"
+class_name: "M05ReentrancyBugAllowsLenderToStealOtherLendersFunds"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6245 (Code4rena/Debt DAO)"
+help: "[M-05] Reentrancy bug allows lender to steal other lenders funds"
+wiki_title: "[M-05] Reentrancy bug allows lender to steal other lenders funds"
+wiki_description: |
+    A reentrancy bug in `LineOfCredit.sol` allows the lender to steal other lenders tokens if they are lending the same tokens type (loss of funds).
+    
+    The  reentrancy occurs in the `_close(credit, id)` function in `LineOfCredit.sol`. The `credit[id]` state variable is cleared only after sendings tokens
+wiki_exploit_scenario: |
+    Per Solodit #6245: A reentrancy bug in `LineOfCredit.sol` allows the lender to steal other lenders tokens if they are lending the same tokens type (loss of funds).
+    
+    The  reentrancy occurs in the `_close(credit, id)` fu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05ReentrancyBugAllowsLenderToStealOtherLendersFunds"
+solodit_id: "6245"
+solodit_slug: |
+    m-05-reentrancy-bug-allows-lender-to-steal-other-lenders-funds-code4rena-debt-dao-debt-dao-contest-git
+solodit_quality: "5"
+solodit_rarity: "3.3333333333333335"
+solodit_tags: "Reentrancy"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(interestRepaid|sendOutTokenOrETH|removePosition|pNetwork).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "interestRepaid"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

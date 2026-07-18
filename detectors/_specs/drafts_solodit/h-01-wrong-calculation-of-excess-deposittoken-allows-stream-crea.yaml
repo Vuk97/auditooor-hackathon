@@ -1,0 +1,40 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-01-wrong-calculation-of-excess-deposittoken-allows-stream-crea"
+class_name: "H01WrongCalculationOfExcessDeposittokenAllowsStreamCrea"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42393 (Code4rena/Streaming Protocol)"
+help: |
+    [H-01] Wrong calculation of excess depositToken allows stream creator to retrieve `depositTokenFlashloanFeeAmount`, which may cause fund loss to users
+wiki_title: |
+    [H-01] Wrong calculation of excess depositToken allows stream creator to retrieve `depositTokenFlashloanFeeAmount`, which may cause fund loss to users
+wiki_description: |
+    _Submitted by WatchPug, also found by 0x0x0x, ScopeLift, gpersoon, harleythedog, hyh, gzeon, jonah1005, and kenzo_
+    
+    <https://github.com/code-423n4/2021-11-streaming/blob/56d81204a00fc949d29ddd277169690318b36821/Streaming/src/Locke.sol#L654-L654>
+    
+    ```solidity
+    uint256 excess = ERC20(token).balanceOf(a
+wiki_exploit_scenario: |
+    Per Solodit #42393: _Submitted by WatchPug, also found by 0x0x0x, ScopeLift, gpersoon, harleythedog, hyh, gzeon, jonah1005, and kenzo_
+    
+    <https://github.com/code-423n4/2021-11-streaming/blob/56d81204a00fc949d29ddd27716969
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01WrongCalculationOfExcessDeposittokenAllowsStreamCrea"
+solodit_id: "42393"
+solodit_slug: |
+    h-01-wrong-calculation-of-excess-deposittoken-allows-stream-creator-to-retrieve-deposittokenflashloanfeeamount-which-may-cause-fund-loss-to-users-code4rena-streaming-protocol-streaming-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(depositTokenFlashloanFeeAmount|excess|recoverTokens|governance).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

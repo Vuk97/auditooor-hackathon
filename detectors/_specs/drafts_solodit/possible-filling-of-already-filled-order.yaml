@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "possible-filling-of-already-filled-order"
+class_name: "PossibleFillingOfAlreadyFilledOrder"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28353 (MixBytes/1Inch)"
+help: "Possible filling of already filled order"
+wiki_title: "Possible filling of already filled order"
+wiki_description: |
+    ##### Description
+    User can try to fill already filled order by mistake:
+    https://github.com/1inch/limit-order-protocol/blob/a14bde6a260458de5083cee117d734221e1cbc05/contracts/LimitOrderProtocol.sol#L294
+    ##### Recommendation
+    We recommend to add the following check:
+    ```solidity=
+    require(remainingMakerA
+wiki_exploit_scenario: |
+    Per Solodit #28353: ##### Description
+    User can try to fill already filled order by mistake:
+    https://github.com/1inch/limit-order-protocol/blob/a14bde6a260458de5083cee117d734221e1cbc05/contracts/LimitOrderProtocol.sol#L29
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleFillingOfAlreadyFilledOrder"
+solodit_id: "28353"
+solodit_slug: "possible-filling-of-already-filled-order-mixbytes-none-1inch-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(remainingMakerAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "remainingMakerAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

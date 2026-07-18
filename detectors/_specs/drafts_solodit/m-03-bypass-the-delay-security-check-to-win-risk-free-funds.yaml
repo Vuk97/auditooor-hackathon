@@ -1,0 +1,33 @@
+skeleton: "paired_function_divergence"
+name: "m-03-bypass-the-delay-security-check-to-win-risk-free-funds"
+class_name: "M03BypassTheDelaySecurityCheckToWinRiskFreeFunds"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6333 (Code4rena/Tigris Trade)"
+help: "[M-03] Bypass the delay security check to win risk free funds"
+wiki_title: "[M-03] Bypass the delay security check to win risk free funds"
+wiki_description: |
+    The current implementation uses `_checkDelay()` function to prevent profitable opening and closing in the same tx with two different prices in the "valid signature pool". But the protection is not enough, an attacker can long with low price and short with high price at the same tx but two orders to
+wiki_exploit_scenario: |
+    Per Solodit #6333: The current implementation uses `_checkDelay()` function to prevent profitable opening and closing in the same tx with two different prices in the "valid signature pool". But the protection is not en
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03BypassTheDelaySecurityCheckToWinRiskFreeFunds"
+solodit_id: "6333"
+solodit_slug: |
+    m-03-bypass-the-delay-security-check-to-win-risk-free-funds-code4rena-tigris-trade-tigris-trade-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

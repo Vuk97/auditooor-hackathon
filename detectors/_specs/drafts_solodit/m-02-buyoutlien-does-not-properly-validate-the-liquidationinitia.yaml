@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "m-02-buyoutlien-does-not-properly-validate-the-liquidationinitia"
+class_name: "M02BuyoutlienDoesNotProperlyValidateTheLiquidationinitia"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25818 (Code4rena/Astaria)"
+help: "[M-02] `_buyoutLien()` does not properly validate the liquidationInitialAsk"
+wiki_title: "[M-02] `_buyoutLien()` does not properly validate the liquidationInitialAsk"
+wiki_description: |
+    Illegal liquidationInitialAsk, resulting in insufficient bids to cover the debt.
+    
+    ### Proof of Concept
+    
+    \_buyoutLien() will validate against liquidationInitialAsk, but incorrectly uses the old stack for validation
+    
+    ```solidity
+      function _buyoutLien(
+        LienStorage storage s,
+        ILienToken.LienAc
+wiki_exploit_scenario: |
+    Per Solodit #25818: Illegal liquidationInitialAsk, resulting in insufficient bids to cover the debt.
+    
+    ### Proof of Concept
+    
+    \_buyoutLien() will validate against liquidationInitialAsk, but incorrectly uses the old stack
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02BuyoutlienDoesNotProperlyValidateTheLiquidationinitia"
+solodit_id: "25818"
+solodit_slug: "m-02-_buyoutlien-does-not-properly-validate-the-liquidationinitialask-code4rena-astaria-astaria-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(liquidationInitialAsk|newStack|newLien|potentialDebt).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "liquidationInitialAsk"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

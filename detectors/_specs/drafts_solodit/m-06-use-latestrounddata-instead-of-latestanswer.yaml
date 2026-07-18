@@ -1,0 +1,46 @@
+skeleton: "state_write_without_paired_write"
+name: "m-06-use-latestrounddata-instead-of-latestanswer"
+class_name: "M06UseLatestrounddataInsteadOfLatestanswer"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36377 (Pashov Audit Group/Radiant June)"
+help: "[M-06] Use `latestRoundData` instead of `latestAnswer`"
+wiki_title: "[M-06] Use `latestRoundData` instead of `latestAnswer`"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    **Description**
+    
+    `UniV3TokenizedLp` is calling `latestAnswer()` to get the last oracle price. This method will return the last value, but you will not be able to check if the data is fresh. On the other hand, calling the method `latestRoundDa
+wiki_exploit_scenario: |
+    Per Solodit #36377: **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    **Description**
+    
+    `UniV3TokenizedLp` is calling `latestAnswer()` to get the last oracle price. This method will return the last value, but you
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06UseLatestrounddataInsteadOfLatestanswer"
+solodit_id: "36377"
+solodit_slug: "m-06-use-latestrounddata-instead-of-latestanswer-pashov-audit-group-none-radiant-june-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(UniV3TokenizedLp|latestAnswer|latestRoundData).*"
+primary_var_regex: ".*(latestAnswer|latestRoundData).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

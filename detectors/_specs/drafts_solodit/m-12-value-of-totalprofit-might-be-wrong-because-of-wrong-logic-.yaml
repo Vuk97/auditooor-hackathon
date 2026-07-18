@@ -1,0 +1,31 @@
+skeleton: "state_write_without_paired_write"
+name: "m-12-value-of-totalprofit-might-be-wrong-because-of-wrong-logic-"
+class_name: "M12ValueOfTotalprofitMightBeWrongBecauseOfWrongLogic"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16090 (Code4rena/Malt Protocol)"
+help: "[M-12] Value of `totalProfit` might be wrong because of wrong logic in function `sellMalt()`"
+wiki_title: "[M-12] Value of `totalProfit` might be wrong because of wrong logic in function `sellMalt()`"
+wiki_description: |
+    Contract `SwingTraderManager` has a `totalProfit` variable. It keeps track of total profit swing traders made during `sellMalt()`. However, the logic for accounting is wrong so it will not have the correct value. As the results, it can affect other contracts that integrate with `SwingTraderManager`
+wiki_exploit_scenario: |
+    Per Solodit #16090: Contract `SwingTraderManager` has a `totalProfit` variable. It keeps track of total profit swing traders made during `sellMalt()`. However, the logic for accounting is wrong so it will not have the c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12ValueOfTotalprofitMightBeWrongBecauseOfWrongLogic"
+solodit_id: "16090"
+solodit_slug: |
+    m-12-value-of-totalprofit-might-be-wrong-because-of-wrong-logic-in-function-sellmalt-code4rena-malt-protocol-malt-protocol-versus-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(SwingTraderManager|totalProfit|sellMalt).*"
+primary_var_regex: ".*(sellMalt|totalProfit).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

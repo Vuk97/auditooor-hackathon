@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "revoked-operators-still-retain-user-approvals"
+class_name: "RevokedOperatorsStillRetainUserApprovals"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit GTE CLOB - Zellic Audit Report"
+help: |
+    The protocol allows users to delegate market functionalities such as deposit, withdraw, postLimi- tOrder, postFillOrder, reduce, and cancel to operators acting on their behalf. The
+wiki_title: "Revoked operators still retain user approvals"
+wiki_description: |
+    The protocol allows users to delegate market functionalities such as deposit, withdraw, postLimi- tOrder, postFillOrder, reduce, and cancel to operators acting on their behalf. The approveOper- ator function in the CLOBFactory contract enables users to approve new operators. However, only operators
+wiki_exploit_scenario: |
+    Per audit finding: The protocol allows users to delegate market functionalities such as deposit, withdraw, postLimi- tOrder, postFillOrder, reduce, and cancel to operators acting on their behalf. The approveOper- ator f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RevokedOperatorsStillRetainUserApprovals"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(postLimi|tOrder|postFillOrder).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "postLimi"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "m-1-unfair-distribution-of-rewards-for-lps"
+class_name: "M1UnfairDistributionOfRewardsForLps"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63423 (Sherlock/Super DCA Liquidity Network)"
+help: "M-1: Unfair distribution of rewards for LPs"
+wiki_title: "M-1: Unfair distribution of rewards for LPs"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-09-super-dca-judging/issues/489 
+    
+    ## Found by 
+    patitonar, vinica\_boy
+    
+    ### Summary
+    The pool's reward distribution occurs during each liquidity operation through the beforeAddLiquidity and beforeRemoveLiquidity hooks. The Uniswap pool's donate mechanism
+wiki_exploit_scenario: |
+    Per Solodit #63423: Source: https://github.com/sherlock-audit/2025-09-super-dca-judging/issues/489 
+    
+    ## Found by 
+    patitonar, vinica\_boy
+    
+    ### Summary
+    The pool's reward distribution occurs during each liquidity operation
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1UnfairDistributionOfRewardsForLps"
+solodit_id: "63423"
+solodit_slug: "m-1-unfair-distribution-of-rewards-for-lps-sherlock-super-dca-liquidity-network-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

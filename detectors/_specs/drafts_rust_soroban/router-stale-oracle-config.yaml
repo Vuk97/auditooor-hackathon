@@ -1,0 +1,19 @@
+id: router-stale-oracle-config
+title: "Router uses stale oracle config after upstream oracle admin change"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44832"
+bug_class: oracle-cascade
+indicators:
+  - "router caches oracle parameters at reserve init and never refreshes them from the oracle contract"
+  - "oracle admin change does not propagate to the router's local cached view"
+victim: "Protocol: oracle rotation is ineffective on router-routed flows."
+exploit_precondition: "Admin updates oracle config; router has a cached reserve parameter set."
+real_world_example: |
+  V12 #44832 (High): Router uses stale oracle config after upstream changes.
+suggested_remediation: "Router should read oracle config live, or subscribe to an oracle-versioning event and refresh on mismatch."
+cross_refs:
+  - oracle-cache-not-invalidated-on-config-change

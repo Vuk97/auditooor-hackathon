@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-01-malicious-users-can-provide-liquidity-on-behalf-of-others-t"
+class_name: "H01MaliciousUsersCanProvideLiquidityOnBehalfOfOthersT"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28848 (Code4rena/QuickSwap and StellaSwap)"
+help: |
+    [H-01] Malicious users can provide liquidity on behalf of others to keep others in the liquidity cooldown
+wiki_title: |
+    [H-01] Malicious users can provide liquidity on behalf of others to keep others in the liquidity cooldown
+wiki_description: |
+    In the AlgebraPool contract, when the user provides liquidity via the mint function, the lastLiquidityAddTimestamp is updated to the current time.
+    
+              (_position.liquidity, _position.lastLiquidityAddTimestamp) = (
+                liquidityNext,
+                liquidityNext > 0 ? (liquidityDelta > 0
+wiki_exploit_scenario: |
+    Per Solodit #28848: In the AlgebraPool contract, when the user provides liquidity via the mint function, the lastLiquidityAddTimestamp is updated to the current time.
+    
+              (_position.liquidity, _position.lastLiqui
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01MaliciousUsersCanProvideLiquidityOnBehalfOfOthersT"
+solodit_id: "28848"
+solodit_slug: |
+    h-01-malicious-users-can-provide-liquidity-on-behalf-of-others-to-keep-others-in-the-liquidity-cooldown-code4rena-quickswap-and-stellaswap-quickswap-and-stellaswap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(lastLiquidityAddTimestamp|liquidityNext|liquidityDelta|liquidityCooldown).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "lastLiquidityAddTimestamp"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

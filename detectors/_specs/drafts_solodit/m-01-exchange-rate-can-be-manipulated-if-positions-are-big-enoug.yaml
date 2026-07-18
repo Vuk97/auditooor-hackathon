@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "m-01-exchange-rate-can-be-manipulated-if-positions-are-big-enoug"
+class_name: "M01ExchangeRateCanBeManipulatedIfPositionsAreBigEnoug"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20238 (Code4rena/Polynomial Protocol)"
+help: "[M-01] Exchange Rate can be manipulated if positions are big enough for a long enough time"
+wiki_title: "[M-01] Exchange Rate can be manipulated if positions are big enough for a long enough time"
+wiki_description: |
+    If exchangeRate can be maniupulated, then this can be used to extract value or grief withdrawals from the `KangarooVault`.
+    
+    From my experimentation, the values to manipulate the share price are very high, making the attack fairly unlikely.
+    
+    That said, by manipulating `markPrice` we can get maniupul
+wiki_exploit_scenario: |
+    Per Solodit #20238: If exchangeRate can be maniupulated, then this can be used to extract value or grief withdrawals from the `KangarooVault`.
+    
+    From my experimentation, the values to manipulate the share price are very
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01ExchangeRateCanBeManipulatedIfPositionsAreBigEnoug"
+solodit_id: "20238"
+solodit_slug: |
+    m-01-exchange-rate-can-be-manipulated-if-positions-are-big-enough-for-a-long-enough-time-code4rena-polynomial-protocol-polynomial-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal gettokenprice;"
+fn_name_regex: ".*(KangarooVault|markPrice|getTokenPrice).*"
+write_var_regex: ".*(getTokenPrice|markPrice).*"
+guard_var_regex: ".*(getTokenPrice|markPrice).*"
+vuln_fn_name: "KangarooVault"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "gettokenprice = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

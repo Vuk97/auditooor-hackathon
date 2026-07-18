@@ -1,0 +1,45 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "transfer-function-in-issuepayout-can-be-replaced-by-a-direct-cal"
+class_name: "TransferFunctionInIssuepayoutCanBeReplacedByADirectCal"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21839 (Spearbit/Astaria)"
+help: "transfer(...) function in _issuePayout(...) can be replaced by a direct call"
+wiki_title: "transfer(...) function in _issuePayout(...) can be replaced by a direct call"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - VaultImplementation.sol#L245
+    
+    ## Description
+    In the `_issuePayout(...)` internal function of the `VaultImplementation`, if the asset is WETH, the amount is withdrawn from WETH to native tokens and then transferred to the borrower:
+    
+    ```solidity
+    if (asset() == WE
+wiki_exploit_scenario: |
+    Per Solodit #21839: ## Severity: Medium Risk
+    
+    ## Context
+    - VaultImplementation.sol#L245
+    
+    ## Description
+    In the `_issuePayout(...)` internal function of the `VaultImplementation`, if the asset is WETH, the amount is withd
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TransferFunctionInIssuepayoutCanBeReplacedByADirectCal"
+solodit_id: "21839"
+solodit_slug: "transfer-function-in-_issuepayout-can-be-replaced-by-a-direct-call-spearbit-none-astaria-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(VaultImplementation|transfer).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

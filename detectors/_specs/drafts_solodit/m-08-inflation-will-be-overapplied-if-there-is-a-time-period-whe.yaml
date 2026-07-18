@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-08-inflation-will-be-overapplied-if-there-is-a-time-period-whe"
+class_name: "M08InflationWillBeOverappliedIfThereIsATimePeriodWhe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31774 (ZachObront/Alongside)"
+help: "[M-08] Inflation will be overapplied if there is a time period when `totalSupply() == 0`"
+wiki_title: "[M-08] Inflation will be overapplied if there is a time period when `totalSupply() == 0`"
+wiki_description: |
+    When any action is taken in the protocol, `tryInflation()` is called, which checks the multiplier since the last known timestamp and, if there is inflation to apply, mints new AMKT tokens as a fee on the protocol.
+    
+    ```solidity
+    function tryInflation() public returns (uint256) {
+        uint256 startingSu
+wiki_exploit_scenario: |
+    Per Solodit #31774: When any action is taken in the protocol, `tryInflation()` is called, which checks the multiplier since the last known timestamp and, if there is inflation to apply, mints new AMKT tokens as a fee on
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08InflationWillBeOverappliedIfThereIsATimePeriodWhe"
+solodit_id: "31774"
+solodit_slug: |
+    m-08-inflation-will-be-overapplied-if-there-is-a-time-period-when-totalsupply-0-zachobront-none-alongside-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lastknowntimestamp;"
+fn_name_regex: ".*(tryInflation|multiplier|lastKnownTimestamp|totalSupply).*"
+read_var_regex: ".*(lastKnownTimestamp|multiplier|totalSupply).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tryInflation"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return lastknowntimestamp > 0;"

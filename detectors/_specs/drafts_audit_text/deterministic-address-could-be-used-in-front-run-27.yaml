@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "deterministic-address-could-be-used-in-front-run-27"
+class_name: "DeterministicAddressCouldBeUsedInFrontRun27"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Safety Module - Zellic Audit Report"
+help: |
+    Safety Module and Rewards Manager provide deposit/stake functions. These functions expect that transfer or approval has already been executed prior to a call. In Depositor(SafetyMo
+wiki_title: "Deterministic address could be used in front-run                          27"
+wiki_description: |
+    Safety Module and Rewards Manager provide deposit/stake functions. These functions expect that transfer or approval has already been executed prior to a call. In Depositor(SafetyModule), for example, the function depositReserveAssets is used to deposit with transfer. But, in this function, safeTrans
+wiki_exploit_scenario: |
+    Per audit finding: Safety Module and Rewards Manager provide deposit/stake functions. These functions expect that transfer or approval has already been executed prior to a call. In Depositor(SafetyModule), for example,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DeterministicAddressCouldBeUsedInFrontRun27"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositReserveAssets|safeTransferFrom).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositReserveAssets"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

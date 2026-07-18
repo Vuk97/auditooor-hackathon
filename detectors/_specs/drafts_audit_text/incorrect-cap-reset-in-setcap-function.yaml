@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-cap-reset-in-setcap-function"
+class_name: "IncorrectCapResetInSetcapFunction"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Mitosis (May) - Zellic Audit Report"
+help: |
+    The MitosisVault contract has a flaw in the cap-management implementation that could lead to exceeding the intended maximum deposit cap for assets. In the contract, maxCap represen
+wiki_title: "Incorrect cap reset in setCap function"
+wiki_description: |
+    The MitosisVault contract has a flaw in the cap-management implementation that could lead to exceeding the intended maximum deposit cap for assets. In the contract, maxCap represents an asset's maximum cap, while availableCap tracks the remaining capacity that can be deposited. However, the _setCap
+wiki_exploit_scenario: |
+    Per audit finding: The MitosisVault contract has a flaw in the cap-management implementation that could lead to exceeding the intended maximum deposit cap for assets. In the contract, maxCap represents an asset's maximu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectCapResetInSetcapFunction"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxCap|availableCap|newCap).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "maxCap"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

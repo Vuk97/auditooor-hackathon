@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-selectedauthenticators-indexes-can-be-negative"
+class_name: "TheSelectedauthenticatorsIndexesCanBeNegative"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Osmosis Authentication Abstraction - Zellic Audit Report"
+help: |
+    The ante handler for the Authenticator allows users to specify which Authenticator to use for any message. Every account has a registered list of authenticators that can be used. T
+wiki_title: "The selectedAuthenticators indexes can be negative"
+wiki_description: |
+    The ante handler for the Authenticator allows users to specify which Authenticator to use for any message. Every account has a registered list of authenticators that can be used. The users specify the index to be used. selectedAuthenticators, err :) ad.GetSelectedAuthenticators(extTx, len(msgs)) if
+wiki_exploit_scenario: |
+    Per audit finding: The ante handler for the Authenticator allows users to specify which Authenticator to use for any message. Every account has a registered list of authenticators that can be used. The users specify the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheSelectedauthenticatorsIndexesCanBeNegative"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(selectedAuthenticators|extTx|msgIndex).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "selectedAuthenticators"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

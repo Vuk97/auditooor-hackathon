@@ -1,0 +1,20 @@
+id: user-entrypoint-no-instance-ttl-bump
+title: "User entrypoint does not renew contract instance TTL"
+severity: Medium
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44870"
+bug_class: ttl-archival
+indicators:
+  - "public entrypoint mutates state but does not call `env.storage().instance().extend_ttl(bump_threshold, bump_amount)`"
+  - "contract stores critical config in instance storage but only admin paths refresh the instance TTL"
+  - "adapter contracts whose usage is intermittent and whose instance data (router, factory, admin) can age out"
+victim: "Protocol: contract instance can be archived, bricking the adapter until an admin reinitializes."
+exploit_precondition: "Contract sees low user traffic such that instance TTL elapses."
+real_world_example: |
+  V12 #44870 (Medium): User entrypoints on swap adapters do not renew adapter instance TTL.
+suggested_remediation: "Add `env.storage().instance().extend_ttl(...)` at the top of every user entrypoint that reads instance data."
+cross_refs:
+  - ttl-missing-extend-on-access

@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-01-premia-calculation-can-cause-dos"
+class_name: "M01PremiaCalculationCanCauseDos"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33618 (Code4rena/Panoptic)"
+help: "[M-01] Premia calculation can cause DOS"
+wiki_title: "[M-01] Premia calculation can cause DOS"
+wiki_description: |
+    1. Attacker can cause DOS for certain addresses.
+    2. Normal operations can lead to self DOS.
+    
+    ### Proof of Concept
+    
+    Whenever minting/burning, if the `netLiquidity` and `amountToCollect` are non-zero, the premia calculation is invoked. 
+    
+    <https://github.com/code-423n4/2023-11-panoptic/blob/main/contr
+wiki_exploit_scenario: |
+    Per Solodit #33618: 1. Attacker can cause DOS for certain addresses.
+    2. Normal operations can lead to self DOS.
+    
+    ### Proof of Concept
+    
+    Whenever minting/burning, if the `netLiquidity` and `amountToCollect` are non-zero,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01PremiaCalculationCanCauseDos"
+solodit_id: "33618"
+solodit_slug: "m-01-premia-calculation-can-cause-dos-code4rena-panoptic-panoptic-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amounttocollect;"
+fn_name_regex: ".*(netLiquidity|amountToCollect|removedLiquidity|mints).*"
+read_var_regex: ".*(amountToCollect|mints|netLiquidity).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "netLiquidity"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amounttocollect > 0;"

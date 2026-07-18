@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "no-health-checks-performed-on-liquidations"
+class_name: "NoHealthChecksPerformedOnLiquidations"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Orderly Network - Zellic Audit Report"
+help: |
+    A liquidation is expected to be performed when the user’s position is below the maintenance margin. However, there are currently no checks in the Ledger contract on whether the use
+wiki_title: "No health checks performed on liquidations"
+wiki_description: |
+    A liquidation is expected to be performed when the user’s position is below the maintenance margin. However, there are currently no checks in the Ledger contract on whether the user’s position is below the maintenance margin. This means that anyone could theoretically liquidate any position at any t
+wiki_exploit_scenario: |
+    Per audit finding: A liquidation is expected to be performed when the user’s position is below the maintenance margin. However, there are currently no checks in the Ledger contract on whether the user’s position is belo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoHealthChecksPerformedOnLiquidations"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(executeLiquidation|eventId|onlyOperatorManager).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "executeLiquidation"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

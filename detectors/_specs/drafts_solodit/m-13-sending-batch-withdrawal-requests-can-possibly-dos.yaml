@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "m-13-sending-batch-withdrawal-requests-can-possibly-dos"
+class_name: "M13SendingBatchWithdrawalRequestsCanPossiblyDos"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2888 (Code4rena/Yieldy)"
+help: "[M-13] Sending batch withdrawal requests can possibly DoS"
+wiki_title: "[M-13] Sending batch withdrawal requests can possibly DoS"
+wiki_description: |
+    _Submitted by berndartmueller_
+    
+    The function `BatchRequests.sendWithdrawalRequests` allows calling the `sendWithdrawalRequests` function on all of the Yieldy contracts at once. However, due to the unbounded `for` loop, if many Yieldy contracts are added to `contracts`, this function can potentially
+wiki_exploit_scenario: |
+    Per Solodit #2888: _Submitted by berndartmueller_
+    
+    The function `BatchRequests.sendWithdrawalRequests` allows calling the `sendWithdrawalRequests` function on all of the Yieldy contracts at once. However, due to the unb
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M13SendingBatchWithdrawalRequestsCanPossiblyDos"
+solodit_id: "2888"
+solodit_slug: "m-13-sending-batch-withdrawal-requests-can-possibly-dos-code4rena-yieldy-yieldy-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal contracts;"
+fn_name_regex: ".*(sendWithdrawalRequests|for|contracts|offset).*"
+write_var_regex: ".*(contracts|for|limit).*"
+guard_var_regex: ".*(contracts|for|limit).*"
+vuln_fn_name: "sendWithdrawalRequests"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "contracts = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

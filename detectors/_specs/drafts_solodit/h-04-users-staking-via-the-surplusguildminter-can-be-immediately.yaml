@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "h-04-users-staking-via-the-surplusguildminter-can-be-immediately"
+class_name: "H04UsersStakingViaTheSurplusguildminterCanBeImmediately"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30220 (Code4rena/Ethereum Credit Guild)"
+help: |
+    [H-04] Users staking via the `SurplusGuildMinter` can be immediately slashed when staking into a gauge that had previously incurred a loss
+wiki_title: |
+    [H-04] Users staking via the `SurplusGuildMinter` can be immediately slashed when staking into a gauge that had previously incurred a loss
+wiki_description: |
+    User's can stake into a gauge directly via the `GuildToken` or indirectly via the `SurplusGuildMinter`. When a user stakes into a new gauge (i.e. their weight goes from `0` to `> 0`) via `GuildToken::incrementGauge`, their `lastGaugeLossApplied` mapping for this gauge, which is how the system keeps
+wiki_exploit_scenario: |
+    Per Solodit #30220: User's can stake into a gauge directly via the `GuildToken` or indirectly via the `SurplusGuildMinter`. When a user stakes into a new gauge (i.e. their weight goes from `0` to `> 0`) via `GuildToken:
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04UsersStakingViaTheSurplusguildminterCanBeImmediately"
+solodit_id: "30220"
+solodit_slug: |
+    h-04-users-staking-via-the-surplusguildminter-can-be-immediately-slashed-when-staking-into-a-gauge-that-had-previously-incurred-a-loss-code4rena-ethereum-credit-guild-ethereum-credit-guild-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lastgaugelossapplied;"
+fn_name_regex: ".*(GuildToken|SurplusGuildMinter|lastGaugeLossApplied).*"
+read_var_regex: ".*(lastGaugeLossApplied).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "GuildToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return lastgaugelossapplied > 0;"

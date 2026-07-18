@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "h-01-all-tokens-can-be-stolen-from-virtualaccount-due-to-missing"
+class_name: "H01AllTokensCanBeStolenFromVirtualaccountDueToMissing"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28803 (Code4rena/Maia DAO)"
+help: "[H-01] All tokens can be stolen from `VirtualAccount` due to missing access modifier"
+wiki_title: "[H-01] All tokens can be stolen from `VirtualAccount` due to missing access modifier"
+wiki_description: |
+    All non-native assets (ERC20 tokens, NFTs, etc.) can be stolen by anyone from a `VirtualAccount` using its [`payableCall(...)`](https://github.com/code-423n4/2023-09-maia/blob/f5ba4de628836b2a29f9b5fff59499690008c463/src/VirtualAccount.sol#L84-L112) method, which lacks the necessary access control
+wiki_exploit_scenario: |
+    Per Solodit #28803: All non-native assets (ERC20 tokens, NFTs, etc.) can be stolen by anyone from a `VirtualAccount` using its [`payableCall(...)`](https://github.com/code-423n4/2023-09-maia/blob/f5ba4de628836b2a29f9b5f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01AllTokensCanBeStolenFromVirtualaccountDueToMissing"
+solodit_id: "28803"
+solodit_slug: |
+    h-01-all-tokens-can-be-stolen-from-virtualaccount-due-to-missing-access-modifier-code4rena-maia-dao-maia-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Access Control"
+state_decl: "uint256 internal payablecall;"
+fn_name_regex: ".*(VirtualAccount|payableCall|requiresApprovedCaller).*"
+write_var_regex: ".*(payableCall|requiresApprovedCaller).*"
+guard_var_regex: ".*(payableCall|requiresApprovedCaller).*"
+vuln_fn_name: "VirtualAccount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "payablecall = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

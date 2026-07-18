@@ -1,0 +1,34 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "flawed-liquidation-design"
+class_name: "FlawedLiquidationDesign"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #47415 (OtterSec/Flooring Marketplace)"
+help: "Flawed Liquidation Design"
+wiki_title: "Flawed Liquidation Design"
+wiki_description: |
+    ## Vulnerability Report
+    
+    The current `checkUnstakeParam` inadequately prevents contracts from accessing the liquidation feature. An attacker may deploy a contract to manipulate prices on the Uniswap V3 pool. Subsequently, they may deploy another contract to access the liquidation logic within its co
+wiki_exploit_scenario: |
+    Per Solodit #47415: ## Vulnerability Report
+    
+    The current `checkUnstakeParam` inadequately prevents contracts from accessing the liquidation feature. An attacker may deploy a contract to manipulate prices on the Uniswap V
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FlawedLiquidationDesign"
+solodit_id: "47415"
+solodit_slug: "flawed-liquidation-design-ottersec-none-flooring-marketplace-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(checkUnstakeParam).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "h-01-a-previously-timelocked-nft-token-becomes-permanently-stuck"
+class_name: "H01APreviouslyTimelockedNftTokenBecomesPermanentlyStuck"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #189 (Code4rena/Visor)"
+help: |
+    [H-01] A previously timelocked NFT token becomes permanently stuck in vault if it’s ever moved back into the vault
+wiki_title: |
+    [H-01] A previously timelocked NFT token becomes permanently stuck in vault if it’s ever moved back into the vault
+wiki_description: |
+    _Submitted by 0xRajeev, also found by pauliax_
+    
+    Let’s consider a scenario where a particular NFT token was timelocked for a certain duration by the owner using `timeLockERC721()` with a delegate as the recipient and then transferred out of the vault by the delegate via `transferERC721()` but without
+wiki_exploit_scenario: |
+    Per Solodit #189: _Submitted by 0xRajeev, also found by pauliax_
+    
+    Let’s consider a scenario where a particular NFT token was timelocked for a certain duration by the owner using `timeLockERC721()` with a delegate as th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01APreviouslyTimelockedNftTokenBecomesPermanentlyStuck"
+solodit_id: "189"
+solodit_slug: |
+    h-01-a-previously-timelocked-nft-token-becomes-permanently-stuck-in-vault-if-its-ever-moved-back-into-the-vault-code4rena-visor-visor-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(timeLockERC721|transferERC721|timeUnlockERC721|tokenID).*"
+primary_var_regex: ".*(nftApprovals|timeLockERC721|timeUnlockERC721).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

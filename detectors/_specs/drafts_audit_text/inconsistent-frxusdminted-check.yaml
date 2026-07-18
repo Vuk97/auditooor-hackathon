@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "inconsistent-frxusdminted-check"
+class_name: "InconsistentFrxusdmintedCheck"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Frax - Zellic Audit Report"
+help: |
+    The maxDeposit and maxMint functions return 0 when the current frxUSDMinted is greater than or equal to the mintCap. function maxDeposit(address _addr) public view returns (uint256
+wiki_title: "Inconsistent frxUSDMinted check"
+wiki_description: |
+    The maxDeposit and maxMint functions return 0 when the current frxUSDMinted is greater than or equal to the mintCap. function maxDeposit(address _addr) public view returns (uint256 _maxAssetsIn) { // See how much custodianTkn you would need to exchange for 100% of the frxUSD available under the cap
+wiki_exploit_scenario: |
+    Per audit finding: The maxDeposit and maxMint functions return 0 when the current frxUSDMinted is greater than or equal to the mintCap. function maxDeposit(address _addr) public view returns (uint256 _maxAssetsIn) { //
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentFrxusdmintedCheck"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxDeposit|maxMint|frxUSDMinted).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "maxDeposit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

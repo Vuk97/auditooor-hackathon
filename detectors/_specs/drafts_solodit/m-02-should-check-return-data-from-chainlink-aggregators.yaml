@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "m-02-should-check-return-data-from-chainlink-aggregators"
+class_name: "M02ShouldCheckReturnDataFromChainlinkAggregators"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1206 (Code4rena/Yeti Finance)"
+help: "[M-02] Should check return data from Chainlink aggregators"
+wiki_title: "[M-02] Should check return data from Chainlink aggregators"
+wiki_description: |
+    _Submitted by defsec, also found by hyh and WatchPug_
+    
+    #### Impact
+    
+    The latestRoundData function in the contract PriceFeed.sol fetches the asset price from a Chainlink aggregator using the latestRoundData function. However, there are no checks on roundID.
+    
+    Stale prices could put funds at risk. Accor
+wiki_exploit_scenario: |
+    Per Solodit #1206: _Submitted by defsec, also found by hyh and WatchPug_
+    
+    #### Impact
+    
+    The latestRoundData function in the contract PriceFeed.sol fetches the asset price from a Chainlink aggregator using the latestRound
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02ShouldCheckReturnDataFromChainlinkAggregators"
+solodit_id: "1206"
+solodit_slug: |
+    m-02-should-check-return-data-from-chainlink-aggregators-code4rena-yeti-finance-yeti-finance-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(latestRoundData|roundID|roundId|timeStamp).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "latestRoundData"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

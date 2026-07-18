@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "multiplication-overflow-leading-to-memory-corruption-and-inc-x"
+class_name: "MultiplicationOverflowLeadingToMemoryCorruptionAndIncX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-optimism"
+help: |
+    Topmark Impact The unchecked multiplication of int32 values (rs and rt) and type conversion within the execute function in MIPS contract can result in an overflow, leading to the a
+wiki_title: "Multiplication overflow leading to memory corruption and incorrect register write-back"
+wiki_description: |
+    Topmark Impact The unchecked multiplication of int32 values (rs and rt) and type conversion within the execute function in MIPS contract can result in an overflow, leading to the assignment of an incorrect value to the val variable in the step(…) function. This incorrect value is subsequently writte
+wiki_exploit_scenario: |
+    Per audit finding: Topmark Impact The unchecked multiplication of int32 values (rs and rt) and type conversion within the execute function in MIPS contract can result in an overflow, leading to the assignment of an inco
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MultiplicationOverflowLeadingToMemoryCorruptionAndIncX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(storeAddr|writeMem|handleRd).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "storeAddr"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

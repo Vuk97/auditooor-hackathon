@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "possible-usage-of-stale-price-information"
+class_name: "PossibleUsageOfStalePriceInformation"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Pyth2Wormhole - Zellic Audit Report"
+help: |
+    The following four separate issues when chained together lead to a critical outcome: attest performs insufficient sanity checks The attest function (from attest.rs) of the Solana a
+wiki_title: "Possible usage of stale price information"
+wiki_description: |
+    The following four separate issues when chained together lead to a critical outcome: attest performs insufficient sanity checks The attest function (from attest.rs) of the Solana attester contract does not enforce any restriction on the publication timestamp of the price being attested. Therefore, i
+wiki_exploit_scenario: |
+    Per audit finding: The following four separate issues when chained together lead to a critical outcome: attest performs insufficient sanity checks The attest function (from attest.rs) of the Solana attester contract doe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleUsageOfStalePriceInformation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(riceFeed|queryPriceFeed).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "riceFeed"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

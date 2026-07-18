@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-02-unsafe-implementation-of-fundloan-allows-attacker-to-steal-"
+class_name: "M02UnsafeImplementationOfFundloanAllowsAttackerToSteal"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24654 (Code4rena/Maple Finance)"
+help: |
+    [M-02] Unsafe implementation of `fundLoan()` allows attacker to steal collateral from an unfunded loan
+wiki_title: |
+    [M-02] Unsafe implementation of `fundLoan()` allows attacker to steal collateral from an unfunded loan
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    [`MapleLoanInternals.sol` L257-L273](https://github.com/maple-labs/loan/blob/9684bcef06481e493d060974b1777a4517c4e792/contracts/MapleLoanInternals.sol#L257-L273)
+    
+    ```solidity
+    uint256 treasuryFee = (fundsLent_ * ILenderLike(lender_).treasuryFee() * _paymentInterval * _payment
+wiki_exploit_scenario: |
+    Per Solodit #24654: _Submitted by WatchPug_
+    
+    [`MapleLoanInternals.sol` L257-L273](https://github.com/maple-labs/loan/blob/9684bcef06481e493d060974b1777a4517c4e792/contracts/MapleLoanInternals.sol#L257-L273)
+    
+    ```solidity
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02UnsafeImplementationOfFundloanAllowsAttackerToSteal"
+solodit_id: "24654"
+solodit_slug: |
+    m-02-unsafe-implementation-of-fundloan-allows-attacker-to-steal-collateral-from-an-unfunded-loan-code4rena-maple-finance-maple-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal drawdownfunds;"
+fn_name_regex: ".*(mapleTreasury|poolDelegate|treasuryFee|lender_).*"
+read_var_regex: ".*(drawdownFunds|fundLoan|investorFee).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mapleTreasury"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return drawdownfunds > 0;"

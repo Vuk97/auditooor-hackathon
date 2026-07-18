@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "trst-m-3-attacker-could-abuse-victim-s-vote-to-pass-their-own-pr"
+class_name: "TrstM3AttackerCouldAbuseVictimSVoteToPassTheirOwnPr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18999 (Trust Security/Mozaic Archimedes)"
+help: "TRST-M-3 Attacker could abuse victim's vote to pass their own proposal"
+wiki_title: "TRST-M-3 Attacker could abuse victim's vote to pass their own proposal"
+wiki_description: |
+    **Description:**
+    Proposals are created using `submitProposal()`:
+    ```solidity
+            function submitProposal(uint8 _actionType, bytes memory _payload)  public onlyCouncil {
+                 uint256 proposalId = proposalCount;
+                     proposals[proposalId] = Proposal(msg.sender,_actionType,
+wiki_exploit_scenario: |
+    Per Solodit #18999: **Description:**
+    Proposals are created using `submitProposal()`:
+    ```solidity
+            function submitProposal(uint8 _actionType, bytes memory _payload)  public onlyCouncil {
+                 uint256 propos
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM3AttackerCouldAbuseVictimSVoteToPassTheirOwnPr"
+solodit_id: "18999"
+solodit_slug: |
+    trst-m-3-attacker-could-abuse-victims-vote-to-pass-their-own-proposal-trust-security-none-mozaic-archimedes-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Chain Reorganization Attack"
+state_decl: "uint256 internal confirmtransaction;"
+fn_name_regex: ".*(submitProposal|confirmTransaction).*"
+read_var_regex: ".*(confirmTransaction|submitProposal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "submitProposal"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return confirmtransaction > 0;"

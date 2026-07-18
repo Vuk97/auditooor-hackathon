@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "h-08-lack-of-strategydetailsparam-vault-validation-allows-the-bo"
+class_name: "H08LackOfStrategydetailsparamVaultValidationAllowsTheBo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25803 (Code4rena/Astaria)"
+help: |
+    [H-08] Lack of StrategyDetailsParam.vault validation allows the borrower to steal all the funds from the vault
+wiki_title: |
+    [H-08] Lack of StrategyDetailsParam.vault validation allows the borrower to steal all the funds from the vault
+wiki_description: |
+    <https://github.com/code-423n4/2023-01-astaria/blob/main/src/VaultImplementation.sol#L287>
+    
+    When a borrower takes a loan, Strategy details are passed along with other required data, and through the overall **commitToLien** flow, all the data are validated except the StrategyDetailsParam.vault
+    
+    ```s
+wiki_exploit_scenario: |
+    Per Solodit #25803: <https://github.com/code-423n4/2023-01-astaria/blob/main/src/VaultImplementation.sol#L287>
+    
+    When a borrower takes a loan, Strategy details are passed along with other required data, and through the o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H08LackOfStrategydetailsparamVaultValidationAllowsTheBo"
+solodit_id: "25803"
+solodit_slug: |
+    h-08-lack-of-strategydetailsparamvault-validation-allows-the-borrower-to-steal-all-the-funds-from-the-vault-code4rena-astaria-astaria-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(commitToLien).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "commitToLien"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

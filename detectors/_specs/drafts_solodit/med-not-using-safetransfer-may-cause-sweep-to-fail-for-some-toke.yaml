@@ -1,0 +1,57 @@
+skeleton: "name_match_missing_call"
+name: "med-not-using-safetransfer-may-cause-sweep-to-fail-for-some-toke"
+class_name: "MedNotUsingSafetransferMayCauseSweepToFailForSomeToke"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42119 (Cantina/Mode Network)"
+help: "MED - Not using safeTransfer may cause sweep to fail for some tokens"
+wiki_title: "MED - Not using safeTransfer may cause sweep to fail for some tokens "
+wiki_description: |
+    ## ModeStaking and IERC20
+    
+    ModeStaking uses `IERC20` from `forge-std`:
+    
+    ```solidity
+    import {IERC20} from "forge-std/interfaces/IERC20.sol";
+    ```
+    
+    ## The Interface
+    
+    The interface is defined as follows:
+    
+    ```solidity
+    function transfer(address to, uint256 amount) external returns (bool);
+    ```
+    
+    **Note:** T
+wiki_exploit_scenario: |
+    Per Solodit #42119: ## ModeStaking and IERC20
+    
+    ModeStaking uses `IERC20` from `forge-std`:
+    
+    ```solidity
+    import {IERC20} from "forge-std/interfaces/IERC20.sol";
+    ```
+    
+    ## The Interface
+    
+    The interface is defined as follows:
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MedNotUsingSafetransferMayCauseSweepToFailForSomeToke"
+solodit_id: "42119"
+solodit_slug: "med-not-using-safetransfer-may-cause-sweep-to-fail-for-some-tokens-cantina-none-mode-network-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal safeerc20;"
+fn_name_regex: ".*(IERC20|safeTransfer|safeERC20).*"
+read_var_regex: ".*(safeERC20|safeTransfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "IERC20"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return safeerc20 > 0;"

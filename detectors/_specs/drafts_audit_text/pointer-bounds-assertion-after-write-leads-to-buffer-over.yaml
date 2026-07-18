@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "pointer-bounds-assertion-after-write-leads-to-buffer-over"
+class_name: "PointerBoundsAssertionAfterWriteLeadsToBufferOver"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Cosmos SDK Sign Mode Textual - Zellic Audit Report"
+help: |
+    The ASSERT_PTR_BOUNDS macro increments count then checks that the count is within the bounds of the buffer: #define ASSERT_PTR_BOUNDS(count, dstLen) \ count+); \ if(count > dstLen)
+wiki_title: "Pointer bounds assertion after write leads to buffer over-"
+wiki_description: |
+    The ASSERT_PTR_BOUNDS macro increments count then checks that the count is within the bounds of the buffer: #define ASSERT_PTR_BOUNDS(count, dstLen) \ count+); \ if(count > dstLen) { \ return parser_transaction_too_big; \ } \ However, the assertion is always placed after writing a byte (i.e., the co
+wiki_exploit_scenario: |
+    Per audit finding: The ASSERT_PTR_BOUNDS macro increments count then checks that the count is within the bounds of the buffer: #define ASSERT_PTR_BOUNDS(count, dstLen) \ count+); \ if(count > dstLen) { \ return parser_t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PointerBoundsAssertionAfterWriteLeadsToBufferOver"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(dstLen).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "dstLen"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

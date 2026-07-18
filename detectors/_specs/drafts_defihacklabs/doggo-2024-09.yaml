@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "doggo-2024-09"
+class_name: "Doggo202409"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-09/DOGGO_exp.sol"
+help: "DOGGO 2024-09 — flashloan exploit (7K USD)"
+wiki_title: "DOGGO (2024-09) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-09): DOGGO lost 7K USD. Bug class: flashloan. Attack tx: 0x9e074d70e4f9022cba33c1417a6f6338d8248b67d6141c9a32913ca567d0efca.
+wiki_exploit_scenario: |
+    Attacker (0x7248939f65bdd23aab9eaab1bc4a4f909567486e) exploits DOGGO via flashloan: the victim contract 0x240cd7b53d364a208ed41f8ced4965d11f571b7a exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Doggo202409"
+trigger_sig_regex: ".*(uniswapV3FlashCallback).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function uniswapV3FlashCallback(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.uniswapV3FlashCallback(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

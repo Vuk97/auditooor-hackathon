@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "m-01-incompatability-with-deflationary-fee-on-transfer-tokens"
+class_name: "M01IncompatabilityWithDeflationaryFeeOnTransferTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #4035 (Code4rena/88mph)"
+help: "[M-01] Incompatability with deflationary / fee-on-transfer tokens"
+wiki_title: "[M-01] Incompatability with deflationary / fee-on-transfer tokens"
+wiki_description: |
+    The `DInterest.deposit` function takes a `depositAmount` parameter but this parameter is not the actual transferred amount for fee-on-transfer / deflationary (or other rebasing) tokens.
+    
+    The actual deposited amount might be lower than the specified `depositAmount` of the function parameter.
+    
+    This w
+wiki_exploit_scenario: |
+    Per Solodit #4035: The `DInterest.deposit` function takes a `depositAmount` parameter but this parameter is not the actual transferred amount for fee-on-transfer / deflationary (or other rebasing) tokens.
+    
+    The actual d
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01IncompatabilityWithDeflationaryFeeOnTransferTokens"
+solodit_id: "4035"
+solodit_slug: "m-01-incompatability-with-deflationary-fee-on-transfer-tokens-code4rena-88mph-88mph-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Fee On Transfer"
+state_decl: "uint256 internal depositamount;"
+fn_name_regex: ".*(depositAmount).*"
+read_var_regex: ".*(depositAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return depositamount > 0;"

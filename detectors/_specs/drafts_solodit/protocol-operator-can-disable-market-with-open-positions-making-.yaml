@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "protocol-operator-can-disable-market-with-open-positions-making-"
+class_name: "ProtocolOperatorCanDisableMarketWithOpenPositionsMaking"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34833 (Cyfrin/Zaros)"
+help: |
+    Protocol operator can disable market with open positions, making it impossible for traders to close their open positions but still subjecting them to potential liquidation
+wiki_title: |
+    Protocol operator can disable market with open positions, making it impossible for traders to close their open positions but still subjecting them to potential 
+wiki_description: |
+    **Description:** `GlobalConfigurationBranch::updatePerpMarketStatus` allows the protocol operator to disable markets without checking if those markets have open positions; this allows the operator to disable a market with open positions.
+    
+    **Impact:** The protocol can enter a state where traders who
+wiki_exploit_scenario: |
+    Per Solodit #34833: **Description:** `GlobalConfigurationBranch::updatePerpMarketStatus` allows the protocol operator to disable markets without checking if those markets have open positions; this allows the operator to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProtocolOperatorCanDisableMarketWithOpenPositionsMaking"
+solodit_id: "34833"
+solodit_slug: |
+    protocol-operator-can-disable-market-with-open-positions-making-it-impossible-for-traders-to-close-their-open-positions-but-still-subjecting-them-to-potential-liquidation-cyfrin-none-cyfrinzaros-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updatePerpMarketStatus|createMarketOrder|usdToken|changePrank).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updatePerpMarketStatus"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

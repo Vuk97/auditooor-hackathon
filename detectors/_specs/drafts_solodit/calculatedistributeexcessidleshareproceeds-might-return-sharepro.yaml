@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "calculatedistributeexcessidleshareproceeds-might-return-sharepro"
+class_name: "CalculatedistributeexcessidleshareproceedsMightReturnSharepro"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35928 (Spearbit/Hyperdrive March 2024)"
+help: "calculateDistributeExcessIdleShareProceeds might return shareProceeds that break LP price invariant"
+wiki_title: "calculateDistributeExcessIdleShareProceeds might return shareProceeds that break LP price invariant"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - `LPMath.sol#L583-L610`
+    - `LPMath.sol#L928`
+    
+    ## Description
+    Step 3 of `calculateDistributeExcessIdle` computes the withdrawal shares `dw` that can be removed along with removing `dz_max` vault shares to keep the LP price \( \frac{PV}{L} \) constant. If the withd
+wiki_exploit_scenario: |
+    Per Solodit #35928: ## Severity: Medium Risk
+    
+    ## Context
+    - `LPMath.sol#L583-L610`
+    - `LPMath.sol#L928`
+    
+    ## Description
+    Step 3 of `calculateDistributeExcessIdle` computes the withdrawal shares `dw` that can be removed alon
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CalculatedistributeexcessidleshareproceedsMightReturnSharepro"
+solodit_id: "35928"
+solodit_slug: |
+    calculatedistributeexcessidleshareproceeds-might-return-shareproceeds-that-break-lp-price-in-spearbit-none-hyperdrive-march-2024-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calculatedistributeexcessidle;"
+fn_name_regex: ".*(calculateDistributeExcessIdle|dz_max|SHARE_PROCEEDS_MAX_ITERATIONS|calculateDistributeExcessIdleShareProceeds).*"
+read_var_regex: ".*(calculateDistributeExcessIdle|calculateDistributeExcessIdleShareProceeds|calculateDistributeExcessIdleShareProceedsNetLongEdgeCaseSafe).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "calculateDistributeExcessIdle"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calculatedistributeexcessidle > 0;"

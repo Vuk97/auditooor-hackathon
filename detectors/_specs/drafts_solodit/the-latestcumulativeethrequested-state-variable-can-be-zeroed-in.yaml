@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "the-latestcumulativeethrequested-state-variable-can-be-zeroed-in"
+class_name: "TheLatestcumulativeethrequestedStateVariableCanBeZeroedIn"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27675 (MixBytes/Mantle Network)"
+help: |
+    The `latestCumulativeETHRequested` state variable can be zeroed inside the `cancelUnfinalized` function
+wiki_title: |
+    The `latestCumulativeETHRequested` state variable can be zeroed inside the `cancelUnfinalized` function
+wiki_description: |
+    ##### Description
+    There is an issue at the line: https://github.com/TwoFiftySixLabs/mntEth/blob/bd15a96aee7df0fc0566d662df0cf50ff2619d31/src/UnstakeRequestsManager.sol#L269. It is possible that `latestRemainingRequest` was a claimed request, so that `latestRemainingRequest.cumulativeETHRequested` eq
+wiki_exploit_scenario: |
+    Per Solodit #27675: ##### Description
+    There is an issue at the line: https://github.com/TwoFiftySixLabs/mntEth/blob/bd15a96aee7df0fc0566d662df0cf50ff2619d31/src/UnstakeRequestsManager.sol#L269. It is possible that `lates
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheLatestcumulativeethrequestedStateVariableCanBeZeroedIn"
+solodit_id: "27675"
+solodit_slug: |
+    the-latestcumulativeethrequested-state-variable-can-be-zeroed-inside-the-cancelunfinalized-function-mixbytes-none-mantle-network-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal allocatedethforclaims;"
+fn_name_regex: ".*(latestRemainingRequest|latestCumulativeETHRequested|allocatedETHSurplus|allocatedETHForClaims).*"
+read_var_regex: ".*(allocatedETHForClaims|allocatedETHSurplus|ethRequested).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "latestRemainingRequest"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return allocatedethforclaims > 0;"

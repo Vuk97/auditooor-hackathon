@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-03-zero-rates-on-new-quoted-tokens-allow-an-attacker-to-take-a"
+class_name: "H03ZeroRatesOnNewQuotedTokensAllowAnAttackerToTakeA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49025 (Code4rena/LoopFi)"
+help: "[H-03] Zero rates on new quoted tokens allow an attacker to take an interest free quota"
+wiki_title: "[H-03] Zero rates on new quoted tokens allow an attacker to take an interest free quota"
+wiki_description: |
+    Take a look [here](https://github.com/code-423n4/2024-07-loopfi/blob/57871f64bdea450c1f04c9a53dc1a78223719164/src/quotas/PoolQuotaKeeperV3.sol#L161-L177):
+    
+    ```solidity
+    function addQuotaToken(address token) external override gaugeOnly {
+      if (quotaTokensSet.contains(token)) {
+        revert TokenAlready
+wiki_exploit_scenario: |
+    Per Solodit #49025: Take a look [here](https://github.com/code-423n4/2024-07-loopfi/blob/57871f64bdea450c1f04c9a53dc1a78223719164/src/quotas/PoolQuotaKeeperV3.sol#L161-L177):
+    
+    ```solidity
+    function addQuotaToken(address
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03ZeroRatesOnNewQuotedTokensAllowAnAttackerToTakeA"
+solodit_id: "49025"
+solodit_slug: |
+    h-03-zero-rates-on-new-quoted-tokens-allow-an-attacker-to-take-an-interest-free-quota-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addQuotaToken|gaugeOnly|quotaTokensSet|totalQuotaParams).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "addQuotaToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

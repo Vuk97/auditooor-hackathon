@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "first-depositor-can-break-minting-of-shares"
+class_name: "FirstDepositorCanBreakMintingOfShares"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44678 (Zokyo/Narwhal Finance)"
+help: "First depositor can break minting of shares"
+wiki_title: "First depositor can break minting of shares"
+wiki_description: |
+    **Severity**: High
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    The first depositor of an TradingVaultV2 can maliciously manipulate the share price by depositing the lowest possible amount of liquidity and then artificially inflating the currentBalanceUSDT value.
+    Attacker deposit (NarwhalTradingVault.dep
+wiki_exploit_scenario: |
+    Per Solodit #44678: **Severity**: High
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    The first depositor of an TradingVaultV2 can maliciously manipulate the share price by depositing the lowest possible amount of liquidity and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FirstDepositorCanBreakMintingOfShares"
+solodit_id: "44678"
+solodit_slug: "first-depositor-can-break-minting-of-shares-zokyo-none-narwhal-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(currentBalanceUSDT|openTrade|totalSupply).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "currentBalanceUSDT"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

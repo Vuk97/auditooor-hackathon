@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "zero-value-entityid-allows-wallet-rebinding"
+class_name: "ZeroValueEntityidAllowsWalletRebinding"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit MegaETH Predeposit - Zellic Audit Report"
+help: |
+    The walletToEntityID treats bytes16(0) as unbound, yet entityID = 0 is a valid permit. A wallet that first deposits with entity 0 gets stored as zero, but later checks still see it
+wiki_title: "Zero-value entityID allows wallet rebinding"
+wiki_description: |
+    The walletToEntityID treats bytes16(0) as unbound, yet entityID = 0 is a valid permit. A wallet that first deposits with entity 0 gets stored as zero, but later checks still see it as unbound and allow another permit with a nonzero entity. The same wallet can therefore bind to multiple entity IDs, b
+wiki_exploit_scenario: |
+    Per audit finding: The walletToEntityID treats bytes16(0) as unbound, yet entityID = 0 is a valid permit. A wallet that first deposits with entity 0 gets stored as zero, but later checks still see it as unbound and allo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ZeroValueEntityidAllowsWalletRebinding"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(walletToEntityID|entityID|permitSignature).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "walletToEntityID"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

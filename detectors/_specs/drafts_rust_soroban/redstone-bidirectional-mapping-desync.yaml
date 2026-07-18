@@ -1,0 +1,19 @@
+id: redstone-bidirectional-mapping-desync
+title: "Redstone adapter bidirectional mapping desyncs on updates"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.21"
+bug_class: oracle-cascade
+indicators:
+  - "update path writes forward mapping (`feed -> asset`) but not reverse (`asset -> feed`), or vice versa"
+  - "stale reverse entry still satisfies lookups after admin rotates the forward mapping"
+victim: "Protocol governance: reverse lookups find stale feeds that admin thought were rotated away."
+exploit_precondition: "Admin changes a feed binding; attacker uses the old reverse key."
+real_world_example: |
+  Halborn 7.21 (LOW): Redstone adapter bidirectional mapping desync allows stale reverse keys.
+suggested_remediation: "Update both mappings atomically in every setter; fail-closed on any read where the inverse mapping is missing."
+cross_refs:
+  - redstone-missing-authenticity-check

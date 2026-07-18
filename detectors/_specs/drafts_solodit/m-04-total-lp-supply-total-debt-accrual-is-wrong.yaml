@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "m-04-total-lp-supply-total-debt-accrual-is-wrong"
+class_name: "M04TotalLpSupplyTotalDebtAccrualIsWrong"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #473 (Code4rena/Wild Credit)"
+help: "[M-04] Total LP supply & total debt accrual is wrong"
+wiki_title: "[M-04] Total LP supply & total debt accrual is wrong"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The total debt and total supply only increase when debt/supply is minted to the user when it should increase by the entire new interest amount on each accrual.
+    
+    ```solidity
+    function accrueAccount(address _account) public {
+      _distributeReward(_account);
+      // accrue only updat
+wiki_exploit_scenario: |
+    Per Solodit #473: _Submitted by cmichel_
+    
+    The total debt and total supply only increase when debt/supply is minted to the user when it should increase by the entire new interest amount on each accrual.
+    
+    ```solidity
+    fun
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04TotalLpSupplyTotalDebtAccrualIsWrong"
+solodit_id: "473"
+solodit_slug: "m-04-total-lp-supply-total-debt-accrual-is-wrong-code4rena-wild-credit-wild-credit-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(borrowRatePerBlock|accrue).*"
+primary_var_regex: ".*(accrue|borrowRatePerBlock).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

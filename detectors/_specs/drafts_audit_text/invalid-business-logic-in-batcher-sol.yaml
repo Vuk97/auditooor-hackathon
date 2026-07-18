@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "invalid-business-logic-in-batcher-sol"
+class_name: "InvalidBusinessLogicInBatcherSol"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit BrahmaFi - Zellic Audit Report"
+help: |
+    The depositFunds() function of the Batcher contract contains this incorrect require statement at L94: require( IERC20(vaultInfo.vaultAddress).totalSupply() − pendingDeposit + pendi
+wiki_title: "Invalid business logic in Batcher.sol"
+wiki_description: |
+    The depositFunds() function of the Batcher contract contains this incorrect require statement at L94: require( IERC20(vaultInfo.vaultAddress).totalSupply() − pendingDeposit + pendingWithdrawal + amountIn <) vaultInfo.maxAmount, “MAX_LIMIT_EXCEEDED” ); The correct require statement should contain - p
+wiki_exploit_scenario: |
+    Per audit finding: The depositFunds() function of the Batcher contract contains this incorrect require statement at L94: require( IERC20(vaultInfo.vaultAddress).totalSupply() − pendingDeposit + pendingWithdrawal + amoun
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InvalidBusinessLogicInBatcherSol"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositFunds|vaultInfo|vaultAddress).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "depositFunds"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

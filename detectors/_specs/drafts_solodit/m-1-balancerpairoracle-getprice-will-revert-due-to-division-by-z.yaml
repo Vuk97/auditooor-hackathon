@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-1-balancerpairoracle-getprice-will-revert-due-to-division-by-z"
+class_name: "M1BalancerpairoracleGetpriceWillRevertDueToDivisionByZ"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18510 (Sherlock/Blueberry Update #2)"
+help: "M-1: BalancerPairOracle#getPrice will revert due to division by zero in some cases"
+wiki_title: "M-1: BalancerPairOracle#getPrice will revert due to division by zero in some cases"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-05-blueberry-judging/issues/25 
+    
+    ## Found by 
+    0x52, nobody2018
+    ## Summary
+    
+    `BalancerPairOracle#getPrice` internally calls `computeFairReserves`, which returns fair reserve amounts given spot reserves, weights, and fair prices. When the parameter `resA`
+wiki_exploit_scenario: |
+    Per Solodit #18510: Source: https://github.com/sherlock-audit/2023-05-blueberry-judging/issues/25 
+    
+    ## Found by 
+    0x52, nobody2018
+    ## Summary
+    
+    `BalancerPairOracle#getPrice` internally calls `computeFairReserves`, which re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1BalancerpairoracleGetpriceWillRevertDueToDivisionByZ"
+solodit_id: "18510"
+solodit_slug: |
+    m-1-balancerpairoraclegetprice-will-revert-due-to-division-by-zero-in-some-cases-sherlock-none-blueberry-update-2-git
+solodit_quality: "3"
+solodit_rarity: "1"
+solodit_tags: "Wrong Math, Missing-Logic, Decimals"
+state_decl: "uint256 internal computefairreserves;"
+fn_name_regex: ".*(computeFairReserves|resA|resB).*"
+read_var_regex: ".*(computeFairReserves|resA|resB).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "computeFairReserves"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return computefairreserves > 0;"

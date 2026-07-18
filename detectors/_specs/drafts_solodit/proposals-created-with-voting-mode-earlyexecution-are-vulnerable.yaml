@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "proposals-created-with-voting-mode-earlyexecution-are-vulnerable"
+class_name: "ProposalsCreatedWithVotingModeEarlyexecutionAreVulnerable"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62256 (Spearbit/Aragon DAO Gov Plugin)"
+help: "Proposals created with voting mode EarlyExecution are vulnerable to ﬂashloan attacks"
+wiki_title: "Proposals created with voting mode EarlyExecution are vulnerable to ﬂashloan attacks"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    If the token used by the LockManager can be flashloaned (or flashminted) and a proposal is created with the voting mode `EarlyExecution`, anyone could be able to "early execute" it performing the foll
+wiki_exploit_scenario: |
+    Per Solodit #62256: ## Severity: High Risk
+    
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    If the token used by the LockManager can be flashloaned (or flashminted) and a proposal is created w
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProposalsCreatedWithVotingModeEarlyexecutionAreVulnerable"
+solodit_id: "62256"
+solodit_slug: |
+    proposals-created-with-voting-mode-earlyexecution-are-vulnerable-to-flashloan-attacks-spearbit-none-aragon-dao-gov-plugin-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(EarlyExecution).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

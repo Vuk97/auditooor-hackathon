@@ -1,0 +1,20 @@
+id: engine-uses-uncapped-debt-for-liquidation
+title: "Liquidation engine uses uncapped debt for execution"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44820"
+bug_class: liquidation
+indicators:
+  - "`execute_liquidation` uses the original `debt_to_cover` without clamping to `close_factor * total_debt`"
+  - "close factor applied only during `prepare` or health-factor check but not final execution"
+victim: "Borrowers: liquidators seize more than the close-factor-capped fraction of debt."
+exploit_precondition: "Borrower position becomes liquidatable; liquidator submits a `debt_to_cover` larger than the close factor allows."
+real_world_example: |
+  V12 #44820 (High): Engine uses uncapped debt for executed liquidation.
+suggested_remediation: "Clamp `debt_to_cover = min(debt_to_cover, close_factor * total_debt)` at execution."
+cross_refs:
+  - close-factor-bypass-repeated-liquidations
+  - exact-collateral-liquidation-skips-deficit

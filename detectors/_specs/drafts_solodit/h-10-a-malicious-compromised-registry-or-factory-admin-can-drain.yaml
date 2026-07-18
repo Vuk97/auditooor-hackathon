@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_require"
+name: "h-10-a-malicious-compromised-registry-or-factory-admin-can-drain"
+class_name: "H10AMaliciousCompromisedRegistryOrFactoryAdminCanDrain"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1303 (Code4rena/InsureDAO)"
+help: |
+    [H-10] A malicious/compromised Registry or Factory admin can drain all the funds from the Vault contracts
+wiki_title: |
+    [H-10] A malicious/compromised Registry or Factory admin can drain all the funds from the Vault contracts
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    <https://github.com/code-423n4/2022-01-insure/blob/19d1a7819fe7ce795e6d4814e7ddf8b8e1323df3/contracts/Vault.sol#L52-L58>
+    
+    ```solidity
+    modifier onlyMarket() {
+        require(
+            IRegistry(registry).isListed(msg.sender),
+            "ERROR_ONLY_MARKET"
+        );
+        _;
+    }
+    ```
+    
+    <http
+wiki_exploit_scenario: |
+    Per Solodit #1303: _Submitted by WatchPug_
+    
+    <https://github.com/code-423n4/2022-01-insure/blob/19d1a7819fe7ce795e6d4814e7ddf8b8e1323df3/contracts/Vault.sol#L52-L58>
+    
+    ```solidity
+    modifier onlyMarket() {
+        require(
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H10AMaliciousCompromisedRegistryOrFactoryAdminCanDrain"
+solodit_id: "1303"
+solodit_slug: |
+    h-10-a-maliciouscompromised-registry-or-factory-admin-can-drain-all-the-funds-from-the-vault-contracts-code4rena-insuredao-insuredao-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal registry;"
+fn_name_regex: ".*(registry).*"
+write_var_regex: ".*(registry).*"
+guard_var_regex: ".*(registry).*"
+vuln_fn_name: "registry"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "registry = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

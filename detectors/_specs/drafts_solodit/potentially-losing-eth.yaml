@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "potentially-losing-eth"
+class_name: "PotentiallyLosingEth"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37126 (Zokyo/Avantis)"
+help: "Potentially losing eth"
+wiki_title: "Potentially losing eth"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Acknowledged
+    
+    **Description**
+    
+    Trading.sol - Function openTrade accepts native coin (i.e. ETH in Ethereum main net) as it is payable function. Users interacting with this function might send native coin by mistake while the _type is not equal to IExecute.OpenLimitOr
+wiki_exploit_scenario: |
+    Per Solodit #37126: **Severity**: Medium
+    
+    **Status**: Acknowledged
+    
+    **Description**
+    
+    Trading.sol - Function openTrade accepts native coin (i.e. ETH in Ethereum main net) as it is payable function. Users interacting with
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentiallyLosingEth"
+solodit_id: "37126"
+solodit_slug: "potentially-losing-eth-zokyo-none-avantis-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(openTrade).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "openTrade"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

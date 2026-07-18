@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "user-can-lose-accrued-rewards-during-migration"
+class_name: "UserCanLoseAccruedRewardsDuringMigration"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65335 (Cyfrin/Statusl)"
+help: "User can lose accrued rewards during migration"
+wiki_title: "User can lose accrued rewards during migration"
+wiki_description: |
+    **Description:** User can migrate his staking position to new vault. However it will overwrite his `rewardsAccrued` in that new vault:
+    ```solidity
+        function migrateToVault(address migrateTo)
+            external
+            onlyNotEmergencyMode
+            whenNotPaused
+            onlyTrustedCodehash
+            on
+wiki_exploit_scenario: |
+    Per Solodit #65335: **Description:** User can migrate his staking position to new vault. However it will overwrite his `rewardsAccrued` in that new vault:
+    ```solidity
+        function migrateToVault(address migrateTo)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UserCanLoseAccruedRewardsDuringMigration"
+solodit_id: "65335"
+solodit_slug: "user-can-lose-accrued-rewards-during-migration-cyfrin-none-statusl-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal rewardsaccrued;"
+fn_name_regex: ".*(rewardsAccrued).*"
+read_var_regex: ".*(rewardsAccrued).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rewardsAccrued"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return rewardsaccrued > 0;"

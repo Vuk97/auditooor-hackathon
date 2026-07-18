@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-withdrawal-of-multi-strategies-vault-could-be-dosed-whil-x"
+class_name: "TheWithdrawalOfMultiStrategiesVaultCouldBeDosedWhilX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-bakerfi-invitational"
+help: |
+    0xpiken , also found by klau5 Finding description and impact The MultiStrategy#_deallocateAssets() function will be DoSed if IStrategy#undeploy(0) is called. Proof of Concept When
+wiki_title: "The withdrawal of Multi strategies vault could be DoSed while asset deposits remain unaffected"
+wiki_description: |
+    0xpiken , also found by klau5 Finding description and impact The MultiStrategy#_deallocateAssets() function will be DoSed if IStrategy#undeploy(0) is called. Proof of Concept When withdrawing user assets from a multi-strategies vault, it will be withdrawn pro-rata from the strategies base on their d
+wiki_exploit_scenario: |
+    Per audit finding: 0xpiken , also found by klau5 Finding description and impact The MultiStrategy#_deallocateAssets() function will be DoSed if IStrategy#undeploy(0) is called. Proof of Concept When withdrawing user ass
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheWithdrawalOfMultiStrategiesVaultCouldBeDosedWhilX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(undeployedAmount|totalUndeployed|currentAssets).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "undeployedAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

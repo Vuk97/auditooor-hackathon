@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-gap-variable-decrement-in-vaultstorage"
+class_name: "IncorrectGapVariableDecrementInVaultstorage"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36593 (OpenZeppelin/OETH Withdrawal Queue Audit)"
+help: "Incorrect __gap Variable Decrement in VaultStorage"
+wiki_title: "Incorrect __gap Variable Decrement in VaultStorage"
+wiki_description: |
+    In the audited version of the contract, 4 slots were added to the storage of the `VaultStorage` contract:
+    
+    
+    * `dripper`, which [occupies](https://github.com/OriginProtocol/origin-dollar/blob/eca6ffa74d9d0c5fb467551a30912cb722fab9c2/contracts/contracts/vault/VaultStorage.sol#L186) 1 slot.
+    * `withdraw
+wiki_exploit_scenario: |
+    Per Solodit #36593: In the audited version of the contract, 4 slots were added to the storage of the `VaultStorage` contract:
+    
+    
+    * `dripper`, which [occupies](https://github.com/OriginProtocol/origin-dollar/blob/eca6ffa74
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectGapVariableDecrementInVaultstorage"
+solodit_id: "36593"
+solodit_slug: |
+    incorrect-__gap-variable-decrement-in-vaultstorage-openzeppelin-none-oeth-withdrawal-queue-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal dripper;"
+fn_name_regex: ".*(VaultStorage|dripper|withdrawalQueueMetadata|withdrawalRequests).*"
+read_var_regex: ".*(dripper|withdrawalQueueMetadata|withdrawalRequests).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "VaultStorage"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return dripper > 0;"

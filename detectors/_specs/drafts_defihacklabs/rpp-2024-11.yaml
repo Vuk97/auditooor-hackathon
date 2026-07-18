@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "rpp-2024-11"
+class_name: "Rpp202411"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-11/RPP_exp.sol"
+help: "RPP 2024-11 — swap exploit (~ $14.1K)"
+wiki_title: "RPP (2024-11) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-11): RPP lost ~ $14.1K. Bug class: swap. Attack tx: 0x76c39537374e7fa7f206ed3c99aa6b14ccf1d2dadaabe6139164cc37966e40bd.
+wiki_exploit_scenario: |
+    Attacker (0x709b30b69176a3ccc8ef3bb37219267ee2f5b112) exploits RPP via swap: the victim contract 0x7d1a69302d2a94620d5185f2d80e065454a35751 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Rpp202411"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

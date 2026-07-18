@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "wusd-2026-05"
+class_name: "Wusd202605"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-05/WUSD_exp.sol"
+help: "WUSD 2026-05 — swap exploit (~$200K USD (USDC + USDT drained from Uniswap V3 GLO pools))"
+wiki_title: "WUSD (2026-05) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-05): WUSD lost ~$200K USD (USDC + USDT drained from Uniswap V3 GLO pools). Bug class: swap. Attack tx: 0x2051c1f8d43730c41cc353b5dffd8cc59f96cb1ca56fdce4b28fb127bdb37712.
+wiki_exploit_scenario: |
+    Attacker (0x88329A09428778F62BC0C8BAac0997864E5a57f8) exploits WUSD via swap: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Wusd202605"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

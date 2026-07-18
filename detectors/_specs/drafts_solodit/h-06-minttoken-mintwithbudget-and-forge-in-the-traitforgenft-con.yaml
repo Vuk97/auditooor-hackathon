@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-06-minttoken-mintwithbudget-and-forge-in-the-traitforgenft-con"
+class_name: "H06MinttokenMintwithbudgetAndForgeInTheTraitforgenftCon"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #37920 (Code4rena/TraitForge)"
+help: |
+    [H-06] `mintToken()`, `mintWithBudget()`, and `forge()` in the `TraitForgeNft` contract will fail due to a wrong modifier used in `EntropyGenerator.initializeAlphaIndices()`
+wiki_title: |
+    [H-06] `mintToken()`, `mintWithBudget()`, and `forge()` in the `TraitForgeNft` contract will fail due to a wrong modifier used in `EntropyGenerator.initializeAl
+wiki_description: |
+    The `EntropyGenerator` contract has an issue where the `initializeAlphaIndices()` function uses the wrong modifier. This function is supposed to be called by the `TraitForgeNft` contract, but it currently uses the `onlyOwner` modifier instead of `onlyAllowedCaller`.
+    
+    ### Impact
+    
+    The `initializeAlph
+wiki_exploit_scenario: |
+    Per Solodit #37920: The `EntropyGenerator` contract has an issue where the `initializeAlphaIndices()` function uses the wrong modifier. This function is supposed to be called by the `TraitForgeNft` contract, but it curr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06MinttokenMintwithbudgetAndForgeInTheTraitforgenftCon"
+solodit_id: "37920"
+solodit_slug: |
+    h-06-minttoken-mintwithbudget-and-forge-in-the-traitforgenft-contract-will-fail-due-to-a-wrong-modifier-used-in-entropygeneratorinitializealphaindices-code4rena-traitforge-traitforge-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal allowedcaller;"
+fn_name_regex: ".*(EntropyGenerator|initializeAlphaIndices|TraitForgeNft|onlyOwner).*"
+read_var_regex: ".*(allowedCaller|forge|initializeAlphaIndices).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "EntropyGenerator"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return allowedcaller > 0;"

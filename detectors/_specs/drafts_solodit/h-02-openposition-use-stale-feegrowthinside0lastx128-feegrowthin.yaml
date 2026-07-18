@@ -1,0 +1,35 @@
+skeleton: "state_write_without_paired_write"
+name: "h-02-openposition-use-stale-feegrowthinside0lastx128-feegrowthin"
+class_name: "H02OpenpositionUseStaleFeegrowthinside0lastx128Feegrowthin"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29695 (Code4rena/Particle Protocol)"
+help: "[H-02] openPosition() use stale feeGrowthInside0LastX128/feeGrowthInside1LastX128"
+wiki_title: "[H-02] openPosition() use stale feeGrowthInside0LastX128/feeGrowthInside1LastX128"
+wiki_description: |
+    When `openPosition()`, we need to record the current `feeGrowthInside0LastX128/feeGrowthInside1LastX128`.
+    And when closing the position, we use `Base.getOwedFee()` to calculate the possible fees generated during the borrowing period, which are used to pay the `LP`.
+    
+    `openPosition()` -> `Base.prepar
+wiki_exploit_scenario: |
+    Per Solodit #29695: When `openPosition()`, we need to record the current `feeGrowthInside0LastX128/feeGrowthInside1LastX128`.
+    And when closing the position, we use `Base.getOwedFee()` to calculate the possible fees gene
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02OpenpositionUseStaleFeegrowthinside0lastx128Feegrowthin"
+solodit_id: "29695"
+solodit_slug: |
+    h-02-openposition-use-stale-feegrowthinside0lastx128feegrowthinside1lastx128-code4rena-particle-protocol-particle-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(openPosition).*"
+primary_var_regex: ".*(openPosition).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

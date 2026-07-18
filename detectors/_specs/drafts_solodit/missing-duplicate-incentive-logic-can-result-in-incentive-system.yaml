@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "missing-duplicate-incentive-logic-can-result-in-incentive-system"
+class_name: "MissingDuplicateIncentiveLogicCanResultInIncentiveSystem"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61570 (Cyfrin/Paladin Valkyrie)"
+help: "Missing duplicate Incentive Logic can result in Incentive System accounting being broken"
+wiki_title: "Missing duplicate Incentive Logic can result in Incentive System accounting being broken"
+wiki_description: |
+    **Description:** `IncentiveManager::addIncentiveLogic` allows the owner to add a new Incentive Logic to the list of Incentive Systems:
+    
+    ```solidity
+    function addIncentiveLogic(address logic) external onlyOwner {
+        uint256 _index = nextIncentiveIndex;
+        incentiveSystems[_index] = IncentiveSystem(l
+wiki_exploit_scenario: |
+    Per Solodit #61570: **Description:** `IncentiveManager::addIncentiveLogic` allows the owner to add a new Incentive Logic to the list of Incentive Systems:
+    
+    ```solidity
+    function addIncentiveLogic(address logic) external o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingDuplicateIncentiveLogicCanResultInIncentiveSystem"
+solodit_id: "61570"
+solodit_slug: |
+    missing-duplicate-incentive-logic-can-result-in-incentive-system-accounting-being-broken-cyfrin-none-paladin-valkyrie-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addincentivelogic;"
+fn_name_regex: ".*(addIncentiveLogic|addPoolIncentiveSystem|poolIncentiveSystems).*"
+read_var_regex: ".*(addIncentiveLogic|addPoolIncentiveSystem|poolIncentiveSystems).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "addIncentiveLogic"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addincentivelogic > 0;"

@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "removeapprovedrewardtoken-in-marinatev2-sol-may-fail-with-small-"
+class_name: "RemoveapprovedrewardtokenInMarinatev2SolMayFailWithSmall"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57564 (Zokyo/Umami)"
+help: "`removeApprovedRewardToken` in MarinateV2.sol may fail with small uncollectible residues."
+wiki_title: "`removeApprovedRewardToken` in MarinateV2.sol may fail with small uncollectible residues."
+wiki_description: |
+    **Description**
+    
+    MarinateV2.sol - Regarding removeApproved Reward Token, require(IERC20(token).balanceOf(address(this)) $==0$, "Reward token not completely claimed by everyone yet"). New issue is introduced: having balance required to be strictly equal to zero make it exposed to a scenario in which
+wiki_exploit_scenario: |
+    Per Solodit #57564: **Description**
+    
+    MarinateV2.sol - Regarding removeApproved Reward Token, require(IERC20(token).balanceOf(address(this)) $==0$, "Reward token not completely claimed by everyone yet"). New issue is intr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RemoveapprovedrewardtokenInMarinatev2SolMayFailWithSmall"
+solodit_id: "57564"
+solodit_slug: |
+    removeapprovedrewardtoken-in-marinatev2sol-may-fail-with-small-uncollectible-residues-zokyo-none-umami-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(removeApprovedRewardToken).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "removeApprovedRewardToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

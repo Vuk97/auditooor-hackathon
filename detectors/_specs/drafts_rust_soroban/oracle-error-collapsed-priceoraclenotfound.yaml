@@ -1,0 +1,19 @@
+id: oracle-error-collapsed-priceoraclenotfound
+title: "Oracle errors all collapsed into PriceOracleNotFound"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.29"
+bug_class: error-handling
+indicators:
+  - "`match oracle.get_price(asset) { Err(_) => PriceOracleNotFound, ... }`"
+  - "multiple distinct oracle failures (stale, signer, decimals, network) all map to one error"
+victim: "Operators: incident triage hampered because all oracle failures look the same."
+exploit_precondition: "Any oracle failure."
+real_world_example: |
+  Halborn 7.29 (LOW): Oracle errors collapsed into 'PriceOracleNotFound' mask real failures.
+suggested_remediation: "Preserve the underlying error via `map_err` with distinct variants."
+cross_refs:
+  - ambiguous-error-codes

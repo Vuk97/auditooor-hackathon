@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "transfer-block-bridge-bypass"
+class_name: "TransferBlockBridgeBypass"
+wave: "12"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "corpus slice slice_ah"
+help: |
+    `blockAllTransfers` flag not checked in `bridge()`; users bypass transfer restriction by bridging to another chain and back to different address.
+wiki_title: "Transfer-Block-Bridge-Bypass"
+wiki_description: |
+    `blockAllTransfers` flag not checked in `bridge()`; users bypass transfer restriction by bridging to another chain and back to different address.
+wiki_exploit_scenario: |
+    Attacker exploits Transfer-Block-Bridge-Bypass as described: `blockAllTransfers` flag not checked in `bridge()`; users bypass transfer restriction by bridging to another chain and back to different address.
+wiki_recommendation: "ERC-721/NFT token with transfer pause flag where `bridge()` bypasses the pause check."
+contract_name: "TransferBlockBridgeBypass"
+state_decl: "uint256 internal blockalltransfers;"
+fn_name_regex: ".*(blockAllTransfers|bridge).*"
+read_var_regex: ".*(blockAllTransfers).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "blockAllTransfers"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return blockalltransfers > 0;"

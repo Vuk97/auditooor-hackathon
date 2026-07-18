@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "m-17-users-collateral-could-get-stuck-permanently-after-fully-cl"
+class_name: "M17UsersCollateralCouldGetStuckPermanentlyAfterFullyCl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20254 (Code4rena/Polynomial Protocol)"
+help: "[M-17] Users' collateral could get stuck permanently after fully closing short trades"
+wiki_title: "[M-17] Users' collateral could get stuck permanently after fully closing short trades"
+wiki_description: |
+    When completely closing a short trade, a user is supposed to input `TradeParams` such that:
+    
+    `shortPosition.shortAmount == params.shortAmount`<br>
+    `shortPosition.collateralAmount == params.collateralAmount`
+    
+    However, if cares have not been given particularly when inputting `params.collateralAmount`
+wiki_exploit_scenario: |
+    Per Solodit #20254: When completely closing a short trade, a user is supposed to input `TradeParams` such that:
+    
+    `shortPosition.shortAmount == params.shortAmount`<br>
+    `shortPosition.collateralAmount == params.collateral
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M17UsersCollateralCouldGetStuckPermanentlyAfterFullyCl"
+solodit_id: "20254"
+solodit_slug: |
+    m-17-users-collateral-could-get-stuck-permanently-after-fully-closing-short-trades-code4rena-polynomial-protocol-polynomial-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(TradeParams|ShortCollateral).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "TradeParams"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

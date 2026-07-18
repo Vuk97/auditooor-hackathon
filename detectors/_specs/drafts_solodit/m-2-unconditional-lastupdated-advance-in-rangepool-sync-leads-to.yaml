@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-2-unconditional-lastupdated-advance-in-rangepool-sync-leads-to"
+class_name: "M2UnconditionalLastupdatedAdvanceInRangepoolSyncLeadsTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62817 (Sherlock/BMX Deli Swap)"
+help: |
+    M-2: Unconditional lastUpdated advance in RangePool.sync leads to loss of streamed BMX when pool liquidity == 0
+wiki_title: |
+    M-2: Unconditional lastUpdated advance in RangePool.sync leads to loss of streamed BMX when pool liquidity == 0
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-09-bmx-deli-swap-judging/issues/53 
+    
+    ## Found by 
+    0x73696d616f, blockace, maigadoh, makeWeb3safe
+    
+    ### Summary
+    
+    A logic ordering issue in RangePool::sync causes the pool's lastUpdated timestamp to advance even when liquidity == 0. If the gauge consumes
+wiki_exploit_scenario: |
+    Per Solodit #62817: Source: https://github.com/sherlock-audit/2025-09-bmx-deli-swap-judging/issues/53 
+    
+    ## Found by 
+    0x73696d616f, blockace, maigadoh, makeWeb3safe
+    
+    ### Summary
+    
+    A logic ordering issue in RangePool::sync
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2UnconditionalLastupdatedAdvanceInRangepoolSyncLeadsTo"
+solodit_id: "62817"
+solodit_slug: |
+    m-2-unconditional-lastupdated-advance-in-rangepoolsync-leads-to-loss-of-streamed-bmx-when-pool-liquidity-0-sherlock-bmx-deli-swap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(makeWeb3safe|lastUpdated|perTokenAmounts|tickSpacing).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "makeWeb3safe"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

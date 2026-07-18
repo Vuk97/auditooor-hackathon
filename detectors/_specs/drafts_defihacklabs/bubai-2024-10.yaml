@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "bubai-2024-10"
+class_name: "Bubai202410"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-10/BUBAI_exp.sol"
+help: "BUBAI 2024-10 — swap exploit (131k)"
+wiki_title: "BUBAI (2024-10) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-10): BUBAI lost 131k. Bug class: swap. Attack tx: 0x1b4730e715286862042def956d5aaa6a53203ee02b97ea913de73fa462e48f90.
+wiki_exploit_scenario: |
+    Attacker (0xa60fae100d9c3d015c9cd7107f95cbacf58a1cbd) exploits BUBAI via swap: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Bubai202410"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

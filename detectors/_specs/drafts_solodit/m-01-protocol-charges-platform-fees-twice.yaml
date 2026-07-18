@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_require"
+name: "m-01-protocol-charges-platform-fees-twice"
+class_name: "M01ProtocolChargesPlatformFeesTwice"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34095 (Pashov Audit Group/Wagmi)"
+help: "[M-01] Protocol charges platform fees twice"
+wiki_title: "[M-01] Protocol charges platform fees twice"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    LP can call the repay on an underwater loan to retrieve their tokens back without their position being restored. If there are no other positions associated with this loan, the caller will receive the collateral minus platform fees
+wiki_exploit_scenario: |
+    Per Solodit #34095: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    LP can call the repay on an underwater loan to retrieve their tokens back without their position being restored. If there are no o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01ProtocolChargesPlatformFeesTwice"
+solodit_id: "34095"
+solodit_slug: "m-01-protocol-charges-platform-fees-twice-pashov-audit-group-none-wagmi-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(isEmergency|underLiquidation|revertError|removedAmt).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "isEmergency"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

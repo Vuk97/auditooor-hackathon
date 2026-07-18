@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "redeem-functions-do-not-work-correctly"
+class_name: "RedeemFunctionsDoNotWorkCorrectly"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Alkimiya - Zellic Audit Report"
+help: |
+    In the redeem functions — for example, the redeemLong function — relativeBalance is calculated as the ratio of longSharesBalance to sState.sharesMinted. However, sharesMinted is al
+wiki_title: "Redeem functions do not work correctly"
+wiki_description: |
+    In the redeem functions — for example, the redeemLong function — relativeBalance is calculated as the ratio of longSharesBalance to sState.sharesMinted. However, sharesMinted is always bigger than longSharesBalance when there are multiple users. So relativeBalance will be zero in this case. This wil
+wiki_exploit_scenario: |
+    Per audit finding: In the redeem functions — for example, the redeemLong function — relativeBalance is calculated as the ratio of longSharesBalance to sState.sharesMinted. However, sharesMinted is always bigger than lon
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RedeemFunctionsDoNotWorkCorrectly"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(redeemLong|relativeBalance|longSharesBalance).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "redeemLong"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

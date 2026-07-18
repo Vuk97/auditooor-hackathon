@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "m-3-makepayment-is-logically-inconsistent-with-how-lien-stack-is"
+class_name: "M3MakepaymentIsLogicallyInconsistentWithHowLienStackIs"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3678 (Sherlock/Astaria)"
+help: |
+    M-3: _makePayment is logically inconsistent with how lien stack is managed causing payments to multiple liens to fail
+wiki_title: |
+    M-3: _makePayment is logically inconsistent with how lien stack is managed causing payments to multiple liens to fail
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-10-astaria-judging/issues/232 
+    
+    ## Found by 
+    TurnipBoy
+    
+    ## Summary
+    
+    `_makePayment(uint256, uint256)` looping logic is inconsistent with how `_deleteLienPosition` manages the lien stack. `_makePayment` loops from 0 to `openLiens.length` but `_deleteLienP
+wiki_exploit_scenario: |
+    Per Solodit #3678: Source: https://github.com/sherlock-audit/2022-10-astaria-judging/issues/232 
+    
+    ## Found by 
+    TurnipBoy
+    
+    ## Summary
+    
+    `_makePayment(uint256, uint256)` looping logic is inconsistent with how `_deleteLienP
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M3MakepaymentIsLogicallyInconsistentWithHowLienStackIs"
+solodit_id: "3678"
+solodit_slug: |
+    m-3-_makepayment-is-logically-inconsistent-with-how-lien-stack-is-managed-causing-payments-to-multiple-liens-to-fail-sherlock-astaria-astaria-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(openLiens|collateralId|totalCapitalAvailable|paymentAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "openLiens"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

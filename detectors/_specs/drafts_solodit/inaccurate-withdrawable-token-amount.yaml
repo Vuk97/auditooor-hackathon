@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "inaccurate-withdrawable-token-amount"
+class_name: "InaccurateWithdrawableTokenAmount"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #47911 (OtterSec/VTVL)"
+help: "Inaccurate Withdrawable Token Amount"
+wiki_title: "Inaccurate Withdrawable Token Amount"
+wiki_description: |
+    ## Token Withdrawal Issue in BaseMilestone Contract
+    
+    In `BaseMilestone::withdrawAdmin`, the `availableAmount` is calculated as:
+    
+    ```
+    allocation * recipients.length - numTokensReservedForVesting.
+    ```
+    
+    This may result in locking some tokens that are not reserved for vesting.
+    
+    ## BaseMilestone.sol (SOL
+wiki_exploit_scenario: |
+    Per Solodit #47911: ## Token Withdrawal Issue in BaseMilestone Contract
+    
+    In `BaseMilestone::withdrawAdmin`, the `availableAmount` is calculated as:
+    
+    ```
+    allocation * recipients.length - numTokensReservedForVesting.
+    ```
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InaccurateWithdrawableTokenAmount"
+solodit_id: "47911"
+solodit_slug: "inaccurate-withdrawable-token-amount-ottersec-none-vtvl-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal availableamount;"
+fn_name_regex: ".*(availableAmount|numTokensReservedForVesting|dbf1f5a|cdfa29d).*"
+read_var_regex: ".*(availableAmount|cdfa29d|dbf1f5a).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "availableAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return availableamount > 0;"

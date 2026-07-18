@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-10-users-are-susceptible-to-back-running-when-depositing-eth-t"
+class_name: "M10UsersAreSusceptibleToBackRunningWhenDepositingEthT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24651 (Code4rena/Sushi)"
+help: "[M-10] Users are susceptible to back-running when depositing ETH to `TridenRouter`"
+wiki_title: "[M-10] Users are susceptible to back-running when depositing ETH to `TridenRouter`"
+wiki_description: |
+    _Submitted by broccoli_
+    
+    #### Impact
+    The `_depositToBentoBox` and `_depositFromUserToBentoBox` allow users to provide ETH to the router, which is later deposited to the `bento` contract for swapping other assets or providing liquidity. However, in these two functions, the input parameter does not re
+wiki_exploit_scenario: |
+    Per Solodit #24651: _Submitted by broccoli_
+    
+    #### Impact
+    The `_depositToBentoBox` and `_depositFromUserToBentoBox` allow users to provide ETH to the router, which is later deposited to the `bento` contract for swapping o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10UsersAreSusceptibleToBackRunningWhenDepositingEthT"
+solodit_id: "24651"
+solodit_slug: |
+    m-10-users-are-susceptible-to-back-running-when-depositing-eth-to-tridenrouter-code4rena-sushi-sushi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bento;"
+fn_name_regex: ".*(bento|exactInputSingleWithNativeToken|harvest|elastic).*"
+read_var_regex: ".*(bento|elastic|exactInputSingleWithNativeToken).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "bento"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return bento > 0;"

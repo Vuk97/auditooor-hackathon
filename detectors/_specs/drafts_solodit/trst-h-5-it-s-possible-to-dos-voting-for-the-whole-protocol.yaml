@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "trst-h-5-it-s-possible-to-dos-voting-for-the-whole-protocol"
+class_name: "TrstH5ItSPossibleToDosVotingForTheWholeProtocol"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18948 (Trust Security/Satin.Exchange)"
+help: "TRST-H-5 It’s possible to DOS voting for the whole protocol"
+wiki_title: "TRST-H-5 It’s possible to DOS voting for the whole protocol"
+wiki_description: |
+    **Description:**
+    The function `_vote()` internally calls `_calculateMaxVotePossible()`, which internally calls 
+    `getTotalVotingPower()` on Ve.sol, which loops over every veSatin and adds all of their 
+    current voting power to get the total voting power in the system. This can be an issue when 
+    the nu
+wiki_exploit_scenario: |
+    Per Solodit #18948: **Description:**
+    The function `_vote()` internally calls `_calculateMaxVotePossible()`, which internally calls 
+    `getTotalVotingPower()` on Ve.sol, which loops over every veSatin and adds all of their
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstH5ItSPossibleToDosVotingForTheWholeProtocol"
+solodit_id: "18948"
+solodit_slug: |
+    trst-h-5-its-possible-to-dos-voting-for-the-whole-protocol-trust-security-none-satinexchange-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal gettotalvotingpower;"
+fn_name_regex: ".*(getTotalVotingPower|totalSupply).*"
+write_var_regex: ".*(getTotalVotingPower|totalSupply).*"
+guard_var_regex: ".*(getTotalVotingPower|totalSupply).*"
+vuln_fn_name: "getTotalVotingPower"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "gettotalvotingpower = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

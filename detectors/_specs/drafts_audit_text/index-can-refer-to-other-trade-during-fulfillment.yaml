@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "index-can-refer-to-other-trade-during-fulfillment"
+class_name: "IndexCanReferToOtherTradeDuringFulfillment"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Bloom Trading - Zellic Audit Report"
+help: |
+    In Trading, all operations that both reference a trade and require a price for execution will refer to the trade by a three-tuple of its trader, pair index, and index. For example,
+wiki_title: "Index can refer to other trade during fulfillment"
+wiki_description: |
+    In Trading, all operations that both reference a trade and require a price for execution will refer to the trade by a three-tuple of its trader, pair index, and index. For example, when doing a market close, the trader calls closeTradeMarket, which then records a pending market close order: function
+wiki_exploit_scenario: |
+    Per audit finding: In Trading, all operations that both reference a trade and require a price for execution will refer to the trade by a three-tuple of its trader, pair index, and index. For example, when doing a market
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IndexCanReferToOtherTradeDuringFulfillment"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(closeTradeMarket|onlyWhitelist|whenNotPaused).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "closeTradeMarket"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

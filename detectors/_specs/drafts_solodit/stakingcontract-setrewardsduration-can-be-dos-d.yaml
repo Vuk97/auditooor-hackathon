@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "stakingcontract-setrewardsduration-can-be-dos-d"
+class_name: "StakingcontractSetrewardsdurationCanBeDosD"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54479 (Cantina/MakerDAO)"
+help: "StakingContract.setRewardsDuration can be DoS 'd"
+wiki_title: "StakingContract.setRewardsDuration can be DoS 'd "
+wiki_description: |
+    ## StakingRewards Analysis
+    
+    ## Context 
+    - **File:** StakingRewards.sol
+    - **Line:** 165
+    
+    ## Description
+    The `StakingRewards.setRewardsDuration` function can only be called after `periodFinish`. However, anyone can call `VestedRewardsDistribution.distribute`, which in turn calls `StakingReward.notifyR
+wiki_exploit_scenario: |
+    Per Solodit #54479: ## StakingRewards Analysis
+    
+    ## Context 
+    - **File:** StakingRewards.sol
+    - **Line:** 165
+    
+    ## Description
+    The `StakingRewards.setRewardsDuration` function can only be called after `periodFinish`. However
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StakingcontractSetrewardsdurationCanBeDosD"
+solodit_id: "54479"
+solodit_slug: "stakingcontractsetrewardsduration-can-be-dos-d-cantina-none-makerdao-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lastupdatetime;"
+fn_name_regex: ".*(periodFinish|rewardDuration|DssVest|rewardsDuration).*"
+read_var_regex: ".*(lastUpdateTime|notifyRewardAmount|periodFinish).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "periodFinish"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return lastupdatetime > 0;"

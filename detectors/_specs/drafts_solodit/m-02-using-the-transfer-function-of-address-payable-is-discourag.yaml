@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "m-02-using-the-transfer-function-of-address-payable-is-discourag"
+class_name: "M02UsingTheTransferFunctionOfAddressPayableIsDiscourag"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44026 (Shieldify/Darkmythos)"
+help: "[M-02] Using the `transfer` function of `address payable` is discouraged"
+wiki_title: "[M-02] Using the `transfer` function of `address payable` is discouraged"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `transfer()` function only allows the recipient to use `2300` gas. If the recipient uses more than that, transfers will fail. This could, for example, be the case if `vendor` is the address of a multisig or payment splitter that is supposed to execute ad
+wiki_exploit_scenario: |
+    Per Solodit #44026: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `transfer()` function only allows the recipient to use `2300` gas. If the recipient uses more than that, transfers will fail. This could, for example, be
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02UsingTheTransferFunctionOfAddressPayableIsDiscourag"
+solodit_id: "44026"
+solodit_slug: |
+    m-02-using-the-transfer-function-of-address-payable-is-discouraged-shieldify-none-darkmythos-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(transfer|vendor|call).*"
+primary_var_regex: ".*(call|transfer|vendor).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

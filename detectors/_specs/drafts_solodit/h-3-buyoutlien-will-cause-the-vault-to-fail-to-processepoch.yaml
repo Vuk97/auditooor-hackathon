@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "h-3-buyoutlien-will-cause-the-vault-to-fail-to-processepoch"
+class_name: "H3BuyoutlienWillCauseTheVaultToFailToProcessepoch"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3641 (Sherlock/Astaria)"
+help: "H-3: buyoutLien() will cause the vault to fail to processEpoch()"
+wiki_title: "H-3: buyoutLien() will cause the vault to fail to processEpoch()"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-10-astaria-judging/issues/245 
+    
+    ## Found by 
+    bin2chen
+    
+    ## Summary
+    LienToken#buyoutLien() did not reduce vault#liensOpenForEpoch
+    when vault#processEpoch()will check vault#liensOpenForEpoch[currentEpoch] == uint256(0)
+    so processEpoch() will fail
+    
+    ## Vulne
+wiki_exploit_scenario: |
+    Per Solodit #3641: Source: https://github.com/sherlock-audit/2022-10-astaria-judging/issues/245 
+    
+    ## Found by 
+    bin2chen
+    
+    ## Summary
+    LienToken#buyoutLien() did not reduce vault#liensOpenForEpoch
+    when vault#processEpoch()
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H3BuyoutlienWillCauseTheVaultToFailToProcessepoch"
+solodit_id: "3641"
+solodit_slug: "h-3-buyoutlien-will-cause-the-vault-to-fail-to-processepoch-sherlock-astaria-astaria-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(buyoutLien|liensOpenForEpoch|processEpoch|currentEpoch).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "buyoutLien"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

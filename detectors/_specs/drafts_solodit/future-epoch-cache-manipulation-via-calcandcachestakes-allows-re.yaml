@@ -1,0 +1,31 @@
+skeleton: "state_write_without_paired_write"
+name: "future-epoch-cache-manipulation-via-calcandcachestakes-allows-re"
+class_name: "FutureEpochCacheManipulationViaCalcandcachestakesAllowsRe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61230 (Cyfrin/Suzaku Core)"
+help: "Future epoch cache manipulation via `calcAndCacheStakes` allows reward manipulation"
+wiki_title: "Future epoch cache manipulation via `calcAndCacheStakes` allows reward manipulation"
+wiki_description: |
+    **Description:** The `AvalancheL1Middleware::calcAndCacheStakes` function lacks epoch validation, allowing attackers to cache stake values for future epochs. This enables permanent manipulation of reward calculations by locking in current stake values that may become stale by the time those epochs a
+wiki_exploit_scenario: |
+    Per Solodit #61230: **Description:** The `AvalancheL1Middleware::calcAndCacheStakes` function lacks epoch validation, allowing attackers to cache stake values for future epochs. This enables permanent manipulation of rew
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FutureEpochCacheManipulationViaCalcandcachestakesAllowsRe"
+solodit_id: "61230"
+solodit_slug: |
+    future-epoch-cache-manipulation-via-calcandcachestakes-allows-reward-manipulation-cyfrin-none-suzaku-core-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(calcAndCacheStakes|totalStakeCached|getOperatorStake|operatorStakeCache).*"
+primary_var_regex: ".*(calcAndCacheStakes|forceUpdateNodes|getOperatorStake).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-comparison-enables-swapping-and-token-draining-at-no-c"
+class_name: "IncorrectComparisonEnablesSwappingAndTokenDrainingAtNoC"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16845 (TrailOfBits/Uniswap V3 Core)"
+help: "Incorrect comparison enables swapping and token draining at no cost"
+wiki_title: "Incorrect comparison enables swapping and token draining at no cost"
+wiki_description: |
+    ## Data Validation Report
+    
+    ## Target
+    UniswapV3Pool.sol
+    
+    ## Difficulty
+    High
+    
+    ## Description
+    An incorrect comparison in the swap function allows the swap to succeed even if no tokens are paid. This issue could be used to drain any pool of all of its tokens at no cost.
+    
+    ```solidity
+    // transfer the outp
+wiki_exploit_scenario: |
+    Per Solodit #16845: ## Data Validation Report
+    
+    ## Target
+    UniswapV3Pool.sol
+    
+    ## Difficulty
+    High
+    
+    ## Description
+    An incorrect comparison in the swap function allows the swap to succeed even if no tokens are paid. This issu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectComparisonEnablesSwappingAndTokenDrainingAtNoC"
+solodit_id: "16845"
+solodit_slug: "incorrect-comparison-enables-swapping-and-token-draining-at-no-cost-trailofbits-uniswap-v3-core-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amountin;"
+fn_name_regex: ".*(amountIn|amountOut|uniswapV3SwapCallback).*"
+write_var_regex: ".*(amountIn|amountOut|uniswapV3SwapCallback).*"
+guard_var_regex: ".*(amountIn|amountOut|uniswapV3SwapCallback).*"
+vuln_fn_name: "amountIn"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amountin = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

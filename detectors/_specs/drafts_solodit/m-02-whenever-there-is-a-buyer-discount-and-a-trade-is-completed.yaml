@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-02-whenever-there-is-a-buyer-discount-and-a-trade-is-completed"
+class_name: "M02WheneverThereIsABuyerDiscountAndATradeIsCompleted"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44008 (Shieldify/Csx)"
+help: |
+    [M-02] Whenever There Is a Buyer Discount and a Trade Is Completed Successfully, an Amount of Tokens that Is Equal to the Discount Fee Will Get Stuck in the `CSXTrade` Contract
+wiki_title: |
+    [M-02] Whenever There Is a Buyer Discount and a Trade Is Completed Successfully, an Amount of Tokens that Is Equal to the Discount Fee Will Get Stuck in the `CS
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    Due to the way that the `CSXTrade::_distributeProceeds()` function calculates the number of payment tokens to be sent out, whenever there is a buyer discount from the referral code used by the buyer, several tokens that are equal to the discount fee will get
+wiki_exploit_scenario: |
+    Per Solodit #44008: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    Due to the way that the `CSXTrade::_distributeProceeds()` function calculates the number of payment tokens to be sent out, whenever there is a buyer discount
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02WheneverThereIsABuyerDiscountAndATradeIsCompleted"
+solodit_id: "44008"
+solodit_slug: |
+    m-02-whenever-there-is-a-buyer-discount-and-a-trade-is-completed-successfully-an-amount-of-tokens-that-is-equal-to-the-discount-fee-will-get-stuck-in-the-csxtrade-contract-shieldify-none-csx-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal affiliatornetreward;"
+fn_name_regex: ".*(depositedValue|getNetValue|sellerNetProceeds|affiliatorNetReward).*"
+read_var_regex: ".*(affiliatorNetReward|depositedValue|getNetValue).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositedValue"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return affiliatornetreward > 0;"

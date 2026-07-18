@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-05-in-the-event-of-yield-loss-yield-will-be-double-counted-lea"
+class_name: "M05InTheEventOfYieldLossYieldWillBeDoubleCountedLea"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #55685 (0x52/Stusdcxbloom)"
+help: "[M-05] In the event of yield loss, yield will be double counted leading to excess fees"
+wiki_title: "[M-05] In the event of yield loss, yield will be double counted leading to excess fees"
+wiki_description: |
+    **Details**
+    
+    [StUsdc.sol#L171-L181](https://github.com/stakeup-protocol/stakeup-contracts/blob/b4d8a83e9455efb8c7543a0fc62b5aea598c7f49/src/token/StUsdc.sol#L171-L181)
+    
+        if (newUsdPerShare > lastUsdPerShare) {
+            uint256 yieldPerShare = newUsdPerShare - lastUsdPerShare;
+            // Calculate
+wiki_exploit_scenario: |
+    Per Solodit #55685: **Details**
+    
+    [StUsdc.sol#L171-L181](https://github.com/stakeup-protocol/stakeup-contracts/blob/b4d8a83e9455efb8c7543a0fc62b5aea598c7f49/src/token/StUsdc.sol#L171-L181)
+    
+        if (newUsdPerShare > lastUs
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05InTheEventOfYieldLossYieldWillBeDoubleCountedLea"
+solodit_id: "55685"
+solodit_slug: |
+    m-05-in-the-event-of-yield-loss-yield-will-be-double-counted-leading-to-excess-fees-0x52-none-stusdcxbloom-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(newUsdPerShare|lastUsdPerShare|yieldPerShare|userValue).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "newUsdPerShare"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

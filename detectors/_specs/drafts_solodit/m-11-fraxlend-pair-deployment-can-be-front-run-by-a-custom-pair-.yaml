@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "m-11-fraxlend-pair-deployment-can-be-front-run-by-a-custom-pair-"
+class_name: "M11FraxlendPairDeploymentCanBeFrontRunByACustomPair"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24840 (Code4rena/Frax Finance)"
+help: "[M-11] Fraxlend pair deployment can be front-run by a custom pair deployment"
+wiki_title: "[M-11] Fraxlend pair deployment can be front-run by a custom pair deployment"
+wiki_description: |
+    _Submitted by berndartmueller, also found by IllIllI_
+    
+    <https://github.com/code-423n4/2022-08-frax/blob/c4189a3a98b38c8c962c5ea72f1a322fbc2ae45f/src/contracts/FraxlendPairDeployer.sol#L205>
+    
+    <https://github.com/code-423n4/2022-08-frax/blob/c4189a3a98b38c8c962c5ea72f1a322fbc2ae45f/src/contracts/Fraxl
+wiki_exploit_scenario: |
+    Per Solodit #24840: _Submitted by berndartmueller, also found by IllIllI_
+    
+    <https://github.com/code-423n4/2022-08-frax/blob/c4189a3a98b38c8c962c5ea72f1a322fbc2ae45f/src/contracts/FraxlendPairDeployer.sol#L205>
+    
+    <https://
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11FraxlendPairDeploymentCanBeFrontRunByACustomPair"
+solodit_id: "24840"
+solodit_slug: |
+    m-11-fraxlend-pair-deployment-can-be-front-run-by-a-custom-pair-deployment-code4rena-frax-finance-frax-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(salt).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

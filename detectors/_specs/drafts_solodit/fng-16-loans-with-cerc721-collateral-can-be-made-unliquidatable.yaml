@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "fng-16-loans-with-cerc721-collateral-can-be-made-unliquidatable"
+class_name: "Fng16LoansWithCerc721CollateralCanBeMadeUnliquidatable"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62382 (Hexens/Fungify)"
+help: "[FNG-16] Loans with CErc721 collateral can be made unliquidatable"
+wiki_title: "[FNG-16] Loans with CErc721 collateral can be made unliquidatable"
+wiki_description: |
+    **Severity:** High
+    
+    **Path:** CErc721.sol:_seize#L470-L508
+    
+    **Description:** The `_seize` function for CErc721 will always round up to a token amount for full NFTs. This function is used for reward a liquidator in `Comptroller.sol:batchLiquidateBorrow `with the value that came from a liquidated debt
+wiki_exploit_scenario: |
+    Per Solodit #62382: **Severity:** High
+    
+    **Path:** CErc721.sol:_seize#L470-L508
+    
+    **Description:** The `_seize` function for CErc721 will always round up to a token amount for full NFTs. This function is used for reward a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Fng16LoansWithCerc721CollateralCanBeMadeUnliquidatable"
+solodit_id: "62382"
+solodit_slug: "fng-16-loans-with-cerc721-collateral-can-be-made-unliquidatable-hexens-none-fungify-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(batchLiquidateBorrow|oneNFTAmount|doubleScale|exchangeRateStoredInternal).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "batchLiquidateBorrow"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

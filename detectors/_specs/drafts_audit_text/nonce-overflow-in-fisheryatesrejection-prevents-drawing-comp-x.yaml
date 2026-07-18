@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "nonce-overflow-in-fisheryatesrejection-prevents-drawing-comp-x"
+class_name: "NonceOverflowInFisheryatesrejectionPreventsDrawingCompX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Megapot v2 - Zellic Audit Report"
+help: |
+    The FisherYatesRejection::draw function uses a uint8 for the nonce, which can overflow when the algorithm requires more than 255 iterations. The nonce is incremented both during re
+wiki_title: "Nonce overflow in FisherYatesRejection prevents drawing completion with"
+wiki_description: |
+    The FisherYatesRejection::draw function uses a uint8 for the nonce, which can overflow when the algorithm requires more than 255 iterations. The nonce is incremented both during rejection sampling (when random values fall outside the acceptable range) and at the end of each loop iteration. If the to
+wiki_exploit_scenario: |
+    Per audit finding: The FisherYatesRejection::draw function uses a uint8 for the nonce, which can overflow when the algorithm requires more than 255 iterations. The nonce is incremented both during rejection sampling (wh
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NonceOverflowInFisheryatesrejectionPreventsDrawingCompX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(minRange|maxRange|rangeSize).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "minRange"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

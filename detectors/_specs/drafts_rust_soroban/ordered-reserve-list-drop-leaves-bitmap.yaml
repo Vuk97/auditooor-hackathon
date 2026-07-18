@@ -1,0 +1,19 @@
+id: ordered-reserve-list-drop-leaves-bitmap
+title: "Drops reserve before settlement leaves stale bitmap references"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44346"
+bug_class: input-validation
+indicators:
+  - "`drop_reserve(id)` removes reserve data but does not clear user bitmap bits"
+  - "later account-data iteration hits dead reserve id and panics"
+victim: "Users with bits for the dropped reserve."
+exploit_precondition: "Admin drops a reserve while users still reference it."
+real_world_example: |
+  V12 #44346 (Low): Drops reserve before settlement.
+suggested_remediation: "Block drop when users still have active positions; OR add a sweep to clear bits."
+cross_refs:
+  - broken-asset-list-invariant-dos

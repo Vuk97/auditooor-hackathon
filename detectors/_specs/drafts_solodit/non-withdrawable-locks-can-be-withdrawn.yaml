@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "non-withdrawable-locks-can-be-withdrawn"
+class_name: "NonWithdrawableLocksCanBeWithdrawn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #56448 (Zokyo/Radiant Capital)"
+help: "Non-withdrawable locks can be withdrawn."
+wiki_title: "Non-withdrawable locks can be withdrawn."
+wiki_description: |
+    **Description**
+    
+    LockZap.sol: setPoolHelper(). 
+    After the LockZap.sol initialization, the contract grants an unlimited allowance to _poolHelper in WETH and RDNT tokens. However, when a new pool is set with the function setPoolHelper(), allowance is not granted to a new pool helper. Thus the protocol
+wiki_exploit_scenario: |
+    Per Solodit #56448: **Description**
+    
+    LockZap.sol: setPoolHelper(). 
+    After the LockZap.sol initialization, the contract grants an unlimited allowance to _poolHelper in WETH and RDNT tokens. However, when a new pool is set
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NonWithdrawableLocksCanBeWithdrawn"
+solodit_id: "56448"
+solodit_slug: "non-withdrawable-locks-can-be-withdrawn-zokyo-none-radiant-capital-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setPoolHelper).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setPoolHelper"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

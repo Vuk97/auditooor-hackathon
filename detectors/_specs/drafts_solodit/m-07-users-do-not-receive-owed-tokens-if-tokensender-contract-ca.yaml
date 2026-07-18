@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-07-users-do-not-receive-owed-tokens-if-tokensender-contract-ca"
+class_name: "M07UsersDoNotReceiveOwedTokensIfTokensenderContractCa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6069 (Code4rena/prePO)"
+help: "[M-07] Users do not receive owed tokens if `TokenSender` contract cannot cover their owed amount."
+wiki_title: "[M-07] Users do not receive owed tokens if `TokenSender` contract cannot cover their owed amount."
+wiki_description: |
+    ​
+    
+    The `TokenSender.send()` method is called during the course of users withdrawing or redeeming tokens from the protocol. The method is called via `DepositHook.hook()`, `RedeemHook.hook()`, and `WithdrawHook.hook()`. These in turn are called in `prePOMarket.redeem()` or `Collateral.deposit()|.withd
+wiki_exploit_scenario: |
+    Per Solodit #6069: ​
+    
+    The `TokenSender.send()` method is called during the course of users withdrawing or redeeming tokens from the protocol. The method is called via `DepositHook.hook()`, `RedeemHook.hook()`, and `With
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07UsersDoNotReceiveOwedTokensIfTokensenderContractCa"
+solodit_id: "6069"
+solodit_slug: |
+    m-07-users-do-not-receive-owed-tokens-if-tokensender-contract-cannot-cover-their-owed-amount-code4rena-prepo-prepo-contest-git
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(TokenSender).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "TokenSender"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

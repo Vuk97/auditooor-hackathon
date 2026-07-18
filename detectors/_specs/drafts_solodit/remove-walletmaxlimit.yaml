@@ -1,0 +1,30 @@
+skeleton: "name_match_missing_require"
+name: "remove-walletmaxlimit"
+class_name: "RemoveWalletmaxlimit"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #60831 (Quantstamp/Bretton Woods Digital Gold)"
+help: "Remove `walletMaxLimit`"
+wiki_title: "Remove `walletMaxLimit`"
+wiki_description: |
+    **Update**
+    Addressed in: `0d17ed08569a14ff5dfd1df8066968a165b29578`. The team removed `walletMaxLimit` and implemented a pause mechanism during the batch process that briefly pauses token transfers during an active storage cost deduction process and therefore no longer requires the snapshot mechanis
+wiki_exploit_scenario: |
+    Per Solodit #60831: **Update**
+    Addressed in: `0d17ed08569a14ff5dfd1df8066968a165b29578`. The team removed `walletMaxLimit` and implemented a pause mechanism during the batch process that briefly pauses token transfers du
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RemoveWalletmaxlimit"
+solodit_id: "60831"
+solodit_slug: "remove-walletmaxlimit-quantstamp-bretton-woods-digital-gold-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal costablewallet;"
+fn_name_regex: ".*(walletMaxLimit|getCostableWalletSlice|costableWallet|costableWalletCount).*"
+write_var_regex: ".*(costableWallet|costableWalletCount|getCostableWalletSlice).*"
+guard_var_regex: ".*(costableWallet|costableWalletCount|getCostableWalletSlice).*"
+vuln_fn_name: "walletMaxLimit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "costablewallet = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

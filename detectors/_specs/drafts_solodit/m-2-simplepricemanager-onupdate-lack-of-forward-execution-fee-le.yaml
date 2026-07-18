@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "m-2-simplepricemanager-onupdate-lack-of-forward-execution-fee-le"
+class_name: "M2SimplepricemanagerOnupdateLackOfForwardExecutionFeeLe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64197 (Sherlock/Centrifuge Protocol V3 Audit)"
+help: |
+    M-2: `SimplePriceManager.onUpdate()` lack of forward execution fee leads dependent functions to revert
+wiki_title: |
+    M-2: `SimplePriceManager.onUpdate()` lack of forward execution fee leads dependent functions to revert
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-10-centrifuge-protocol-v3-1-audit-judging/issues/359 
+    
+    ## Found by 
+    Cybrid, Tenalia-Audits, Ziusz, bbl4de, harry
+    
+    ### Summary
+    
+    `SimplePriceManager.onUpdate()` wraps its work in `gateway.withBatch()` but does not forward any native token as the executio
+wiki_exploit_scenario: |
+    Per Solodit #64197: Source: https://github.com/sherlock-audit/2025-10-centrifuge-protocol-v3-1-audit-judging/issues/359 
+    
+    ## Found by 
+    Cybrid, Tenalia-Audits, Ziusz, bbl4de, harry
+    
+    ### Summary
+    
+    `SimplePriceManager.onUpd
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2SimplepricemanagerOnupdateLackOfForwardExecutionFeeLe"
+solodit_id: "64197"
+solodit_slug: |
+    m-2-simplepricemanageronupdate-lack-of-forward-execution-fee-leads-dependent-functions-to-revert-sherlock-centrifuge-protocol-v3-audit-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal onupdate;"
+fn_name_regex: ".*(onUpdate|withBatch|unpaidMode|onUpdateCallback).*"
+write_var_regex: ".*(onUpdate|onUpdateCallback|unpaidMode).*"
+guard_var_regex: ".*(onUpdate|onUpdateCallback|unpaidMode).*"
+vuln_fn_name: "onUpdate"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "onupdate = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,27 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "return-value-validation-for-assethelper-ierc20transfer-ierc2-x"
+class_name: "ReturnValueValidationForAssethelperIerc20transferIerc2X"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-recall"
+help: |
+    [L-13] Return value validation for @AssetHelper.ierc20Transfer() ierc20Transfer function in AssetHelper library returns success status and return data from low-level ERC20 calls wi
+wiki_title: |
+    Return value validation for @AssetHelper.ierc20Transfer() ierc20Transfer function in AssetHelper library returns success status and return data from low-level E
+wiki_description: |
+    [L-13] Return value validation for @AssetHelper.ierc20Transfer() ierc20Transfer function in AssetHelper library returns success status and return data from low-level ERC20 calls without consistent checking of these return values across all callers. Impact Ensuring return values are checked consisten
+wiki_exploit_scenario: |
+    Per audit finding: [L-13] Return value validation for @AssetHelper.ierc20Transfer() ierc20Transfer function in AssetHelper library returns success status and return data from low-level ERC20 calls without consistent che
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReturnValueValidationForAssethelperIerc20transferIerc2X"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(ierc20Transfer|tokenAddress|encodePacked).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

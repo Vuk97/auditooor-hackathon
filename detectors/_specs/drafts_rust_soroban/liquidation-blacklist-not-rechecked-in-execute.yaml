@@ -1,0 +1,20 @@
+id: liquidation-blacklist-not-rechecked-in-execute
+title: "Liquidation whitelist/blacklist rechecked only during prepare, not execute"
+severity: Critical
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.3"
+bug_class: liquidation
+indicators:
+  - "`prepare_liquidation` calls `is_whitelisted(liquidator)` but `execute_liquidation` does not"
+  - "blacklist/whitelist check present on only one step of a multi-step flow"
+victim: "Protocol governance: a liquidator blacklisted after prepare can still execute within TTL."
+exploit_precondition: "Governance blacklists a liquidator between prepare and execute of a prepared liquidation."
+real_world_example: |
+  Halborn 7.3 (CRITICAL): Liquidation whitelist/blacklist not rechecked in `execute_liquidation`.
+suggested_remediation: "Revalidate ACL at every mutative step, not just preparation."
+cross_refs:
+  - liquidation-replay-temporary-callback-params
+  - two-step-liquidation-stale-auth

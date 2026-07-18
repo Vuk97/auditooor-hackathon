@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "swap-lacks-slippage-and-path-checks"
+class_name: "SwapLacksSlippageAndPathChecks"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Jarvis Network Synthereum - Zellic Audit Report"
+help: |
+    The Uniswap module of swapping collateral into JRT does not support passing a pa- rameter for the slippage check. amountOut = router.swapExactTokensForTokens( amountIn, 0, /) no sl
+wiki_title: "Swap lacks slippage and path checks"
+wiki_description: |
+    The Uniswap module of swapping collateral into JRT does not support passing a pa- rameter for the slippage check. amountOut = router.swapExactTokensForTokens( amountIn, 0, /) no slippage check swapInfo.tokenSwapPath, recipient, swapInfo.expiration )[swapInfo.tokenSwapPath.length - 1]; Moreover, the
+wiki_exploit_scenario: |
+    Per audit finding: The Uniswap module of swapping collateral into JRT does not support passing a pa- rameter for the slippage check. amountOut = router.swapExactTokensForTokens( amountIn, 0, /) no slippage check swapInf
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwapLacksSlippageAndPathChecks"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(amountOut|swapExactTokensForTokens|amountIn).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "amountOut"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

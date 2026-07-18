@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-slippage-control-in-auravault-deposit"
+class_name: "LackOfSlippageControlInAuravaultDeposit"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-loopfi"
+help: |
+    Agontuk , also found by Bauchibred minglei-wang-3570 , and crypticdefense The AuraVault contract implements ERC-4626 vault functionality, allowing users to deposit assets and mint
+wiki_title: "Lack of Slippage Control in AuraVault::deposit"
+wiki_description: |
+    Agontuk , also found by Bauchibred minglei-wang-3570 , and crypticdefense The AuraVault contract implements ERC-4626 vault functionality, allowing users to deposit assets and mint shares. However, the deposit and mint functions lack slippage controls, which can result in users receiving fewer shares
+wiki_exploit_scenario: |
+    Per audit finding: Agontuk , also found by Bauchibred minglei-wang-3570 , and crypticdefense The AuraVault contract implements ERC-4626 vault functionality, allowing users to deposit assets and mint shares. However, the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfSlippageControlInAuravaultDeposit"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(bHermes|previewDeposit|safeApprove).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "bHermes"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

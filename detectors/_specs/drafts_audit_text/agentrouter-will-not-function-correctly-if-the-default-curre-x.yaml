@@ -1,0 +1,29 @@
+skeleton: "paired_function_divergence"
+name: "agentrouter-will-not-function-correctly-if-the-default-curre-x"
+class_name: "AgentrouterWillNotFunctionCorrectlyIfTheDefaultCurreX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-01-iq-ai"
+help: |
+    [L-03] AgentRouter Will Not Function Correctly If The Default currentToken Value is Changed in AgentFactory The AgentRouter contract sets its currencyToken state variable only once
+wiki_title: |
+    AgentRouter Will Not Function Correctly If The Default currentToken Value is Changed in AgentFactory The AgentRouter contract sets its currencyToken state varia
+wiki_description: |
+    [L-03] AgentRouter Will Not Function Correctly If The Default currentToken Value is Changed in AgentFactory The AgentRouter contract sets its currencyToken state variable only once in the constructor by reading from the AgentFactory : constructor ( AgentFactory _factory ) { factory = _factory ; curr
+wiki_exploit_scenario: |
+    Per audit finding: [L-03] AgentRouter Will Not Function Correctly If The Default currentToken Value is Changed in AgentFactory The AgentRouter contract sets its currencyToken state variable only once in the constructor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AgentrouterWillNotFunctionCorrectlyIfTheDefaultCurreX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

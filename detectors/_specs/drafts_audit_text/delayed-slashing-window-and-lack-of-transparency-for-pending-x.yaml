@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "delayed-slashing-window-and-lack-of-transparency-for-pending-x"
+class_name: "DelayedSlashingWindowAndLackOfTransparencyForPendingX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-karak"
+help: |
+    0xCiphky , also found by Takarez lanrebayode77 , and KupiaSec Stakers can provide liquidity by choosing an operator and vault to deposit their assets with. In return, they receive
+wiki_title: "Delayed slashing window and lack of transparency for pending slashes could lead to loss of funds"
+wiki_description: |
+    0xCiphky , also found by Takarez lanrebayode77 , and KupiaSec Stakers can provide liquidity by choosing an operator and vault to deposit their assets with. In return, they receive shares based on their deposited amount relative to the total assets in the vault. DSSs have the right to slash vaults if
+wiki_exploit_scenario: |
+    Per audit finding: 0xCiphky , also found by Takarez lanrebayode77 , and KupiaSec Stakers can provide liquidity by choosing an operator and vault to deposit their assets with. In return, they receive shares based on thei
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DelayedSlashingWindowAndLackOfTransparencyForPendingX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(handleSlashing|supportedAssets|safeTransferFrom).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "handleSlashing"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

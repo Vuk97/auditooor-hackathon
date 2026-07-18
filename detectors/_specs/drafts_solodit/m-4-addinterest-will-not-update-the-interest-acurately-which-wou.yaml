@@ -1,0 +1,49 @@
+skeleton: "paired_function_divergence"
+name: "m-4-addinterest-will-not-update-the-interest-acurately-which-wou"
+class_name: "M4AddinterestWillNotUpdateTheInterestAcuratelyWhichWou"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52756 (Sherlock/Peapods)"
+help: |
+    M-4: `addInterest` will not update the interest acurately which would enable users to claim rewards for time that they weren't staked inside `LendingAssetVault`
+wiki_title: |
+    M-4: `addInterest` will not update the interest acurately which would enable users to claim rewards for time that they weren't staked inside `LendingAssetVault`
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/171 
+    
+    ## Found by 
+    JohnTPark24, TessKimy, X77, pkqs90
+    
+    ### Summary
+    
+    Users would be able to deposit into `LendingAssetVault` and earn interest on the frax lend pair that was generated before they deposited, i.e. claiming
+wiki_exploit_scenario: |
+    Per Solodit #52756: Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/171 
+    
+    ## Found by 
+    JohnTPark24, TessKimy, X77, pkqs90
+    
+    ### Summary
+    
+    Users would be able to deposit into `LendingAssetVa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M4AddinterestWillNotUpdateTheInterestAcuratelyWhichWou"
+solodit_id: "52756"
+solodit_slug: |
+    m-4-addinterest-will-not-update-the-interest-acurately-which-would-enable-users-to-claim-rewards-for-time-that-they-werent-staked-inside-lendingassetvault-sherlock-peapods-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addInterest).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

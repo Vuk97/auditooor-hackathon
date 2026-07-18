@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-18-publicvault-processepoch-calculates-withdrawreserve-incorre"
+class_name: "H18PublicvaultProcessepochCalculatesWithdrawreserveIncorre"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25813 (Code4rena/Astaria)"
+help: "[H-18] `PublicVault.processEpoch` calculates `withdrawReserve` incorrectly; Users can lose funds"
+wiki_title: "[H-18] `PublicVault.processEpoch` calculates `withdrawReserve` incorrectly; Users can lose funds"
+wiki_description: |
+    PublicVault.processEpoch calculates withdrawReserve incorrectly. As result user can receive less funds when totalAssets() <= expected from auction.
+    
+    ### Proof of Concept
+    
+    When users wants to withdraw from `PublicVault` then `WithdrawProxy` is deployed and `PublicVault.processEpoch` function is resp
+wiki_exploit_scenario: |
+    Per Solodit #25813: PublicVault.processEpoch calculates withdrawReserve incorrectly. As result user can receive less funds when totalAssets() <= expected from auction.
+    
+    ### Proof of Concept
+    
+    When users wants to withdraw
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H18PublicvaultProcessepochCalculatesWithdrawreserveIncorre"
+solodit_id: "25813"
+solodit_slug: |
+    h-18-publicvaultprocessepoch-calculates-withdrawreserve-incorrectly-users-can-lose-funds-code4rena-astaria-astaria-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(PublicVault|WithdrawProxy|withdrawReserve).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "PublicVault"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

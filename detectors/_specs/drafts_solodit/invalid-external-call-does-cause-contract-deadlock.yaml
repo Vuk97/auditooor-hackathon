@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "invalid-external-call-does-cause-contract-deadlock"
+class_name: "InvalidExternalCallDoesCauseContractDeadlock"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50747 (Halborn/SCProtection)"
+help: "INVALID EXTERNAL CALL DOES CAUSE CONTRACT DEADLOCK"
+wiki_title: "INVALID EXTERNAL CALL DOES CAUSE CONTRACT DEADLOCK"
+wiki_description: |
+    ##### Description
+    
+    During the payout claiming process, some `crTokens` are burned in the `claim` function located at `PayoutPool` smart contract. Since the `onlyPolicyCenter` modifier is applied to the `burn` function, the smart contract associated to the address stored in `policyCenter` is the only
+wiki_exploit_scenario: |
+    Per Solodit #50747: ##### Description
+    
+    During the payout claiming process, some `crTokens` are burned in the `claim` function located at `PayoutPool` smart contract. Since the `onlyPolicyCenter` modifier is applied to th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InvalidExternalCallDoesCauseContractDeadlock"
+solodit_id: "50747"
+solodit_slug: "invalid-external-call-does-cause-contract-deadlock-halborn-degis-scprotection-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal burn;"
+fn_name_regex: ".*(crTokens|claim|PayoutPool|onlyPolicyCenter).*"
+write_var_regex: ".*(burn|claim|crTokens).*"
+guard_var_regex: ".*(burn|claim|crTokens).*"
+vuln_fn_name: "crTokens"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "burn = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

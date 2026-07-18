@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-07-reservations-can-be-made-outside-of-rental-property-s-avail"
+class_name: "M07ReservationsCanBeMadeOutsideOfRentalPropertySAvail"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #45203 (Code4rena/Coded Estate)"
+help: "[M-07] Reservations can be made outside of rental property's `available_period`"
+wiki_title: "[M-07] Reservations can be made outside of rental property's `available_period`"
+wiki_description: |
+    There is no check for if the `renting_period` is within the rentals available period (`token.shortterm_rental.available_period`). This means that reservations can be made to rent the property on dates outside its available period.
+    
+    ### Proof Of Concept
+    
+    Property managers/landlords can list a proper
+wiki_exploit_scenario: |
+    Per Solodit #45203: There is no check for if the `renting_period` is within the rentals available period (`token.shortterm_rental.available_period`). This means that reservations can be made to rent the property on date
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07ReservationsCanBeMadeOutsideOfRentalPropertySAvail"
+solodit_id: "45203"
+solodit_slug: |
+    m-07-reservations-can-be-made-outside-of-rental-propertys-available_period-code4rena-coded-estate-coded-estate-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal available_period;"
+fn_name_regex: ".*(renting_period|setlistforshorttermrental|available_period|setreservationforshortterm).*"
+write_var_regex: ".*(available_period|renting_period|setlistforshorttermrental).*"
+guard_var_regex: ".*(available_period|renting_period|setlistforshorttermrental).*"
+vuln_fn_name: "renting_period"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "available_period = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

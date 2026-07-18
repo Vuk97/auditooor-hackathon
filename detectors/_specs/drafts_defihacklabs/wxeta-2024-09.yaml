@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "wxeta-2024-09"
+class_name: "Wxeta202409"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-09/WXETA_exp.sol"
+help: "WXETA 2024-09 — swap exploit (110,000 USD)"
+wiki_title: "WXETA (2024-09) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-09): WXETA lost 110,000 USD. Bug class: swap. Attack tx: 0x614da880bd46e98131accd9a83917abf3d56dac94caf13ae98eeff504eea3704.
+wiki_exploit_scenario: |
+    Attacker (0x57ecf40b596274a985967e3f698437ae0a9600a0) exploits WXETA via swap: the victim contract 0x05c2dd9cf547c6cccf91245346e6e1bc9926cae7 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Wxeta202409"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

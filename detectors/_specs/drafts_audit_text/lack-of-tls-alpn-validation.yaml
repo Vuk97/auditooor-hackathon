@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "lack-of-tls-alpn-validation"
+class_name: "LackOfTlsAlpnValidation"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Reclaim Protocol - Zellic Audit Report"
+help: |
+    The Reclaim node does not validate the Application-Layer Protocol Negotiation (ALPN) extension in the server’s ServerHello message. TLS clients and servers use this field to determ
+wiki_title: "Lack of TLS ALPN validation"
+wiki_description: |
+    The Reclaim node does not validate the Application-Layer Protocol Negotiation (ALPN) extension in the server’s ServerHello message. TLS clients and servers use this field to determine what protocol (for example, HTTP/1.1 or HTTP/2) to use. This value should be validated in tls/src/make-tls-client.ts
+wiki_exploit_scenario: |
+    Per audit finding: The Reclaim node does not validate the Application-Layer Protocol Negotiation (ALPN) extension in the server’s ServerHello message. TLS clients and servers use this field to determine what protocol (f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfTlsAlpnValidation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(processRecord|parseServerHello).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "processRecord"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

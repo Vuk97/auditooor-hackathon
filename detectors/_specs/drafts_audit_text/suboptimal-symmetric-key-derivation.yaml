@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "suboptimal-symmetric-key-derivation"
+class_name: "SuboptimalSymmetricKeyDerivation"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Family Wallet - Zellic Audit Report"
+help: |
+    Family Wallet supports backup of private key material to iCloud. The app encrypts the private key material using CryptoKit ChaChaPoly, with a 256-bit symmetric key derived from a u
+wiki_title: "Suboptimal symmetric key derivation"
+wiki_description: |
+    Family Wallet supports backup of private key material to iCloud. The app encrypts the private key material using CryptoKit ChaChaPoly, with a 256-bit symmetric key derived from a user password. The user password is required to pass some security requirements. [1] The app supports three key derivatio
+wiki_exploit_scenario: |
+    Per audit finding: Family Wallet supports backup of private key material to iCloud. The app encrypts the private key material using CryptoKit ChaChaPoly, with a 256-bit symmetric key derived from a user password. The us
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SuboptimalSymmetricKeyDerivation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(iCloud).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "iCloud"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

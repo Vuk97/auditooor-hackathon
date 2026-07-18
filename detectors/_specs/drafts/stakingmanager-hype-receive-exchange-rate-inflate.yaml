@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "stakingmanager-hype-receive-exchange-rate-inflate"
+class_name: "StakingmanagerHypeReceiveExchangeRateInflate"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice code4arena_slice_ac"
+help: |
+    Mishandling of receiving HYPE in StakingManager lets attacker block `confirmWithdrawal` and inflate exchange ratio.
+wiki_title: "StakingManager-HYPE-Receive-Exchange-Rate-Inflate"
+wiki_description: |
+    Mishandling of receiving HYPE in StakingManager lets attacker block `confirmWithdrawal` and inflate exchange ratio.
+wiki_exploit_scenario: |
+    Attacker exploits StakingManager-HYPE-Receive-Exchange-Rate-Inflate as described: Mishandling of receiving HYPE in StakingManager lets attacker block `confirmWithdrawal` and inflate exchange ratio.
+wiki_recommendation: "vault-like contract where receiving native token without routing through accounting distorts rate."
+contract_name: "StakingmanagerHypeReceiveExchangeRateInflate"
+state_decl: "uint256 internal confirmwithdrawal;"
+fn_name_regex: ".*(confirmWithdrawal).*"
+read_var_regex: ".*(confirmWithdrawal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "confirmWithdrawal"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return confirmwithdrawal > 0;"

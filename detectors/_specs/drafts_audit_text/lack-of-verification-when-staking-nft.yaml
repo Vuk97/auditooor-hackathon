@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-verification-when-staking-nft"
+class_name: "LackOfVerificationWhenStakingNft"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Maia DAO February 2023 - Zellic Audit Report"
+help: |
+    The stakeToken function takes a tokenId and can be used to stake or restake a token: function stakeToken(uint256 tokenId) external override { if (deposits[tokenId].stakedTimestamp
+wiki_title: "Lack of verification when staking NFT"
+wiki_description: |
+    The stakeToken function takes a tokenId and can be used to stake or restake a token: function stakeToken(uint256 tokenId) external override { if (deposits[tokenId].stakedTimestamp !) 0) revert TokenStakedError(); (IUniswapV3Pool pool, int24 tickLower, int24 tickUpper, uint128 liquidity) = NFTPositio
+wiki_exploit_scenario: |
+    Per audit finding: The stakeToken function takes a tokenId and can be used to stake or restake a token: function stakeToken(uint256 tokenId) external override { if (deposits[tokenId].stakedTimestamp !) 0) revert TokenSt
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfVerificationWhenStakingNft"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stakeToken|tokenId|stakedTimestamp).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "stakeToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

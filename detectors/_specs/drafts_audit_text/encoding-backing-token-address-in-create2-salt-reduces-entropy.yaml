@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "encoding-backing-token-address-in-create2-salt-reduces-entropy"
+class_name: "EncodingBackingTokenAddressInCreate2SaltReducesEntropy"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Frax (USD Stablecoin) - Zellic Audit Report"
+help: |
+    The BrandedFactory contract in the Branded Stablecoin system (Component #2) deploys branded stablecoins across multiple EVM chains using CREATE2 with a salt that encodes operationa
+wiki_title: "Encoding backing token address in CREATE2 salt reduces entropy"
+wiki_description: |
+    The BrandedFactory contract in the Branded Stablecoin system (Component #2) deploys branded stablecoins across multiple EVM chains using CREATE2 with a salt that encodes operational data when isolated backing is enabled. Specifically, when the first four bytes of the salt equal type(uint32).max, the
+wiki_exploit_scenario: |
+    Per audit finding: The BrandedFactory contract in the Branded Stablecoin system (Component #2) deploys branded stablecoins across multiple EVM chains using CREATE2 with a salt that encodes operational data when isolated
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EncodingBackingTokenAddressInCreate2SaltReducesEntropy"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setUpIsolatedBacking|siloedCustodian).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setUpIsolatedBacking"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

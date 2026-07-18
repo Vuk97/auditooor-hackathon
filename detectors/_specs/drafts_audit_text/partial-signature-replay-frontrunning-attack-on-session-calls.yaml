@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "partial-signature-replay-frontrunning-attack-on-session-calls"
+class_name: "PartialSignatureReplayFrontrunningAttackOnSessionCalls"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-10-sequence"
+help: |
+    montecristo When a session call with BEHAVIOR_REVERT_ON_ERROR behavior fails, the entire execution reverts but the signature remains valid, since nonce is not yet consumed. Attacke
+wiki_title: "Partial signature replay/frontrunning attack on session calls"
+wiki_description: |
+    montecristo When a session call with BEHAVIOR_REVERT_ON_ERROR behavior fails, the entire execution reverts but the signature remains valid, since nonce is not yet consumed. Attackers can forge a valid partial signature from failed multi-call session, executing partial calls that were never intended
+wiki_exploit_scenario: |
+    Per audit finding: montecristo When a session call with BEHAVIOR_REVERT_ON_ERROR behavior fails, the entire execution reverts but the signature remains valid, since nonce is not yet consumed. Attackers can forge a valid
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PartialSignatureReplayFrontrunningAttackOnSessionCalls"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(nonReentrant|startingGas|fromPackedCalls).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "nonReentrant"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

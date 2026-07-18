@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "h-04-owner-cannot-claim-token-fees"
+class_name: "H04OwnerCannotClaimTokenFees"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49516 (Shieldify/Beraji Ko)"
+help: "[H-04] Owner Cannot Claim Token Fees"
+wiki_title: "[H-04] Owner Cannot Claim Token Fees"
+wiki_description: |
+    ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    Each lock can have a different `tokenFeeRate` that takes from the staked amount. The owner can claim these amounts via `claimTokenFee()`.
+    
+    The issue is that lock.tokenFeeBalance gets reset to 0 and then the transfer is made:
+    
+    ```solidity
+    lock.tokenFeeBalance =
+wiki_exploit_scenario: |
+    Per Solodit #49516: ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    Each lock can have a different `tokenFeeRate` that takes from the staked amount. The owner can claim these amounts via `claimTokenFee()`.
+    
+    The issue is that loc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04OwnerCannotClaimTokenFees"
+solodit_id: "49516"
+solodit_slug: "h-04-owner-cannot-claim-token-fees-shieldify-none-beraji-ko-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimtokenfee;"
+fn_name_regex: ".*(tokenFeeRate|claimTokenFee).*"
+read_var_regex: ".*(claimTokenFee|tokenFeeRate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tokenFeeRate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimtokenfee > 0;"

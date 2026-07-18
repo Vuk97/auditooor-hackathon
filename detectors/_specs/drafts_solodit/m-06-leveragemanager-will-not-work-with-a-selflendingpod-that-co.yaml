@@ -1,0 +1,53 @@
+skeleton: "paired_function_divergence"
+name: "m-06-leveragemanager-will-not-work-with-a-selflendingpod-that-co"
+class_name: "M06LeveragemanagerWillNotWorkWithASelflendingpodThatCo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46000 (Pashov Audit Group/Peapods_2024-11-16)"
+help: "[M-06] `LeverageManager` will not work with a `selfLendingPod` that consists of multiple tokens"
+wiki_title: "[M-06] `LeverageManager` will not work with a `selfLendingPod` that consists of multiple tokens"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When leverage positions use a `selfLendingPod`, it will `bond` and `debond` to convert between the borrowed token and the final paired token.
+    
+    ```solidity
+        function _processAndGetPairedTknAndAmt(
+            uint256 _positionId,
+wiki_exploit_scenario: |
+    Per Solodit #46000: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When leverage positions use a `selfLendingPod`, it will `bond` and `debond` to convert between the borrowed token and the final pair
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06LeveragemanagerWillNotWorkWithASelflendingpodThatCo"
+solodit_id: "46000"
+solodit_slug: |
+    m-06-leveragemanager-will-not-work-with-a-selflendingpod-that-consists-of-multiple-tokens-pashov-audit-group-none-peapods_2024-11-16-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(bond|debond|selfLendingPod).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

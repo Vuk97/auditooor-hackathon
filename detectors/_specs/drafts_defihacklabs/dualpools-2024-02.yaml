@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "dualpools-2024-02"
+class_name: "Dualpools202402"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-02/DualPools_exp.sol"
+help: "DualPools 2024-02 — flashloan exploit (~$42000 USD)"
+wiki_title: "DualPools (2024-02) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-02): DualPools lost ~$42000 USD. Bug class: flashloan. Attack tx: 0x90f374ca33fbd5aaa0d01f5fcf5dee4c7af49a98dc56b47459d8b7ad52ef1e93.
+wiki_exploit_scenario: |
+    Attacker (0x4645863205b47a0a3344684489e8c446a437d66c) exploits DualPools via flashloan: the victim contract 0x5e5e28029ef37fc97ffb763c4ac1f532bbd4c7a2 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Dualpools202402"
+trigger_sig_regex: ".*(pancakeCall).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function pancakeCall(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.pancakeCall(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

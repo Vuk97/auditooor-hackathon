@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "inconsistent-minimum-requirement-for-agenttimelockedoperationwin"
+class_name: "InconsistentMinimumRequirementForAgenttimelockedoperationwin"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Flare FAssets - Zellic Audit Report"
+help: |
+    The agentTimelockedOperationWindowSeconds parameter governs how long after the timelock expiration an agent can execute a setting update. The _validateSettings function in Settings
+wiki_title: "Inconsistent minimum requirement for agentTimelockedOperationWin-"
+wiki_description: |
+    The agentTimelockedOperationWindowSeconds parameter governs how long after the timelock expiration an agent can execute a setting update. The _validateSettings function in SettingsInitializer requires agentTimelockedOperationWindowSeconds to be at least one hour: require(_settings.agentTimelockedOpe
+wiki_exploit_scenario: |
+    Per audit finding: The agentTimelockedOperationWindowSeconds parameter governs how long after the timelock expiration an agent can execute a setting update. The _validateSettings function in SettingsInitializer requires
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentMinimumRequirementForAgenttimelockedoperationwin"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(agentTimelockedOperationWin).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "agentTimelockedOperationWin"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

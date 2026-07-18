@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "gas-limit-ignored-by-executepayload"
+class_name: "GasLimitIgnoredByExecutepayload"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit SushiXSwap V2 - Zellic Audit Report"
+help: |
+    The Axelar, CCTP, and Stargate adapters’ implementation of executePayload ignores the PayloadData:)gasLimit field, which seems to be intended to be used as the gas limit for the ca
+wiki_title: "Gas limit ignored by executePayload"
+wiki_description: |
+    The Axelar, CCTP, and Stargate adapters’ implementation of executePayload ignores the PayloadData:)gasLimit field, which seems to be intended to be used as the gas limit for the call to PayloadData:)target.
+wiki_exploit_scenario: |
+    Per audit finding: The Axelar, CCTP, and Stargate adapters’ implementation of executePayload ignores the PayloadData:)gasLimit field, which seems to be intended to be used as the gas limit for the call to PayloadData:)t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GasLimitIgnoredByExecutepayload"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(executePayload|gasLimit).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "executePayload"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "h-05-attacker-can-steal-entire-reserves-by-abusing-fee-calculati"
+class_name: "H05AttackerCanStealEntireReservesByAbusingFeeCalculati"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #5710 (Code4rena/Trader Joe)"
+help: "[H-05] Attacker can steal entire reserves by abusing fee calculation"
+wiki_title: "[H-05] Attacker can steal entire reserves by abusing fee calculation"
+wiki_description: |
+    <https://github.com/code-423n4/2022-10-traderjoe/blob/79f25d48b907f9d0379dd803fc2abc9c5f57db93/src/LBPair.sol#L819-L829><br>
+    <https://github.com/code-423n4/2022-10-traderjoe/blob/79f25d48b907f9d0379dd803fc2abc9c5f57db93/src/LBToken.sol#L202><br>
+    
+    Similar to other LP pools, In Trader Joe users can c
+wiki_exploit_scenario: |
+    Per Solodit #5710: <https://github.com/code-423n4/2022-10-traderjoe/blob/79f25d48b907f9d0379dd803fc2abc9c5f57db93/src/LBPair.sol#L819-L829><br>
+    <https://github.com/code-423n4/2022-10-traderjoe/blob/79f25d48b907f9d0379d
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05AttackerCanStealEntireReservesByAbusingFeeCalculati"
+solodit_id: "5710"
+solodit_slug: |
+    h-05-attacker-can-steal-entire-reserves-by-abusing-fee-calculation-code4rena-trader-joe-trader-joe-v2-contest-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Overflow/Underflow"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(burn|collectFess|mint).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

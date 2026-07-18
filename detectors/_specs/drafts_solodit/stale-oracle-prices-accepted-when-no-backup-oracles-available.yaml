@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "stale-oracle-prices-accepted-when-no-backup-oracles-available"
+class_name: "StaleOraclePricesAcceptedWhenNoBackupOraclesAvailable"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44301 (Cyfrin/Quantamm)"
+help: "Stale Oracle prices accepted when no backup oracles available"
+wiki_title: "Stale Oracle prices accepted when no backup oracles available"
+wiki_description: |
+    **Description:** The `UpdateWeightRunner::getData` function performs staleness checks on oracle prices to ensure price data is fresh. However, when the optimized (primary) oracle returns stale data and there are no backup oracles configured, the function silently accepts and returns the stale price
+wiki_exploit_scenario: |
+    Per Solodit #44301: **Description:** The `UpdateWeightRunner::getData` function performs staleness checks on oracle prices to ensure price data is fresh. However, when the optimized (primary) oracle returns stale data an
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StaleOraclePricesAcceptedWhenNoBackupOraclesAvailable"
+solodit_id: "44301"
+solodit_slug: "stale-oracle-prices-accepted-when-no-backup-oracles-available-cyfrin-none-quantamm-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getData|outputData|oracleLength|oracleStalenessThreshold).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "getData"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "totalassets-in-spicefi4626-does-not-account-for-assets-in-va-x"
+class_name: "TotalassetsInSpicefi4626DoesNotAccountForAssetsInVaX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit SpiceFi Vaults - Zellic Audit Report"
+help: |
+    9 3.2 Slippage/manipulated exchange rates when depositing . . . . . . . . . 10 3.3 Potentially uninitialized implementation contracts . . . . . . . . . . . . . 11 3.4 MaxWithdraw d
+wiki_title: "totalAssets in SpiceFi4626 does not account for assets in VAULT_RECEIVER                 9"
+wiki_description: |
+    9 3.2 Slippage/manipulated exchange rates when depositing . . . . . . . . . 10 3.3 Potentially uninitialized implementation contracts . . . . . . . . . . . . . 11 3.4 MaxWithdraw does not account for fees . . . . . . . . . . . . . . . . . . 12 3.5 Potential rounding error . . . . . . . . . . . . . .
+wiki_exploit_scenario: |
+    Per audit finding: 9 3.2 Slippage/manipulated exchange rates when depositing . . . . . . . . . 10 3.3 Potentially uninitialized implementation contracts . . . . . . . . . . . . . 11 3.4 MaxWithdraw does not account for
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TotalassetsInSpicefi4626DoesNotAccountForAssetsInVaX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(exchangeRateStored|totalAssets).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "exchangeRateStored"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

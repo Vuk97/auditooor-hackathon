@@ -1,0 +1,49 @@
+skeleton: "paired_function_divergence"
+name: "fee-on-transfer-tokens"
+class_name: "FeeOnTransferTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21436 (Spearbit/Polygon zkEVM Contracts)"
+help: "Fee on transfer tokens"
+wiki_title: "Fee on transfer tokens"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    `PolygonZkEVMBridge.sol#L171`
+    
+    ## Description
+    The bridge contract will not work properly with a fee on transfer tokens.
+    
+    1. User A bridges a fee on transfer Token A from Mainnet to Rollover R1 for amount X.
+    2. In that case, X-fees will be received by the bridge c
+wiki_exploit_scenario: |
+    Per Solodit #21436: ## Severity: Medium Risk
+    
+    ## Context
+    `PolygonZkEVMBridge.sol#L171`
+    
+    ## Description
+    The bridge contract will not work properly with a fee on transfer tokens.
+    
+    1. User A bridges a fee on transfer Token
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FeeOnTransferTokens"
+solodit_id: "21436"
+solodit_slug: "fee-on-transfer-tokens-spearbit-none-polygon-zkevm-contracts-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Fee On Transfer"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

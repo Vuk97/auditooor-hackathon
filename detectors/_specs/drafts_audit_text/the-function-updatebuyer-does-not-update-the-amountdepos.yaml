@@ -1,0 +1,26 @@
+skeleton: "state_write_without_paired_write"
+name: "the-function-updatebuyer-does-not-update-the-amountdepos"
+class_name: "TheFunctionUpdatebuyerDoesNotUpdateTheAmountdepos"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit ChainLocker - Zellic Audit Report"
+help: |
+    If the buyer global variable is set, the buyer can update the current buyer to a new address using the function updateBuyer. Updating the buyer using this function does not update
+wiki_title: "The function updateBuyer does not update the amountDepos"
+wiki_description: |
+    If the buyer global variable is set, the buyer can update the current buyer to a new address using the function updateBuyer. Updating the buyer using this function does not update the amountDeposited mapping. In case a buyer updates this address to a new buyer address, the seller could reject the ol
+wiki_exploit_scenario: |
+    Per audit finding: If the buyer global variable is set, the buyer can update the current buyer to a new address using the function updateBuyer. Updating the buyer using this function does not update the amountDeposited
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheFunctionUpdatebuyerDoesNotUpdateTheAmountdepos"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(updateBuyer|amountDeposited|rejectDepositor).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

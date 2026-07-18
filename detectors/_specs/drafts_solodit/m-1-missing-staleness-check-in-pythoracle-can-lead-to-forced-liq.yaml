@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "m-1-missing-staleness-check-in-pythoracle-can-lead-to-forced-liq"
+class_name: "M1MissingStalenessCheckInPythoracleCanLeadToForcedLiq"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44330 (Sherlock/Mach Finance)"
+help: |
+    M-1: Missing staleness check in PythOracle can lead to forced liquidations and theft of funds from borrowers.
+wiki_title: |
+    M-1: Missing staleness check in PythOracle can lead to forced liquidations and theft of funds from borrowers.
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-12-mach-finance-judging/issues/41 
+    
+    ## Found by 
+    0xRiO, 0xc0ffEE, 0xpetern, bbl4de, c3phas, d4y1ight, eeyore, fuzzysquirrel, miaowu, silver\_eth, vahdrak1, zanderbyte, zxriptor
+    ### Summary
+    
+    The Pyth integration contract uses the `getPriceUnsafe()` funct
+wiki_exploit_scenario: |
+    Per Solodit #44330: Source: https://github.com/sherlock-audit/2024-12-mach-finance-judging/issues/41 
+    
+    ## Found by 
+    0xRiO, 0xc0ffEE, 0xpetern, bbl4de, c3phas, d4y1ight, eeyore, fuzzysquirrel, miaowu, silver\_eth, vahdrak
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1MissingStalenessCheckInPythoracleCanLeadToForcedLiq"
+solodit_id: "44330"
+solodit_slug: |
+    m-1-missing-staleness-check-in-pythoracle-can-lead-to-forced-liquidations-and-theft-of-funds-from-borrowers-sherlock-mach-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getPriceUnsafe|StalePrice).*"
+primary_var_regex: ".*(getPriceUnsafe).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

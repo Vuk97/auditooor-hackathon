@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-parity-check-in-adaptor-signatures"
+class_name: "IncorrectParityCheckInAdaptorSignatures"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Babylon Genesis Chain - Zellic Audit Report"
+help: |
+    The encVerify ↗ function enforces that expRHat has an even y-coordinate instead of enforcing that R has an even y-coordinate. The y-coordinate of R must be even so that the adaptor
+wiki_title: "Incorrect parity check in adaptor signatures"
+wiki_description: |
+    The encVerify ↗ function enforces that expRHat has an even y-coordinate instead of enforcing that R has an even y-coordinate. The y-coordinate of R must be even so that the adaptor signature decrypts to a valid BIP-340 signature (which requires even R for nonmalleability). // fail if expected R'.y i
+wiki_exploit_scenario: |
+    Per audit finding: The encVerify ↗ function enforces that expRHat has an even y-coordinate instead of enforcing that R has an even y-coordinate. The y-coordinate of R must be even so that the adaptor signature decrypts
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectParityCheckInAdaptorSignatures"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(encVerify|expRHat).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "encVerify"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_require"
+name: "operators-hasfundablekeys-returns-true-for-operators-that-do-not"
+class_name: "OperatorsHasfundablekeysReturnsTrueForOperatorsThatDoNot"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7009 (Spearbit/Liquid Collective)"
+help: "Operators._hasFundableKeys returns true for operators that do not have fundable keys"
+wiki_title: "Operators._hasFundableKeys returns true for operators that do not have fundable keys"
+wiki_description: |
+    ## Critical Risk Report
+    
+    ## Severity
+    **Severity:** Critical Risk
+    
+    ## Context
+    **Context:** Operators.sol#L149-L154
+    
+    ## Description
+    Because `_hasFundableKeys` uses `operator.stopped` in the check, an operator without fundable keys can be validated and return true.
+    
+    ### Scenario
+    Op1 has:
+    - **keys** = 1
+wiki_exploit_scenario: |
+    Per Solodit #7009: ## Critical Risk Report
+    
+    ## Severity
+    **Severity:** Critical Risk
+    
+    ## Context
+    **Context:** Operators.sol#L149-L154
+    
+    ## Description
+    Because `_hasFundableKeys` uses `operator.stopped` in the check, an op
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OperatorsHasfundablekeysReturnsTrueForOperatorsThatDoNot"
+solodit_id: "7009"
+solodit_slug: |
+    operators_hasfundablekeys-returns-true-for-operators-that-do-not-have-fundable-keys-spearbit-liquid-collective-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal getallfundable;"
+fn_name_regex: ".*(getAllFundable|pickNextValidators|stopped).*"
+write_var_regex: ".*(getAllFundable|pickNextValidators|stopped).*"
+guard_var_regex: ".*(getAllFundable|pickNextValidators|stopped).*"
+vuln_fn_name: "getAllFundable"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "getallfundable = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

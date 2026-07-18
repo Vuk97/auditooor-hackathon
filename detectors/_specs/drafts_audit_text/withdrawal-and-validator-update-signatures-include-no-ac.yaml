@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "withdrawal-and-validator-update-signatures-include-no-ac"
+class_name: "WithdrawalAndValidatorUpdateSignaturesIncludeNoAc"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Hyperliquid - Zellic Audit Report"
+help: |
+    To include important parameters in signatures, the bridge packs them together and hashes them. This data is stored in the connectionId slot of the Agent struct, which has an associ
+wiki_title: "Withdrawal and validator update signatures include no ac-"
+wiki_description: |
+    To include important parameters in signatures, the bridge packs them together and hashes them. This data is stored in the connectionId slot of the Agent struct, which has an associated function hash for creating the actual signed message. struct Agent { string source; bytes32 connectionId; } In some
+wiki_exploit_scenario: |
+    Per audit finding: To include important parameters in signatures, the bridge packs them together and hashes them. This data is stored in the connectionId slot of the Agent struct, which has an associated function hash f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WithdrawalAndValidatorUpdateSignaturesIncludeNoAc"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(connectionId|modifyLocker|isLocker).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "connectionId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

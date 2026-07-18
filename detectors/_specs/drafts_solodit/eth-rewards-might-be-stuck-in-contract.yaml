@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "eth-rewards-might-be-stuck-in-contract"
+class_name: "EthRewardsMightBeStuckInContract"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37893 (Zokyo/Ember)"
+help: "Eth rewards might be stuck in contract"
+wiki_title: "Eth rewards might be stuck in contract"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Acknowledged
+    
+    **Description**
+    
+    In EsEMBR.sol - Contract can receive ETH in a scenario in which no token is minted (i.e. totalSupply = 0) .  ETH sent as a msg.value  contributes to the state of  totalEthPerEsembr  which in turn affects the rewards to be sent out.  In
+wiki_exploit_scenario: |
+    Per Solodit #37893: **Severity**: Medium
+    
+    **Status**: Acknowledged
+    
+    **Description**
+    
+    In EsEMBR.sol - Contract can receive ETH in a scenario in which no token is minted (i.e. totalSupply = 0) .  ETH sent as a msg.value  c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EthRewardsMightBeStuckInContract"
+solodit_id: "37893"
+solodit_slug: "eth-rewards-might-be-stuck-in-contract-zokyo-none-ember-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalSupply|totalEthPerEsembr).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalSupply"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

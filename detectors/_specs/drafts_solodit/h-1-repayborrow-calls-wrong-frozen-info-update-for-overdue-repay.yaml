@@ -1,0 +1,45 @@
+skeleton: "state_write_without_paired_write"
+name: "h-1-repayborrow-calls-wrong-frozen-info-update-for-overdue-repay"
+class_name: "H1RepayborrowCallsWrongFrozenInfoUpdateForOverdueRepay"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3566 (Sherlock/Union Finance)"
+help: "H-1: repayBorrow calls wrong frozen info update for overdue repayments"
+wiki_title: "H-1: repayBorrow calls wrong frozen info update for overdue repayments"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-10-union-finance-judging/issues/143 
+    
+    ## Found by 
+    hyh
+    
+    ## Summary
+    
+    UToken's repayBorrow() calls frozen info update with wrong account, that end up not doing anything meaningful in the majority of cases, which leaves the stakers' account frozen info not
+wiki_exploit_scenario: |
+    Per Solodit #3566: Source: https://github.com/sherlock-audit/2022-10-union-finance-judging/issues/143 
+    
+    ## Found by 
+    hyh
+    
+    ## Summary
+    
+    UToken's repayBorrow() calls frozen info update with wrong account, that end up not d
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1RepayborrowCallsWrongFrozenInfoUpdateForOverdueRepay"
+solodit_id: "3566"
+solodit_slug: |
+    h-1-repayborrow-calls-wrong-frozen-info-update-for-overdue-repayments-sherlock-union-finance-union-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(totalFrozen|effectiveAmount).*"
+primary_var_regex: ".*(effectiveAmount|totalFrozen).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

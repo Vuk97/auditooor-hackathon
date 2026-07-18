@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "a-dos-on-snapshots-due-to-a-rounding-error-in-calculations"
+class_name: "ADosOnSnapshotsDueToARoundingErrorInCalculations"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-karak"
+help: |
+    KupiaSec Creating a snapshot may be impossible due to a rounding error in the calculations. Proof of Concept When initiating a snapshot, some assets are transferred to the slash st
+wiki_title: "A DoS on snapshots due to a rounding error in calculations"
+wiki_description: |
+    KupiaSec Creating a snapshot may be impossible due to a rounding error in the calculations. Proof of Concept When initiating a snapshot, some assets are transferred to the slash store within the _transferToSlashStore() function. The transfer amount is calculated at L430 . However, if convertToAssets
+wiki_exploit_scenario: |
+    Per audit finding: KupiaSec Creating a snapshot may be impossible due to a rounding error in the calculations. Proof of Concept When initiating a snapshot, some assets are transferred to the slash store within the _tran
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ADosOnSnapshotsDueToARoundingErrorInCalculations"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(convertToAssets|balanceOf|nodeOwner).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "convertToAssets"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

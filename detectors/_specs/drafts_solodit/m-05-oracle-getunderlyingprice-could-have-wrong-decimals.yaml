@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "m-05-oracle-getunderlyingprice-could-have-wrong-decimals"
+class_name: "M05OracleGetunderlyingpriceCouldHaveWrongDecimals"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42475 (Code4rena/Hubble)"
+help: "[M-05] `Oracle.getUnderlyingPrice` could have wrong decimals"
+wiki_title: "[M-05] `Oracle.getUnderlyingPrice` could have wrong decimals"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    <https://github.com/code-423n4/2022-02-hubble/blob/8c157f519bc32e552f8cc832ecc75dc381faa91e/contracts/Oracle.sol#L34><br>
+    
+    The `Oracle.getUnderlyingPrice` function divides the chainlink price by `100`.<br>
+    It probably assumes that the answer for the underlying is in 8 decimal
+wiki_exploit_scenario: |
+    Per Solodit #42475: _Submitted by cmichel_
+    
+    <https://github.com/code-423n4/2022-02-hubble/blob/8c157f519bc32e552f8cc832ecc75dc381faa91e/contracts/Oracle.sol#L34><br>
+    
+    The `Oracle.getUnderlyingPrice` function divides the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05OracleGetunderlyingpriceCouldHaveWrongDecimals"
+solodit_id: "42475"
+solodit_slug: "m-05-oraclegetunderlyingprice-could-have-wrong-decimals-code4rena-hubble-hubble-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(underlying).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

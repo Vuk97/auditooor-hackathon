@@ -1,0 +1,39 @@
+skeleton: "paired_function_divergence"
+name: "m-01-gauge-set-can-be-front-run-if-bribe-and-gauge-constructors-"
+class_name: "M01GaugeSetCanBeFrontRunIfBribeAndGaugeConstructors"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24764 (Code4rena/Velodrome Finance)"
+help: "[M-01] Gauge set can be front run if bribe and gauge constructors aren't run atomically"
+wiki_title: "[M-01] Gauge set can be front run if bribe and gauge constructors aren't run atomically"
+wiki_description: |
+    _Submitted by hyh, also found by 0x1f8b_
+    
+    If Bribe and Gauge constructors are run not in the same transaction, the griefing attack is possible. A malicious user can run setGauge after Bribe, but before Gauge constructor, making Bribe contract unusable. The fix here is Bribe redeployment.
+    
+    Setting se
+wiki_exploit_scenario: |
+    Per Solodit #24764: _Submitted by hyh, also found by 0x1f8b_
+    
+    If Bribe and Gauge constructors are run not in the same transaction, the griefing attack is possible. A malicious user can run setGauge after Bribe, but befor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01GaugeSetCanBeFrontRunIfBribeAndGaugeConstructors"
+solodit_id: "24764"
+solodit_slug: |
+    m-01-gauge-set-can-be-front-run-if-bribe-and-gauge-constructors-arent-run-atomically-code4rena-velodrome-finance-velodrome-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(setGauge).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

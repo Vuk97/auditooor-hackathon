@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "m-01-selectwinner-can-overwrite-a-live-higher-tier-voucher-with-"
+class_name: "M01SelectwinnerCanOverwriteALiveHigherTierVoucherWith"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65499 (Shieldify/Blue)"
+help: "[M-01] `selectWinner()` Can Overwrite a Live Higher-Tier Voucher With a Stale Lower-Tier Prize"
+wiki_title: "[M-01] `selectWinner()` Can Overwrite a Live Higher-Tier Voucher With a Stale Lower-Tier Prize"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `buyTickets()` validates raffle eligibility only at ticket-purchase time by mapping the buyer's then-current tier to `configIdByTier[currentTier]`. `selectWinner()` later trusts that historical `round.configId` and blindly writes `config.toTier` into th
+wiki_exploit_scenario: |
+    Per Solodit #65499: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `buyTickets()` validates raffle eligibility only at ticket-purchase time by mapping the buyer's then-current tier to `configIdByTier[currentTier]`. `sele
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01SelectwinnerCanOverwriteALiveHigherTierVoucherWith"
+solodit_id: "65499"
+solodit_slug: |
+    m-01-selectwinner-can-overwrite-a-live-higher-tier-voucher-with-a-stale-lower-tier-prize-shieldify-none-blue-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(buyTickets|selectWinner|EmissionController|setUpgradeVoucher).*"
+primary_var_regex: ".*(buyTickets|claimGuaranteedUpgrade|purchaseUpgrade).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

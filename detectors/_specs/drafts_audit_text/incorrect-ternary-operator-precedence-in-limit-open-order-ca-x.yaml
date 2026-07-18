@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-ternary-operator-precedence-in-limit-open-order-ca-x"
+class_name: "IncorrectTernaryOperatorPrecedenceInLimitOpenOrderCaX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    In executeLimitOpenOrderCallback, there is a conditional that determines if the trade suc- ceeds: if ( t == IExecute.OpenLimitOrderType.MARKET ? (a.price >= o.minPrice && a.price <
+wiki_title: "Incorrect ternary operator precedence in limit-open-order callback"
+wiki_description: |
+    In executeLimitOpenOrderCallback, there is a conditional that determines if the trade suc- ceeds: if ( t == IExecute.OpenLimitOrderType.MARKET ? (a.price >= o.minPrice && a.price <= o.maxPrice) : ( t == IExecute.OpenLimitOrderType.REVERSAL ? (o.buy ? a.price >= o.maxPrice : a.price <= o.minPrice) :
+wiki_exploit_scenario: |
+    Per audit finding: In executeLimitOpenOrderCallback, there is a conditional that determines if the trade suc- ceeds: if ( t == IExecute.OpenLimitOrderType.MARKET ? (a.price >= o.minPrice && a.price <= o.maxPrice) : ( t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectTernaryOperatorPrecedenceInLimitOpenOrderCaX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(executeLimitOpenOrderCallback|minPrice|maxPrice).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "executeLimitOpenOrderCallback"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,25 @@
+id: cross-contract-abi-mismatch-reverts
+title: "Cross-contract Client::method arguments don't match deployed contract's wasm ABI"
+severity: Medium
+language: rust
+platform: soroban
+source: "halborn-2025-09 | k2-v12"
+source_ids:
+  - "7.13"
+  - "7.14"
+  - "44825"
+  - "44826"
+bug_class: abi-mismatch
+indicators:
+  - "manually-constructed `Client::new(&env, &addr)` with a signature mismatching the deployed wasm's exported function"
+  - "caller passes arguments in a different order than the actual contract function"
+  - "presence of the call at runtime results in `Error(WasmVm, InvalidAction)` or `HostError: UnreachableCodeReached`"
+  - "no integration test covering the specific Client<->contract pair"
+victim: "Protocol: all calls through the path revert, bricking upgrades, reserve config changes, or swap flows entirely."
+exploit_precondition: "None — the path is already broken; any legit user of the entrypoint hits the revert."
+real_world_example: |
+  Halborn 7.13, 7.14 (MEDIUM): Pool configurator cross-contract calls revert due to ABI mismatch; Soroswap router ABI mismatch traps all calls.
+suggested_remediation: "Always generate clients via `soroban contract bindings` against the deployed contract's wasm. Add end-to-end integration tests that execute every cross-contract call path."
+cross_refs:
+  - soroswap-router-prepaid-wrong-target
+  - wrong-actor-forwarding-bricks-upgrade

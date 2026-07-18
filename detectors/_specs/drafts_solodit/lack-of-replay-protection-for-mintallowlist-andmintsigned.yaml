@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-replay-protection-for-mintallowlist-andmintsigned"
+class_name: "LackOfReplayProtectionForMintallowlistAndmintsigned"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6839 (Spearbit/SeaDrop)"
+help: "Lack of replay protection for mintAllowList andmintSigned"
+wiki_title: "Lack of replay protection for mintAllowList andmintSigned"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - `SeaDrop.sol#L227`
+    - `SeaDrop.sol#L318`
+    
+    ## Description
+    In the case of `mintSigned` (minting via signatures) and `mintAllowList` (minting via merkle proofs), there are no checks that prevent re-using the same signature or Merkle proof multiple times. This is in
+wiki_exploit_scenario: |
+    Per Solodit #6839: ## Severity: Medium Risk
+    
+    ## Context
+    - `SeaDrop.sol#L227`
+    - `SeaDrop.sol#L318`
+    
+    ## Description
+    In the case of `mintSigned` (minting via signatures) and `mintAllowList` (minting via merkle proofs), the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfReplayProtectionForMintallowlistAndmintsigned"
+solodit_id: "6839"
+solodit_slug: "lack-of-replay-protection-for-mintallowlist-andmintsigned-spearbit-seadrop-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Replay Attack"
+state_decl: "uint256 internal maxmintsperwallet;"
+fn_name_regex: ".*(mintSigned|mintAllowList|maxMintsPerWallet|ERC721Seadrop).*"
+write_var_regex: ".*(maxMintsPerWallet|mintAllowList|mintSeaDrop).*"
+guard_var_regex: ".*(maxMintsPerWallet|mintAllowList|mintSeaDrop).*"
+vuln_fn_name: "mintSigned"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "maxmintsperwallet = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

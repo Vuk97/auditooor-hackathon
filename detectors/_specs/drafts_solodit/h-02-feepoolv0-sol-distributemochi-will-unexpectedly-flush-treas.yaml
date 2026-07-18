@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "h-02-feepoolv0-sol-distributemochi-will-unexpectedly-flush-treas"
+class_name: "H02Feepoolv0SolDistributemochiWillUnexpectedlyFlushTreas"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #923 (Code4rena/Mochi)"
+help: |
+    [H-02] FeePoolV0.sol#distributeMochi() will unexpectedly flush treasuryShare, causing the protocol fee cannot be properly accounted for and collected
+wiki_title: |
+    [H-02] FeePoolV0.sol#distributeMochi() will unexpectedly flush treasuryShare, causing the protocol fee cannot be properly accounted for and collected
+wiki_description: |
+    ## Handle
+    
+    WatchPug
+    
+    
+    ## Vulnerability details
+    
+    `distributeMochi()` will call `_buyMochi()` to convert `mochiShare` to Mochi token and call `_shareMochi()` to send Mochi to vMochi Vault and veCRV Holders. It wont touch the `treasuryShare`.
+    
+    However, in the current implementation, `treasuryShare` wil
+wiki_exploit_scenario: |
+    Per Solodit #923: ## Handle
+    
+    WatchPug
+    
+    
+    ## Vulnerability details
+    
+    `distributeMochi()` will call `_buyMochi()` to convert `mochiShare` to Mochi token and call `_shareMochi()` to send Mochi to vMochi Vault and veCRV Hold
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02Feepoolv0SolDistributemochiWillUnexpectedlyFlushTreas"
+solodit_id: "923"
+solodit_slug: |
+    h-02-feepoolv0soldistributemochi-will-unexpectedly-flush-treasuryshare-causing-the-protocol-fee-cannot-be-properly-accounted-for-and-collected-code4rena-mochi-mochi-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal distributemochi;"
+fn_name_regex: ".*(distributeMochi|mochiShare|treasuryShare|updateReserve).*"
+read_var_regex: ".*(distributeMochi|mochiShare|treasuryShare).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "distributeMochi"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return distributemochi > 0;"

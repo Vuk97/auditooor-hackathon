@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_require"
+name: "m-14-erc721-max-token-per-user-limit-can-always-be-bypassed-by-o"
+class_name: "M14Erc721MaxTokenPerUserLimitCanAlwaysBeBypassedByO"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41410 (Pashov Audit Group/StationX)"
+help: "[M-14] ERC721 max token per user limit can always be bypassed by one"
+wiki_title: "[M-14] ERC721 max token per user limit can always be bypassed by one"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Low
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    Both `transferFrom()` and `safeTransferFrom()` functions in `ERC721DAO` have an off-by-one error when calculating the max amount of tokens a user can have:
+    
+    ```solidity
+    require(balanceOf(to) <= erc721DaoDetails.maxTokensPerUser);
+    ``
+wiki_exploit_scenario: |
+    Per Solodit #41410: ## Severity
+    
+    **Impact:** Low
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    Both `transferFrom()` and `safeTransferFrom()` functions in `ERC721DAO` have an off-by-one error when calculating the max amount of
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14Erc721MaxTokenPerUserLimitCanAlwaysBeBypassedByO"
+solodit_id: "41410"
+solodit_slug: |
+    m-14-erc721-max-token-per-user-limit-can-always-be-bypassed-by-one-pashov-audit-group-none-stationx-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal minttoken;"
+fn_name_regex: ".*(transferFrom|safeTransferFrom|ERC721DAO|mintToken).*"
+write_var_regex: ".*(mintToken|safeTransferFrom|transferFrom).*"
+guard_var_regex: ".*(mintToken|safeTransferFrom|transferFrom).*"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "minttoken = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

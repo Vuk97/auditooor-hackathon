@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-08-lybrapeusdvaultbase-rigidredemption-should-use-getborrowedo"
+class_name: "M08LybrapeusdvaultbaseRigidredemptionShouldUseGetborrowedo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21153 (Code4rena/Lybra Finance)"
+help: "[M-08] `LybraPeUSDVaultBase.rigidRedemption` should use `getBorrowedOf` instead of `borrowed`"
+wiki_title: "[M-08] `LybraPeUSDVaultBase.rigidRedemption` should use `getBorrowedOf` instead of `borrowed`"
+wiki_description: |
+    In `LybraPeUSDVaultBase`, the return value of `getBorrowedOf` represents the user's debt, while `borrowed` only represents the user's borrowed funds and does not include fees.
+    Using `borrowed` instead of `getBorrowedOf` in `rigidRedemption` results in:
+    
+    1.  The requirement for the `peusdAmount` par
+wiki_exploit_scenario: |
+    Per Solodit #21153: In `LybraPeUSDVaultBase`, the return value of `getBorrowedOf` represents the user's debt, while `borrowed` only represents the user's borrowed funds and does not include fees.
+    Using `borrowed` instea
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08LybrapeusdvaultbaseRigidredemptionShouldUseGetborrowedo"
+solodit_id: "21153"
+solodit_slug: |
+    m-08-lybrapeusdvaultbaserigidredemption-should-use-getborrowedof-instead-of-borrowed-code4rena-lybra-finance-lybra-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrowed;"
+fn_name_regex: ".*(LybraPeUSDVaultBase|getBorrowedOf|borrowed|rigidRedemption).*"
+read_var_regex: ".*(borrowed|getBorrowedOf|peusdAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LybraPeUSDVaultBase"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borrowed > 0;"

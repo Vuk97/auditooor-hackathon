@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-isactionapproved-behavior-if-new-policyholders-get-add"
+class_name: "IncorrectIsactionapprovedBehaviorIfNewPolicyholdersGetAdd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18343 (Spearbit/Llama)"
+help: |
+    Incorrect isActionApproved behavior if new policyholders get added after the createAction in the same block.timestamp
+wiki_title: |
+    Incorrect isActionApproved behavior if new policyholders get added after the createAction in the same block.timestamp
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    RelativeStrategy#L162
+    
+    ## Description
+    Llama utilizes Checkpoints to store approval quantities per timestamp. If the current quantity changes, the previous values are preserved. The `block.timestamp` of `createAction` is used as a snapshot for the approval. (See:
+wiki_exploit_scenario: |
+    Per Solodit #18343: ## Severity: Medium Risk
+    
+    ## Context
+    RelativeStrategy#L162
+    
+    ## Description
+    Llama utilizes Checkpoints to store approval quantities per timestamp. If the current quantity changes, the previous values a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectIsactionapprovedBehaviorIfNewPolicyholdersGetAdd"
+solodit_id: "18343"
+solodit_slug: |
+    incorrect-isactionapproved-behavior-if-new-policyholders-get-added-after-the-createaction-in-the-spearbit-llama-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal createaction;"
+fn_name_regex: ".*(createAction|totalQuantity|numberOfHolders|lastActionCreated).*"
+read_var_regex: ".*(createAction|lastActionCreated|numberOfHolders).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "createAction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return createaction > 0;"

@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "morpho-s-usdt-mainnet-market-can-end-up-in-broken-state"
+class_name: "MorphoSUsdtMainnetMarketCanEndUpInBrokenState"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6923 (Spearbit/Morpho)"
+help: "Morpho’s USDT mainnet market can end up in broken state"
+wiki_title: "Morpho’s USDT mainnet market can end up in broken state"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    PositionsManagerForAaveLogic.sol#L502
+    
+    ## Description
+    Note that USDT on Ethereum mainnet is non-standard and requires resetting the approval to zero (see USDT L199) before being able to change it again. 
+    
+    In `repayERC20ToPool`, it could be that `_amount` is approve
+wiki_exploit_scenario: |
+    Per Solodit #6923: ## Severity: High Risk
+    
+    ## Context
+    PositionsManagerForAaveLogic.sol#L502
+    
+    ## Description
+    Note that USDT on Ethereum mainnet is non-standard and requires resetting the approval to zero (see USDT L199)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MorphoSUsdtMainnetMarketCanEndUpInBrokenState"
+solodit_id: "6923"
+solodit_slug: "morphos-usdt-mainnet-market-can-end-up-in-broken-state-spearbit-morpho-pdf"
+solodit_quality: "4"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal repayerc20topool;"
+fn_name_regex: ".*(repayERC20ToPool|safeApprove).*"
+write_var_regex: ".*(repayERC20ToPool|safeApprove).*"
+guard_var_regex: ".*(repayERC20ToPool|safeApprove).*"
+vuln_fn_name: "repayERC20ToPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "repayerc20topool = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

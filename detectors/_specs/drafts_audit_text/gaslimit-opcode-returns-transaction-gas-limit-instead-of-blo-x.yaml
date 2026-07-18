@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "gaslimit-opcode-returns-transaction-gas-limit-instead-of-blo-x"
+class_name: "GaslimitOpcodeReturnsTransactionGasLimitInsteadOfBloX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-initia-cosmos"
+help: |
+    berndartmueller The EVM GASLIMIT opcode ( ) is supposed to return the block gas limit. However, when building the BlockContext in buildBlockContext() GasLimit is set to the current
+wiki_title: |
+    GASLIMIT opcode returns transaction gas limit instead of block gas limit resulting in incompatibility with the EVM
+wiki_description: |
+    berndartmueller The EVM GASLIMIT opcode ( ) is supposed to return the block gas limit. However, when building the BlockContext in buildBlockContext() GasLimit is set to the current transaction’s remaining gas, which is calculated as sdkCtx.GasMeter().Limit() - sdkCtx.GasMeter().GasConsumedToLimit()
+wiki_exploit_scenario: |
+    Per audit finding: berndartmueller The EVM GASLIMIT opcode ( ) is supposed to return the block gas limit. However, when building the BlockContext in buildBlockContext() GasLimit is set to the current transaction’s remai
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GaslimitOpcodeReturnsTransactionGasLimitInsteadOfBloX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(buildBlockContext|sdkCtx|computeGasLimit).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "buildBlockContext"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

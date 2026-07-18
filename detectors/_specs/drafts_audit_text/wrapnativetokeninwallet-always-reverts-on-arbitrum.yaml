@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "wrapnativetokeninwallet-always-reverts-on-arbitrum"
+class_name: "WrapnativetokeninwalletAlwaysRevertsOnArbitrum"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-benddao"
+help: |
+    bin2chen VaultLogic.wrapNativeTokenInWallet() is used in a number of places It’s mainly used to store msg.value into WETH and then transfer it to msg.sender . function wrapNativeTo
+wiki_title: "wrapNativeTokenInWallet() always reverts on Arbitrum"
+wiki_description: |
+    bin2chen VaultLogic.wrapNativeTokenInWallet() is used in a number of places It’s mainly used to store msg.value into WETH and then transfer it to msg.sender . function wrapNativeTokenInWallet ( address wrappedNativeToken address user uint256 amount ) internal { require ( amount > 0 Errors . INVALID_
+wiki_exploit_scenario: |
+    Per audit finding: bin2chen VaultLogic.wrapNativeTokenInWallet() is used in a number of places It’s mainly used to store msg.value into WETH and then transfer it to msg.sender . function wrapNativeTokenInWallet ( addres
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrapnativetokeninwalletAlwaysRevertsOnArbitrum"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(wrapNativeTokenInWallet|wrappedNativeToken|transferFrom).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "wrapNativeTokenInWallet"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

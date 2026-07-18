@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "h-03-incorrect-bad-debt-accounting-can-lead-to-a-state-where-the"
+class_name: "H03IncorrectBadDebtAccountingCanLeadToAStateWhereThe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #32087 (Code4rena/Wise Lending)"
+help: |
+    [H-03] Incorrect bad debt accounting can lead to a state where the `claimFeesBeneficial` function is permanently bricked and no new incentives can be distributed, potentially locki
+wiki_title: |
+    [H-03] Incorrect bad debt accounting can lead to a state where the `claimFeesBeneficial` function is permanently bricked and no new incentives can be distribute
+wiki_description: |
+    Protocol fees can be collected from the `WiseLending` contract and sent to the `FeeManager` contract via the permissionless `FeeManager::claimWiseFees` function. During this call, incentives will only be distributed for `incentive owners` if `totalBadDebtETH` (global bad debt) is equal to `0`:
+    
+    [`F
+wiki_exploit_scenario: |
+    Per Solodit #32087: Protocol fees can be collected from the `WiseLending` contract and sent to the `FeeManager` contract via the permissionless `FeeManager::claimWiseFees` function. During this call, incentives will onl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03IncorrectBadDebtAccountingCanLeadToAStateWhereThe"
+solodit_id: "32087"
+solodit_slug: |
+    h-03-incorrect-bad-debt-accounting-can-lead-to-a-state-where-the-claimfeesbeneficial-function-is-permanently-bricked-and-no-new-incentives-can-be-distributed-potentially-locking-pending-and-future-protocol-fees-in-the-feemanager-contract-code4rena-wise-lending-wise-lending-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal beneficials;"
+fn_name_regex: ".*(WiseLending|FeeManager|totalBadDebtETH|gatheredIncentiveToken).*"
+read_var_regex: ".*(beneficials|gatheredIncentiveToken|totalBadDebtETH).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "WiseLending"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return beneficials > 0;"

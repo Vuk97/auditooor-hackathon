@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-2-incorrect-implementation-of-bpf-leads-to-kicker-losing-rewar"
+class_name: "M2IncorrectImplementationOfBpfLeadsToKickerLosingRewar"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27654 (Sherlock/Ajna #2)"
+help: "M-2: Incorrect implementation of `BPF` leads to kicker losing rewards in a `take` action"
+wiki_title: "M-2: Incorrect implementation of `BPF` leads to kicker losing rewards in a `take` action"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-09-ajna-judging/issues/18 
+    
+    ## Found by 
+    santipu\_
+    
+    When a `take` action takes place, if `ThresholdPrice >= NeutralPrice` and `PriceTake = NeutralPrice`, the Bond Payment Factor (`BPF`) should be `bondFactor` but it will be 0, causing the loss of reward
+wiki_exploit_scenario: |
+    Per Solodit #27654: Source: https://github.com/sherlock-audit/2023-09-ajna-judging/issues/18 
+    
+    ## Found by 
+    santipu\_
+    
+    When a `take` action takes place, if `ThresholdPrice >= NeutralPrice` and `PriceTake = NeutralPrice`,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2IncorrectImplementationOfBpfLeadsToKickerLosingRewar"
+solodit_id: "27654"
+solodit_slug: |
+    m-2-incorrect-implementation-of-bpf-leads-to-kicker-losing-rewards-in-a-take-action-sherlock-ajna-2-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bondfactor;"
+fn_name_regex: ".*(take|BPF|bondFactor).*"
+read_var_regex: ".*(bondFactor|take).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "take"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return bondfactor > 0;"

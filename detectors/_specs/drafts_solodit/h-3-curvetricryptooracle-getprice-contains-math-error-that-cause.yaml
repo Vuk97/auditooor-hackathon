@@ -1,0 +1,45 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-3-curvetricryptooracle-getprice-contains-math-error-that-cause"
+class_name: "H3CurvetricryptooracleGetpriceContainsMathErrorThatCause"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #24318 (Sherlock/Blueberry Update #3)"
+help: "H-3: CurveTricryptoOracle#getPrice contains math error that causes LP to be priced completely wrong"
+wiki_title: "H-3: CurveTricryptoOracle#getPrice contains math error that causes LP to be priced completely wrong"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-07-blueberry-judging/issues/100 
+    
+    ## Found by 
+    0x52, Kow
+    
+    CurveTricryptoOracle#getPrice incorrectly divides the LP price by the price of ETH which causes it to return the price of LP in terms of ETH instead of USD
+    
+    ## Vulnerability Detail
+    
+    [CurveTricryp
+wiki_exploit_scenario: |
+    Per Solodit #24318: Source: https://github.com/sherlock-audit/2023-07-blueberry-judging/issues/100 
+    
+    ## Found by 
+    0x52, Kow
+    
+    CurveTricryptoOracle#getPrice incorrectly divides the LP price by the price of ETH which causes
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H3CurvetricryptooracleGetpriceContainsMathErrorThatCause"
+solodit_id: "24318"
+solodit_slug: |
+    h-3-curvetricryptooraclegetprice-contains-math-error-that-causes-lp-to-be-priced-completely-wrong-sherlock-none-blueberry-update-3-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Decimals, Wrong Math, Oracle"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(getPrice|lpPrice|virtualPrice|ethPrice).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

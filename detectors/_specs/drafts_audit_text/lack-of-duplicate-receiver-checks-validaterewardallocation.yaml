@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-duplicate-receiver-checks-validaterewardallocation"
+class_name: "LackOfDuplicateReceiverChecksValidaterewardallocation"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Berachain PoL (PR 90) - Zellic Audit Report"
+help: |
+    The _validateRewardAllocation function takes a rewardAllocation array of Weight structures as input. The Weight structure contains the receiver (vault) address and percentageNumera
+wiki_title: "Lack of duplicate receiver checks _validateRewardAllocation"
+wiki_description: |
+    The _validateRewardAllocation function takes a rewardAllocation array of Weight structures as input. The Weight structure contains the receiver (vault) address and percentageNumerator — the fraction of rewards going to this receiver. struct Weight { // The address of the receiver that this weight is
+wiki_exploit_scenario: |
+    Per audit finding: The _validateRewardAllocation function takes a rewardAllocation array of Weight structures as input. The Weight structure contains the receiver (vault) address and percentageNumerator — the fraction o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfDuplicateReceiverChecksValidaterewardallocation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rewardAllocation|percentageNumerator).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "rewardAllocation"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

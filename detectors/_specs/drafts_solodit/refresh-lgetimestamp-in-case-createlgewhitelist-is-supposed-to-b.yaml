@@ -1,0 +1,45 @@
+skeleton: "paired_function_divergence"
+name: "refresh-lgetimestamp-in-case-createlgewhitelist-is-supposed-to-b"
+class_name: "RefreshLgetimestampInCaseCreatelgewhitelistIsSupposedToB"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #55940 (Zokyo/Bscpad)"
+help: "Refresh _lgeTimeStamp {in case createLGEWhitelist is supposed to be called more, than once}"
+wiki_title: "Refresh _lgeTimeStamp {in case createLGEWhitelist is supposed to be called more, than once}"
+wiki_description: |
+    **Description**
+    
+    BEP20TokenWhitelisted.sol, line 397, createLGEWhitelist function
+    _lgeTimeStamp should be set to zero, so that next time tokens are sent to _lgetPairAddress,
+    _lgeTimeStamp would be reassigned in _applyLGEWhitelist function.
+    
+    **Recommendation**:
+    
+    Assign _lgeTimeStamp to 0 every time r
+wiki_exploit_scenario: |
+    Per Solodit #55940: **Description**
+    
+    BEP20TokenWhitelisted.sol, line 397, createLGEWhitelist function
+    _lgeTimeStamp should be set to zero, so that next time tokens are sent to _lgetPairAddress,
+    _lgeTimeStamp would be rea
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RefreshLgetimestampInCaseCreatelgewhitelistIsSupposedToB"
+solodit_id: "55940"
+solodit_slug: |
+    refresh-_lgetimestamp-in-case-createlgewhitelist-is-supposed-to-be-called-more-than-once-zokyo-none-bscpad-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

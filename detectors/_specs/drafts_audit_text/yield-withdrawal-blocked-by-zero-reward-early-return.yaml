@@ -1,0 +1,26 @@
+skeleton: "state_write_without_paired_write"
+name: "yield-withdrawal-blocked-by-zero-reward-early-return"
+class_name: "YieldWithdrawalBlockedByZeroRewardEarlyReturn"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-08-morpheus"
+help: |
+    KlosMitSoss Finding Description and Impact When withdrawing yield, it is calculated as the difference between lastUnderlyingBalance and deposited for the given depositPool . The la
+wiki_title: "Yield withdrawal blocked by zero reward early return"
+wiki_description: |
+    KlosMitSoss Finding Description and Impact When withdrawing yield, it is calculated as the difference between lastUnderlyingBalance and deposited for the given depositPool . The lastUnderlyingBalance is updated in distributeRewards() to reflect the current token balance, which includes accumulated y
+wiki_exploit_scenario: |
+    Per audit finding: KlosMitSoss Finding Description and Impact When withdrawing yield, it is calculated as the difference between lastUnderlyingBalance and deposited for the given depositPool . The lastUnderlyingBalance
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "YieldWithdrawalBlockedByZeroRewardEarlyReturn"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(lastUnderlyingBalance|depositPool|distributeRewards).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,45 @@
+skeleton: "state_write_without_paired_write"
+name: "latestanswer-call-may-return-stale-results"
+class_name: "LatestanswerCallMayReturnStaleResults"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51102 (Halborn/Protocol)"
+help: "LATESTANSWER CALL MAY RETURN STALE RESULTS"
+wiki_title: "LATESTANSWER CALL MAY RETURN STALE RESULTS"
+wiki_description: |
+    ##### Description
+    
+    In the `ChainlinkOracle` contract, the function `getChainlinkPrice()` is used to retrieve prices from different Chainlink aggregators:
+    
+    #### ChainlinkOracle.sol
+    
+    ```
+    /// @dev returns price with decimals 18
+    function getChainlinkPrice(AggregatorV2V3Interface feed) internal view retu
+wiki_exploit_scenario: |
+    Per Solodit #51102: ##### Description
+    
+    In the `ChainlinkOracle` contract, the function `getChainlinkPrice()` is used to retrieve prices from different Chainlink aggregators:
+    
+    #### ChainlinkOracle.sol
+    
+    ```
+    /// @dev return
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LatestanswerCallMayReturnStaleResults"
+solodit_id: "51102"
+solodit_slug: "latestanswer-call-may-return-stale-results-halborn-irrigation-protocol-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(ChainlinkOracle|getChainlinkPrice|latestAnswer).*"
+primary_var_regex: ".*(getChainlinkPrice|latestAnswer).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

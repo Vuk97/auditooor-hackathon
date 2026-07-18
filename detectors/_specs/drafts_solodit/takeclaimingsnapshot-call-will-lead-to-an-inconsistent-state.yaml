@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "takeclaimingsnapshot-call-will-lead-to-an-inconsistent-state"
+class_name: "TakeclaimingsnapshotCallWillLeadToAnInconsistentState"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27949 (MixBytes/Fantium)"
+help: "`takeClaimingSnapshot()` call will lead to an inconsistent state"
+wiki_title: "`takeClaimingSnapshot()` call will lead to an inconsistent state"
+wiki_description: |
+    ##### Description
+    This function can block the ongoing distribution event until the funds are paid or the event parameters are returned back.
+    https://github.com/FantiumAG/smart-contracts/blob/b4acd978e25289becc640f75eb5921e760b83720/contracts/claiming/FantiumClaimingV1.sol#L689
+    
+    ##### Recommendation
+wiki_exploit_scenario: |
+    Per Solodit #27949: ##### Description
+    This function can block the ongoing distribution event until the funds are paid or the event parameters are returned back.
+    https://github.com/FantiumAG/smart-contracts/blob/b4acd978e
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TakeclaimingsnapshotCallWillLeadToAnInconsistentState"
+solodit_id: "27949"
+solodit_slug: "takeclaimingsnapshot-call-will-lead-to-an-inconsistent-state-mixbytes-none-fantium-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal topupdistributionevent;"
+fn_name_regex: ".*(topUpDistributionEvent|takeClaimingSnapshot).*"
+read_var_regex: ".*(topUpDistributionEvent).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "topUpDistributionEvent"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return topupdistributionevent > 0;"

@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-05-no-check-that-nfts-aren-t-being-claimed-for-free-in-topupin"
+class_name: "M05NoCheckThatNftsArenTBeingClaimedForFreeInTopupin"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31818 (ZachObront/Fungify)"
+help: "[M-05] No check that NFTs aren't being claimed for free in `topUpInterestShortfall()`"
+wiki_title: "[M-05] No check that NFTs aren't being claimed for free in `topUpInterestShortfall()`"
+wiki_description: |
+    In the `topUpInterestShortfall()` function, we allow a liquidator to top up the interest balance of a borrower, in exchange for an equal amount of any of their collateral tokens.
+    
+    Because NFTs are only liquidated or traded in round increments, the following logic ensures the amount used to top up an
+wiki_exploit_scenario: |
+    Per Solodit #31818: In the `topUpInterestShortfall()` function, we allow a liquidator to top up the interest balance of a borrower, in exchange for an equal amount of any of their collateral tokens.
+    
+    Because NFTs are onl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05NoCheckThatNftsArenTBeingClaimedForFreeInTopupin"
+solodit_id: "31818"
+solodit_slug: |
+    m-05-no-check-that-nfts-arent-being-claimed-for-free-in-topupinterestshortfall-zachobront-none-fungify-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal shortfallusd;"
+fn_name_regex: ".*(topUpInterestShortfall|shortfallUsd).*"
+write_var_regex: ".*(shortfallUsd|topUpInterestShortfall).*"
+guard_var_regex: ".*(shortfallUsd|topUpInterestShortfall).*"
+vuln_fn_name: "topUpInterestShortfall"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "shortfallusd = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

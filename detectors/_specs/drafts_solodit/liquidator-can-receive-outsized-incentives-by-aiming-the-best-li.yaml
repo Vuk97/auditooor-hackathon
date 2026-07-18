@@ -1,0 +1,45 @@
+skeleton: "state_write_without_paired_write"
+name: "liquidator-can-receive-outsized-incentives-by-aiming-the-best-li"
+class_name: "LiquidatorCanReceiveOutsizedIncentivesByAimingTheBestLi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54628 (Cantina/BadgerDAO)"
+help: "Liquidator can receive outsized incentives by aiming the best liquidable CDPs ﬁrst"
+wiki_title: "Liquidator can receive outsized incentives by aiming the best liquidable CDPs ﬁrst "
+wiki_description: |
+    ## LiquidationLibrary Analysis
+    
+    ## Context
+    - **File:** `LiquidationLibrary.sol`
+    - **Lines:** 505-507
+    
+    ## Description
+    While the issue is not limited to batch processing and is related to the overall protocol design, we first illustrate the **batch liquidations case** by showing that stale ICRs can be
+wiki_exploit_scenario: |
+    Per Solodit #54628: ## LiquidationLibrary Analysis
+    
+    ## Context
+    - **File:** `LiquidationLibrary.sol`
+    - **Lines:** 505-507
+    
+    ## Description
+    While the issue is not limited to batch processing and is related to the overall pr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LiquidatorCanReceiveOutsizedIncentivesByAimingTheBestLi"
+solodit_id: "54628"
+solodit_slug: |
+    liquidator-can-receive-outsized-incentives-by-aiming-the-best-liquidable-cdps-first-cantina-none-badgerdao-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(LiquidationLibrary|batchLiquidateCdps|totalDebtToOffset|totalCollToSendToLiquidator).*"
+primary_var_regex: ".*(batchLiquidateCdps|totalCollSurplus|totalCollToSendToLiquidator).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,54 @@
+skeleton: "state_write_without_paired_write"
+name: "h-21-creating-an-order-of-type-marketincrease-opens-an-attack-ve"
+class_name: "H21CreatingAnOrderOfTypeMarketincreaseOpensAnAttackVe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18647 (Sherlock/GMX)"
+help: |
+    H-21: Creating an order of type MarketIncrease opens an attack vector where attacker can execute txs with stale prices by inputting a very extense swapPath
+wiki_title: |
+    H-21: Creating an order of type MarketIncrease opens an attack vector where attacker can execute txs with stale prices by inputting a very extense swapPath
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-02-gmx-judging/issues/54 
+    
+    ## Found by 
+    stopthecap
+    
+    ## Summary
+    
+    The vulnerability relies on the create order function: 
+    
+            function createOrder(
+            DataStore dataStore,
+            EventEmitter eventEmitter,
+            OrderVault orderVault,
+wiki_exploit_scenario: |
+    Per Solodit #18647: Source: https://github.com/sherlock-audit/2023-02-gmx-judging/issues/54 
+    
+    ## Found by 
+    stopthecap
+    
+    ## Summary
+    
+    The vulnerability relies on the create order function: 
+    
+            function createOrder(
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H21CreatingAnOrderOfTypeMarketincreaseOpensAnAttackVe"
+solodit_id: "18647"
+solodit_slug: |
+    h-21-creating-an-order-of-type-marketincrease-opens-an-attack-vector-where-attacker-can-execute-txs-with-stale-prices-by-inputting-a-very-extense-swappath-sherlock-none-gmx-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(createOrder|dataStore|eventEmitter|orderVault).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

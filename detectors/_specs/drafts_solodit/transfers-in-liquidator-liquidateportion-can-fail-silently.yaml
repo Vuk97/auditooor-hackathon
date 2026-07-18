@@ -1,0 +1,46 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "transfers-in-liquidator-liquidateportion-can-fail-silently"
+class_name: "TransfersInLiquidatorLiquidateportionCanFailSilently"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18094 (TrailOfBits/Maple Labs)"
+help: "Transfers in Liquidator.liquidatePortion can fail silently"
+wiki_title: "Transfers in Liquidator.liquidatePortion can fail silently"
+wiki_description: |
+    ## Diﬃculty: Low
+    
+    ## Type: Data Validation
+    
+    ### Target: Liquidator.sol
+    
+    ## Description
+    
+    Calls to `ERC20Helper.transfer` in the codebase are wrapped in `require` statements, except for the first such call in the `liquidatePortion` function of the `Liquidator` contract (figure 5.1). As such, a token t
+wiki_exploit_scenario: |
+    Per Solodit #18094: ## Diﬃculty: Low
+    
+    ## Type: Data Validation
+    
+    ### Target: Liquidator.sol
+    
+    ## Description
+    
+    Calls to `ERC20Helper.transfer` in the codebase are wrapped in `require` statements, except for the first such c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TransfersInLiquidatorLiquidateportionCanFailSilently"
+solodit_id: "18094"
+solodit_slug: "transfers-in-liquidatorliquidateportion-can-fail-silently-trailofbits-maple-labs-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(require|liquidatePortion|Liquidator|collateralAsset).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

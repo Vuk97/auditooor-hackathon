@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "global-variable-block-timestamp-should-not-be-used-for-swap-dead"
+class_name: "GlobalVariableBlockTimestampShouldNotBeUsedForSwapDead"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51663 (Halborn/Qoda DAO)"
+help: "Global variable `block.timestamp` should not be used for swap deadlines"
+wiki_title: "Global variable `block.timestamp` should not be used for swap deadlines"
+wiki_description: |
+    ##### Description
+    
+    When developing a smart contract that interacts with Uniswap, avoid setting the deadline to `block.timestamp` or `block.timestamp` plus a fixed value.
+    
+    The smart contract should independently verify that the user-submitted transaction is not outdated. This requires the contract to
+wiki_exploit_scenario: |
+    Per Solodit #51663: ##### Description
+    
+    When developing a smart contract that interacts with Uniswap, avoid setting the deadline to `block.timestamp` or `block.timestamp` plus a fixed value.
+    
+    The smart contract should ind
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GlobalVariableBlockTimestampShouldNotBeUsedForSwapDead"
+solodit_id: "51663"
+solodit_slug: |
+    global-variable-blocktimestamp-should-not-be-used-for-swap-deadlines-halborn-steadily-consulting-inc-qoda-dao-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(deadline|swapTokensForCounterpart).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

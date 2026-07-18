@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "signature-and-hashing-does-not-comply-with-eip712"
+class_name: "SignatureAndHashingDoesNotComplyWithEip712"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "hexens audit RociFi SMA_public"
+help: |
+    In the function NFCS.sol:verifyAdd the primary address and bundle signatures have no domain separator. Given that the message to be signed is just the address, chances to ﬁnd a rep
+wiki_title: "SIGNATURE AND HASHING DOES NOT COMPLY WITH EIP712"
+wiki_description: |
+    In the function NFCS.sol:verifyAdd the primary address and bundle signatures have no domain separator. Given that the message to be signed is just the address, chances to ﬁnd a replayable signature are higher than in other, more speciﬁc cases. A similar ﬂaw is present in the ScoreDB.sol:verify funct
+wiki_exploit_scenario: |
+    Per audit finding: In the function NFCS.sol:verifyAdd the primary address and bundle signatures have no domain separator. Given that the message to be signed is just the address, chances to ﬁnd a replayable signature ar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SignatureAndHashingDoesNotComplyWithEip712"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(verifyAdd|tokenId|primaryAddress).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "verifyAdd"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

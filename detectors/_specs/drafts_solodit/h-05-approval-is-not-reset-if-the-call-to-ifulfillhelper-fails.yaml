@@ -1,0 +1,34 @@
+skeleton: "state_write_without_paired_write"
+name: "h-05-approval-is-not-reset-if-the-call-to-ifulfillhelper-fails"
+class_name: "H05ApprovalIsNotResetIfTheCallToIfulfillhelperFails"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25506 (Code4rena/Connext)"
+help: "[H-05] `Approval` is not reset if the call to `IFulfillHelper` fails"
+wiki_title: "[H-05] `Approval` is not reset if the call to `IFulfillHelper` fails"
+wiki_description: |
+    _Submitted by pauliax, also found by 0xsanson, cmichel and shw_
+    
+    The function `fulfill` first approves the `callTo` to transfer an amount of `toSend` tokens and tries to call `IFulfillHelper`, but if the call fails, it transfers these assets directly. However, in such case the approval is not reset,
+wiki_exploit_scenario: |
+    Per Solodit #25506: _Submitted by pauliax, also found by 0xsanson, cmichel and shw_
+    
+    The function `fulfill` first approves the `callTo` to transfer an amount of `toSend` tokens and tries to call `IFulfillHelper`, but if
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05ApprovalIsNotResetIfTheCallToIfulfillhelperFails"
+solodit_id: "25506"
+solodit_slug: "h-05-approval-is-not-reset-if-the-call-to-ifulfillhelper-fails-code4rena-connext-connext-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(fulfill|callTo|toSend|IFulfillHelper).*"
+primary_var_regex: ".*(addFunds|approval|callTo).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

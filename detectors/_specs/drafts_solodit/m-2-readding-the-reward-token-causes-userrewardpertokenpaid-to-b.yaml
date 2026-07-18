@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-2-readding-the-reward-token-causes-userrewardpertokenpaid-to-b"
+class_name: "M2ReaddingTheRewardTokenCausesUserrewardpertokenpaidToB"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #55106 (Sherlock/Symmio, Staking and Vesting)"
+help: |
+    M-2: Readding the reward token causes userRewardPerTokenPaid to be incorrect for some users, resulting in them receiving too many rewards.
+wiki_title: |
+    M-2: Readding the reward token causes userRewardPerTokenPaid to be incorrect for some users, resulting in them receiving too many rewards.
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-03-symm-io-stacking-judging/issues/124 
+    
+    ## Found by 
+    0x23r0, Schnilch, silver\_eth
+    
+    ### Summary
+    
+    New users who deposit during the time when the reward token is not added do not get their `userRewardPerTokenPaid` updated for this token, so it remains 0.
+wiki_exploit_scenario: |
+    Per Solodit #55106: Source: https://github.com/sherlock-audit/2025-03-symm-io-stacking-judging/issues/124 
+    
+    ## Found by 
+    0x23r0, Schnilch, silver\_eth
+    
+    ### Summary
+    
+    New users who deposit during the time when the reward t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2ReaddingTheRewardTokenCausesUserrewardpertokenpaidToB"
+solodit_id: "55106"
+solodit_slug: |
+    m-2-readding-the-reward-token-causes-userrewardpertokenpaid-to-be-incorrect-for-some-users-resulting-in-them-receiving-too-many-rewards-sherlock-symmio-staking-and-vesting-git
+solodit_quality: "5"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal pertokenstored;"
+fn_name_regex: ".*(userRewardPerTokenPaid|perTokenStored|rewardTokens).*"
+read_var_regex: ".*(perTokenStored|rewardTokens|userRewardPerTokenPaid).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "userRewardPerTokenPaid"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return pertokenstored > 0;"

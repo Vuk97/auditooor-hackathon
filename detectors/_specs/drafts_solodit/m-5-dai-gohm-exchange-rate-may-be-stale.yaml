@@ -1,0 +1,44 @@
+skeleton: "state_write_without_paired_write"
+name: "m-5-dai-gohm-exchange-rate-may-be-stale"
+class_name: "M5DaiGohmExchangeRateMayBeStale"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6286 (Sherlock/Cooler)"
+help: "M-5: DAI/gOHM exchange rate may be stale"
+wiki_title: "M-5: DAI/gOHM exchange rate may be stale"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-cooler-judging/issues/217 
+    
+    ## Found by 
+    IllIllI
+    
+    ## Summary
+    
+    The `maxLTC` variable is a constant which implies a specific DAI/gOHM echange rate. The exchange rate has already changed so the current value in use will be wrong, and any value chosen no
+wiki_exploit_scenario: |
+    Per Solodit #6286: Source: https://github.com/sherlock-audit/2023-01-cooler-judging/issues/217 
+    
+    ## Found by 
+    IllIllI
+    
+    ## Summary
+    
+    The `maxLTC` variable is a constant which implies a specific DAI/gOHM echange rate. The
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M5DaiGohmExchangeRateMayBeStale"
+solodit_id: "6286"
+solodit_slug: "m-5-daigohm-exchange-rate-may-be-stale-sherlock-cooler-cooler-git"
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Stale Price"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(maxLTC|ClearingHouse|operator|clear).*"
+primary_var_regex: ".*(clear|maxLTC|operator).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

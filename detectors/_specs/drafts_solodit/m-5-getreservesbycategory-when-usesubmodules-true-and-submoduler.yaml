@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_require"
+name: "m-5-getreservesbycategory-when-usesubmodules-true-and-submoduler"
+class_name: "M5GetreservesbycategoryWhenUsesubmodulesTrueAndSubmoduler"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29758 (Sherlock/Olympus RBS 2.0)"
+help: |
+    M-5: getReservesByCategory() when useSubmodules =true and submoduleReservesSelector=bytes4(0) will revert
+wiki_title: |
+    M-5: getReservesByCategory() when useSubmodules =true and submoduleReservesSelector=bytes4(0) will revert
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-11-olympus-judging/issues/149 
+    
+    ## Found by 
+    bin2chen, dany.armstrong90, lemonmon, rvierdiiev
+    ## Summary
+    in `getReservesByCategory() `
+    Lack of check  `data.submoduleReservesSelector!=""`
+    when call `submodule.staticcall(abi.encodeWithSelector(data.submod
+wiki_exploit_scenario: |
+    Per Solodit #29758: Source: https://github.com/sherlock-audit/2023-11-olympus-judging/issues/149 
+    
+    ## Found by 
+    bin2chen, dany.armstrong90, lemonmon, rvierdiiev
+    ## Summary
+    in `getReservesByCategory() `
+    Lack of check  `da
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M5GetreservesbycategoryWhenUsesubmodulesTrueAndSubmoduler"
+solodit_id: "29758"
+solodit_slug: |
+    m-5-getreservesbycategory-when-usesubmodules-true-and-submodulereservesselectorbytes40-will-revert-sherlock-olympus-rbs-20-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getreservesbycategory;"
+fn_name_regex: ".*(submoduleMetricSelector|submoduleReservesSelector|getReservesByCategory).*"
+write_var_regex: ".*(getReservesByCategory|submoduleMetricSelector|submoduleReservesSelector).*"
+guard_var_regex: ".*(getReservesByCategory|submoduleMetricSelector|submoduleReservesSelector).*"
+vuln_fn_name: "submoduleMetricSelector"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "getreservesbycategory = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

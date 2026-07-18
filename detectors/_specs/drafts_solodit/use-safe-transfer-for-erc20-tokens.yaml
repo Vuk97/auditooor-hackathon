@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "use-safe-transfer-for-erc20-tokens"
+class_name: "UseSafeTransferForErc20Tokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26172 (Cyfrin/Swapexchange)"
+help: "Use safe transfer for ERC20 tokens"
+wiki_title: "Use safe transfer for ERC20 tokens"
+wiki_description: |
+    **Severity:** Medium
+    
+    **Description:** The protocol intends to support all ERC20 tokens but the implementation uses the original transfer functions.
+    Some tokens (like USDT) do not implement the EIP20 standard correctly and their transfer/transferFrom function return void instead of a success boolean
+wiki_exploit_scenario: |
+    Per Solodit #26172: **Severity:** Medium
+    
+    **Description:** The protocol intends to support all ERC20 tokens but the implementation uses the original transfer functions.
+    Some tokens (like USDT) do not implement the EIP20
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UseSafeTransferForErc20Tokens"
+solodit_id: "26172"
+solodit_slug: "use-safe-transfer-for-erc20-tokens-cyfrin-none-cyfrin-swapexchange-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "transferFrom vs safeTransferFrom, SafeTransfer, ERC20, Weird ERC20"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferFrom|initialBalance|balanceOf|safeTransfer).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

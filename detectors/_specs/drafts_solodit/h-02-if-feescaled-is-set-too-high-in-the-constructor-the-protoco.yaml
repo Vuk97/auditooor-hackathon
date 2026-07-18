@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "h-02-if-feescaled-is-set-too-high-in-the-constructor-the-protoco"
+class_name: "H02IfFeescaledIsSetTooHighInTheConstructorTheProtoco"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31765 (ZachObront/Alongside)"
+help: "[H-02] If `feeScaled` is set too high in the constructor, the protocol will be bricked"
+wiki_title: "[H-02] If `feeScaled` is set too high in the constructor, the protocol will be bricked"
+wiki_description: |
+    When `feeScaled` is set using the `setFeeScaled()` function, we perform a check to ensure it is lower than `1e18`:
+    ```solidity
+    function setFeeScaled(uint256 _feeScaled) external onlyOwner {
+        if (_feeScaled > SCALAR) {
+            revert AMKTVaultFeeTooLarge();
+        }
+    
+        tryInflation();
+        feeScaled
+wiki_exploit_scenario: |
+    Per Solodit #31765: When `feeScaled` is set using the `setFeeScaled()` function, we perform a check to ensure it is lower than `1e18`:
+    ```solidity
+    function setFeeScaled(uint256 _feeScaled) external onlyOwner {
+        if (_f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02IfFeescaledIsSetTooHighInTheConstructorTheProtoco"
+solodit_id: "31765"
+solodit_slug: |
+    h-02-if-feescaled-is-set-too-high-in-the-constructor-the-protocol-will-be-bricked-zachobront-none-alongside-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal computemultiplier;"
+fn_name_regex: ".*(feeScaled|setFeeScaled|computeMultiplier|issue).*"
+read_var_regex: ".*(computeMultiplier|feeScaled|fulfillBounty).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "feeScaled"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return computemultiplier > 0;"

@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "h-06-reentrancy-in-function-leave-leads-to-halting-of-bottom-up-"
+class_name: "H06ReentrancyInFunctionLeaveLeadsToHaltingOfBottomUp"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #65093 (Code4rena/Recall)"
+help: "[H-06] Reentrancy in function `leave()` leads to halting of bottom up checkpoints"
+wiki_title: "[H-06] Reentrancy in function `leave()` leads to halting of bottom up checkpoints"
+wiki_description: |
+    <https://github.com/code-423n4/2025-02-recall/blob/ab5f90b9b0322016ecce6dd71c528a935544bec5/contracts/contracts/subnet/SubnetActorManagerFacet.sol# L269>
+    
+    ### Prerequisite Knowledge
+    
+    **How `stake` & `unstake` operations work in a not yet bootstrapped subnet:**
+    
+    1. In a pre-bootstrap subnet, when a
+wiki_exploit_scenario: |
+    Per Solodit #65093: <https://github.com/code-423n4/2025-02-recall/blob/ab5f90b9b0322016ecce6dd71c528a935544bec5/contracts/contracts/subnet/SubnetActorManagerFacet.sol# L269>
+    
+    ### Prerequisite Knowledge
+    
+    **How `stake` &
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06ReentrancyInFunctionLeaveLeadsToHaltingOfBottomUp"
+solodit_id: "65093"
+solodit_slug: |
+    h-06-reentrancy-in-function-leave-leads-to-halting-of-bottom-up-checkpoints-code4rena-recall-recall-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bootstrapsubnetifneeded;"
+fn_name_regex: ".*(stake|unstake|lock|depositWithConfirm).*"
+read_var_regex: ".*(bootstrapSubnetIfNeeded|confirmDeposit|depositRequest).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "stake"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return bootstrapsubnetifneeded > 0;"

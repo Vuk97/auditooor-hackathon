@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-11-it-is-nearly-impossble-for-liquidators-to-use-liquidateposi"
+class_name: "H11ItIsNearlyImpossbleForLiquidatorsToUseLiquidateposi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49033 (Code4rena/LoopFi)"
+help: |
+    [H-11] It is nearly impossble for Liquidators to use `liquidatePosition()` to fully pay off a non bad-debt position
+wiki_title: |
+    [H-11] It is nearly impossble for Liquidators to use `liquidatePosition()` to fully pay off a non bad-debt position
+wiki_description: |
+    First, we need to know how liquidation of a non bad-debt position works. The liquidator passes the amount `repayAmount`, pays a penalty, and buys the position collateral at a discount price.
+    
+    The issue here is after deducting the penalty, the `repayAmount` must be exactly equal to the amount of deb
+wiki_exploit_scenario: |
+    Per Solodit #49033: First, we need to know how liquidation of a non bad-debt position works. The liquidator passes the amount `repayAmount`, pays a penalty, and buys the position collateral at a discount price.
+    
+    The iss
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H11ItIsNearlyImpossbleForLiquidatorsToUseLiquidateposi"
+solodit_id: "49033"
+solodit_slug: |
+    h-11-it-is-nearly-impossble-for-liquidators-to-use-liquidateposition-to-fully-pay-off-a-non-bad-debt-position-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calcdecrease;"
+fn_name_regex: ".*(repayAmount|calcTotalDebt|calcDecrease|liquidatePosition).*"
+read_var_regex: ".*(calcDecrease|calcTotalDebt|repayAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "repayAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calcdecrease > 0;"

@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "unnecessary-vault-withdrawals-due-to-unchecked-user-withdrawal-a"
+class_name: "UnnecessaryVaultWithdrawalsDueToUncheckedUserWithdrawalA"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57364 (Codehawks/Core Contracts)"
+help: "Unnecessary Vault Withdrawals Due to Unchecked User Withdrawal Amounts"
+wiki_title: "Unnecessary Vault Withdrawals Due to Unchecked User Withdrawal Amounts"
+wiki_description: |
+    ## Summary
+    
+    When a user deposits `crvUSD`, the contract mints `RTokens` and calls `_rebalanceLiquidity` to split the funds between the contract and the Curve vault based on a liquidity buffer ratio.When a user requests a withdrawal, `_ensureLiquidity` checks if the RToken contract holds enough liqui
+wiki_exploit_scenario: |
+    Per Solodit #57364: ## Summary
+    
+    When a user deposits `crvUSD`, the contract mints `RTokens` and calls `_rebalanceLiquidity` to split the funds between the contract and the Curve vault based on a liquidity buffer ratio.Wh
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnnecessaryVaultWithdrawalsDueToUncheckedUserWithdrawalA"
+solodit_id: "57364"
+solodit_slug: |
+    unnecessary-vault-withdrawals-due-to-unchecked-user-withdrawal-amounts-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal crvusd;"
+fn_name_regex: ".*(crvUSD|RTokens|requiredAmount|LendingPool).*"
+write_var_regex: ".*(crvUSD|liquidityBufferRatio|requiredAmount).*"
+guard_var_regex: ".*(crvUSD|liquidityBufferRatio|requiredAmount).*"
+vuln_fn_name: "crvUSD"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "crvusd = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

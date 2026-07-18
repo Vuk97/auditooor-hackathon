@@ -1,0 +1,29 @@
+skeleton: "paired_function_divergence"
+name: "attacker-can-capture-veth-weth-depeg-profits-through-a-malic-x"
+class_name: "AttackerCanCaptureVethWethDepegProfitsThroughAMalicX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-lambowin"
+help: |
+    rouhsamad , also found by m4k2 and zaevlad LamboRebalanceOnUniwap::rebalance accepts a directionMask argument, an arbitrary uint256 mask. It “OR”s this mask with uniswapPool and pa
+wiki_title: |
+    Attacker can capture VETH-WETH depeg profits through a malicious pool, rendering rebalancer useless if VETH Price > WETH Price
+wiki_description: |
+    rouhsamad , also found by m4k2 and zaevlad LamboRebalanceOnUniwap::rebalance accepts a directionMask argument, an arbitrary uint256 mask. It “OR”s this mask with uniswapPool and passes it to the OKX Router to perform zeroForOne or oneForZero swaps (using the MSB). function rebalance ( uint256 direct
+wiki_exploit_scenario: |
+    Per audit finding: rouhsamad , also found by m4k2 and zaevlad LamboRebalanceOnUniwap::rebalance accepts a directionMask argument, an arbitrary uint256 mask. It “OR”s this mask with uniswapPool and passes it to the OKX R
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AttackerCanCaptureVethWethDepegProfitsThroughAMalicX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

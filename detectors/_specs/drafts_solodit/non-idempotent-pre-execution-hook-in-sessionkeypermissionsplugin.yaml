@@ -1,0 +1,35 @@
+skeleton: "paired_function_divergence"
+name: "non-idempotent-pre-execution-hook-in-sessionkeypermissionsplugin"
+class_name: "NonIdempotentPreExecutionHookInSessionkeypermissionsplugin"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #59695 (Quantstamp/Alchemy Modular Account)"
+help: "Non-Idempotent Pre-Execution Hook in `SessionKeyPermissionsPlugin`"
+wiki_title: "Non-Idempotent Pre-Execution Hook in `SessionKeyPermissionsPlugin`"
+wiki_description: |
+    **Update**
+    Fixed by executing the pre-execution hook once, even if there are multiple post-execution hooks (our first recommendation). This way, pre-execution hooks do not have to be idempotent, and therefore, there is no need to change `_updateLimitsPreExec()` in `SessionKeyPermissionsPlugin`. Fixe
+wiki_exploit_scenario: |
+    Per Solodit #59695: **Update**
+    Fixed by executing the pre-execution hook once, even if there are multiple post-execution hooks (our first recommendation). This way, pre-execution hooks do not have to be idempotent, and t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NonIdempotentPreExecutionHookInSessionkeypermissionsplugin"
+solodit_id: "59695"
+solodit_slug: |
+    non-idempotent-pre-execution-hook-in-sessionkeypermissionsplugin-quantstamp-alchemy-modular-account-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(executeWithSessionKey).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

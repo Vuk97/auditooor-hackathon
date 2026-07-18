@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "the-two-curve-exchange-proofs-are-interchangable"
+class_name: "TheTwoCurveExchangeProofsAreInterchangable"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Singularity - Zellic Audit Report"
+help: |
+    The CurveMultiExchangeAssetManager contract’s curveMultiExchange function verifies a proof for the curveMultiExchange circuit, while the CurveSingleExchangeAssetManager contract’s
+wiki_title: "The two Curve exchange proofs are interchangable"
+wiki_description: |
+    The CurveMultiExchangeAssetManager contract’s curveMultiExchange function verifies a proof for the curveMultiExchange circuit, while the CurveSingleExchangeAssetManager contract’s curveSingleExchange function verifies a proof for the curveExchange circuit. However, those two circuits are identical u
+wiki_exploit_scenario: |
+    Per audit finding: The CurveMultiExchangeAssetManager contract’s curveMultiExchange function verifies a proof for the curveMultiExchange circuit, while the CurveSingleExchangeAssetManager contract’s curveSingleExchange
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheTwoCurveExchangeProofsAreInterchangable"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

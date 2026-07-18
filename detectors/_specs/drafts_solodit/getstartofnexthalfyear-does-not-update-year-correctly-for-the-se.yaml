@@ -1,0 +1,50 @@
+skeleton: "state_write_without_paired_write"
+name: "getstartofnexthalfyear-does-not-update-year-correctly-for-the-se"
+class_name: "GetstartofnexthalfyearDoesNotUpdateYearCorrectlyForTheSe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35892 (Spearbit/Huma Finance)"
+help: "_getStartOfNextHalfYear does not update year correctly for the second half of the year"
+wiki_title: "_getStartOfNextHalfYear does not update year correctly for the second half of the year"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    `Calendar.sol#L208`
+    
+    ## Description
+    The `year` is not incremented for the second half of the year when calculating the `startOfNextHalfYear`:
+    
+    ```solidity
+    (uint256 year, uint256 month, ) = DTL.timestampToDate(timestamp);
+    startOfNextHalfYear = DTL.timestampFromDate(
+wiki_exploit_scenario: |
+    Per Solodit #35892: ## Severity: High Risk
+    
+    ## Context
+    `Calendar.sol#L208`
+    
+    ## Description
+    The `year` is not incremented for the second half of the year when calculating the `startOfNextHalfYear`:
+    
+    ```solidity
+    (uint256 y
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GetstartofnexthalfyearDoesNotUpdateYearCorrectlyForTheSe"
+solodit_id: "35892"
+solodit_slug: |
+    getstartofnexthalfyear-does-not-update-year-correctly-for-the-second-half-of-the-year-spearbit-none-huma-finance-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(year|startOfNextHalfYear).*"
+primary_var_regex: ".*(startOfNextHalfYear|year).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

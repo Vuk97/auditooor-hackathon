@@ -1,0 +1,38 @@
+skeleton: "paired_function_divergence"
+name: "m-04-period-size-not-updated-on-creating-new-pair"
+class_name: "M04PeriodSizeNotUpdatedOnCreatingNewPair"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25383 (Code4rena/Canto)"
+help: "[M-04] Period Size not updated on creating new Pair"
+wiki_title: "[M-04] Period Size not updated on creating new Pair"
+wiki_description: |
+    The period size is not updated to current while creating a new pair. This means even if period size has been reduced from default value, this new pair will still point to the higher default value.
+    
+    ### Proof of Concept
+    
+    1.  Assume Pair P1,P2 exists in BaseV1Factory with default period size as 1800
+wiki_exploit_scenario: |
+    Per Solodit #25383: The period size is not updated to current while creating a new pair. This means even if period size has been reduced from default value, this new pair will still point to the higher default value.
+    
+    #
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04PeriodSizeNotUpdatedOnCreatingNewPair"
+solodit_id: "25383"
+solodit_slug: "m-04-period-size-not-updated-on-creating-new-pair-code4rena-canto-canto-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

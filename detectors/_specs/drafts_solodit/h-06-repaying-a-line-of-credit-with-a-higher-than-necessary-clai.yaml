@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "h-06-repaying-a-line-of-credit-with-a-higher-than-necessary-clai"
+class_name: "H06RepayingALineOfCreditWithAHigherThanNecessaryClai"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6240 (Code4rena/Debt DAO)"
+help: |
+    [H-06] Repaying a line of credit with a higher than necessary claimed revenue amount will force the borrower into liquidation
+wiki_title: |
+    [H-06] Repaying a line of credit with a higher than necessary claimed revenue amount will force the borrower into liquidation
+wiki_description: |
+    A borrower can repay (parts) of a credit line with the `SpigotedLine.useAndRepay` function. This function will use `amount` of `unusedTokens[credit.token]` as a repayment. However, if `amount` exceeds the principal and the accrued interest, `credit.principal` will underflow without an error and set
+wiki_exploit_scenario: |
+    Per Solodit #6240: A borrower can repay (parts) of a credit line with the `SpigotedLine.useAndRepay` function. This function will use `amount` of `unusedTokens[credit.token]` as a repayment. However, if `amount` exceed
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06RepayingALineOfCreditWithAHigherThanNecessaryClai"
+solodit_id: "6240"
+solodit_slug: |
+    h-06-repaying-a-line-of-credit-with-a-higher-than-necessary-claimed-revenue-amount-will-force-the-borrower-into-liquidation-code4rena-debt-dao-debt-dao-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Overflow/Underflow"
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(amount).*"
+write_var_regex: ".*(amount).*"
+guard_var_regex: ".*(amount).*"
+vuln_fn_name: "amount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

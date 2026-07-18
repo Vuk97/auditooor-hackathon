@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-1-ratiosx96value-rounds-in-favor-of-user-and-not-vault"
+class_name: "M1Ratiosx96valueRoundsInFavorOfUserAndNotVault"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35301 (Sherlock/Mellow Modular LRTs)"
+help: "M-1: `ratiosX96Value` rounds in favor of user and not vault"
+wiki_title: "M-1: `ratiosX96Value` rounds in favor of user and not vault"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-06-mellow-judging/issues/61 
+    
+    ## Found by 
+    Ironsidesec, X12, eeyore, hash
+    ## Summary
+    `ratiosX96Value` is rounded down instead of up, causing withdrawals to favor users. This can slowly decrease the value in our vault, potentially leading to insolvency.
+wiki_exploit_scenario: |
+    Per Solodit #35301: Source: https://github.com/sherlock-audit/2024-06-mellow-judging/issues/61 
+    
+    ## Found by 
+    Ironsidesec, X12, eeyore, hash
+    ## Summary
+    `ratiosX96Value` is rounded down instead of up, causing withdrawals
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1Ratiosx96valueRoundsInFavorOfUserAndNotVault"
+solodit_id: "35301"
+solodit_slug: "m-1-ratiosx96value-rounds-in-favor-of-user-and-not-vault-sherlock-mellow-modular-lrts-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal coefficientx96;"
+fn_name_regex: ".*(ratiosX96Value|coefficientX96|expectedAmounts|mulDiv).*"
+read_var_regex: ".*(coefficientX96|expectedAmounts|mulDiv).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ratiosX96Value"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return coefficientx96 > 0;"

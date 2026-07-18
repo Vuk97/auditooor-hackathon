@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "integer-underflow-on-redeemrequest-0"
+class_name: "IntegerUnderflowOnRedeemrequest0"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Solera - Zellic Audit Report"
+help: |
+    When calling redeemRequest(0), an integer underflow will occur due to fees rounding up: function previewRedeem(uint256 shares) public view virtual override returns (uint256) { uint
+wiki_title: "Integer underflow on redeemRequest(0)"
+wiki_description: |
+    When calling redeemRequest(0), an integer underflow will occur due to fees rounding up: function previewRedeem(uint256 shares) public view virtual override returns (uint256) { uint256 assets = super.previewRedeem(shares); return assets - _feeOnTotal(assets, _getFeeBasisPoints()); } // [...] function
+wiki_exploit_scenario: |
+    Per audit finding: When calling redeemRequest(0), an integer underflow will occur due to fees rounding up: function previewRedeem(uint256 shares) public view virtual override returns (uint256) { uint256 assets = super.p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IntegerUnderflowOnRedeemrequest0"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(redeemRequest|previewRedeem|mulDiv).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "redeemRequest"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

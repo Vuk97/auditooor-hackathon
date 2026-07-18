@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-8-problems-with-tokens-that-transfer-less-than-amount-separate"
+class_name: "M8ProblemsWithTokensThatTransferLessThanAmountSeparate"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27140 (Sherlock/Allo V2)"
+help: "M-8: Problems with tokens that transfer less than amount. (Separate from fee-on-transfer issues!)"
+wiki_title: "M-8: Problems with tokens that transfer less than amount. (Separate from fee-on-transfer issues!)"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-09-Gitcoin-judging/issues/379 
+    
+    ## Found by 
+    jkoppel
+    Some tokens such as cUSDCv3  contain a special case for amount == type(uint256).max in their transfer functions that results in only the user's balance being transferred. This can be used to shut down
+wiki_exploit_scenario: |
+    Per Solodit #27140: Source: https://github.com/sherlock-audit/2023-09-Gitcoin-judging/issues/379 
+    
+    ## Found by 
+    jkoppel
+    Some tokens such as cUSDCv3  contain a special case for amount == type(uint256).max in their transfe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M8ProblemsWithTokensThatTransferLessThanAmountSeparate"
+solodit_id: "27140"
+solodit_slug: |
+    m-8-problems-with-tokens-that-transfer-less-than-amount-separate-from-fee-on-transfer-issues-sherlock-allo-v2-git
+solodit_quality: "4"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(cUSDCv3|fundPool|poolAmount).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "cUSDCv3"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "call-is-recommended-over-transfer-to-send-native-assets"
+class_name: "CallIsRecommendedOverTransferToSendNativeAssets"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #50414 (Halborn/Eon Delegated Staking)"
+help: "Call is recommended over transfer to send native assets"
+wiki_title: "Call is recommended over transfer to send native assets"
+wiki_description: |
+    ##### Description
+    
+    The `DelegatedStaking` contract sends Eon tokens to the delegators by making use of the Solidity `transfer()` function:
+    
+    ```
+    function claimReward(address payable owner) external {
+        (uint256 totalToClaim, ClaimData[] memory claimDetails) = calcReward(owner);
+        if(totalToClaim
+wiki_exploit_scenario: |
+    Per Solodit #50414: ##### Description
+    
+    The `DelegatedStaking` contract sends Eon tokens to the delegators by making use of the Solidity `transfer()` function:
+    
+    ```
+    function claimReward(address payable owner) external {
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CallIsRecommendedOverTransferToSendNativeAssets"
+solodit_id: "50414"
+solodit_slug: |
+    call-is-recommended-over-transfer-to-send-native-assets-halborn-horizen-labs-eon-delegated-staking-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal call;"
+fn_name_regex: ".*(DelegatedStaking|transfer|call|receive).*"
+write_var_regex: ".*(call|receive|transfer).*"
+guard_var_regex: ".*(call|receive|transfer).*"
+vuln_fn_name: "DelegatedStaking"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "call = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-06-batched-liquidations-doesn-t-distribute-bad-debt-on-next-ba"
+class_name: "M06BatchedLiquidationsDoesnTDistributeBadDebtOnNextBa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30150 (Code4rena/eBTC Protocol)"
+help: "[M-06] Batched liquidations doesn't distribute bad debt on next batches in the list"
+wiki_title: "[M-06] Batched liquidations doesn't distribute bad debt on next batches in the list"
+wiki_description: |
+    LiquidationLibrary.batchLiquidateCdps is called from `CDPManager` in order to liquidate list of cdps.
+    Depending if system is currently in recovery mode liquidations will be done [inside `_getTotalFromBatchLiquidate_RecoveryMode` or `_getTotalsFromBatchLiquidate_NormalMode` function](https://github.
+wiki_exploit_scenario: |
+    Per Solodit #30150: LiquidationLibrary.batchLiquidateCdps is called from `CDPManager` in order to liquidate list of cdps.
+    Depending if system is currently in recovery mode liquidations will be done [inside `_getTotalFro
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06BatchedLiquidationsDoesnTDistributeBadDebtOnNextBa"
+solodit_id: "30150"
+solodit_slug: |
+    m-06-batched-liquidations-doesnt-distribute-bad-debt-on-next-batches-in-the-list-code4rena-ebtc-protocol-ebtc-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal coll;"
+fn_name_regex: ".*(CDPManager|ICR|getSyncedICR|debt).*"
+read_var_regex: ".*(coll|debt|getSyncedICR).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "CDPManager"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return coll > 0;"

@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "logic-error-in-blacklist-checks"
+class_name: "LogicErrorInBlacklistChecks"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #52298 (Halborn/Core & Bridge)"
+help: "Logic error in Blacklist checks"
+wiki_title: "Logic error in Blacklist checks"
+wiki_description: |
+    ##### Description
+    
+    Multiple contracts in-scope are using logical **OR (**`||`**)** operator instead of logical **AND (**`&&`**)** when checking if `msg.sender` or `receiver` is blacklisted. This allows blacklisted users to perform actions as long as either party is not blacklisted.
+    
+      
+    
+    `- contracts
+wiki_exploit_scenario: |
+    Per Solodit #52298: ##### Description
+    
+    Multiple contracts in-scope are using logical **OR (**`||`**)** operator instead of logical **AND (**`&&`**)** when checking if `msg.sender` or `receiver` is blacklisted. This allow
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LogicErrorInBlacklistChecks"
+solodit_id: "52298"
+solodit_slug: "logic-error-in-blacklist-checks-halborn-yieldfi-core-bridge-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal blacklistusers;"
+fn_name_regex: ".*(receiver|blacklistUsers|Administrator|claim).*"
+read_var_regex: ".*(blacklistUsers|claim|receiver).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "receiver"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return blacklistusers > 0;"

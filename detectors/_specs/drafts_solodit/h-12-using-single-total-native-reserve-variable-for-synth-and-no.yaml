@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "h-12-using-single-total-native-reserve-variable-for-synth-and-no"
+class_name: "H12UsingSingleTotalNativeReserveVariableForSynthAndNo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42426 (Code4rena/Vader Protocol)"
+help: |
+    [H-12] Using single total native reserve variable for synth and non-synth reserves of `VaderPoolV2` can lead to losses for synth holders
+wiki_title: |
+    [H-12] Using single total native reserve variable for synth and non-synth reserves of `VaderPoolV2` can lead to losses for synth holders
+wiki_description: |
+    _Submitted by hyh, also found by certora_
+    
+    Users that mint synths do provide native assets, increasing native reserve pool, but do not get any liquidity shares issued.
+    In the same time, an exit of non-synth liquidity provider yields releasing a proportion of all current reserves to him.
+    
+    Whenever an
+wiki_exploit_scenario: |
+    Per Solodit #42426: _Submitted by hyh, also found by certora_
+    
+    Users that mint synths do provide native assets, increasing native reserve pool, but do not get any liquidity shares issued.
+    In the same time, an exit of non
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H12UsingSingleTotalNativeReserveVariableForSynthAndNo"
+solodit_id: "42426"
+solodit_slug: |
+    h-12-using-single-total-native-reserve-variable-for-synth-and-non-synth-reserves-of-vaderpoolv2-can-lead-to-losses-for-synth-holders-code4rena-vader-protocol-vader-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(VaderPoolV2).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "VaderPoolV2"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

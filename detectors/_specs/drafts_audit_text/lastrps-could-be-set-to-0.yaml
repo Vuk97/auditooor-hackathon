@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lastrps-could-be-set-to-0"
+class_name: "LastrpsCouldBeSetTo0"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-loopfi"
+help: |
+    0xpiken , also found by zzebra83 and rscodes New reward distribution can not start automatically when lastRPS is set to 0 accidentally. Proof of Concept When ChefIncentivesControll
+wiki_title: "lastRPS could be set to 0"
+wiki_description: |
+    0xpiken , also found by zzebra83 and rscodes New reward distribution can not start automatically when lastRPS is set to 0 accidentally. Proof of Concept When ChefIncentivesController#claim() is called to vest reward for eligible user, _updateEmissions() is invoked first. This function checks if the
+wiki_exploit_scenario: |
+    Per audit finding: 0xpiken , also found by zzebra83 and rscodes New reward distribution can not start automatically when lastRPS is set to 0 accidentally. Proof of Concept When ChefIncentivesController#claim() is called
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LastrpsCouldBeSetTo0"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(lastRPS|rewardsPerSecond|endRewardTime).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "lastRPS"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

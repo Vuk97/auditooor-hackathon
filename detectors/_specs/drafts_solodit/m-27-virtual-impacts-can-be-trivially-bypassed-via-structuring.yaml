@@ -1,0 +1,49 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-27-virtual-impacts-can-be-trivially-bypassed-via-structuring"
+class_name: "M27VirtualImpactsCanBeTriviallyBypassedViaStructuring"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18674 (Sherlock/GMX)"
+help: "M-27: Virtual impacts can be trivially bypassed via structuring"
+wiki_title: "M-27: Virtual impacts can be trivially bypassed via structuring"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-02-gmx-judging/issues/145 
+    
+    ## Found by 
+    IllIllI
+    
+    ## Summary
+    
+    Virtual impacts can be trivially bypassed by chopping large orders into multiple smaller ones
+    
+    
+    ## Vulnerability Detail
+    
+    Virtual price impacts are meant to ensure that even if a user spreads
+wiki_exploit_scenario: |
+    Per Solodit #18674: Source: https://github.com/sherlock-audit/2023-02-gmx-judging/issues/145 
+    
+    ## Found by 
+    IllIllI
+    
+    ## Summary
+    
+    Virtual impacts can be trivially bypassed by chopping large orders into multiple smaller on
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M27VirtualImpactsCanBeTriviallyBypassedViaStructuring"
+solodit_id: "18674"
+solodit_slug: "m-27-virtual-impacts-can-be-trivially-bypassed-via-structuring-sherlock-none-gmx-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(getPriceImpactUsd|hasVirtualInventory|priceImpactUsd|openInterestParamsForVirtualInventory).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

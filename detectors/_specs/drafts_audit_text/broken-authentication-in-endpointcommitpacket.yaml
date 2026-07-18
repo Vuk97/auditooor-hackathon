@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "broken-authentication-in-endpointcommitpacket"
+class_name: "BrokenAuthenticationInEndpointcommitpacket"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero TON - Zellic Audit Report"
+help: |
+    The endpointCommitPacket function is permissionlessly callable with an arbitrary packet. It is in- tended to be called by the msglib, and it passes the packet to channelCommitPacke
+wiki_title: "Broken authentication in endpointCommitPacket"
+wiki_description: |
+    The endpointCommitPacket function is permissionlessly callable with an arbitrary packet. It is in- tended to be called by the msglib, and it passes the packet to channelCommitPacket, which is per- missioned. When making that call, it passes an address taken from user input (the MdAddress) as the for
+wiki_exploit_scenario: |
+    Per audit finding: The endpointCommitPacket function is permissionlessly callable with an arbitrary packet. It is in- tended to be called by the msglib, and it passes the packet to channelCommitPacket, which is per- mis
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BrokenAuthenticationInEndpointcommitpacket"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(endpointCommitPacket|channelCommitPacket|wardingAddress).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "endpointCommitPacket"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

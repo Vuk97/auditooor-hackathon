@@ -1,0 +1,48 @@
+skeleton: "paired_function_divergence"
+name: "m-03-createrjlaunchevent-can-be-called-by-anyone-with-1-wei-of-t"
+class_name: "M03CreaterjlauncheventCanBeCalledByAnyoneWith1WeiOfT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42464 (Code4rena/Trader Joe)"
+help: |
+    [M-03] `createRJLaunchEvent()` can be called by anyone with 1 Wei of `_token` and stop others from creating RJLaunchEvent with the same token anymore
+wiki_title: |
+    [M-03] `createRJLaunchEvent()` can be called by anyone with 1 Wei of `_token` and stop others from creating RJLaunchEvent with the same token anymore
+wiki_description: |
+    _Submitted by WatchPug, also found by p4st13r4_
+    
+    <https://github.com/code-423n4/2022-01-trader-joe/blob/119e12d715ececc31478e833297f124cc15d27c2/contracts/RocketJoeFactory.sol#L97-L132>
+    
+    ```solidity
+    function createRJLaunchEvent(
+        address _issuer,
+        uint256 _phaseOneStartTime,
+        address _token
+wiki_exploit_scenario: |
+    Per Solodit #42464: _Submitted by WatchPug, also found by p4st13r4_
+    
+    <https://github.com/code-423n4/2022-01-trader-joe/blob/119e12d715ececc31478e833297f124cc15d27c2/contracts/RocketJoeFactory.sol#L97-L132>
+    
+    ```solidity
+    f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03CreaterjlauncheventCanBeCalledByAnyoneWith1WeiOfT"
+solodit_id: "42464"
+solodit_slug: |
+    m-03-createrjlaunchevent-can-be-called-by-anyone-with-1-wei-of-_token-and-stop-others-from-creating-rjlaunchevent-with-the-same-token-anymore-code4rena-trader-joe-trader-joe-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(createRJLaunchEvent).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,37 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "error-while-calculating-the-value"
+class_name: "ErrorWhileCalculatingTheValue"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28593 (MixBytes/Cover Protocol)"
+help: "Error while calculating the value"
+wiki_title: "Error while calculating the value"
+wiki_description: |
+    ##### Description
+    The `getPricePerFullShare()` function for a yDAI token contract returns the value multiplied by a factor of 1e18.
+    But it doesn't divided by 1e18:
+    - https://github.com/CoverProtocol/cover-flashloan/tree/bea8cd444aa1791a97b2a81078dc887a835f7949/contracts/CoverFlashBorrower.sol#L90
+    -
+wiki_exploit_scenario: |
+    Per Solodit #28593: ##### Description
+    The `getPricePerFullShare()` function for a yDAI token contract returns the value multiplied by a factor of 1e18.
+    But it doesn't divided by 1e18:
+    - https://github.com/CoverProtocol/c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ErrorWhileCalculatingTheValue"
+solodit_id: "28593"
+solodit_slug: "error-while-calculating-the-value-mixbytes-none-cover-protocol-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(getPricePerFullShare).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

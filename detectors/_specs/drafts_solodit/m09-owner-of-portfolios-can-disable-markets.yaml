@@ -1,0 +1,32 @@
+skeleton: "paired_function_divergence"
+name: "m09-owner-of-portfolios-can-disable-markets"
+class_name: "M09OwnerOfPortfoliosCanDisableMarkets"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11179 (OpenZeppelin/Notional Audit)"
+help: "[M09] Owner of Portfolios can disable markets"
+wiki_title: "[M09] Owner of Portfolios can disable markets"
+wiki_description: |
+    By calling [`updateFutureCashGroup`](https://github.com/swapnet-protocol/swapnet-lite/blob/66ce8f3e529410a5272b7a57c8391fcb80a375fd/packages/contracts/contracts/Portfolios.sol#L129) with a [`numPeriods`](https://github.com/swapnet-protocol/swapnet-lite/blob/66ce8f3e529410a5272b7a57c8391fcb80a375fd/p
+wiki_exploit_scenario: |
+    Per Solodit #11179: By calling [`updateFutureCashGroup`](https://github.com/swapnet-protocol/swapnet-lite/blob/66ce8f3e529410a5272b7a57c8391fcb80a375fd/packages/contracts/contracts/Portfolios.sol#L129) with a [`numPeriod
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09OwnerOfPortfoliosCanDisableMarkets"
+solodit_id: "11179"
+solodit_slug: "m09-owner-of-portfolios-can-disable-markets-openzeppelin-notional-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity|numPeriods|owner).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

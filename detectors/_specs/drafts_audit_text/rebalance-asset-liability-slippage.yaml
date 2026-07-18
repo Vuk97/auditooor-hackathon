@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "rebalance-asset-liability-slippage"
+class_name: "RebalanceAssetLiabilitySlippage"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Origami Finance - Zellic Audit Report"
+help: |
+    When a rebalance is performed, there is no guarantee that the asset/liability (A/L) ratio is changed as much as expected, as the A/L checks in the rebalance functions only verify t
+wiki_title: "Rebalance asset/liability slippage"
+wiki_description: |
+    When a rebalance is performed, there is no guarantee that the asset/liability (A/L) ratio is changed as much as expected, as the A/L checks in the rebalance functions only verify that the A/L remains above the floor in case of _rebalanceDown and below the ceiling in the case of _re- balanceUp. This
+wiki_exploit_scenario: |
+    Per audit finding: When a rebalance is performed, there is no guarantee that the asset/liability (A/L) ratio is changed as much as expected, as the A/L checks in the rebalance functions only verify that the A/L remains
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RebalanceAssetLiabilitySlippage"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(balanceUp|validRange|ratioBefore).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "balanceUp"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

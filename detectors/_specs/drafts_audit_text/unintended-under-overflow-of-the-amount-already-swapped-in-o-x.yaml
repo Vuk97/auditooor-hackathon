@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unintended-under-overflow-of-the-amount-already-swapped-in-o-x"
+class_name: "UnintendedUnderOverflowOfTheAmountAlreadySwappedInOX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-08-superposition"
+help: |
+    DadeKuma A possible wrong amount of the amount already swapped in/out of the input/output asset of a swap due to an unintended under/overflow. Proof of Concept In Rust release mode
+wiki_title: "Unintended under/overflow of the amount already swapped in/out due to unmatching logic"
+wiki_description: |
+    DadeKuma A possible wrong amount of the amount already swapped in/out of the input/output asset of a swap due to an unintended under/overflow. Proof of Concept In Rust release mode, the - and + operations will not revert when an underflow/overflow occurs. As such, the amount can under/overflow in th
+wiki_exploit_scenario: |
+    Per audit finding: DadeKuma A possible wrong amount of the amount already swapped in/out of the input/output asset of a swap due to an unintended under/overflow. Proof of Concept In Rust release mode, the - and + operat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnintendedUnderOverflowOfTheAmountAlreadySwappedInOX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(exactInput|amountSpecifiedRemaining|amountIn).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "exactInput"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

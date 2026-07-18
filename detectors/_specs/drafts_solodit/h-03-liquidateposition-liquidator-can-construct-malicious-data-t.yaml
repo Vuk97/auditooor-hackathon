@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "h-03-liquidateposition-liquidator-can-construct-malicious-data-t"
+class_name: "H03LiquidatepositionLiquidatorCanConstructMaliciousDataT"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29696 (Code4rena/Particle Protocol)"
+help: "[H-03] liquidatePosition() liquidator can construct malicious data to steal the borrower's profit"
+wiki_title: "[H-03] liquidatePosition() liquidator can construct malicious data to steal the borrower's profit"
+wiki_description: |
+    When the Loan expires, and `RenewalCutoffTime` has been set, anyone can execute the liquidation method `liquidatePosition()`.<br>
+    Execution path: `liquidatePosition()` -> `_closePosition()` -> `Base.swap(params.data)`
+    
+    The problem is that this `params.data` can be arbitrarily constructed by the liq
+wiki_exploit_scenario: |
+    Per Solodit #29696: When the Loan expires, and `RenewalCutoffTime` has been set, anyone can execute the liquidation method `liquidatePosition()`.<br>
+    Execution path: `liquidatePosition()` -> `_closePosition()` -> `Base.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03LiquidatepositionLiquidatorCanConstructMaliciousDataT"
+solodit_id: "29696"
+solodit_slug: |
+    h-03-liquidateposition-liquidator-can-construct-malicious-data-to-steal-the-borrowers-profit-code4rena-particle-protocol-particle-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amountreceived;"
+fn_name_regex: ".*(RenewalCutoffTime|liquidatePosition|amountReceived|revert).*"
+read_var_regex: ".*(amountReceived|data|liquidatePosition).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "RenewalCutoffTime"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amountreceived > 0;"

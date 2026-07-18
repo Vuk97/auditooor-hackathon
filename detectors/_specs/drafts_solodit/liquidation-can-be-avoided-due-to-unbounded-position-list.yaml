@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "liquidation-can-be-avoided-due-to-unbounded-position-list"
+class_name: "LiquidationCanBeAvoidedDueToUnboundedPositionList"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #33814 (OpenZeppelin/Panoptic Audit)"
+help: "Liquidation Can Be Avoided Due to Unbounded Position List"
+wiki_title: "Liquidation Can Be Avoided Due to Unbounded Position List"
+wiki_description: |
+    Each account in the Panoptic Pool has a `positionIdList` associated with it, containing all active positions. This list is used to validate the input holdings via the positionHash, calculate collateral requirements as well as compute the premia when minting a new `tokenId` or liquidating an entire a
+wiki_exploit_scenario: |
+    Per Solodit #33814: Each account in the Panoptic Pool has a `positionIdList` associated with it, containing all active positions. This list is used to validate the input holdings via the positionHash, calculate collatera
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LiquidationCanBeAvoidedDueToUnboundedPositionList"
+solodit_id: "33814"
+solodit_slug: "liquidation-can-be-avoided-due-to-unbounded-position-list-openzeppelin-none-panoptic-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidateaccount;"
+fn_name_regex: ".*(positionIdList|tokenId|liquidateAccount|mintOptions).*"
+write_var_regex: ".*(liquidateAccount|mintOptions|positionIdList).*"
+guard_var_regex: ".*(liquidateAccount|mintOptions|positionIdList).*"
+vuln_fn_name: "positionIdList"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "liquidateaccount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

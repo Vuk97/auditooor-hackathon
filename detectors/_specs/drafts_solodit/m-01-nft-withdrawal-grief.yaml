@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-01-nft-withdrawal-grief"
+class_name: "M01NftWithdrawalGrief"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20705 (Code4rena/Particle Protocol)"
+help: "[M-01] NFT withdrawal grief"
+wiki_title: "[M-01] NFT withdrawal grief"
+wiki_description: |
+    A lienee whose NFT is not currently on loan may be prevented from withdrawing it.
+    
+    ### Proof of Concept
+    
+    A lienee who wishes to withdraw his NFT calls `withdrawNftWithInterest()` which tries to [`IERC721.safeTransferFrom()` the NFT](https://github.com/code-423n4/2023-05-particle/blob/1caf678bc20c24
+wiki_exploit_scenario: |
+    Per Solodit #20705: A lienee whose NFT is not currently on loan may be prevented from withdrawing it.
+    
+    ### Proof of Concept
+    
+    A lienee who wishes to withdraw his NFT calls `withdrawNftWithInterest()` which tries to [`IER
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01NftWithdrawalGrief"
+solodit_id: "20705"
+solodit_slug: "m-01-nft-withdrawal-grief-code4rena-particle-protocol-particle-protocol-invitational-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal payableinterest;"
+fn_name_regex: ".*(withdrawNftWithInterest|swapWithEth|repayWithNft|payableInterest).*"
+read_var_regex: ".*(payableInterest|repayWithNft|swapWithEth).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdrawNftWithInterest"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return payableinterest > 0;"

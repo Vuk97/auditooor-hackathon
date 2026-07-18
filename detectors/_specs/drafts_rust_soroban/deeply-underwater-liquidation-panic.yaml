@@ -1,0 +1,19 @@
+id: deeply-underwater-liquidation-panic
+title: "Deeply underwater liquidations panic instead of capping collateral"
+severity: Medium
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44853"
+bug_class: liquidation
+indicators:
+  - "seize-amount calc subtracts without `checked_sub` / `saturating_sub` for deeply-underwater positions"
+  - "panic on HF far below 1"
+victim: "Protocol: panic makes liquidation impossible and bad debt grows."
+exploit_precondition: "Price crashes deeply before any liquidation attempt."
+real_world_example: |
+  V12 #44853 (Medium): Deeply underwater liquidations panic instead of capping collateral.
+suggested_remediation: "`saturating_*` and cap at user's actual balance; log residual as deficit."
+cross_refs:
+  - unchecked-arithmetic-hf-saturation

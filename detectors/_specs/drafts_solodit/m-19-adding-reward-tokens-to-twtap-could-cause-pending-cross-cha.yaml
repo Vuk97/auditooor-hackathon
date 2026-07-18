@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-19-adding-reward-tokens-to-twtap-could-cause-pending-cross-cha"
+class_name: "M19AddingRewardTokensToTwtapCouldCausePendingCrossCha"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32342 (Code4rena/Tapioca DAO)"
+help: "[M-19] Adding reward tokens to `twTap` could cause pending cross-chain claim rewards msg to be stuck"
+wiki_title: "[M-19] Adding reward tokens to `twTap` could cause pending cross-chain claim rewards msg to be stuck"
+wiki_description: |
+    There is a check in the `TapTokenReceiver._claimTwpTapRewardsReceiver` to ensure the claimed types amount is equal to the token types amount of `sendParam`.
+    
+    ```solidity
+            if (
+                (claimedAmount_.length - 1) // Remove 1 because the first index doesn't count.
+                    != claimT
+wiki_exploit_scenario: |
+    Per Solodit #32342: There is a check in the `TapTokenReceiver._claimTwpTapRewardsReceiver` to ensure the claimed types amount is equal to the token types amount of `sendParam`.
+    
+    ```solidity
+            if (
+                (cla
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M19AddingRewardTokensToTwtapCouldCausePendingCrossCha"
+solodit_id: "32342"
+solodit_slug: |
+    m-19-adding-reward-tokens-to-twtap-could-cause-pending-cross-chain-claim-rewards-msg-to-be-stuck-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amounttosendld;"
+fn_name_regex: ".*(sendParam|twTap|MSG_CLAIM_REWARDS|twTAP).*"
+read_var_regex: ".*(amountToSendLD|sendParam|twTAP).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "sendParam"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amounttosendld > 0;"

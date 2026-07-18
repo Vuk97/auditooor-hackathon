@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "pdz-2025-08"
+class_name: "Pdz202508"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-08/PDZ_exp.sol"
+help: "PDZ 2025-08 — flashloan exploit (3.3 BNB)"
+wiki_title: "PDZ (2025-08) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-08): PDZ lost 3.3 BNB. Bug class: flashloan. Attack tx: 0x81fd00eab3434eac93bfdf919400ae5ca280acd891f95f47691bbe3cbf6f05a5.
+wiki_exploit_scenario: |
+    Attacker (0x48234fb95d4d3e5a09f3ec4dd57f68281b78c825) exploits PDZ via flashloan: the victim contract 0x664201579057f50D23820d20558f4b61bd80BDda exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Pdz202508"
+trigger_sig_regex: ".*(pancakeCall).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function pancakeCall(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.pancakeCall(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

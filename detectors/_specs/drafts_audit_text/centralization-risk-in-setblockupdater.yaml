@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "centralization-risk-in-setblockupdater"
+class_name: "CentralizationRiskInSetblockupdater"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Polyhedra DVN - Zellic Audit Report"
+help: |
+    The setBlockUpdater function in ZkBridgeOracleV2 allows the contract owner to modify the block updater for any source chain. The block updater is responsible for validating receipt
+wiki_title: "Centralization risk in setBlockUpdater"
+wiki_description: |
+    The setBlockUpdater function in ZkBridgeOracleV2 allows the contract owner to modify the block updater for any source chain. The block updater is responsible for validating receipt hashes against a given block hash. function setBlockUpdater(uint16 _sourceChainId, address _blockUpdater) external only
+wiki_exploit_scenario: |
+    Per audit finding: The setBlockUpdater function in ZkBridgeOracleV2 allows the contract owner to modify the block updater for any source chain. The block updater is responsible for validating receipt hashes against a gi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CentralizationRiskInSetblockupdater"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setBlockUpdater|onlyOwner|blockUpdaters).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setBlockUpdater"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

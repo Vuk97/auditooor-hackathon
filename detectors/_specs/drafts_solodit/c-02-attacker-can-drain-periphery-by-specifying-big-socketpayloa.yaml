@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_call"
+name: "c-02-attacker-can-drain-periphery-by-specifying-big-socketpayloa"
+class_name: "C02AttackerCanDrainPeripheryBySpecifyingBigSocketpayloa"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31741 (Pashov Audit Group/Reyanetwork)"
+help: "[C-02] Attacker can drain Periphery by specifying big `socketPayloadSize`"
+wiki_title: "[C-02] Attacker can drain Periphery by specifying big `socketPayloadSize`"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    When a user withdraws funds from protocol, tokens are bridged to another chain to address `receiver`. The fee to pay for bridging is based on `gasLimit` and `payloadSize`:
+    
+    ```solidity
+        function getFees(...)
+            internal
+wiki_exploit_scenario: |
+    Per Solodit #31741: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    When a user withdraws funds from protocol, tokens are bridged to another chain to address `receiver`. The fee to pay for bridging
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C02AttackerCanDrainPeripheryBySpecifyingBigSocketpayloa"
+solodit_id: "31741"
+solodit_slug: |
+    c-02-attacker-can-drain-periphery-by-specifying-big-socketpayloadsize-pashov-none-reyanetwork-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal executionfee;"
+fn_name_regex: ".*(receiver|gasLimit|payloadSize|executionFee).*"
+read_var_regex: ".*(executionFee|gasLimit|payloadSize).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "receiver"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return executionfee > 0;"

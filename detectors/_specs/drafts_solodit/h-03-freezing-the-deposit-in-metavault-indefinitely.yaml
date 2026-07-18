@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_require"
+name: "h-03-freezing-the-deposit-in-metavault-indefinitely"
+class_name: "H03FreezingTheDepositInMetavaultIndefinitely"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45990 (Pashov Audit Group/Peapods_2024-11-16)"
+help: "[H-03] Freezing the deposit in MetaVault indefinitely"
+wiki_title: "[H-03] Freezing the deposit in MetaVault indefinitely"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description:
+    
+    Consider the following -->
+    
+    1.) Victim has deposited into the LendingAssetVault.sol (what we call the Meta Vault), let's say when the victim deposited the
+    
+    block.number = 50 i.e. `_lastDeposit[victim] = 50`
+    
+    2.) Now at block 80
+wiki_exploit_scenario: |
+    Per Solodit #45990: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description:
+    
+    Consider the following -->
+    
+    1.) Victim has deposited into the LendingAssetVault.sol (what we call the Meta Vault), let's say whe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03FreezingTheDepositInMetavaultIndefinitely"
+solodit_id: "45990"
+solodit_slug: |
+    h-03-freezing-the-deposit-in-metavault-indefinitely-pashov-audit-group-none-peapods_2024-11-16-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(convertToShares|safeTransferFrom).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "convertToShares"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

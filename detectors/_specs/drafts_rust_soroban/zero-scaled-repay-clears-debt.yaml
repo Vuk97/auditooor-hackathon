@@ -1,0 +1,22 @@
+id: zero-scaled-repay-clears-debt
+title: "ray_div_down zero-scaled repay triggers dust cleanup and wipes full debt"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44367"
+bug_class: precision-loss
+indicators:
+  - "`ray_div_down(amount, index)` returning 0 on small inputs"
+  - "`burn_scaled` accepts `amount_scaled == 0` without error"
+  - "`if new_scaled_debt <= 1 { amount_scaled = current_scaled_debt }` dust cleanup overwriting the zero"
+  - "router does not re-read burned amount from debt-token return tuple"
+victim: "Suppliers: borrower wipes entire debt with a sub-minimum repayment, creating bad debt."
+exploit_precondition: "Borrower grinds scaled debt to 1 (or very small) and waits for borrow index to grow."
+real_world_example: |
+  V12 #44367 (High): Zero-scaled repay clears debt via dust cleanup path.
+suggested_remediation: "Reject `amount_scaled == 0` in `burn_scaled`; in router, validate the effective amount burned against the nominal repayment."
+cross_refs:
+  - dust-cleanup-burns-more-than-accounted
+  - precision-loss-div-before-mul

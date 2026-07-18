@@ -1,0 +1,53 @@
+{
+  "_comment": "Bounded-window LLM call budget. See tools/llm-budget-guard.py. window_minutes is the rolling window. max_calls / max_tokens are hard ceilings within that window. soft_ratio (0,1] sets the graceful-exit threshold for loops that opt in via --soft. Paid-tier operator approval on 2026-05-01 raised Kimi/Minimax from the old conservative 30/h + 60/h defaults to aggressive audited loop budgets. Keep audit logging and advisory-only provider output; lower these values for unpaid/key-constrained environments. DEEPSEEK-INTEGRATION-CORE (2026-05-26): deepseek-flash + deepseek-pro added with cost-cap envelope ($100/mo total, $80 alert) tracked via cost_usd_per_month_cap; the call/token ceilings are conservative starting points sized to the operator-cited Flash concurrency=2500 / Pro concurrency=500.",
+  "providers": {
+    "kimi": {
+      "window_minutes": 60,
+      "max_calls": 180,
+      "max_tokens": 1800000,
+      "soft_ratio": 0.9
+    },
+    "minimax": {
+      "window_minutes": 60,
+      "max_calls": 240,
+      "max_tokens": 2400000,
+      "soft_ratio": 0.9
+    },
+    "claude": {
+      "window_minutes": 60,
+      "max_calls": 60,
+      "max_tokens": 200000,
+      "soft_ratio": 0.85
+    },
+    "codex": {
+      "window_minutes": 60,
+      "max_calls": 60,
+      "max_tokens": 200000,
+      "soft_ratio": 0.85
+    },
+    "deepseek-flash": {
+      "window_minutes": 60,
+      "max_calls": 600,
+      "max_tokens": 6000000,
+      "soft_ratio": 0.85,
+      "cost_usd_per_month_cap": 100.0,
+      "cost_usd_per_month_alert": 80.0,
+      "context_window": 1000000,
+      "max_output_tokens": 384000,
+      "concurrency_limit": 2500,
+      "pricing_table_version": "2026-05-26-operator-cited"
+    },
+    "deepseek-pro": {
+      "window_minutes": 60,
+      "max_calls": 240,
+      "max_tokens": 2400000,
+      "soft_ratio": 0.85,
+      "cost_usd_per_month_cap": 100.0,
+      "cost_usd_per_month_alert": 80.0,
+      "context_window": 200000,
+      "max_output_tokens": 64000,
+      "concurrency_limit": 500,
+      "pricing_table_version": "2026-05-26-operator-cited"
+    }
+  }
+}

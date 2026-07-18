@@ -1,0 +1,21 @@
+id: dust-cleanup-burns-more-than-accounted
+title: "Dust cleanup burns more debt than the caller's repayment accounts for"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44798"
+  - "44850"
+bug_class: liquidation
+indicators:
+  - "conditional `if remaining_debt <= DUST_THRESHOLD { burn_all }` with no matching underlying transfer"
+  - "asymmetric burn (full debt) vs. transfer (small amount)"
+  - "debt token and router disagree on whether the whole debt was paid"
+victim: "Protocol/suppliers: debt is erased while only a small underlying transfer occurred."
+exploit_precondition: "Borrower drives debt to within the dust threshold and triggers cleanup."
+real_world_example: |
+  V12 #44798 (High): Dust cleanup burns more debt than callers account for.
+suggested_remediation: "Match burn amount to actual underlying received; if dust is burned, require the caller to cover it or send it to treasury."
+cross_refs:
+  - zero-scaled-repay-clears-debt

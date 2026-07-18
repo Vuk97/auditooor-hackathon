@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "lp-yield-is-not-reserved"
+class_name: "LpYieldIsNotReserved"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Bloom Trading - Zellic Audit Report"
+help: |
+    When a trade is unregistered, the accumulated yield is added to the accLpYield variable in Vault- Manager. This yield is distributed back to the LPs. The function returnBlastYield
+wiki_title: "LP yield is not reserved"
+wiki_description: |
+    When a trade is unregistered, the accumulated yield is added to the accLpYield variable in Vault- Manager. This yield is distributed back to the LPs. The function returnBlastYield could be called by the keeper to transfer the generated yield to the vault. function returnBlastYield(uint _yield) exter
+wiki_exploit_scenario: |
+    Per audit finding: When a trade is unregistered, the accumulated yield is added to the accLpYield variable in Vault- Manager. This yield is distributed back to the LPs. The function returnBlastYield could be called by t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LpYieldIsNotReserved"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(accLpYield|returnBlastYield|onlyKeeper).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "accLpYield"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

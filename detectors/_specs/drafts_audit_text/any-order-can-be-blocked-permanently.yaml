@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "any-order-can-be-blocked-permanently"
+class_name: "AnyOrderCanBeBlockedPermanently"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Bebop - Zellic Audit Report"
+help: |
+    /) Construct partial orders from aggregated orders function assertAndInvalidateAggregateOrder( AggregateOrder memory order, bytes memory takerSig, Signature[] memory makerSigs ) pu
+wiki_title: "Any order can be blocked permanently"
+wiki_description: |
+    /) Construct partial orders from aggregated orders function assertAndInvalidateAggregateOrder( AggregateOrder memory order, bytes memory takerSig, Signature[] memory makerSigs ) public override returns (bytes32) { The public function assertAndInvalidateAggregateOrder checks the validity of an or- de
+wiki_exploit_scenario: |
+    Per audit finding: /) Construct partial orders from aggregated orders function assertAndInvalidateAggregateOrder( AggregateOrder memory order, bytes memory takerSig, Signature[] memory makerSigs ) public override return
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyOrderCanBeBlockedPermanently"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(takerSig|makerSigs).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "takerSig"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

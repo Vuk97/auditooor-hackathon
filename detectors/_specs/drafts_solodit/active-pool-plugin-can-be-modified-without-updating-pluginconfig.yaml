@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "active-pool-plugin-can-be-modified-without-updating-pluginconfig"
+class_name: "ActivePoolPluginCanBeModifiedWithoutUpdatingPluginconfig"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27790 (MixBytes/Algebra Finance)"
+help: "Active pool `plugin` can be modified without updating `pluginConfig`"
+wiki_title: "Active pool `plugin` can be modified without updating `pluginConfig`"
+wiki_description: |
+    ##### Description
+    https://github.com/cryptoalgebra/Algebra/blob/6c22b64977e0b0266aec89470480df74977eb606/src/core/contracts/AlgebraPool.sol#L402
+    An issue has been found in the `setPlugin` function.
+    Pool administrators can alter the `plugin` of an active pool. However, there is a discrepancy as the `
+wiki_exploit_scenario: |
+    Per Solodit #27790: ##### Description
+    https://github.com/cryptoalgebra/Algebra/blob/6c22b64977e0b0266aec89470480df74977eb606/src/core/contracts/AlgebraPool.sol#L402
+    An issue has been found in the `setPlugin` function.
+    Po
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ActivePoolPluginCanBeModifiedWithoutUpdatingPluginconfig"
+solodit_id: "27790"
+solodit_slug: |
+    active-pool-plugin-can-be-modified-without-updating-pluginconfig-mixbytes-none-algebra-finance-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(setPlugin|plugin|pluginConfig|fee).*"
+primary_var_regex: ".*(fee|fees|medium).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

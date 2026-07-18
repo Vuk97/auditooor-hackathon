@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "l2messagequeue-stores-incorrect-value-if-not-initialized-before-"
+class_name: "L2messagequeueStoresIncorrectValueIfNotInitializedBefore"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32950 (OpenZeppelin/Scroll Phase 2 Audit)"
+help: "L2MessageQueue Stores Incorrect Value if not Initialized Before Appending"
+wiki_title: "L2MessageQueue Stores Incorrect Value if not Initialized Before Appending"
+wiki_description: |
+    In `L2MessageQueue` it is expected that `initialize` is called before `appendMessage`. This initializes the [`zeroHashes` array](https://github.com/scroll-tech/scroll/blob/3bc8a3f5c6ac816ddffadca41024331dcf4d3064/contracts/src/libraries/common/AppendOnlyMerkleTree.sol#L17). If however, it is not, [`
+wiki_exploit_scenario: |
+    Per Solodit #32950: In `L2MessageQueue` it is expected that `initialize` is called before `appendMessage`. This initializes the [`zeroHashes` array](https://github.com/scroll-tech/scroll/blob/3bc8a3f5c6ac816ddffadca41024
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "L2messagequeueStoresIncorrectValueIfNotInitializedBefore"
+solodit_id: "32950"
+solodit_slug: |
+    l2messagequeue-stores-incorrect-value-if-not-initialized-before-appending-openzeppelin-none-scroll-phase-2-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal appendmessage;"
+fn_name_regex: ".*(L2MessageQueue|initialize|appendMessage|zeroHashes).*"
+read_var_regex: ".*(appendMessage|initialize|messenger).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "L2MessageQueue"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return appendmessage > 0;"

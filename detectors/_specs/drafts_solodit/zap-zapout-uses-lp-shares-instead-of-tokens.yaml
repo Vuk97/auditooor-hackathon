@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "zap-zapout-uses-lp-shares-instead-of-tokens"
+class_name: "ZapZapoutUsesLpSharesInsteadOfTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62670 (MixBytes/NUTS Finance)"
+help: "`Zap.zapOut` Uses LP shares Instead of Tokens"
+wiki_title: "`Zap.zapOut` Uses LP shares Instead of Tokens"
+wiki_description: |
+    ##### Description
+    This issue has been identified within the `zapOut` function of the `Zap` contract. 
+    
+    ```solidity
+    uint256 lpTokenShares = ILPToken(lpToken).getSharesByPeggedToken(lpAmount);
+    IERC20(lpToken).forceApprove(spa, lpTokenShares);
+    ```
+    
+    The receiving `SelfPeggingAsset` contract expects `lpA
+wiki_exploit_scenario: |
+    Per Solodit #62670: ##### Description
+    This issue has been identified within the `zapOut` function of the `Zap` contract. 
+    
+    ```solidity
+    uint256 lpTokenShares = ILPToken(lpToken).getSharesByPeggedToken(lpAmount);
+    IERC20(lp
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ZapZapoutUsesLpSharesInsteadOfTokens"
+solodit_id: "62670"
+solodit_slug: "zapzapout-uses-lp-shares-instead-of-tokens-mixbytes-none-nuts-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lpamount;"
+fn_name_regex: ".*(zapOut|Zap|SelfPeggingAsset|lpAmount).*"
+read_var_regex: ".*(lpAmount|zapOut).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "zapOut"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return lpamount > 0;"

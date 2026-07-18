@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "steamswap-2024-06"
+class_name: "Steamswap202406"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-06/SteamSwap_exp.sol"
+help: "SteamSwap 2024-06 — swap exploit (~$91k)"
+wiki_title: "SteamSwap (2024-06) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-06): SteamSwap lost ~$91k. Bug class: swap. Attack tx: 0x40f3bdd0a3a8d0476ae6aa2875dc2ec60b80812e2a394b67a88260df57c65522.
+wiki_exploit_scenario: |
+    Attacker (0xb2d546547168f61debf0a780210b5591e4dd39a8) exploits SteamSwap via swap: the victim contract 0xb7d0a1adafa3e9e8d8e244c20b6277bee17a09b6 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Steamswap202406"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

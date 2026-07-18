@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "first-depositor-issue-15"
+class_name: "FirstDepositorIssue15"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Silo Staking - Zellic Audit Report"
+help: |
+    Sei chains, by default, have a limit of seven undelegations at a time per validator-delegator pair. In order to support unbonding requests from many users, the contract bundles unb
+wiki_title: "First depositor Issue                                                             15"
+wiki_description: |
+    Sei chains, by default, have a limit of seven undelegations at a time per validator-delegator pair. In order to support unbonding requests from many users, the contract bundles unbonding requests together and submits them in batches. The contract submits a batch every three days, such that there are
+wiki_exploit_scenario: |
+    Per audit finding: Sei chains, by default, have a limit of seven undelegations at a time per validator-delegator pair. In order to support unbonding requests from many users, the contract bundles unbonding requests toge
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FirstDepositorIssue15"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

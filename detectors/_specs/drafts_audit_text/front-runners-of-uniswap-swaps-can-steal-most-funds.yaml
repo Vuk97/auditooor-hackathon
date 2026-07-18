@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "front-runners-of-uniswap-swaps-can-steal-most-funds"
+class_name: "FrontRunnersOfUniswapSwapsCanStealMostFunds"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Singularity - Zellic Audit Report"
+help: |
+    With the uniswapSimpleSwap function, users can use Uniswap to swap one asset for another, paying with a note in the darkpool and obtaining a new note for the swapped asset. The fun
+wiki_title: "Front-runners of Uniswap swaps can steal most funds"
+wiki_description: |
+    With the uniswapSimpleSwap function, users can use Uniswap to swap one asset for another, paying with a note in the darkpool and obtaining a new note for the swapped asset. The function takes a proof as well as the following struct UniswapSimpleSwapArgs as arguments: struct UniswapSimpleSwapArgs { /
+wiki_exploit_scenario: |
+    Per audit finding: With the uniswapSimpleSwap function, users can use Uniswap to swap one asset for another, paying with a note in the darkpool and obtaining a new note for the swapped asset. The function takes a proof
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FrontRunnersOfUniswapSwapsCanStealMostFunds"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

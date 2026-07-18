@@ -1,0 +1,31 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-05-v3proxy-swaptokensforexacteth-does-not-send-back-to-the-cal"
+class_name: "H05V3proxySwaptokensforexactethDoesNotSendBackToTheCal"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26875 (Code4rena/Good Entry)"
+help: "[H-05] V3Proxy swapTokensForExactETH does not send back to the caller the unused input tokens"
+wiki_title: "[H-05] V3Proxy swapTokensForExactETH does not send back to the caller the unused input tokens"
+wiki_description: |
+    The `V3Proxy` `swapTokensForExactETH` function swaps an unspecified amount of a given ERC-20 for a specified amount of the native currency. After the swap happens, however, the difference between the amount taken from the caller (`amountInMax`) and the actual swapped amount (`amounts[0]`) is not gi
+wiki_exploit_scenario: |
+    Per Solodit #26875: The `V3Proxy` `swapTokensForExactETH` function swaps an unspecified amount of a given ERC-20 for a specified amount of the native currency. After the swap happens, however, the difference between the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05V3proxySwaptokensforexactethDoesNotSendBackToTheCal"
+solodit_id: "26875"
+solodit_slug: |
+    h-05-v3proxy-swaptokensforexacteth-does-not-send-back-to-the-caller-the-unused-input-tokens-code4rena-good-entry-good-entry-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Flash Loan"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(V3Proxy|swapTokensForExactETH|amountInMax).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

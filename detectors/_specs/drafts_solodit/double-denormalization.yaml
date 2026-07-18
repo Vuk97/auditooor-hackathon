@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "double-denormalization"
+class_name: "DoubleDenormalization"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #47858 (OtterSec/Synonym)"
+help: "Double Denormalization"
+wiki_title: "Double Denormalization"
+wiki_description: |
+    ## Overview
+    
+    The function `calculateNotionals` is incorrectly used in multiple places, specifically:
+    - `calculateMaxWithdrawableAndBorrowableAmounts` in `HubPriceUtilities`
+    - `calculateNotionalRepaid` and `calculateNotionalReceived` within `LiquidationCalculator`.
+    
+    The `calculateNotionals` function
+wiki_exploit_scenario: |
+    Per Solodit #47858: ## Overview
+    
+    The function `calculateNotionals` is incorrectly used in multiple places, specifically:
+    - `calculateMaxWithdrawableAndBorrowableAmounts` in `HubPriceUtilities`
+    - `calculateNotionalRepaid`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DoubleDenormalization"
+solodit_id: "47858"
+solodit_slug: "double-denormalization-ottersec-none-synonym-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calculatemaxwithdrawableandborrowableamounts;"
+fn_name_regex: ".*(calculateNotionals|calculateMaxWithdrawableAndBorrowableAmounts|HubPriceUtilities|calculateNotionalRepaid).*"
+read_var_regex: ".*(calculateMaxWithdrawableAndBorrowableAmounts|calculateNotionalReceived|calculateNotionalRepaid).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "calculateNotionals"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calculatemaxwithdrawableandborrowableamounts > 0;"

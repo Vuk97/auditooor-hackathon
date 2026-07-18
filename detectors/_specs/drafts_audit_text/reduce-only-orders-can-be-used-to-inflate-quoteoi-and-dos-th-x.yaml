@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "reduce-only-orders-can-be-used-to-inflate-quoteoi-and-dos-th-x"
+class_name: "ReduceOnlyOrdersCanBeUsedToInflateQuoteoiAndDosThX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-08-gte-perps-and-launchpad"
+help: |
+    VinciGearHead , also found by HighKingMargo and udogodwin perps/types/Book.sol #L391-L403 A malicious user may place a reduce-only order with a tiny amount but an arbitrarily large
+wiki_title: "Reduce-only orders can be used to inflate quoteOI and DoS the orderbook"
+wiki_description: |
+    VinciGearHead , also found by HighKingMargo and udogodwin perps/types/Book.sol #L391-L403 A malicious user may place a reduce-only order with a tiny amount but an arbitrarily large price. The book code unconditionally increases metadata.quoteOI (for BUY) when the order is added to the book. The addO
+wiki_exploit_scenario: |
+    Per audit finding: VinciGearHead , also found by HighKingMargo and udogodwin perps/types/Book.sol #L391-L403 A malicious user may place a reduce-only order with a tiny amount but an arbitrarily large price. The book cod
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReduceOnlyOrdersCanBeUsedToInflateQuoteoiAndDosThX"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(quoteOI|addOrderToBook|reduceOnly).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

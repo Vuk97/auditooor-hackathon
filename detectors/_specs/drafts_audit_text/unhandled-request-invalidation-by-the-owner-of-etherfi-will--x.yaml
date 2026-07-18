@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unhandled-request-invalidation-by-the-owner-of-etherfi-will--x"
+class_name: "UnhandledRequestInvalidationByTheOwnerOfEtherfiWillX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-benddao"
+help: |
+    0x73696d616f The owner of Etherfi has the ability to invalidate withdrawal requests, which will DoS YieldEthStakingEtherfi::protocolClaimWithdraw() without ever repaying the debt.
+wiki_title: "Unhandled request invalidation by the owner of Etherfi will lead to stuck debt"
+wiki_description: |
+    0x73696d616f The owner of Etherfi has the ability to invalidate withdrawal requests, which will DoS YieldEthStakingEtherfi::protocolClaimWithdraw() without ever repaying the debt. Additionally, Etherfi has a mechanism to manually claim the invalidated withdrawal, which will leave the withdraw reques
+wiki_exploit_scenario: |
+    Per audit finding: 0x73696d616f The owner of Etherfi has the ability to invalidate withdrawal requests, which will DoS YieldEthStakingEtherfi::protocolClaimWithdraw() without ever repaying the debt. Additionally, Etherf
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnhandledRequestInvalidationByTheOwnerOfEtherfiWillX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(protocolClaimWithdraw|claimWithdraw).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "protocolClaimWithdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

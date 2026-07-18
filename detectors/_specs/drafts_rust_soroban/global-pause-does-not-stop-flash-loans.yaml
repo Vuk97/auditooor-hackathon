@@ -1,0 +1,19 @@
+id: global-pause-does-not-stop-flash-loans
+title: "Global pause does not stop flash loans"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44855"
+bug_class: health-factor
+indicators:
+  - "`flash_loan(...)` entry point has no `pause.is_paused()` check"
+  - "global/protocol-wide pause flag exists but flash-loan path bypasses it"
+victim: "Protocol: flash loans continue during emergency, worsening incident exposure."
+exploit_precondition: "Admin global-pauses."
+real_world_example: |
+  V12 #44855 (High): Global pause does not stop flash loans.
+suggested_remediation: "Gate flash loans on the global pause flag."
+cross_refs:
+  - reserve-pause-ignored-in-core-ops

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-01-liquidation-factor-collateral-factor-for-sigma-type"
+class_name: "M01LiquidationFactorCollateralFactorForSigmaType"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #935 (Code4rena/Mochi)"
+help: "[M-01] liquidation factor < collateral factor for Sigma type"
+wiki_title: "[M-01] liquidation factor < collateral factor for Sigma type"
+wiki_description: |
+    _Submitted by cmichel, also found by gzeon_
+    
+    The `MochiProfileV0` defines liquidation and collateral factors for different asset types.
+    For the `AssetClass.Sigma` type, the liquidation factor is *less* than the collateral factor:
+    
+    ```solidity
+    function liquidationFactor(address _asset)
+        public
+wiki_exploit_scenario: |
+    Per Solodit #935: _Submitted by cmichel, also found by gzeon_
+    
+    The `MochiProfileV0` defines liquidation and collateral factors for different asset types.
+    For the `AssetClass.Sigma` type, the liquidation factor is *less
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01LiquidationFactorCollateralFactorForSigmaType"
+solodit_id: "935"
+solodit_slug: "m-01-liquidation-factor-collateral-factor-for-sigma-type-code4rena-mochi-mochi-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(MochiProfileV0).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "MochiProfileV0"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

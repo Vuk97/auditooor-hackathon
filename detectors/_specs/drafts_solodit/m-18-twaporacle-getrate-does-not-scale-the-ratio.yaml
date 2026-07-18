@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "m-18-twaporacle-getrate-does-not-scale-the-ratio"
+class_name: "M18TwaporacleGetrateDoesNotScaleTheRatio"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42353 (Code4rena/Vader Protocol)"
+help: "[M-18] `TWAPOracle.getRate` does not scale the ratio"
+wiki_title: "[M-18] `TWAPOracle.getRate` does not scale the ratio"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `TWAPOracle.getRate` function simply performs an integer division to compute the rate.
+    
+    ```solidity
+    function getRate() public view returns (uint256 result) {
+        uint256 tUSDInUSDV = consult(USDV);
+        uint256 tUSDInVader = consult(VADER);
+        // @audit shouldn't this sca
+wiki_exploit_scenario: |
+    Per Solodit #42353: _Submitted by cmichel_
+    
+    The `TWAPOracle.getRate` function simply performs an integer division to compute the rate.
+    
+    ```solidity
+    function getRate() public view returns (uint256 result) {
+        uint256 tU
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18TwaporacleGetrateDoesNotScaleTheRatio"
+solodit_id: "42353"
+solodit_slug: "m-18-twaporaclegetrate-does-not-scale-the-ratio-code4rena-vader-protocol-vader-protocol-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal usdvtovader;"
+fn_name_regex: ".*(usdvtoVader|vaderToUsdv).*"
+read_var_regex: ".*(usdvtoVader|vaderToUsdv).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "usdvtoVader"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return usdvtovader > 0;"

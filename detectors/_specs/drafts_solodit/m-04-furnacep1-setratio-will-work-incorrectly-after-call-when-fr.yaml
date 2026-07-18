@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-04-furnacep1-setratio-will-work-incorrectly-after-call-when-fr"
+class_name: "M04Furnacep1SetratioWillWorkIncorrectlyAfterCallWhenFr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27336 (Code4rena/Reserve)"
+help: "[M-04] FurnaceP1.setRatio will work incorrectly after call when frozen"
+wiki_title: "[M-04] FurnaceP1.setRatio will work incorrectly after call when frozen"
+wiki_description: |
+    `FurnaceP1.setRatio` will not update `lastPayout` when called in frozen state, which means that after component will be unfrozen, melting will be incorrect.
+    
+    ### Proof of Concept
+    
+    `melt` function should burn some amount of tokens from `lastPayoutBal`. It depends of `lastPayout` and `ratio` variable
+wiki_exploit_scenario: |
+    Per Solodit #27336: `FurnaceP1.setRatio` will not update `lastPayout` when called in frozen state, which means that after component will be unfrozen, melting will be incorrect.
+    
+    ### Proof of Concept
+    
+    `melt` function sho
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04Furnacep1SetratioWillWorkIncorrectlyAfterCallWhenFr"
+solodit_id: "27336"
+solodit_slug: "m-04-furnacep1setratio-will-work-incorrectly-after-call-when-frozen-code4rena-reserve-reserve-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal catch;"
+fn_name_regex: ".*(lastPayout|melt|lastPayoutBal|ratio).*"
+read_var_regex: ".*(catch|lastPayout|lastPayoutBal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "lastPayout"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return catch > 0;"

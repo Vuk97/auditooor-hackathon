@@ -1,0 +1,54 @@
+skeleton: "paired_function_divergence"
+name: "attempted-out-of-bound-array-access-on-twap-result-when-zero-add"
+class_name: "AttemptedOutOfBoundArrayAccessOnTwapResultWhenZeroAdd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6802 (Spearbit/Sense)"
+help: "Attempted Out Of Bound Array Access On TWAP Result When Zero Address >= Target Address"
+wiki_title: "Attempted Out Of Bound Array Access On TWAP Result When Zero Address >= Target Address"
+wiki_description: |
+    ## Medium Risk Security Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    File: `Zero.sol`  
+    Line Range: L87-98  
+    
+    ```solidity
+    BalancerOracleLike.OracleAverageQuery[] memory queries = new BalancerOracleLike.OracleAverageQuery[](1);
+    queries[0] = BalancerOracleLike.OracleAverageQuery({
+        variable: Bal
+wiki_exploit_scenario: |
+    Per Solodit #6802: ## Medium Risk Security Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    File: `Zero.sol`  
+    Line Range: L87-98  
+    
+    ```solidity
+    BalancerOracleLike.OracleAverageQuery[] memory queries = new BalancerOracle
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AttemptedOutOfBoundArrayAccessOnTwapResultWhenZeroAdd"
+solodit_id: "6802"
+solodit_slug: "attempted-out-of-bound-array-access-on-twap-result-when-zero-spearbit-sense-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(getTimeWeightedAverage|results|zeroi).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

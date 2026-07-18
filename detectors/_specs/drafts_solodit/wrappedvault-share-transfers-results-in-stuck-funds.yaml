@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "wrappedvault-share-transfers-results-in-stuck-funds"
+class_name: "WrappedvaultShareTransfersResultsInStuckFunds"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #46373 (Cantina/Dahlia)"
+help: "WrappedVault share transfers results in stuck funds"
+wiki_title: "WrappedVault share transfers results in stuck funds "
+wiki_description: |
+    ## WrappedVault Issues and Recommendations
+    
+    ## Context
+    - **Files Involved:** WrappedVault.sol#L455, WrappedVault.sol#L462
+    
+    ## Description
+    Only the `wrappedVault` is allowed to lend and withdraw assets to/from the Dahlia lending contract. Users can interact with `wrappedVault` through its deposit and
+wiki_exploit_scenario: |
+    Per Solodit #46373: ## WrappedVault Issues and Recommendations
+    
+    ## Context
+    - **Files Involved:** WrappedVault.sol#L455, WrappedVault.sol#L462
+    
+    ## Description
+    Only the `wrappedVault` is allowed to lend and withdraw assets
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrappedvaultShareTransfersResultsInStuckFunds"
+solodit_id: "46373"
+solodit_slug: "wrappedvault-share-transfers-results-in-stuck-funds-cantina-none-dahlia-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(claimInterest|wrappedVault).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "m-01-affiliate-payment-are-skipped-if-incorrect-or-empty-proof-i"
+class_name: "M01AffiliatePaymentAreSkippedIfIncorrectOrEmptyProofI"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18754 (ZachObront/Sound.Xyz)"
+help: "[M-01] Affiliate payment are skipped if incorrect or empty proof is accidentally submitted"
+wiki_title: "[M-01] Affiliate payment are skipped if incorrect or empty proof is accidentally submitted"
+wiki_description: |
+    When an NFT is minted, the user has the option to submit an `affiliate` and an `affiliate proof`.
+    
+    The `_mintTo()` function performs the following logic to send the affiliate fee:
+    
+    ```solidity
+    t.affiliated = isAffiliatedWithProof(edition, mintId, affiliate, affiliateProof);
+    unchecked {
+    if (t.affilia
+wiki_exploit_scenario: |
+    Per Solodit #18754: When an NFT is minted, the user has the option to submit an `affiliate` and an `affiliate proof`.
+    
+    The `_mintTo()` function performs the following logic to send the affiliate fee:
+    
+    ```solidity
+    t.affil
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01AffiliatePaymentAreSkippedIfIncorrectOrEmptyProofI"
+solodit_id: "18754"
+solodit_slug: |
+    m-01-affiliate-payment-are-skipped-if-incorrect-or-empty-proof-is-accidentally-submitted-zachobront-none-soundxyz-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal affiliate;"
+fn_name_regex: ".*(affiliate).*"
+write_var_regex: ".*(affiliate).*"
+guard_var_regex: ".*(affiliate).*"
+vuln_fn_name: "affiliate"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "affiliate = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

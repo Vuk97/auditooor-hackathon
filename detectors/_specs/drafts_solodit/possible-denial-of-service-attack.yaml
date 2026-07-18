@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "possible-denial-of-service-attack"
+class_name: "PossibleDenialOfServiceAttack"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #56511 (Zokyo/Thetanuts)"
+help: "Possible Denial-of-Service attack"
+wiki_title: "Possible Denial-of-Service attack"
+wiki_description: |
+    **Description**
+    
+    OwnerProxy_V1.sol: function depositOnBehalf().
+    Function deposits provided an amount of tokens to the vault, which are transferred from the
+    caller of function(Line 178). At the end of function, balance is checked to be zero.
+    In case, some amount of tokens were transferred before on t
+wiki_exploit_scenario: |
+    Per Solodit #56511: **Description**
+    
+    OwnerProxy_V1.sol: function depositOnBehalf().
+    Function deposits provided an amount of tokens to the vault, which are transferred from the
+    caller of function(Line 178). At the end of
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleDenialOfServiceAttack"
+solodit_id: "56511"
+solodit_slug: "possible-denial-of-service-attack-zokyo-none-thetanuts-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositOnBehalf|ownerProxy|emergencyWithdraw).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositOnBehalf"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "protocol-fees-are-in-wad-instead-of-token-decimal-units"
+class_name: "ProtocolFeesAreInWadInsteadOfTokenDecimalUnits"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18737 (Spearbit/Primitive)"
+help: "Protocol fees are in WAD instead of token decimal units"
+wiki_title: "Protocol fees are in WAD instead of token decimal units"
+wiki_description: |
+    ## High Risk Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    `Portfolio.sol#L489`
+    
+    ## Description
+    When swapping, `deltaInput` is in WAD (not token decimals) units. Therefore, the `protocolFee` will also be in WAD as a percentage of `deltaInput`. This WAD amount is then credited to the REGISTRY:
+    
+    ```so
+wiki_exploit_scenario: |
+    Per Solodit #18737: ## High Risk Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    `Portfolio.sol#L489`
+    
+    ## Description
+    When swapping, `deltaInput` is in WAD (not token decimals) units. Therefore, the `protocolFee` will also
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProtocolFeesAreInWadInsteadOfTokenDecimalUnits"
+solodit_id: "18737"
+solodit_slug: "protocol-fees-are-in-wad-instead-of-token-decimal-units-spearbit-none-primitive-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Decimals"
+state_decl: "uint256 internal balanceof;"
+fn_name_regex: ".*(deltaInput|protocolFee|transfer|transferFrom).*"
+read_var_regex: ".*(balanceOf|deltaInput|protocolFee).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deltaInput"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balanceof > 0;"

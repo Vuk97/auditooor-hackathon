@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "h-03-user-rewards-stop-accruing-after-any-writecheckpoint-callin"
+class_name: "H03UserRewardsStopAccruingAfterAnyWritecheckpointCallin"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #24760 (Code4rena/Velodrome Finance)"
+help: "[H-03] User rewards stop accruing after any `_writeCheckpoint` calling action"
+wiki_title: "[H-03] User rewards stop accruing after any `_writeCheckpoint` calling action"
+wiki_description: |
+    Any user balance affecting action, i.e. deposit, withdraw/withdrawToken or getReward, calls \_writeCheckpoint to update the balance records used for the earned reward estimation. The issue is that \_writeCheckpoint always sets false to `voted` flag for the each new checkpoint due to wrong index use
+wiki_exploit_scenario: |
+    Per Solodit #24760: Any user balance affecting action, i.e. deposit, withdraw/withdrawToken or getReward, calls \_writeCheckpoint to update the balance records used for the earned reward estimation. The issue is that \_
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03UserRewardsStopAccruingAfterAnyWritecheckpointCallin"
+solodit_id: "24760"
+solodit_slug: |
+    h-03-user-rewards-stop-accruing-after-any-_writecheckpoint-calling-action-code4rena-velodrome-finance-velodrome-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal prevvotestatus;"
+fn_name_regex: ".*(voted|prevVoteStatus).*"
+read_var_regex: ".*(prevVoteStatus|voted).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "voted"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return prevvotestatus > 0;"

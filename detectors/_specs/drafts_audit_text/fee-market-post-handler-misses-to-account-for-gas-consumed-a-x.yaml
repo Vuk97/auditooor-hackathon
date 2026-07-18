@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "fee-market-post-handler-misses-to-account-for-gas-consumed-a-x"
+class_name: "FeeMarketPostHandlerMissesToAccountForGasConsumedAX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-11-mantra-chain"
+help: |
+    berndartmueller Finding description and impact Mantra’s xfeemarket post handler refunds unspent gas after the transaction is executed. For this, in line 99 , a snapshot of the gas
+wiki_title: |
+    Fee market post handler misses to account for gas consumed after taking the gas snapshot, leading to higher refunds and unpaid gas
+wiki_description: |
+    berndartmueller Finding description and impact Mantra’s xfeemarket post handler refunds unspent gas after the transaction is executed. For this, in line 99 , a snapshot of the gas consumed is taken, which is then used to calculate the refund ( tip ) via skip-mev’s CheckTxFee() in line 112 . However,
+wiki_exploit_scenario: |
+    Per audit finding: berndartmueller Finding description and impact Mantra’s xfeemarket post handler refunds unspent gas after the transaction is executed. For this, in line 99 , a snapshot of the gas consumed is taken, w
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FeeMarketPostHandlerMissesToAccountForGasConsumedAX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(feeGas|feeTx|payCoin).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "feeGas"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

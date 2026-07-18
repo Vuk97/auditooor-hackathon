@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "user-rewards-can-be-lost"
+class_name: "UserRewardsCanBeLost"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Smart Vault - Zellic Audit Report"
+help: |
+    The updateRewardTokenList function removes all existing reward tokens and adds new ones. The claim function iterates over the _rewardTokenList to get the reward amount for each tok
+wiki_title: "User rewards can be lost"
+wiki_description: |
+    The updateRewardTokenList function removes all existing reward tokens and adds new ones. The claim function iterates over the _rewardTokenList to get the reward amount for each token, so if a reward token is removed during the reward period, users' rewards will be lost. function updateRewardTokenLis
+wiki_exploit_scenario: |
+    Per audit finding: The updateRewardTokenList function removes all existing reward tokens and adds new ones. The claim function iterates over the _rewardTokenList to get the reward amount for each token, so if a reward t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UserRewardsCanBeLost"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateRewardTokenList|rewardTokenList|onlyManager).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "updateRewardTokenList"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

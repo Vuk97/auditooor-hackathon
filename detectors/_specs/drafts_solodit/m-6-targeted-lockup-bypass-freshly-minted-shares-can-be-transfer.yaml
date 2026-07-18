@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "m-6-targeted-lockup-bypass-freshly-minted-shares-can-be-transfer"
+class_name: "M6TargetedLockupBypassFreshlyMintedSharesCanBeTransfer"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62117 (Sherlock/Mellow Flexible Vaults)"
+help: |
+    M-6: Targeted-lockup bypass: freshly minted shares can be transferred immediately in the same `transfer()` or `transferFrom()` call
+wiki_title: |
+    M-6: Targeted-lockup bypass: freshly minted shares can be transferred immediately in the same `transfer()` or `transferFrom()` call
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-07-mellow-flexible-vaults-judging/issues/617 
+    
+    ## Found by 
+    rsam\_eth
+    
+    ### Summary
+    
+    `TokenizedShareManager` is designed so that every newly minted share is subject to a per account targeted lock-up (`lockedUntil = now + targetedLockup`).
+    However, becau
+wiki_exploit_scenario: |
+    Per Solodit #62117: Source: https://github.com/sherlock-audit/2025-07-mellow-flexible-vaults-judging/issues/617 
+    
+    ## Found by 
+    rsam\_eth
+    
+    ### Summary
+    
+    `TokenizedShareManager` is designed so that every newly minted share
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M6TargetedLockupBypassFreshlyMintedSharesCanBeTransfer"
+solodit_id: "62117"
+solodit_slug: |
+    m-6-targeted-lockup-bypass-freshly-minted-shares-can-be-transferred-immediately-in-the-same-transfer-or-transferfrom-call-sherlock-mellow-flexible-vaults-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimshares;"
+fn_name_regex: ".*(TokenizedShareManager|claimShares|mint|lockedUntil).*"
+read_var_regex: ".*(claimShares|from|lockedUntil).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "TokenizedShareManager"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimshares > 0;"

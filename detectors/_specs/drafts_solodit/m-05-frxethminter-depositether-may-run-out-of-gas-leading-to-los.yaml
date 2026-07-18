@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "m-05-frxethminter-depositether-may-run-out-of-gas-leading-to-los"
+class_name: "M05FrxethminterDepositetherMayRunOutOfGasLeadingToLos"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25442 (Code4rena/Frax Finance)"
+help: "[M-05] frxETHMinter.depositEther may run out of gas, leading to lost ETH"
+wiki_title: "[M-05] frxETHMinter.depositEther may run out of gas, leading to lost ETH"
+wiki_description: |
+    `frxETHMinter.depositEther` always iterates over all deposits that are possible with the current balance (`(address(this).balance - currentWithheldETH) / DEPOSIT_SIZE`). However, when a lot of ETH was deposited into the contract / it was not called in a long time, this loop can reach the gas limit.
+wiki_exploit_scenario: |
+    Per Solodit #25442: `frxETHMinter.depositEther` always iterates over all deposits that are possible with the current balance (`(address(this).balance - currentWithheldETH) / DEPOSIT_SIZE`). However, when a lot of ETH wa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05FrxethminterDepositetherMayRunOutOfGasLeadingToLos"
+solodit_id: "25442"
+solodit_slug: |
+    m-05-frxethminterdepositether-may-run-out-of-gas-leading-to-lost-eth-code4rena-frax-finance-frax-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositether;"
+fn_name_regex: ".*(depositEther|frxETHMinter|numDeposit).*"
+write_var_regex: ".*(depositEther|frxETHMinter|numDeposit).*"
+guard_var_regex: ".*(depositEther|frxETHMinter|numDeposit).*"
+vuln_fn_name: "depositEther"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "depositether = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

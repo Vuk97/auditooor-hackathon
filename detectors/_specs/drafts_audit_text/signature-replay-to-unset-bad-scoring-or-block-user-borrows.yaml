@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "signature-replay-to-unset-bad-scoring-or-block-user-borrows"
+class_name: "SignatureReplayToUnsetBadScoringOrBlockUserBorrows"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "hexens audit RociFi SMA_public"
+help: |
+    In the function ScoreDB.sol:updateScore a score message signature is ﬁrst veriﬁed and then stored for the corresponding NFCS token ID. However, because there is no nonce check impl
+wiki_title: "SIGNATURE REPLAY TO UNSET BAD SCORING OR BLOCK USER BORROWS"
+wiki_description: |
+    In the function ScoreDB.sol:updateScore a score message signature is ﬁrst veriﬁed and then stored for the corresponding NFCS token ID. However, because there is no nonce check implemented, so an illicit actor can replay an older signature and consequently a better score back for themselves and creat
+wiki_exploit_scenario: |
+    Per audit finding: In the function ScoreDB.sol:updateScore a score message signature is ﬁrst veriﬁed and then stored for the corresponding NFCS token ID. However, because there is no nonce check implemented, so an illic
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SignatureReplayToUnsetBadScoringOrBlockUserBorrows"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateScore|getCreditScoreAndValidate|nfcsId).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "updateScore"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

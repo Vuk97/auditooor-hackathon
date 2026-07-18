@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "novabox-2026-06"
+class_name: "Novabox202606"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-06/NovaBox_exp.sol"
+help: "NovaBox 2026-06 — flashloan exploit (56.73 ETH)"
+wiki_title: "NovaBox (2026-06) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-06): NovaBox lost 56.73 ETH. Bug class: flashloan. Attack tx: 0x0cfa357e9e4db1540246f17cb6bfa0634ff8727d7cf241b63fb22605021c8844.
+wiki_exploit_scenario: |
+    Attacker (0x3690c5efc63eea1167c4d92a3f2dd8afdb85c294) exploits NovaBox via flashloan: the victim contract 0xbc4191167d4b0251cab5201a527daa8a7d3846b0 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Novabox202606"
+trigger_sig_regex: ".*(executeOperation).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function executeOperation(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.executeOperation(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "usage-of-msg-sender-transfer-function-24"
+class_name: "UsageOfMsgSenderTransferFunction24"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit GTE Launchpad- Zellic Audit Report"
+help: |
+    During the buy phase, if the full BONDING_SUPPLY amount of the launch tokens is sold, the remaining liquidity (both LaunchToken and USDC) related to this token are moved to the Uni
+wiki_title: "Usage of msg.sender.transfer() function                                            24"
+wiki_description: |
+    During the buy phase, if the full BONDING_SUPPLY amount of the launch tokens is sold, the remaining liquidity (both LaunchToken and USDC) related to this token are moved to the Uniswap pool using the router.addLiquidity function. function buy(address token, address recipient, uint256 amountOutBase,
+wiki_exploit_scenario: |
+    Per audit finding: During the buy phase, if the full BONDING_SUPPLY amount of the launch tokens is sold, the remaining liquidity (both LaunchToken and USDC) related to this token are moved to the Uniswap pool using the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsageOfMsgSenderTransferFunction24"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

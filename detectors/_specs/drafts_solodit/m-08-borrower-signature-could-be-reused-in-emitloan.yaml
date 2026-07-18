@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-08-borrower-signature-could-be-reused-in-emitloan"
+class_name: "M08BorrowerSignatureCouldBeReusedInEmitloan"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35227 (Code4rena/Gondi)"
+help: "[M-08] Borrower signature could be reused in `emitLoan()`"
+wiki_title: "[M-08] Borrower signature could be reused in `emitLoan()`"
+wiki_description: |
+    The function `emitLoan()` is used to issue a new loan. This function could be called directly by the borrower or by a random address if the borrower has signed the `LoanExecutionData`.
+    
+    ```solidity
+    function emitLoan(LoanExecutionData calldata _loanExecutionData)
+        external
+        nonReentrant
+        re
+wiki_exploit_scenario: |
+    Per Solodit #35227: The function `emitLoan()` is used to issue a new loan. This function could be called directly by the borrower or by a random address if the borrower has signed the `LoanExecutionData`.
+    
+    ```solidity
+    f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08BorrowerSignatureCouldBeReusedInEmitloan"
+solodit_id: "35227"
+solodit_slug: "m-08-borrower-signature-could-be-reused-in-emitloan-code4rena-gondi-gondi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal emitloan;"
+fn_name_regex: ".*(emitLoan|LoanExecutionData).*"
+read_var_regex: ".*(emitLoan).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "emitLoan"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return emitloan > 0;"

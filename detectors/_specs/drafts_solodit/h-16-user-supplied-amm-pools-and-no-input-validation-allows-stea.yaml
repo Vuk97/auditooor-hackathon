@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "h-16-user-supplied-amm-pools-and-no-input-validation-allows-stea"
+class_name: "H16UserSuppliedAmmPoolsAndNoInputValidationAllowsStea"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3728 (Sherlock/Illuminate)"
+help: "H-16: User-supplied AMM pools and no input validation allows stealing of stEth protocol fees"
+wiki_title: "H-16: User-supplied AMM pools and no input validation allows stealing of stEth protocol fees"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-10-illuminate-judging/issues/47 
+    
+    ## Found by 
+    IllIllI, 0x52, kenzo
+    
+    ## Summary
+    Some of the protocols `lend` methods take as user input the *underlying asset* and the *pool to swap on.*
+    They do not check that they match.
+    **Therefore a user can supply to
+wiki_exploit_scenario: |
+    Per Solodit #3728: Source: https://github.com/sherlock-audit/2022-10-illuminate-judging/issues/47 
+    
+    ## Found by 
+    IllIllI, 0x52, kenzo
+    
+    ## Summary
+    Some of the protocols `lend` methods take as user input the *underlying a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H16UserSuppliedAmmPoolsAndNoInputValidationAllowsStea"
+solodit_id: "3728"
+solodit_slug: |
+    h-16-user-supplied-amm-pools-and-no-input-validation-allows-stealing-of-steth-protocol-fees-sherlock-swivel-illuminate-git
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Validation"
+state_decl: "uint256 internal lend;"
+fn_name_regex: ".*(lend|Lender|minAmountOut|swapExactAmountIn).*"
+write_var_regex: ".*(lend|minAmountOut|pool).*"
+guard_var_regex: ".*(lend|minAmountOut|pool).*"
+vuln_fn_name: "lend"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "lend = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

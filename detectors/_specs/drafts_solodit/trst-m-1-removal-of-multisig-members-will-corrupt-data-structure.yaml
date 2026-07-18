@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "trst-m-1-removal-of-multisig-members-will-corrupt-data-structure"
+class_name: "TrstM1RemovalOfMultisigMembersWillCorruptDataStructure"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18997 (Trust Security/Mozaic Archimedes)"
+help: "TRST-M-1 Removal of Multisig members will corrupt data structures"
+wiki_title: "TRST-M-1 Removal of Multisig members will corrupt data structures"
+wiki_description: |
+    **Description:**
+    The Mozaic Multisig (the senate) can remove council members using the **TYPE_DEL_OWNER**
+    operation:
+    ```solidity
+            if(proposals[_proposalId].actionType == TYPE_DEL_OWNER) {
+                    (address _owner) = abi.decode(proposals[_proposalId].payload, (address));
+            require
+wiki_exploit_scenario: |
+    Per Solodit #18997: **Description:**
+    The Mozaic Multisig (the senate) can remove council members using the **TYPE_DEL_OWNER**
+    operation:
+    ```solidity
+            if(proposals[_proposalId].actionType == TYPE_DEL_OWNER) {
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM1RemovalOfMultisigMembersWillCorruptDataStructure"
+solodit_id: "18997"
+solodit_slug: |
+    trst-m-1-removal-of-multisig-members-will-corrupt-data-structures-trust-security-none-mozaic-archimedes-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal confirmtransaction;"
+fn_name_regex: ".*(submitProposal|confirmTransaction|contains).*"
+read_var_regex: ".*(confirmTransaction|contains|submitProposal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "submitProposal"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return confirmtransaction > 0;"

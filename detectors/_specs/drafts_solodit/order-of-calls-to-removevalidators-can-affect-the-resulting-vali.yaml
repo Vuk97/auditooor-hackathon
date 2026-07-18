@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "order-of-calls-to-removevalidators-can-affect-the-resulting-vali"
+class_name: "OrderOfCallsToRemovevalidatorsCanAffectTheResultingVali"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7012 (Spearbit/Liquid Collective)"
+help: "Order of calls to removeValidators can affect the resulting validator keys set"
+wiki_title: "Order of calls to removeValidators can affect the resulting validator keys set"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    OperatorsRegistry.1.sol#L310
+    
+    ## Description
+    If two entities A and B (which can be either the admin or the operator O with the index I) send a call to `removeValidators` with 2 different sets of parameters:
+    
+    - T1: (I, R1)
+    - T2: (I, R2)
+    
+    Then, depending on the order
+wiki_exploit_scenario: |
+    Per Solodit #7012: ## Severity: High Risk
+    
+    ## Context
+    OperatorsRegistry.1.sol#L310
+    
+    ## Description
+    If two entities A and B (which can be either the admin or the operator O with the index I) send a call to `removeValidat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OrderOfCallsToRemovevalidatorsCanAffectTheResultingVali"
+solodit_id: "7012"
+solodit_slug: |
+    order-of-calls-to-removevalidators-can-affect-the-resulting-validator-keys-set-spearbit-liquid-collective-pdf
+solodit_quality: "5"
+solodit_rarity: "3.5"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal removevalidators;"
+fn_name_regex: ".*(removeValidators|InvalidIndexOutOfBounds|setOperatorLimits|setOperatorLimit).*"
+read_var_regex: ".*(removeValidators|setOperatorLimit|setOperatorLimits).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "removeValidators"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return removevalidators > 0;"

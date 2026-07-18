@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "securitizeonramp-swap-and-securitizeofframp-redeem-pass-operator"
+class_name: "SecuritizeonrampSwapAndSecuritizeofframpRedeemPassOperator"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64599 (Cyfrin/Securitize Public Stock Ramp)"
+help: |
+    `SecuritizeOnRamp::swap` and `SecuritizeOffRamp::redeem` pass operator as investor address resulting in denial of service
+wiki_title: |
+    `SecuritizeOnRamp::swap` and `SecuritizeOffRamp::redeem` pass operator as investor address resulting in denial of service
+wiki_description: |
+    **Description:** `SecuritizeOnRamp::swap` and `SecuritizeOffRamp::redeem` have modifier `onlyRole(OPERATOR_ROLE)` meaning only an operator can call these functions.
+    
+    But when calling child functions such as `BaseOnRamp::_swap` or `BaseOffRamp::_redeem`, they pass `_msgSender()` as the investor walle
+wiki_exploit_scenario: |
+    Per Solodit #64599: **Description:** `SecuritizeOnRamp::swap` and `SecuritizeOffRamp::redeem` have modifier `onlyRole(OPERATOR_ROLE)` meaning only an operator can call these functions.
+    
+    But when calling child functions s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SecuritizeonrampSwapAndSecuritizeofframpRedeemPassOperator"
+solodit_id: "64599"
+solodit_slug: |
+    securitizeonrampswap-and-securitizeofframpredeem-pass-operator-as-investor-address-resulting-in-denial-of-service-cyfrin-none-securitize-public-stock-ramp-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal investorexists;"
+fn_name_regex: ".*(onlyRole|investorExists).*"
+read_var_regex: ".*(investorExists|onlyRole).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "onlyRole"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return investorexists > 0;"

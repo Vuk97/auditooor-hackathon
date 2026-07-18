@@ -1,0 +1,45 @@
+skeleton: "paired_function_divergence"
+name: "inconsistent-loan-impairment-handling-due-to-missing-reset-of-is"
+class_name: "InconsistentLoanImpairmentHandlingDueToMissingResetOfIs"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #45731 (Zokyo/Isle Finance)"
+help: "Inconsistent Loan Impairment Handling Due to Missing Reset of isImpaired Flag"
+wiki_title: "Inconsistent Loan Impairment Handling Due to Missing Reset of isImpaired Flag"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**: 
+    
+    The removeLoanImpairment function in the LoanManager contract fails to reset the isImpaired flag to false after removing a loan's impairment. As a result, the loan remains incorrectly marked as impaired, leading to inconsistencies in how
+wiki_exploit_scenario: |
+    Per Solodit #45731: **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**: 
+    
+    The removeLoanImpairment function in the LoanManager contract fails to reset the isImpaired flag to false after removing a loan's impairm
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentLoanImpairmentHandlingDueToMissingResetOfIs"
+solodit_id: "45731"
+solodit_slug: |
+    inconsistent-loan-impairment-handling-due-to-missing-reset-of-isimpaired-flag-zokyo-none-isle-finance-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

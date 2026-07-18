@@ -1,0 +1,35 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "oracles-can-claim-token-payments-without-processing-the-request-"
+class_name: "OraclesCanClaimTokenPaymentsWithoutProcessingTheRequest"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19295 (SigmaPrime/Chainlink)"
+help: "Oracles Can Claim Token Payments Without Processing the Request Callback"
+wiki_title: "Oracles Can Claim Token Payments Without Processing the Request Callback"
+wiki_description: |
+    ## Description
+    
+    An Oracle can “fulfil” a request without updating state or performing useful calls to the requester. This is due to the lack of gas stipend in the external call made on line [118]. This means an Oracle, when submitting a fulfilment request, can choose a gas amount which is only enoug
+wiki_exploit_scenario: |
+    Per Solodit #19295: ## Description
+    
+    An Oracle can “fulfil” a request without updating state or performing useful calls to the requester. This is due to the lack of gas stipend in the external call made on line [118]. Thi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OraclesCanClaimTokenPaymentsWithoutProcessingTheRequest"
+solodit_id: "19295"
+solodit_slug: |
+    oracles-can-claim-token-payments-without-processing-the-request-callback-sigmaprime-none-chainlink-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(test_attack_oracle_fulfill_no_callback|estimateGas|callbacks|require).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

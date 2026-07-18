@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "h-01-ethoracle-getlatestprice-needs-to-convert-to-18-decimals"
+class_name: "H01EthoracleGetlatestpriceNeedsToConvertTo18Decimals"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #33660 (Code4rena/BakerFi)"
+help: "[H-01] `ETHOracle.getLatestPrice` needs to convert to 18 decimals"
+wiki_title: "[H-01] `ETHOracle.getLatestPrice` needs to convert to 18 decimals"
+wiki_description: |
+    In `ETHOracle.sol`, `getPrecision()` is defined as `10 ** 18`, but the actual oracle used is 8-decimals.
+    
+    <https://data.chain.link/feeds/arbitrum/mainnet/eth-usd>
+    
+    This data feeds' decimals is 8.
+    
+    ```solidity
+    /**
+     *  ETH/USD Oracle using chainlink data feeds
+     * 
+     *  For more information about the f
+wiki_exploit_scenario: |
+    Per Solodit #33660: In `ETHOracle.sol`, `getPrecision()` is defined as `10 ** 18`, but the actual oracle used is 8-decimals.
+    
+    <https://data.chain.link/feeds/arbitrum/mainnet/eth-usd>
+    
+    This data feeds' decimals is 8.
+    
+    ``
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01EthoracleGetlatestpriceNeedsToConvertTo18Decimals"
+solodit_id: "33660"
+solodit_slug: "h-01-ethoraclegetlatestprice-needs-to-convert-to-18-decimals-code4rena-bakerfi-bakerfi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getprecision;"
+fn_name_regex: ".*(getPrecision|PythOracle|totalCollateralInEth|StrategyLeverage).*"
+read_var_regex: ".*(getPrecision|totalCollateralInEth).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getPrecision"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getprecision > 0;"

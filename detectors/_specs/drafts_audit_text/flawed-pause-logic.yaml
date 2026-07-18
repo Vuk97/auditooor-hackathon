@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "flawed-pause-logic"
+class_name: "FlawedPauseLogic"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Multisafe USPC Contracts - Zellic Audit Report"
+help: |
+    The contract implementation contains faulty pause logic. • The _update function in USPC does not have whenNotPaused modifier. • Price reading functions (e.g., getLatestPrice) are p
+wiki_title: "Flawed Pause Logic"
+wiki_description: |
+    The contract implementation contains faulty pause logic. • The _update function in USPC does not have whenNotPaused modifier. • Price reading functions (e.g., getLatestPrice) are protected by whenNotPaused modifier, but price management functions (addPrice, updatePrice) are not. • The processRedempt
+wiki_exploit_scenario: |
+    Per audit finding: The contract implementation contains faulty pause logic. • The _update function in USPC does not have whenNotPaused modifier. • Price reading functions (e.g., getLatestPrice) are protected by whenNotP
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FlawedPauseLogic"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(whenNotPaused|getLatestPrice|addPrice).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "whenNotPaused"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

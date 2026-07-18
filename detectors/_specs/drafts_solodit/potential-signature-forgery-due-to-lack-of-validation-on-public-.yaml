@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "potential-signature-forgery-due-to-lack-of-validation-on-public-"
+class_name: "PotentialSignatureForgeryDueToLackOfValidationOnPublic"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #59392 (Quantstamp/Mezo Portal)"
+help: "Potential Signature Forgery Due to Lack of Validation on Public Keys"
+wiki_title: "Potential Signature Forgery Due to Lack of Validation on Public Keys"
+wiki_description: |
+    **Update**
+    Marked as "Fixed" by the client. Addressed in: `51985d2`.
+    
+    A function `isOnCurve()` is now being used to determine whether a point is on the curve. Although the fix appears to be sufficient, an extra level of assurance may be provided by validating that `x` and `y` are both below `SECP256
+wiki_exploit_scenario: |
+    Per Solodit #59392: **Update**
+    Marked as "Fixed" by the client. Addressed in: `51985d2`.
+    
+    A function `isOnCurve()` is now being used to determine whether a point is on the curve. Although the fix appears to be sufficient
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialSignatureForgeryDueToLackOfValidationOnPublic"
+solodit_id: "59392"
+solodit_slug: "potential-signature-forgery-due-to-lack-of-validation-on-public-keys-quantstamp-mezo-portal-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ecrecover;"
+fn_name_regex: ".*(isOnCurve|SECP256K1_P|validateCompressedP2PKH|BitcoinSafeOwner).*"
+read_var_regex: ".*(ecrecover|isOnCurve|publicKeyToEthereumAddress).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "isOnCurve"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ecrecover > 0;"

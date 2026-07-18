@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "misconfigured-index-boundaries-prevent-certain-swaps-in-quantamm"
+class_name: "MisconfiguredIndexBoundariesPreventCertainSwapsInQuantamm"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44294 (Cyfrin/Quantamm)"
+help: "Misconfigured index boundaries prevent certain swaps in QuantAMMWeightedPool"
+wiki_title: "Misconfigured index boundaries prevent certain swaps in QuantAMMWeightedPool"
+wiki_description: |
+    **Description:** Balancer pools can handle up to 8 tokens in weighted pools. QuantAMM uses this feature but optimizes storage by using only two slots. As a result, the first four tokens and the last four tokens are treated separately.
+    
+    For swaps, this logic is implemented in [`QuantAMMWeightedPool::
+wiki_exploit_scenario: |
+    Per Solodit #44294: **Description:** Balancer pools can handle up to 8 tokens in weighted pools. QuantAMM uses this feature but optimizes storage by using only two slots. As a result, the first four tokens and the last f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MisconfiguredIndexBoundariesPreventCertainSwapsInQuantamm"
+solodit_id: "44294"
+solodit_slug: |
+    misconfigured-index-boundaries-prevent-certain-swaps-in-quantammweightedpool-cyfrin-none-quantamm-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onSwap|indexIn|indexOut|tokenWeights).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "onSwap"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

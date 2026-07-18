@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "h-01-buyandswap1155weth-function-may-cause-loss-of-user-assets"
+class_name: "H01Buyandswap1155wethFunctionMayCauseLossOfUserAssets"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1214 (Code4rena/NFTX)"
+help: "[H-01] buyAndSwap1155WETH() function may cause loss of user assets"
+wiki_title: "[H-01] buyAndSwap1155WETH() function may cause loss of user assets"
+wiki_description: |
+    _Submitted by cccz_
+    
+    In the NFTXMarketplaceZap.sol contract, the buyAndSwap1155WETH function uses the WETH provided by the user to exchange VaultToken, but when executing the \_buyVaultToken method, msg.value is used instead of maxWethIn. Since msg.value is 0, the call will fail.
+    ```solidity
+    functio
+wiki_exploit_scenario: |
+    Per Solodit #1214: _Submitted by cccz_
+    
+    In the NFTXMarketplaceZap.sol contract, the buyAndSwap1155WETH function uses the WETH provided by the user to exchange VaultToken, but when executing the \_buyVaultToken method, m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01Buyandswap1155wethFunctionMayCauseLossOfUserAssets"
+solodit_id: "1214"
+solodit_slug: "h-01-buyandswap1155weth-function-may-cause-loss-of-user-assets-code4rena-nftx-nftx-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(buyAndSwap1155WETH|maxWethIn|vaultId|idsIn).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "buyAndSwap1155WETH"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

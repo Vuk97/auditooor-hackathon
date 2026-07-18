@@ -1,0 +1,109 @@
+# tools/templates/hyperbridge_cargo_config.toml
+#
+# Template fragment consumed by `tools/workspace-bootstrap.py --hyperbridge-patches`.
+#
+# Background (CAPABILITY-GAP-6, DRILL-6 anchor):
+#
+#   Hyperbridge `tesseract/consensus/beefy/zk/Cargo.toml` declares two
+#   dependencies that point at a private SSH git source:
+#
+#       [dependencies.sp1-beefy]
+#       git = "ssh://git@github.com/polytope-labs/sp1-beefy.git"
+#       tag = "v1.0.0"
+#
+#       [dependencies.sp1-beefy-primitives]
+#       git = "ssh://git@github.com/polytope-labs/sp1-beefy.git"
+#       tag = "v1.0.0"
+#
+#   `cargo metadata` against the hyperbridge workspace refuses to resolve
+#   the dependency graph for the `zk-beefy` crate (and therefore for any
+#   workspace member that transitively depends on it) without authenticated
+#   SSH access to that repository. This blocks every cargo-based capability
+#   lane that operates on the hyperbridge tree (predicate runner, metadata-
+#   driven inventory, dependency-graph audit, etc.). DRILL-6 (HYPERBRIDGE
+#   U256 pallet-relayer fee truncation) had to manually exclude the
+#   `tesseract/consensus/beefy/zk` member to work around it.
+#
+# Resolution:
+#
+#   Cargo's `[patch]` directive cannot replace a git source that the
+#   resolver still has to fetch in order to look up the patch crate by
+#   name+version (verified 2026-05-25 with cargo 1.x). Cargo's
+#   `[source]` `replace-with` redirection requires an existing lock file
+#   for the unreachable source, which we don't have. The reliable cross-
+#   cargo-version mechanism is to rewrite the consuming crate's
+#   `Cargo.toml` directly so the dependency declaration becomes
+#   `path = "<stub>"` instead of `git = "ssh://..."`. The stub crates are
+#   minimal-version-matched (1.0.0) and live under
+#   `<workspace>/src/hyperbridge/stubs/sp1-beefy/` and
+#   `<workspace>/src/hyperbridge/stubs/sp1-beefy-primitives/`.
+#
+# This template documents the canonical sentinel markers the bootstrapper
+# writes around the rewritten dependency block. The bootstrapper detects
+# these markers on re-runs to decide whether the patch is already in
+# place (idempotency).
+#
+#   <!-- auditooor.hyperbridge-cargo-patch-version: 1 -->
+#
+# The block this template documents is rendered inline by
+# `tools/workspace-bootstrap.py`. This file exists so the rewrite shape
+# is documented in-tree and reviewable independently of the rewriter
+# logic. It is NOT loaded at runtime; the bootstrapper writes the rewrite
+# from string constants in workspace-bootstrap.py to keep the
+# data-vs-template split simple. Any edits here SHOULD be mirrored in
+# `tools/workspace-bootstrap.py` `_HYPERBRIDGE_PATCH_*` constants.
+
+# --- canonical rewrite block (mirrored in workspace-bootstrap.py) ----------
+
+# Marker comment placed at the start of the rewrite block:
+#   # auditooor.hyperbridge-cargo-patch-version: 1
+#   # original block preserved below (commented out); managed by
+#   # tools/workspace-bootstrap.py --hyperbridge-patches.
+#
+# The original `[dependencies.sp1-beefy]` and
+# `[dependencies.sp1-beefy-primitives]` table headers and their bodies
+# are commented out line-by-line so the unauthored history is recoverable
+# from `git diff` and from the file itself.
+#
+# After the commented-out original blocks, the bootstrapper writes:
+#
+#   [dependencies.sp1-beefy]
+#   path = "<repo-relative path to stubs/sp1-beefy>"
+#   default-features = false
+#
+#   [dependencies.sp1-beefy-primitives]
+#   path = "<repo-relative path to stubs/sp1-beefy-primitives>"
+#   default-features = false
+#
+# Closing marker:
+#   # auditooor.hyperbridge-cargo-patch-end
+#
+# --- stub crate layout -----------------------------------------------------
+#
+#   <hyperbridge_root>/stubs/sp1-beefy/Cargo.toml
+#   <hyperbridge_root>/stubs/sp1-beefy/src/lib.rs
+#   <hyperbridge_root>/stubs/sp1-beefy-primitives/Cargo.toml
+#   <hyperbridge_root>/stubs/sp1-beefy-primitives/src/lib.rs
+#
+# The stub Cargo.toml files declare version 1.0.0 (matching the
+# `tag = "v1.0.0"` of the original git source). They declare the
+# `local` and `cluster` features used by `[features]` in
+# `tesseract/consensus/beefy/zk/Cargo.toml`.
+#
+# The stub src/lib.rs files contain ONLY type/trait declarations the
+# hyperbridge tree imports from `sp1_beefy::` and `sp1_beefy_primitives::`,
+# enough to make `cargo metadata --offline` succeed. They are NOT meant
+# to compile to functional code, and any attempt to `cargo build` the
+# zk-beefy crate will fail (which is the intended fail-loud behaviour:
+# the stubs unblock metadata-driven tooling, not real compilation).
+#
+# --- sidecar ---------------------------------------------------------------
+#
+# After a successful patch run, the bootstrapper writes a sidecar to:
+#
+#   <workspace>/.auditooor/hyperbridge_patches.json
+#
+# The sidecar records (workspace path, audit pin, files written, SHA256
+# of each written/rewritten file, patch version). Subsequent runs read
+# the sidecar and skip if every recorded SHA matches the on-disk file
+# (idempotent no-op).

@@ -1,0 +1,51 @@
+skeleton: "state_write_without_paired_write"
+name: "m-01-stale-swapproxy-reference-in-royaltymanager-contracts"
+class_name: "M01StaleSwapproxyReferenceInRoyaltymanagerContracts"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63938 (Pashov Audit Group/WishWish_2025-11-04)"
+help: "[M-01] Stale `swapProxy` reference in `RoyaltyManager` contracts"
+wiki_title: "[M-01] Stale `swapProxy` reference in `RoyaltyManager` contracts"
+wiki_description: |
+    _Resolved_
+    
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `WishWishManager` contract allows the owner to update the `swapProxy` address via the `setSwapProxy` function. However, `RoyaltyManager` contracts are deployed once per creator in the `getRoyaltyManager` functi
+wiki_exploit_scenario: |
+    Per Solodit #63938: _Resolved_
+    
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `WishWishManager` contract allows the owner to update the `swapProxy` address via the `setSwapProxy` function.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01StaleSwapproxyReferenceInRoyaltymanagerContracts"
+solodit_id: "63938"
+solodit_slug: |
+    m-01-stale-swapproxy-reference-in-royaltymanager-contracts-pashov-audit-group-none-wishwish_2025-11-04-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(WishWishManager|swapProxy|setSwapProxy|RoyaltyManager).*"
+primary_var_regex: ".*(distribute|getRoyaltyManager|launchNewCollection).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

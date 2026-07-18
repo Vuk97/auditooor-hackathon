@@ -1,0 +1,31 @@
+skeleton: "state_write_without_paired_write"
+name: "immutable-gas-limit-within-wormholetransceiver-can-lead-to-execu"
+class_name: "ImmutableGasLimitWithinWormholetransceiverCanLeadToExecu"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31377 (Cyfrin/Wormhole Evm Ntt)"
+help: "Immutable gas limit within `WormholeTransceiver` can lead to execution failures on the target chain"
+wiki_title: "Immutable gas limit within `WormholeTransceiver` can lead to execution failures on the target chain"
+wiki_description: |
+    **Description:** The Wormhole-specific Transceiver implementation uses an immutable [`gasLimit`](https://github.com/wormhole-foundation/example-native-token-transfers/blob/f4e2277b358349dbfb8a654d19a925628d48a8af/evm/src/Transceiver/WormholeTransceiver/WormholeTransceiverState.sol#L27) variable to c
+wiki_exploit_scenario: |
+    Per Solodit #31377: **Description:** The Wormhole-specific Transceiver implementation uses an immutable [`gasLimit`](https://github.com/wormhole-foundation/example-native-token-transfers/blob/f4e2277b358349dbfb8a654d19a9
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ImmutableGasLimitWithinWormholetransceiverCanLeadToExecu"
+solodit_id: "31377"
+solodit_slug: |
+    immutable-gas-limit-within-wormholetransceiver-can-lead-to-execution-failures-on-the-target-chain-cyfrin-none-cyfrin-wormhole-evm-ntt-v2-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(gasLimit|NttManager|WormholeTransceiver).*"
+primary_var_regex: ".*(gasLimit).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

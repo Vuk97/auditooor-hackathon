@@ -1,0 +1,30 @@
+skeleton: "name_match_missing_require"
+name: "no-checks-for-l2-sequencer-being-down"
+class_name: "NoChecksForL2SequencerBeingDown"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #38436 (Cyfrin/Bima)"
+help: "No checks for L2 Sequencer being down"
+wiki_title: "No checks for L2 Sequencer being down"
+wiki_description: |
+    **Description:** Neither `PriceFeed.sol` (which is designed to work with Chainlink) nor `StorkOracleWrapper` (which has been created to allow `PriceFeed` to work with Stork Oracles) implement a check to test whether the L2 Sequencer is currently down.
+    
+    When using Chainlink or other oracles with L2 c
+wiki_exploit_scenario: |
+    Per Solodit #38436: **Description:** Neither `PriceFeed.sol` (which is designed to work with Chainlink) nor `StorkOracleWrapper` (which has been created to allow `PriceFeed` to work with Stork Oracles) implement a check
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoChecksForL2SequencerBeingDown"
+solodit_id: "38436"
+solodit_slug: "no-checks-for-l2-sequencer-being-down-cyfrin-none-bima-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(StorkOracleWrapper|PriceFeed).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "StorkOracleWrapper"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

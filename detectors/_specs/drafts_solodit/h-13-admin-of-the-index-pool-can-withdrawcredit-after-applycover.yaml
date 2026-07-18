@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "h-13-admin-of-the-index-pool-can-withdrawcredit-after-applycover"
+class_name: "H13AdminOfTheIndexPoolCanWithdrawcreditAfterApplycover"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42437 (Code4rena/InsureDAO)"
+help: |
+    [H-13] Admin of the index pool can `withdrawCredit()` after `applyCover()` to avoid taking loss for the compensation paid for a certain pool
+wiki_title: |
+    [H-13] Admin of the index pool can `withdrawCredit()` after `applyCover()` to avoid taking loss for the compensation paid for a certain pool
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    In the current implementation, when an incident is reported for a certain pool, the index pool can still `withdrawCredit()` from the pool, which in the best interest of an index pool, the admin of the index pool is preferred to do so.
+    
+    This allows the index pool to escape fr
+wiki_exploit_scenario: |
+    Per Solodit #42437: _Submitted by WatchPug_
+    
+    In the current implementation, when an incident is reported for a certain pool, the index pool can still `withdrawCredit()` from the pool, which in the best interest of an ind
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H13AdminOfTheIndexPoolCanWithdrawcreditAfterApplycover"
+solodit_id: "42437"
+solodit_slug: |
+    h-13-admin-of-the-index-pool-can-withdrawcredit-after-applycover-to-avoid-taking-loss-for-the-compensation-paid-for-a-certain-pool-code4rena-insuredao-insuredao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal applycover;"
+fn_name_regex: ".*(withdrawCredit|totalCredit|rewardPerCredit|applyCover).*"
+write_var_regex: ".*(applyCover|credit|pendingEnd).*"
+guard_var_regex: ".*(applyCover|credit|pendingEnd).*"
+vuln_fn_name: "withdrawCredit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "applycover = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

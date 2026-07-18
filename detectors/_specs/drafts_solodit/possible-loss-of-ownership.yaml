@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "possible-loss-of-ownership"
+class_name: "PossibleLossOfOwnership"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #50314 (Halborn/DirectLoanFixedOffer Redeployment)"
+help: "POSSIBLE LOSS OF OWNERSHIP"
+wiki_title: "POSSIBLE LOSS OF OWNERSHIP"
+wiki_description: |
+    ##### Description
+    
+    When transferring ownership of the protocol, no checks are performed on whether the new address is valid and active. In case there is a mistake when transferring the ownership, the whole protocol is locked out of its permissioned functionalities.
+    
+    Code Location
+    -------------
+    
+    ####
+wiki_exploit_scenario: |
+    Per Solodit #50314: ##### Description
+    
+    When transferring ownership of the protocol, no checks are performed on whether the new address is valid and active. In case there is a mistake when transferring the ownership, the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleLossOfOwnership"
+solodit_id: "50314"
+solodit_slug: "possible-loss-of-ownership-halborn-nftfi-directloanfixedoffer-redeployment-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferOwnership|onlyOwner).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "transferOwnership"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

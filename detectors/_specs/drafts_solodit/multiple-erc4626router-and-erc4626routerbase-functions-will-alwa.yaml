@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "multiple-erc4626router-and-erc4626routerbase-functions-will-alwa"
+class_name: "MultipleErc4626routerAndErc4626routerbaseFunctionsWillAlwa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7311 (Spearbit/Astaria)"
+help: "Multiple ERC4626Router and ERC4626RouterBase functions will always revert"
+wiki_title: "Multiple ERC4626Router and ERC4626RouterBase functions will always revert"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - `ERC4626Router.sol#L49-58`
+    - `ERC4626RouterBase.sol#L47`
+    - `ERC4626RouterBase.sol#L60`
+    
+    ## Description
+    The intention of the `ERC4626Router.sol` functions is that they are approval-less ways to deposit and redeem:
+    
+    > For the below, no approval needed, assumes va
+wiki_exploit_scenario: |
+    Per Solodit #7311: ## Severity: Medium Risk
+    
+    ## Context
+    - `ERC4626Router.sol#L49-58`
+    - `ERC4626RouterBase.sol#L47`
+    - `ERC4626RouterBase.sol#L60`
+    
+    ## Description
+    The intention of the `ERC4626Router.sol` functions is that
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MultipleErc4626routerAndErc4626routerbaseFunctionsWillAlwa"
+solodit_id: "7311"
+solodit_slug: "multiple-erc4626router-and-erc4626routerbase-functions-will-always-revert-spearbit-astaria-pdf"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "WETH, ERC4626, Approve"
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(TRANSFER_PROXY|depositToVault|pullTokens|safeTransferFrom).*"
+read_var_regex: ".*(deposit|depositToVault|pullTokens).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "TRANSFER_PROXY"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposit > 0;"

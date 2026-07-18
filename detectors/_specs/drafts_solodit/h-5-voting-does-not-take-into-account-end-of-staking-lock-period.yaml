@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "h-5-voting-does-not-take-into-account-end-of-staking-lock-period"
+class_name: "H5VotingDoesNotTakeIntoAccountEndOfStakingLockPeriod"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36682 (Sherlock/MagicSea - the native DEX on the IotaEVM)"
+help: "H-5: Voting does not take into account end of staking lock period"
+wiki_title: "H-5: Voting does not take into account end of staking lock period"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-06-magicsea-judging/issues/166 
+    
+    ## Found by 
+    0xAnmol, 0xpranav, Aymen0909, BengalCatBalu, ChinmayF, DPS, Hunter, KupiaSec, LeFy, PUSH0, Reentrants, Silvermist, WildSniper, anonymousjoe, araj, aslanbek, blackhole, blockchain555, cocacola, coffiasd, dany
+wiki_exploit_scenario: |
+    Per Solodit #36682: Source: https://github.com/sherlock-audit/2024-06-magicsea-judging/issues/166 
+    
+    ## Found by 
+    0xAnmol, 0xpranav, Aymen0909, BengalCatBalu, ChinmayF, DPS, Hunter, KupiaSec, LeFy, PUSH0, Reentrants, Silv
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H5VotingDoesNotTakeIntoAccountEndOfStakingLockPeriod"
+solodit_id: "36682"
+solodit_slug: |
+    h-5-voting-does-not-take-into-account-end-of-staking-lock-period-sherlock-magicsea-the-native-dex-on-the-iotaevm-git
+solodit_quality: "4"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(Voter|MlumStaking|vote|initialLockDuration).*"
+primary_var_regex: ".*(initialLockDuration|lockDuration|vote).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

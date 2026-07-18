@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "dividendmanager-distributepayout-will-always-revert-after-255-pa"
+class_name: "DividendmanagerDistributepayoutWillAlwaysRevertAfter255Pa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61186 (Cyfrin/Remora Pledge)"
+help: |
+    `DividendManager::distributePayout` will always revert after 255 payouts, preventing any future payout distributions
+wiki_title: |
+    `DividendManager::distributePayout` will always revert after 255 payouts, preventing any future payout distributions
+wiki_description: |
+    **Description:** `DividendManager::HolderManagementStorage::_currentPayoutIndex` is declared as `uint8`:
+    ```solidity
+    /// @dev The current index that is yet to be paid out.
+    uint8 _currentPayoutIndex;
+    ```
+    
+    `_currentPayoutIndex` is incremented every time `DividendManager::distributePayout` is called:
+    `
+wiki_exploit_scenario: |
+    Per Solodit #61186: **Description:** `DividendManager::HolderManagementStorage::_currentPayoutIndex` is declared as `uint8`:
+    ```solidity
+    /// @dev The current index that is yet to be paid out.
+    uint8 _currentPayoutIndex;
+    `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DividendmanagerDistributepayoutWillAlwaysRevertAfter255Pa"
+solodit_id: "61186"
+solodit_slug: |
+    dividendmanagerdistributepayout-will-always-revert-after-255-payouts-preventing-any-future-payout-distributions-cyfrin-none-remora-pledge-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal uint56;"
+fn_name_regex: ".*(uint56).*"
+read_var_regex: ".*(uint56).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "uint56"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return uint56 > 0;"

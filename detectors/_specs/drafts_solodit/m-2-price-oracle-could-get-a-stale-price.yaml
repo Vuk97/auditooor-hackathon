@@ -1,0 +1,44 @@
+skeleton: "state_write_without_paired_write"
+name: "m-2-price-oracle-could-get-a-stale-price"
+class_name: "M2PriceOracleCouldGetAStalePrice"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3327 (Sherlock/Notional)"
+help: "M-2: Price oracle could get a stale price"
+wiki_title: "M-2: Price oracle could get a stale price"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-09-notional-judging/issues/133 
+    
+    ## Found by 
+    rajatbeladiya, Lambda, Chom, Waze, GimelSec, ak1, GalloDaSballo
+    
+    ## Summary
+    
+    `_calculateAnswer()` will get `baseAnswer` from Chainlink oracle. But it doesn't check round id and timestamp, leading to it may g
+wiki_exploit_scenario: |
+    Per Solodit #3327: Source: https://github.com/sherlock-audit/2022-09-notional-judging/issues/133 
+    
+    ## Found by 
+    rajatbeladiya, Lambda, Chom, Waze, GimelSec, ak1, GalloDaSballo
+    
+    ## Summary
+    
+    `_calculateAnswer()` will get
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2PriceOracleCouldGetAStalePrice"
+solodit_id: "3327"
+solodit_slug: "m-2-price-oracle-could-get-a-stale-price-sherlock-notional-notional-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(baseAnswer|updateAt|roundId|answer).*"
+primary_var_regex: ".*(answer|baseAnswer|roundId).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

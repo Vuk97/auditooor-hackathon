@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "number-of-coupon-tokens-obtained-from-the-auction-may-differ-x"
+class_name: "NumberOfCouponTokensObtainedFromTheAuctionMayDifferX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Plaza Core Protocol - Zellic Audit Report"
+help: |
+    The pool creates auctions to acquire coupon tokens for distribution. The number of coupon tokens the pool will acquire is based on the current total supply of bond tokens and the _
+wiki_title: "Number of coupon tokens obtained from the auction may differ from number"
+wiki_description: |
+    The pool creates auctions to acquire coupon tokens for distribution. The number of coupon tokens the pool will acquire is based on the current total supply of bond tokens and the _sharesPerToken value obtained from the globalPool variable of the bondToken. function startAuction() external { // [...]
+wiki_exploit_scenario: |
+    Per audit finding: The pool creates auctions to acquire coupon tokens for distribution. The number of coupon tokens the pool will acquire is based on the current total supply of bond tokens and the _sharesPerToken value
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NumberOfCouponTokensObtainedFromTheAuctionMayDifferX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(globalPool|bondToken|startAuction).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "globalPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

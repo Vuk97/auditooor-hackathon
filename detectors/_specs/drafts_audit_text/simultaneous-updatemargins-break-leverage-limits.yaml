@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "simultaneous-updatemargins-break-leverage-limits"
+class_name: "SimultaneousUpdatemarginsBreakLeverageLimits"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Bloom Trading - Zellic Audit Report"
+help: |
+    In order to do a margin update, a trader first calls updateMargin in Trading, which ensures that the update is within leverage limits and issues the margin update order: function u
+wiki_title: "Simultaneous updateMargins break leverage limits"
+wiki_description: |
+    In order to do a margin update, a trader first calls updateMargin in Trading, which ensures that the update is within leverage limits and issues the margin update order: function updateMargin( uint _pairIndex, uint _index, ITradingStorage.updateType _type, uint _amount ) external payable onlyWhiteli
+wiki_exploit_scenario: |
+    Per audit finding: In order to do a margin update, a trader first calls updateMargin in Trading, which ensures that the update is within leverage limits and issues the margin update order: function updateMargin( uint _p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SimultaneousUpdatemarginsBreakLeverageLimits"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateMargin|updateType|onlyWhitelist).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "updateMargin"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

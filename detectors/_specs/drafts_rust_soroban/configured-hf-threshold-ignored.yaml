@@ -1,0 +1,19 @@
+id: configured-hf-threshold-ignored
+title: "Configured health-factor threshold ignored in key paths"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44808"
+bug_class: health-factor
+indicators:
+  - "hardcoded `1.0` HF threshold in some paths while `liquidation_threshold` configured per-reserve"
+  - "mismatch between configured threshold and enforced threshold"
+victim: "Borrowers/protocol: inconsistent liquidation behavior."
+exploit_precondition: "Configured threshold differs from the 1.0 default."
+real_world_example: |
+  V12 #44808 (High): Configured health-factor threshold is ignored in key paths.
+suggested_remediation: "Always read `asset.liquidation_threshold` from config."
+cross_refs:
+  - liquidation-helpers-disagree-threshold

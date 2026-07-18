@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-proxy-contract-addresses"
+class_name: "IncorrectProxyContractAddresses"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Frax0 Mesh - Zellic Audit Report"
+help: |
+    The script UpgradeAdapterEthereum.s.sol is used to upgrade contracts on Ethereum. However, when calling the function upgradeExistingLockbox, the provided _lockbox address (i.e., th
+wiki_title: "Incorrect proxy contract addresses"
+wiki_description: |
+    The script UpgradeAdapterEthereum.s.sol is used to upgrade contracts on Ethereum. However, when calling the function upgradeExistingLockbox, the provided _lockbox address (i.e., the proxy contract address) corresponds to the one on Fraxtal. function upgradeExistingLockboxes() public { upgradeExistin
+wiki_exploit_scenario: |
+    Per audit finding: The script UpgradeAdapterEthereum.s.sol is used to upgrade contracts on Ethereum. However, when calling the function upgradeExistingLockbox, the provided _lockbox address (i.e., the proxy contract add
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectProxyContractAddresses"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(upgradeExistingLockbox|upgradeExistingLockboxes|fraxtalFrxUsdLockbox).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "upgradeExistingLockbox"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

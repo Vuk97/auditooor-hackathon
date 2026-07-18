@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "anyone-can-steal-wsteth-tokens-accidentally-transferred-to-the-t"
+class_name: "AnyoneCanStealWstethTokensAccidentallyTransferredToTheT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41447 (TrailOfBits/Treehouse tETH)"
+help: "Anyone can steal wstETH tokens accidentally transferred to the TreehouseRouter contract"
+wiki_title: "Anyone can steal wstETH tokens accidentally transferred to the TreehouseRouter contract"
+wiki_description: |
+    ## Difficulty: High
+    
+    ## Type: Data Validation
+    
+    ### Description
+    
+    The _stethToWsteth function returns the contract’s balance of wstETH tokens instead of the value returned from the WstEth.wrap function. As a result, the returned value includes any wstETH that was accidentally transferred to the Treeho
+wiki_exploit_scenario: |
+    Per Solodit #41447: ## Difficulty: High
+    
+    ## Type: Data Validation
+    
+    ### Description
+    
+    The _stethToWsteth function returns the contract’s balance of wstETH tokens instead of the value returned from the WstEth.wrap function.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyoneCanStealWstethTokensAccidentallyTransferredToTheT"
+solodit_id: "41447"
+solodit_slug: |
+    anyone-can-steal-wsteth-tokens-accidentally-transferred-to-the-treehouserouter-contract-trailofbits-none-treehouse-teth-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(wstETH|balanceOf|depositEth|safeTransferFrom).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "wstETH"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

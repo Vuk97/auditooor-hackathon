@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "validator-public-key-is-not-checked"
+class_name: "ValidatorPublicKeyIsNotChecked"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Mina Token Bridge EVM - Zellic Audit Report"
+help: |
+    To unlock funds from the bridge, a number of signatures by validators need to be submitted. On the Mina side, validation of the validator's public keys is performed by the validate
+wiki_title: "Validator public key is not checked"
+wiki_description: |
+    To unlock funds from the bridge, a number of signatures by validators need to be submitted. On the Mina side, validation of the validator's public keys is performed by the validateValidator function, which is implemented as follows: public async validateValidator( useSig1: Bool, validator1: PublicKe
+wiki_exploit_scenario: |
+    Per audit finding: To unlock funds from the bridge, a number of signatures by validators need to be submitted. On the Mina side, validation of the validator's public keys is performed by the validateValidator function,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ValidatorPublicKeyIsNotChecked"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(validateValidator|useSig1|useSig2).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "validateValidator"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

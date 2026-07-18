@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "h-3-partya-and-partyb-nonce-is-not-incremented-in-any-of-the-liq"
+class_name: "H3PartyaAndPartybNonceIsNotIncrementedInAnyOfTheLiq"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #21196 (Sherlock/Symmetrical)"
+help: |
+    H-3: PartyA and PartyB nonce is not incremented in any of the liquidation functions which can lead to all protocol funds being stolen in some cases
+wiki_title: |
+    H-3: PartyA and PartyB nonce is not incremented in any of the liquidation functions which can lead to all protocol funds being stolen in some cases
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-06-symmetrical-judging/issues/190 
+    
+    ## Found by 
+    bin2chen, cergyk, mstpr-brainbot, panprog, rvierdiiev, shaka, ver0759, xiaoming90
+    ## Summary
+    
+    Nonce for neither partyA nor partyB is increased in any of the `LiquidationFacetImpl` functions. However, some
+wiki_exploit_scenario: |
+    Per Solodit #21196: Source: https://github.com/sherlock-audit/2023-06-symmetrical-judging/issues/190 
+    
+    ## Found by 
+    bin2chen, cergyk, mstpr-brainbot, panprog, rvierdiiev, shaka, ver0759, xiaoming90
+    ## Summary
+    
+    Nonce for
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H3PartyaAndPartybNonceIsNotIncrementedInAnyOfTheLiq"
+solodit_id: "21196"
+solodit_slug: |
+    h-3-partya-and-partyb-nonce-is-not-incremented-in-any-of-the-liquidation-functions-which-can-lead-to-all-protocol-funds-being-stolen-in-some-cases-sherlock-none-symmetrical-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal allocatedbalances;"
+fn_name_regex: ".*(LiquidationFacetImpl|liquidatePositionsPartyA|allocatedBalances|liquidatePartyB).*"
+read_var_regex: ".*(allocatedBalances|liquidatePartyB|liquidatePositionsPartyA).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LiquidationFacetImpl"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return allocatedbalances > 0;"

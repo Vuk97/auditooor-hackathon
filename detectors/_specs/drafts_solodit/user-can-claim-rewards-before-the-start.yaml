@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "user-can-claim-rewards-before-the-start"
+class_name: "UserCanClaimRewardsBeforeTheStart"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56419 (Zokyo/Cwbc)"
+help: "User can claim rewards before the start."
+wiki_title: "User can claim rewards before the start."
+wiki_description: |
+    **Description**
+    
+    Arkouda.sol, claimReward()
+    rewardGenerationStartTime is not checked against 0, thus the condition in function is always
+    true, and the user gets the ability to claim tokens before rewards start. Especially because
+    rewardGenerationStartTime is set independently from main functionality
+wiki_exploit_scenario: |
+    Per Solodit #56419: **Description**
+    
+    Arkouda.sol, claimReward()
+    rewardGenerationStartTime is not checked against 0, thus the condition in function is always
+    true, and the user gets the ability to claim tokens before rewa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UserCanClaimRewardsBeforeTheStart"
+solodit_id: "56419"
+solodit_slug: "user-can-claim-rewards-before-the-start-zokyo-none-cwbc-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimReward|rewardGenerationStartTime).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimReward"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "rounding-issue-can-lead-to-lacking-funds-in-the-contract"
+class_name: "RoundingIssueCanLeadToLackingFundsInTheContract"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #21042 (AuditOne/Unicrow)"
+help: "Rounding issue can lead to lacking funds in the contract"
+wiki_title: "Rounding issue can lead to lacking funds in the contract"
+wiki_description: |
+    **Description:** 
+    
+    In case `arbitrated = True`,arbitratorFee will be deducted from both buyer and seller splits. However they did not be sum up but after all,in `calculatePayment()`,arbitratorFee is calculated again with total amount.
+    
+    Scenario (for simplicity,let's just assume there is only arbitra
+wiki_exploit_scenario: |
+    Per Solodit #21042: **Description:** 
+    
+    In case `arbitrated = True`,arbitratorFee will be deducted from both buyer and seller splits. However they did not be sum up but after all,in `calculatePayment()`,arbitratorFee is c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RoundingIssueCanLeadToLackingFundsInTheContract"
+solodit_id: "21042"
+solodit_slug: "rounding-issue-can-lead-to-lacking-funds-in-the-contract-auditone-none-unicrow-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal arbitratorfee;"
+fn_name_regex: ".*(calculatePayment|arbitratorFee).*"
+read_var_regex: ".*(arbitratorFee|calculatePayment).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "calculatePayment"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return arbitratorfee > 0;"

@@ -1,0 +1,48 @@
+skeleton: "state_write_without_paired_write"
+name: "statehash-isn-t-updated-by-buyoutlien-function"
+class_name: "StatehashIsnTUpdatedByBuyoutlienFunction"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7297 (Spearbit/Astaria)"
+help: "stateHash isn't updated by buyoutLien function"
+wiki_title: "stateHash isn't updated by buyoutLien function"
+wiki_description: |
+    ## Security Issue Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    LienToken.sol#L102-187
+    
+    ## Description
+    We never update the collateral state hash anywhere in the `buyoutLien` function. As a result, once all checks are passed, payment will be transferred from the buyer to the seller, but the seller wi
+wiki_exploit_scenario: |
+    Per Solodit #7297: ## Security Issue Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    LienToken.sol#L102-187
+    
+    ## Description
+    We never update the collateral state hash anywhere in the `buyoutLien` function. As a result, onc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StatehashIsnTUpdatedByBuyoutlienFunction"
+solodit_id: "7297"
+solodit_slug: "statehash-isnt-updated-by-buyoutlien-function-spearbit-astaria-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(buyoutLien).*"
+primary_var_regex: ".*(buyoutLien).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

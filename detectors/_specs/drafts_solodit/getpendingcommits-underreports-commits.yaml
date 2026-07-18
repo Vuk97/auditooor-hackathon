@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "getpendingcommits-underreports-commits"
+class_name: "GetpendingcommitsUnderreportsCommits"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6748 (Spearbit/Tracer)"
+help: "getPendingCommits() underreports commits"
+wiki_title: "getPendingCommits() underreports commits"
+wiki_description: |
+    ## Severity Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `PoolCommitter.sol#L764`
+    
+    ## Description
+    When `frontRunningInterval > updateInterval`, the `PoolCommitter.getAppropriateUpdateIntervalId()` function can return `updateInterval` IDs that are arbitrarily far into the future, especially if `ap
+wiki_exploit_scenario: |
+    Per Solodit #6748: ## Severity Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `PoolCommitter.sol#L764`
+    
+    ## Description
+    When `frontRunningInterval > updateInterval`, the `PoolCommitter.getAppropriateUpdateIntervalId()`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GetpendingcommitsUnderreportsCommits"
+solodit_id: "6748"
+solodit_slug: "getpendingcommits-underreports-commits-spearbit-tracer-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal checkinvariants;"
+fn_name_regex: ".*(updateInterval|commit|updateIntervalId|checkInvariants).*"
+read_var_regex: ".*(checkInvariants|commit|getPendingCommits).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateInterval"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return checkinvariants > 0;"

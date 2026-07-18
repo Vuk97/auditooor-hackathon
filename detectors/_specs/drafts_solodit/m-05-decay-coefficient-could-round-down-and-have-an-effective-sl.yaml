@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-05-decay-coefficient-could-round-down-and-have-an-effective-sl"
+class_name: "M05DecayCoefficientCouldRoundDownAndHaveAnEffectiveSl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53845 (Recon Audits/Apollon Report)"
+help: "[M-05] Decay Coefficient could round down and have an effective slower decay"
+wiki_title: "[M-05] Decay Coefficient could round down and have an effective slower decay"
+wiki_description: |
+    **Impact**
+    
+    `calcDecayedStableCoinBaseRate` calls `_minutesPassedSinceLastFeeOp` which rounds down by up to 1 minute - 1
+    
+    https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87/packages/contracts/contracts/TroveManager.sol#L987-L997
+    
+    ```solidity
+      function calcDecayedStable
+wiki_exploit_scenario: |
+    Per Solodit #53845: **Impact**
+    
+    `calcDecayedStableCoinBaseRate` calls `_minutesPassedSinceLastFeeOp` which rounds down by up to 1 minute - 1
+    
+    https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05DecayCoefficientCouldRoundDownAndHaveAnEffectiveSl"
+solodit_id: "53845"
+solodit_slug: |
+    m-05-decay-coefficient-could-round-down-and-have-an-effective-slower-decay-recon-audits-none-apollon-report-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calcdecayedstablecoinbaserate;"
+fn_name_regex: ".*(calcDecayedStableCoinBaseRate).*"
+read_var_regex: ".*(calcDecayedStableCoinBaseRate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "calcDecayedStableCoinBaseRate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calcdecayedstablecoinbaserate > 0;"

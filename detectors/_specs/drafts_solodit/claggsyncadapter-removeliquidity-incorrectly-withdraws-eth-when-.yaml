@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "claggsyncadapter-removeliquidity-incorrectly-withdraws-eth-when-"
+class_name: "ClaggsyncadapterRemoveliquidityIncorrectlyWithdrawsEthWhen"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46283 (Cantina/Clave)"
+help: "ClaggSyncAdapter._removeLiquidity() incorrectly withdraws ETH when token is WETH"
+wiki_title: "ClaggSyncAdapter._removeLiquidity() incorrectly withdraws ETH when token is WETH "
+wiki_description: |
+    ## Context
+    - ClaggSyncAdapter.sol#L220-L227
+    - ClaggBaseAdapter.sol#L92-L93
+    
+    ## Description
+    In `ClaggSyncAdapter._removeLiquidity()`, when the token address is not native ETH, `syncRouter.burnLiquiditySingle()` is called with `withdrawMode = 1`:
+    
+    ```solidity
+    // data = abi.encode(token, receiver, with
+wiki_exploit_scenario: |
+    Per Solodit #46283: ## Context
+    - ClaggSyncAdapter.sol#L220-L227
+    - ClaggBaseAdapter.sol#L92-L93
+    
+    ## Description
+    In `ClaggSyncAdapter._removeLiquidity()`, when the token address is not native ETH, `syncRouter.burnLiquidity
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ClaggsyncadapterRemoveliquidityIncorrectlyWithdrawsEthWhen"
+solodit_id: "46283"
+solodit_slug: "claggsyncadapter_removeliquidity-incorrectly-withdraws-eth-when-token-is-weth-cantina-none-clave-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cfb8b0d2;"
+fn_name_regex: ".*(withdraw|cfb8b0d2).*"
+read_var_regex: ".*(cfb8b0d2|withdraw).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cfb8b0d2 > 0;"

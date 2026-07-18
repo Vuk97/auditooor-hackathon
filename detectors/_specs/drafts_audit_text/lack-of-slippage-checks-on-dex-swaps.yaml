@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "lack-of-slippage-checks-on-dex-swaps"
+class_name: "LackOfSlippageChecksOnDexSwaps"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Fractal Protocol - Zellic Audit Report"
+help: |
+    In many separate areas of the project, interactions and swaps with Uniswap are han- dled through DexLibrary. There is no slippage check on these interactions and are thus vulnerabl
+wiki_title: "Lack of slippage checks on DEX swaps"
+wiki_description: |
+    In many separate areas of the project, interactions and swaps with Uniswap are han- dled through DexLibrary. There is no slippage check on these interactions and are thus vulnerable to market manipulation. function swap( uint256 amountIn, address fromToken, address toToken, IPair pair ) internal ret
+wiki_exploit_scenario: |
+    Per audit finding: In many separate areas of the project, interactions and swaps with Uniswap are han- dled through DexLibrary. There is no slippage check on these interactions and are thus vulnerable to market manipula
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfSlippageChecksOnDexSwaps"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

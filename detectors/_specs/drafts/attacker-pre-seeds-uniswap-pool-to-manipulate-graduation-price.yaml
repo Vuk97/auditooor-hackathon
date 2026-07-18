@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "attacker-pre-seeds-uniswap-pool-to-manipulate-graduation-price"
+class_name: "AttackerPreSeedsUniswapPoolToManipulateGraduationPrice"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ae"
+help: |
+    launch token transfer lock allows token flow during buy when recipient==pool address; attacker seeds pool with skewed reserves before graduation, extracts profit.
+wiki_title: "Attacker Pre-Seeds Uniswap Pool to Manipulate Graduation Price"
+wiki_description: |
+    launch token transfer lock allows token flow during buy when recipient==pool address; attacker seeds pool with skewed reserves before graduation, extracts profit.
+wiki_exploit_scenario: |
+    Attacker exploits Attacker Pre-Seeds Uniswap Pool to Manipulate Graduation Price as described: launch token transfer lock allows token flow during buy when recipient==pool address; attacker seeds pool with skewed reserves before graduation, extracts profit.
+wiki_recommendation: "bonding-curve graduation calling addLiquidity without checking if pair already has reserves."
+contract_name: "AttackerPreSeedsUniswapPoolToManipulateGraduationPrice"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

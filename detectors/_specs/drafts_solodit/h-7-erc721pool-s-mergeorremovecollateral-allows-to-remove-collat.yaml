@@ -1,0 +1,47 @@
+skeleton: "state_write_without_paired_write"
+name: "h-7-erc721pool-s-mergeorremovecollateral-allows-to-remove-collat"
+class_name: "H7Erc721poolSMergeorremovecollateralAllowsToRemoveCollat"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6293 (Sherlock/Ajna)"
+help: "H-7: ERC721Pool's mergeOrRemoveCollateral allows to remove collateral while auction is clearable"
+wiki_title: "H-7: ERC721Pool's mergeOrRemoveCollateral allows to remove collateral while auction is clearable"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-ajna-judging/issues/105 
+    
+    ## Found by 
+    hyh
+    
+    ## Summary
+    
+    User facing mergeOrRemoveCollateral() can effectively remove collateral, but lacks _revertIfAuctionClearable() check, i.e. allows to remove it while auction wasn't cleared.
+    
+    ## Vulnerability Det
+wiki_exploit_scenario: |
+    Per Solodit #6293: Source: https://github.com/sherlock-audit/2023-01-ajna-judging/issues/105 
+    
+    ## Found by 
+    hyh
+    
+    ## Summary
+    
+    User facing mergeOrRemoveCollateral() can effectively remove collateral, but lacks _revertIfAu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H7Erc721poolSMergeorremovecollateralAllowsToRemoveCollat"
+solodit_id: "6293"
+solodit_slug: |
+    h-7-erc721pools-mergeorremovecollateral-allows-to-remove-collateral-while-auction-is-clearable-sherlock-ajna-ajna-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Business Logic"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(mergeOrRemoveCollateral|nonReentrant).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

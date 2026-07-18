@@ -1,0 +1,19 @@
+id: soroswap-fee-formula-divergence
+title: "Soroswap direct swap fee formula diverges from router"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.23"
+bug_class: precision-loss
+indicators:
+  - "adapter's local fee calculation formula (`out = in * (10000 - fee) / 10000`) differs from the deployed Soroswap fee formula"
+  - "output price returned by adapter differs from actual router swap output"
+victim: "Swap users: misquoted output."
+exploit_precondition: "Any swap through the adapter."
+real_world_example: |
+  Halborn 7.23 (LOW): Soroswap direct swap fee formula diverges and misprices outputs.
+suggested_remediation: "Always query the target DEX contract for the canonical quote rather than reimplementing."
+cross_refs:
+  - cross-contract-abi-mismatch-reverts

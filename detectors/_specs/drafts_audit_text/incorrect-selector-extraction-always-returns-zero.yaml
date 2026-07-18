@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-selector-extraction-always-returns-zero"
+class_name: "IncorrectSelectorExtractionAlwaysReturnsZero"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Hyperbeat Pay - Zellic Audit Report"
+help: |
+    The extractSelector function in ManagementAccountLib incorrectly applies a shr(224, ...) operation before assigning to a bytes4 return type: function extractSelector(bytes memory d
+wiki_title: "Incorrect selector extraction always returns zero"
+wiki_description: |
+    The extractSelector function in ManagementAccountLib incorrectly applies a shr(224, ...) operation before assigning to a bytes4 return type: function extractSelector(bytes memory data) internal pure returns (bytes4 selector) { if (data.length < 4) return bytes4(0); assembly { selector := shr(224, ml
+wiki_exploit_scenario: |
+    Per audit finding: The extractSelector function in ManagementAccountLib incorrectly applies a shr(224, ...) operation before assigning to a bytes4 return type: function extractSelector(bytes memory data) internal pure r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectSelectorExtractionAlwaysReturnsZero"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(extractSelector|executeApprovedServiceAction|callData).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "extractSelector"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

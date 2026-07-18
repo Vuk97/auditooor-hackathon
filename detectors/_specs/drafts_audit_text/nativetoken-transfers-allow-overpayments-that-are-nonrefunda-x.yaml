@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "nativetoken-transfers-allow-overpayments-that-are-nonrefunda-x"
+class_name: "NativetokenTransfersAllowOverpaymentsThatAreNonrefundaX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Arkhai Alkahest - Zellic Audit Report"
+help: |
+    Both NativeTokenEscrowObligation._lockEscrow and TokenBundleEscrowObligation._lockEscrow support ETH transfers (tierable and nontierable). // `NativeTokenEscrowObligation._lockEscr
+wiki_title: "NativeToken transfers allow overpayments that are nonrefundable, causing"
+wiki_description: |
+    Both NativeTokenEscrowObligation._lockEscrow and TokenBundleEscrowObligation._lockEscrow support ETH transfers (tierable and nontierable). // `NativeTokenEscrowObligation._lockEscrow` // Lock native tokens into escrow function _lockEscrow( bytes memory data, address /* from */ ) internal override {
+wiki_exploit_scenario: |
+    Per audit finding: Both NativeTokenEscrowObligation._lockEscrow and TokenBundleEscrowObligation._lockEscrow support ETH transfers (tierable and nontierable). // `NativeTokenEscrowObligation._lockEscrow` // Lock native t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NativetokenTransfersAllowOverpaymentsThatAreNonrefundaX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(validateArrayLengths|nativeAmount|transferInTokenBundle).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "validateArrayLengths"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

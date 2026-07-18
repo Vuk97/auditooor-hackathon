@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "possible-overflow-in-payoutfirstinqueue"
+class_name: "PossibleOverflowInPayoutfirstinqueue"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27150 (Cyfrin/Streamr)"
+help: "Possible overflow in `_payOutFirstInQueue`"
+wiki_title: "Possible overflow in `_payOutFirstInQueue`"
+wiki_description: |
+    **Severity:** High
+    
+    **Description:** In `_payOutFirstInQueue()`, possible revert during `operatorTokenToDataInverse()`.
+    
+    ```solidity
+    uint amountOperatorTokens = moduleCall(address(exchangeRatePolicy), abi.encodeWithSelector(exchangeRatePolicy.operatorTokenToDataInverse.selector, amountDataWei));
+    ```
+wiki_exploit_scenario: |
+    Per Solodit #27150: **Severity:** High
+    
+    **Description:** In `_payOutFirstInQueue()`, possible revert during `operatorTokenToDataInverse()`.
+    
+    ```solidity
+    uint amountOperatorTokens = moduleCall(address(exchangeRatePolicy),
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleOverflowInPayoutfirstinqueue"
+solodit_id: "27150"
+solodit_slug: "possible-overflow-in-_payoutfirstinqueue-cyfrin-none-cyfrin-streamr-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Overflow/Underflow, Data Validation"
+state_decl: "uint256 internal amountdatawei;"
+fn_name_regex: ".*(operatorTokenToDataInverse|undelegate|amountDataWei).*"
+read_var_regex: ".*(amountDataWei|operatorTokenToDataInverse|undelegate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "operatorTokenToDataInverse"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amountdatawei > 0;"

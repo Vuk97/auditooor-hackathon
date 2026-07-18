@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "firetoken-2024-10"
+class_name: "Firetoken202410"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-10/FireToken_exp.sol"
+help: "FireToken 2024-10 — flashloan exploit (8.45 ETH (~$20K USD))"
+wiki_title: "FireToken (2024-10) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-10): FireToken lost 8.45 ETH (~$20K USD). Bug class: flashloan. Attack tx: 0xd20b3b31a682322eb0698ecd67a6d8a040ccea653ba429ec73e3584fa176ff2b.
+wiki_exploit_scenario: |
+    Attacker (0x81f48a87ec44208c691f870b9d400d9c13111e2e) exploits FireToken via flashloan: the victim contract 0x18775475f50557b96C63E8bbf7D75bFeB412082D exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Firetoken202410"
+trigger_sig_regex: ".*(executeOperation).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function executeOperation(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.executeOperation(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

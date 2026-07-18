@@ -1,0 +1,45 @@
+skeleton: "paired_function_divergence"
+name: "m-1-libubiquitypool-mintdollar-redeemdollar-reliance-on-outdated"
+class_name: "M1LibubiquitypoolMintdollarRedeemdollarRelianceOnOutdated"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30204 (Sherlock/Ubiquity)"
+help: |
+    M-1: LibUbiquityPool::mintDollar/redeemDollar reliance on outdated TWAP oracle may be inefficient for preventing depeg
+wiki_title: |
+    M-1: LibUbiquityPool::mintDollar/redeemDollar reliance on outdated TWAP oracle may be inefficient for preventing depeg
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-12-ubiquity-judging/issues/13 
+    
+    ## Found by 
+    0xadrii, cergyk, osmanozdemir1, rvierdiiev
+    ## Summary
+    The ubiquity pool used for minting/burning uAD relies on a twap oracle which can be outdated because the underlying metapool is not updated when calling t
+wiki_exploit_scenario: |
+    Per Solodit #30204: Source: https://github.com/sherlock-audit/2023-12-ubiquity-judging/issues/13 
+    
+    ## Found by 
+    0xadrii, cergyk, osmanozdemir1, rvierdiiev
+    ## Summary
+    The ubiquity pool used for minting/burning uAD relies
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1LibubiquitypoolMintdollarRedeemdollarRelianceOnOutdated"
+solodit_id: "30204"
+solodit_slug: |
+    m-1-libubiquitypoolmintdollarredeemdollar-reliance-on-outdated-twap-oracle-may-be-inefficient-for-preventing-depeg-sherlock-ubiquity-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(update).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

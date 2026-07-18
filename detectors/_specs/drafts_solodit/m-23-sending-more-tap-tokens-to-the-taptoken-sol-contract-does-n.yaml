@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-23-sending-more-tap-tokens-to-the-taptoken-sol-contract-does-n"
+class_name: "M23SendingMoreTapTokensToTheTaptokenSolContractDoesN"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32346 (Code4rena/Tapioca DAO)"
+help: |
+    [M-23] Sending more TAP tokens to the `TapToken.sol` contract does not actually increase the total amount to be distributed
+wiki_title: |
+    [M-23] Sending more TAP tokens to the `TapToken.sol` contract does not actually increase the total amount to be distributed
+wiki_description: |
+    Within the `TapToken` contract, the to-be-distributed balance is tracked by the `dso_supply`. Every week a percentage of is distributed to the users via `oTAP` emissions.
+    
+    ```solidity
+        function emitForWeek() external onlyMinter returns (uint256) {
+            if (_getChainId() != governanceEid) reve
+wiki_exploit_scenario: |
+    Per Solodit #32346: Within the `TapToken` contract, the to-be-distributed balance is tracked by the `dso_supply`. Every week a percentage of is distributed to the users via `oTAP` emissions.
+    
+    ```solidity
+        function em
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M23SendingMoreTapTokensToTheTaptokenSolContractDoesN"
+solodit_id: "32346"
+solodit_slug: |
+    m-23-sending-more-tap-tokens-to-the-taptokensol-contract-does-not-actually-increase-the-total-amount-to-be-distributed-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal dso_supply;"
+fn_name_regex: ".*(TapToken|dso_supply|oTAP|extractTAP).*"
+read_var_regex: ".*(dso_supply|extractTAP|oTAP).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "TapToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return dso_supply > 0;"

@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "m-15-wp-h7-insurancefund-syncdeps-may-cause-users-fund-loss"
+class_name: "M15WpH7InsurancefundSyncdepsMayCauseUsersFundLoss"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42481 (Code4rena/Hubble)"
+help: "[M-15] [WP-H7] `InsuranceFund#syncDeps()` may cause users' fund loss"
+wiki_title: "[M-15] [WP-H7] `InsuranceFund#syncDeps()` may cause users' fund loss"
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    <https://github.com/code-423n4/2022-02-hubble/blob/ed1d885d5dbc2eae24e43c3ecbf291a0f5a52765/contracts/InsuranceFund.sol#L116-L119>
+    
+    ```solidity
+    function syncDeps(IRegistry _registry) public onlyGovernance {
+        vusd = IERC20(_registry.vusd());
+        marginAccount = _registry.m
+wiki_exploit_scenario: |
+    Per Solodit #42481: _Submitted by WatchPug_
+    
+    <https://github.com/code-423n4/2022-02-hubble/blob/ed1d885d5dbc2eae24e43c3ecbf291a0f5a52765/contracts/InsuranceFund.sol#L116-L119>
+    
+    ```solidity
+    function syncDeps(IRegistry _re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15WpH7InsurancefundSyncdepsMayCauseUsersFundLoss"
+solodit_id: "42481"
+solodit_slug: "m-15-wp-h7-insurancefundsyncdeps-may-cause-users-fund-loss-code4rena-hubble-hubble-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal shares;"
+fn_name_regex: ".*(Governance|vusd|InsuranceFund|syncDeps).*"
+write_var_regex: ".*(shares|syncDeps|vusd).*"
+guard_var_regex: ".*(shares|syncDeps|vusd).*"
+vuln_fn_name: "Governance"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "shares = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

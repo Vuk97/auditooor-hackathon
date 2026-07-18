@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-error-check-in-twap-price"
+class_name: "IncorrectErrorCheckInTwapPrice"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Osmosis Authentication Abstraction - Zellic Audit Report"
+help: |
+    When getting the price for a coin using the Twap strategy, sla.twapKeeper.GetArithme ticTwapToNow is called to calculate the price: func (sla SpendLimitAuthenticator) getPriceInQuo
+wiki_title: "Incorrect error check in TWAP price"
+wiki_description: |
+    When getting the price for a coin using the Twap strategy, sla.twapKeeper.GetArithme ticTwapToNow is called to calculate the price: func (sla SpendLimitAuthenticator) getPriceInQuoteDenom(ctx sdk.Context, coin sdk.Coin) (osmomath.Dec, error) { switch sla.priceStrategy { case Twap: /) This is a very
+wiki_exploit_scenario: |
+    Per audit finding: When getting the price for a coin using the Twap strategy, sla.twapKeeper.GetArithme ticTwapToNow is called to calculate the price: func (sla SpendLimitAuthenticator) getPriceInQuoteDenom(ctx sdk.Cont
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectErrorCheckInTwapPrice"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(twapKeeper|ticTwapToNow|getPriceInQuoteDenom).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "twapKeeper"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "the-uniswap-router-contract-still-retains-an-approval-after--x"
+class_name: "TheUniswapRouterContractStillRetainsAnApprovalAfterX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit GTE Launchpad- Zellic Audit Report"
+help: |
+    The buy function of the Launchpad contract will execute _swapRemainingQuote to attempt swapping the remaining USDC tokens if the available LaunchToken supply, before reaching BONDI
+wiki_title: "The Uniswap router contract still retains an approval after an unsuccessful"
+wiki_description: |
+    The buy function of the Launchpad contract will execute _swapRemainingQuote to attempt swapping the remaining USDC tokens if the available LaunchToken supply, before reaching BONDING_SUPPLY, was insufficient. After moving liquidity to the Uniswap pair contract, the Uniswap router will be assigned th
+wiki_exploit_scenario: |
+    Per audit finding: The buy function of the Launchpad contract will execute _swapRemainingQuote to attempt swapping the remaining USDC tokens if the available LaunchToken supply, before reaching BONDING_SUPPLY, was insuf
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheUniswapRouterContractStillRetainsAnApprovalAfterX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "m-02-users-can-avoid-paying-fees-if-they-manage-to-update-their-"
+class_name: "M02UsersCanAvoidPayingFeesIfTheyManageToUpdateTheir"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5731 (Code4rena/Inverse Finance)"
+help: "[M-02] Users can avoid paying fees if they manage to update their accrued fees periodically"
+wiki_title: "[M-02] Users can avoid paying fees if they manage to update their accrued fees periodically"
+wiki_description: |
+    [DBR.sol#L287](https://github.com/code-423n4/2022-10-inverse/blob/main/src/DBR.sol#L287)<br>
+    
+    While a user borrows DOLA, his debt position in the DBR contract accrues more debt over time. However, Solidity contracts cannot update their storage automatically over time; state updates must always be t
+wiki_exploit_scenario: |
+    Per Solodit #5731: [DBR.sol#L287](https://github.com/code-423n4/2022-10-inverse/blob/main/src/DBR.sol#L287)<br>
+    
+    While a user borrows DOLA, his debt position in the DBR contract accrues more debt over time. However, So
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02UsersCanAvoidPayingFeesIfTheyManageToUpdateTheir"
+solodit_id: "5731"
+solodit_slug: |
+    m-02-users-can-avoid-paying-fees-if-they-manage-to-update-their-accrued-fees-periodically-code4rena-inverse-finance-inverse-finance-contest-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Rounding"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(accrueDueTokens|accrued|debt).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

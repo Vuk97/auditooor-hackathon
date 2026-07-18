@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "the-collateral-that-liquidators-receive-is-valued-below-thei-x"
+class_name: "TheCollateralThatLiquidatorsReceiveIsValuedBelowTheiX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-08-flare-fasset"
+help: |
+    pashap9990 Finding Description and Impact Due to insufficient safeguards against price drops, liquidators receive less collateral than expected from the vault and pool, resulting i
+wiki_title: |
+    The collateral that liquidators receive is valued below their initial expectations as a result of the price fall
+wiki_description: |
+    pashap9990 Finding Description and Impact Due to insufficient safeguards against price drops, liquidators receive less collateral than expected from the vault and pool, resulting in financial losses. An agent is established, after which the necessary collateral is deposited into the agent’s vault an
+wiki_exploit_scenario: |
+    Per audit finding: pashap9990 Finding Description and Impact Due to insufficient safeguards against price drops, liquidators receive less collateral than expected from the vault and pool, resulting in financial losses.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheCollateralThatLiquidatorsReceiveIsValuedBelowTheiX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(executeMinting|testChainInfo|assetSymbol).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "executeMinting"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

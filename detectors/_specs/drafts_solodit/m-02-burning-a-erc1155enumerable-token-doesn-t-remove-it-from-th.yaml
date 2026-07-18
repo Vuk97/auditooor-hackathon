@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-02-burning-a-erc1155enumerable-token-doesn-t-remove-it-from-th"
+class_name: "M02BurningAErc1155enumerableTokenDoesnTRemoveItFromTh"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24905 (Code4rena/Timeswap)"
+help: "[M-02] Burning a `ERC1155Enumerable` token doesn't remove it from the enumeration"
+wiki_title: "[M-02] Burning a `ERC1155Enumerable` token doesn't remove it from the enumeration"
+wiki_description: |
+    The `ERC1155Enumerable` base contract used in the `TimeswapV2Token` and `TimeswapV2LiquidityToken` tokens provides a functionality to enumerate all token ids that have been minted in the contract.
+    
+    The logic to remove the token from the enumeration if the last token is burned is implemented in the
+wiki_exploit_scenario: |
+    Per Solodit #24905: The `ERC1155Enumerable` base contract used in the `TimeswapV2Token` and `TimeswapV2LiquidityToken` tokens provides a functionality to enumerate all token ids that have been minted in the contract.
+    
+    T
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02BurningAErc1155enumerableTokenDoesnTRemoveItFromTh"
+solodit_id: "24905"
+solodit_slug: |
+    m-02-burning-a-erc1155enumerable-token-doesnt-remove-it-from-the-enumeration-code4rena-timeswap-timeswap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal tokenbyindex;"
+fn_name_regex: ".*(ERC1155Enumerable|TimeswapV2Token|TimeswapV2LiquidityToken|totalSupply).*"
+write_var_regex: ".*(tokenByIndex|totalSupply).*"
+guard_var_regex: ".*(tokenByIndex|totalSupply).*"
+vuln_fn_name: "ERC1155Enumerable"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "tokenbyindex = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

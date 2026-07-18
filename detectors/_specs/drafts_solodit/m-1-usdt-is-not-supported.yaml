@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "m-1-usdt-is-not-supported"
+class_name: "M1UsdtIsNotSupported"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34255 (Sherlock/Arrakis Valantis SOT Audit)"
+help: "M-1: USDT is not supported"
+wiki_title: "M-1: USDT is not supported"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-03-arrakis-judging/issues/19 
+    
+    ## Found by 
+    cu5t0mPe0
+    ## Summary
+    
+    When approving USDT, the allowance value needs to be set to 0 first before it can be used correctly. However, the 4.9.5 version of OpenZeppelin does not internally call `forceApprove`.
+    
+    #
+wiki_exploit_scenario: |
+    Per Solodit #34255: Source: https://github.com/sherlock-audit/2024-03-arrakis-judging/issues/19 
+    
+    ## Found by 
+    cu5t0mPe0
+    ## Summary
+    
+    When approving USDT, the allowance value needs to be set to 0 first before it can be us
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1UsdtIsNotSupported"
+solodit_id: "34255"
+solodit_slug: "m-1-usdt-is-not-supported-sherlock-arrakis-valantis-sot-audit-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal forceapprove;"
+fn_name_regex: ".*(forceApprove|RouterSwapExecutor|safeIncreaseAllowance|swapPayload).*"
+read_var_regex: ".*(forceApprove|safeIncreaseAllowance|swapPayload).*"
+required_call_regex: ".*forceApprove.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "forceApprove"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return forceapprove > 0;"

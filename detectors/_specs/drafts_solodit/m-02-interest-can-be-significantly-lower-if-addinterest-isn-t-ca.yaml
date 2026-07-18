@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "m-02-interest-can-be-significantly-lower-if-addinterest-isn-t-ca"
+class_name: "M02InterestCanBeSignificantlyLowerIfAddinterestIsnTCa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24831 (Code4rena/Frax Finance)"
+help: "[M-02] Interest can be significantly lower if `addInterest` isn't called frequently enough"
+wiki_title: "[M-02] Interest can be significantly lower if `addInterest` isn't called frequently enough"
+wiki_description: |
+    _Submitted by 0xA5DF, also found by sseefried_
+    
+    `addInterest()` always multiplies the interest rate by the time delta, and then multiplies the total borrow amount by the results (`newTotalBorrowAmount = interestRate * timeDelta * totalBorrowAmount`). This can lead to different interest amounts, depe
+wiki_exploit_scenario: |
+    Per Solodit #24831: _Submitted by 0xA5DF, also found by sseefried_
+    
+    `addInterest()` always multiplies the interest rate by the time delta, and then multiplies the total borrow amount by the results (`newTotalBorrowAmount
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02InterestCanBeSignificantlyLowerIfAddinterestIsnTCa"
+solodit_id: "24831"
+solodit_slug: |
+    m-02-interest-can-be-significantly-lower-if-addinterest-isnt-called-frequently-enough-code4rena-frax-finance-frax-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addInterest).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

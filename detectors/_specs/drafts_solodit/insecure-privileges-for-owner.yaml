@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "insecure-privileges-for-owner"
+class_name: "InsecurePrivilegesForOwner"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28500 (MixBytes/Convex Platform)"
+help: "Insecure privileges for `Owner`"
+wiki_title: "Insecure privileges for `Owner`"
+wiki_description: |
+    ##### Description
+    Owner can change factories in `setFactories` (https://github.com/convex-eth/platform/blob/754d9e700693246275b613e895b4044b63ce9ed5/contracts/contracts/Booster.sol#L95):
+    ```solidity
+    rewardFactory = _rfactory;
+    stashFactory = _sfactory;
+    tokenFactory = _tfactory;
+    ```
+    
+    Via front-running
+wiki_exploit_scenario: |
+    Per Solodit #28500: ##### Description
+    Owner can change factories in `setFactories` (https://github.com/convex-eth/platform/blob/754d9e700693246275b613e895b4044b63ce9ed5/contracts/contracts/Booster.sol#L95):
+    ```solidity
+    r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InsecurePrivilegesForOwner"
+solodit_id: "28500"
+solodit_slug: "insecure-privileges-for-owner-mixbytes-none-convex-platform-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addpool;"
+fn_name_regex: ".*(setFactories|owner|addPool|Owner).*"
+read_var_regex: ".*(addPool|owner|setFactories).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setFactories"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addpool > 0;"

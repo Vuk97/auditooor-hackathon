@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "h-02-can-access-cards-of-other-markets"
+class_name: "H02CanAccessCardsOfOtherMarkets"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #288 (Code4rena/Reality Cards)"
+help: "[H-02] Can access cards of other markets"
+wiki_title: "[H-02] Can access cards of other markets"
+wiki_description: |
+    _Submitted by [gpersoon](https://twitter.com/gpersoon)_
+    
+    Within `RCMarket.sol` the functions `ownerOf` and `onlyTokenOwner` do not check if the `_cardId/_token` is smaller than `numberOfCards`. So it's possible to supply a larger number and access cards of other markets.
+    The most problematic seems t
+wiki_exploit_scenario: |
+    Per Solodit #288: _Submitted by [gpersoon](https://twitter.com/gpersoon)_
+    
+    Within `RCMarket.sol` the functions `ownerOf` and `onlyTokenOwner` do not check if the `_cardId/_token` is smaller than `numberOfCards`. So it'
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02CanAccessCardsOfOtherMarkets"
+solodit_id: "288"
+solodit_slug: "h-02-can-access-cards-of-other-markets-code4rena-reality-cards-reality-cards-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ismarketapproved;"
+fn_name_regex: ".*(ownerOf|onlyTokenOwner|numberOfCards|upgradeCard).*"
+read_var_regex: ".*(isMarketApproved|numberOfCards|onlyTokenOwner).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ownerOf"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ismarketapproved > 0;"

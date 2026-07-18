@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "the-bridging-process-will-revert-if-the-collection-is-matched-on"
+class_name: "TheBridgingProcessWillRevertIfTheCollectionIsMatchedOn"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #38504 (Codehawks/ArkProject: NFT Bridge)"
+help: |
+    The Bridging Process will revert if the Collection is matched on the destination chain and not matched on the source chain
+wiki_title: |
+    The Bridging Process will revert if the Collection is matched on the destination chain and not matched on the source chain
+wiki_description: |
+    ## Vulnerability Details
+    
+    When Bridging Collections `L1<->L2`, we are checking if that NFT collection has a pair on the destination chain or not. and if it has an address on the destination, then we use it instead of redeploying new one.
+    
+    [CollectionManager.sol#L111-L149](https://github.com/Cyfrin/2
+wiki_exploit_scenario: |
+    Per Solodit #38504: ## Vulnerability Details
+    
+    When Bridging Collections `L1<->L2`, we are checking if that NFT collection has a pair on the destination chain or not. and if it has an address on the destination, then we u
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheBridgingProcessWillRevertIfTheCollectionIsMatchedOn"
+solodit_id: "38504"
+solodit_slug: |
+    the-bridging-process-will-revert-if-the-collection-is-matched-on-the-destination-chain-and-not-matched-on-the-source-chain-codehawks-arkproject-nft-bridge-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(collectionL1|l2Req).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

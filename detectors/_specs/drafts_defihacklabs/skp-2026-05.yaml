@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "skp-2026-05"
+class_name: "Skp202605"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-05/SKP_exp.sol"
+help: "SKP 2026-05 — oracle exploit (~$212K USD)"
+wiki_title: "SKP (2026-05) — oracle"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-05): SKP lost ~$212K USD. Bug class: oracle. Attack tx: 0xbc01ea37bd2ff8f6aa6afcfbe0406114ff27a01e9aa56102bfa4ad8a0c2f25ee.
+wiki_exploit_scenario: |
+    Attacker (0x83B9e7EDC5B3127E4853A4F4945b92aa88eEF0C8) exploits SKP via oracle: the victim contract 0xeCBDc0B76142740Bb564B8aA1BCd061Cb151a666 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Replace spot-price reads with a TWAP wrapper (e.g., Uniswap V3 OracleLibrary.consult) and require a minimum observation window; sanity-check prices against a reference oracle.
+contract_name: "Skp202605"
+trigger_sig_regex: ".*(getPrice).*"
+required_sibling_regex: ".*(validatePrice).*"
+target_interface_decl: "interface IT { function getPrice(uint256) external; function validatePrice(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "readPrice"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.getPrice(x)"
+sibling_call: "target.validatePrice(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

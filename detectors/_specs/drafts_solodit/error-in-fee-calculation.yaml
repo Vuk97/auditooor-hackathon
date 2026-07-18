@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "error-in-fee-calculation"
+class_name: "ErrorInFeeCalculation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #55975 (Zokyo/Impossible Finance)"
+help: "Error in fee calculation."
+wiki_title: "Error in fee calculation."
+wiki_description: |
+    **Description**
+    
+    ImpossibleLibrary.sol, Line 112
+    amountInPostFee = amountInPostFee.sub(sqrtK.sub(reserveIn));
+    - amountInPostFee is powered by 10000
+    - sqrtK.sub(reserveIn) - regular.
+    There is a calculation mistake with the loose of accuracy
+    
+    **Recommendation**:
+    
+    Fix the calculation mistake
+wiki_exploit_scenario: |
+    Per Solodit #55975: **Description**
+    
+    ImpossibleLibrary.sol, Line 112
+    amountInPostFee = amountInPostFee.sub(sqrtK.sub(reserveIn));
+    - amountInPostFee is powered by 10000
+    - sqrtK.sub(reserveIn) - regular.
+    There is a calcula
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ErrorInFeeCalculation"
+solodit_id: "55975"
+solodit_slug: "error-in-fee-calculation-zokyo-none-impossible-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(amountInPostFee|reserveIn).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "amountInPostFee"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

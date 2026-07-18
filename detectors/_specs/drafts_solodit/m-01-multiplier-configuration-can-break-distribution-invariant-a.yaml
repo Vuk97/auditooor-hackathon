@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "m-01-multiplier-configuration-can-break-distribution-invariant-a"
+class_name: "M01MultiplierConfigurationCanBreakDistributionInvariantA"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65080 (Shieldify/Abster Freefall)"
+help: |
+    [M-01] Multiplier Configuration Can Break Distribution Invariant and Permanently Freeze Game Resolution and Claims
+wiki_title: |
+    [M-01] Multiplier Configuration Can Break Distribution Invariant and Permanently Freeze Game Resolution and Claims
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The multiplier system relies on a strict cumulative-weight distribution that must fully cover the range `[0, WEIGHT_DENOMINATOR)` for randomness selection to work.
+    
+    This invariant is explicitly enforced in `initializeDefaultPackages()` through:
+    
+    ```solidity
+wiki_exploit_scenario: |
+    Per Solodit #65080: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The multiplier system relies on a strict cumulative-weight distribution that must fully cover the range `[0, WEIGHT_DENOMINATOR)` for randomness selection to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01MultiplierConfigurationCanBreakDistributionInvariantA"
+solodit_id: "65080"
+solodit_slug: |
+    m-01-multiplier-configuration-can-break-distribution-invariant-and-permanently-freeze-game-resolution-and-claims-shieldify-none-abster-freefall-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addmultiplierpackage;"
+fn_name_regex: ".*(initializeDefaultPackages|addMultiplierPackage|updateMultiplierPackage|removeLastMultiplierPackage).*"
+write_var_regex: ".*(addMultiplierPackage|claim|initializeDefaultPackages).*"
+guard_var_regex: ".*(addMultiplierPackage|claim|initializeDefaultPackages).*"
+vuln_fn_name: "initializeDefaultPackages"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "addmultiplierpackage = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

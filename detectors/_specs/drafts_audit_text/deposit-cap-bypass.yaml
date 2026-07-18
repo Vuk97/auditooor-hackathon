@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "deposit-cap-bypass"
+class_name: "DepositCapBypass"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Smart Vault - Zellic Audit Report"
+help: |
+    The _beforeDeposit function verifies if the depositor is whitelisted and if the deposit amount is within the deposit cap. However, there are two issues with the current implementat
+wiki_title: "Deposit-cap bypass"
+wiki_description: |
+    The _beforeDeposit function verifies if the depositor is whitelisted and if the deposit amount is within the deposit cap. However, there are two issues with the current implementation: 1. The receiver address is not checked against the whitelist. This allows a depositor to use multiple receiver acco
+wiki_exploit_scenario: |
+    Per audit finding: The _beforeDeposit function verifies if the depositor is whitelisted and if the deposit amount is within the deposit cap. However, there are two issues with the current implementation: 1. The receiver
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DepositCapBypass"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositCapPerUser|balanceOf|scaledAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "depositCapPerUser"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

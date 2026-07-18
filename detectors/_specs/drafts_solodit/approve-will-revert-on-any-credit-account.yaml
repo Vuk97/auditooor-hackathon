@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "approve-will-revert-on-any-credit-account"
+class_name: "ApproveWillRevertOnAnyCreditAccount"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19388 (SigmaPrime/Gearbox)"
+help: "approve() Will Revert on Any Credit Account"
+wiki_title: "approve() Will Revert on Any Credit Account"
+wiki_description: |
+    ## Description
+    Various Gearbox functions pass the `creditAccount` variable as the `borrower` parameter of `CreditManager.approveCreditAccount()`, causing calls to `CreditFacade.getCreditAccountOrRevert(borrower)` to always revert because the `creditAccount` does not exist.
+    
+    ## Recommendations
+    Pa
+wiki_exploit_scenario: |
+    Per Solodit #19388: ## Description
+    Various Gearbox functions pass the `creditAccount` variable as the `borrower` parameter of `CreditManager.approveCreditAccount()`, causing calls to `CreditFacade.getCreditAccountOrReve
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ApproveWillRevertOnAnyCreditAccount"
+solodit_id: "19388"
+solodit_slug: "approve-will-revert-on-any-credit-account-sigmaprime-none-gearbox-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrower;"
+fn_name_regex: ".*(creditAccount|borrower).*"
+read_var_regex: ".*(borrower|creditAccount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "creditAccount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borrower > 0;"

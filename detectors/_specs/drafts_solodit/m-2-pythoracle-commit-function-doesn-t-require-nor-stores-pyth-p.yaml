@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-2-pythoracle-commit-function-doesn-t-require-nor-stores-pyth-p"
+class_name: "M2PythoracleCommitFunctionDoesnTRequireNorStoresPythP"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24306 (Sherlock/Perennial V2)"
+help: |
+    M-2: PythOracle `commit()` function doesn't require (nor stores) pyth price publish timestamp to be after the previous commit's publish timestamp, which makes it possible to manipu
+wiki_title: |
+    M-2: PythOracle `commit()` function doesn't require (nor stores) pyth price publish timestamp to be after the previous commit's publish timestamp, which makes i
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-07-perennial-judging/issues/44 
+    
+    ## Found by 
+    panprog
+    
+    PythOracle allows any user to commit non-requested oracle version. However, it doesn't verify pyth price publish timestamp to be in order (like `commitRequested` does). This makes it possible to com
+wiki_exploit_scenario: |
+    Per Solodit #24306: Source: https://github.com/sherlock-audit/2023-07-perennial-judging/issues/44 
+    
+    ## Found by 
+    panprog
+    
+    PythOracle allows any user to commit non-requested oracle version. However, it doesn't verify pyth
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2PythoracleCommitFunctionDoesnTRequireNorStoresPythP"
+solodit_id: "24306"
+solodit_slug: |
+    m-2-pythoracle-commit-function-doesnt-require-nor-stores-pyth-price-publish-timestamp-to-be-after-the-previous-commits-publish-timestamp-which-makes-it-possible-to-manipulate-price-to-unfairly-liquidate-users-and-possible-stealing-protocol-funds-sherlock-none-perennial-v2-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(commitRequested|commit).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

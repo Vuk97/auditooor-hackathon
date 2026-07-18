@@ -1,0 +1,41 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "mint-awards-can-be-manipulated"
+class_name: "MintAwardsCanBeManipulated"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27765 (MixBytes/Prisma Finance)"
+help: "Mint awards can be manipulated"
+wiki_title: "Mint awards can be manipulated"
+wiki_description: |
+    ##### Description
+    - https://github.com/prisma-fi/prisma-contracts/blob/52b26b8a2f1904b048754d5443e08d2144610b92/contracts/core/TroveManager.sol#L135
+    
+    Mint awards can be manipulated. Next steps:
+    
+    1. A hacker waits until TCR becomes 149% in TroveManager
+    2. The hacker takes the collateral flashloan and
+wiki_exploit_scenario: |
+    Per Solodit #27765: ##### Description
+    - https://github.com/prisma-fi/prisma-contracts/blob/52b26b8a2f1904b048754d5443e08d2144610b92/contracts/core/TroveManager.sol#L135
+    
+    Mint awards can be manipulated. Next steps:
+    
+    1. A
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MintAwardsCanBeManipulated"
+solodit_id: "27765"
+solodit_slug: "mint-awards-can-be-manipulated-mixbytes-none-prisma-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(accountLatestMint).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

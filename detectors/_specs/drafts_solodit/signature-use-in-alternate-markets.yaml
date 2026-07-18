@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "signature-use-in-alternate-markets"
+class_name: "SignatureUseInAlternateMarkets"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19731 (SigmaPrime/Tracer)"
+help: "Signature Use in Alternate Markets"
+wiki_title: "Signature Use in Alternate Markets"
+wiki_description: |
+    Description
+    The Trader contract makes trades on behalf of users. The purpose is that it is an off-chain order book system
+    which can execute orders on-chain on a user’s behalf.
+    It proves a user requested an order by having them sign the hashOrder() of a LimitOrder . This ensures that
+    the details of t
+wiki_exploit_scenario: |
+    Per Solodit #19731: Description
+    The Trader contract makes trades on behalf of users. The purpose is that it is an off-chain order book system
+    which can execute orders on-chain on a user’s behalf.
+    It proves a user request
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SignatureUseInAlternateMarkets"
+solodit_id: "19731"
+solodit_slug: "signature-use-in-alternate-markets-sigmaprime-none-tracer-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(hashOrder|targetTracer|executeTrade|executeOrder).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "hashOrder"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

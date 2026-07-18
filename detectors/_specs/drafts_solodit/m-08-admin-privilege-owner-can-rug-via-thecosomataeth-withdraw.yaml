@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "m-08-admin-privilege-owner-can-rug-via-thecosomataeth-withdraw"
+class_name: "M08AdminPrivilegeOwnerCanRugViaThecosomataethWithdraw"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1492 (Code4rena/Redacted Cartel)"
+help: "[M-08] Admin Privilege - Owner can rug via `ThecosomataETH.withdraw`"
+wiki_title: "[M-08] Admin Privilege - Owner can rug via `ThecosomataETH.withdraw`"
+wiki_description: |
+    _Submitted by Alex the Entreprenerd, also found by gzeon_
+    
+    Due to the generalized nature of `withdraw` the function is a clear rug-vector, allowing the `owner` to steal all funds.
+    
+    Ideally, you should add some validation logic to limit the tokens or the amounts that the owner can withdraw.
+    
+    Addition
+wiki_exploit_scenario: |
+    Per Solodit #1492: _Submitted by Alex the Entreprenerd, also found by gzeon_
+    
+    Due to the generalized nature of `withdraw` the function is a clear rug-vector, allowing the `owner` to steal all funds.
+    
+    Ideally, you should
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08AdminPrivilegeOwnerCanRugViaThecosomataethWithdraw"
+solodit_id: "1492"
+solodit_slug: |
+    m-08-admin-privilege-owner-can-rug-via-thecosomataethwithdraw-code4rena-redacted-cartel-redacted-cartel-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(owner|withdraw).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

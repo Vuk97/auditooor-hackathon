@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "m-18-inconsistency-in-staleness-checks-between-ohm-and-reserve-t"
+class_name: "M18InconsistencyInStalenessChecksBetweenOhmAndReserveT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3222 (Code4rena/Olympus DAO)"
+help: "[M-18] Inconsistency in staleness checks between OHM and reserve token oracles"
+wiki_title: "[M-18] Inconsistency in staleness checks between OHM and reserve token oracles"
+wiki_description: |
+    _Submitted by okkothejawa, also found by datapunk, reassor, and Trust_
+    
+    <https://github.com/code-423n4/2022-08-olympus/blob/main/src/modules/PRICE.sol#L165-L171><br>
+    
+    Price oracle may fail and revert due to the inconsistency in the staleness checks.
+    
+    ### Proof of Concept
+    
+    In the `getCurrentPrice()`
+wiki_exploit_scenario: |
+    Per Solodit #3222: _Submitted by okkothejawa, also found by datapunk, reassor, and Trust_
+    
+    <https://github.com/code-423n4/2022-08-olympus/blob/main/src/modules/PRICE.sol#L165-L171><br>
+    
+    Price oracle may fail and revert
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18InconsistencyInStalenessChecksBetweenOhmAndReserveT"
+solodit_id: "3222"
+solodit_slug: |
+    m-18-inconsistency-in-staleness-checks-between-ohm-and-reserve-token-oracles-code4rena-olympus-dao-olympus-dao-contest-git
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Stale Price"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getCurrentPrice|updatedAt).*"
+primary_var_regex: ".*(getCurrentPrice|updatedAt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "the-function-setconfig-may-revert-under-valid-circumstances"
+class_name: "TheFunctionSetconfigMayRevertUnderValidCircumstances"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Adrastia Protocol - Zellic Audit Report"
+help: |
+    The comment in the function setConfig suggests that it is possible to have a sum of component weights equal to 100% and base rate as a nonzero value. However, the function would re
+wiki_title: "The function setConfig may revert under valid circumstances"
+wiki_description: |
+    The comment in the function setConfig suggests that it is possible to have a sum of component weights equal to 100% and base rate as a nonzero value. However, the function would revert in such scenario. function setConfig(address token, RateConfig calldata config) external virtual { //... // Ensure
+wiki_exploit_scenario: |
+    Per audit finding: The comment in the function setConfig suggests that it is possible to have a sum of component weights equal to 100% and base rate as a nonzero value. However, the function would revert in such scenari
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheFunctionSetconfigMayRevertUnderValidCircumstances"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setConfig).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setConfig"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m-15-non-normalized-amounts-sent-via-wormhole-lead-to-failure-to"
+class_name: "M15NonNormalizedAmountsSentViaWormholeLeadToFailureTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34936 (Code4rena/Olas)"
+help: "[M-15] Non-normalized amounts sent via Wormhole lead to failure to redeem incentives"
+wiki_title: "[M-15] Non-normalized amounts sent via Wormhole lead to failure to redeem incentives"
+wiki_description: |
+    Wormhole only supports sending tokens in 8 decimal precision. This is addressed in the code via the `getBridgingDecimals()` method, which is overridden in `WormholeDepositProcessorL1` to return 8. This is then passed as parameter to [`calculateStakingIncentives()`](https://github.com/code-423n4/202
+wiki_exploit_scenario: |
+    Per Solodit #34936: Wormhole only supports sending tokens in 8 decimal precision. This is addressed in the code via the `getBridgingDecimals()` method, which is overridden in `WormholeDepositProcessorL1` to return 8. Th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15NonNormalizedAmountsSentViaWormholeLeadToFailureTo"
+solodit_id: "34936"
+solodit_slug: |
+    m-15-non-normalized-amounts-sent-via-wormhole-lead-to-failure-to-redeem-incentives-code4rena-olas-olas-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calculatestakingincentives;"
+fn_name_regex: ".*(getBridgingDecimals|WormholeDepositProcessorL1|calculateStakingIncentives|transferAmount).*"
+read_var_regex: ".*(calculateStakingIncentives|getBridgingDecimals|transferAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getBridgingDecimals"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calculatestakingincentives > 0;"

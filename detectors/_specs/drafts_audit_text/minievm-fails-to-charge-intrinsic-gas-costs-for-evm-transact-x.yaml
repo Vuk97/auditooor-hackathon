@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "minievm-fails-to-charge-intrinsic-gas-costs-for-evm-transact-x"
+class_name: "MinievmFailsToChargeIntrinsicGasCostsForEvmTransactX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-initia-cosmos"
+help: |
+    berndartmueller Finding description and impact The minievm fails to charge intrinsic gas costs for EVM transactions in EVMStaticCallWithTracer() EVMCallWithTracer() , and EVMCreate
+wiki_title: |
+    Minievm fails to charge intrinsic gas costs for EVM transactions, allowing the abuse of the accesslist to consume computational resources without proper compens
+wiki_description: |
+    berndartmueller Finding description and impact The minievm fails to charge intrinsic gas costs for EVM transactions in EVMStaticCallWithTracer() EVMCallWithTracer() , and EVMCreateWithTracer() . In the EVM, intrinsic gas costs are considered costs for e.g., the accesslist ( EIP-2930 ). For compariso
+wiki_exploit_scenario: |
+    Per audit finding: berndartmueller Finding description and impact The minievm fails to charge intrinsic gas costs for EVM transactions in EVMStaticCallWithTracer() EVMCallWithTracer() , and EVMCreateWithTracer() . In th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MinievmFailsToChargeIntrinsicGasCostsForEvmTransactX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(makeCallVariantGasCallEIP2929).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "makeCallVariantGasCallEIP2929"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

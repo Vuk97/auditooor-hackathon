@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "sending-zeta-to-a-bitcoin-network-results-in-btc-being-sent"
+class_name: "SendingZetaToABitcoinNetworkResultsInBtcBeingSent"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit ZetaChain - 6.30.23 Zellic Audit Report"
+help: |
+    There are three different types of coin that can be sent via outgoing transactions, which are CoinType_Zeta, CoinType_Gas, and CoinType_ERC20. The observer will call go signer.TryP
+wiki_title: "Sending ZETA to a Bitcoin network results in BTC being sent"
+wiki_description: |
+    There are three different types of coin that can be sent via outgoing transactions, which are CoinType_Zeta, CoinType_Gas, and CoinType_ERC20. The observer will call go signer.TryProcessOutTx(send, outTxMan, outTxID, chainC lient, co.bridge) on each of the current out transactions, and it is up to t
+wiki_exploit_scenario: |
+    Per audit finding: There are three different types of coin that can be sent via outgoing transactions, which are CoinType_Zeta, CoinType_Gas, and CoinType_ERC20. The observer will call go signer.TryProcessOutTx(send, ou
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SendingZetaToABitcoinNetworkResultsInBtcBeingSent"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(outTxMan|outTxID|zetaBridge).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "outTxMan"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "bias-in-hashtofield-function"
+class_name: "BiasInHashtofieldFunction"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Session Token - Zellic Audit Report"
+help: |
+    The function hashToField is used to hash a uint256 value to Fp . The resulting value is later mapped to a point on an elliptic curve with the function mapToG2. The message is first
+wiki_title: "Bias in hashToField function"
+wiki_description: |
+    The function hashToField is used to hash a uint256 value to Fp . The resulting value is later mapped to a point on an elliptic curve with the function mapToG2. The message is first hashed with the kec- cak256 function and then transformed to a value in the finite field with the function maskBits: //
+wiki_exploit_scenario: |
+    Per audit finding: The function hashToField is used to hash a uint256 value to Fp . The resulting value is later mapped to a point on an elliptic curve with the function mapToG2. The message is first hashed with the kec
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BiasInHashtofieldFunction"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(hashToField|mapToG2|maskBits).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "hashToField"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

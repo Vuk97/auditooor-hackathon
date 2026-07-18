@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "h-07-concentratedliquidityposition-sol-burn-wrong-implementation"
+class_name: "H07ConcentratedliquiditypositionSolBurnWrongImplementation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25567 (Code4rena/Sushi)"
+help: |
+    [H-07] `ConcentratedLiquidityPosition.sol#burn()` Wrong implementation allows attackers to steal yield
+wiki_title: |
+    [H-07] `ConcentratedLiquidityPosition.sol#burn()` Wrong implementation allows attackers to steal yield
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    When a user calls `ConcentratedLiquidityPosition.sol#burn()` to burn their liquidity, it calls `ConcentratedLiquidityPool.sol#burn()` -> `_updatePosition()`:
+    
+    [`ConcentratedLiquidityPool.sol#L525` L553](https://github.com/sushiswap/trident/blob/c405f3402a1ed336244053f8186742
+wiki_exploit_scenario: |
+    Per Solodit #25567: _Submitted by WatchPug_
+    
+    When a user calls `ConcentratedLiquidityPosition.sol#burn()` to burn their liquidity, it calls `ConcentratedLiquidityPool.sol#burn()` -> `_updatePosition()`:
+    
+    [`ConcentratedLi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H07ConcentratedliquiditypositionSolBurnWrongImplementation"
+solodit_id: "25567"
+solodit_slug: |
+    h-07-concentratedliquiditypositionsolburn-wrong-implementation-allows-attackers-to-steal-yield-code4rena-sushi-sushi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount0fees;"
+fn_name_regex: ".*(amount0fees|amount1fees|lower|upper).*"
+read_var_regex: ".*(amount0fees|amount1fees|lower).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "amount0fees"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount0fees > 0;"

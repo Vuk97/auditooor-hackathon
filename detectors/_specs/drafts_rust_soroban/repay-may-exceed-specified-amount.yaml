@@ -1,0 +1,20 @@
+id: repay-may-exceed-specified-amount
+title: "repay may exceed the specified amount, violating caller expectations"
+severity: Low
+language: rust
+platform: soroban
+source: "watchpug-rev3"
+source_ids:
+  - "WP-L10"
+bug_class: input-validation
+indicators:
+  - "`repay(amount)` may burn/transfer more than `amount` in dust-cleanup branches"
+  - "no explicit cap enforcement on `amount`"
+victim: "Repayers: unexpected deduction."
+exploit_precondition: "Borrower near dust threshold."
+real_world_example: |
+  WatchPug WP-L10 (Low): `repay` may exceed specified amount.
+suggested_remediation: "Clamp effective repayment to `min(amount, total_debt)`."
+cross_refs:
+  - zero-scaled-repay-clears-debt
+  - dust-cleanup-burns-more-than-accounted

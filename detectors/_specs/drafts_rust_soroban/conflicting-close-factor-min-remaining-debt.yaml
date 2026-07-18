@@ -1,0 +1,19 @@
+id: conflicting-close-factor-min-remaining-debt
+title: "Conflicting close_factor and min_remaining_debt prevents liquidation"
+severity: Medium
+language: rust
+platform: soroban
+source: "watchpug-rev3"
+source_ids:
+  - "WP-M6"
+bug_class: liquidation
+indicators:
+  - "global `min_remaining_debt` threshold higher than `close_factor * total_debt` for small positions"
+  - "no special-case for `debt < min_remaining_debt / close_factor`"
+victim: "Protocol: small-position liquidations revert, leaving bad debt uncleared."
+exploit_precondition: "Position is underwater with `debt < min_remaining_debt / close_factor`."
+real_world_example: |
+  WatchPug WP-M6 (Medium): Conflicting close_factor and min_remaining_debt prevents liquidation.
+suggested_remediation: "Allow full-position liquidation when the position is below the 'min after close-factor partial' threshold."
+cross_refs:
+  - close-factor-bypass-repeated-liquidations

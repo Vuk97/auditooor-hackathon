@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "unauthorized-access-to-updatestates"
+class_name: "UnauthorizedAccessToUpdatestates"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #48377 (OtterSec/Vertex Protocol)"
+help: "Unauthorized Access To UpdateStates"
+wiki_title: "Unauthorized Access To UpdateStates"
+wiki_description: |
+    ## Spot and Perp Engines: State Update Functions
+    
+    In both spot and perp engines, the `updateStates` functions update their respective states based on changes in the market and changes in time (`dt`). These functions should only be called from **EndPoint**, as it tracks the `lastUpdated` time of the
+wiki_exploit_scenario: |
+    Per Solodit #48377: ## Spot and Perp Engines: State Update Functions
+    
+    In both spot and perp engines, the `updateStates` functions update their respective states based on changes in the market and changes in time (`dt`).
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnauthorizedAccessToUpdatestates"
+solodit_id: "48377"
+solodit_slug: "unauthorized-access-to-updatestates-ottersec-none-vertex-protocol-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lastupdated;"
+fn_name_regex: ".*(updateStates|lastUpdated|onlyEndpoint).*"
+read_var_regex: ".*(lastUpdated|onlyEndpoint|updateStates).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateStates"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return lastupdated > 0;"

@@ -1,0 +1,36 @@
+skeleton: "paired_function_divergence"
+name: "unrestricted-pool-token-minting"
+class_name: "UnrestrictedPoolTokenMinting"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50180 (Halborn/MonoX)"
+help: "UNRESTRICTED POOL TOKEN MINTING"
+wiki_title: "UNRESTRICTED POOL TOKEN MINTING"
+wiki_description: |
+    ##### Description
+    
+    One of MonoX's main objectives is to allow users for listing ERC20 tokens without the need for providing liquidity. In order to keep track of users' shares in pools, a corresponding amount of liquidity pool tokens is minted to providers. The exact amount to be minted depends on e.
+wiki_exploit_scenario: |
+    Per Solodit #50180: ##### Description
+    
+    One of MonoX's main objectives is to allow users for listing ERC20 tokens without the need for providing liquidity. In order to keep track of users' shares in pools, a corresponding
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnrestrictedPoolTokenMinting"
+solodit_id: "50180"
+solodit_slug: "unrestricted-pool-token-minting-halborn-monox-monox-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidityPair|declared|safeTransferFrom).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-36-chefincentivescontroller-caches-endrewardtime-which-is-not-"
+class_name: "M36ChefincentivescontrollerCachesEndrewardtimeWhichIsNot"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49073 (Code4rena/LoopFi)"
+help: |
+    [M-36] ChefIncentivesController caches `endRewardTime`, which is not required, and may cause issues during reward update
+wiki_title: |
+    [M-36] ChefIncentivesController caches `endRewardTime`, which is not required, and may cause issues during reward update
+wiki_description: |
+    When calculating the `endRewardTime`, there is a cache mechanism that caches the result for `endingTime.updateCadence` (in UT it is set to 2 days). However, during this period, if anything changes, the `endRewardTime` would be incorrect. For example:
+    
+    1. If `rewardsPerSecond` increases, then the re
+wiki_exploit_scenario: |
+    Per Solodit #49073: When calculating the `endRewardTime`, there is a cache mechanism that caches the result for `endingTime.updateCadence` (in UT it is set to 2 days). However, during this period, if anything changes, t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M36ChefincentivescontrollerCachesEndrewardtimeWhichIsNot"
+solodit_id: "49073"
+solodit_slug: |
+    m-36-chefincentivescontroller-caches-endrewardtime-which-is-not-required-and-may-cause-issues-during-reward-update-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal endrewardtime;"
+fn_name_regex: ".*(endRewardTime|rewardsPerSecond).*"
+read_var_regex: ".*(endRewardTime|rewardsPerSecond).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "endRewardTime"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return endrewardtime > 0;"

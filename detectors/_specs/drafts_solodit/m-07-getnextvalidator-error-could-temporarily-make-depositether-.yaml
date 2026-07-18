@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-07-getnextvalidator-error-could-temporarily-make-depositether-"
+class_name: "M07GetnextvalidatorErrorCouldTemporarilyMakeDepositether"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25444 (Code4rena/Frax Finance)"
+help: "[M-07] `getNextValidator()` error could temporarily make `depositEther()` inoperable"
+wiki_title: "[M-07] `getNextValidator()` error could temporarily make `depositEther()` inoperable"
+wiki_description: |
+    When `depositEther()`, if 1 `validators` is used before, the whole deposit function will revert, causing DoS. `depositEther()` function will be inoperable until the gov manually removes the mistaken validator.
+    
+    ### Proof of Concept
+    
+    In `depositEther()`, if the `pubKey` is already used, the whole lo
+wiki_exploit_scenario: |
+    Per Solodit #25444: When `depositEther()`, if 1 `validators` is used before, the whole deposit function will revert, causing DoS. `depositEther()` function will be inoperable until the gov manually removes the mistaken
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07GetnextvalidatorErrorCouldTemporarilyMakeDepositether"
+solodit_id: "25444"
+solodit_slug: |
+    m-07-getnextvalidator-error-could-temporarily-make-depositether-inoperable-code4rena-frax-finance-frax-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositether;"
+fn_name_regex: ".*(depositEther|validators|pubKey|lastRewardAmount).*"
+read_var_regex: ".*(depositEther|lastRewardAmount|pubKey).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositEther"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return depositether > 0;"

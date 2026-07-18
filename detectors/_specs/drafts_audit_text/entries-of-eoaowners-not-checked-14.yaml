@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "entries-of-eoaowners-not-checked-14"
+class_name: "EntriesOfEoaownersNotChecked14"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Biconomy Multi Owned ECDSA - Zellic Audit Report"
+help: |
+    The removeOwner function facilitates the removal of owners from one’s smart account. function removeOwner(address owner) external override { if (!_smartAccountOwners[owner][msg.sen
+wiki_title: "Entries of eoaOwners not checked                                 14"
+wiki_description: |
+    The removeOwner function facilitates the removal of owners from one’s smart account. function removeOwner(address owner) external override { if (!_smartAccountOwners[owner][msg.sender]) revert NotAnOwner(owner, msg.sender); _transferOwnership(msg.sender, owner, address(0)); unchecked { --numberOfOwn
+wiki_exploit_scenario: |
+    Per audit finding: The removeOwner function facilitates the removal of owners from one’s smart account. function removeOwner(address owner) external override { if (!_smartAccountOwners[owner][msg.sender]) revert NotAnOw
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EntriesOfEoaownersNotChecked14"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(removeOwner|numberOfOwners|smartAccountOwn).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "removeOwner"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

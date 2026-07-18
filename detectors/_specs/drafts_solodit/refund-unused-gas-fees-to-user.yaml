@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "refund-unused-gas-fees-to-user"
+class_name: "RefundUnusedGasFeesToUser"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40431 (Cantina/Omni X)"
+help: "Refund unused gas fees to user"
+wiki_title: "Refund unused gas fees to user "
+wiki_description: |
+    ## Issue Summary
+    
+    ## Context
+    - **File**: OmniXMultisender.sol
+    - **Line Numbers**: L120, L298
+    
+    ## Description
+    The functions `sendDeposits` and `sendMessages` are both payable and allow the user to overpay more than the required amount to complete the bridging action. Both functions interact with Laye
+wiki_exploit_scenario: |
+    Per Solodit #40431: ## Issue Summary
+    
+    ## Context
+    - **File**: OmniXMultisender.sol
+    - **Line Numbers**: L120, L298
+    
+    ## Description
+    The functions `sendDeposits` and `sendMessages` are both payable and allow the user to over
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RefundUnusedGasFeesToUser"
+solodit_id: "40431"
+solodit_slug: "refund-unused-gas-fees-to-user-cantina-none-omni-x-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lzsend;"
+fn_name_regex: ".*(sendDeposits|sendMessages|send|lzSend).*"
+write_var_regex: ".*(lzSend|send|sendDeposits).*"
+guard_var_regex: ".*(lzSend|send|sendDeposits).*"
+vuln_fn_name: "sendDeposits"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "lzsend = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

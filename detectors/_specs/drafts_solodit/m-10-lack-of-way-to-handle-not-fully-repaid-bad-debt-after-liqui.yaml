@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "m-10-lack-of-way-to-handle-not-fully-repaid-bad-debt-after-liqui"
+class_name: "M10LackOfWayToHandleNotFullyRepaidBadDebtAfterLiqui"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29601 (Code4rena/INIT Capital)"
+help: |
+    [M-10] Lack of way to handle not fully repaid bad debt after liquidation after the lending pool share or WLP are fully seized
+wiki_title: |
+    [M-10] Lack of way to handle not fully repaid bad debt after liquidation after the lending pool share or WLP are fully seized
+wiki_description: |
+    When user has bad debt, user's borrow credit > collateral credit. Liqudiator can step in and liquidate and seize user's share or seize user WLP and repay the debt.
+    
+    While the liquidate function aims to let liqudiator take the min share available for bad debt repayment.
+    
+    ```solidity
+    // take min of w
+wiki_exploit_scenario: |
+    Per Solodit #29601: When user has bad debt, user's borrow credit > collateral credit. Liqudiator can step in and liquidate and seize user's share or seize user WLP and repay the debt.
+    
+    While the liquidate function aims
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10LackOfWayToHandleNotFullyRepaidBadDebtAfterLiqui"
+solodit_id: "29601"
+solodit_slug: |
+    m-10-lack-of-way-to-handle-not-fully-repaid-bad-debt-after-liquidation-after-the-lending-pool-share-or-wlp-are-fully-seized-code4rena-init-capital-init-capital-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getCollAmt|removeCollateralTo|totalAssets).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "getCollAmt"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

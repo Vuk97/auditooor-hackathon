@@ -1,0 +1,34 @@
+skeleton: "paired_function_divergence"
+name: "c01-funds-of-the-escrow-contract-can-be-locked-by-anyone"
+class_name: "C01FundsOfTheEscrowContractCanBeLockedByAnyone"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #11016 (OpenZeppelin/Celo Contracts Audit)"
+help: "[C01] Funds of the Escrow contract can be locked by anyone"
+wiki_title: "[C01] Funds of the Escrow contract can be locked by anyone"
+wiki_description: |
+    The [`Escrow` contract](https://github.com/celo-org/celo-monorepo/blob/7be22605e172ca536c028e408b147aab83202e4a/packages/protocol/contracts/identity/Escrow.sol#L14) allows users to send payments to other users who do not yet have a public and private key pair or an address.  
+    
+    Given two different ac
+wiki_exploit_scenario: |
+    Per Solodit #11016: The [`Escrow` contract](https://github.com/celo-org/celo-monorepo/blob/7be22605e172ca536c028e408b147aab83202e4a/packages/protocol/contracts/identity/Escrow.sol#L14) allows users to send payments to ot
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01FundsOfTheEscrowContractCanBeLockedByAnyone"
+solodit_id: "11016"
+solodit_slug: "c01-funds-of-the-escrow-contract-can-be-locked-by-anyone-openzeppelin-celo-contracts-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(escrowedPayments|payment|paymentId).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,31 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-02-use-of-slot0-to-get-sqrtpricelimitx96-can-lead-to-price-man"
+class_name: "H02UseOfSlot0ToGetSqrtpricelimitx96CanLeadToPriceMan"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26036 (Code4rena/Maia DAO Ecosystem)"
+help: "[H-02] Use of `slot0` to get `sqrtPriceLimitX96` can lead to price manipulation."
+wiki_title: "[H-02] Use of `slot0` to get `sqrtPriceLimitX96` can lead to price manipulation."
+wiki_description: |
+    In `RootBrigdeAgent.sol`, the functions `_gasSwapOut` and `_gasSwapIn` use `UniswapV3.slot0` to get the value of `sqrtPriceX96`, which is used to perform the swap. However, the `sqrtPriceX96` is pulled from `Uniswap.slot0`, which is the most recent data point and can be manipulated easily via `MEV`
+wiki_exploit_scenario: |
+    Per Solodit #26036: In `RootBrigdeAgent.sol`, the functions `_gasSwapOut` and `_gasSwapIn` use `UniswapV3.slot0` to get the value of `sqrtPriceX96`, which is used to perform the swap. However, the `sqrtPriceX96` is pull
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02UseOfSlot0ToGetSqrtpricelimitx96CanLeadToPriceMan"
+solodit_id: "26036"
+solodit_slug: |
+    h-02-use-of-slot0-to-get-sqrtpricelimitx96-can-lead-to-price-manipulation-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Stale Price, Uniswap"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(sqrtPriceX96|MEV|Flashloans|slot0).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "h-02-transferring-quotetoken-to-the-exchange-pool-contract-will-"
+class_name: "H02TransferringQuotetokenToTheExchangePoolContractWill"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42451 (Code4rena/ElasticSwap)"
+help: |
+    [H-02] Transferring `quoteToken` to the exchange pool contract will cause future liquidity providers to lose funds
+wiki_title: |
+    [H-02] Transferring `quoteToken` to the exchange pool contract will cause future liquidity providers to lose funds
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    In the current implementation, the amount of LP tokens to be minted when `addLiquidity()` is calculated based on the ratio between the amount of newly added `quoteToken` and the current wallet balance of `quoteToken` in the `Exchange` contract.
+    
+    However, since anyone can tra
+wiki_exploit_scenario: |
+    Per Solodit #42451: _Submitted by WatchPug_
+    
+    In the current implementation, the amount of LP tokens to be minted when `addLiquidity()` is calculated based on the ratio between the amount of newly added `quoteToken` and t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02TransferringQuotetokenToTheExchangePoolContractWill"
+solodit_id: "42451"
+solodit_slug: |
+    h-02-transferring-quotetoken-to-the-exchange-pool-contract-will-cause-future-liquidity-providers-to-lose-funds-code4rena-elasticswap-elasticswap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity|quoteToken|removeLiquidity).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

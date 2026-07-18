@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "h-1-liquidator-can-liquidate-user-while-increasing-user-position"
+class_name: "H1LiquidatorCanLiquidateUserWhileIncreasingUserPosition"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28948 (Sherlock/Perennial V2 Update #1)"
+help: |
+    H-1: Liquidator can liquidate user while increasing user position to any value, stealing all Market funds or bricking the contract
+wiki_title: |
+    H-1: Liquidator can liquidate user while increasing user position to any value, stealing all Market funds or bricking the contract
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-10-perennial-judging/issues/5 
+    
+    ## Found by 
+    panprog
+    ## Summary
+    
+    When a user is liquidated, there is a check to ensure that after liquidator order executes, `closable = 0`, but this actually doesn't prevent liquidator from increasing user position, and
+wiki_exploit_scenario: |
+    Per Solodit #28948: Source: https://github.com/sherlock-audit/2023-10-perennial-judging/issues/5 
+    
+    ## Found by 
+    panprog
+    ## Summary
+    
+    When a user is liquidated, there is a check to ensure that after liquidator order execut
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1LiquidatorCanLiquidateUserWhileIncreasingUserPosition"
+solodit_id: "28948"
+solodit_slug: |
+    h-1-liquidator-can-liquidate-user-while-increasing-user-position-to-any-value-stealing-all-market-funds-or-bricking-the-contract-sherlock-perennial-v2-update-1-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal closable;"
+fn_name_regex: ".*(closable|protected).*"
+write_var_regex: ".*(closable|protected).*"
+guard_var_regex: ".*(closable|protected).*"
+vuln_fn_name: "closable"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "closable = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

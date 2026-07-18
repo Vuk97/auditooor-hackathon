@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "m-01-use-quotelayerzerofee-instead-of-sending-all-native-asset-b"
+class_name: "M01UseQuotelayerzerofeeInsteadOfSendingAllNativeAssetB"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20424 (Pashov Audit Group/Mugen)"
+help: |
+    [M-01] Use `quoteLayerZeroFee` instead of sending all native asset balance as gas fee for `swap` call
+wiki_title: |
+    [M-01] Use `quoteLayerZeroFee` instead of sending all native asset balance as gas fee for `swap` call
+wiki_description: |
+    **Likelihood:**
+    High, because the wrong value will be sent always
+    
+    **Impact:**
+    Low, because the `swap` function has a gas refund mechanism
+    
+    **Description**
+    
+    Currently in `StargateArbitrum::stargateSwap` when doing a call to the `swap` method of `stargateRouter`, all of the contract's native asset ba
+wiki_exploit_scenario: |
+    Per Solodit #20424: **Likelihood:**
+    High, because the wrong value will be sent always
+    
+    **Impact:**
+    Low, because the `swap` function has a gas refund mechanism
+    
+    **Description**
+    
+    Currently in `StargateArbitrum::stargateSwa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01UseQuotelayerzerofeeInsteadOfSendingAllNativeAssetB"
+solodit_id: "20424"
+solodit_slug: |
+    m-01-use-quotelayerzerofee-instead-of-sending-all-native-asset-balance-as-gas-fee-for-swap-call-pashov-none-mugen-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal quotelayerzerofee;"
+fn_name_regex: ".*(swap|stargateRouter|quoteLayerZeroFee).*"
+read_var_regex: ".*(quoteLayerZeroFee|stargateRouter|swap).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swap"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return quotelayerzerofee > 0;"

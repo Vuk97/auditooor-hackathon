@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "depositmanager-refundentryfee-doesn-t-deduct-referral-rewards-al"
+class_name: "DepositmanagerRefundentryfeeDoesnTDeductReferralRewardsAl"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #65372 (Cyfrin/Majority Protocol)"
+help: |
+    `DepositManager::_refundEntryFee` doesn't deduct referral rewards allowing users to join then leave games to drain tokens via inflated referral rewards they aren't entitled to
+wiki_title: |
+    `DepositManager::_refundEntryFee` doesn't deduct referral rewards allowing users to join then leave games to drain tokens via inflated referral rewards they are
+wiki_description: |
+    **Description:** `DepositManager::_payEntryFee` increments the referral rewards for the user's referrer:
+    ```solidity
+    referralRewards[gameId][Registry(registry).referrers(player)] += pool.ticketPrice * REFERRER_FEE;
+    ```
+    
+    But `DepositManager::_refundEntryFee` doesn't deduct referral rewards when a use
+wiki_exploit_scenario: |
+    Per Solodit #65372: **Description:** `DepositManager::_payEntryFee` increments the referral rewards for the user's referrer:
+    ```solidity
+    referralRewards[gameId][Registry(registry).referrers(player)] += pool.ticketPrice *
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DepositmanagerRefundentryfeeDoesnTDeductReferralRewardsAl"
+solodit_id: "65372"
+solodit_slug: |
+    depositmanager_refundentryfee-doesnt-deduct-referral-rewards-allowing-users-to-join-then-leave-games-to-drain-tokens-via-inflated-referral-rewards-they-arent-entitled-to-cyfrin-none-majority-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(referralRewards|gameId|ticketPrice).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "referralRewards"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

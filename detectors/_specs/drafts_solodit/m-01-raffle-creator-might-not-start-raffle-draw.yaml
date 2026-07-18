@@ -1,0 +1,36 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-01-raffle-creator-might-not-start-raffle-draw"
+class_name: "M01RaffleCreatorMightNotStartRaffleDraw"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6396 (Code4rena/Forgeries)"
+help: "[M-01] Raffle creator might not start raffle draw"
+wiki_title: "[M-01] Raffle creator might not start raffle draw"
+wiki_description: |
+    <https://github.com/code-423n4/2022-12-forgeries/blob/fc271cf20c05ce857d967728edfb368c58881d85/src/VRFNFTRandomDraw.sol#L173> 
+    
+    <https://github.com/code-423n4/2022-12-forgeries/blob/fc271cf20c05ce857d967728edfb368c58881d85/src/VRFNFTRandomDraw.sol#L304> 
+    
+    <https://github.com/code-423n4/2022-12-forg
+wiki_exploit_scenario: |
+    Per Solodit #6396: <https://github.com/code-423n4/2022-12-forgeries/blob/fc271cf20c05ce857d967728edfb368c58881d85/src/VRFNFTRandomDraw.sol#L173> 
+    
+    <https://github.com/code-423n4/2022-12-forgeries/blob/fc271cf20c05ce857
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01RaffleCreatorMightNotStartRaffleDraw"
+solodit_id: "6396"
+solodit_slug: "m-01-raffle-creator-might-not-start-raffle-draw-code4rena-forgeries-forgeries-contest-git"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(startDraw|ownerOf|initialize|drawingToken).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

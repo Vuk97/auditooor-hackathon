@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_require"
+name: "m-05-user-can-frontrun-completegame-to-finalize-stake-or-unstake"
+class_name: "M05UserCanFrontrunCompletegameToFinalizeStakeOrUnstake"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #55508 (Pashov Audit Group/Coinflip_2025-02-19)"
+help: "[M-05] User can frontrun `completeGame` to finalize stake or unstake request"
+wiki_title: "[M-05] User can frontrun `completeGame` to finalize stake or unstake request"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    Staking user can frontrun `Flip.completeGame()` and finalize his stake/unstake request (based on game result loss or win):
+    
+    ```solidity
+        function finalizeUnstake(address token) external nonReentrant {
+            UnstakeRequest
+wiki_exploit_scenario: |
+    Per Solodit #55508: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    Staking user can frontrun `Flip.completeGame()` and finalize his stake/unstake request (based on game result loss or win):
+    
+    ```
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05UserCanFrontrunCompletegameToFinalizeStakeOrUnstake"
+solodit_id: "55508"
+solodit_slug: |
+    m-05-user-can-frontrun-completegame-to-finalize-stake-or-unstake-request-pashov-audit-group-none-coinflip_2025-02-19-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(completeGame).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "completeGame"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

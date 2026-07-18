@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "improve-events"
+class_name: "ImproveEvents"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "hexens audit FastToken_public"
+help: |
+    The following event signatures contain only transaction index information and don't show the address that invoked the action. Not having an invoker address logged in the event rise
+wiki_title: "IMPROVE EVENTS"
+wiki_description: |
+    The following event signatures contain only transaction index information and don't show the address that invoked the action. Not having an invoker address logged in the event rises a possibility for phishing attacks on owner change mechanisms; as one can start a vote to change other owner’s public
+wiki_exploit_scenario: |
+    Per audit finding: The following event signatures contain only transaction index information and don't show the address that invoked the action. Not having an invoker address logged in the event rises a possibility for
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ImproveEvents"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(txIndex).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "txIndex"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

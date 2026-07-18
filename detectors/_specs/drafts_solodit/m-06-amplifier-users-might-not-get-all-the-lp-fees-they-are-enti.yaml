@@ -1,0 +1,39 @@
+skeleton: "paired_function_divergence"
+name: "m-06-amplifier-users-might-not-get-all-the-lp-fees-they-are-enti"
+class_name: "M06AmplifierUsersMightNotGetAllTheLpFeesTheyAreEnti"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16046 (Code4rena/Mute.io)"
+help: "[M-06] Amplifier users might not get all the LP fees they are entitled to"
+wiki_title: "[M-06] Amplifier users might not get all the LP fees they are entitled to"
+wiki_description: |
+    Observe that there is only one place that the amplifier is calling claimFees, and it's inside an if statement of the update modifier, requiring `_mostRecentValueCalcTime < endTime`.
+    
+    <https://github.com/code-423n4/2023-03-mute/blob/main/contracts/amplifier/MuteAmplifier.sol#L111>
+    
+        modifier upda
+wiki_exploit_scenario: |
+    Per Solodit #16046: Observe that there is only one place that the amplifier is calling claimFees, and it's inside an if statement of the update modifier, requiring `_mostRecentValueCalcTime < endTime`.
+    
+    <https://github.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06AmplifierUsersMightNotGetAllTheLpFeesTheyAreEnti"
+solodit_id: "16046"
+solodit_slug: |
+    m-06-amplifier-users-might-not-get-all-the-lp-fees-they-are-entitled-to-code4rena-muteio-mute-switch-versus-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

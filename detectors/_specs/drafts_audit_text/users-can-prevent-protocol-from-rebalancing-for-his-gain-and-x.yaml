@@ -1,0 +1,29 @@
+skeleton: "paired_function_divergence"
+name: "users-can-prevent-protocol-from-rebalancing-for-his-gain-and-x"
+class_name: "UsersCanPreventProtocolFromRebalancingForHisGainAndX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-lambowin"
+help: |
+    mrMorningstar , also found by 0xGondar bumbleb33 bumbleb33 , and Evo The protocol have a vETH token that aims to be pegged to the ETH so the ration of vETH -> ETH = 1:1. When depeg
+wiki_title: |
+    Users can prevent protocol from rebalancing for his gain and cause loss of funds for protocol and its users
+wiki_description: |
+    mrMorningstar , also found by 0xGondar bumbleb33 bumbleb33 , and Evo The protocol have a vETH token that aims to be pegged to the ETH so the ration of vETH -> ETH = 1:1. When depeg happens the protocol can mitigate that via rebalance function in LamboRebalanceOnUniwap that looks like this: function
+wiki_exploit_scenario: |
+    Per audit finding: mrMorningstar , also found by 0xGondar bumbleb33 bumbleb33 , and Evo The protocol have a vETH token that aims to be pegged to the ETH so the ration of vETH -> ETH = 1:1. When depeg happens the protoco
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanPreventProtocolFromRebalancingForHisGainAndX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

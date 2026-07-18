@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-02-disabling-collateral-with-setcollateraltooracle-blocks-rewa"
+class_name: "M02DisablingCollateralWithSetcollateraltooracleBlocksRewa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63292 (Pashov Audit Group/Tanssi_2025-04-30)"
+help: "[M-02] Disabling collateral with `setCollateralToOracle()` blocks reward claims"
+wiki_title: "[M-02] Disabling collateral with `setCollateralToOracle()` blocks reward claims"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High  
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    Calling `setCollateralToOracle(collateral, address(0))` on `Middleware` disables the collateral by removing its associated oracle. It introduces a critical issue: **vaults that used this collateral prevent their operators from cl
+wiki_exploit_scenario: |
+    Per Solodit #63292: ## Severity
+    
+    **Impact:** High  
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    Calling `setCollateralToOracle(collateral, address(0))` on `Middleware` disables the collateral by removing its associated oracle
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02DisablingCollateralWithSetcollateraltooracleBlocksRewa"
+solodit_id: "63292"
+solodit_slug: |
+    m-02-disabling-collateral-with-setcollateraltooracle-blocks-reward-claims-pashov-audit-group-none-tanssi_2025-04-30-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimrewards;"
+fn_name_regex: ".*(Middleware|claimRewards|stakeToPower|collateralToOracle).*"
+read_var_regex: ".*(claimRewards|collateralToOracle|stakeToPower).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Middleware"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimrewards > 0;"

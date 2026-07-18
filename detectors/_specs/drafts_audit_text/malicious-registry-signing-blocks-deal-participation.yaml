@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "malicious-registry-signing-blocks-deal-participation"
+class_name: "MaliciousRegistrySigningBlocksDealParticipation"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit cyberRaise - Zellic Audit Report"
+help: |
+    The DealManager contract expects deals to be signed through signDealAndPay or signAndFinalizeDeal, which calls signContractFor in CyberAgreementRegistry to sign the agreement: func
+wiki_title: "Malicious registry signing blocks deal participation"
+wiki_description: |
+    The DealManager contract expects deals to be signed through signDealAndPay or signAndFinalizeDeal, which calls signContractFor in CyberAgreementRegistry to sign the agreement: function signDealAndPay( address signer, bytes32 agreementId, bytes memory signature, string[] memory partyValues, bool _fil
+wiki_exploit_scenario: |
+    Per audit finding: The DealManager contract expects deals to be signed through signDealAndPay or signAndFinalizeDeal, which calls signContractFor in CyberAgreementRegistry to sign the agreement: function signDealAndPay(
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousRegistrySigningBlocksDealParticipation"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(signDealAndPay|signAndFinalizeDeal|signContractFor).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

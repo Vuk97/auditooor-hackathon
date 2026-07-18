@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "nested-nonreentrant-in-allocation-wrappers-causes-revert"
+class_name: "NestedNonreentrantInAllocationWrappersCausesRevert"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63528 (MixBytes/Notional Finance)"
+help: "Nested `nonReentrant` in Allocation Wrappers Causes Revert"
+wiki_title: "Nested `nonReentrant` in Allocation Wrappers Causes Revert"
+wiki_description: |
+    ##### Description
+    `MorphoLendingRouter.allocateAndEnterPosition()` and `allocateAndMigratePosition()` are marked `nonReentrant` and internally call `enterPosition()` and `migratePosition()` which are also marked `nonReentrant` in `AbstractLendingRouter`. Because the project uses `ReentrancyGuardTran
+wiki_exploit_scenario: |
+    Per Solodit #63528: ##### Description
+    `MorphoLendingRouter.allocateAndEnterPosition()` and `allocateAndMigratePosition()` are marked `nonReentrant` and internally call `enterPosition()` and `migratePosition()` which are
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NestedNonreentrantInAllocationWrappersCausesRevert"
+solodit_id: "63528"
+solodit_slug: "nested-nonreentrant-in-allocation-wrappers-causes-revert-mixbytes-none-notional-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal allocateandmigrateposition;"
+fn_name_regex: ".*(allocateAndMigratePosition|nonReentrant|enterPosition|migratePosition).*"
+read_var_regex: ".*(allocateAndMigratePosition|borrowAmount|enterPosition).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "allocateAndMigratePosition"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return allocateandmigrateposition > 0;"

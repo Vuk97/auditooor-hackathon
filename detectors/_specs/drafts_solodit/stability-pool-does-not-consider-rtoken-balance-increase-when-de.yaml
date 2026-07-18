@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "stability-pool-does-not-consider-rtoken-balance-increase-when-de"
+class_name: "StabilityPoolDoesNotConsiderRtokenBalanceIncreaseWhenDe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57274 (Codehawks/Core Contracts)"
+help: "Stability pool does not consider RToken balance increase when DEToken is withdrawn"
+wiki_title: "Stability pool does not consider RToken balance increase when DEToken is withdrawn"
+wiki_description: |
+    ## Summary
+    
+    RToken is interest baring token and its balance increases overtime. DEToken does not accrue interest and its balance is fixed. However protocol exchanges RToken and DEToken 1:1.
+    
+    This inconsistency will lead to fund loss of DeToken holders and permanent lock of unclaimed RToken in Stabil
+wiki_exploit_scenario: |
+    Per Solodit #57274: ## Summary
+    
+    RToken is interest baring token and its balance increases overtime. DEToken does not accrue interest and its balance is fixed. However protocol exchanges RToken and DEToken 1:1.
+    
+    This inco
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StabilityPoolDoesNotConsiderRtokenBalanceIncreaseWhenDe"
+solodit_id: "57274"
+solodit_slug: |
+    stability-pool-does-not-consider-rtoken-balance-increase-when-detoken-is-withdrawn-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(balanceOf|scaledBalance|rayMul|getNormalizedIncome).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "balanceOf"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

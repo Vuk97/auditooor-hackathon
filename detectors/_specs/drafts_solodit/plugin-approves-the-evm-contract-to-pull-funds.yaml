@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_require"
+name: "plugin-approves-the-evm-contract-to-pull-funds"
+class_name: "PluginApprovesTheEvmContractToPullFunds"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49389 (Cantina/SatsBridge)"
+help: "Plugin approves the EVM contract to pull funds"
+wiki_title: "Plugin approves the EVM contract to pull funds "
+wiki_description: |
+    ## Bridging from Lightning Network to EVM Chain
+    
+    ## Context
+    File: `channel_manager.rs`  
+    Lines: `L410-L458`
+    
+    ## Description
+    When bridging successfully from the Lightning network to an EVM chain, a two-step process is followed:
+    
+    1. **Step 1**: `TokenForwardHTLC` logic is executed. It approves the ERC
+wiki_exploit_scenario: |
+    Per Solodit #49389: ## Bridging from Lightning Network to EVM Chain
+    
+    ## Context
+    File: `channel_manager.rs`  
+    Lines: `L410-L458`
+    
+    ## Description
+    When bridging successfully from the Lightning network to an EVM chain, a two
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PluginApprovesTheEvmContractToPullFunds"
+solodit_id: "49389"
+solodit_slug: "plugin-approves-the-evm-contract-to-pull-funds-cantina-none-satsbridge-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(TokenForwardHTLC|TokenSettleHTLC).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "TokenForwardHTLC"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

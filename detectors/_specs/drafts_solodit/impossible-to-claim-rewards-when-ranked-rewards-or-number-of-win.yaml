@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "impossible-to-claim-rewards-when-ranked-rewards-or-number-of-win"
+class_name: "ImpossibleToClaimRewardsWhenRankedRewardsOrNumberOfWin"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #65377 (Cyfrin/Majority Protocol)"
+help: |
+    Impossible to claim rewards when ranked rewards or number of winners are not set, resulting in permanently locked tokens once game has concluded
+wiki_title: |
+    Impossible to claim rewards when ranked rewards or number of winners are not set, resulting in permanently locked tokens once game has concluded
+wiki_description: |
+    **Description:** `FixedRanksReward::setRankedRewards` enforces that ranked rewards can only be set when the game is in the `Created` state:
+    ```solidity
+        function setRankedRewards(uint256 sessionId, uint256[] calldata _rankedRewards) external {
+            require(sessionManager.getSessionState(sessio
+wiki_exploit_scenario: |
+    Per Solodit #65377: **Description:** `FixedRanksReward::setRankedRewards` enforces that ranked rewards can only be set when the game is in the `Created` state:
+    ```solidity
+        function setRankedRewards(uint256 sessionId,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ImpossibleToClaimRewardsWhenRankedRewardsOrNumberOfWin"
+solodit_id: "65377"
+solodit_slug: |
+    impossible-to-claim-rewards-when-ranked-rewards-or-number-of-winners-are-not-set-resulting-in-permanently-locked-tokens-once-game-has-concluded-cyfrin-none-majority-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal rewardsconfigured;"
+fn_name_regex: ".*(Created|Concluded|RankedRewardsNotSet|NumberOfWinnersMismatch).*"
+read_var_regex: ".*(rewardsConfigured).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Created"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return rewardsconfigured > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "est-2026-03"
+class_name: "Est202603"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-03/EST_exp.sol"
+help: "EST 2026-03 — swap exploit (150.2 WBNB)"
+wiki_title: "EST (2026-03) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-03): EST lost 150.2 WBNB. Bug class: swap. Attack tx: 0x2f1c33eaaaace728f6101ff527793387341021ef465a4a33f53a0037f5bd1626.
+wiki_exploit_scenario: |
+    Attacker (0xCF300DE6F177ec10DB0d7f756ced3Ae2D2203BFd) exploits EST via swap: the victim contract 0xD4524Be41cd452576aB9FF7b68a0b89aF8498a91 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Est202603"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

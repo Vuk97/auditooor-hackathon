@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "unsafe-integer-conversions-in-fpicontrollerpool"
+class_name: "UnsafeIntegerConversionsInFpicontrollerpool"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #17911 (TrailOfBits/Frax Finance)"
+help: "Unsafe integer conversions in FPIControllerPool"
+wiki_title: "Unsafe integer conversions in FPIControllerPool"
+wiki_description: |
+    ## Difficulty: Low
+    
+    ## Type: Data Validation
+    
+    ## Description
+    
+    Explicit integer conversions can be used to bypass certain restrictions (e.g., the borrowing cap) in the `FPIControllerPool` contract. The `FPIControllerPool` contract allows certain users to either borrow or repay FRAX within certain lim
+wiki_exploit_scenario: |
+    Per Solodit #17911: ## Difficulty: Low
+    
+    ## Type: Data Validation
+    
+    ## Description
+    
+    Explicit integer conversions can be used to bypass certain restrictions (e.g., the borrowing cap) in the `FPIControllerPool` contract. The
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnsafeIntegerConversionsInFpicontrollerpool"
+solodit_id: "17911"
+solodit_slug: "unsafe-integer-conversions-in-fpicontrollerpool-trailofbits-frax-finance-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal frax_amount;"
+fn_name_regex: ".*(FPIControllerPool|giveFRAXToAMO|frax_amount|price_info).*"
+write_var_regex: ".*(frax_amount|giveFRAXToAMO|price_info).*"
+guard_var_regex: ".*(frax_amount|giveFRAXToAMO|price_info).*"
+vuln_fn_name: "FPIControllerPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "frax_amount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

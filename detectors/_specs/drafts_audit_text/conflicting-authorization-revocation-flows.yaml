@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "conflicting-authorization-revocation-flows"
+class_name: "ConflictingAuthorizationRevocationFlows"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Hyperbeat Pay - Zellic Audit Report"
+help: |
+    Two conflicting authorization-revocation flows exist in the system with different access-control requirements: The first flow is a two-step process with operator approval. // Owner
+wiki_title: "Conflicting authorization-revocation flows"
+wiki_description: |
+    Two conflicting authorization-revocation flows exist in the system with different access-control requirements: The first flow is a two-step process with operator approval. // Owner initiates revocation requestRevokeServiceAuthorization(service) → creates pending revocation with cooldown → operator m
+wiki_exploit_scenario: |
+    Per audit finding: Two conflicting authorization-revocation flows exist in the system with different access-control requirements: The first flow is a two-step process with operator approval. // Owner initiates revocatio
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ConflictingAuthorizationRevocationFlows"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(approveAuthorizationRevocation|revokeOperatorBorrowing).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "approveAuthorizationRevocation"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

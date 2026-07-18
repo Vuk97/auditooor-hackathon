@@ -1,0 +1,19 @@
+id: admin-transfer-leaves-stale-pause-authority
+title: "Admin transfer leaves stale emergency pause authority"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44857"
+bug_class: authorization
+indicators:
+  - "`set_admin(new_admin)` rotates admin but not emergency_admin"
+  - "secondary admin role retains old holder even after main admin rotation"
+victim: "Protocol: stale role retained by the old admin after rotation."
+exploit_precondition: "Admin rotation happens while emergency admin role should also transition."
+real_world_example: |
+  V12 #44857 (High): Admin transfer leaves stale emergency pause authority.
+suggested_remediation: "Rotate all admin-adjacent roles atomically, or explicitly re-sign each."
+cross_refs:
+  - missing-two-step-admin-acceptance

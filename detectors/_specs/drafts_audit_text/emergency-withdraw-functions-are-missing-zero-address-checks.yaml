@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "emergency-withdraw-functions-are-missing-zero-address-checks"
+class_name: "EmergencyWithdrawFunctionsAreMissingZeroAddressChecks"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Biconomy Token Paymaster - Zellic Audit Report"
+help: |
+    The withdrawERC20(), withdrawERC20Full(), withdrawMultipleERC20(), and withdrawM ultipleERC20Full() are emergency withdrawal functions that can be called by the owner to withdraw E
+wiki_title: "Emergency withdraw functions are missing zero address checks"
+wiki_description: |
+    The withdrawERC20(), withdrawERC20Full(), withdrawMultipleERC20(), and withdrawM ultipleERC20Full() are emergency withdrawal functions that can be called by the owner to withdraw ERC20 tokens that were mistakenly sent to the Paymaster con- tract. These tokens are withdrawn to a specified target addr
+wiki_exploit_scenario: |
+    Per audit finding: The withdrawERC20(), withdrawERC20Full(), withdrawMultipleERC20(), and withdrawM ultipleERC20Full() are emergency withdrawal functions that can be called by the owner to withdraw ERC20 tokens that wer
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EmergencyWithdrawFunctionsAreMissingZeroAddressChecks"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawERC20|withdrawERC20Full|withdrawMultipleERC20).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "withdrawERC20"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

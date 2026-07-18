@@ -1,0 +1,34 @@
+skeleton: "paired_function_divergence"
+name: "m-16-accumulated-rewards-per-share-can-round-to-zero"
+class_name: "M16AccumulatedRewardsPerShareCanRoundToZero"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64859 (Code4rena/GTE)"
+help: "[M-16] Accumulated rewards per share can round to zero"
+wiki_title: "[M-16] Accumulated rewards per share can round to zero"
+wiki_description: |
+    `launchpad/libraries/RewardsTracker.sol` [# L225](https://github.com/code-423n4/2025-08-gte-perps/blob/0c943e7bd50eb51c1c6ac9729f0248d53d4a8911/contracts/launchpad/libraries/RewardsTracker.sol# L225)
+    
+    The accumulated rewards per share variables stored on the `Distributor` may round to zero, partic
+wiki_exploit_scenario: |
+    Per Solodit #64859: `launchpad/libraries/RewardsTracker.sol` [# L225](https://github.com/code-423n4/2025-08-gte-perps/blob/0c943e7bd50eb51c1c6ac9729f0248d53d4a8911/contracts/launchpad/libraries/RewardsTracker.sol# L225
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M16AccumulatedRewardsPerShareCanRoundToZero"
+solodit_id: "64859"
+solodit_slug: "m-16-accumulated-rewards-per-share-can-round-to-zero-code4rena-gte-gte-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(accQuoteRewardsPerShare|ether|pendingQuoteRewards).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

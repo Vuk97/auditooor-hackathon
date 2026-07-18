@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "messages-destined-for-zksync-cannot-be-processed"
+class_name: "MessagesDestinedForZksyncCannotBeProcessed"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7142 (Spearbit/Connext)"
+help: "Messages destined for ZkSync cannot be processed"
+wiki_title: "Messages destined for ZkSync cannot be processed"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    ZkSyncHubConnector.sol#L49-L72
+    
+    ## Description
+    For ZkSync chain, L2 to L1 communication is free, but L1 to L2 communication requires a certain amount of ETH to be supplied to cover the base cost of the transaction (including the `_l2Value`) + layer 2 operator tip.
+wiki_exploit_scenario: |
+    Per Solodit #7142: ## Severity: High Risk
+    
+    ## Context
+    ZkSyncHubConnector.sol#L49-L72
+    
+    ## Description
+    For ZkSync chain, L2 to L1 communication is free, but L1 to L2 communication requires a certain amount of ETH to be su
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MessagesDestinedForZksyncCannotBeProcessed"
+solodit_id: "7142"
+solodit_slug: "messages-destined-for-zksync-cannot-be-processed-spearbit-connext-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "ZkSync, Payable"
+state_decl: "uint256 internal l2transactionbasecost;"
+fn_name_regex: ".*(sendMessage|requestL2Transaction|l2TransactionBaseCost).*"
+write_var_regex: ".*(l2TransactionBaseCost|requestL2Transaction|sendMessage).*"
+guard_var_regex: ".*(l2TransactionBaseCost|requestL2Transaction|sendMessage).*"
+vuln_fn_name: "sendMessage"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "l2transactionbasecost = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

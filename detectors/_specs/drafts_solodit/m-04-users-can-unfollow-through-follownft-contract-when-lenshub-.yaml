@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-04-users-can-unfollow-through-follownft-contract-when-lenshub-"
+class_name: "M04UsersCanUnfollowThroughFollownftContractWhenLenshub"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28983 (Code4rena/Lens Protocol)"
+help: "[M-04] Users can unfollow through `FollowNFT` contract when LensHub is paused by governance"
+wiki_title: "[M-04] Users can unfollow through `FollowNFT` contract when LensHub is paused by governance"
+wiki_description: |
+    When the `LensHub` contract has been paused by governance (`_state` set to `ProtocolState.Paused`), users should not be able unfollow profiles. This can be inferred as the `unfollow()` function has the `whenNotPaused` modifier:
+    
+    [LensHub.sol#L368-L371](https://github.com/code-423n4/2023-07-lens/blo
+wiki_exploit_scenario: |
+    Per Solodit #28983: When the `LensHub` contract has been paused by governance (`_state` set to `ProtocolState.Paused`), users should not be able unfollow profiles. This can be inferred as the `unfollow()` function has t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04UsersCanUnfollowThroughFollownftContractWhenLenshub"
+solodit_id: "28983"
+solodit_slug: |
+    m-04-users-can-unfollow-through-follownft-contract-when-lenshub-is-paused-by-governance-code4rena-lens-protocol-lens-protocol-git
+solodit_quality: "5"
+solodit_rarity: "1"
+solodit_tags: ""
+state_decl: "uint256 internal burn;"
+fn_name_regex: ".*(LensHub|unfollow|whenNotPaused|FollowNFT).*"
+read_var_regex: ".*(burn|removeFollower|unfollow).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LensHub"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return burn > 0;"

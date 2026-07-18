@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "full-delegatee-control-of-call-data-is-dangerous"
+class_name: "FullDelegateeControlOfCallDataIsDangerous"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Bloom Trading - Zellic Audit Report"
+help: |
+    When an account sets another account as its delegate, that delegate is allowed to make calls on behalf of the delegatee (the first account) using delegatedAction: function delegate
+wiki_title: "Full delegatee control of call_data is dangerous"
+wiki_description: |
+    When an account sets another account as its delegate, that delegate is allowed to make calls on behalf of the delegatee (the first account) using delegatedAction: function delegatedAction(address trader, bytes calldata call_data) external payable returns (bytes memory) { require(delegations[trader]
+wiki_exploit_scenario: |
+    Per audit finding: When an account sets another account as its delegate, that delegate is allowed to make calls on behalf of the delegatee (the first account) using delegatedAction: function delegatedAction(address trad
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FullDelegateeControlOfCallDataIsDangerous"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(delegatedAction|egatedAction).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "delegatedAction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

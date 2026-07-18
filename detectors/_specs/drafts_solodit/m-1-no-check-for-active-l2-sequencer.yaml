@@ -1,0 +1,42 @@
+skeleton: "paired_function_divergence"
+name: "m-1-no-check-for-active-l2-sequencer"
+class_name: "M1NoCheckForActiveL2Sequencer"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29102 (Sherlock/Notional Update #4)"
+help: "M-1: No check for active L2 Sequencer"
+wiki_title: "M-1: No check for active L2 Sequencer"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-10-notional-judging/issues/2 
+    
+    ## Found by 
+    0xMaroutis, Vagner, ZanyBonzy
+    ## Summary
+    Using Chainlink in L2 chains such as Arbitrum requires to check if the sequencer is down to avoid prices from looking like they are fresh although they are not accordin
+wiki_exploit_scenario: |
+    Per Solodit #29102: Source: https://github.com/sherlock-audit/2023-10-notional-judging/issues/2 
+    
+    ## Found by 
+    0xMaroutis, Vagner, ZanyBonzy
+    ## Summary
+    Using Chainlink in L2 chains such as Arbitrum requires to check if t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1NoCheckForActiveL2Sequencer"
+solodit_id: "29102"
+solodit_slug: "m-1-no-check-for-active-l2-sequencer-sherlock-notional-update-4-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(getOraclePrice).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

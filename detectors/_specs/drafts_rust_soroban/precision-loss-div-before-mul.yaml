@@ -1,0 +1,20 @@
+id: precision-loss-div-before-mul
+title: "Division performed before multiplication causes precision loss"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.19"
+bug_class: precision-loss
+indicators:
+  - "expression `a / b * c` where result differs materially from `a * c / b`"
+  - "price-to-wad conversion dividing by source decimals before multiplying by WAD"
+victim: "Users: small prices are truncated to zero or meaningful precision is lost."
+exploit_precondition: "Inputs where `a / b` rounds to a value that loses precision for the subsequent multiplication."
+real_world_example: |
+  Halborn 7.19 (LOW): Precision loss in price-to-wad conversions due to division before multiplication.
+suggested_remediation: "Reorder to multiply first: `(a * c) / b` (watch for overflow; use u256 if needed)."
+cross_refs:
+  - scaled-share-rounding-mismatch
+  - i128-bounds-unchecked-cast

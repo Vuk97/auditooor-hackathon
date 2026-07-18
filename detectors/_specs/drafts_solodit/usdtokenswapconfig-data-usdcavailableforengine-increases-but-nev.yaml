@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "usdtokenswapconfig-data-usdcavailableforengine-increases-but-nev"
+class_name: "UsdtokenswapconfigDataUsdcavailableforengineIncreasesButNev"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49981 (Codehawks/Part 2)"
+help: "UsdTokenSwapConfig::Data::usdcAvailableForEngine Increases but Never Used, Locking USDC Forever"
+wiki_title: "UsdTokenSwapConfig::Data::usdcAvailableForEngine Increases but Never Used, Locking USDC Forever"
+wiki_description: |
+    ### Summary
+    The `CreditDelegationBranch::settleVaultsDebt` updates `usdcAvailableForEngine[vault.engine]` by increasing the value:
+    ```solidity
+        UsdTokenSwapConfig.load().usdcAvailableForEngine[vault.engine] += ctx.usdcOutX18.intoUint256();
+    ```
+    This USDC is supposed to back usd token of the engine
+wiki_exploit_scenario: |
+    Per Solodit #49981: ### Summary
+    The `CreditDelegationBranch::settleVaultsDebt` updates `usdcAvailableForEngine[vault.engine]` by increasing the value:
+    ```solidity
+        UsdTokenSwapConfig.load().usdcAvailableForEngine[vaul
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsdtokenswapconfigDataUsdcavailableforengineIncreasesButNev"
+solodit_id: "49981"
+solodit_slug: |
+    usdtokenswapconfigdatausdcavailableforengine-increases-but-never-used-locking-usdc-forever-codehawks-zaros-part-2-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal settlevaultsdebt;"
+fn_name_regex: ".*(settleVaultsDebt).*"
+read_var_regex: ".*(settleVaultsDebt).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "settleVaultsDebt"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return settlevaultsdebt > 0;"

@@ -1,0 +1,34 @@
+skeleton: "state_write_without_paired_write"
+name: "lbp-fee-drainage"
+class_name: "LbpFeeDrainage"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #47420 (OtterSec/Thala Bazaar)"
+help: "LBP Fee Drainage"
+wiki_title: "LBP Fee Drainage"
+wiki_description: |
+    ## ExitLBP Functionality Overview
+    
+    The `exitLBP` function does not reset the `_swapFeeAmounts` arrays stored within `BazaarLBP` after a successful exit. This array keeps track of the total swap fees accrued for each token within the LBP. If an LBP owner exits the pool via `exitLBP`, the liquidity wi
+wiki_exploit_scenario: |
+    Per Solodit #47420: ## ExitLBP Functionality Overview
+    
+    The `exitLBP` function does not reset the `_swapFeeAmounts` arrays stored within `BazaarLBP` after a successful exit. This array keeps track of the total swap fees a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LbpFeeDrainage"
+solodit_id: "47420"
+solodit_slug: "lbp-fee-drainage-ottersec-none-thala-bazaar-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(exitLBP|BazaarLBP).*"
+primary_var_regex: ".*(exitLBP).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

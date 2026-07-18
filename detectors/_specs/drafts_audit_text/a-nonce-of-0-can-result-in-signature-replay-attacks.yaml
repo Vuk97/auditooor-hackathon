@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "a-nonce-of-0-can-result-in-signature-replay-attacks"
+class_name: "ANonceOf0CanResultInSignatureReplayAttacks"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Bebop - Zellic Audit Report"
+help: |
+    The function invalidateOrder is responsible for checking and setting nonces in a gas- efficient manner; it does so by checking a certain slot, and if the slot is not 0, the nonce h
+wiki_title: "A nonce of 0 can result in signature replay attacks"
+wiki_description: |
+    The function invalidateOrder is responsible for checking and setting nonces in a gas- efficient manner; it does so by checking a certain slot, and if the slot is not 0, the nonce has been used. function invalidateOrder(address maker, uint256 nonce) private { uint256 invalidatorSlot = uint64(nonce) >
+wiki_exploit_scenario: |
+    Per audit finding: The function invalidateOrder is responsible for checking and setting nonces in a gas- efficient manner; it does so by checking a certain slot, and if the slot is not 0, the nonce has been used. functi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ANonceOf0CanResultInSignatureReplayAttacks"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(invalidateOrder|invalidatorSlot|invalidatorBit).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "invalidateOrder"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

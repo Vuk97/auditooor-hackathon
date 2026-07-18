@@ -1,0 +1,39 @@
+skeleton: "paired_function_divergence"
+name: "m-19-unsynchronized-launchpadlpvault-address-leading-to-loss-of-"
+class_name: "M19UnsynchronizedLaunchpadlpvaultAddressLeadingToLossOf"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64862 (Code4rena/GTE)"
+help: |
+    [M-19] Unsynchronized LaunchpadLPVault address leading to Loss of fee to Stakers of new launchPad token
+wiki_title: |
+    [M-19] Unsynchronized LaunchpadLPVault address leading to Loss of fee to Stakers of new launchPad token
+wiki_description: |
+    `launchpad/Launchpad.sol` [# L414](https://github.com/code-423n4/2025-08-gte-perps/blob/f43e1eedb65e7e0327cfaf4d7608a37d85d2fae7/contracts/launchpad/Launchpad.sol# L414)
+    
+    The Launchpad contract can update its `launchpadLPVault` address, but the `GTELaunchpadV2PairFactory` has an immutable `launchp
+wiki_exploit_scenario: |
+    Per Solodit #64862: `launchpad/Launchpad.sol` [# L414](https://github.com/code-423n4/2025-08-gte-perps/blob/f43e1eedb65e7e0327cfaf4d7608a37d85d2fae7/contracts/launchpad/Launchpad.sol# L414)
+    
+    The Launchpad contract can
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M19UnsynchronizedLaunchpadlpvaultAddressLeadingToLossOf"
+solodit_id: "64862"
+solodit_slug: |
+    m-19-unsynchronized-launchpadlpvault-address-leading-to-loss-of-fee-to-stakers-of-new-launchpad-token-code4rena-gte-gte-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(launchpadLPVault|launchpadLp|updateLaunchpadLPVault).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

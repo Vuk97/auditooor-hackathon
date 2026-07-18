@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-01-expressreceivetoken-can-be-abused-using-reentry"
+class_name: "H01ExpressreceivetokenCanBeAbusedUsingReentry"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28759 (Code4rena/Axelar Network)"
+help: "[H-01] `expressReceiveToken` can be abused using reentry"
+wiki_title: "[H-01] `expressReceiveToken` can be abused using reentry"
+wiki_description: |
+    A token transfer can be express delivered on behalf of another user when the call contains data to be executed:
+    
+    <https://github.com/code-423n4/2023-07-axelar/blob/main/contracts/its/interchain-token-service/InterchainTokenService.sol#L467-L487>
+    
+    ```solidity
+    File: its/interchain-token-service/Inter
+wiki_exploit_scenario: |
+    Per Solodit #28759: A token transfer can be express delivered on behalf of another user when the call contains data to be executed:
+    
+    <https://github.com/code-423n4/2023-07-axelar/blob/main/contracts/its/interchain-token
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01ExpressreceivetokenCanBeAbusedUsingReentry"
+solodit_id: "28759"
+solodit_slug: "h-01-expressreceivetoken-can-be-abused-using-reentry-code4rena-axelar-network-axelar-network-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal destinationaddress;"
+fn_name_regex: ".*(expressReceiveTokenWithData|destinationAddress|expressExecuteWithInterchainToken|expressReceiveToken).*"
+read_var_regex: ".*(destinationAddress|expressExecuteWithInterchainToken|expressReceiveTokenWithData).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "expressReceiveTokenWithData"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return destinationaddress > 0;"

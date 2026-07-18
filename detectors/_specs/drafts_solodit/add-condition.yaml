@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "add-condition"
+class_name: "AddCondition"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30836 (MixBytes/Gearbox Protocol)"
+help: "Add condition"
+wiki_title: "Add condition"
+wiki_description: |
+    ##### Description
+    For the line: https://github.com/Gearbox-protocol/gearbox-contracts/blob/0ac33ba87212ce056ac6b6357ad74161d417158a/contracts/credit/CreditFilter.sol#L159
+    in the `allowToken ()` function, the existence of the `token` - `underlyingToken` pair is checked.
+    But it is better to immediatel
+wiki_exploit_scenario: |
+    Per Solodit #30836: ##### Description
+    For the line: https://github.com/Gearbox-protocol/gearbox-contracts/blob/0ac33ba87212ce056ac6b6357ad74161d417158a/contracts/credit/CreditFilter.sol#L159
+    in the `allowToken ()` functi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AddCondition"
+solodit_id: "30836"
+solodit_slug: "add-condition-mixbytes-none-gearbox-protocol-markdown_"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(token|underlyingToken).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

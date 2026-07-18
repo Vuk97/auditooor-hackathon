@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_require"
+name: "paying-repayfee-can-be-avoided-by-any-borrower-via-borrowerexit-"
+class_name: "PayingRepayfeeCanBeAvoidedByAnyBorrowerViaBorrowerexit"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35976 (Spearbit/Size v1)"
+help: "Paying repayFee can be avoided by any borrower via BorrowerExit or BorrowAsMarketOrder"
+wiki_title: "Paying repayFee can be avoided by any borrower via BorrowerExit or BorrowAsMarketOrder"
+wiki_description: |
+    ## Severity: Critical Risk
+    
+    ## Context
+    - BorrowerExit.sol#L95-L96
+    - BorrowAsMarketOrder.sol#L166-L180
+    
+    ## Description
+    A borrower can remove their `repayFee`, rendering it to a dust amount, with the help of two accounts by:
+    
+    1. **BorrowerExit**
+       - The borrower (Alice.1) right after new borrowing wa
+wiki_exploit_scenario: |
+    Per Solodit #35976: ## Severity: Critical Risk
+    
+    ## Context
+    - BorrowerExit.sol#L95-L96
+    - BorrowAsMarketOrder.sol#L166-L180
+    
+    ## Description
+    A borrower can remove their `repayFee`, rendering it to a dust amount, with the he
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PayingRepayfeeCanBeAvoidedByAnyBorrowerViaBorrowerexit"
+solodit_id: "35976"
+solodit_slug: |
+    paying-repayfee-can-be-avoided-by-any-borrower-via-borrowerexit-or-borrowasmarketorder-spearbit-none-size-v1-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal duedate;"
+fn_name_regex: ".*(repayFee|earlyBorrowerExitFee|faceValue|dueDate).*"
+write_var_regex: ".*(dueDate|earlyBorrowerExitFee|faceValue).*"
+guard_var_regex: ".*(dueDate|earlyBorrowerExitFee|faceValue).*"
+vuln_fn_name: "repayFee"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "duedate = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

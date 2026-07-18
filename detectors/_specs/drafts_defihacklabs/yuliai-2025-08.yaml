@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "yuliai-2025-08"
+class_name: "Yuliai202508"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-08/YuliAI_exp.sol"
+help: "YuliAI 2025-08 — reentrancy exploit (78k USD)"
+wiki_title: "YuliAI (2025-08) — reentrancy"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-08): YuliAI lost 78k USD. Bug class: reentrancy. Attack tx: 0xeab946cfea49b240284d3baef24a4071313d76c39de2ee9ab00d957896a6c1c4.
+wiki_exploit_scenario: |
+    Attacker (0x26f8bf8a772b8283bc1ef657d690c19e545ccc0d) exploits YuliAI via reentrancy: the victim contract 0x8262325Bf1d8c3bE83EB99f5a74b8458Ebb96282 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Apply the nonReentrant modifier (OZ ReentrancyGuard) to every externally-callable state-mutating entry point that transfers value, and follow the checks-effects-interactions pattern.
+contract_name: "Yuliai202508"
+fn_name_regex: ".*(withdraw).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(nonReentrant).*"
+guarded_helper_name: "nonReentrant"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

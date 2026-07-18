@@ -1,0 +1,37 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-05-attacker-can-manipulate-low-tvl-uniswap-v3-pool-to-borrow-a"
+class_name: "H05AttackerCanManipulateLowTvlUniswapV3PoolToBorrowA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #15978 (Code4rena/ParaSpace)"
+help: |
+    [H-05] Attacker can manipulate low TVL Uniswap V3 pool to borrow and swap to make Lending Pool in loss
+wiki_title: |
+    [H-05] Attacker can manipulate low TVL Uniswap V3 pool to borrow and swap to make Lending Pool in loss
+wiki_description: |
+    <https://github.com/code-423n4/2022-11-paraspace/blob/c6820a279c64a299a783955749fdc977de8f0449/paraspace-core/contracts/misc/UniswapV3OracleWrapper.sol#L176>
+    
+    In Paraspace protocol, any Uniswap V3 position that are consist of ERC20 tokens that Paraspace support can be used as collateral to borrow f
+wiki_exploit_scenario: |
+    Per Solodit #15978: <https://github.com/code-423n4/2022-11-paraspace/blob/c6820a279c64a299a783955749fdc977de8f0449/paraspace-core/contracts/misc/UniswapV3OracleWrapper.sol#L176>
+    
+    In Paraspace protocol, any Uniswap V3 po
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05AttackerCanManipulateLowTvlUniswapV3PoolToBorrowA"
+solodit_id: "15978"
+solodit_slug: |
+    h-05-attacker-can-manipulate-low-tvl-uniswap-v3-pool-to-borrow-and-swap-to-make-lending-pool-in-loss-code4rena-paraspace-paraspace-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Oracle"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(getTokenPrice|tokenId|positionData|getOnchainPositionData).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-16-distribute-uses-the-wrong-end-time-to-break-maxseniorrepaym"
+class_name: "M16DistributeUsesTheWrongEndTimeToBreakMaxseniorrepaym"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35235 (Code4rena/Gondi)"
+help: "[M-16] `distribute()` uses the wrong end time to break `maxSeniorRepayment`'s expectations"
+wiki_title: "[M-16] `distribute()` uses the wrong end time to break `maxSeniorRepayment`'s expectations"
+wiki_description: |
+    When the bid amount is not enough, the `lender` will be repaid in order of `tranche[]`.
+    In order to minimize the risk, the user can specify `maxSeniorRepayment` to avoid the risk to some extent, and put himself in a position of higher repayment priority. At the same time `emitLoan()` checks `maxSen
+wiki_exploit_scenario: |
+    Per Solodit #35235: When the bid amount is not enough, the `lender` will be repaid in order of `tranche[]`.
+    In order to minimize the risk, the user can specify `maxSeniorRepayment` to avoid the risk to some extent, and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M16DistributeUsesTheWrongEndTimeToBreakMaxseniorrepaym"
+solodit_id: "35235"
+solodit_slug: |
+    m-16-distribute-uses-the-wrong-end-time-to-break-maxseniorrepayments-expectations-code4rena-gondi-gondi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal emitloan;"
+fn_name_regex: ".*(lender|maxSeniorRepayment|emitLoan|loanId).*"
+read_var_regex: ".*(emitLoan|lender|loanId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "lender"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return emitloan > 0;"

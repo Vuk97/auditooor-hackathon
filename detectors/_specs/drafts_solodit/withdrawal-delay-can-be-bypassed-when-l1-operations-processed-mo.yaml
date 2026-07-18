@@ -1,0 +1,45 @@
+skeleton: "paired_function_divergence"
+name: "withdrawal-delay-can-be-bypassed-when-l1-operations-processed-mo"
+class_name: "WithdrawalDelayCanBeBypassedWhenL1OperationsProcessedMo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63992 (Spearbit/Kinetiq LST Protocol)"
+help: "Withdrawal Delay Can Be Bypassed When L1 Operations Processed More Than Once Per 24 Hours"
+wiki_title: "Withdrawal Delay Can Be Bypassed When L1 Operations Processed More Than Once Per 24 Hours"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    HIP3StakingManager.sol#L12
+    
+    ## Description
+    HyperCore enforces a 24-hour cooldown after staking before withdrawals from the same validator can be processed. The StakingManager processes L1 operations (withdrawals first, then deposits) via `processL1Operations()`,
+wiki_exploit_scenario: |
+    Per Solodit #63992: ## Severity: Medium Risk
+    
+    ## Context
+    HIP3StakingManager.sol#L12
+    
+    ## Description
+    HyperCore enforces a 24-hour cooldown after staking before withdrawals from the same validator can be processed. The Sta
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WithdrawalDelayCanBeBypassedWhenL1OperationsProcessedMo"
+solodit_id: "63992"
+solodit_slug: |
+    withdrawal-delay-can-be-bypassed-when-l1-operations-processed-more-than-once-per-24-hours-spearbit-none-kinetiq-lst-protocol-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(confirmWithdrawal|processL1Operations|queueL1Operation).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

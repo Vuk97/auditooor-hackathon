@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-signature-validation-for-different-signer-policies"
+class_name: "IncorrectSignatureValidationForDifferentSignerPolicies"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30498 (MixBytes/Kinto)"
+help: "Incorrect signature validation for different signer policies"
+wiki_title: "Incorrect signature validation for different signer policies"
+wiki_description: |
+    ##### Description
+    
+    * https://github.com/KintoXYZ/kinto-core/blob/f7dd98f66b9dfba1f73758703b808051196e740b/src/wallet/KintoWallet.sol#L200
+    
+    A KintoWallet can have from one to three owners and have different signer policies. Incorrect verification of signers in `_validateSignature()` in KintoWallet ca
+wiki_exploit_scenario: |
+    Per Solodit #30498: ##### Description
+    
+    * https://github.com/KintoXYZ/kinto-core/blob/f7dd98f66b9dfba1f73758703b808051196e740b/src/wallet/KintoWallet.sol#L200
+    
+    A KintoWallet can have from one to three owners and have diff
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectSignatureValidationForDifferentSignerPolicies"
+solodit_id: "30498"
+solodit_slug: "incorrect-signature-validation-for-different-signer-policies-mixbytes-none-kinto-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal setsignerpolicy;"
+fn_name_regex: ".*(MINUS_ONE_SIGNER|signerPolicy|SINGLE_SIGNER|setSignerPolicy).*"
+write_var_regex: ".*(setSignerPolicy|signerPolicy).*"
+guard_var_regex: ".*(setSignerPolicy|signerPolicy).*"
+vuln_fn_name: "MINUS_ONE_SIGNER"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "setsignerpolicy = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,48 @@
+skeleton: "paired_function_divergence"
+name: "h-07-account-holdstoken-is-never-set"
+class_name: "H07AccountHoldstokenIsNeverSet"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42152 (Code4rena/Marginswap)"
+help: "[H-07] `account.holdsToken` is never set"
+wiki_title: "[H-07] `account.holdsToken` is never set"
+wiki_description: |
+    The `addHolding` function does not update the `account.holdsToken` map.
+    
+    ```solidity
+    function addHolding(
+        CrossMarginAccount storage account,
+        address token,
+        uint256 depositAmount
+    ) internal {
+        if (!hasHoldingToken(account, token)) {
+            // SHOULD SET account.holdsToken here
+wiki_exploit_scenario: |
+    Per Solodit #42152: The `addHolding` function does not update the `account.holdsToken` map.
+    
+    ```solidity
+    function addHolding(
+        CrossMarginAccount storage account,
+        address token,
+        uint256 depositAmount
+    ) intern
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H07AccountHoldstokenIsNeverSet"
+solodit_id: "42152"
+solodit_slug: "h-07-accountholdstoken-is-never-set-code4rena-marginswap-marginswap-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addHolding|getHoldingAmounts|holdingTokens).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

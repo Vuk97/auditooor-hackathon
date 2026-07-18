@@ -1,0 +1,58 @@
+skeleton: "state_write_without_paired_write"
+name: "m-07-oraclemodule-assumes-that-all-chainlink-feeds-have-a-heartb"
+class_name: "M07OraclemoduleAssumesThatAllChainlinkFeedsHaveAHeartb"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31705 (Pashov Audit Group/Fyde)"
+help: "[M-07] OracleModule assumes that all Chainlink feeds have a heartbeat of 24 hours"
+wiki_title: "[M-07] OracleModule assumes that all Chainlink feeds have a heartbeat of 24 hours"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    In `OracleModule.sol`, there is a function to set the stale period of the chainlink feed.
+    
+    ```
+      function setStalePeriod(uint32 _stalePeriod) public onlyOwner {
+        stalePeriod = _stalePeriod;
+      }
+    ```
+    
+    This stale period will check
+wiki_exploit_scenario: |
+    Per Solodit #31705: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    In `OracleModule.sol`, there is a function to set the stale period of the chainlink feed.
+    
+    ```
+      function setStalePeriod(uint32 _s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07OraclemoduleAssumesThatAllChainlinkFeedsHaveAHeartb"
+solodit_id: "31705"
+solodit_slug: |
+    m-07-oraclemodule-assumes-that-all-chainlink-feeds-have-a-heartbeat-of-24-hours-pashov-none-fyde-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(updatedAt|latestRoundData|stalePeriod).*"
+primary_var_regex: ".*(latestRoundData|stalePeriod|updatedAt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

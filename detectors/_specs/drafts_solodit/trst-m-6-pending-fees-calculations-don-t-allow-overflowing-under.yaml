@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "trst-m-6-pending-fees-calculations-don-t-allow-overflowing-under"
+class_name: "TrstM6PendingFeesCalculationsDonTAllowOverflowingUnder"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19058 (Trust Security/Stella)"
+help: "TRST-M-6 Pending fees calculations don’t allow overflowing/underflowing"
+wiki_title: "TRST-M-6 Pending fees calculations don’t allow overflowing/underflowing"
+wiki_description: |
+    **Description:**
+    When computing pending fees in the UniswapV3PositionViewer. 
+    `_computePendingFeesToBeEarned()` function, the calculations of **feeGrowthBelowX128**, 
+    **feeGrowthAboveX128**, and **feeGrowthInsideX128** don’t allow under- and overflowing. 
+    However, the respective calculations in Unis
+wiki_exploit_scenario: |
+    Per Solodit #19058: **Description:**
+    When computing pending fees in the UniswapV3PositionViewer. 
+    `_computePendingFeesToBeEarned()` function, the calculations of **feeGrowthBelowX128**, 
+    **feeGrowthAboveX128**, and **fee
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM6PendingFeesCalculationsDonTAllowOverflowingUnder"
+solodit_id: "19058"
+solodit_slug: |
+    trst-m-6-pending-fees-calculations-dont-allow-overflowingunderflowing-trust-security-none-stella-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(feeGrowthBelowX128|feeGrowthAboveX128|feeGrowthInsideX128).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "feeGrowthBelowX128"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

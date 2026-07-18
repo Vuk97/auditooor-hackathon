@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-size-check-in-zstd-decompression"
+class_name: "MissingSizeCheckInZstdDecompression"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Jovay Relayer - Zellic Audit Report"
+help: |
+    The Zstd decompression logic in the batch payload deserialization does not validate the dataLen field before decompression.
+wiki_title: "Missing size check in Zstd decompression"
+wiki_description: |
+    The Zstd decompression logic in the batch payload deserialization does not validate the dataLen field before decompression.
+wiki_exploit_scenario: |
+    Per audit finding: The Zstd decompression logic in the batch payload deserialization does not validate the dataLen field before decompression.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingSizeCheckInZstdDecompression"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(dataLen).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "dataLen"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

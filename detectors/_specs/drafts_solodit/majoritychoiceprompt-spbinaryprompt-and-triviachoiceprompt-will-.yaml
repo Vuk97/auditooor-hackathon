@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "majoritychoiceprompt-spbinaryprompt-and-triviachoiceprompt-will-"
+class_name: "MajoritychoicepromptSpbinarypromptAndTriviachoicepromptWill"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65381 (Cyfrin/Majority Protocol)"
+help: |
+    `MajorityChoicePrompt`, `SPBinaryPrompt` and `TriviaChoicePrompt` will not work correctly when used with different instances of `SessionManager`
+wiki_title: |
+    `MajorityChoicePrompt`, `SPBinaryPrompt` and `TriviaChoicePrompt` will not work correctly when used with different instances of `SessionManager`
+wiki_description: |
+    **Description:** `MajorityChoicePrompt` is supposed to support multiple instances of `SessionManager`, however every instance of `SessionManager` starts with `QuestionManager::nextQuestionId = 0`.
+    
+    This is problematic as `MajorityChoicePrompt::revealReaction` does this:
+    ```solidity
+    Reaction storage
+wiki_exploit_scenario: |
+    Per Solodit #65381: **Description:** `MajorityChoicePrompt` is supposed to support multiple instances of `SessionManager`, however every instance of `SessionManager` starts with `QuestionManager::nextQuestionId = 0`.
+    
+    Th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MajoritychoicepromptSpbinarypromptAndTriviachoicepromptWill"
+solodit_id: "65381"
+solodit_slug: |
+    majoritychoiceprompt-spbinaryprompt-and-triviachoiceprompt-will-not-work-correctly-when-used-with-different-instances-of-sessionmanager-cyfrin-none-majority-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal gameid;"
+fn_name_regex: ".*(MajorityChoicePrompt|SessionManager|AnswerAlreadyRevealed|SPBinaryPrompt).*"
+read_var_regex: ".*(gameId|questionId|sessionId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "MajorityChoicePrompt"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return gameid > 0;"

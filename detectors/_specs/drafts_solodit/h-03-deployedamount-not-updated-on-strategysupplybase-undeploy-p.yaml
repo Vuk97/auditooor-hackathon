@@ -1,0 +1,41 @@
+skeleton: "state_write_without_paired_write"
+name: "h-03-deployedamount-not-updated-on-strategysupplybase-undeploy-p"
+class_name: "H03DeployedamountNotUpdatedOnStrategysupplybaseUndeployP"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49642 (Code4rena/BakerFi)"
+help: |
+    [H-03] `_deployedAmount` not updated on `StrategySupplyBase.undeploy`, preventing performance fees from being collected
+wiki_title: |
+    [H-03] `_deployedAmount` not updated on `StrategySupplyBase.undeploy`, preventing performance fees from being collected
+wiki_description: |
+    <https://github.com/code-423n4/2024-12-bakerfi/blob/0daf8a0547b6245faed5b6cd3f5daf44d2ea7c9a/contracts/core/strategies/StrategySupplyBase.sol# L110>
+    
+    ### Finding description and impact
+    
+    `StrategySupplyBase.undeploy` does not update `_deployedAmount`. As a result, if a withdrawal occurs, even if in
+wiki_exploit_scenario: |
+    Per Solodit #49642: <https://github.com/code-423n4/2024-12-bakerfi/blob/0daf8a0547b6245faed5b6cd3f5daf44d2ea7c9a/contracts/core/strategies/StrategySupplyBase.sol# L110>
+    
+    ### Finding description and impact
+    
+    `StrategySup
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03DeployedamountNotUpdatedOnStrategysupplybaseUndeployP"
+solodit_id: "49642"
+solodit_slug: |
+    h-03-_deployedamount-not-updated-on-strategysupplybaseundeploy-preventing-performance-fees-from-being-collected-code4rena-bakerfi-bakerfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(rebalance|getBalance|balanceChange).*"
+primary_var_regex: ".*(balanceChange|getBalance|rebalance).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

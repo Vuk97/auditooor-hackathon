@@ -1,0 +1,47 @@
+skeleton: "state_write_without_paired_write"
+name: "h-5-users-are-unable-close-or-add-to-their-lyra-vault-positions-"
+class_name: "H5UsersAreUnableCloseOrAddToTheirLyraVaultPositions"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #5688 (Sherlock/Isomorph)"
+help: |
+    H-5: Users are unable close or add to their Lyra vault positions when price is stale or circuit breaker is tripped
+wiki_title: |
+    H-5: Users are unable close or add to their Lyra vault positions when price is stale or circuit breaker is tripped
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-11-isomorph-judging/issues/69 
+    
+    ## Found by 
+    0x52, rvierdiiev
+    
+    ## Summary
+    
+    Users are unable close or add to their Lyra vault positions when price is stale or circuit breaker is tripped. This is problematic for a few reasons. First is that the circuit br
+wiki_exploit_scenario: |
+    Per Solodit #5688: Source: https://github.com/sherlock-audit/2022-11-isomorph-judging/issues/69 
+    
+    ## Found by 
+    0x52, rvierdiiev
+    
+    ## Summary
+    
+    Users are unable close or add to their Lyra vault positions when price is stal
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H5UsersAreUnableCloseOrAddToTheirLyraVaultPositions"
+solodit_id: "5688"
+solodit_slug: |
+    h-5-users-are-unable-close-or-add-to-their-lyra-vault-positions-when-price-is-stale-or-circuit-breaker-is-tripped-sherlock-isomorph-isomorph-git
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: "Stale Price, Liquidation"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(collateralBook|liquidityPoolOf|isStale|circuitBreakerExpiry).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "usage-of-tx-origin-for-access-control-is-unsafe-due-to-phishing-"
+class_name: "UsageOfTxOriginForAccessControlIsUnsafeDueToPhishing"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58815 (Quantstamp/Powerloom L2)"
+help: "Usage of `tx.origin` for Access Control Is Unsafe Due to Phishing Risk"
+wiki_title: "Usage of `tx.origin` for Access Control Is Unsafe Due to Phishing Risk"
+wiki_description: |
+    **File(s) affected:**`PowerloomDataMarket.sol`
+    
+    **Description:** The contract uses `tx.origin` for authorization across multiple access control modifiers:
+    
+    ```
+    modifier onlyOwnerOrigin() {
+        require(owner() == tx.origin, "E03"); 
+    }
+    
+    modifier onlySequencer() {
+        require(sequencerSet.contains(tx.o
+wiki_exploit_scenario: |
+    Per Solodit #58815: **File(s) affected:**`PowerloomDataMarket.sol`
+    
+    **Description:** The contract uses `tx.origin` for authorization across multiple access control modifiers:
+    
+    ```
+    modifier onlyOwnerOrigin() {
+        require
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsageOfTxOriginForAccessControlIsUnsafeDueToPhishing"
+solodit_id: "58815"
+solodit_slug: "usage-of-txorigin-for-access-control-is-unsafe-due-to-phishing-risk-quantstamp-powerloom-l2-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal onlyowner;"
+fn_name_regex: ".*(PowerloomProtocolState|PowerloomDataMarket|onlyProtocolState|onlyOwner).*"
+read_var_regex: ".*(onlyOwner|onlyProtocolState).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "PowerloomProtocolState"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return onlyowner > 0;"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "swapborrowratemode-does-not-check-if-reserve-allows-xed-interest"
+class_name: "SwapborrowratemodeDoesNotCheckIfReserveAllowsXedInterest"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16942 (TrailOfBits/Aave Protocol)"
+help: "swapBorrowRateMode does not check if reserve allows ﬁxed interest rates"
+wiki_title: "swapBorrowRateMode does not check if reserve allows ﬁxed interest rates"
+wiki_description: |
+    ## Description
+    
+    The `swapBorrowRateMode` allows changing the interest rate mode of any reserve to fixed, even if it is disallowed by the reserve itself. The borrow function allows specifying an `interestRateMode` input, which could be either FIXED (0) or VARIABLE (1). Only some reserves allow the fi
+wiki_exploit_scenario: |
+    Per Solodit #16942: ## Description
+    
+    The `swapBorrowRateMode` allows changing the interest rate mode of any reserve to fixed, even if it is disallowed by the reserve itself. The borrow function allows specifying an `inter
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwapborrowratemodeDoesNotCheckIfReserveAllowsXedInterest"
+solodit_id: "16942"
+solodit_slug: |
+    swapborrowratemode-does-not-check-if-reserve-allows-fixed-interest-rates-trailofbits-aave-protocol-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal interestratemode;"
+fn_name_regex: ".*(swapBorrowRateMode|interestRateMode).*"
+read_var_regex: ".*(interestRateMode|swapBorrowRateMode).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swapBorrowRateMode"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return interestratemode > 0;"

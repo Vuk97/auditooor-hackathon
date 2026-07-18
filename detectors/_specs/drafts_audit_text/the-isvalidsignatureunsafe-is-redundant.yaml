@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "the-isvalidsignatureunsafe-is-redundant"
+class_name: "TheIsvalidsignatureunsafeIsRedundant"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Biconomy Smart Account Patch Review - Zellic Audit Report"
+help: |
+    In the PasskeyRegistryModule, both the isValidSignature() and isValidSignatureUnsafe() functions have the same code. They both call isValidSignatureForAddress(), which will add the
+wiki_title: "The isValidSignatureUnsafe() is redundant"
+wiki_description: |
+    In the PasskeyRegistryModule, both the isValidSignature() and isValidSignatureUnsafe() functions have the same code. They both call isValidSignatureForAddress(), which will add the “\x19Ethereum Signed Message:\n52” prefix to the data hash and smart account address prior to hashing it and then verif
+wiki_exploit_scenario: |
+    Per audit finding: In the PasskeyRegistryModule, both the isValidSignature() and isValidSignatureUnsafe() functions have the same code. They both call isValidSignatureForAddress(), which will add the “\x19Ethereum Signe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheIsvalidsignatureunsafeIsRedundant"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(isValidSignature|isValidSignatureUnsafe|isValidSignatureForAddress).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "isValidSignature"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

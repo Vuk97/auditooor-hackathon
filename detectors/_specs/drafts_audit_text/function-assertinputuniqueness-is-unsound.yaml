@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "function-assertinputuniqueness-is-unsound"
+class_name: "FunctionAssertinputuniquenessIsUnsound"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Brevis - Zellic Audit Report"
+help: |
+    The assertInputUniqueness function in sdk/host_circuit.go is passed a list of circuit variables in and the integer (assumed to be zero or one) shouldCheck. The intention is that if
+wiki_title: "Function assertInputUniqueness is unsound"
+wiki_description: |
+    The assertInputUniqueness function in sdk/host_circuit.go is passed a list of circuit variables in and the integer (assumed to be zero or one) shouldCheck. The intention is that if shouldCheck is one, then the function will constrain each nonzero component of in to only occur once (i.e., there shoul
+wiki_exploit_scenario: |
+    Per audit finding: The assertInputUniqueness function in sdk/host_circuit.go is passed a list of circuit variables in and the integer (assumed to be zero or one) shouldCheck. The intention is that if shouldCheck is one,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FunctionAssertinputuniquenessIsUnsound"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(assertInputUniqueness|shouldCheck|bothZero).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "assertInputUniqueness"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

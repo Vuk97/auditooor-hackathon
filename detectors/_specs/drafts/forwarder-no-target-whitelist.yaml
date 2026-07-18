@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "forwarder-no-target-whitelist"
+class_name: "ForwarderNoTargetWhitelist"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_aa"
+help: |
+    Forwarder `execute` allows arbitrary `req.to` and `req.data`, enabling token drain and ERC1820 hook registration attacks.
+wiki_title: "forwarder-no-target-whitelist"
+wiki_description: |
+    Forwarder `execute` allows arbitrary `req.to` and `req.data`, enabling token drain and ERC1820 hook registration attacks.
+wiki_exploit_scenario: |
+    Attacker exploits forwarder-no-target-whitelist as described: Forwarder `execute` allows arbitrary `req.to` and `req.data`, enabling token drain and ERC1820 hook registration attacks.
+wiki_recommendation: "`call{}` with user-controlled `to` address in meta-tx forwarder with no whitelist check."
+contract_name: "ForwarderNoTargetWhitelist"
+state_decl: "uint256 internal execute;"
+fn_name_regex: ".*(execute).*"
+read_var_regex: ".*(execute|to).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "execute"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return execute > 0;"

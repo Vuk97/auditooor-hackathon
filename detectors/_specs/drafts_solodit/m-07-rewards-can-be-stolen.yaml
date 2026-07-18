@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-07-rewards-can-be-stolen"
+class_name: "M07RewardsCanBeStolen"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1223 (Code4rena/NFTX)"
+help: "[M-07] Rewards can be stolen"
+wiki_title: "[M-07] Rewards can be stolen"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `NFTXInventoryStaking` contract distributes new rewards to all previous stakers when the owner calls the `receiveRewards` function.
+    This allows an attacker to frontrun this `receiveRewards` transaction when they see it in the mem pool with a `deposit` function.
+    The attack
+wiki_exploit_scenario: |
+    Per Solodit #1223: _Submitted by cmichel_
+    
+    The `NFTXInventoryStaking` contract distributes new rewards to all previous stakers when the owner calls the `receiveRewards` function.
+    This allows an attacker to frontrun this
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07RewardsCanBeStolen"
+solodit_id: "1223"
+solodit_slug: "m-07-rewards-can-be-stolen-code4rena-nftx-nftx-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(NFTXInventoryStaking|receiveRewards|deposit|DEFAULT_LOCKTIME).*"
+read_var_regex: ".*(deposit|receiveRewards).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "NFTXInventoryStaking"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposit > 0;"

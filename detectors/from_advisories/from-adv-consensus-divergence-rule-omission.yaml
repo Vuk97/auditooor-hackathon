@@ -1,0 +1,25 @@
+pattern: from-adv-consensus-divergence-rule-omission
+source: advisory-seed-corpus/consensus_divergence_rule_omission
+severity: HIGH
+confidence: MEDIUM
+backend: regex
+tags: [consensus-divergence]
+
+# CLASS-LEVEL mechanism detector auto-derived from 9 advisory seed(s).
+# Mechanism matched, not any instance. Anti-overfit verified by advisory-seed-to-dsl.py.
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-3vmh-33xr-9cqh
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-63wg-wjjj-7cp8
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-8m29-fpq5-89jj
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-cwfq-rfcr-8hmp
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-gf9r-m956-97qx
+
+preconditions: []
+
+match:
+  - function.kind: external_or_public
+  - function.body_contains_regex: "(?i)(\\bsighash\\b|\\bsig_?op\\b|\\bis_sigop\\b|MAX_BLOCK_SIGOPS|SIGHASH_\\w+|script\\s*\\.\\s*opcodes|compute_sighash|is_disabled\\s*\\(|coinbase[^;\\n]{0,30}(?:continue|skip)|cache\\s*\\.\\s*(?:get|find)\\w*\\s*\\([^)]*(?:txid|hash)|(?:Some|None)\\s*(?:\\([^)]*\\))?\\s*=>[^;\\n]{0,60}(?:copy_from|buffer|digest)|bls\\s*::\\s*verify|aggregate_public_key|validators?_bit_set|epoch_header_ancestry|next_validator)"
+  - function.body_not_contains_regex: "(?i)(activation_?height|network_?upgrade|consensus_?branch|NetworkUpgrade|return\\s+Err\\b[^;]*(?:index|bounds|none|empty)|\\.get\\s*\\([^)]*\\)\\s*\\.\\s*ok_or)"
+
+help: "Block/script/signature validity routine omits a reference-implementation consensus rule (sigop counting, SIGHASH_SINGLE bounds, height-aware cache, FFI digest freshness) - nodes that apply vs omit the rule split the chain (consensus divergence)."
+wiki_title: "Consensus Divergence Rule Omission"
+wiki_description: "Block/script/signature validity routine omits a reference-implementation consensus rule (sigop counting, SIGHASH_SINGLE bounds, height-aware cache, FFI digest freshness) - nodes that apply vs omit the rule split the chain (consensus divergence)."

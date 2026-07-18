@@ -1,0 +1,46 @@
+skeleton: "state_write_without_paired_write"
+name: "lientoken-payee-not-reset-on-transfer"
+class_name: "LientokenPayeeNotResetOnTransfer"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7307 (Spearbit/Astaria)"
+help: "LienToken payee not reset on transfer"
+wiki_title: "LienToken payee not reset on transfer"
+wiki_description: |
+    ## Security Analysis Report
+    
+    ## Severity: High Risk
+    
+    ### Context
+    `LienToken.sol#L303-L313`
+    
+    ### Description
+    The `payee` and `ownerOf` functionalities are detached, meaning that owners may set a `payee`, and the owner may transfer the `LienToken` to a new owner without affecting the `payee`. The `pay
+wiki_exploit_scenario: |
+    Per Solodit #7307: ## Security Analysis Report
+    
+    ## Severity: High Risk
+    
+    ### Context
+    `LienToken.sol#L303-L313`
+    
+    ### Description
+    The `payee` and `ownerOf` functionalities are detached, meaning that owners may set a `payee
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LientokenPayeeNotResetOnTransfer"
+solodit_id: "7307"
+solodit_slug: "lientoken-payee-not-reset-on-transfer-spearbit-astaria-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(payee|ownerOf|LienToken).*"
+primary_var_regex: ".*(ownerOf|payee).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

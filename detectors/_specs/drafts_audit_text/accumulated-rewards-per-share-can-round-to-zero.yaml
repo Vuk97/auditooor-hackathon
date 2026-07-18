@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "accumulated-rewards-per-share-can-round-to-zero"
+class_name: "AccumulatedRewardsPerShareCanRoundToZero"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-08-gte-perps-and-launchpad"
+help: |
+    hgrano , also found by AvantGard BenRai HalfBloodPrince KuwaTakushi kwad makarov mbuba666 nuthan2x prk0 ZeroEx , and zzebra83 launchpad/libraries/RewardsTracker.sol #L225 The accum
+wiki_title: "Accumulated rewards per share can round to zero"
+wiki_description: |
+    hgrano , also found by AvantGard BenRai HalfBloodPrince KuwaTakushi kwad makarov mbuba666 nuthan2x prk0 ZeroEx , and zzebra83 launchpad/libraries/RewardsTracker.sol #L225 The accumulated rewards per share variables stored on the Distributor may round to zero, particularly for quote tokens with few d
+wiki_exploit_scenario: |
+    Per audit finding: hgrano , also found by AvantGard BenRai HalfBloodPrince KuwaTakushi kwad makarov mbuba666 nuthan2x prk0 ZeroEx , and zzebra83 launchpad/libraries/RewardsTracker.sol #L225 The accumulated rewards per s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AccumulatedRewardsPerShareCanRoundToZero"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

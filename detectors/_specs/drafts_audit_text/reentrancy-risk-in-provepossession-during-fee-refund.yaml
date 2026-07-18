@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "reentrancy-risk-in-provepossession-during-fee-refund"
+class_name: "ReentrancyRiskInProvepossessionDuringFeeRefund"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Proof of Data Possession - Zellic Audit Report"
+help: |
+    The provePossession function verifies the provided proofs and calculates the amount of gas used to determine the fee amount. If the caller provides more msg.value than required, th
+wiki_title: "Reentrancy risk in provePossession during fee refund"
+wiki_description: |
+    The provePossession function verifies the provided proofs and calculates the amount of gas used to determine the fee amount. If the caller provides more msg.value than required, the excess funds are refunded using transfer function call. However, during this refund process, the caller can attempt to
+wiki_exploit_scenario: |
+    Per audit finding: The provePossession function verifies the provided proofs and calculates the amount of gas used to determine the fee amount. If the caller provides more msg.value than required, the excess funds are r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyRiskInProvepossessionDuringFeeRefund"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(provePossession|listenerAddr|possessionProven).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "provePossession"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

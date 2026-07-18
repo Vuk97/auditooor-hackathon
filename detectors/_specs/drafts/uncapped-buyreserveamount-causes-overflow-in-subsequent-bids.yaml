@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "uncapped-buyreserveamount-causes-overflow-in-subsequent-bids"
+class_name: "UncappedBuyreserveamountCausesOverflowInSubsequentBids"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ag"
+help: |
+    No cap on `buyReserveAmount`; malicious bidder sets max value, causing overflow in `totalSellReserveAmount` addition for subsequent bids.
+wiki_title: "Uncapped buyReserveAmount Causes Overflow in Subsequent Bids"
+wiki_description: |
+    No cap on `buyReserveAmount`; malicious bidder sets max value, causing overflow in `totalSellReserveAmount` addition for subsequent bids.
+wiki_exploit_scenario: |
+    Attacker exploits Uncapped buyReserveAmount Causes Overflow in Subsequent Bids as described: No cap on `buyReserveAmount`; malicious bidder sets max value, causing overflow in `totalSellReserveAmount` addition for subsequent bids.
+wiki_recommendation: "unbounded user input added to accumulator in linked-list insert without overflow check."
+contract_name: "UncappedBuyreserveamountCausesOverflowInSubsequentBids"
+state_decl: "mapping(address => uint256) internal balances;"
+fn_name_regex: ".*(buyReserveAmount|totalSellReserveAmount).*"
+write_var_regex: ".*(buyReserveAmount|totalSellReserveAmount).*"
+guard_var_regex: ".*(buyReserveAmount|totalSellReserveAmount).*"
+vuln_fn_name: "setParam"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balances[msg.sender] = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

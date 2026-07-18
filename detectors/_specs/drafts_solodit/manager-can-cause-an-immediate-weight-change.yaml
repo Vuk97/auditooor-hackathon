@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_require"
+name: "manager-can-cause-an-immediate-weight-change"
+class_name: "ManagerCanCauseAnImmediateWeightChange"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7087 (Spearbit/Gauntlet)"
+help: "Manager can cause an immediate weight change"
+wiki_title: "Manager can cause an immediate weight change"
+wiki_description: |
+    ## High Risk Security Issue in ManagedPool.sol
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    - `ManagedPool.sol#L254-L272`
+    - `ManagedPool.sol#L620-L654`
+    - `ManagedPool.sol#L680-L698`
+    
+    ## Description
+    Balancer’s `ManagedPool` uses 32-bit values for `startTime` and `endTime` but does not verify if those value
+wiki_exploit_scenario: |
+    Per Solodit #7087: ## High Risk Security Issue in ManagedPool.sol
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    - `ManagedPool.sol#L254-L272`
+    - `ManagedPool.sol#L620-L654`
+    - `ManagedPool.sol#L680-L698`
+    
+    ## Description
+    Balancer
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ManagerCanCauseAnImmediateWeightChange"
+solodit_id: "7087"
+solodit_slug: "manager-can-cause-an-immediate-weight-change-spearbit-gauntlet-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Update State After Admin Action, Admin"
+state_decl: "uint256 internal endtime;"
+fn_name_regex: ".*(ManagedPool|startTime|endTime|updateWeightsGradually).*"
+write_var_regex: ".*(endTime|startTime|updateWeightsGradually).*"
+guard_var_regex: ".*(endTime|startTime|updateWeightsGradually).*"
+vuln_fn_name: "ManagedPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "endtime = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

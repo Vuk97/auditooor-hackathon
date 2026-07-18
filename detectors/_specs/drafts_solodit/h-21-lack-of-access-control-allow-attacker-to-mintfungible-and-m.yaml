@@ -1,0 +1,48 @@
+skeleton: "paired_function_divergence"
+name: "h-21-lack-of-access-control-allow-attacker-to-mintfungible-and-m"
+class_name: "H21LackOfAccessControlAllowAttackerToMintfungibleAndM"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42341 (Code4rena/Vader Protocol)"
+help: |
+    [H-21] Lack of access control allow attacker to `mintFungible()` and `mintSynth()` with other user's wallet balance
+wiki_title: |
+    [H-21] Lack of access control allow attacker to `mintFungible()` and `mintSynth()` with other user's wallet balance
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    <https://github.com/code-423n4/2021-11-vader/blob/429970427b4dc65e37808d7116b9de27e395ce0c/contracts/dex-v2/pool/VaderPoolV2.sol#L284-L335>
+    
+    ```solidity
+    function mintFungible(
+            IERC20 foreignAsset,
+            uint256 nativeDeposit,
+            uint256 foreignDeposit,
+wiki_exploit_scenario: |
+    Per Solodit #42341: _Submitted by WatchPug_
+    
+    <https://github.com/code-423n4/2021-11-vader/blob/429970427b4dc65e37808d7116b9de27e395ce0c/contracts/dex-v2/pool/VaderPoolV2.sol#L284-L335>
+    
+    ```solidity
+    function mintFungible(
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H21LackOfAccessControlAllowAttackerToMintfungibleAndM"
+solodit_id: "42341"
+solodit_slug: |
+    h-21-lack-of-access-control-allow-attacker-to-mintfungible-and-mintsynth-with-other-users-wallet-balance-code4rena-vader-protocol-vader-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(from).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

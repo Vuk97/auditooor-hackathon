@@ -1,0 +1,30 @@
+skeleton: "state_write_without_paired_write"
+name: "use-of-deprecated-chainlink-function"
+class_name: "UseOfDeprecatedChainlinkFunction"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32856 (OpenZeppelin/Radiant V2 Audit)"
+help: "Use of Deprecated Chainlink Function"
+wiki_title: "Use of Deprecated Chainlink Function"
+wiki_description: |
+    The contracts [`BaseOracle`](https://github.com/radiant-capital/v2-core/blob/e8f21f103e17736907b62809d1ad902febc53714/contracts/radiant/oracles/BaseOracle.sol) and [`PriceProvider`](https://github.com/radiant-capital/v2-core/blob/e8f21f103e17736907b62809d1ad902febc53714/contracts/radiant/oracles/Pri
+wiki_exploit_scenario: |
+    Per Solodit #32856: The contracts [`BaseOracle`](https://github.com/radiant-capital/v2-core/blob/e8f21f103e17736907b62809d1ad902febc53714/contracts/radiant/oracles/BaseOracle.sol) and [`PriceProvider`](https://github.com
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UseOfDeprecatedChainlinkFunction"
+solodit_id: "32856"
+solodit_slug: "use-of-deprecated-chainlink-function-openzeppelin-none-radiant-v2-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(BaseOracle|PriceProvider|latestAnswer|getTokenPriceUsd).*"
+primary_var_regex: ".*(getLpTokenPriceUsd|getTokenPriceUsd|latestAnswer).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

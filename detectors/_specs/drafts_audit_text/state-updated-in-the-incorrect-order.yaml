@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "state-updated-in-the-incorrect-order"
+class_name: "StateUpdatedInTheIncorrectOrder"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Tristero - Zellic Audit Report"
+help: |
+    In the following code, the payout should happen after resolve_epoch. /)Payout the orders payout_orders(sell_token, payload.orders, selected_pair.sums.maker_default_quantity); if (q
+wiki_title: "State updated in the incorrect order"
+wiki_description: |
+    In the following code, the payout should happen after resolve_epoch. /)Payout the orders payout_orders(sell_token, payload.orders, selected_pair.sums.maker_default_quantity); if (qd>0) { roll_taker_orders(sell_token, buy_token, lz_cid, qd); } /)**IF NEEDED: BOUNCE BACK A LZ MESSAGE if (!selected_pai
+wiki_exploit_scenario: |
+    Per audit finding: In the following code, the payout should happen after resolve_epoch. /)Payout the orders payout_orders(sell_token, payload.orders, selected_pair.sums.maker_default_quantity); if (qd>0) { roll_taker_or
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StateUpdatedInTheIncorrectOrder"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

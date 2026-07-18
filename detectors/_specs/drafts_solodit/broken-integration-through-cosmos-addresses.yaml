@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "broken-integration-through-cosmos-addresses"
+class_name: "BrokenIntegrationThroughCosmosAddresses"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #51361 (Halborn/Entangle Trillion)"
+help: "Broken integration through cosmos addresses"
+wiki_title: "Broken integration through cosmos addresses"
+wiki_description: |
+    ##### Description
+    
+    In the **proposeBurnAndBridge/proposeBridgeExecuted** function, we are directly getting the address parameter as an argument. However, It should be bytes instead of **address**. This will directly block integrations on the Cosmos (bech32) addresses.
+    
+      
+    
+    [[/contracts/BalanceManage
+wiki_exploit_scenario: |
+    Per Solodit #51361: ##### Description
+    
+    In the **proposeBurnAndBridge/proposeBridgeExecuted** function, we are directly getting the address parameter as an argument. However, It should be bytes instead of **address**. Thi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BrokenIntegrationThroughCosmosAddresses"
+solodit_id: "51361"
+solodit_slug: "broken-integration-through-cosmos-addresses-halborn-entangle-labs-entangle-trillion-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(proposeBurnAndBridge|proposeBridgeExecuted|destChainId|synthAmount).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "proposeBurnAndBridge"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

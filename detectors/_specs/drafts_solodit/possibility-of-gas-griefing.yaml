@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "possibility-of-gas-griefing"
+class_name: "PossibilityOfGasGriefing"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46985 (OtterSec/Pancake Swap)"
+help: "Possibility of Gas Griefing"
+wiki_title: "Possibility of Gas Griefing"
+wiki_description: |
+    ## ProtocolFees::_fetchProtocolFee
+    
+    `ProtocolFees::_fetchProtocolFee` makes an external call to `protocolFeeController` to fetch the protocol fee. The call is subject to a gas limit to ensure that it does not consume excessive gas. However, if `protocolFeeForPool` is implemented inefficiently and co
+wiki_exploit_scenario: |
+    Per Solodit #46985: ## ProtocolFees::_fetchProtocolFee
+    
+    `ProtocolFees::_fetchProtocolFee` makes an external call to `protocolFeeController` to fetch the protocol fee. The call is subject to a gas limit to ensure that it
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibilityOfGasGriefing"
+solodit_id: "46985"
+solodit_slug: "possibility-of-gas-griefing-ottersec-none-pancake-swap-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal d507e09;"
+fn_name_regex: ".*(protocolFeeController|protocolFeeForPool|ProtocolFees|d507e09).*"
+read_var_regex: ".*(d507e09|protocolFeeController|protocolFeeForPool).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "protocolFeeController"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return d507e09 > 0;"

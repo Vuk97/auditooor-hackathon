@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-01-dos-on-last-user-claiming-collateral-gains-in-stabilitypool"
+class_name: "M01DosOnLastUserClaimingCollateralGainsInStabilitypool"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #55117 (Pashov Audit Group/Roots_2025-02-09)"
+help: "[M-01] DoS on last user claiming collateral gains in `StabilityPool`"
+wiki_title: "[M-01] DoS on last user claiming collateral gains in `StabilityPool`"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When a sunset collateral is overwritten in the `StabilityPool` contract, the value of `lastCollateralError_Offset` is not reset, which means that the new collateral will inherit the value of the previous one. This can provoke the va
+wiki_exploit_scenario: |
+    Per Solodit #55117: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When a sunset collateral is overwritten in the `StabilityPool` contract, the value of `lastCollateralError_Offset` is not reset, whi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01DosOnLastUserClaimingCollateralGainsInStabilitypool"
+solodit_id: "55117"
+solodit_slug: |
+    m-01-dos-on-last-user-claiming-collateral-gains-in-stabilitypool-pashov-audit-group-none-roots_2025-02-09-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal collateralgainperunitstaked;"
+fn_name_regex: ".*(StabilityPool|lastCollateralError_Offset|collateralGainPerUnitStaked|epochToScaleToSums).*"
+read_var_regex: ".*(collateralGainPerUnitStaked|epochToScaleToSums|lastCollateralError_Offset).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "StabilityPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return collateralgainperunitstaked > 0;"

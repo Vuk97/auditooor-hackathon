@@ -1,0 +1,19 @@
+id: oracle-reconfig-wipes-circuit-breaker
+title: "Oracle reconfiguration wipes price-change circuit breaker state"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44868"
+bug_class: oracle-cascade
+indicators:
+  - "admin config setter calls `storage::remove_circuit_breaker_state(asset)` or overwrites the whole `AssetConfig` without preserving circuit-breaker counters"
+  - "circuit-breaker state keyed to a struct that also holds reconfigurable fields"
+victim: "Protocol governance: circuit breaker that should trip on repeated anomalous prices is reset to 0 on every admin config change."
+exploit_precondition: "Admin reconfigures oracle while breaker is non-zero."
+real_world_example: |
+  V12 #44868 (Low): Oracle reconfiguration wipes price-change circuit breaker state.
+suggested_remediation: "Store circuit-breaker state in a separate key that is not touched by config setters."
+cross_refs:
+  - oracle-cache-not-invalidated-on-config-change

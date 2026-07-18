@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-12-paused-erc721-erc1155-could-cause-stoprent-to-revert-potent"
+class_name: "M12PausedErc721Erc1155CouldCauseStoprentToRevertPotent"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30539 (Code4rena/reNFT)"
+help: |
+    [M-12] paused ERC721/ERC1155 could cause stopRent to revert, potentially causing issues for the lender.
+wiki_title: |
+    [M-12] paused ERC721/ERC1155 could cause stopRent to revert, potentially causing issues for the lender.
+wiki_description: |
+    Many ERC721/ERC1155 tokens, including well-known games such as Axie Infinity, have a pause functionality inside the contract. This pause functionality will cause the `stopRent` call to always revert and could cause issues, especially for the `PAY` order type.
+    
+    ### Proof of Concept
+    
+    When `stopRent`
+wiki_exploit_scenario: |
+    Per Solodit #30539: Many ERC721/ERC1155 tokens, including well-known games such as Axie Infinity, have a pause functionality inside the contract. This pause functionality will cause the `stopRent` call to always revert
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12PausedErc721Erc1155CouldCauseStoprentToRevertPotent"
+solodit_id: "30539"
+solodit_slug: |
+    m-12-paused-erc721erc1155-could-cause-stoprent-to-revert-potentially-causing-issues-for-the-lender-code4rena-renft-renft-git
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "ERC1155, ERC721, Grief Attack, NFT"
+state_decl: "uint256 internal reclaimrentalorder;"
+fn_name_regex: ".*(stopRent|PAY|stopRentBatch|reclaimRentalOrder).*"
+read_var_regex: ".*(reclaimRentalOrder|stopRent|stopRentBatch).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "stopRent"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return reclaimrentalorder > 0;"

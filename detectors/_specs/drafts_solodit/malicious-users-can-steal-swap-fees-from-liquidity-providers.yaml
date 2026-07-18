@@ -1,0 +1,42 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "malicious-users-can-steal-swap-fees-from-liquidity-providers"
+class_name: "MaliciousUsersCanStealSwapFeesFromLiquidityProviders"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #54913 (Cantina/TermMax)"
+help: "Malicious users can steal swap fees from liquidity providers"
+wiki_title: "Malicious users can steal swap fees from liquidity providers "
+wiki_description: |
+    ## Finding Summary
+    
+    **Context:** No context files were provided by the reviewer.
+    
+    **Summary:** Malicious users can deposit liquidity and remove liquidity in one transaction to steal some LP rewards.
+    
+    ## Finding Description
+    
+    In the swap process, some swap fees will be generated, and these swap fees a
+wiki_exploit_scenario: |
+    Per Solodit #54913: ## Finding Summary
+    
+    **Context:** No context files were provided by the reviewer.
+    
+    **Summary:** Malicious users can deposit liquidity and remove liquidity in one transaction to steal some LP rewards.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousUsersCanStealSwapFeesFromLiquidityProviders"
+solodit_id: "54913"
+solodit_slug: "malicious-users-can-steal-swap-fees-from-liquidity-providers-cantina-none-termmax-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(calculateLpReward|currentTime|openMarketTime|lpSupply).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

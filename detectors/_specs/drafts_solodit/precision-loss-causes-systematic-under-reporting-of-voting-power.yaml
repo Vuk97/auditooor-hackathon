@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "precision-loss-causes-systematic-under-reporting-of-voting-power"
+class_name: "PrecisionLossCausesSystematicUnderReportingOfVotingPower"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64337 (Cyfrin/Symbiotic)"
+help: "Precision loss causes systematic under-reporting of voting power for high decimal tokens"
+wiki_title: "Precision loss causes systematic under-reporting of voting power for high decimal tokens"
+wiki_description: |
+    **Description:** The `NormalizedTokenDecimalsVPCalc::_normalizeVaultTokenDecimals()`  causes voting power loss for legitimate stakeholders when high-decimal tokens (>24 decimals) are used. This occurs due to integer division in the Scaler.scale() function, which rounds down small results to zero.
+    
+    `
+wiki_exploit_scenario: |
+    Per Solodit #64337: **Description:** The `NormalizedTokenDecimalsVPCalc::_normalizeVaultTokenDecimals()`  causes voting power loss for legitimate stakeholders when high-decimal tokens (>24 decimals) are used. This occurs
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PrecisionLossCausesSystematicUnderReportingOfVotingPower"
+solodit_id: "64337"
+solodit_slug: |
+    precision-loss-causes-systematic-under-reporting-of-voting-power-for-high-decimal-tokens-cyfrin-none-symbiotic-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(NormalizedTokenDecimalsVPCalc).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "NormalizedTokenDecimalsVPCalc"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

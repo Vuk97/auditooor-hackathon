@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "unchecked-possible-zero-address"
+class_name: "UncheckedPossibleZeroAddress"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44593 (Zokyo/Umami)"
+help: "Unchecked possible zero address"
+wiki_title: "Unchecked possible zero address"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In contract UmamiPriceFeed.sol there are multiple cases where input addresses are not checked to not be null/zero. For example, the setGov function sets the gov address, so in case the input address is by accident send as zero address it c
+wiki_exploit_scenario: |
+    Per Solodit #44593: **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In contract UmamiPriceFeed.sol there are multiple cases where input addresses are not checked to not be null/zero. For example, the setGov
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UncheckedPossibleZeroAddress"
+solodit_id: "44593"
+solodit_slug: "unchecked-possible-zero-address-zokyo-none-umami-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setGov|onlyGov|setGmxVaultPriceFeed|setSecondaryPriceFeed).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setGov"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

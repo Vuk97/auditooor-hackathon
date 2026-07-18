@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "h-01-updating-a-pool-s-total-points-doesn-t-affect-existing-stak"
+class_name: "H01UpdatingAPoolSTotalPointsDoesnTAffectExistingStak"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #8884 (Code4rena/Neo Tokyo)"
+help: |
+    [H-01] Updating a pool's total points doesn't affect existing stake positions for rewards calculation
+wiki_title: |
+    [H-01] Updating a pool's total points doesn't affect existing stake positions for rewards calculation
+wiki_description: |
+    Staking rewards are calculated based on the user's share of total points in the corresponding asset pool, this is the sum of the points associated to the staker's positions divided by the total points from all positions in the pool. We can see this calculation in the `getPoolReward` function:
+    
+    [Neo
+wiki_exploit_scenario: |
+    Per Solodit #8884: Staking rewards are calculated based on the user's share of total points in the corresponding asset pool, this is the sum of the points associated to the staker's positions divided by the total point
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01UpdatingAPoolSTotalPointsDoesnTAffectExistingStak"
+solodit_id: "8884"
+solodit_slug: |
+    h-01-updating-a-pools-total-points-doesnt-affect-existing-stake-positions-for-rewards-calculation-code4rena-neo-tokyo-neo-tokyo-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal getpoolreward;"
+fn_name_regex: ".*(getPoolReward|getReward|BYTES2).*"
+write_var_regex: ".*(getPoolReward|getReward).*"
+guard_var_regex: ".*(getPoolReward|getReward).*"
+vuln_fn_name: "getPoolReward"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "getpoolreward = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,51 @@
+skeleton: "paired_function_divergence"
+name: "a-malicious-collection-admin-can-reclaim-a-pair-at-any-time-to-d"
+class_name: "AMaliciousCollectionAdminCanReclaimAPairAtAnyTimeToD"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18301 (Spearbit/Sudoswap LSSVM2)"
+help: "A malicious collection admin can reclaim a pair at any time to deny enhanced setting royalties"
+wiki_title: "A malicious collection admin can reclaim a pair at any time to deny enhanced setting royalties"
+wiki_description: |
+    ## Security Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `StandardSettings.sol#L164-L178`
+    
+    ## Description
+    A collection admin can forcibly/selectively call `reclaimPair()` prematurely (before the advertised and agreed upon lockup period) to unilaterally break the settings contract at any time. Thi
+wiki_exploit_scenario: |
+    Per Solodit #18301: ## Security Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `StandardSettings.sol#L164-L178`
+    
+    ## Description
+    A collection admin can forcibly/selectively call `reclaimPair()` prematurely (before the ad
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AMaliciousCollectionAdminCanReclaimAPairAtAnyTimeToD"
+solodit_id: "18301"
+solodit_slug: |
+    a-malicious-collection-admin-can-reclaim-a-pair-at-any-time-to-deny-enhanced-setting-royalties-spearbit-sudoswap-lssvm2-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(authAllowedForToken|reclaimPair|unlockTime).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "inconsistent-effective-swap-fee-calculations-between-bunniquoter"
+class_name: "InconsistentEffectiveSwapFeeCalculationsBetweenBunniquoter"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61591 (Cyfrin/Bunni Fee Override Hooklet)"
+help: |
+    Inconsistent effective swap fee calculations between `BunniQuoter::quoteSwap` and `BunniHookLogic::beforeSwap` due to incorrect application of hook and curator fees
+wiki_title: |
+    Inconsistent effective swap fee calculations between `BunniQuoter::quoteSwap` and `BunniHookLogic::beforeSwap` due to incorrect application of hook and curator 
+wiki_description: |
+    **Description:** While both `BunniQuoter::quoteSwap` and `BunniHookLogic::beforeSwap` are intended to contain the same fee logic, there remain a couple of inconsistencies that appear to have either been missed or reintroduced as a regression.
+    
+    Firstly, `BunniQuoter::quoteSwap` applies an additional
+wiki_exploit_scenario: |
+    Per Solodit #61591: **Description:** While both `BunniQuoter::quoteSwap` and `BunniHookLogic::beforeSwap` are intended to contain the same fee logic, there remain a couple of inconsistencies that appear to have either be
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentEffectiveSwapFeeCalculationsBetweenBunniquoter"
+solodit_id: "61591"
+solodit_slug: |
+    inconsistent-effective-swap-fee-calculations-between-bunniquoterquoteswap-and-bunnihooklogicbeforeswap-due-to-incorrect-application-of-hook-and-curator-fees-cyfrin-none-bunni-fee-override-hooklet-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal curatorfees;"
+fn_name_regex: ".*(useAmAmmFee|curatorFees|HookStorage|Swap).*"
+read_var_regex: ".*(curatorFees|useAmAmmFee).*"
+required_call_regex: ".*curatorFees.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "useAmAmmFee"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return curatorfees > 0;"

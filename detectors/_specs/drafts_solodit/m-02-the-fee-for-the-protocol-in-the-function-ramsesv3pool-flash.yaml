@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-02-the-fee-for-the-protocol-in-the-function-ramsesv3pool-flash"
+class_name: "M02TheFeeForTheProtocolInTheFunctionRamsesv3poolFlash"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #45222 (Code4rena/Ramses Exchange)"
+help: "[M-02] The fee for the protocol in the function `RamsesV3Pool::flash()` is not calculated correctly"
+wiki_title: "[M-02] The fee for the protocol in the function `RamsesV3Pool::flash()` is not calculated correctly"
+wiki_description: |
+    ### Impact
+    
+    Because the fee for the protocol is not calculated correctly, the split of fees is wrong resulting in less fees for the protocol.
+    
+    ### Proof of Concept
+    
+    When calling the function [flash](https://github.com/code-423n4/2024-10-ramses-exchange/blob/236e9e9e0cf452828ab82620b6c36c1e6c7bb441/
+wiki_exploit_scenario: |
+    Per Solodit #45222: ### Impact
+    
+    Because the fee for the protocol is not calculated correctly, the split of fees is wrong resulting in less fees for the protocol.
+    
+    ### Proof of Concept
+    
+    When calling the function [flash](
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02TheFeeForTheProtocolInTheFunctionRamsesv3poolFlash"
+solodit_id: "45222"
+solodit_slug: |
+    m-02-the-fee-for-the-protocol-in-the-function-ramsesv3poolflash-is-not-calculated-correctly-code4rena-ramses-exchange-ramses-exchange-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(pFees0|feeProtocol|protocolFees|feeGrowthGlobal0X128).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

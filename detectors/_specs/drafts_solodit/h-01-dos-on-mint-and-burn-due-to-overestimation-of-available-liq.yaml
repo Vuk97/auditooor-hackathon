@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_require"
+name: "h-01-dos-on-mint-and-burn-due-to-overestimation-of-available-liq"
+class_name: "H01DosOnMintAndBurnDueToOverestimationOfAvailableLiq"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57722 (Pashov Audit Group/Burve_2025-03-05)"
+help: "[H-01] DoS on `mint()` and `burn()` due to overestimation of available liquidity"
+wiki_title: "[H-01] DoS on `mint()` and `burn()` due to overestimation of available liquidity"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    In the Burve contract, `compoundV3Ranges()` is executed when `mint()` or `burn()` are called. This function performs the following actions:
+    
+    1. Collects fees from the UniswapV3 pool for all ranges.
+    2. Calculates the total liquidi
+wiki_exploit_scenario: |
+    Per Solodit #57722: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    In the Burve contract, `compoundV3Ranges()` is executed when `mint()` or `burn()` are called. This function performs the followin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01DosOnMintAndBurnDueToOverestimationOfAvailableLiq"
+solodit_id: "57722"
+solodit_slug: |
+    h-01-dos-on-mint-and-burn-due-to-overestimation-of-available-liquidity-pashov-audit-group-none-burve_2025-03-05-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount0inunitliqx64;"
+fn_name_regex: ".*(compoundV3Ranges|mint|burn|collectAndCalcCompound).*"
+write_var_regex: ".*(amount0InUnitLiqX64|amount1InUnitLiqX64|burn).*"
+guard_var_regex: ".*(amount0InUnitLiqX64|amount1InUnitLiqX64|burn).*"
+vuln_fn_name: "compoundV3Ranges"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amount0inunitliqx64 = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

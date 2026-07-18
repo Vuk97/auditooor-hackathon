@@ -1,0 +1,35 @@
+skeleton: "state_write_without_paired_write"
+name: "sol-3s-lenft-c01-protocol-feedistributor-sol-claiming-rewards-wi"
+class_name: "Sol3sLenftC01ProtocolFeedistributorSolClaimingRewardsWi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19075 (ThreeSigma/Lenft)"
+help: "3S-LENFT-C01 protocol/FeeDistributor.sol: claiming rewards will not allow for future checkpoints"
+wiki_title: "3S-LENFT-C01 protocol/FeeDistributor.sol: claiming rewards will not allow for future checkpoints"
+wiki_description: |
+    #### Description
+    
+    The current implementation of the [FeeDistributor](https://github.com/leNFT/contracts/blob/master/contracts/protocol/FeeDistributor.sol) requires an always increasing balance for correct operation. This happens since the `_accountedFees[token]` mapping can never be decreased. It is
+wiki_exploit_scenario: |
+    Per Solodit #19075: #### Description
+    
+    The current implementation of the [FeeDistributor](https://github.com/leNFT/contracts/blob/master/contracts/protocol/FeeDistributor.sol) requires an always increasing balance for cor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Sol3sLenftC01ProtocolFeedistributorSolClaimingRewardsWi"
+solodit_id: "19075"
+solodit_slug: |
+    3s-lenft-c01-protocolfeedistributorsol-claiming-rewards-will-not-allow-for-future-checkpoints-threesigma-none-lenft-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(checkpoint|claimLiquidation|buy|sell).*"
+primary_var_regex: ".*(buy|checkpoint|claim).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

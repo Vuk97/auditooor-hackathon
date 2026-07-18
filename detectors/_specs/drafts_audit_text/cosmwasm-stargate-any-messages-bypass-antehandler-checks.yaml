@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "cosmwasm-stargate-any-messages-bypass-antehandler-checks"
+class_name: "CosmwasmStargateAnyMessagesBypassAntehandlerChecks"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Babylon Genesis Chain - Zellic Audit Report"
+help: |
+    The epoching module's DropValidatorMsgDecorator ↗ is intended to disallow unwrapped versions of the staking module's message from being sent in order to maintain its invariants by
+wiki_title: "CosmWasm Stargate/Any messages bypass AnteHandler checks"
+wiki_description: |
+    The epoching module's DropValidatorMsgDecorator ↗ is intended to disallow unwrapped versions of the staking module's message from being sent in order to maintain its invariants by disallowing those messages from appearing either directly or nested inside an authz.MsgExec in a transaction. However, a
+wiki_exploit_scenario: |
+    Per audit finding: The epoching module's DropValidatorMsgDecorator ↗ is intended to disallow unwrapped versions of the staking module's message from being sent in order to maintain its invariants by disallowing those me
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CosmwasmStargateAnyMessagesBypassAntehandlerChecks"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(marshalOption|txBytes|cWF0ehoJCgR1YmJuEgEx).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "marshalOption"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

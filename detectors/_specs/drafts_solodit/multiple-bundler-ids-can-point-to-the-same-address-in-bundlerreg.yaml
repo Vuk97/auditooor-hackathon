@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_call"
+name: "multiple-bundler-ids-can-point-to-the-same-address-in-bundlerreg"
+class_name: "MultipleBundlerIdsCanPointToTheSameAddressInBundlerreg"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63092 (Spearbit/Superform v2 Periphery)"
+help: "Multiple bundler IDs can point to the same address in BundlerRegistry"
+wiki_title: "Multiple bundler IDs can point to the same address in BundlerRegistry"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    BundlerRegistry.sol#L12-L13
+    
+    ## Description
+    BundlerRegistry stores bundler data in two mappings:
+    
+    1. Each bundler ID points to an address.
+    2. Each address points to the data for a bundler.
+    
+    ```solidity
+    mapping(address bundlerAddress => Bundler bundlerData) public
+wiki_exploit_scenario: |
+    Per Solodit #63092: ## Severity: Medium Risk
+    
+    ## Context
+    BundlerRegistry.sol#L12-L13
+    
+    ## Description
+    BundlerRegistry stores bundler data in two mappings:
+    
+    1. Each bundler ID points to an address.
+    2. Each address points t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MultipleBundlerIdsCanPointToTheSameAddressInBundlerreg"
+solodit_id: "63092"
+solodit_slug: |
+    multiple-bundler-ids-can-point-to-the-same-address-in-bundlerregistry-spearbit-none-superform-v2-periphery-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bundler1;"
+fn_name_regex: ".*(bundlerAddress|bundlers|registerBundler|id_1).*"
+read_var_regex: ".*(bundler1|bundler2|bundlerAddress).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "bundlerAddress"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return bundler1 > 0;"

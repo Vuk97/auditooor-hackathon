@@ -1,0 +1,46 @@
+skeleton: "paired_function_divergence"
+name: "m-17-partial-liquidators-can-cause-the-last-liquidator-to-suffer"
+class_name: "M17PartialLiquidatorsCanCauseTheLastLiquidatorToSuffer"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52769 (Sherlock/Peapods)"
+help: "M-17: Partial Liquidators can Cause the Last Liquidator to Suffer a Loss"
+wiki_title: "M-17: Partial Liquidators can Cause the Last Liquidator to Suffer a Loss"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/349 
+    
+    ## Found by 
+    pkqs90, prosper, uuzall
+    
+    ### Summary
+    
+    When a position is liquidated, the liquidators are paid a certain percent of fees. In some positions, partial liquidators will get an unfair shares of the fees wh
+wiki_exploit_scenario: |
+    Per Solodit #52769: Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/349 
+    
+    ## Found by 
+    pkqs90, prosper, uuzall
+    
+    ### Summary
+    
+    When a position is liquidated, the liquidators are paid a cert
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M17PartialLiquidatorsCanCauseTheLastLiquidatorToSuffer"
+solodit_id: "52769"
+solodit_slug: "m-17-partial-liquidators-can-cause-the-last-liquidator-to-suffer-a-loss-sherlock-peapods-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(cleanLiquidationFee|dirtyLiquidationFee|liquidate).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

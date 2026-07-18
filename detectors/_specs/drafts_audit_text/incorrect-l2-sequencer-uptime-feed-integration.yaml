@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-l2-sequencer-uptime-feed-integration"
+class_name: "IncorrectL2SequencerUptimeFeedIntegration"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Concrete - Zellic Audit Report"
+help: |
+    When the L2 sequencer feed (_sequencerOracle) is set, the getAssetPrice function in ConcreteOracle checks data freshness from the sequencer feed before consuming data from the pric
+wiki_title: "Incorrect L2 sequencer uptime feed integration"
+wiki_description: |
+    When the L2 sequencer feed (_sequencerOracle) is set, the getAssetPrice function in ConcreteOracle checks data freshness from the sequencer feed before consuming data from the price feed: function getAssetPrice(address asset) public view override returns (uint256) { // [...] (, int256 price,, uint25
+wiki_exploit_scenario: |
+    Per audit finding: When the L2 sequencer feed (_sequencerOracle) is set, the getAssetPrice function in ConcreteOracle checks data freshness from the sequencer feed before consuming data from the price feed: function get
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectL2SequencerUptimeFeedIntegration"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getAssetPrice|updatedAt|latestRoundData).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getAssetPrice"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,31 @@
+skeleton: "state_write_without_paired_write"
+name: "incorrect-slot0-persistence-on-zeroforone-swaps-causes-inconsist"
+class_name: "IncorrectSlot0PersistenceOnZeroforoneSwapsCausesInconsist"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61389 (OpenZeppelin/OpenZeppelin Uniswap Hooks v1.1.0 RC 1 Audit)"
+help: "Incorrect slot0 Persistence on !zeroForOne Swaps Causes Inconsistent Pricing Logic"
+wiki_title: "Incorrect slot0 Persistence on !zeroForOne Swaps Causes Inconsistent Pricing Logic"
+wiki_description: |
+    In the `AntiSandwichHook` contract, the logic within [`_getTargetOutput`](https://github.com/OpenZeppelin/uniswap-hooks/blob/087974776fb7285ec844ca090eab860bd8430a11/src/general/AntiSandwichHook.sol#L167) introduces an unintended side effect when handling `!zeroForOne` swaps (i.e., swaps from token1
+wiki_exploit_scenario: |
+    Per Solodit #61389: In the `AntiSandwichHook` contract, the logic within [`_getTargetOutput`](https://github.com/OpenZeppelin/uniswap-hooks/blob/087974776fb7285ec844ca090eab860bd8430a11/src/general/AntiSandwichHook.sol#L
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectSlot0PersistenceOnZeroforoneSwapsCausesInconsist"
+solodit_id: "61389"
+solodit_slug: |
+    incorrect-slot0-persistence-on-zeroforone-swaps-causes-inconsistent-pricing-logic-openzeppelin-none-openzeppelin-uniswap-hooks-v110-rc-1-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(AntiSandwichHook|zeroForOne|slot0|targetOutput).*"
+primary_var_regex: ".*(slot0|targetOutput|zeroForOne).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

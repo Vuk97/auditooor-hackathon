@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-01-when-transferring-tokens-not-in-whitelist-on-ethereum-to-te"
+class_name: "M01WhenTransferringTokensNotInWhitelistOnEthereumToTe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5866 (Code4rena/Anchor)"
+help: |
+    [M-01] When transferring tokens not in `whitelist` on Ethereum to Terra with `CrossAnchorBridge.depositStable()`, the funds may get frozen
+wiki_title: |
+    [M-01] When transferring tokens not in `whitelist` on Ethereum to Terra with `CrossAnchorBridge.depositStable()`, the funds may get frozen
+wiki_description: |
+    In the current implementation of `CrossAnchorBridge`, all `require` that "Check that `token` is a whitelisted token" is commented out.
+    
+    As a result, users may send transcations with the non-whitelisted tokens and as they can not be processd properly on the Terra side, the funds can be frozen on the
+wiki_exploit_scenario: |
+    Per Solodit #5866: In the current implementation of `CrossAnchorBridge`, all `require` that "Check that `token` is a whitelisted token" is commented out.
+    
+    As a result, users may send transcations with the non-whitelist
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01WhenTransferringTokensNotInWhitelistOnEthereumToTe"
+solodit_id: "5866"
+solodit_slug: |
+    m-01-when-transferring-tokens-not-in-whitelist-on-ethereum-to-terra-with-crossanchorbridgedepositstable-the-funds-may-get-frozen-code4rena-anchor-anchor-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal require;"
+fn_name_regex: ".*(CrossAnchorBridge|require|token|whitelist).*"
+read_var_regex: ".*(require|token).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "CrossAnchorBridge"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return require > 0;"

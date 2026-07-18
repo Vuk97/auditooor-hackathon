@@ -1,0 +1,57 @@
+skeleton: "name_match_missing_call"
+name: "m-02-potential-overflow-risk-due-to-not-using-muldiv-in-getspotp"
+class_name: "M02PotentialOverflowRiskDueToNotUsingMuldivInGetspotp"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #43916 (Pashov Audit Group/ULTI-November)"
+help: "[M-02] Potential overflow risk due to not using `mulDiv` in `_getSpotPrice()`"
+wiki_title: "[M-02] Potential overflow risk due to not using `mulDiv` in `_getSpotPrice()`"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When ULTI is `token0` and the price increases significantly:
+    
+    - `priceX192` could exceed `2^256 / 1e18`
+    - The multiplication `priceX192 * 1e18` would overflow before the right shift
+    - This causes the transaction to revert.
+    
+    The over
+wiki_exploit_scenario: |
+    Per Solodit #43916: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When ULTI is `token0` and the price increases significantly:
+    
+    - `priceX192` could exceed `2^256 / 1e18`
+    - The multiplication `priceX
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02PotentialOverflowRiskDueToNotUsingMuldivInGetspotp"
+solodit_id: "43916"
+solodit_slug: |
+    m-02-potential-overflow-risk-due-to-not-using-muldiv-in-_getspotprice-pashov-audit-group-none-ulti-november-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal pricex192;"
+fn_name_regex: ".*(token0|priceX192|mulDiv).*"
+read_var_regex: ".*(priceX192|token0).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "token0"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return pricex192 > 0;"

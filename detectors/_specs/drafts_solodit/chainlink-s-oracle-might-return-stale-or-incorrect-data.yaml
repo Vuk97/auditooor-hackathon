@@ -1,0 +1,34 @@
+skeleton: "state_write_without_paired_write"
+name: "chainlink-s-oracle-might-return-stale-or-incorrect-data"
+class_name: "ChainlinkSOracleMightReturnStaleOrIncorrectData"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51602 (Halborn/Protocol V2)"
+help: "Chainlink's Oracle Might Return Stale or Incorrect Data"
+wiki_title: "Chainlink's Oracle Might Return Stale or Incorrect Data"
+wiki_description: |
+    ##### Description
+    
+    The `USDzPriceOracle` and `SPCTPriceOracle` contracts use Chainlink as their price oracle. When requesting the price via the `getPrice()` function, the contracts query Chainlink for the underlying token price using the `latestRoundData()` function. This function returns `uint80 ro
+wiki_exploit_scenario: |
+    Per Solodit #51602: ##### Description
+    
+    The `USDzPriceOracle` and `SPCTPriceOracle` contracts use Chainlink as their price oracle. When requesting the price via the `getPrice()` function, the contracts query Chainlink for
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainlinkSOracleMightReturnStaleOrIncorrectData"
+solodit_id: "51602"
+solodit_slug: "chainlinks-oracle-might-return-stale-or-incorrect-data-halborn-anzen-finance-protocol-v2-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(USDzPriceOracle|SPCTPriceOracle|getPrice|latestRoundData).*"
+primary_var_regex: ".*(answer|answeredInRound|getPrice).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

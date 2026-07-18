@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "m-13-governance-logic-may-enter-a-deadlock"
+class_name: "M13GovernanceLogicMayEnterADeadlock"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30292 (Code4rena/zkSync)"
+help: "[M-13] Governance logic may enter a deadlock"
+wiki_title: "[M-13] Governance logic may enter a deadlock"
+wiki_description: |
+    If any of the governance actors, either `securityCouncil` or `owner`, gets compromised, the whole governance logic will enter a deadlock (not a centralization risk as the `Governance` contract is exactly designed to prevent this kind of issues).
+    
+    ### Proof of concept
+    
+    The actions that each governan
+wiki_exploit_scenario: |
+    Per Solodit #30292: If any of the governance actors, either `securityCouncil` or `owner`, gets compromised, the whole governance logic will enter a deadlock (not a centralization risk as the `Governance` contract is exa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M13GovernanceLogicMayEnterADeadlock"
+solodit_id: "30292"
+solodit_slug: "m-13-governance-logic-may-enter-a-deadlock-code4rena-zksync-zksync-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cancel;"
+fn_name_regex: ".*(securityCouncil|owner|Governance|cancel).*"
+read_var_regex: ".*(cancel|execute|executeInstant).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "securityCouncil"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cancel > 0;"

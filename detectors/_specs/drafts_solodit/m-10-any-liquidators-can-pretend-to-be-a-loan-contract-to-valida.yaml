@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-10-any-liquidators-can-pretend-to-be-a-loan-contract-to-valida"
+class_name: "M10AnyLiquidatorsCanPretendToBeALoanContractToValida"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35229 (Code4rena/Gondi)"
+help: |
+    [M-10] Any liquidators can pretend to be a loan contract to validate offers, due to insufficient validation
+wiki_title: |
+    [M-10] Any liquidators can pretend to be a loan contract to validate offers, due to insufficient validation
+wiki_description: |
+    Accepted callers in a loan manager (e.g. `Pool.sol`) can be [either liquidators or loan contracts](https://github.com/code-423n4/2024-04-gondi/blob/b9863d73c08fcdd2337dc80a8b5e0917e18b036c/src/lib/loans/LoanManager.sol#L73).
+    
+    And only loan contracts should validate offers during a loan creation. Ho
+wiki_exploit_scenario: |
+    Per Solodit #35229: Accepted callers in a loan manager (e.g. `Pool.sol`) can be [either liquidators or loan contracts](https://github.com/code-423n4/2024-04-gondi/blob/b9863d73c08fcdd2337dc80a8b5e0917e18b036c/src/lib/lo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10AnyLiquidatorsCanPretendToBeALoanContractToValida"
+solodit_id: "35229"
+solodit_slug: |
+    m-10-any-liquidators-can-pretend-to-be-a-loan-contract-to-validate-offers-due-to-insufficient-validation-code4rena-gondi-gondi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal emitloan;"
+fn_name_regex: ".*(onlyAcceptedCallers|validateOffer|emitLoan).*"
+write_var_regex: ".*(emitLoan|onlyAcceptedCallers|validateOffer).*"
+guard_var_regex: ".*(emitLoan|onlyAcceptedCallers|validateOffer).*"
+vuln_fn_name: "onlyAcceptedCallers"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "emitloan = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

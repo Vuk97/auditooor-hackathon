@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "m-24-vault-fee-uses-incorrect-offset-leading-to-wildly-incorrect"
+class_name: "M24VaultFeeUsesIncorrectOffsetLeadingToWildlyIncorrect"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3699 (Sherlock/Astaria)"
+help: |
+    M-24: Vault Fee uses incorrect offset leading to wildly incorrect value, allowing strategists to steal all funds
+wiki_title: |
+    M-24: Vault Fee uses incorrect offset leading to wildly incorrect value, allowing strategists to steal all funds
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-10-astaria-judging/issues/19 
+    
+    ## Found by 
+    obront, zzykxx
+    
+    ## Summary
+    
+    `VAULT_FEE()` uses an incorrect offset, returning a number ~1e16X greater than intended, providing strategists with unlimited access to drain all vault funds.
+    
+    ## Vulnerability Deta
+wiki_exploit_scenario: |
+    Per Solodit #3699: Source: https://github.com/sherlock-audit/2022-10-astaria-judging/issues/19 
+    
+    ## Found by 
+    obront, zzykxx
+    
+    ## Summary
+    
+    `VAULT_FEE()` uses an incorrect offset, returning a number ~1e16X greater than in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M24VaultFeeUsesIncorrectOffsetLeadingToWildlyIncorrect"
+solodit_id: "3699"
+solodit_slug: |
+    m-24-vault-fee-uses-incorrect-offset-leading-to-wildly-incorrect-value-allowing-strategists-to-steal-all-funds-sherlock-astaria-astaria-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal strategistunclaimedshares;"
+fn_name_regex: ".*(VAULT_FEE|VAULT_TYPE|strategistUnclaimedShares).*"
+read_var_regex: ".*(strategistUnclaimedShares).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "VAULT_FEE"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return strategistunclaimedshares > 0;"

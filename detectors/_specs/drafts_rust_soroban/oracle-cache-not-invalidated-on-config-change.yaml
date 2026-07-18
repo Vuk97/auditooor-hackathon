@@ -1,0 +1,24 @@
+id: oracle-cache-not-invalidated-on-config-change
+title: "LastPriceData cache survives oracle config change"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44830"
+  - "44832"
+bug_class: oracle-cascade
+indicators:
+  - "`set_asset_config`/`set_custom_oracle`/`set_batch_oracle`/`update_reflector_contract`/`set_fallback_oracle`/`set_asset_enabled` do NOT call `remove_cached_price(asset)` or similar"
+  - "cached `LastPriceData` keyed only by `asset` (no config-version/source binding)"
+  - "`get_asset_price_data_with_config` reads cache before re-evaluating `AssetConfig`"
+  - "inconsistency: `set_manual_override` does invalidate cache, but other config setters do not"
+victim: "Protocol: governance attempts to rotate away from a bad feed are ineffective until cache TTL elapses; borrow/withdraw/liquidation use pre-change prices."
+exploit_precondition: "Cached price exists for asset; admin updates oracle config; attacker reads price within the cache window."
+real_world_example: |
+  V12 #44830 (High): `PriceOracleContract::set_asset_config` writes new config without invalidating `LastPriceData`. Admin rotation has no immediate effect.
+suggested_remediation: "Bind cache key to (asset, config_revision, source). Invalidate cache in every config-mutating admin path."
+cross_refs:
+  - oracle-cache-ignores-per-asset-freshness
+  - oracle-batch-ignores-manual-override
+  - oracle-reconfig-wipes-circuit-breaker

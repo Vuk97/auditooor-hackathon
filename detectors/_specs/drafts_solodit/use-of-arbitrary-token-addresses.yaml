@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "use-of-arbitrary-token-addresses"
+class_name: "UseOfArbitraryTokenAddresses"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57520 (Zokyo/Trustswap)"
+help: "Use of arbitrary token addresses."
+wiki_title: "Use of arbitrary token addresses."
+wiki_description: |
+    **Description**
+    
+    LockToken.sol: functions lock Tokens(), lockNFTs(), migrate(). These functions are public, and any token addresses are passed in their parameter lists. This creates a vulnerability for the use of malicious tokens.
+    
+    **Recommendation**
+    
+    Add token whitelisting to validate any token add
+wiki_exploit_scenario: |
+    Per Solodit #57520: **Description**
+    
+    LockToken.sol: functions lock Tokens(), lockNFTs(), migrate(). These functions are public, and any token addresses are passed in their parameter lists. This creates a vulnerability fo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UseOfArbitraryTokenAddresses"
+solodit_id: "57520"
+solodit_slug: "use-of-arbitrary-token-addresses-zokyo-none-trustswap-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(lockNFTs|nonReentrant).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "lockNFTs"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "c-02-emptying-eth-from-zkpay-sol"
+class_name: "C02EmptyingEthFromZkpaySol"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #63315 (Pashov Audit Group/SXT_2025-03-31)"
+help: "[C-02] Emptying ETH from `ZKPay.sol`"
+wiki_title: "[C-02] Emptying ETH from `ZKPay.sol`"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    An attacker can call `ZKPay::query()`, which is supposed to be used with ERC20 tokens, but pass `NATIVE_ADDRESS` and specify a large amount of ETH. Then, `handleQueryPayment` will assume that this amount came from `msg.value`, so
+wiki_exploit_scenario: |
+    Per Solodit #63315: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    An attacker can call `ZKPay::query()`, which is supposed to be used with ERC20 tokens, but pass `NATIVE_ADDRESS` and specify a lar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C02EmptyingEthFromZkpaySol"
+solodit_id: "63315"
+solodit_slug: "c-02-emptying-eth-from-zkpaysol-pashov-audit-group-none-sxt_2025-03-31-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal handlequerypayment;"
+fn_name_regex: ".*(NATIVE_ADDRESS|handleQueryPayment|QueryPayment).*"
+read_var_regex: ".*(handleQueryPayment).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "NATIVE_ADDRESS"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return handlequerypayment > 0;"

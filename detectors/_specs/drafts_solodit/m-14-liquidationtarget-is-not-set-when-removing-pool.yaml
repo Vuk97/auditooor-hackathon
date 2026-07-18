@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-14-liquidationtarget-is-not-set-when-removing-pool"
+class_name: "M14LiquidationtargetIsNotSetWhenRemovingPool"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20861 (Sherlock/DODO V3)"
+help: "M-14: liquidationTarget is not set when removing pool."
+wiki_title: "M-14: liquidationTarget is not set when removing pool."
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-06-dodo-judging/issues/246 
+    
+    ## Found by 
+    Protocol Team
+    Remove pool has 3 steps:
+    1. call removeD3Pool(address) and force the pool into liquidation state. However, the vault call ID3MM(pool).startLiquidation() directly and skip setting liquidationTarget
+wiki_exploit_scenario: |
+    Per Solodit #20861: Source: https://github.com/sherlock-audit/2023-06-dodo-judging/issues/246 
+    
+    ## Found by 
+    Protocol Team
+    Remove pool has 3 steps:
+    1. call removeD3Pool(address) and force the pool into liquidation state.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14LiquidationtargetIsNotSetWhenRemovingPool"
+solodit_id: "20861"
+solodit_slug: "m-14-liquidationtarget-is-not-set-when-removing-pool-sherlock-none-dodo-v3-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(removeD3Pool|startLiquidation|liquidationTarget|liquidationByDODO).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "removeD3Pool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

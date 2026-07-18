@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "getorderspaginated-may-return-empty-list-even-if-there-are-m-x"
+class_name: "GetorderspaginatedMayReturnEmptyListEvenIfThereAreMX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-07-gte-spot-clob-and-router"
+help: |
+    [L-01] getOrdersPaginated may return empty list even if there are matching orders The getOrdersPaginated function fails to return available orders when the requested startPrice doe
+wiki_title: |
+    getOrdersPaginated may return empty list even if there are matching orders The getOrdersPaginated function fails to return available orders when the requested s
+wiki_description: |
+    [L-01] getOrdersPaginated may return empty list even if there are matching orders The getOrdersPaginated function fails to return available orders when the requested startPrice doesn’t exactly match any existing orders, despite better prices being available. This occurs because the function returns
+wiki_exploit_scenario: |
+    Per audit finding: [L-01] getOrdersPaginated may return empty list even if there are matching orders The getOrdersPaginated function fails to return available orders when the requested startPrice doesn’t exactly match a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GetorderspaginatedMayReturnEmptyListEvenIfThereAreMX"
+state_decl: "uint256 internal pagesize;"
+fn_name_regex: ".*(pageSize|startPrice|side).*"
+write_var_regex: ".*(pageSize|side|startPrice).*"
+guard_var_regex: ".*(pageSize|side|startPrice).*"
+vuln_fn_name: "pageSize"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "pagesize = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

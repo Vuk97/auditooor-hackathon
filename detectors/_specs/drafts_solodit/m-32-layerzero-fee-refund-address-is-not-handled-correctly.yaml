@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "m-32-layerzero-fee-refund-address-is-not-handled-correctly"
+class_name: "M32LayerzeroFeeRefundAddressIsNotHandledCorrectly"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32355 (Code4rena/Tapioca DAO)"
+help: "[M-32] Layerzero fee refund address is not handled correctly"
+wiki_title: "[M-32] Layerzero fee refund address is not handled correctly"
+wiki_description: |
+    The protocol aims to integrate with layerzero v2. To leverage layerzero infrastructure to send out cross-chain message, the user has to pay the native fee. If the user underpays the message fee, transaction reverts. If the user overpays the message fee, the excessive fee is refunded back.
+    
+    However,
+wiki_exploit_scenario: |
+    Per Solodit #32355: The protocol aims to integrate with layerzero v2. To leverage layerzero infrastructure to send out cross-chain message, the user has to pay the native fee. If the user underpays the message fee, tran
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M32LayerzeroFeeRefundAddressIsNotHandledCorrectly"
+solodit_id: "32355"
+solodit_slug: "m-32-layerzero-fee-refund-address-is-not-handled-correctly-code4rena-tapioca-dao-tapioca-dao-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(prepareLzCallReturn|prepareLzCallReturn2|prepareLzCall|dstEid).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "prepareLzCallReturn"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

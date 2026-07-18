@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "swapcurve-is-incompatible-with-input-tokens-where-approve-has-no"
+class_name: "SwapcurveIsIncompatibleWithInputTokensWhereApproveHasNo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40878 (Cantina/Sushi)"
+help: "swapCurve() is incompatible with input tokens where approve() has no return value"
+wiki_title: "swapCurve() is incompatible with input tokens where approve() has no return value "
+wiki_description: |
+    ## RouteProcessor4.sol#L454
+    
+    ## Description
+    In the `swapCurve()` function, approval for the input token to Curve's pool is granted by calling the token's `approve()` function directly.
+    
+    ```solidity
+    IERC20(tokenIn).approve(pool, amountIn);
+    ```
+    
+    This is not compatible with ERC-20 tokens where the `app
+wiki_exploit_scenario: |
+    Per Solodit #40878: ## RouteProcessor4.sol#L454
+    
+    ## Description
+    In the `swapCurve()` function, approval for the input token to Curve's pool is granted by calling the token's `approve()` function directly.
+    
+    ```solidity
+    IE
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwapcurveIsIncompatibleWithInputTokensWhereApproveHasNo"
+solodit_id: "40878"
+solodit_slug: "swapcurve-is-incompatible-with-input-tokens-where-approve-has-no-return-value-cantina-none-sushi-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal approve;"
+fn_name_regex: ".*(swapCurve|approve|IERC20|safeIncreaseAllowance).*"
+read_var_regex: ".*(approve|bbb90746|safeIncreaseAllowance).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swapCurve"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return approve > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "rebalance-profit-requirement-prevents-maintaining-veth-weth-peg"
+class_name: "RebalanceProfitRequirementPreventsMaintainingVethWethPeg"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-lambowin"
+help: |
+    Evo The profit > 0 requirement in the rebalance function actively prevents the protocol from maintaining the VETH/WETH 1:1 peg during unprofitable market conditions, when profit is
+wiki_title: "Rebalance profit requirement prevents maintaining VETH/WETH peg"
+wiki_description: |
+    Evo The profit > 0 requirement in the rebalance function actively prevents the protocol from maintaining the VETH/WETH 1:1 peg during unprofitable market conditions, when profit is ZERO. Proof of Concept The protocol documentation and team’s design goals that the RebalanceOnUniswap contract is speci
+wiki_exploit_scenario: |
+    Per audit finding: Evo The profit > 0 requirement in the rebalance function actively prevents the protocol from maintaining the VETH/WETH 1:1 peg during unprofitable market conditions, when profit is ZERO. Proof of Conc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RebalanceProfitRequirementPreventsMaintainingVethWethPeg"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(directionMask|amountIn|amountOut).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "directionMask"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

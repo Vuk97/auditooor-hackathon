@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_require"
+name: "potentialdebt-is-not-compared-against-a-new-lien-s-maxpotentiald"
+class_name: "PotentialdebtIsNotComparedAgainstANewLienSMaxpotentiald"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7323 (Spearbit/Astaria)"
+help: "potentialDebt is not compared against a new lien's maxPotentialDebt in_appendStack"
+wiki_title: "potentialDebt is not compared against a new lien's maxPotentialDebt in_appendStack"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    `LienToken.sol#L435-L439`
+    
+    ## Description
+    In `_appendStack`, we have the following block:
+    
+    ```solidity
+    newStack = new Stack[](stack.length + 1);
+    newStack[stack.length] = newSlot;
+    uint256 potentialDebt = _getOwed(newSlot, newSlot.point.end);
+    ...
+    if (
+        stack.len
+wiki_exploit_scenario: |
+    Per Solodit #7323: ## Severity: Medium Risk
+    
+    ## Context
+    `LienToken.sol#L435-L439`
+    
+    ## Description
+    In `_appendStack`, we have the following block:
+    
+    ```solidity
+    newStack = new Stack[](stack.length + 1);
+    newStack[stack.len
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialdebtIsNotComparedAgainstANewLienSMaxpotentiald"
+solodit_id: "7323"
+solodit_slug: |
+    potentialdebt-is-not-compared-against-a-new-liens-maxpotentialdebt-in_appendstack-spearbit-astaria-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal potentialdebt;"
+fn_name_regex: ".*(potentialDebt).*"
+write_var_regex: ".*(potentialDebt).*"
+guard_var_regex: ".*(potentialDebt).*"
+vuln_fn_name: "potentialDebt"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "potentialdebt = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

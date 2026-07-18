@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-end-time-setting-for-spice-auction"
+class_name: "IncorrectEndTimeSettingForSpiceAuction"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33581 (Cyfrin/Templedao)"
+help: "Incorrect end time setting for spice auction"
+wiki_title: "Incorrect end time setting for spice auction"
+wiki_description: |
+    **Description:** In `startAuction` function of `SpiceAuction` contract, the end time is set wrong.
+    ```solidity
+    uint128 startTime = info.startTime = uint128(block.timestamp) + config.startCooldown;
+    uint128 endTime = info.endTime = uint128(block.timestamp) + config.duration;
+    ```
+    Currently, `endTime` i
+wiki_exploit_scenario: |
+    Per Solodit #33581: **Description:** In `startAuction` function of `SpiceAuction` contract, the end time is set wrong.
+    ```solidity
+    uint128 startTime = info.startTime = uint128(block.timestamp) + config.startCooldown;
+    uin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectEndTimeSettingForSpiceAuction"
+solodit_id: "33581"
+solodit_slug: "incorrect-end-time-setting-for-spice-auction-cyfrin-none-cyfrin-templedao-v21-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal duration;"
+fn_name_regex: ".*(startAuction|SpiceAuction|endTime|startTime).*"
+read_var_regex: ".*(duration|endTime|startAuction).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "startAuction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return duration > 0;"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "currentstore-principal-is-not-subtracted-after-it-was-withdrawn-"
+class_name: "CurrentstorePrincipalIsNotSubtractedAfterItWasWithdrawn"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57916 (MixBytes/DIA)"
+help: |
+    `currentStore.principal` is not subtracted after it was withdrawn, allowing users to claim it again infinitely
+wiki_title: |
+    `currentStore.principal` is not subtracted after it was withdrawn, allowing users to claim it again infinitely
+wiki_description: |
+    ##### Description
+    In the `DIAWhitelistedStaking` contract, when a user withdraws their principal through the `unstake` function, the `currentStore.principal` value is not zeroed out or decremented after the withdrawal. This creates a critical vulnerability where users can repeatedly call `unstake` a
+wiki_exploit_scenario: |
+    Per Solodit #57916: ##### Description
+    In the `DIAWhitelistedStaking` contract, when a user withdraws their principal through the `unstake` function, the `currentStore.principal` value is not zeroed out or decremented aft
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CurrentstorePrincipalIsNotSubtractedAfterItWasWithdrawn"
+solodit_id: "57916"
+solodit_slug: |
+    currentstoreprincipal-is-not-subtracted-after-it-was-withdrawn-allowing-users-to-claim-it-again-infinitely-mixbytes-none-dia-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal unstake;"
+fn_name_regex: ".*(DIAWhitelistedStaking|unstake).*"
+read_var_regex: ".*(unstake).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "DIAWhitelistedStaking"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return unstake > 0;"

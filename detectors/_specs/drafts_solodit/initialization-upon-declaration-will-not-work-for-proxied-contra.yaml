@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "initialization-upon-declaration-will-not-work-for-proxied-contra"
+class_name: "InitializationUponDeclarationWillNotWorkForProxiedContra"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #58595 (Spearbit/Kinetiq LST)"
+help: "Initialization upon declaration will not work for \" proxied\" contracts"
+wiki_title: "Initialization upon declaration will not work for \" proxied\" contracts"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    OracleManager and StakingManager are designed to operate behind a delegation proxy, meaning their code will be executed, but their storage will not be directly used. However, both contracts declare an
+wiki_exploit_scenario: |
+    Per Solodit #58595: ## Severity: High Risk
+    
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    OracleManager and StakingManager are designed to operate behind a delegation proxy, meaning their co
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InitializationUponDeclarationWillNotWorkForProxiedContra"
+solodit_id: "58595"
+solodit_slug: "initialization-upon-declaration-will-not-work-for-proxied-contracts-spearbit-none-kinetiq-lst-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(initialize).*"
+primary_var_regex: ".*(initialize).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

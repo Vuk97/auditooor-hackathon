@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "daily-withdrawal-limit-decreases-with-totalpoolsize-reduction"
+class_name: "DailyWithdrawalLimitDecreasesWithTotalpoolsizeReduction"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57925 (MixBytes/DIA)"
+help: "Daily withdrawal limit decreases with `totalPoolSize` reduction"
+wiki_title: "Daily withdrawal limit decreases with `totalPoolSize` reduction"
+wiki_description: |
+    ##### Description
+    In the `DIAExternalStaking` contract, the daily withdrawal limit calculation in the `checkDailyWithdrawalLimit` modifier is tied to the `totalPoolSize`. The issue arises because:
+    
+    1. The daily withdrawal limit is calculated as:
+    ```solidity
+    availableDailyLimit = (totalPoolSize * wit
+wiki_exploit_scenario: |
+    Per Solodit #57925: ##### Description
+    In the `DIAExternalStaking` contract, the daily withdrawal limit calculation in the `checkDailyWithdrawalLimit` modifier is tied to the `totalPoolSize`. The issue arises because:
+    
+    1.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DailyWithdrawalLimitDecreasesWithTotalpoolsizeReduction"
+solodit_id: "57925"
+solodit_slug: "daily-withdrawal-limit-decreases-with-totalpoolsize-reduction-mixbytes-none-dia-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal availabledailylimit;"
+fn_name_regex: ".*(DIAExternalStaking|checkDailyWithdrawalLimit|totalPoolSize|availableDailyLimit).*"
+read_var_regex: ".*(availableDailyLimit|checkDailyWithdrawalLimit|totalPoolSize).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "DIAExternalStaking"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return availabledailylimit > 0;"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-01-freezed-chain-will-never-be-unfreeze-since-statetransitionm"
+class_name: "M01FreezedChainWillNeverBeUnfreezeSinceStatetransitionm"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33189 (Code4rena/zkSync)"
+help: |
+    [M-01] Freezed Chain will never be unfreeze since `StateTransitionManager::unfreezeChain` is calling `freezeDiamond` instead of `unfreezeDiamond`
+wiki_title: |
+    [M-01] Freezed Chain will never be unfreeze since `StateTransitionManager::unfreezeChain` is calling `freezeDiamond` instead of `unfreezeDiamond`
+wiki_description: |
+    `StateTransitionManager::unfreezeChain` function is meant for unfreeze the freezed chain of passed `_chainId` param. While `freezeChain` function is meant for freeze the chain according to passed \_chainId. But `freezeChain` and `unfreezeChain` both functions are calling same function `freezeDiamon
+wiki_exploit_scenario: |
+    Per Solodit #33189: `StateTransitionManager::unfreezeChain` function is meant for unfreeze the freezed chain of passed `_chainId` param. While `freezeChain` function is meant for freeze the chain according to passed \_c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01FreezedChainWillNeverBeUnfreezeSinceStatetransitionm"
+solodit_id: "33189"
+solodit_slug: |
+    m-01-freezed-chain-will-never-be-unfreeze-since-statetransitionmanagerunfreezechain-is-calling-freezediamond-instead-of-unfreezediamond-code4rena-zksync-zksync-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal freezechain;"
+fn_name_regex: ".*(freezeChain|unfreezeChain|freezeDiamond|unfreezeDiamond).*"
+read_var_regex: ".*(freezeChain|freezeDiamond|unfreezeChain).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "freezeChain"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return freezechain > 0;"

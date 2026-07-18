@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-02-codehash-check-in-factory-contracts-does-not-account-for-no"
+class_name: "H02CodehashCheckInFactoryContractsDoesNotAccountForNo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29008 (Code4rena/Wildcat Protocol)"
+help: "[H-02] `codehash` check in factory contracts does not account for non-empty addresses"
+wiki_title: "[H-02] `codehash` check in factory contracts does not account for non-empty addresses"
+wiki_description: |
+    In `WildcatMarketControllerFactory.sol`, registered borrowers can call `deployController()` to deploy a `WildcatMarketController` contract for themselves.
+    
+    The function checks if the `codehash` of the controller address is `bytes32(0)` to determine if the controller has already been deployed:
+    
+    [Wil
+wiki_exploit_scenario: |
+    Per Solodit #29008: In `WildcatMarketControllerFactory.sol`, registered borrowers can call `deployController()` to deploy a `WildcatMarketController` contract for themselves.
+    
+    The function checks if the `codehash` of th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02CodehashCheckInFactoryContractsDoesNotAccountForNo"
+solodit_id: "29008"
+solodit_slug: |
+    h-02-codehash-check-in-factory-contracts-does-not-account-for-non-empty-addresses-code4rena-wildcat-protocol-wildcat-protocol-git
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: ""
+state_decl: "uint256 internal codehash;"
+fn_name_regex: ".*(deployController|WildcatMarketController|codehash|deployMarket).*"
+read_var_regex: ".*(codehash|createEscrow|deployController).*"
+required_call_regex: ".*c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deployController"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return codehash > 0;"

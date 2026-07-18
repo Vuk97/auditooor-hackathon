@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "number-of-challengers-is-constrained-by-block-gas-limit"
+class_name: "NumberOfChallengersIsConstrainedByBlockGasLimit"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Ante - Zellic Audit Report"
+help: |
+    An attacker can freeze funds for a low cost by causing the _calculateChallengerEligi bility function to hit the block gas limit. Since the loop iterates over every challenger in st
+wiki_title: "Number of challengers is constrained by block gas limit"
+wiki_description: |
+    An attacker can freeze funds for a low cost by causing the _calculateChallengerEligi bility function to hit the block gas limit. Since the loop iterates over every challenger in storage, if enough challengers are registered, the checkTest function will not be callable when the test fails.
+wiki_exploit_scenario: |
+    Per audit finding: An attacker can freeze funds for a low cost by causing the _calculateChallengerEligi bility function to hit the block gas limit. Since the loop iterates over every challenger in storage, if enough cha
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NumberOfChallengersIsConstrainedByBlockGasLimit"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(checkTest).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "checkTest"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

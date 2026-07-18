@@ -1,0 +1,34 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "missing-access-control"
+class_name: "MissingAccessControl"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #47186 (OtterSec/Cega SharkFin Notes)"
+help: "Missing Access Control"
+wiki_title: "Missing Access Control"
+wiki_description: |
+    ## sfnProcessTradeDispute Function Access Control Vulnerability
+    
+    The `sfnProcessTradeDispute` function lacks proper access control, allowing any user to process disputes for SFN vaults. This function's ability to override prices makes it vulnerable to abuse; therefore, its use should be restricted t
+wiki_exploit_scenario: |
+    Per Solodit #47186: ## sfnProcessTradeDispute Function Access Control Vulnerability
+    
+    The `sfnProcessTradeDispute` function lacks proper access control, allowing any user to process disputes for SFN vaults. This function'
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingAccessControl"
+solodit_id: "47186"
+solodit_slug: "missing-access-control-ottersec-none-cega-sharkfin-notes-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(sfnProcessTradeDispute|CEGA_ADMIN|newPrices|onlyCegaAdmin).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

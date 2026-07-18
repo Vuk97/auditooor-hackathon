@@ -1,0 +1,53 @@
+skeleton: "paired_function_divergence"
+name: "m-02-orders-related-to-a-trade-may-be-executed-to-replaced-trade"
+class_name: "M02OrdersRelatedToATradeMayBeExecutedToReplacedTrade"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65204 (Pashov Audit Group/Ostium_2025-09-14)"
+help: "[M-02] Orders related to a trade may be executed to replaced trade"
+wiki_title: "[M-02] Orders related to a trade may be executed to replaced trade"
+wiki_description: |
+    _Acknowledged_
+    
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When a trade is executed, code finds an empty index in the `openTrades[][][]` variable and stores the new trade. There could be a pending order for an open trade. Those orders contain the trades position index,
+wiki_exploit_scenario: |
+    Per Solodit #65204: _Acknowledged_
+    
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When a trade is executed, code finds an empty index in the `openTrades[][][]` variable and stores the new trad
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02OrdersRelatedToATradeMayBeExecutedToReplacedTrade"
+solodit_id: "65204"
+solodit_slug: |
+    m-02-orders-related-to-a-trade-may-be-executed-to-replaced-trade-pashov-audit-group-none-ostium_2025-09-14-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

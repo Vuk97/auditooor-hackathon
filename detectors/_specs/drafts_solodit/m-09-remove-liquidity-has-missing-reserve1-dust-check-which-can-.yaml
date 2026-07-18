@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-09-remove-liquidity-has-missing-reserve1-dust-check-which-can-"
+class_name: "M09RemoveLiquidityHasMissingReserve1DustCheckWhichCan"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31120 (Code4rena/Salty.IO)"
+help: |
+    [M-09] Remove Liquidity has missing reserve1 DUST check, which can make reserve1 to be less than DUST
+wiki_title: |
+    [M-09] Remove Liquidity has missing reserve1 DUST check, which can make reserve1 to be less than DUST
+wiki_description: |
+    The function `Pools::removeLiquidity()` checks that the `reserve0` and `reserve1` amounts for a pool are always above or at DUST amount. If after the liquidity is removed, and the `reserve0` or `reserve1` goes below DUST level, then the transaction should revert.
+    
+    But, this check is implemented inc
+wiki_exploit_scenario: |
+    Per Solodit #31120: The function `Pools::removeLiquidity()` checks that the `reserve0` and `reserve1` amounts for a pool are always above or at DUST amount. If after the liquidity is removed, and the `reserve0` or `rese
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09RemoveLiquidityHasMissingReserve1DustCheckWhichCan"
+solodit_id: "31120"
+solodit_slug: |
+    m-09-remove-liquidity-has-missing-reserve1-dust-check-which-can-make-reserve1-to-be-less-than-dust-code4rena-saltyio-saltyio-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal reserve0;"
+fn_name_regex: ".*(reserve0|reserve1|swap).*"
+read_var_regex: ".*(reserve0|reserve1|swap).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "reserve0"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return reserve0 > 0;"

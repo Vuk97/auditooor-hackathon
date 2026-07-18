@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "liblastreservebytes-storelastreserves-has-no-check-for-reserves-"
+class_name: "LiblastreservebytesStorelastreservesHasNoCheckForReserves"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18436 (Cyfrin/Beanstalk Wells)"
+help: "`LibLastReserveBytes::storeLastReserves` has no check for reserves being too large"
+wiki_title: "`LibLastReserveBytes::storeLastReserves` has no check for reserves being too large"
+wiki_description: |
+    **Description:** After every liquidity event & swap, the `IPump::update`()` is called.
+    To update the pump, the `LibLastReserveBytes::storeLastReserves` function is used. This packs the reserve data into `bytes32` slots in storage.
+    A slot is then broken down into the following components:
+    - 1 byte fo
+wiki_exploit_scenario: |
+    Per Solodit #18436: **Description:** After every liquidity event & swap, the `IPump::update`()` is called.
+    To update the pump, the `LibLastReserveBytes::storeLastReserves` function is used. This packs the reserve data in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LiblastreservebytesStorelastreservesHasNoCheckForReserves"
+solodit_id: "18436"
+solodit_slug: |
+    liblastreservebytesstorelastreserves-has-no-check-for-reserves-being-too-large-cyfrin-beanstalk-wells-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal timestamp;"
+fn_name_regex: ".*(timestamp).*"
+write_var_regex: ".*(timestamp).*"
+guard_var_regex: ".*(timestamp).*"
+vuln_fn_name: "timestamp"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "timestamp = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

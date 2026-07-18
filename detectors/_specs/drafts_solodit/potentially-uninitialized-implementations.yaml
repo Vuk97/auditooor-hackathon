@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "potentially-uninitialized-implementations"
+class_name: "PotentiallyUninitializedImplementations"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30460 (ConsenSys/Kilnfi Staking (Consensys))"
+help: "Potentially Uninitialized Implementations"
+wiki_title: "Potentially Uninitialized Implementations"
+wiki_description: |
+    #### Description
+    
+    
+    Most contracts in the system are meant to be used with a proxy pattern. First, the implementations are deployed, and then proxies are deployed that delegatecall into the respective implementations following an initialization call (hardhat, with same transaction). However, the impl
+wiki_exploit_scenario: |
+    Per Solodit #30460: #### Description
+    
+    
+    Most contracts in the system are meant to be used with a proxy pattern. First, the implementations are deployed, and then proxies are deployed that delegatecall into the respective
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentiallyUninitializedImplementations"
+solodit_id: "30460"
+solodit_slug: "potentially-uninitialized-implementations-consensys-none-kilnfi-staking-consensys-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(globalCommissionLimitBPS|operatorCommissionLimitBPS|publicKeyRoot|stakingContract).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "globalCommissionLimitBPS"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

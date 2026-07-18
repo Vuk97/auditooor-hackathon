@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "pools-configured-with-a-malicious-hook-can-bypass-the-bunnihub-r"
+class_name: "PoolsConfiguredWithAMaliciousHookCanBypassTheBunnihubR"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56965 (Cyfrin/Bunni)"
+help: |
+    Pools configured with a malicious hook can bypass the `BunniHub` re-entrancy guard to drain all raw balances and vault reserves of legitimate pools
+wiki_title: |
+    Pools configured with a malicious hook can bypass the `BunniHub` re-entrancy guard to drain all raw balances and vault reserves of legitimate pools
+wiki_description: |
+    **Description:** The `BunniHub` is the main contract that both holds and accounts the raw balances and  vault reserves that each pool has deposited. It inherits `ReentrancyGuard` which implements the `nonReentrant` modifier:
+    
+    ```solidity
+    modifier nonReentrant() {
+        _nonReentrantBefore();
+wiki_exploit_scenario: |
+    Per Solodit #56965: **Description:** The `BunniHub` is the main contract that both holds and accounts the raw balances and  vault reserves that each pool has deposited. It inherits `ReentrancyGuard` which implements the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PoolsConfiguredWithAMaliciousHookCanBypassTheBunnihubR"
+solodit_id: "56965"
+solodit_slug: |
+    pools-configured-with-a-malicious-hook-can-bypass-the-bunnihub-re-entrancy-guard-to-drain-all-raw-balances-and-vault-reserves-of-legitimate-pools-cyfrin-none-bunni-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal nonreentrant;"
+fn_name_regex: ".*(BunniHub|ReentrancyGuard|nonReentrant|BunniHook).*"
+read_var_regex: ".*(nonReentrant).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BunniHub"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return nonreentrant > 0;"

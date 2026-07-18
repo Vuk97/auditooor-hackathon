@@ -1,0 +1,46 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-10-ocl-zve-sol-forwardyield-relies-on-manipulable-uniswap-v2-p"
+class_name: "M10OclZveSolForwardyieldReliesOnManipulableUniswapV2P"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32411 (Sherlock/Zivoe)"
+help: |
+    M-10: OCL_ZVE.sol::forwardYield relies on manipulable Uniswap V2 pool reserves leading to theft of funds
+wiki_title: |
+    M-10: OCL_ZVE.sol::forwardYield relies on manipulable Uniswap V2 pool reserves leading to theft of funds
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-03-zivoe-judging/issues/296 
+    
+    The protocol has acknowledged this issue.
+    
+    ## Found by 
+    0xpiken, 0xvj, AllTooWell, Audinarey, DPS, Drynooo, JigglypuffAndPikachu, Maniacs, SilverChariot, cergyk, lemonmon, saidam017, t0x1c
+    ## Summary
+    
+    `OCL_ZVE.sol::forwardY
+wiki_exploit_scenario: |
+    Per Solodit #32411: Source: https://github.com/sherlock-audit/2024-03-zivoe-judging/issues/296 
+    
+    The protocol has acknowledged this issue.
+    
+    ## Found by 
+    0xpiken, 0xvj, AllTooWell, Audinarey, DPS, Drynooo, JigglypuffAndPi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10OclZveSolForwardyieldReliesOnManipulableUniswapV2P"
+solodit_id: "32411"
+solodit_slug: |
+    m-10-ocl_zvesolforwardyield-relies-on-manipulable-uniswap-v2-pool-reserves-leading-to-theft-of-funds-sherlock-zivoe-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(basis|fetchBasis|forwardYield|amount).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

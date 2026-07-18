@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m-05-uninitialized-or-incorrectly-set-auctioninterval-may-lead-t"
+class_name: "M05UninitializedOrIncorrectlySetAuctionintervalMayLeadT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42216 (Code4rena/Yield)"
+help: "[M-05] Uninitialized or Incorrectly set `auctionInterval` may lead to liquidation engine livelock"
+wiki_title: "[M-05] Uninitialized or Incorrectly set `auctionInterval` may lead to liquidation engine livelock"
+wiki_description: |
+    The `grab()` function in Cauldron is used by the Witch or other liquidation engines to grab vaults that are under-collateralized. To prevent re-grabbing without sufficient time for auctioning collateral/debt, the logic uses an `auctionInterval` threshold to give a reasonable window to a liquidation
+wiki_exploit_scenario: |
+    Per Solodit #42216: The `grab()` function in Cauldron is used by the Witch or other liquidation engines to grab vaults that are under-collateralized. To prevent re-grabbing without sufficient time for auctioning collate
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05UninitializedOrIncorrectlySetAuctionintervalMayLeadT"
+solodit_id: "42216"
+solodit_slug: |
+    m-05-uninitialized-or-incorrectly-set-auctioninterval-may-lead-to-liquidation-engine-livelock-code4rena-yield-yield-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal auctioninterval;"
+fn_name_regex: ".*(grab|auctionInterval|setAuctionInterval|auctionInterval_).*"
+read_var_regex: ".*(auctionInterval|auctionInterval_|grab).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "grab"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return auctioninterval > 0;"

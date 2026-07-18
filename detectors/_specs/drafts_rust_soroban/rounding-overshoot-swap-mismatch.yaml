@@ -1,0 +1,20 @@
+id: rounding-overshoot-swap-mismatch
+title: "Rounding overshoot + swap_collateral amount mismatch enables protocol drain"
+severity: Critical
+language: rust
+platform: soroban
+source: "watchpug-rev3"
+source_ids:
+  - "WP-C3"
+bug_class: precision-loss
+indicators:
+  - "`swap_collateral` uses a rounded-up underlying amount on one side and a floored amount on the other"
+  - "no reconciliation after swap: treats caller-supplied `amount_to_supply` as truth after `amount_out` is measured"
+victim: "Protocol: attacker pockets rounding overshoot at the pool's expense."
+exploit_precondition: "Caller controls both swap input and `amount_to_supply` parameter."
+real_world_example: |
+  WatchPug WP-C3 (Critical): Protocol fund extraction via rounding overshoot + swap_collateral amount mismatch.
+suggested_remediation: "Always derive `amount_to_supply` from the measured post-swap balance delta; use floor rounding in the user's favor only for withdraw, not swap/supply."
+cross_refs:
+  - burn-scaled-transfers-full-underlying-on-overshoot
+  - scaled-share-rounding-mismatch

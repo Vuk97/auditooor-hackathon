@@ -1,0 +1,34 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "token-transfer-reverts-leading-to-blocked-foreclosure"
+class_name: "TokenTransferRevertsLeadingToBlockedForeclosure"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51920 (Halborn/Spokes V1)"
+help: "Token Transfer Reverts Leading to Blocked Foreclosure"
+wiki_title: "Token Transfer Reverts Leading to Blocked Foreclosure"
+wiki_description: |
+    ##### Description
+    
+    The `_executeForeclosure` function is invoked during the foreclosure flow to execute the logic required to repay unsecured debt. Using the assets withdrawn from the lender, it repays the borrowed amount, subtracts the fee, and sends the remaining collateral back to the position ow
+wiki_exploit_scenario: |
+    Per Solodit #51920: ##### Description
+    
+    The `_executeForeclosure` function is invoked during the foreclosure flow to execute the logic required to repay unsecured debt. Using the assets withdrawn from the lender, it repay
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokenTransferRevertsLeadingToBlockedForeclosure"
+solodit_id: "51920"
+solodit_slug: "token-transfer-reverts-leading-to-blocked-foreclosure-halborn-concrete-spokes-v1-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(claimRouter|fundRequester|amountInBorrowTokenLeft|totalRepayAmountInToken).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

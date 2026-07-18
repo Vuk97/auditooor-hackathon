@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "chaingefinance-2024-04"
+class_name: "Chaingefinance202404"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-04/ChaingeFinance_exp.sol"
+help: "ChaingeFinance 2024-04 — swap exploit (~200K)"
+wiki_title: "ChaingeFinance (2024-04) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-04): ChaingeFinance lost ~200K. Bug class: swap. Attack tx: 0xd348b5fc00b26fc1457b70d02f9cb5e5a66a564cc4eba2136a473866a47dac08.
+wiki_exploit_scenario: |
+    Attacker (unknown) exploits ChaingeFinance via swap: the victim contract 0x80a0d7a6fd2a22982ce282933b384568e5c852bf exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Chaingefinance202404"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

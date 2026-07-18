@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_require"
+name: "m-01-operator-might-be-unable-to-withdraw-rewards-due-to-gas-lim"
+class_name: "M01OperatorMightBeUnableToWithdrawRewardsDueToGasLim"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26463 (Pashov Audit Group/Smoothly)"
+help: "[M-01] Operator might be unable to withdraw rewards due to gas limit"
+wiki_title: "[M-01] Operator might be unable to withdraw rewards due to gas limit"
+wiki_description: |
+    **Severity**
+    
+    **Impact:**
+    High, as operator's yield will be frozen
+    
+    **Likelihood:**
+    Low, as it requires operator to be a special multi-sig wallet or contract
+    
+    **Description**
+    
+    The `PoolGovernance:withdrawRewards` method allows operators to withdraw their yield, which happens with this external call:
+wiki_exploit_scenario: |
+    Per Solodit #26463: **Severity**
+    
+    **Impact:**
+    High, as operator's yield will be frozen
+    
+    **Likelihood:**
+    Low, as it requires operator to be a special multi-sig wallet or contract
+    
+    **Description**
+    
+    The `PoolGovernance:with
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01OperatorMightBeUnableToWithdrawRewardsDueToGasLim"
+solodit_id: "26463"
+solodit_slug: "m-01-operator-might-be-unable-to-withdraw-rewards-due-to-gas-limit-pashov-none-smoothly-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Hardcoded Setting"
+state_decl: "uint256 internal fallback;"
+fn_name_regex: ".*(receive|fallback|SmoothlyPool).*"
+write_var_regex: ".*(fallback|receive).*"
+guard_var_regex: ".*(fallback|receive).*"
+vuln_fn_name: "receive"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "fallback = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

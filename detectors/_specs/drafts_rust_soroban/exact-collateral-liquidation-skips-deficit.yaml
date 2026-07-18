@@ -1,0 +1,20 @@
+id: exact-collateral-liquidation-skips-deficit
+title: "Exact-collateral liquidation skips deficit accounting"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44396"
+bug_class: liquidation
+indicators:
+  - "branch where `collateral_to_seize == user_full_balance` bypasses the `add_reserve_deficit(remaining_debt)` call"
+  - "deficit booked only on the non-exact path"
+victim: "Protocol: bad debt is not recorded on exact-max liquidations, understating reserve deficit."
+exploit_precondition: "Liquidator seizes exactly the user's full collateral while debt remains."
+real_world_example: |
+  V12 #44396 (High): Exact-collateral liquidation skips deficit accounting.
+suggested_remediation: "Always record residual debt as reserve deficit after liquidation, regardless of whether collateral was fully seized."
+cross_refs:
+  - engine-uses-uncapped-debt-for-liquidation
+  - deficit-treated-as-available-liquidity

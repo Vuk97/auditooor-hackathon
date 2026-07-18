@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "m-21-eip1559-rewards-received-by-syndicate-during-the-period-whe"
+class_name: "M21Eip1559RewardsReceivedBySyndicateDuringThePeriodWhe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5929 (Code4rena/Stakehouse Protocol)"
+help: |
+    [M-21] EIP1559 rewards received by syndicate during the period when it has no registered knots can be lost
+wiki_title: |
+    [M-21] EIP1559 rewards received by syndicate during the period when it has no registered knots can be lost
+wiki_description: |
+    <https://github.com/code-423n4/2022-11-stakehouse/blob/main/contracts/liquid-staking/LiquidStakingManager.sol#L218-L220><br>
+    <https://github.com/code-423n4/2022-11-stakehouse/blob/main/contracts/syndicate/Syndicate.sol#L154-L157><br>
+    <https://github.com/code-423n4/2022-11-stakehouse/blob/main/contr
+wiki_exploit_scenario: |
+    Per Solodit #5929: <https://github.com/code-423n4/2022-11-stakehouse/blob/main/contracts/liquid-staking/LiquidStakingManager.sol#L218-L220><br>
+    <https://github.com/code-423n4/2022-11-stakehouse/blob/main/contracts/synd
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M21Eip1559RewardsReceivedBySyndicateDuringThePeriodWhe"
+solodit_id: "5929"
+solodit_slug: |
+    m-21-eip1559-rewards-received-by-syndicate-during-the-period-when-it-has-no-registered-knots-can-be-lost-code4rena-stakehouse-protocol-lsd-network-stakehouse-contest-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Don't update state, Business Logic"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(deRegisterKnotFromSyndicate|numberOfRegisteredKnots|updateAccruedETHPerShares|claimRewardsAsNodeRunner).*"
+primary_var_regex: ".*(claimRewardsAsNodeRunner|deRegisterKnotFromSyndicate|numberOfRegisteredKnots).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,18 @@
+id: is-first-borrow-hardcoded-true
+title: "is_first_borrow flag hardcoded true, ignoring current_scaled_debt"
+severity: Low
+language: rust
+platform: soroban
+source: "watchpug-rev3"
+source_ids:
+  - "WP-L11"
+bug_class: error-handling
+indicators:
+  - "`DebtTokenContract::mint_scaled` always returns `(_, true)` for the `is_first_borrow` flag"
+  - "no `current_scaled_debt == 0` check"
+victim: "Downstream bookkeeping that depends on the flag (e.g. counters)."
+exploit_precondition: "Borrower with existing debt."
+real_world_example: |
+  WatchPug WP-L11 (Low): `is_first_borrow` is hardcoded to always return true.
+suggested_remediation: "Return `(current_scaled_debt == 0)`."
+cross_refs: []

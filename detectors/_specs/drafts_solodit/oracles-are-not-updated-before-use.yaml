@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "oracles-are-not-updated-before-use"
+class_name: "OraclesAreNotUpdatedBeforeUse"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6747 (Spearbit/Tracer)"
+help: "Oracles are not updated before use"
+wiki_title: "Oracles are not updated before use"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - `PoolKeeper.sol#L71`
+    - `PoolKeeper.sol#L281`
+    
+    ## Description
+    The `PoolKeeper` contract uses two oracles but does not ensure that their prices are updated. The `poll()` function should be called on both oracles to get the first execution and the settlement / ETH
+wiki_exploit_scenario: |
+    Per Solodit #6747: ## Severity: Medium Risk
+    
+    ## Context
+    - `PoolKeeper.sol#L71`
+    - `PoolKeeper.sol#L281`
+    
+    ## Description
+    The `PoolKeeper` contract uses two oracles but does not ensure that their prices are updated. The `p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OraclesAreNotUpdatedBeforeUse"
+solodit_id: "6747"
+solodit_slug: "oracles-are-not-updated-before-use-spearbit-tracer-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal poll;"
+fn_name_regex: ".*(PoolKeeper|poll|settlementEthOracle).*"
+write_var_regex: ".*(poll|settlementEthOracle).*"
+guard_var_regex: ".*(poll|settlementEthOracle).*"
+vuln_fn_name: "PoolKeeper"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "poll = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,47 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-11-recursive-lzcompose-call-can-be-leveraged-to-steal-all-gene"
+class_name: "H11RecursiveLzcomposeCallCanBeLeveragedToStealAllGene"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31065 (Sherlock/Tapioca)"
+help: "H-11: Recursive _lzCompose() call can be leveraged to steal all generated USDO fees"
+wiki_title: "H-11: Recursive _lzCompose() call can be leveraged to steal all generated USDO fees"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-02-tapioca-judging/issues/113 
+    
+    ## Found by 
+    0xadrii, ComposableSecurity
+    ## Summary
+    
+    It is possible to steal all generated USDO fees by leveraging the recursive _lzCompose() call triggered in compose calls.
+    
+    ## Vulnerability Detail
+    
+    The `USDOFlashloanHe
+wiki_exploit_scenario: |
+    Per Solodit #31065: Source: https://github.com/sherlock-audit/2024-02-tapioca-judging/issues/113 
+    
+    ## Found by 
+    0xadrii, ComposableSecurity
+    ## Summary
+    
+    It is possible to steal all generated USDO fees by leveraging the re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H11RecursiveLzcomposeCallCanBeLeveragedToStealAllGene"
+solodit_id: "31065"
+solodit_slug: |
+    h-11-recursive-_lzcompose-call-can-be-leveraged-to-steal-all-generated-usdo-fees-sherlock-tapioca-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(USDOFlashloanHelper|extractFees|msgType_).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

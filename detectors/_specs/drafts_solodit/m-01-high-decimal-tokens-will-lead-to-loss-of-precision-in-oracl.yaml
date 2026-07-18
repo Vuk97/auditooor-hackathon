@@ -1,0 +1,35 @@
+skeleton: "paired_function_divergence"
+name: "m-01-high-decimal-tokens-will-lead-to-loss-of-precision-in-oracl"
+class_name: "M01HighDecimalTokensWillLeadToLossOfPrecisionInOracl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31835 (ZachObront/Splits Oracle)"
+help: "[M-01] High decimal tokens will lead to loss of precision in oracle results"
+wiki_title: "[M-01] High decimal tokens will lead to loss of precision in oracle results"
+wiki_description: |
+    When the Chainlink Oracle has calculated a relative price between two assets, it results in a `price`, which is always represented in 18 decimals. This price is used to convert the passed `baseAmount` into a final result:
+    ```solidity
+    function _convertPriceToQuoteAmount(uint256 price_, QuoteParams ca
+wiki_exploit_scenario: |
+    Per Solodit #31835: When the Chainlink Oracle has calculated a relative price between two assets, it results in a `price`, which is always represented in 18 decimals. This price is used to convert the passed `baseAmount`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01HighDecimalTokensWillLeadToLossOfPrecisionInOracl"
+solodit_id: "31835"
+solodit_slug: |
+    m-01-high-decimal-tokens-will-lead-to-loss-of-precision-in-oracle-results-zachobront-none-splits-oracle-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(baseAmount|price|tokenA).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

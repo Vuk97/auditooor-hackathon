@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "replayedrequest"
+class_name: "Replayedrequest"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ac"
+help: |
+    `approveDeposits()` pushes duplicate request hashes to queue without dedup; `quexCallback()` marks hash used only after execution, so same request can execute multiple times and ov
+wiki_title: "ReplayedRequest"
+wiki_description: |
+    `approveDeposits()` pushes duplicate request hashes to queue without dedup; `quexCallback()` marks hash used only after execution, so same request can execute multiple times and over-pull user funds.
+wiki_exploit_scenario: |
+    Attacker exploits ReplayedRequest as described: `approveDeposits()` pushes duplicate request hashes to queue without dedup; `quexCallback()` marks hash used only after execution, so same request can execute multiple times and over-pull user funds.
+wiki_recommendation: "queue-push loop without `mapping[hash]` pre-check before push."
+contract_name: "Replayedrequest"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(approveDeposits|quexCallback).*"
+read_var_regex: ".*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "approveDeposits"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

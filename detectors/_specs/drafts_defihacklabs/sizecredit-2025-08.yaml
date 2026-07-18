@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "sizecredit-2025-08"
+class_name: "Sizecredit202508"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-08/SizeCredit_exp.sol"
+help: "SizeCredit 2025-08 — oracle exploit (19.7k USD)"
+wiki_title: "SizeCredit (2025-08) — oracle"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-08): SizeCredit lost 19.7k USD. Bug class: oracle. Attack tx: 0xc7477d6a5c63b04d37a39038a28b4cbaa06beb167e390d55ad4a421dbe4067f8.
+wiki_exploit_scenario: |
+    Attacker (0xa7e9b982b0e19a399bc737ca5346ef0ef12046da) exploits SizeCredit via oracle: the victim contract 0xf4a21ac7e51d17a0e1c8b59f7a98bb7a97806f14 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Replace spot-price reads with a TWAP wrapper (e.g., Uniswap V3 OracleLibrary.consult) and require a minimum observation window; sanity-check prices against a reference oracle.
+contract_name: "Sizecredit202508"
+trigger_sig_regex: ".*(getPrice).*"
+required_sibling_regex: ".*(validatePrice).*"
+target_interface_decl: "interface IT { function getPrice(uint256) external; function validatePrice(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "readPrice"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.getPrice(x)"
+sibling_call: "target.validatePrice(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

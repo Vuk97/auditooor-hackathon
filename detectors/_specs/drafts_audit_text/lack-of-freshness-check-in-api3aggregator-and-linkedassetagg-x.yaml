@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-freshness-check-in-api3aggregator-and-linkedassetagg-x"
+class_name: "LackOfFreshnessCheckInApi3aggregatorAndLinkedassetaggX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Takara Lend Contracts - Zellic Audit Report"
+help: |
+    The functions Api3Aggregator.latestRoundData() and LinkedAssetAggrega- tor.latestRoundData() currently lack checks to verify the freshness of the retrieved price data. While Api3Li
+wiki_title: "Lack of freshness check in Api3Aggregator and LinkedAssetAggregator"
+wiki_description: |
+    The functions Api3Aggregator.latestRoundData() and LinkedAssetAggrega- tor.latestRoundData() currently lack checks to verify the freshness of the retrieved price data. While Api3LinkedAggregator has a freshness check for the exchange-rate feed, it does not do the same verification for the timestamps
+wiki_exploit_scenario: |
+    Per audit finding: The functions Api3Aggregator.latestRoundData() and LinkedAssetAggrega- tor.latestRoundData() currently lack checks to verify the freshness of the retrieved price data. While Api3LinkedAggregator has a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfFreshnessCheckInApi3aggregatorAndLinkedassetaggX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(latestRoundData|originPriceFeed|exchangeRateTimestamp).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "latestRoundData"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

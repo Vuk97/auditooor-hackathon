@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-04-persisted-msg-value-in-a-loop-of-delegate-calls-can-be-used"
+class_name: "M04PersistedMsgValueInALoopOfDelegateCallsCanBeUsed"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3146 (Code4rena/Mimo DeFi)"
+help: "[M-04] Persisted msg.value in a loop of delegate calls can be used to drain ETH from your proxy"
+wiki_title: "[M-04] Persisted msg.value in a loop of delegate calls can be used to drain ETH from your proxy"
+wiki_description: |
+    _Submitted by peritoflores, also found by 8olidity and vlad&#95;bochok_
+    
+    `msg.value` in a loop can be used to drain proxy funds.
+    
+    ### Proof of Concept
+    
+    While `BoringBatchable` is out of the scope, this bug affects seriously `MIMOProxy` as it inherits.
+    
+    Some time ago I read a report about an auditor
+wiki_exploit_scenario: |
+    Per Solodit #3146: _Submitted by peritoflores, also found by 8olidity and vlad&#95;bochok_
+    
+    `msg.value` in a loop can be used to drain proxy funds.
+    
+    ### Proof of Concept
+    
+    While `BoringBatchable` is out of the scope, thi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04PersistedMsgValueInALoopOfDelegateCallsCanBeUsed"
+solodit_id: "3146"
+solodit_slug: |
+    m-04-persisted-msgvalue-in-a-loop-of-delegate-calls-can-be-used-to-drain-eth-from-your-proxy-code4rena-mimo-defi-mimo-august-2022-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal batch;"
+fn_name_regex: ".*(BoringBatchable|MIMOProxy|delegatecall|execute).*"
+read_var_regex: ".*(batch|delegatecall|execute).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BoringBatchable"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return batch > 0;"

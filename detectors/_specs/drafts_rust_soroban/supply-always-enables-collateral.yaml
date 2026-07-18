@@ -1,0 +1,19 @@
+id: supply-always-enables-collateral
+title: "Supply always enables collateral regardless of user preference"
+severity: Medium
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.8"
+bug_class: health-factor
+indicators:
+  - "`supply(user, asset, amount)` unconditionally calls `set_using_as_collateral(true)`"
+  - "no `enable_as_collateral: bool` parameter on supply"
+victim: "Users: forced into collateral mode, exposing deposits to liquidation even when intended as pure lending."
+exploit_precondition: "User supplies via the main entrypoint."
+real_world_example: |
+  Halborn 7.8 (MEDIUM): Supply always enables collateral regardless of user preference.
+suggested_remediation: "Accept a `use_as_collateral` flag; respect existing user preference."
+cross_refs:
+  - collateral-auto-enable-without-eligibility

@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "h-11-swap-token-can-be-traded-as-fake-base-token"
+class_name: "H11SwapTokenCanBeTradedAsFakeBaseToken"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3914 (Code4rena/Vader Protocol)"
+help: "[H-11] Swap token can be traded as fake base token"
+wiki_title: "[H-11] Swap token can be traded as fake base token"
+wiki_description: |
+    The `Pools.swap` function does not check if `base` is one of the base tokens. One can transfer `token`s to the pool and set `base=token` and call `swap(token, token, member, toBase=false)`
+    
+    The `_actualInput = getAddedAmount(base, token);` will return the **token** amount added but use the ratio co
+wiki_exploit_scenario: |
+    Per Solodit #3914: The `Pools.swap` function does not check if `base` is one of the base tokens. One can transfer `token`s to the pool and set `base=token` and call `swap(token, token, member, toBase=false)`
+    
+    The `_act
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H11SwapTokenCanBeTradedAsFakeBaseToken"
+solodit_id: "3914"
+solodit_slug: "h-11-swap-token-can-be-traded-as-fake-base-token-code4rena-vader-protocol-vader-protocol-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal base;"
+fn_name_regex: ".*(base|token|swap|USDV).*"
+read_var_regex: ".*(base|swap|token).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "base"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return base > 0;"

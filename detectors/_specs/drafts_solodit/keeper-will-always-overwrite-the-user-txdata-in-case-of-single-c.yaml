@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "keeper-will-always-overwrite-the-user-txdata-in-case-of-single-c"
+class_name: "KeeperWillAlwaysOverwriteTheUserTxdataInCaseOfSingleC"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40856 (Cantina/Superform)"
+help: "Keeper will always overwrite the user txData in case of single cross-chain withdrawal"
+wiki_title: "Keeper will always overwrite the user txData in case of single cross-chain withdrawal "
+wiki_description: |
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    The keeper will always overwrite the `txData` when updating the withdrawal payload in case of a single withdrawal, while it shouldn't be updated if the user already provided a `txData` like in multi-withdrawal behavior.
+    
+    The
+wiki_exploit_scenario: |
+    Per Solodit #40856: ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    The keeper will always overwrite the `txData` when updating the withdrawal payload in case of a single withdrawal, while it
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "KeeperWillAlwaysOverwriteTheUserTxdataInCaseOfSingleC"
+solodit_id: "40856"
+solodit_slug: |
+    keeper-will-always-overwrite-the-user-txdata-in-case-of-single-cross-chain-withdrawal-cantina-none-superform-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal singlewithdraw;"
+fn_name_regex: ".*(txData|updateWithdrawPayload|CoreStateRegistry|txData_).*"
+read_var_regex: ".*(singleWithdraw|txData|txData_).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "txData"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return singlewithdraw > 0;"

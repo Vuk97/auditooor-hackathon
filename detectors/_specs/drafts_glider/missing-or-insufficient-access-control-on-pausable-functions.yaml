@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "missing-or-insufficient-access-control-on-pausable-functions"
+class_name: "MissingOrInsufficientAccessControlOnPausableFunctions"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: pause-functions-lack-access-control"
+help: "Missing or Insufficient Access Control on Pausable Functions"
+wiki_title: "Missing or Insufficient Access Control on Pausable Functions"
+wiki_description: |
+    Detects contracts that inherit Pausable functionality but implement pause/unpause without proper access control modifiers (critical vulnerability). When contracts inherit Pausable (e.g., OpenZeppelin's Pausable.sol), they get internal _pause() and _unpause() functions. These MUST be wrapped in publi
+wiki_exploit_scenario: |
+    Per Glider query tags [access-control, pausable, dos, governance]: Detects contracts that inherit Pausable functionality but implement pause/unpause without proper access control modifiers (critical vulnerability). When contracts inherit Pausable (e.g., OpenZeppelin'
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "MissingOrInsufficientAccessControlOnPausableFunctions"
+fn_name_regex: ".*(onlyOwner).*"
+read_var_regex: ".*(onlyowner).*"
+required_call_regex: ".*(accrue|update|sync|validate|check).*"
+guarded_helper_name: "_guard"
+vuln_fn_name: "onlyOwner"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return onlyowner > 0;"
+state_decl: "uint256 internal onlyowner;"

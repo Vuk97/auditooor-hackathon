@@ -1,0 +1,21 @@
+id: ttl-missing-extend-on-access
+title: "Missing extend_ttl on read paths lets authoritative state expire"
+severity: High
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.16"
+bug_class: ttl-archival
+indicators:
+  - "`storage::get_*(&env, &key)` without a companion `env.storage().persistent().extend_ttl(&key, bump_threshold, bump_amount)`"
+  - "only write paths call `extend_ttl`, read paths do not"
+  - "`storage::instance().extend_ttl(...)` present but per-user persistent keys lack extension on hot paths"
+victim: "All users: normal activity does not keep per-user or per-asset data alive, causing reverts and archived-state DoS."
+exploit_precondition: "A user's data is not touched on the refresh path for >1 year (or the configured TTL window)."
+real_world_example: |
+  Halborn 7.16 (MEDIUM): Missing TTL bumps across core contracts cause archived-state DoS.
+suggested_remediation: "Extend TTL on both read and write paths for any persistent key that encodes long-lived user/asset state. Audit every hot entrypoint to ensure TTL extension."
+cross_refs:
+  - ttl-archival-unwrap-or-zero-hides-debt
+  - user-entrypoint-no-instance-ttl-bump

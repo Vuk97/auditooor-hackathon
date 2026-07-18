@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+interface IRewardSourceC {
+    function claim(address user, uint256[] calldata ids) external;
+    function getRewardToken() external returns (address);
+}
+
+interface IERC20c { function balanceOf(address) external view returns (uint256); }
+
+contract SmartLoanClean {
+    address public owner;
+    mapping(address => bool) public approvedPair;
+    mapping(address => uint256) public rewards;
+    bool private _locked;
+
+    modifier nonReentrant() { require(!_locked, "RE"); _locked = true; _; _locked = false; }
+
+    // Clean: requires whitelist + nonReentrant guard.
+    function claimReward(address pair, uint256[] calldata ids) external nonReentrant {
+        require(approvedPair[pair], "pair not whitelisted");
+        IRewardSourceC(pair).claim(msg.sender, ids);
+        address rewardToken = IRewardSourceC(pair).getRewardToken();
+        rewards[rewardToken] += IERC20c(rewardToken).balanceOf(address(this));
+        _checkSolvent();
+    }
+
+    function _checkSolvent() internal view { /* dummy */ }
+}

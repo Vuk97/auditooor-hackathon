@@ -1,0 +1,25 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "unlimited-reward-mint-via-repeated-poke-accrue-without-epoch-guard"
+class_name: "UnlimitedRewardMintViaRepeatedPokeAccrueWithoutEpochGuard"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: unlimited-reward-mint-via-repeated-pokeaccrue-with"
+help: "Unlimited Reward Mint via Repeated Poke/Accrue Without Epoch Guard"
+wiki_title: "Unlimited Reward Mint via Repeated Poke/Accrue Without Epoch Guard"
+wiki_description: |
+    Finds poke/accrue functions that trigger reward accrual but lack epoch guards, allowing unlimited token minting through spam calls.
+wiki_exploit_scenario: |
+    Per Glider query tags [ve-token, poke, epoch-guard, unlimited-mint, alchemix, flux]: Finds poke/accrue functions that trigger reward accrual but lack epoch guards, allowing unlimited token minting through spam calls.
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "UnlimitedRewardMintViaRepeatedPokeAccrueWithoutEpochGuard"
+trigger_sig_regex: ".*(unlimited).*"
+required_sibling_regex: ".*(validate|check|verify|assert).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

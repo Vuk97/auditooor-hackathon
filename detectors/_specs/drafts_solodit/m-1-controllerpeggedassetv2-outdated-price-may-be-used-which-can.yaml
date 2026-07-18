@@ -1,0 +1,40 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-1-controllerpeggedassetv2-outdated-price-may-be-used-which-can"
+class_name: "M1Controllerpeggedassetv2OutdatedPriceMayBeUsedWhichCan"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18538 (Sherlock/Y2K)"
+help: "M-1: ControllerPeggedAssetV2: outdated price may be used which can lead to wrong depeg events"
+wiki_title: "M-1: ControllerPeggedAssetV2: outdated price may be used which can lead to wrong depeg events"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-03-Y2K-judging/issues/70 
+    
+    ## Found by 
+    0xRobocop, 0xnirlin, ABA, Ch\_301, Delvir0, Saeedalipoor01988, ShadowForce, TrungOre, ast3ros, bin2chen, carrot, evan, kaysoft, lemonmon, martin, minhtrng, p0wd3r, peanuts, roguereddwarf
+    
+    ## Summary
+    The `updatedAt
+wiki_exploit_scenario: |
+    Per Solodit #18538: Source: https://github.com/sherlock-audit/2023-03-Y2K-judging/issues/70 
+    
+    ## Found by 
+    0xRobocop, 0xnirlin, ABA, Ch\_301, Delvir0, Saeedalipoor01988, ShadowForce, TrungOre, ast3ros, bin2chen, carrot,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1Controllerpeggedassetv2OutdatedPriceMayBeUsedWhichCan"
+solodit_id: "18538"
+solodit_slug: |
+    m-1-controllerpeggedassetv2-outdated-price-may-be-used-which-can-lead-to-wrong-depeg-events-sherlock-none-y2k-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Stale Price, Oracle, Chainlink"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(updatedAt).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

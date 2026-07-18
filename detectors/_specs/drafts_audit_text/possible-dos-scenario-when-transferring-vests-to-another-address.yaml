@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "possible-dos-scenario-when-transferring-vests-to-another-address"
+class_name: "PossibleDosScenarioWhenTransferringVestsToAnotherAddress"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-secondswap"
+help: |
+    Shubham , also found by ABAIKUNANBAEV Vestings can be transferred to another address by a trusted authority. All the necessary parameters are recalculated like the totalAmount & re
+wiki_title: "Possible DoS scenario when transferring vests to another address"
+wiki_description: |
+    Shubham , also found by ABAIKUNANBAEV Vestings can be transferred to another address by a trusted authority. All the necessary parameters are recalculated like the totalAmount & releaseRate for the current owner for the vesting. However it is possible that a call to transfer the vesting might be fro
+wiki_exploit_scenario: |
+    Per audit finding: Shubham , also found by ABAIKUNANBAEV Vestings can be transferred to another address by a trusted authority. All the necessary parameters are recalculated like the totalAmount & releaseRate for the cu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleDosScenarioWhenTransferringVestsToAnotherAddress"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalAmount|releaseRate|claimableAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "totalAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

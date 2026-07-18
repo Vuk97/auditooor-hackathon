@@ -1,0 +1,38 @@
+skeleton: "state_write_without_paired_write"
+name: "m-15-lacking-validation-of-chainlink-oracle-queries"
+class_name: "M15LackingValidationOfChainlinkOracleQueries"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42351 (Code4rena/Vader Protocol)"
+help: "[M-15] Lacking Validation Of Chainlink' Oracle Queries"
+wiki_title: "[M-15] Lacking Validation Of Chainlink' Oracle Queries"
+wiki_description: |
+    _Submitted by leastwood_
+    
+    #### Impact
+    
+    `TwapOracle.consult()` is missing additional validations to ensure that the round is complete and has returned a valid/expected price. The `consult()` improperly casts an `int256 price` to `uint256` without first checking the value. As a result, the variable ma
+wiki_exploit_scenario: |
+    Per Solodit #42351: _Submitted by leastwood_
+    
+    #### Impact
+    
+    `TwapOracle.consult()` is missing additional validations to ensure that the round is complete and has returned a valid/expected price. The `consult()` improperly
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15LackingValidationOfChainlinkOracleQueries"
+solodit_id: "42351"
+solodit_slug: "m-15-lacking-validation-of-chainlink-oracle-queries-code4rena-vader-protocol-vader-protocol-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(consult|latestAnswer|latestRoundData).*"
+primary_var_regex: ".*(consult|latestAnswer|latestRoundData).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

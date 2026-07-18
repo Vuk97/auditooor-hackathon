@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "missing-nil-check-when-parsing-client-event"
+class_name: "MissingNilCheckWhenParsingClientEvent"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit ZetaChain - 6.30.23 Zellic Audit Report"
+help: |
+    One of the responsibilities of the zeta client is to watch for incoming transactions and handle any ZetaSent events emitted by the connector. logs, err :) ob.Connector.FilterZetaSe
+wiki_title: "Missing nil check when parsing client event"
+wiki_description: |
+    One of the responsibilities of the zeta client is to watch for incoming transactions and handle any ZetaSent events emitted by the connector. logs, err :) ob.Connector.FilterZetaSent(&bind.FilterOpts{ Start: uint64(startBlock), End: &tb, Context: context.TODO(), }, []ethcommon.Address{}, []*big.Int{
+wiki_exploit_scenario: |
+    Per audit finding: One of the responsibilities of the zeta client is to watch for incoming transactions and handle any ZetaSent events emitted by the connector. logs, err :) ob.Connector.FilterZetaSent(&bind.FilterOpts{
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingNilCheckWhenParsingClientEvent"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(startBlock|destChain|destAddr).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "startBlock"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "tokens-that-have-already-been-vested-can-be-transferred-from-x"
+class_name: "TokensThatHaveAlreadyBeenVestedCanBeTransferredFromX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-secondswap"
+help: |
+    sl1 As stated by the contest page, token issuer must be able to reallocate vesting allocations from one user to another. It can be done via transferVesting() function of the StepVe
+wiki_title: "Tokens that have already been vested can be transferred from a user."
+wiki_description: |
+    sl1 As stated by the contest page, token issuer must be able to reallocate vesting allocations from one user to another. It can be done via transferVesting() function of the StepVesting contract. SecondSwap_StepVesting.sol#L224-L232 require ( grantorVesting . totalAmount - grantorVesting . amountCla
+wiki_exploit_scenario: |
+    Per audit finding: sl1 As stated by the contest page, token issuer must be able to reallocate vesting allocations from one user to another. It can be done via transferVesting() function of the StepVesting contract. Seco
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokensThatHaveAlreadyBeenVestedCanBeTransferredFromX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferVesting|grantorVesting|totalAmount).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferVesting"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

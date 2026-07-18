@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "mimspell2-2024-01"
+class_name: "Mimspell2202401"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-01/MIMSpell2_exp.sol"
+help: "MIMSpell2 2024-01 — flashloan exploit (~$6,5M)"
+wiki_title: "MIMSpell2 (2024-01) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-01): MIMSpell2 lost ~$6,5M. Bug class: flashloan. Attack tx: 0x26a83db7e28838dd9fee6fb7314ae58dcc6aee9a20bf224c386ff5e80f7e4cf2.
+wiki_exploit_scenario: |
+    Attacker (0x87f585809ce79ae39a5fa0c7c96d0d159eb678c9) exploits MIMSpell2 via flashloan: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Mimspell2202401"
+trigger_sig_regex: ".*(onFlashLoan).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function onFlashLoan(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.onFlashLoan(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

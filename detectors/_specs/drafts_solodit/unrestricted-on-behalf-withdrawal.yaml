@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_require"
+name: "unrestricted-on-behalf-withdrawal"
+class_name: "UnrestrictedOnBehalfWithdrawal"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #45922 (Zokyo/Evoq)"
+help: "Unrestricted “On-Behalf” Withdrawal"
+wiki_title: "Unrestricted “On-Behalf” Withdrawal"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description (Contracts & Functions)**:
+    
+    Evoq.sol → withdraw() / internal call _withdraw()
+    PositionsManager.sol → withdrawLogic()
+    These functions let the caller specify _supplier and _receiver with no checks confirming that msg.sender is _supplier or has
+wiki_exploit_scenario: |
+    Per Solodit #45922: **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description (Contracts & Functions)**:
+    
+    Evoq.sol → withdraw() / internal call _withdraw()
+    PositionsManager.sol → withdrawLogic()
+    These functions let the c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnrestrictedOnBehalfWithdrawal"
+solodit_id: "45922"
+solodit_slug: "unrestricted-on-behalf-withdrawal-zokyo-none-evoq-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawLogic|aliceBalance|balanceOf|startPrank).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "withdrawLogic"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

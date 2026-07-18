@@ -1,0 +1,36 @@
+skeleton: "paired_function_divergence"
+name: "lost-bridged-funds-when-pausing-action-withdraw"
+class_name: "LostBridgedFundsWhenPausingActionWithdraw"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53595 (SigmaPrime/Omni Network)"
+help: "Lost Bridged Funds When Pausing ACTION_WITHDRAW"
+wiki_title: "Lost Bridged Funds When Pausing ACTION_WITHDRAW"
+wiki_description: |
+    ## Description
+    Pausing `ACTION_WITHDRAW` in the Omni bridges can lead to bridged funds becoming permanently lost. When a user calls `bridge()` to bridge OMNI tokens, an XMsg is sent to the destination chain to call the destination chain bridge’s `withdraw()` function. 
+    
+    However, if the `withdraw()`
+wiki_exploit_scenario: |
+    Per Solodit #53595: ## Description
+    Pausing `ACTION_WITHDRAW` in the Omni bridges can lead to bridged funds becoming permanently lost. When a user calls `bridge()` to bridge OMNI tokens, an XMsg is sent to the destination
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LostBridgedFundsWhenPausingActionWithdraw"
+solodit_id: "53595"
+solodit_slug: "lost-bridged-funds-when-pausing-action_withdraw-sigmaprime-none-omni-network-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(bridge|withdraw).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

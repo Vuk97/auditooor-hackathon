@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "reentrancy-vulnerabilities-may-drain-tokens"
+class_name: "ReentrancyVulnerabilitiesMayDrainTokens"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19588 (SigmaPrime/Sushi)"
+help: "Reentrancy Vulnerabilities May Drain Tokens"
+wiki_title: "Reentrancy Vulnerabilities May Drain Tokens"
+wiki_description: |
+    ## Description
+    
+    There is a potential reentrancy bug in `FuroVesting.stopVesting()` that allows draining the token balance of the contract for any ERC20 token that relinquishes control during `transfer()`. In addition to other ERC20 tokens, it’s also possible to withdraw WETH as native ETH in BentoBo
+wiki_exploit_scenario: |
+    Per Solodit #19588: ## Description
+    
+    There is a potential reentrancy bug in `FuroVesting.stopVesting()` that allows draining the token balance of the contract for any ERC20 token that relinquishes control during `transfer
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyVulnerabilitiesMayDrainTokens"
+solodit_id: "19588"
+solodit_slug: "reentrancy-vulnerabilities-may-drain-tokens-sigmaprime-none-sushi-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal stopvesting;"
+fn_name_regex: ".*(transfer|stopVesting|vests|toBentoBox).*"
+read_var_regex: ".*(stopVesting|toBentoBox|transfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return stopvesting > 0;"

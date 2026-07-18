@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "lootbox-unprotected-selfdestruct-in-proxy-implementation"
+class_name: "LootboxUnprotectedSelfdestructInProxyImplementation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #13582 (ConsenSys/PoolTogether - LootBox and MultipleWinners Strategy)"
+help: "LootBox - Unprotected selfdestruct in proxy implementation"
+wiki_title: "LootBox - Unprotected selfdestruct in proxy implementation"
+wiki_description: |
+    #### Description
+    
+    
+    When the `LootBoxController` is deployed, it also deploys an instance of `LootBox`. When someone calls `LootBoxController.plunder()` or `LootBoxController.executeCall()` the controller actually deploys a temporary proxy contract to a deterministic address using `create2`, then cal
+wiki_exploit_scenario: |
+    Per Solodit #13582: #### Description
+    
+    
+    When the `LootBoxController` is deployed, it also deploys an instance of `LootBox`. When someone calls `LootBoxController.plunder()` or `LootBoxController.executeCall()` the control
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LootboxUnprotectedSelfdestructInProxyImplementation"
+solodit_id: "13582"
+solodit_slug: |
+    lootbox-unprotected-selfdestruct-in-proxy-implementation-consensys-pooltogether-lootbox-and-multiplewinners-strategy-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal create2;"
+fn_name_regex: ".*(LootBoxController|LootBox|create2|selfdestruct).*"
+read_var_regex: ".*(create2|selfdestruct).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LootBoxController"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return create2 > 0;"

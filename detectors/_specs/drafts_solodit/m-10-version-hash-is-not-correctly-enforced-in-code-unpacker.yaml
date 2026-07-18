@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-10-version-hash-is-not-correctly-enforced-in-code-unpacker"
+class_name: "M10VersionHashIsNotCorrectlyEnforcedInCodeUnpacker"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30289 (Code4rena/zkSync)"
+help: "[M-10] Version hash is not correctly enforced in code unpacker"
+wiki_title: "[M-10] Version hash is not correctly enforced in code unpacker"
+wiki_description: |
+    In code unpacker, version hash is not correctly enforced.
+    
+    ### Proof of Concept
+    
+    In code unpacker, we enforce that version hash is correct.
+    
+            let version_hash_matches = UInt16::equals(cs, &chunks[1], &versioned_hash_top_16_bits);
+            state.state_get_from_queue.conditionally_enforce_true(
+wiki_exploit_scenario: |
+    Per Solodit #30289: In code unpacker, version hash is not correctly enforced.
+    
+    ### Proof of Concept
+    
+    In code unpacker, we enforce that version hash is correct.
+    
+            let version_hash_matches = UInt16::equals(cs, &chu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10VersionHashIsNotCorrectlyEnforcedInCodeUnpacker"
+solodit_id: "30289"
+solodit_slug: "m-10-version-hash-is-not-correctly-enforced-in-code-unpacker-code4rena-zksync-zksync-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal conditionally_enforce_true;"
+fn_name_regex: ".*(state_get_from_queue|conditionally_enforce_true|should_enforce).*"
+read_var_regex: ".*(conditionally_enforce_true|should_enforce|state_get_from_queue).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "state_get_from_queue"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return conditionally_enforce_true > 0;"

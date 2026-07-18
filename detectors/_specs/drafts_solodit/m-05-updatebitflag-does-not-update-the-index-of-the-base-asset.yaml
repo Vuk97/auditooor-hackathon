@@ -1,0 +1,47 @@
+skeleton: "state_write_without_paired_write"
+name: "m-05-updatebitflag-does-not-update-the-index-of-the-base-asset"
+class_name: "M05UpdatebitflagDoesNotUpdateTheIndexOfTheBaseAsset"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57959 (Pashov Audit Group/Cove_2024-12-30)"
+help: "[M-05] `updateBitFlag` does not update the index of the base asset"
+wiki_title: "[M-05] `updateBitFlag` does not update the index of the base asset"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    The `updateBitFlag` function allows the basket's asset list to be updated, with the restriction that the new `bitFlag` must be a superset of the previous `bitFlag`. During the `updateBitFlag` process, if all validations pass, the fu
+wiki_exploit_scenario: |
+    Per Solodit #57959: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    The `updateBitFlag` function allows the basket's asset list to be updated, with the restriction that the new `bitFlag` must be a sup
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05UpdatebitflagDoesNotUpdateTheIndexOfTheBaseAsset"
+solodit_id: "57959"
+solodit_slug: |
+    m-05-updatebitflag-does-not-update-the-index-of-the-base-asset-pashov-audit-group-none-cove_2024-12-30-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(updateBitFlag|bitFlag|basketAssetToIndexPlusOne|basketTokenToBaseAssetIndexPlusOne).*"
+primary_var_regex: ".*(basketAssetToIndexPlusOne|basketTokenToBaseAssetIndexPlusOne|bitFlag).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

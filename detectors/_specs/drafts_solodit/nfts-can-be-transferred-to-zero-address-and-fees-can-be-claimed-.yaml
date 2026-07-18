@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "nfts-can-be-transferred-to-zero-address-and-fees-can-be-claimed-"
+class_name: "NftsCanBeTransferredToZeroAddressAndFeesCanBeClaimed"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54320 (Cantina/ZeroLend)"
+help: "NFTs can be transferred to zero address and fees can be claimed for these tokenids"
+wiki_title: "NFTs can be transferred to zero address and fees can be claimed for these tokenids "
+wiki_description: |
+    ## FeeDistributor and ZeroLocker Analysis
+    
+    ## Context
+    - `FeeDistributor.sol#L264`
+    - `ZeroLocker.sol#L191`
+    - `ZeroLocker.sol#L325`
+    
+    ## Description
+    The comment in `_transferFrom` states that it does not allow transferring to the zero address. This gives a false impression because it is not true. 
+    
+    Any
+wiki_exploit_scenario: |
+    Per Solodit #54320: ## FeeDistributor and ZeroLocker Analysis
+    
+    ## Context
+    - `FeeDistributor.sol#L264`
+    - `ZeroLocker.sol#L191`
+    - `ZeroLocker.sol#L325`
+    
+    ## Description
+    The comment in `_transferFrom` states that it does not
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NftsCanBeTransferredToZeroAddressAndFeesCanBeClaimed"
+solodit_id: "54320"
+solodit_slug: |
+    nfts-can-be-transferred-to-zero-address-and-fees-can-be-claimed-for-these-tokenids-cantina-none-zerolend-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal feedistributor;"
+fn_name_regex: ".*(tokenID|transferFrom|tokenIDs|feedistributor).*"
+write_var_regex: ".*(feedistributor|maxEpoch|ownerOf).*"
+guard_var_regex: ".*(feedistributor|maxEpoch|ownerOf).*"
+vuln_fn_name: "tokenID"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "feedistributor = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,31 @@
+skeleton: "state_write_without_paired_write"
+name: "asymmetric-first-in-block-swap-initialization-leads-to-stale-sta"
+class_name: "AsymmetricFirstInBlockSwapInitializationLeadsToStaleSta"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61376 (OpenZeppelin/OpenZeppelin Uniswap Hooks v1.1.0 RC 1 Audit)"
+help: "Asymmetric First In-Block Swap Initialization Leads to Stale State"
+wiki_title: "Asymmetric First In-Block Swap Initialization Leads to Stale State"
+wiki_description: |
+    The [`AntiSandwichHook`](https://github.com/OpenZeppelin/uniswap-hooks/blob/release-v1.1-rc.0/src/general/AntiSandwichHook.sol#L47) contract aims to prevent sandwich attacks by ensuring that swaps adhere to prices from the beginning of the block. It uses a checkpoint, stored in the [`_lastCheckpoint
+wiki_exploit_scenario: |
+    Per Solodit #61376: The [`AntiSandwichHook`](https://github.com/OpenZeppelin/uniswap-hooks/blob/release-v1.1-rc.0/src/general/AntiSandwichHook.sol#L47) contract aims to prevent sandwich attacks by ensuring that swaps adh
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AsymmetricFirstInBlockSwapInitializationLeadsToStaleSta"
+solodit_id: "61376"
+solodit_slug: |
+    asymmetric-first-in-block-swap-initialization-leads-to-stale-state-openzeppelin-none-openzeppelin-uniswap-hooks-v110-rc-1-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(AntiSandwichHook|ticks|sqrtPriceX96).*"
+primary_var_regex: ".*(sqrtPriceX96|ticks).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

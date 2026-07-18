@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "m-18-setting-revertgaslimit-to-a-value-larger-than-uint64-in-the"
+class_name: "M18SettingRevertgaslimitToAValueLargerThanUint64InThe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58653 (Sherlock/ZetaChain Cross-Chain)"
+help: |
+    M-18: Setting `RevertGasLimit` to a value larger than `uint64` in the Solidity gateway contract will cause a panic that prevents finalizing the inbound CCTX and observers from rece
+wiki_title: |
+    M-18: Setting `RevertGasLimit` to a value larger than `uint64` in the Solidity gateway contract will cause a panic that prevents finalizing the inbound CCTX and
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-04-zetachain-cross-chain-judging/issues/310 
+    
+    ## Found by 
+    berndartmueller
+    
+    ## Summary
+    
+    The `RevertGasLimit` is a `uint256` in Solidity. When calling `cctx.RevertOptions.RevertGasLimit.Uint64()` in `GetRevertGasLimit()`, it will panic if the value does
+wiki_exploit_scenario: |
+    Per Solodit #58653: Source: https://github.com/sherlock-audit/2025-04-zetachain-cross-chain-judging/issues/310 
+    
+    ## Found by 
+    berndartmueller
+    
+    ## Summary
+    
+    The `RevertGasLimit` is a `uint256` in Solidity. When calling `c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18SettingRevertgaslimitToAValueLargerThanUint64InThe"
+solodit_id: "58653"
+solodit_slug: |
+    m-18-setting-revertgaslimit-to-a-value-larger-than-uint64-in-the-solidity-gateway-contract-will-cause-a-panic-that-prevents-finalizing-the-inbound-cctx-and-observers-from-receiving-block-rewards-sherlock-zetachain-cross-chain-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal uint64;"
+fn_name_regex: ".*(RevertGasLimit|GetRevertGasLimit|uint64|MsgVoteInbound).*"
+write_var_regex: ".*(uint64).*"
+guard_var_regex: ".*(uint64).*"
+vuln_fn_name: "RevertGasLimit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "uint64 = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-field-parsing-in-parsegaslimitsprices"
+class_name: "IncorrectFieldParsingInParsegaslimitsprices"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero TON - Zellic Audit Report"
+help: |
+    The gas prices structure is parsed as the following: ;; gas_prices_ext#de gas_price:uint64 gas_limit:uint64 special_gas_limit:uint64 gas_credit:uint64 ;; block_gas_limit:uint64 fre
+wiki_title: "Incorrect field parsing in parseGasLimitsPrices"
+wiki_description: |
+    The gas prices structure is parsed as the following: ;; gas_prices_ext#de gas_price:uint64 gas_limit:uint64 special_gas_limit:uint64 gas_credit:uint64 ;; block_gas_limit:uint64 freeze_due_limit:uint64 delete_due_limit:uint64 ;; = GasLimitsPrices; ;; ;; gas_flat_pfx#d1 flat_gas_limit:uint64 flat_gas_
+wiki_exploit_scenario: |
+    Per audit finding: The gas prices structure is parsed as the following: ;; gas_prices_ext#de gas_price:uint64 gas_limit:uint64 special_gas_limit:uint64 gas_credit:uint64 ;; block_gas_limit:uint64 freeze_due_limit:uint64
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectFieldParsingInParsegaslimitsprices"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(cfgSlice|specialGasLimit|flatGasLimit).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "cfgSlice"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

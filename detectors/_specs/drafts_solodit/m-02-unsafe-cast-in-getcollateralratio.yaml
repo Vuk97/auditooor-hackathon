@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-02-unsafe-cast-in-getcollateralratio"
+class_name: "M02UnsafeCastInGetcollateralratio"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20819 (Code4rena/Angle Protocol)"
+help: "[M-02] Unsafe cast in `getCollateralRatio()`"
+wiki_title: "[M-02] Unsafe cast in `getCollateralRatio()`"
+wiki_description: |
+    `LibGetters.getCollateralRatio()` might return the incorrect ratio due to the unsafe cast.
+    
+    ### Proof of Concept
+    
+    `getCollateralRatio()` outputs the collateral ratio using the total collaterals and issued agTokens.
+    
+    ```solidity
+        // The `stablecoinsIssued` value need to be rounded up because it i
+wiki_exploit_scenario: |
+    Per Solodit #20819: `LibGetters.getCollateralRatio()` might return the incorrect ratio due to the unsafe cast.
+    
+    ### Proof of Concept
+    
+    `getCollateralRatio()` outputs the collateral ratio using the total collaterals and i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02UnsafeCastInGetcollateralratio"
+solodit_id: "20819"
+solodit_slug: "m-02-unsafe-cast-in-getcollateralratio-code4rena-angle-protocol-angle-protocol-invitational-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Type casting"
+state_decl: "uint256 internal collatratio;"
+fn_name_regex: ".*(getCollateralRatio|stablecoinsIssued|collatRatio|BASE_9).*"
+read_var_regex: ".*(collatRatio|getCollateralRatio|stablecoinsIssued).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getCollateralRatio"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return collatratio > 0;"

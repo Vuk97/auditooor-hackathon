@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "inconsistent-handling-of-orders-with-minimum-amountinbaselots-15"
+class_name: "InconsistentHandlingOfOrdersWithMinimumAmountinbaselots15"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit GTE CLOB - Zellic Audit Report"
+help: |
+    The createMarket function in the CLOBFactory contract is currently permissionless, allowing any user to create a market with arbitrary quoteToken and baseToken pairs. function crea
+wiki_title: "Inconsistent handling of orders with minimum amountInBaseLots                   15"
+wiki_description: |
+    The createMarket function in the CLOBFactory contract is currently permissionless, allowing any user to create a market with arbitrary quoteToken and baseToken pairs. function createMarket( address quoteToken, address baseToken, ConfigParams memory config, SettingsParams memory settings ) external r
+wiki_exploit_scenario: |
+    Per audit finding: The createMarket function in the CLOBFactory contract is currently permissionless, allowing any user to create a market with arbitrary quoteToken and baseToken pairs. function createMarket( address qu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentHandlingOfOrdersWithMinimumAmountinbaselots15"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

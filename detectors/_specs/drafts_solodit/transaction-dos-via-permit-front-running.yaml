@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "transaction-dos-via-permit-front-running"
+class_name: "TransactionDosViaPermitFrontRunning"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41155 (MixBytes/EYWA)"
+help: "Transaction DOS via `permit()` front-running"
+wiki_title: "Transaction DOS via `permit()` front-running"
+wiki_description: |
+    ##### Description
+    
+    The `permit()` data,  once submitted, is publicly accessible in the mempool, allowing anyone to execute the permit by replicating the transaction arguments. Once `permit()` has been called, the second call with identical parameters will revert.
+    
+    In a scenario where a signed transa
+wiki_exploit_scenario: |
+    Per Solodit #41155: ##### Description
+    
+    The `permit()` data,  once submitted, is publicly accessible in the mempool, allowing anyone to execute the permit by replicating the transaction arguments. Once `permit()` has been
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TransactionDosViaPermitFrontRunning"
+solodit_id: "41155"
+solodit_slug: "transaction-dos-via-permit-front-running-mixbytes-none-eywa-markdown"
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: "DOS, Grief Attack, Front-Running"
+state_decl: "uint256 internal permit;"
+fn_name_regex: ".*(permit|PERMIT_CODE|start).*"
+read_var_regex: ".*(permit|start).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "permit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return permit > 0;"

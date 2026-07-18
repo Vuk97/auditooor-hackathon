@@ -1,0 +1,35 @@
+skeleton: "state_write_without_paired_write"
+name: "m-02-stale-redemption-liabilities-lead-to-leveraged-losses-for-r"
+class_name: "M02StaleRedemptionLiabilitiesLeadToLeveragedLossesForR"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65497 (Code4rena/SukukFi)"
+help: |
+    [M-02] Stale Redemption Liabilities Lead to Leveraged Losses for Remaining Shareholders and Potential Denial of Service
+wiki_title: |
+    [M-02] Stale Redemption Liabilities Lead to Leveraged Losses for Remaining Shareholders and Potential Denial of Service
+wiki_description: |
+    * `src/ERC7575VaultUpgradeable.sol` [# L831](https://github.com/code-423n4/2025-11-sukukfi/blob/18fe2578cf1c6203dac7ff21513533010f3dda3e/src/ERC7575VaultUpgradeable.sol# L831)
+    * `src/ERC7575VaultUpgradeable.sol` [# L1208](https://github.com/code-423n4/2025-11-sukukfi/blob/18fe2578cf1c6203dac7ff215
+wiki_exploit_scenario: |
+    Per Solodit #65497: * `src/ERC7575VaultUpgradeable.sol` [# L831](https://github.com/code-423n4/2025-11-sukukfi/blob/18fe2578cf1c6203dac7ff21513533010f3dda3e/src/ERC7575VaultUpgradeable.sol# L831)
+    * `src/ERC7575VaultUpg
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02StaleRedemptionLiabilitiesLeadToLeveragedLossesForR"
+solodit_id: "65497"
+solodit_slug: |
+    m-02-stale-redemption-liabilities-lead-to-leveraged-losses-for-remaining-shareholders-and-potential-denial-of-service-code4rena-sukukfi-sukukfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(fulfillRedeem|redeem|withdraw).*"
+primary_var_regex: ".*(fulfillRedeem|redeem|withdraw).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

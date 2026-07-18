@@ -1,0 +1,48 @@
+skeleton: "state_write_without_paired_write"
+name: "m-20-operator-if-wallspread-is-10000-operate-and-beat-will-rever"
+class_name: "M20OperatorIfWallspreadIs10000OperateAndBeatWillRever"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3224 (Code4rena/Olympus DAO)"
+help: |
+    [M-20] Operator: if WallSpread is 10000, `operate` and `beat` will revert and price information cannot be updated anymore
+wiki_title: |
+    [M-20] Operator: if WallSpread is 10000, `operate` and `beat` will revert and price information cannot be updated anymore
+wiki_description: |
+    _Submitted by zzzitron_
+    
+    The `beat` cannot be called anymore and price information will not be updated
+    
+    Condition:
+    
+    *   the wallspread is set to 10000 (100%)
+    *   lower wall is active (range.low\.active==true)
+    *   the price falls into the lower cushion (currentPrice < range.cushion.low\.price && curr
+wiki_exploit_scenario: |
+    Per Solodit #3224: _Submitted by zzzitron_
+    
+    The `beat` cannot be called anymore and price information will not be updated
+    
+    Condition:
+    
+    *   the wallspread is set to 10000 (100%)
+    *   lower wall is active (range.low\.activ
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M20OperatorIfWallspreadIs10000OperateAndBeatWillRever"
+solodit_id: "3224"
+solodit_slug: |
+    m-20-operator-if-wallspread-is-10000-operate-and-beat-will-revert-and-price-information-cannot-be-updated-anymore-code4rena-olympus-dao-olympus-dao-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(beat|operate).*"
+primary_var_regex: ".*(beat|operate).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

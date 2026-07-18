@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "governance-fee-charged-without-market-order-placement"
+class_name: "GovernanceFeeChargedWithoutMarketOrderPlacement"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    A market order can be cancelled in the callback for various reasons, including if useBackupOnly is true, so the value of a.price is zero, the execution price is outside slippage pa
+wiki_title: "Governance fee charged without market-order placement"
+wiki_description: |
+    A market order can be cancelled in the callback for various reasons, including if useBackupOnly is true, so the value of a.price is zero, the execution price is outside slippage parameters, or the trade is not within exposure limits. In this case, the USDC is transferred back to the user after the d
+wiki_exploit_scenario: |
+    Per audit finding: A market order can be cancelled in the callback for various reasons, including if useBackupOnly is true, so the value of a.price is zero, the execution price is outside slippage parameters, or the tra
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GovernanceFeeChargedWithoutMarketOrderPlacement"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(useBackupOnly).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "useBackupOnly"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

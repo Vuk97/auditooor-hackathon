@@ -1,0 +1,19 @@
+id: wrong-supply-query-skips-settlement
+title: "Wrong supply query type skips reward settlement"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44860"
+bug_class: reward-accounting
+indicators:
+  - "reward-settlement helper reads `total_supply` via the wrong accessor (e.g. scaled vs unscaled)"
+  - "mismatched decimals between the queried supply and the index's denomination"
+victim: "All reward recipients: settlement silently noops."
+exploit_precondition: "Incentives contract wired to a token type where the queried function returns a 0 or wrong-scale value."
+real_world_example: |
+  V12 #44860 (High): Wrong supply query type skips reward settlement.
+suggested_remediation: "Fix the accessor; add invariant tests for settlement path."
+cross_refs:
+  - stale-reward-indexes-accrue

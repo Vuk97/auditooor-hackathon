@@ -1,0 +1,40 @@
+skeleton: "paired_function_divergence"
+name: "m-11-test-addresses-and-incorrect-interface-in-code-prevent-inte"
+class_name: "M11TestAddressesAndIncorrectInterfaceInCodePreventInte"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29359 (Code4rena/Open Dollar)"
+help: "[M-11] Test addresses and incorrect interface in code prevent integration with UniswapV3 and Camelot"
+wiki_title: "[M-11] Test addresses and incorrect interface in code prevent integration with UniswapV3 and Camelot"
+wiki_description: |
+    Testing addresses for Camelot and UniswapV3 factories are still used in the code:
+    
+    [CamelotRelayer.sol#L20](https://github.com/open-dollar/od-contracts/blob/f4f0246bb26277249c1d5afe6201d4d9096e52e6/src/contracts/oracles/CamelotRelayer.sol#L20)
+    
+    ```solidity
+      address internal constant _CAMELOT_FACTO
+wiki_exploit_scenario: |
+    Per Solodit #29359: Testing addresses for Camelot and UniswapV3 factories are still used in the code:
+    
+    [CamelotRelayer.sol#L20](https://github.com/open-dollar/od-contracts/blob/f4f0246bb26277249c1d5afe6201d4d9096e52e6/s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11TestAddressesAndIncorrectInterfaceInCodePreventInte"
+solodit_id: "29359"
+solodit_slug: |
+    m-11-test-addresses-and-incorrect-interface-in-code-prevent-integration-with-uniswapv3-and-camelot-code4rena-open-dollar-open-dollar-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(camelotPair).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

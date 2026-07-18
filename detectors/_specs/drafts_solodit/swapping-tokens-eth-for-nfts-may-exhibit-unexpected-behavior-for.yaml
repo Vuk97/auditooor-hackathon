@@ -1,0 +1,51 @@
+skeleton: "paired_function_divergence"
+name: "swapping-tokens-eth-for-nfts-may-exhibit-unexpected-behavior-for"
+class_name: "SwappingTokensEthForNftsMayExhibitUnexpectedBehaviorFor"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18295 (Spearbit/Sudoswap LSSVM2)"
+help: |
+    Swapping tokens/ETH for NFTs may exhibit unexpected behavior for certain values of input amount, trade fees and royalties
+wiki_title: |
+    Swapping tokens/ETH for NFTs may exhibit unexpected behavior for certain values of input amount, trade fees and royalties
+wiki_description: |
+    ## Medium Risk Report
+    
+    **Severity:** Medium Risk  
+    **Context:** 
+    - LSSVMPairERC20.sol#L34-L115
+    - LSSVMPairETH.sol#L22-L73  
+    
+    **Description:**  
+    The `_pullTokenInputAndPayProtocolFee()` function pulls ERC20/ETH from the caller/router and pays protocol fees, trade fees, and royalties proportionately.
+wiki_exploit_scenario: |
+    Per Solodit #18295: ## Medium Risk Report
+    
+    **Severity:** Medium Risk  
+    **Context:** 
+    - LSSVMPairERC20.sol#L34-L115
+    - LSSVMPairETH.sol#L22-L73  
+    
+    **Description:**  
+    The `_pullTokenInputAndPayProtocolFee()` function pulls
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwappingTokensEthForNftsMayExhibitUnexpectedBehaviorFor"
+solodit_id: "18295"
+solodit_slug: |
+    swapping-tokenseth-for-nfts-may-exhibit-unexpected-behavior-for-certain-values-of-input-amount-spearbit-sudoswap-lssvm2-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(inputAmount|protocolFee|royaltyTotal).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

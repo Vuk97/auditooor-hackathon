@@ -1,0 +1,38 @@
+skeleton: "paired_function_divergence"
+name: "token-approvals-can-be-stolen-in-daofiv1router01-addliquidity"
+class_name: "TokenApprovalsCanBeStolenInDaofiv1router01Addliquidity"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #13524 (ConsenSys/DAOfi)"
+help: "Token approvals can be stolen in DAOfiV1Router01.addLiquidity()"
+wiki_title: "Token approvals can be stolen in DAOfiV1Router01.addLiquidity()"
+wiki_description: |
+    #### Description
+    
+    
+    `DAOfiV1Router01.addLiquidity()` creates the desired pair contract if it does not already exist, then transfers tokens into the pair and calls `DAOfiV1Pair.deposit()`. There is no validation of the address to transfer tokens from, so an attacker could pass in any address with nonz
+wiki_exploit_scenario: |
+    Per Solodit #13524: #### Description
+    
+    
+    `DAOfiV1Router01.addLiquidity()` creates the desired pair contract if it does not already exist, then transfers tokens into the pair and calls `DAOfiV1Pair.deposit()`. There is no v
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokenApprovalsCanBeStolenInDaofiv1router01Addliquidity"
+solodit_id: "13524"
+solodit_slug: "token-approvals-can-be-stolen-in-daofiv1router01addliquidity-consensys-daofi-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(pairOwner).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

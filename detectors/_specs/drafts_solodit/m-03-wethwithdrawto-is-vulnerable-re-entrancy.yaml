@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "m-03-wethwithdrawto-is-vulnerable-re-entrancy"
+class_name: "M03WethwithdrawtoIsVulnerableReEntrancy"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42246 (Code4rena/Wild Credit)"
+help: "[M-03] `_wethWithdrawTo` is vulnerable re-entrancy"
+wiki_title: "[M-03] `_wethWithdrawTo` is vulnerable re-entrancy"
+wiki_description: |
+    _Submitted by pauliax_
+    
+    The function `withdrawBorrowETH` invokes `_wethWithdrawTo` and later `_checkMinReserve`, however, the check of reserve is not necessary here, as function `_wethWithdrawTo` also does that after transferring the ether. However, this reserve check might be bypassed as `TransferH
+wiki_exploit_scenario: |
+    Per Solodit #42246: _Submitted by pauliax_
+    
+    The function `withdrawBorrowETH` invokes `_wethWithdrawTo` and later `_checkMinReserve`, however, the check of reserve is not necessary here, as function `_wethWithdrawTo` also
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03WethwithdrawtoIsVulnerableReEntrancy"
+solodit_id: "42246"
+solodit_slug: "m-03-_wethwithdrawto-is-vulnerable-re-entrancy-code4rena-wild-credit-wild-credit-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrow;"
+fn_name_regex: ".*(withdrawBorrowETH|TransferHelper|MIN_RESERVE|deposit).*"
+read_var_regex: ".*(borrow|deposit|repay).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdrawBorrowETH"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borrow > 0;"

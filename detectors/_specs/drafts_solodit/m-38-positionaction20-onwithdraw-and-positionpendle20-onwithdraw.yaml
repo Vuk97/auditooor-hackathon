@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-38-positionaction20-onwithdraw-and-positionpendle20-onwithdraw"
+class_name: "M38Positionaction20OnwithdrawAndPositionpendle20Onwithdraw"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49075 (Code4rena/LoopFi)"
+help: |
+    [M-38] `PositionAction20._onWithdraw` and `PositionPendle20._onWithdraw` also returns token amount in wrong scale
+wiki_title: |
+    [M-38] `PositionAction20._onWithdraw` and `PositionPendle20._onWithdraw` also returns token amount in wrong scale
+wiki_description: |
+    Withdraw operations will invariably revert due to insufficient funds if the collateral's decimal deviates from 18.
+    
+    ### Proof-of-Concept
+    
+    `CDPVault.withdraw` accepts amount in `tokenScale` but returns token amount in `wad` scale.
+    
+    See [`CDPVault.withdraw`](https://github.com/code-423n4/2024-07-loop
+wiki_exploit_scenario: |
+    Per Solodit #49075: Withdraw operations will invariably revert due to insufficient funds if the collateral's decimal deviates from 18.
+    
+    ### Proof-of-Concept
+    
+    `CDPVault.withdraw` accepts amount in `tokenScale` but return
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M38Positionaction20OnwithdrawAndPositionpendle20Onwithdraw"
+solodit_id: "49075"
+solodit_slug: |
+    m-38-positionaction20_onwithdraw-and-positionpendle20_onwithdraw-also-returns-token-amount-in-wrong-scale-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal tokenscale;"
+fn_name_regex: ".*(tokenScale|wad).*"
+read_var_regex: ".*(tokenScale|wad).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tokenScale"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tokenscale > 0;"

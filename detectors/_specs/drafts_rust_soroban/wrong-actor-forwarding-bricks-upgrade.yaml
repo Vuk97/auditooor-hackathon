@@ -1,0 +1,21 @@
+id: wrong-actor-forwarding-bricks-upgrade
+title: "Configurator forwards wrong actor into downstream admin-gated call"
+severity: Medium
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44797"
+bug_class: abi-mismatch
+indicators:
+  - "pattern: admin verifies external admin locally, then forwards `env.current_contract_address()` as `caller` into a downstream auth-gated function without binding"
+  - "downstream function expects the admin address but receives the configurator contract address"
+  - "token-upgrade flow that fails because the `admin` param is the configurator contract, not the pool admin"
+victim: "Protocol governance: upgrades bricked; admin cannot execute privileged changes through the intended path."
+exploit_precondition: "Admin invokes upgrade; call reverts on the forwarded actor mismatch."
+real_world_example: |
+  V12 #44797 (Medium): Wrong actor forwarding bricks token upgrade flows.
+suggested_remediation: "Forward the actual authenticated admin address, not the intermediate contract. Document actor identity contract-by-contract."
+cross_refs:
+  - cross-contract-abi-mismatch-reverts
+  - missing-self-authorize-as-current-contract

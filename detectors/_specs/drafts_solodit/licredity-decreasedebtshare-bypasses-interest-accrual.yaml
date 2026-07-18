@@ -1,0 +1,30 @@
+skeleton: "state_write_without_paired_write"
+name: "licredity-decreasedebtshare-bypasses-interest-accrual"
+class_name: "LicredityDecreasedebtshareBypassesInterestAccrual"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62350 (Cyfrin/Licredity)"
+help: "`Licredity::decreaseDebtShare` bypasses interest accrual"
+wiki_title: "`Licredity::decreaseDebtShare` bypasses interest accrual"
+wiki_description: |
+    **Description:** A borrower can call [`Licredity::decreaseDebtShare`](https://github.com/Licredity/licredity-v1-core/blob/e8ae10a7d9f27529e39ca277bf56cef01a807817/src/Licredity.sol#L472-L536) to repay their loan. Because this call can only reduce debt, it’s treated as “safe” and allowed outside the
+wiki_exploit_scenario: |
+    Per Solodit #62350: **Description:** A borrower can call [`Licredity::decreaseDebtShare`](https://github.com/Licredity/licredity-v1-core/blob/e8ae10a7d9f27529e39ca277bf56cef01a807817/src/Licredity.sol#L472-L536) to repay
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LicredityDecreasedebtshareBypassesInterestAccrual"
+solodit_id: "62350"
+solodit_slug: "licreditydecreasedebtshare-bypasses-interest-accrual-cyfrin-none-licredity-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(unlock|swap|decreaseDebtShare).*"
+primary_var_regex: ".*(decreaseDebtShare|swap|unlock).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

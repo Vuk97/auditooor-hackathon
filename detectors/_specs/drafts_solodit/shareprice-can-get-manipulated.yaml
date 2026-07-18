@@ -1,0 +1,45 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "shareprice-can-get-manipulated"
+class_name: "SharepriceCanGetManipulated"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #37577 (Zokyo/Copra)"
+help: "`SharePrice` can get manipulated"
+wiki_title: "`SharePrice` can get manipulated"
+wiki_description: |
+    **Severity**: Critical	
+    
+    **Status**: Acknowledged
+    
+    **Description**
+    
+    The `_withdrawFromTarget` function in the `CurveLiquidityWarehouse.sol` contract calculates the theoric price for a LP share relying on the spot price of the curve pool.
+    
+    ```solidity
+    uint256 sharePrice = curveStableSwapPool.calc_wit
+wiki_exploit_scenario: |
+    Per Solodit #37577: **Severity**: Critical	
+    
+    **Status**: Acknowledged
+    
+    **Description**
+    
+    The `_withdrawFromTarget` function in the `CurveLiquidityWarehouse.sol` contract calculates the theoric price for a LP share relying
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SharepriceCanGetManipulated"
+solodit_id: "37577"
+solodit_slug: "shareprice-can-get-manipulated-zokyo-none-copra-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(calc_withdraw_one_coin|sharePrice|burnAmt|withdrawAmount).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

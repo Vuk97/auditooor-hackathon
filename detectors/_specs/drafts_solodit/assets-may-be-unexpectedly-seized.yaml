@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "assets-may-be-unexpectedly-seized"
+class_name: "AssetsMayBeUnexpectedlySeized"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34269 (MixBytes/dForce)"
+help: "Assets may be unexpectedly seized"
+wiki_title: "Assets may be unexpectedly seized"
+wiki_description: |
+    ##### Description
+    During liquidation, collateral may be seized even if the borrower has not entered the market with it. Such behavior is likely unexpected for the borrower.
+    
+    Related code:
+     - the `liquidateCalculateSeizeTokensV2` function: https://github.com/dforce-network/LendingContracts/blob/6f3a7
+wiki_exploit_scenario: |
+    Per Solodit #34269: ##### Description
+    During liquidation, collateral may be seized even if the borrower has not entered the market with it. Such behavior is likely unexpected for the borrower.
+    
+    Related code:
+     - the `liqu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AssetsMayBeUnexpectedlySeized"
+solodit_id: "34269"
+solodit_slug: "assets-may-be-unexpectedly-seized-mixbytes-none-dforce-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal beforeliquidateborrow;"
+fn_name_regex: ".*(liquidateCalculateSeizeTokensV2|beforeLiquidateBorrow|enterMarket).*"
+read_var_regex: ".*(beforeLiquidateBorrow|enterMarket|liquidateCalculateSeizeTokensV2).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidateCalculateSeizeTokensV2"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return beforeliquidateborrow > 0;"

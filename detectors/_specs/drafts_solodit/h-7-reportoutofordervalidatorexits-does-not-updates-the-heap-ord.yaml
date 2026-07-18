@@ -1,0 +1,42 @@
+skeleton: "paired_function_divergence"
+name: "h-7-reportoutofordervalidatorexits-does-not-updates-the-heap-ord"
+class_name: "H7ReportoutofordervalidatorexitsDoesNotUpdatesTheHeapOrd"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30902 (Sherlock/Rio Network)"
+help: "H-7: `reportOutOfOrderValidatorExits` does not updates the heap order"
+wiki_title: "H-7: `reportOutOfOrderValidatorExits` does not updates the heap order"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-02-rio-network-core-protocol-judging/issues/131 
+    
+    ## Found by 
+    ComposableSecurity, g, mstpr-brainbot
+    ## Summary
+    When an operator's validator exits without a withdrawal request, the owner can invoke the `reportOutOfOrderValidatorExits` function to increa
+wiki_exploit_scenario: |
+    Per Solodit #30902: Source: https://github.com/sherlock-audit/2024-02-rio-network-core-protocol-judging/issues/131 
+    
+    ## Found by 
+    ComposableSecurity, g, mstpr-brainbot
+    ## Summary
+    When an operator's validator exits withou
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H7ReportoutofordervalidatorexitsDoesNotUpdatesTheHeapOrd"
+solodit_id: "30902"
+solodit_slug: "h-7-reportoutofordervalidatorexits-does-not-updates-the-heap-order-sherlock-rio-network-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(cap|deposited|exited).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

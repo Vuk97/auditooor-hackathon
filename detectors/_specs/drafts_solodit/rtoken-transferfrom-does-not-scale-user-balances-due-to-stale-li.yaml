@@ -1,0 +1,35 @@
+skeleton: "state_write_without_paired_write"
+name: "rtoken-transferfrom-does-not-scale-user-balances-due-to-stale-li"
+class_name: "RtokenTransferfromDoesNotScaleUserBalancesDueToStaleLi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57175 (Codehawks/Core Contracts)"
+help: "RToken.transferFrom() Does Not Scale User Balances Due to Stale Liquidity Index"
+wiki_title: "RToken.transferFrom() Does Not Scale User Balances Due to Stale Liquidity Index"
+wiki_description: |
+    ## Summary
+    
+    The `transferFrom()` function in the RToken contract is intended to scale transfer amounts based on the current liquidity index to reflect accrued interest. However, because the liquidity index (`_liquidityIndex`) is never updated in RToken.sol and remains fixed at its initial value (1e2
+wiki_exploit_scenario: |
+    Per Solodit #57175: ## Summary
+    
+    The `transferFrom()` function in the RToken contract is intended to scale transfer amounts based on the current liquidity index to reflect accrued interest. However, because the liquidity
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RtokenTransferfromDoesNotScaleUserBalancesDueToStaleLi"
+solodit_id: "57175"
+solodit_slug: |
+    rtokentransferfrom-does-not-scale-user-balances-due-to-stale-liquidity-index-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(transferFrom|updateLiquidityIndex|rayDiv).*"
+primary_var_regex: ".*(rayDiv|transferFrom|updateLiquidityIndex).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

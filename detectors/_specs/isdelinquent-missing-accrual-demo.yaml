@@ -1,0 +1,30 @@
+skeleton: name_match_missing_call
+name: isdelinquent-missing-accrual-demo
+class_name: IsDelinquentMissingAccrualDemo
+wave: 11
+severity: HIGH
+confidence: MEDIUM
+source: "Zellic slice_aa RFIN-26 (codegen demo)"
+help: "Debt-health check reads loan state without calling accrueInterest"
+wiki_title: "Debt health check missing interest accrual"
+wiki_description: "A function whose name suggests a debt-health check reads loan amount state without first calling an accrual helper, producing a stale picture of the borrower's health."
+wiki_exploit_scenario: "Alice's loan accrues interest over time. The protocol's _isHealthyDemo helper reads loan.amount without accruing first, so it sees the un-accrued principal and reports Alice as healthy. Once a dust repay triggers accrual, Alice instantly becomes bad-debt."
+wiki_recommendation: "Call _accrueInterestDemo(loanId) at the top of any *isHealthy*/*isDelinquent* / health-check helper, so the reads see the up-to-date amount."
+
+fn_name_regex: ".*(isDelinquentDemo|isHealthyDemo|isLiquidatableDemo).*"
+read_var_regex: ".*(loansDemo|debtDemo|borrowDemo).*"
+required_call_regex: "_?accrueInterestDemo.*|_?updateIndexDemo.*|_?syncDemo.*"
+
+contract_name: LoanHealthDemo
+state_decl: |
+    struct LoanDemo { uint256 amount; uint256 updatedAt; }
+    mapping(uint256 => LoanDemo) internal loansDemo;
+    mapping(uint256 => uint256) internal collateralsDemo;
+guarded_helper_name: _accrueInterestDemo
+vuln_fn_name: _isHealthyDemo
+vuln_fn_params: "uint256 id"
+vuln_fn_mutability: "internal view"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: |
+    return loansDemo[id].amount * 100 <= collateralsDemo[id] * 80;

@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_require"
+name: "tickmath-might-revert-in-solidity-version-0-8"
+class_name: "TickmathMightRevertInSolidityVersion08"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6763 (Spearbit/Timeless)"
+help: "TickMath might revert in solidity version 0.8"
+wiki_title: "TickMath might revert in solidity version 0.8"
+wiki_description: |
+    ## Security Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `TickMath.sol#L2`
+    
+    ## Description
+    UniswapV3’s `TickMath` library was changed to allow compilations for solidity version 0.8. However, adjustments to account for the implicit overflow behavior that the contract relies upon were not performed
+wiki_exploit_scenario: |
+    Per Solodit #6763: ## Security Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `TickMath.sol#L2`
+    
+    ## Description
+    UniswapV3’s `TickMath` library was changed to allow compilations for solidity version 0.8. However, adjust
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TickmathMightRevertInSolidityVersion08"
+solodit_id: "6763"
+solodit_slug: "tickmath-might-revert-in-solidity-version-08-spearbit-timeless-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(TickMath|OracleLibrary|PoolAddress).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "TickMath"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

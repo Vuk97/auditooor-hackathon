@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "fpc-2025-07"
+class_name: "Fpc202507"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-07/FPC_exp.sol"
+help: "FPC 2025-07 — flashloan exploit (4.7M USDT)"
+wiki_title: "FPC (2025-07) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-07): FPC lost 4.7M USDT. Bug class: flashloan. Attack tx: 0x3a9dd216fb6314c013fa8c4f85bfbbe0ed0a73209f54c57c1aab02ba989f5937.
+wiki_exploit_scenario: |
+    Attacker (0x18dd258631b23777c101440380bf053c79db3d9d) exploits FPC via flashloan: the victim contract 0xb192d4a737430aa61cea4ce9bfb6432f7d42592f exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Fpc202507"
+trigger_sig_regex: ".*(pancakeCall).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function pancakeCall(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.pancakeCall(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

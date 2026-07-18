@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "m-05-secondaryminter-may-break-plotsavailablepersize"
+class_name: "M05SecondaryminterMayBreakPlotsavailablepersize"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28892 (Code4rena/Forgotten Runiverse)"
+help: "[M-05] `secondaryMinter` may break `plotsAvailablePerSize`"
+wiki_title: "[M-05] `secondaryMinter` may break `plotsAvailablePerSize`"
+wiki_description: |
+    RuniverseLand allows primaryMinter and secondaryMinter to mint NFT.
+    
+            function mintTokenId(
+                address recipient,
+                uint256 tokenId,
+                PlotSize size
+            ) public override nonReentrant {
+                require(numMinted < MAX_SUPPLY, "All land has been minted");
+wiki_exploit_scenario: |
+    Per Solodit #28892: RuniverseLand allows primaryMinter and secondaryMinter to mint NFT.
+    
+            function mintTokenId(
+                address recipient,
+                uint256 tokenId,
+                PlotSize size
+            ) publ
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05SecondaryminterMayBreakPlotsavailablepersize"
+solodit_id: "28892"
+solodit_slug: |
+    m-05-secondaryminter-may-break-plotsavailablepersize-code4rena-forgotten-runiverse-forgotten-runiverse-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(secondaryMinter|plotsAvailablePerSize).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "secondaryMinter"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

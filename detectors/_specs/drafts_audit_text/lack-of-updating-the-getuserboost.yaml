@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-updating-the-getuserboost"
+class_name: "LackOfUpdatingTheGetuserboost"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Maia DAO February 2023 - Zellic Audit Report"
+help: |
+    In the withdrawGaugeBoost function, the decrementAllGaugesBoost function is called before a transfer is made in order to release the required amount of tokens. This is necessary be
+wiki_title: "Lack of updating the getUserBoost"
+wiki_description: |
+    In the withdrawGaugeBoost function, the decrementAllGaugesBoost function is called before a transfer is made in order to release the required amount of tokens. This is necessary because if the freeGaugeBoost value is less than amount, then the address(h ermesGaugeBoost).safeTransfer(to, amount) call
+wiki_exploit_scenario: |
+    Per audit finding: In the withdrawGaugeBoost function, the decrementAllGaugesBoost function is called before a transfer is made in order to release the required amount of tokens. This is necessary because if the freeGau
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfUpdatingTheGetuserboost"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawGaugeBoost|decrementAllGaugesBoost|freeGaugeBoost).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "withdrawGaugeBoost"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

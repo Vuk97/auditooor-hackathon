@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "h-02-crvrewardscontract-getreward-can-be-called-directly-breakin"
+class_name: "H02CrvrewardscontractGetrewardCanBeCalledDirectlyBreakin"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31840 (Code4rena/Amphora Protocol)"
+help: |
+    [H-02] crvRewardsContract `getReward` can be called directly, breaking vaults `claimRewards` functionallity
+wiki_title: |
+    [H-02] crvRewardsContract `getReward` can be called directly, breaking vaults `claimRewards` functionallity
+wiki_description: |
+    crvRewardsContract of convex can be called by anyone on behalf of Vault, this will allow malicious users to call `getReward` and break the Vault `claimRewards` functionality.
+    
+    ### Proof of Concept
+    
+    Convex rewarded allow anyone to call `getReward` on behalf of any users:
+    
+    <https://github.com/convex-
+wiki_exploit_scenario: |
+    Per Solodit #31840: crvRewardsContract of convex can be called by anyone on behalf of Vault, this will allow malicious users to call `getReward` and break the Vault `claimRewards` functionality.
+    
+    ### Proof of Concept
+    
+    C
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02CrvrewardscontractGetrewardCanBeCalledDirectlyBreakin"
+solodit_id: "31840"
+solodit_slug: |
+    h-02-crvrewardscontract-getreward-can-be-called-directly-breaking-vaults-claimrewards-functionallity-code4rena-amphora-protocol-amphora-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimrewards;"
+fn_name_regex: ".*(getReward|claimRewards).*"
+read_var_regex: ".*(claimRewards|getReward).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getReward"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimrewards > 0;"

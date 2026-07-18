@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "potential-loss-of-weekly-emissions"
+class_name: "PotentialLossOfWeeklyEmissions"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Maia DAO February 2023 - Zellic Audit Report"
+help: |
+    When there is a new period, the weekly emissions and growth are calculated and the new tokens are minted. The storage variable weekly then stores the amount of tokens that are able
+wiki_title: "Potential loss of weekly emissions"
+wiki_description: |
+    When there is a new period, the weekly emissions and growth are calculated and the new tokens are minted. The storage variable weekly then stores the amount of tokens that are able to be claimed with getRewards. function updatePeriod() public returns (uint256) { uint256 _period = activePeriod; if (b
+wiki_exploit_scenario: |
+    Per audit finding: When there is a new period, the weekly emissions and growth are calculated and the new tokens are minted. The storage variable weekly then stores the amount of tokens that are able to be claimed with
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialLossOfWeeklyEmissions"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getRewards|updatePeriod|activePeriod).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getRewards"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

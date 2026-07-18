@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "m-03-rounding-error-in-buyquote-might-result-in-free-tokens"
+class_name: "M03RoundingErrorInBuyquoteMightResultInFreeTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6101 (Code4rena/Caviar)"
+help: "[M-03] Rounding error in `buyQuote` might result in free tokens"
+wiki_title: "[M-03] Rounding error in `buyQuote` might result in free tokens"
+wiki_description: |
+    In order to guarantee the contract does not become insolvent, incoming assets should be rounded up, while outgoing assets should be rounded down.
+    
+    The function `buyQuote()` calculates the amount of base tokens required to buy a given amount of fractional tokens. However, this function rounds down t
+wiki_exploit_scenario: |
+    Per Solodit #6101: In order to guarantee the contract does not become insolvent, incoming assets should be rounded up, while outgoing assets should be rounded down.
+    
+    The function `buyQuote()` calculates the amount of b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03RoundingErrorInBuyquoteMightResultInFreeTokens"
+solodit_id: "6101"
+solodit_slug: "m-03-rounding-error-in-buyquote-might-result-in-free-tokens-code4rena-caviar-caviar-contest-git"
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: "Rounding"
+state_decl: "uint256 internal buyquote;"
+fn_name_regex: ".*(buyQuote|FixedPointMathLib).*"
+read_var_regex: ".*(buyQuote).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "buyQuote"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return buyquote > 0;"

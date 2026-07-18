@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "membershiperc1155-sendprofit-can-be-front-run-by-calls-to-member"
+class_name: "Membershiperc1155SendprofitCanBeFrontRunByCallsToMember"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41923 (Cyfrin/One World Project)"
+help: |
+    `MembershipERC1155::sendProfit` can be front-run by calls to `MembershipFactory::joinDAO` to steal profit from existing DAO members
+wiki_title: |
+    `MembershipERC1155::sendProfit` can be front-run by calls to `MembershipFactory::joinDAO` to steal profit from existing DAO members
+wiki_description: |
+    **Description:** Profit is distributed to DAO members following a call to [`MembershipERC1155::sendProfit`](https://github.com/OneWpOrg/audit-2024-10-oneworld/blob/416630e46ea6f0e9bd9bdd0aea6a48119d0b515a/contracts/dao/tokens/MembershipERC1155.sol#L189-L201) which increases the profit per share trac
+wiki_exploit_scenario: |
+    Per Solodit #41923: **Description:** Profit is distributed to DAO members following a call to [`MembershipERC1155::sendProfit`](https://github.com/OneWpOrg/audit-2024-10-oneworld/blob/416630e46ea6f0e9bd9bdd0aea6a48119d0b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Membershiperc1155SendprofitCanBeFrontRunByCallsToMember"
+solodit_id: "41923"
+solodit_slug: |
+    membershiperc1155sendprofit-can-be-front-run-by-calls-to-membershipfactoryjoindao-to-steal-profit-from-existing-dao-members-cyfrin-none-one-world-project-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal describe;"
+fn_name_regex: ".*(totalProfit|describe).*"
+read_var_regex: ".*(describe|totalProfit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalProfit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return describe > 0;"

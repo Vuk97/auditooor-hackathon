@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "variable-side-yield-on-yield-is-unfairly-split"
+class_name: "VariableSideYieldOnYieldIsUnfairlySplit"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Lido Fixed Income - Zellic Audit Report"
+help: |
+    During a vault's lifetime, the staked stETH grows due to Lido yield, and that stETH belongs to the variable-side depositors. At any time, a variable-side depositor can request the
+wiki_title: "Variable-side yield on yield is unfairly split"
+wiki_description: |
+    During a vault's lifetime, the staked stETH grows due to Lido yield, and that stETH belongs to the variable-side depositors. At any time, a variable-side depositor can request the disbursement of their share of the gains from that yield: function withdraw(uint256 side) external { // [...] [ case !is
+wiki_exploit_scenario: |
+    Per audit finding: During a vault's lifetime, the staked stETH grows due to Lido yield, and that stETH belongs to the variable-side depositors. At any time, a variable-side depositor can request the disbursement of thei
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VariableSideYieldOnYieldIsUnfairlySplit"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stETH|isEnded|lidoStETHBalance).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "stETH"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

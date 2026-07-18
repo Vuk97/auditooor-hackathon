@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "interest-is-not-accrued-before-calling-borrowimpl-internalborrow"
+class_name: "InterestIsNotAccruedBeforeCallingBorrowimplInternalborrow"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #46372 (Cantina/Dahlia)"
+help: "Interest is not accrued before calling BorrowImpl.internalBorrow in Dahlia.supplyAndBorrow"
+wiki_title: "Interest is not accrued before calling BorrowImpl.internalBorrow in Dahlia.supplyAndBorrow "
+wiki_description: |
+    ## Context
+    **Dahlia.sol#L252**
+    
+    ## Description
+    Interest is not accrued before calling `BorrowImpl.internalBorrow` in `Dahlia.supplyAndBorrow`. Accruing interest before calling `BorrowImpl.internalBorrow` is important; otherwise:
+    
+    1. `borrowedShares` would be calculated with stale data.
+    2. The follow
+wiki_exploit_scenario: |
+    Per Solodit #46372: ## Context
+    **Dahlia.sol#L252**
+    
+    ## Description
+    Interest is not accrued before calling `BorrowImpl.internalBorrow` in `Dahlia.supplyAndBorrow`. Accruing interest before calling `BorrowImpl.internalBorr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InterestIsNotAccruedBeforeCallingBorrowimplInternalborrow"
+solodit_id: "46372"
+solodit_slug: |
+    interest-is-not-accrued-before-calling-borrowimplinternalborrow-in-dahliasupplyandborrow-cantina-none-dahlia-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(borrowedShares|borrowedAssets|bb8ce8fa).*"
+primary_var_regex: ".*(bb8ce8fa|borrowedAssets|borrowedShares).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

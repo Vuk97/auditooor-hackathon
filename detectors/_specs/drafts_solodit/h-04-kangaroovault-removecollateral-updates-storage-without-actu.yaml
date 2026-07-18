@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "h-04-kangaroovault-removecollateral-updates-storage-without-actu"
+class_name: "H04KangaroovaultRemovecollateralUpdatesStorageWithoutActu"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20227 (Code4rena/Polynomial Protocol)"
+help: |
+    [H-04] `KangarooVault.removeCollateral` updates storage without actually removing collateral, resulting in lost collateral
+wiki_title: |
+    [H-04] `KangarooVault.removeCollateral` updates storage without actually removing collateral, resulting in lost collateral
+wiki_description: |
+    The admin can call `KangarooVault.addCollateral` to add additional collateral to a Power Perp position.
+    
+    ```solidity
+    File: src/KangarooVault.sol
+    424:     function addCollateral(uint256 additionalCollateral) external requiresAuth nonReentrant {
+    425:         SUSD.safeApprove(address(EXCHANGE), additi
+wiki_exploit_scenario: |
+    Per Solodit #20227: The admin can call `KangarooVault.addCollateral` to add additional collateral to a Power Perp position.
+    
+    ```solidity
+    File: src/KangarooVault.sol
+    424:     function addCollateral(uint256 additionalColl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04KangaroovaultRemovecollateralUpdatesStorageWithoutActu"
+solodit_id: "20227"
+solodit_slug: |
+    h-04-kangaroovaultremovecollateral-updates-storage-without-actually-removing-collateral-resulting-in-lost-collateral-code4rena-polynomial-protocol-polynomial-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal availablefunds;"
+fn_name_regex: ".*(SUSD|EXCHANGE|usedFunds|processWithdrawalQueue).*"
+read_var_regex: ".*(availableFunds|processWithdrawalQueue|removeCollateral).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SUSD"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return availablefunds > 0;"

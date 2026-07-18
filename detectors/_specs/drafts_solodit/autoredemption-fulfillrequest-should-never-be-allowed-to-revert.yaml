@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "autoredemption-fulfillrequest-should-never-be-allowed-to-revert"
+class_name: "AutoredemptionFulfillrequestShouldNeverBeAllowedToRevert"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45057 (Cyfrin/The Standard Auto Redemption)"
+help: "`AutoRedemption::fulfillRequest` should never be allowed to revert"
+wiki_title: "`AutoRedemption::fulfillRequest` should never be allowed to revert"
+wiki_description: |
+    **Description:** Given that the Chainlink Functions DON will not retry failed fulfilments, `AutoRedemption::fulfillRequest` should never be allowed to revert; otherwise, `lastRequestId` will not be reset to `bytes32(0)` which means `AutoRedemption::performUpkeep` will never be able to trigger new re
+wiki_exploit_scenario: |
+    Per Solodit #45057: **Description:** Given that the Chainlink Functions DON will not retry failed fulfilments, `AutoRedemption::fulfillRequest` should never be allowed to revert; otherwise, `lastRequestId` will not be re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AutoredemptionFulfillrequestShouldNeverBeAllowedToRevert"
+solodit_id: "45057"
+solodit_slug: |
+    autoredemptionfulfillrequest-should-never-be-allowed-to-revert-cyfrin-none-the-standard-auto-redemption-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lastrequestid;"
+fn_name_regex: ".*(lastRequestId|USDs).*"
+read_var_regex: ".*(lastRequestId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "lastRequestId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return lastrequestid > 0;"

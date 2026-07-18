@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-14-malicious-caller-of-processmessage-can-pocket-the-fee-while"
+class_name: "M14MaliciousCallerOfProcessmessageCanPocketTheFeeWhile"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31947 (Code4rena/Taiko)"
+help: |
+    [M-14] Malicious caller of `processMessage()` can pocket the fee while forcing `excessivelySafeCall()` to fail
+wiki_title: |
+    [M-14] Malicious caller of `processMessage()` can pocket the fee while forcing `excessivelySafeCall()` to fail
+wiki_description: |
+    The logic inside function `processMessage()` [provides a reward to the msg.sender](https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/bridge/Bridge.sol#L298) if they are not the `refundTo` address. However this reward or `_message.fee` is awarded even if the `_invokeM
+wiki_exploit_scenario: |
+    Per Solodit #31947: The logic inside function `processMessage()` [provides a reward to the msg.sender](https://github.com/code-423n4/2024-03-taiko/blob/main/packages/protocol/contracts/bridge/Bridge.sol#L298) if they ar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14MaliciousCallerOfProcessmessageCanPocketTheFeeWhile"
+solodit_id: "31947"
+solodit_slug: |
+    m-14-malicious-caller-of-processmessage-can-pocket-the-fee-while-forcing-excessivelysafecall-to-fail-code4rena-taiko-taiko-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal processmessage;"
+fn_name_regex: ".*(processMessage|refundTo|RETRIABLE|excessivelySafeCall).*"
+read_var_regex: ".*(processMessage|refundTo).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "processMessage"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return processmessage > 0;"

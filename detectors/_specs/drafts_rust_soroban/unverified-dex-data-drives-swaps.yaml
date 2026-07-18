@@ -1,0 +1,19 @@
+id: unverified-dex-data-drives-swaps
+title: "Unverified DEX data (pair address, amount out) drives swaps"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44347"
+bug_class: authorization
+indicators:
+  - "adapter calls `factory.get_pair()` and trusts the returned address as the transfer destination"
+  - "no validation against a trusted pair list or computed deterministic address"
+victim: "Protocol: funds sent to attacker-chosen pair; inflated 'out' amounts over-credit caller."
+exploit_precondition: "Factory/router is attacker-influenced or misconfigured (admin-gated, hence lower severity on K2)."
+real_world_example: |
+  V12 #44347 (High, V12-self-invalidated: factory is admin-gated): Unverified DEX data drives swaps.
+suggested_remediation: "Validate pair address against a deterministic derivation or a whitelist; measure balance deltas."
+cross_refs:
+  - swap-output-trusted-without-settlement

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "sign-bit-computed-but-not-enabled-in-select-for-int248"
+class_name: "SignBitComputedButNotEnabledInSelectForInt248"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Brevis - Zellic Audit Report"
+help: |
+    The Int248 type that is part of the sdk caches the sign for efficiency reasons; see the more detailed discussion in Finding 3.1. ↗. In the Select function in sdk/api_int248.go, the
+wiki_title: "Sign bit computed but not enabled in Select for Int248"
+wiki_description: |
+    The Int248 type that is part of the sdk caches the sign for efficiency reasons; see the more detailed discussion in Finding 3.1. ↗. In the Select function in sdk/api_int248.go, the sign bit of the result is computed based on the cached sign bits of the inputs, if they are available: func (api *Int24
+wiki_exploit_scenario: |
+    Per audit finding: The Int248 type that is part of the sdk caches the sign for efficiency reasons; see the more detailed discussion in Finding 3.1. ↗. In the Select function in sdk/api_int248.go, the sign bit of the res
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SignBitComputedButNotEnabledInSelectForInt248"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(signBitSet).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "signBitSet"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

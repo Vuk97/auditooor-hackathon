@@ -1,0 +1,34 @@
+skeleton: "state_write_without_paired_write"
+name: "incorrect-chainlink-integration"
+class_name: "IncorrectChainlinkIntegration"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #60060 (Quantstamp/blex.io)"
+help: "Incorrect Chainlink Integration"
+wiki_title: "Incorrect Chainlink Integration"
+wiki_description: |
+    **Update**
+    The Blex team has replaced the use of the deprecated `latestAnswer()` and `latestRound()` function calls with calls to `latestRoundData()` in commit [e025a21](https://github.com/blex-dex/contracts/commit/e025a21b13546f2f75c21663a83e35cee5d072e1).
+    
+    However, the `updatedAt` timestamp return
+wiki_exploit_scenario: |
+    Per Solodit #60060: **Update**
+    The Blex team has replaced the use of the deprecated `latestAnswer()` and `latestRound()` function calls with calls to `latestRoundData()` in commit [e025a21](https://github.com/blex-dex/co
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectChainlinkIntegration"
+solodit_id: "60060"
+solodit_slug: "incorrect-chainlink-integration-quantstamp-blexio-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(latestAnswer|latestRound|latestRoundData|updatedAt).*"
+primary_var_regex: ".*(latestAnswer|latestRound|latestRoundData).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

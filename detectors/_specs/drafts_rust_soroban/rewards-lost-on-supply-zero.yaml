@@ -1,0 +1,19 @@
+id: rewards-lost-on-supply-zero
+title: "Rewards lost when total supply drops to zero"
+severity: Medium
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44467"
+bug_class: reward-accounting
+indicators:
+  - "reward accrual formula divides by `total_supply`; no special-case when supply transitions through zero"
+  - "emissions during zero-supply interval are discarded rather than accumulated"
+victim: "Protocol treasury or next users: unaccrued emissions are lost."
+exploit_precondition: "Total supply reaches zero at least once."
+real_world_example: |
+  V12 #44467 (Medium): Rewards lost when total supply drops to zero.
+suggested_remediation: "Carry forward unaccrued emissions during zero-supply intervals into the next settle."
+cross_refs:
+  - stale-reward-indexes-accrue

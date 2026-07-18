@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "m-06-rpc-dos-via-tracetx"
+class_name: "M06RpcDosViaTracetx"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49280 (Code4rena/Nibiru)"
+help: "[M-06] RPC DOS via `TraceTx`"
+wiki_title: "[M-06] RPC DOS via `TraceTx`"
+wiki_description: |
+    The `TraceTx` method in `x/evm/keeper/grpc_query.go` implements a gRPC query interface that allows simulation and tracing of specific transactions based on provided configurations. This method enables users to perform detailed execution simulations for transactions in a block.
+    
+    However, a DOS issue
+wiki_exploit_scenario: |
+    Per Solodit #49280: The `TraceTx` method in `x/evm/keeper/grpc_query.go` implements a gRPC query interface that allows simulation and tracing of specific transactions based on provided configurations. This method enable
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06RpcDosViaTracetx"
+solodit_id: "49280"
+solodit_slug: "m-06-rpc-dos-via-tracetx-code4rena-nibiru-nibiru-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(TraceTx).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "TraceTx"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "interest-may-not-compound"
+class_name: "InterestMayNotCompound"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11826 (OpenZeppelin/Compound Audit)"
+help: "Interest May Not Compound"
+wiki_title: "Interest May Not Compound"
+wiki_description: |
+    When calculating interest in [`CToken.accrueInterest()`](https://github.com/compound-finance/compound-protocol/blob/f385d71983ae5c5799faae9b2dfea43e5cf75262/contracts/CToken.sol#L597), simple interest is applied over the blocks since the last update. This will underestimate the amount of interest th
+wiki_exploit_scenario: |
+    Per Solodit #11826: When calculating interest in [`CToken.accrueInterest()`](https://github.com/compound-finance/compound-protocol/blob/f385d71983ae5c5799faae9b2dfea43e5cf75262/contracts/CToken.sol#L597), simple interest
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InterestMayNotCompound"
+solodit_id: "11826"
+solodit_slug: "interest-may-not-compound-openzeppelin-compound-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accrueinterest;"
+fn_name_regex: ".*(modexp|accrueInterest).*"
+write_var_regex: ".*(accrueInterest|modexp).*"
+guard_var_regex: ".*(accrueInterest|modexp).*"
+vuln_fn_name: "modexp"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "accrueinterest = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

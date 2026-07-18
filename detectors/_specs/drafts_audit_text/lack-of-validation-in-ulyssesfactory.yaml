@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-validation-in-ulyssesfactory"
+class_name: "LackOfValidationInUlyssesfactory"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Maia DAO Ulysses Protocol May 2023 - Zellic Audit Report"
+help: |
+    In UlyssesFactory -> createToken, any caller can create a new UlyssesToken instance. function createToken(uint256[] calldata poolIds, uint256[] calldata weights, address owner) ext
+wiki_title: "Lack of validation in UlyssesFactory"
+wiki_description: |
+    In UlyssesFactory -> createToken, any caller can create a new UlyssesToken instance. function createToken(uint256[] calldata poolIds, uint256[] calldata weights, address owner) external returns (uint256 _tokenId) { _tokenId = +)tokenId; uint256 length = poolIds.length; address[] memory destinations
+wiki_exploit_scenario: |
+    Per audit finding: In UlyssesFactory -> createToken, any caller can create a new UlyssesToken instance. function createToken(uint256[] calldata poolIds, uint256[] calldata weights, address owner) external returns (uint2
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfValidationInUlyssesfactory"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(createToken|poolIds|tokenId).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "createToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

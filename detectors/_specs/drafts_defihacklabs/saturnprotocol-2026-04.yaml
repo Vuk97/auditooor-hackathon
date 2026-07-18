@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_require"
+name: "saturnprotocol-2026-04"
+class_name: "Saturnprotocol202604"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-04/SaturnProtocol_exp.sol"
+help: "SaturnProtocol 2026-04 — rounding exploit (unknown)"
+wiki_title: "SaturnProtocol (2026-04) — rounding"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-04): SaturnProtocol lost unknown. Bug class: rounding. Attack tx: unknown.
+wiki_exploit_scenario: |
+    Attacker (unknown) exploits SaturnProtocol via rounding: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the name_match_missing_require skeleton.
+wiki_recommendation: |
+    Use mulDiv with explicit rounding direction; require the resulting amount to stay within tolerance bounds; never round user-withdraw amounts up.
+contract_name: "Saturnprotocol202604"
+fn_name_regex: ".*(withdraw).*"
+write_var_regex: ".*(admin|owner|balance|amount).*"
+guard_var_regex: ".*(admin|owner|balance|amount).*"
+vuln_fn_name: "withdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(msg.sender == owner, \"!auth\");"
+state_decl: |
+    uint256 internal balance;
+        address internal owner;

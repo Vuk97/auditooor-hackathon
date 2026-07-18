@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-05-curveswap-getdpxethprice-and-getethprice-is-in-wrong-order"
+class_name: "M05CurveswapGetdpxethpriceAndGetethpriceIsInWrongOrder"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29467 (Code4rena/Dopex)"
+help: "[M-05] \_curveSwap: getDpxEthPrice and getEthPrice is in wrong order"
+wiki_title: "[M-05] \_curveSwap: getDpxEthPrice and getEthPrice is in wrong order"
+wiki_description: |
+    When `_curveSwap` is called with `minAmount = 0` (upperDepeg/lowerDepeg use the default slippage 0.5%), the `minOut` will be a wrong value which leads to slippage protect failure.
+    
+    ### Proof of Concept
+    
+    In `_curveSwap`, the getDpxEthPrice and getEthPrice is in wrong order:
+    
+    ```solidity
+        uint256
+wiki_exploit_scenario: |
+    Per Solodit #29467: When `_curveSwap` is called with `minAmount = 0` (upperDepeg/lowerDepeg use the default slippage 0.5%), the `minOut` will be a wrong value which leads to slippage protect failure.
+    
+    ### Proof of Conce
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05CurveswapGetdpxethpriceAndGetethpriceIsInWrongOrder"
+solodit_id: "29467"
+solodit_slug: "m-05-_curveswap-getdpxethprice-and-getethprice-is-in-wrong-order-code4rena-dopex-dopex-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal minout;"
+fn_name_regex: ".*(minOut|upperDepeg).*"
+read_var_regex: ".*(minOut|upperDepeg).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "minOut"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return minout > 0;"

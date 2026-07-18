@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "m-3-repaying-loans-with-small-amounts-of-debt-tokens-can-lead-to"
+class_name: "M3RepayingLoansWithSmallAmountsOfDebtTokensCanLeadTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6284 (Sherlock/Cooler)"
+help: |
+    M-3: Repaying loans with small amounts of debt tokens can lead to underflowing in the `roll` function
+wiki_title: |
+    M-3: Repaying loans with small amounts of debt tokens can lead to underflowing in the `roll` function
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-cooler-judging/issues/263 
+    
+    ## Found by 
+    tsvetanovv, rvierdiiev, ck, zaskoh, Allarious, Trumpero, Breeje, berndartmueller, jonatascm, Deivitto
+    
+    ## Summary
+    
+    Due to precision issues when repaying a loan with small amounts of debt tokens, the `loan.amou
+wiki_exploit_scenario: |
+    Per Solodit #6284: Source: https://github.com/sherlock-audit/2023-01-cooler-judging/issues/263 
+    
+    ## Found by 
+    tsvetanovv, rvierdiiev, ck, zaskoh, Allarious, Trumpero, Breeje, berndartmueller, jonatascm, Deivitto
+    
+    ## Sum
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M3RepayingLoansWithSmallAmountsOfDebtTokensCanLeadTo"
+solodit_id: "6284"
+solodit_slug: |
+    m-3-repaying-loans-with-small-amounts-of-debt-tokens-can-lead-to-underflowing-in-the-roll-function-sherlock-cooler-cooler-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Missing Check, Overflow/Underflow"
+state_decl: "uint256 internal collateralfor;"
+fn_name_regex: ".*(roll|decollateralized|repay|repaid).*"
+write_var_regex: ".*(collateralFor|decollateralized|newCollateral).*"
+guard_var_regex: ".*(collateralFor|decollateralized|newCollateral).*"
+vuln_fn_name: "roll"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "collateralfor = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "h-04-proposals-can-be-cancelled"
+class_name: "H04ProposalsCanBeCancelled"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3907 (Code4rena/Vader Protocol)"
+help: "[H-04] Proposals can be cancelled"
+wiki_title: "[H-04] Proposals can be cancelled"
+wiki_description: |
+    Anyone can cancel any proposals by calling `DAO.cancelProposal(id, id)` with `oldProposalID == newProposalID`.
+    This always passes the minority check as the proposal was approved.
+    
+    An attacker can launch a denial of service attack on the DAO governance and prevent any proposals from being executed.
+wiki_exploit_scenario: |
+    Per Solodit #3907: Anyone can cancel any proposals by calling `DAO.cancelProposal(id, id)` with `oldProposalID == newProposalID`.
+    This always passes the minority check as the proposal was approved.
+    
+    An attacker can laun
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04ProposalsCanBeCancelled"
+solodit_id: "3907"
+solodit_slug: "h-04-proposals-can-be-cancelled-code4rena-vader-protocol-vader-protocol-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal newproposalid;"
+fn_name_regex: ".*(oldProposalID|newProposalID|require).*"
+read_var_regex: ".*(newProposalID|oldProposalID|require).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "oldProposalID"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return newproposalid > 0;"

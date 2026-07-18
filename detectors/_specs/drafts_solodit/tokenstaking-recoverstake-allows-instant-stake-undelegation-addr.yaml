@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_require"
+name: "tokenstaking-recoverstake-allows-instant-stake-undelegation-addr"
+class_name: "TokenstakingRecoverstakeAllowsInstantStakeUndelegationAddr"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #13762 (ConsenSys/Thesis - tBTC and Keep)"
+help: "TokenStaking.recoverStake allows instant stake undelegation ✓ Addressed"
+wiki_title: "TokenStaking.recoverStake allows instant stake undelegation ✓ Addressed"
+wiki_description: |
+    #### Resolution
+    
+    
+    
+    Addressed with [keep-network/keep-core#1521](https://github.com/keep-network/keep-core/pull/1521) by adding a non-zero check for the undelegation block.
+    
+    
+    #### Description
+    
+    
+    `TokenStaking.recoverStake` is used to recover stake that has been designated to be undelegated. It contain
+wiki_exploit_scenario: |
+    Per Solodit #13762: #### Resolution
+    
+    
+    
+    Addressed with [keep-network/keep-core#1521](https://github.com/keep-network/keep-core/pull/1521) by adding a non-zero check for the undelegation block.
+    
+    
+    #### Description
+    
+    
+    `TokenS
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokenstakingRecoverstakeAllowsInstantStakeUndelegationAddr"
+solodit_id: "13762"
+solodit_slug: |
+    tokenstakingrecoverstake-allows-instant-stake-undelegation-addressed-consensys-thesis-tbtc-and-keep-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(recoverStake|operatorParams|packedParams|getUndelegationBlock).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "recoverStake"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

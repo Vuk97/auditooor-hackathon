@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "proposal-time-out-leads-to-differing-chain-states"
+class_name: "ProposalTimeOutLeadsToDifferingChainStates"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Astria Shared Sequencer April - Zellic Audit Report"
+help: |
+    When a prepare_proposal is called for the current proposer, the is_proposer flag is set to true. This is then checked when processing the proposal so that the execution can be skip
+wiki_title: "Proposal time-out leads to differing chain states"
+wiki_description: |
+    When a prepare_proposal is called for the current proposer, the is_proposer flag is set to true. This is then checked when processing the proposal so that the execution can be skipped: pub(crate) async fn prepare_proposal( &mut self, prepare_proposal: abci::request::PrepareProposal, storage: Storage
+wiki_exploit_scenario: |
+    Per audit finding: When a prepare_proposal is called for the current proposer, the is_proposer flag is set to true. This is then checked when processing the proposal so that the execution can be skipped: pub(crate) asyn
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProposalTimeOutLeadsToDifferingChainStates"
+state_decl: "uint256 internal process_proposal;"
+fn_name_regex: ".*(process_proposal).*"
+read_var_regex: ".*(process_proposal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "process_proposal"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return process_proposal > 0;"

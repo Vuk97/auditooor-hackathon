@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "h-04-aavevault-does-not-update-tvl-on-deposit-withdraw"
+class_name: "H04AavevaultDoesNotUpdateTvlOnDepositWithdraw"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1147 (Code4rena/Mellow Protocol)"
+help: "[H-04] AaveVault does not update TVL on deposit/withdraw"
+wiki_title: "[H-04] AaveVault does not update TVL on deposit/withdraw"
+wiki_description: |
+    _Submitted by cmichel, also found by WatchPug_
+    
+    Aave uses **rebasing** tokens which means the token balance `aToken.balanceOf(this)` increases over time with the accrued interest.
+    
+    The `AaveVault.tvl` uses a cached value that needs to be updated using a `updateTvls` call.
+    
+    This call is not done when
+wiki_exploit_scenario: |
+    Per Solodit #1147: _Submitted by cmichel, also found by WatchPug_
+    
+    Aave uses **rebasing** tokens which means the token balance `aToken.balanceOf(this)` increases over time with the accrued interest.
+    
+    The `AaveVault.tvl`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04AavevaultDoesNotUpdateTvlOnDepositWithdraw"
+solodit_id: "1147"
+solodit_slug: |
+    h-04-aavevault-does-not-update-tvl-on-depositwithdraw-code4rena-mellow-protocol-mellow-protocol-contest-git
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(amountToMint|deposit|transferAndPush).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

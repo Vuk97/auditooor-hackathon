@@ -1,0 +1,36 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-1-calls-to-oracles-don-t-check-for-stale-prices"
+class_name: "M1CallsToOraclesDonTCheckForStalePrices"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19141 (Sherlock/USSD - Autonomous Secure Dollar)"
+help: "M-1: Calls to Oracles don't check for stale prices"
+wiki_title: "M-1: Calls to Oracles don't check for stale prices"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-05-USSD-judging/issues/31 
+    
+    ## Found by 
+    0x2e, 0xHati, 0xPkhatri, 0xRobocop, 0xSmartContract, 0xStalin, 0xeix, 0xlmanini, 0xyPhilic, Angry\_Mustache\_Man, Aymen0909, Bauchibred, Bauer, Brenzee, BugBusters, Delvir0, DevABDee, Diana, Dug, Fanz, GimelSec,
+wiki_exploit_scenario: |
+    Per Solodit #19141: Source: https://github.com/sherlock-audit/2023-05-USSD-judging/issues/31 
+    
+    ## Found by 
+    0x2e, 0xHati, 0xPkhatri, 0xRobocop, 0xSmartContract, 0xStalin, 0xeix, 0xlmanini, 0xyPhilic, Angry\_Mustache\_Man
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1CallsToOraclesDonTCheckForStalePrices"
+solodit_id: "19141"
+solodit_slug: "m-1-calls-to-oracles-dont-check-for-stale-prices-sherlock-none-ussd-autonomous-secure-dollar-git"
+solodit_quality: "4"
+solodit_rarity: "1"
+solodit_tags: "Stale Price, Oracle"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(chainNue|theOwl|warRoom|getPriceUSD).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

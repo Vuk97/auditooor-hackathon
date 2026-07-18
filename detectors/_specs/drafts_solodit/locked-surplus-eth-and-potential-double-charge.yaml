@@ -1,0 +1,30 @@
+skeleton: "name_match_missing_require"
+name: "locked-surplus-eth-and-potential-double-charge"
+class_name: "LockedSurplusEthAndPotentialDoubleCharge"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57980 (MixBytes/Algebra Finance)"
+help: "Locked Surplus ETH and Potential Double Charge"
+wiki_title: "Locked Surplus ETH and Potential Double Charge"
+wiki_description: |
+    ##### Description
+    When users call `LimitOrderManager.place()` with excess `msg.value`, the extra ETH remains in the `LimitOrderManager` balance instead of being forwarded or refunded. When `algebraMintCallback()` is called, that balance is wrapped into `WNativeToken` and sent to the pool, but any su
+wiki_exploit_scenario: |
+    Per Solodit #57980: ##### Description
+    When users call `LimitOrderManager.place()` with excess `msg.value`, the extra ETH remains in the `LimitOrderManager` balance instead of being forwarded or refunded. When `algebraMin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LockedSurplusEthAndPotentialDoubleCharge"
+solodit_id: "57980"
+solodit_slug: "locked-surplus-eth-and-potential-double-charge-mixbytes-none-algebra-finance-markdown"
+solodit_quality: "4"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal algebramintcallback;"
+fn_name_regex: ".*(LimitOrderManager|algebraMintCallback|WNativeToken|MintCallbackData).*"
+write_var_regex: ".*(algebraMintCallback).*"
+guard_var_regex: ".*(algebraMintCallback).*"
+vuln_fn_name: "LimitOrderManager"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "algebramintcallback = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

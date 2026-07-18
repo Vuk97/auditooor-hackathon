@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "function-remotevaultdeposit-deposit-transfers-before-truncat-x"
+class_name: "FunctionRemotevaultdepositDepositTransfersBeforeTruncatX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Frax (USD Stablecoin) - Zellic Audit Report"
+help: |
+    The RemoteVaultDeposit.deposit function in the HopV2 vault system (Component #1) transfers the full _amount from the caller to RemoteVaultHop before dust removal occurs. The remove
+wiki_title: "Function RemoteVaultDeposit.deposit transfers before truncation, leaving"
+wiki_description: |
+    The RemoteVaultDeposit.deposit function in the HopV2 vault system (Component #1) transfers the full _amount from the caller to RemoteVaultHop before dust removal occurs. The removeDust operation happens later inside RemoteVaultHop.deposit, which means the difference between the original amount and t
+wiki_exploit_scenario: |
+    Per audit finding: The RemoteVaultDeposit.deposit function in the HopV2 vault system (Component #1) transfers the full _amount from the caller to RemoteVaultHop before dust removal occurs. The removeDust operation happe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FunctionRemotevaultdepositDepositTransfersBeforeTruncatX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(removeDust|safeTransferFrom|remoteVaultHops).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "removeDust"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

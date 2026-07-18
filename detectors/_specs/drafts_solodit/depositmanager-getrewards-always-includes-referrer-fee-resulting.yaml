@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "depositmanager-getrewards-always-includes-referrer-fee-resulting"
+class_name: "DepositmanagerGetrewardsAlwaysIncludesReferrerFeeResulting"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #65376 (Cyfrin/Majority Protocol)"
+help: |
+    `DepositManager::getRewards` always includes `REFERRER_FEE` resulting in 2 percent of every games' rewards not being distributed to winners when there were no referrers
+wiki_title: |
+    `DepositManager::getRewards` always includes `REFERRER_FEE` resulting in 2 percent of every games' rewards not being distributed to winners when there were no r
+wiki_description: |
+    **Description:** `DepositManager::getRewards` always includes `REFERRER_FEE` when calculating the percentage of `totalCollectedAmount` available to distribute to winners:
+    ```solidity
+    function getRewards(uint256 gameId) public view returns (uint256) {
+        return gamePools[gameId].totalCollectedAmount
+wiki_exploit_scenario: |
+    Per Solodit #65376: **Description:** `DepositManager::getRewards` always includes `REFERRER_FEE` when calculating the percentage of `totalCollectedAmount` available to distribute to winners:
+    ```solidity
+    function getRewar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DepositmanagerGetrewardsAlwaysIncludesReferrerFeeResulting"
+solodit_id: "65376"
+solodit_slug: |
+    depositmanagergetrewards-always-includes-referrer_fee-resulting-in-2-percent-of-every-games-rewards-not-being-distributed-to-winners-when-there-were-no-referrers-cyfrin-none-majority-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal totalcollectedamount;"
+fn_name_regex: ".*(REFERRER_FEE|totalCollectedAmount|CLAIMER_ROLE).*"
+read_var_regex: ".*(totalCollectedAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "REFERRER_FEE"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return totalcollectedamount > 0;"

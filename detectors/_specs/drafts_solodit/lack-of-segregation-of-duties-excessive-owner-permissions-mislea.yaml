@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "lack-of-segregation-of-duties-excessive-owner-permissions-mislea"
+class_name: "LackOfSegregationOfDutiesExcessiveOwnerPermissionsMislea"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16525 (ConsenSys/Fuji Protocol)"
+help: "Lack of segregation of duties, excessive owner permissions, misleading authentication modifiers"
+wiki_title: "Lack of segregation of duties, excessive owner permissions, misleading authentication modifiers"
+wiki_description: |
+    #### Descriptio
+    
+    
+    In the `FujiERC1155` contract, the `onlyPermit` modifier should not include `owner`.
+    
+    
+    The `FujiERC1155` is `claimable` (`ownable`) via `F1155Manager`. The `onlyPermit` modifier includes contracts explicitly permitted to perform actions, and the `owner`, in a lot of cases, has sepa
+wiki_exploit_scenario: |
+    Per Solodit #16525: #### Descriptio
+    
+    
+    In the `FujiERC1155` contract, the `onlyPermit` modifier should not include `owner`.
+    
+    
+    The `FujiERC1155` is `claimable` (`ownable`) via `F1155Manager`. The `onlyPermit` modifier incl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfSegregationOfDutiesExcessiveOwnerPermissionsMislea"
+solodit_id: "16525"
+solodit_slug: |
+    lack-of-segregation-of-duties-excessive-owner-permissions-misleading-authentication-modifiers-consensys-fuji-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimable;"
+fn_name_regex: ".*(FujiERC1155|onlyPermit|owner|claimable).*"
+read_var_regex: ".*(claimable|controller|isAuthorized).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "FujiERC1155"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimable > 0;"

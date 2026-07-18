@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "relayers-can-be-griefed-with-xsubmit-reentrancy"
+class_name: "RelayersCanBeGriefedWithXsubmitReentrancy"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53659 (SigmaPrime/Omni Network)"
+help: "Relayers Can Be Griefed With xsubmit() Reentrancy"
+wiki_title: "Relayers Can Be Griefed With xsubmit() Reentrancy"
+wiki_description: |
+    ## Description
+    An attacker can initiate an XMsg that calls a smart contract that reenters into `OmniPortal.xsubmit()` to submit subsequent XMsgs in the XBlock. Since XMsgs from the same source chain need to be executed in order, this attack will cause the relayer’s submission to fail if they have in
+wiki_exploit_scenario: |
+    Per Solodit #53659: ## Description
+    An attacker can initiate an XMsg that calls a smart contract that reenters into `OmniPortal.xsubmit()` to submit subsequent XMsgs in the XBlock. Since XMsgs from the same source chain n
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RelayersCanBeGriefedWithXsubmitReentrancy"
+solodit_id: "53659"
+solodit_slug: "relayers-can-be-griefed-with-xsubmit-reentrancy-sigmaprime-none-omni-network-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal nonreentrant;"
+fn_name_regex: ".*(xsubmit|ReentrancyGuard|nonReentrant).*"
+read_var_regex: ".*(nonReentrant|xsubmit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "xsubmit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return nonreentrant > 0;"

@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "h-01-reward-computation-is-wrong"
+class_name: "H01RewardComputationIsWrong"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #467 (Code4rena/Wild Credit)"
+help: "[H-01] Reward computation is wrong"
+wiki_title: "[H-01] Reward computation is wrong"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `LendingPair.accrueAccount` function distributes rewards **before** updating the cumulative supply / borrow indexes as well as the index + balance for the user (by minting supply tokens / debt).
+    This means the percentage of the user's balance to the total is not correct a
+wiki_exploit_scenario: |
+    Per Solodit #467: _Submitted by cmichel_
+    
+    The `LendingPair.accrueAccount` function distributes rewards **before** updating the cumulative supply / borrow indexes as well as the index + balance for the user (by minting
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01RewardComputationIsWrong"
+solodit_id: "467"
+solodit_slug: "h-01-reward-computation-is-wrong-code4rena-wild-credit-wild-credit-contest-git"
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: "Wrong Math"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(accrue|accrueAccount).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

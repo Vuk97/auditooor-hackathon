@@ -1,0 +1,49 @@
+skeleton: "paired_function_divergence"
+name: "h-01-user-can-divide-big-deposit-withdraw-into-small-parts-to-re"
+class_name: "H01UserCanDivideBigDepositWithdrawIntoSmallPartsToRe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31698 (Pashov Audit Group/Fyde)"
+help: "[H-01] User can divide big deposit/withdraw into small parts to reduce tax"
+wiki_title: "[H-01] User can divide big deposit/withdraw into small parts to reduce tax"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    Tax to pay depends on how much deposit/withdraw makes current asset concentration deviate from the target value, therefore big amounts will pay bigger tax.
+    However, users can supply a request array with the same assets, which c
+wiki_exploit_scenario: |
+    Per Solodit #31698: **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    Tax to pay depends on how much deposit/withdraw makes current asset concentration deviate from the target value, therefore big
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01UserCanDivideBigDepositWithdrawIntoSmallPartsToRe"
+solodit_id: "31698"
+solodit_slug: "h-01-user-can-divide-big-depositwithdraw-into-small-parts-to-reduce-tax-pashov-none-fyde-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(deposit|withdraw).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

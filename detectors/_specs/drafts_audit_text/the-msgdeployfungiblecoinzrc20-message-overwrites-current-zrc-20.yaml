@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-msgdeployfungiblecoinzrc20-message-overwrites-current-zrc-20"
+class_name: "TheMsgdeployfungiblecoinzrc20MessageOverwritesCurrentZrc20"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit ZetaChain - 11.14.23 Zellic Audit Report"
+help: |
+    When a user sends ZETA or ERC-20 tokens from an EVM chain to another chain, events are emitted on the EVM from specific contracts that are picked up by the ZetaChain observers. The
+wiki_title: "The MsgDeployFungibleCoinZRC20 message overwrites current ZRC-20"
+wiki_description: |
+    When a user sends ZETA or ERC-20 tokens from an EVM chain to another chain, events are emitted on the EVM from specific contracts that are picked up by the ZetaChain observers. The observers then execute the VoteOnObservedInboundTx() message on ZetaChain with the details of the event. This is done t
+wiki_exploit_scenario: |
+    Per audit finding: When a user sends ZETA or ERC-20 tokens from an EVM chain to another chain, events are emitted on the EVM from specific contracts that are picked up by the ZetaChain observers. The observers then exec
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheMsgdeployfungiblecoinzrc20MessageOverwritesCurrentZrc20"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(msgServer|goCtx|isNew).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "msgServer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

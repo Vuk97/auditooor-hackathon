@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-02-the-latest-malt-price-can-be-less-than-the-actual-price-tar"
+class_name: "M02TheLatestMaltPriceCanBeLessThanTheActualPriceTar"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16080 (Code4rena/Malt Protocol)"
+help: |
+    [M-02] The latest malt price can be less than the actual price target and `StabilizerNode.stabilize` will revert
+wiki_title: |
+    [M-02] The latest malt price can be less than the actual price target and `StabilizerNode.stabilize` will revert
+wiki_description: |
+    <https://github.com/code-423n4/2023-02-malt/blob/main/contracts/StabilityPod/StabilizerNode.sol#L188> 
+    
+    <https://github.com/code-423n4/2023-02-malt/blob/main/contracts/StabilityPod/StabilizerNode.sol#L201-L203>
+    
+    ### Impact
+    
+    `StabilizerNode.stabilize` will revert when `latestSample < priceTarget`.
+wiki_exploit_scenario: |
+    Per Solodit #16080: <https://github.com/code-423n4/2023-02-malt/blob/main/contracts/StabilityPod/StabilizerNode.sol#L188> 
+    
+    <https://github.com/code-423n4/2023-02-malt/blob/main/contracts/StabilityPod/StabilizerNode.sol
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02TheLatestMaltPriceCanBeLessThanTheActualPriceTar"
+solodit_id: "16080"
+solodit_slug: |
+    m-02-the-latest-malt-price-can-be-less-than-the-actual-price-target-and-stabilizernodestabilize-will-revert-code4rena-malt-protocol-malt-protocol-versus-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal exchangerate;"
+fn_name_regex: ".*(minThreshold|exchangeRate|priceAveragePeriod|latestSample).*"
+read_var_regex: ".*(exchangeRate|latestSample|minThreshold).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "minThreshold"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return exchangerate > 0;"

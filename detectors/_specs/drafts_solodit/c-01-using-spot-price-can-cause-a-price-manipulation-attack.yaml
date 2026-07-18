@@ -1,0 +1,47 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "c-01-using-spot-price-can-cause-a-price-manipulation-attack"
+class_name: "C01UsingSpotPriceCanCauseAPriceManipulationAttack"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45983 (Pashov Audit Group/Peapods_2024-11-16)"
+help: "[C-01] Using spot price can cause a price manipulation attack"
+wiki_title: "[C-01] Using spot price can cause a price manipulation attack"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    In the V3TwapKimUtilities.sol contract, the method \_sqrtPriceX96FromPoolAndInterval retrieves the spot price from the pool's global state. This approach is vulnerable to price manipulation, as the spot price can be influenced by m
+wiki_exploit_scenario: |
+    Per Solodit #45983: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    In the V3TwapKimUtilities.sol contract, the method \_sqrtPriceX96FromPoolAndInterval retrieves the spot price from the pool's globa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01UsingSpotPriceCanCauseAPriceManipulationAttack"
+solodit_id: "45983"
+solodit_slug: |
+    c-01-using-spot-price-can-cause-a-price-manipulation-attack-pashov-audit-group-none-peapods_2024-11-16-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(sqrtPriceX96|tickCumulative|globalState|getTimepoints).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

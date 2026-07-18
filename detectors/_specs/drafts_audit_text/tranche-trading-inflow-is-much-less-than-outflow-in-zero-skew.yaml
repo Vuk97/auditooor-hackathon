@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "tranche-trading-inflow-is-much-less-than-outflow-in-zero-skew"
+class_name: "TrancheTradingInflowIsMuchLessThanOutflowInZeroSkew"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    When a trade is closed at a loss in _unregisterTrade, the collateral that is lost is allocated as a reward: if (pnl < 0) { storageT.vaultManager().allocateRewards( uint(-pnl) + tot
+wiki_title: "Tranche trading inflow is much less than outflow in zero skew"
+wiki_description: |
+    When a trade is closed at a loss in _unregisterTrade, the collateral that is lost is allocated as a reward: if (pnl < 0) { storageT.vaultManager().allocateRewards( uint(-pnl) + totalFees - _feeAmountToken); } When a reward is allocated, it is divided between Tranche and VeTranche depending on the am
+wiki_exploit_scenario: |
+    Per audit finding: When a trade is closed at a loss in _unregisterTrade, the collateral that is lost is allocated as a reward: if (pnl < 0) { storageT.vaultManager().allocateRewards( uint(-pnl) + totalFees - _feeAmountT
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrancheTradingInflowIsMuchLessThanOutflowInZeroSkew"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(vaultManager|allocateRewards|totalFees).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "vaultManager"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

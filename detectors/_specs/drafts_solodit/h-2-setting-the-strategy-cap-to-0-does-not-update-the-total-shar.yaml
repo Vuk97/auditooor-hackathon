@@ -1,0 +1,41 @@
+skeleton: "state_write_without_paired_write"
+name: "h-2-setting-the-strategy-cap-to-0-does-not-update-the-total-shar"
+class_name: "H2SettingTheStrategyCapTo0DoesNotUpdateTheTotalShar"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30897 (Sherlock/Rio Network)"
+help: "H-2: Setting the strategy cap to \"0\" does not update the total shares held or the withdrawal queue"
+wiki_title: "H-2: Setting the strategy cap to \"0\" does not update the total shares held or the withdrawal queue"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-02-rio-network-core-protocol-judging/issues/10 
+    
+    ## Found by 
+    Aymen0909, KupiaSec, g, hash, kennedy1030, mstpr-brainbot
+    ## Summary
+    Removing or setting the strategy cap to 0 will not decrease the shares held in the system. Additionally, it will not updat
+wiki_exploit_scenario: |
+    Per Solodit #30897: Source: https://github.com/sherlock-audit/2024-02-rio-network-core-protocol-judging/issues/10 
+    
+    ## Found by 
+    Aymen0909, KupiaSec, g, hash, kennedy1030, mstpr-brainbot
+    ## Summary
+    Removing or setting th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H2SettingTheStrategyCapTo0DoesNotUpdateTheTotalShar"
+solodit_id: "30897"
+solodit_slug: |
+    h-2-setting-the-strategy-cap-to-0-does-not-update-the-total-shares-held-or-the-withdrawal-queue-sherlock-rio-network-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(setOperatorStrategyCap|operatorId|newShareCap|currentShareDetails).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,51 @@
+skeleton: "state_write_without_paired_write"
+name: "m-02-losses-in-extreme-scenarios-due-to-missing-collateral-check"
+class_name: "M02LossesInExtremeScenariosDueToMissingCollateralCheck"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65164 (Pashov Audit Group/Tangent_2025-10-30)"
+help: "[M-02] Losses in extreme scenarios due to missing collateral check"
+wiki_title: "[M-02] Losses in extreme scenarios due to missing collateral check"
+wiki_description: |
+    _Resolved_
+    
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `_liquidate()` function calculates `collatValue` using oracle price and requires liquidators to burn `USGToRepay + fee`, but it doesn't verify that the collateral value is sufficient to cover the debt repayment
+wiki_exploit_scenario: |
+    Per Solodit #65164: _Resolved_
+    
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `_liquidate()` function calculates `collatValue` using oracle price and requires liquidators to burn `USGToRep
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02LossesInExtremeScenariosDueToMissingCollateralCheck"
+solodit_id: "65164"
+solodit_slug: |
+    m-02-losses-in-extreme-scenarios-due-to-missing-collateral-check-pashov-audit-group-none-tangent_2025-10-30-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(collatValue|minUSGOut|USGToRepay|minCollatValue).*"
+primary_var_regex: ".*(collatValue|minCollatValue|minUSGOut).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "timelock-controller-retains-canceled-proposals-enabling-unauthor"
+class_name: "TimelockControllerRetainsCanceledProposalsEnablingUnauthor"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57143 (Codehawks/Core Contracts)"
+help: |
+    Timelock Controller Retains Canceled Proposals, Enabling Unauthorized Execution and severe Governance Voting manipulation.
+wiki_title: |
+    Timelock Controller Retains Canceled Proposals, Enabling Unauthorized Execution and severe Governance Voting manipulation.
+wiki_description: |
+    ## Summary
+    
+    A vulnerability has been identified in the `Governance::cancel` function, which fails to properly remove a proposal's execution record from the `TimelockController`. This allows an unaware or malicious executor to execute the proposal even after it has been canceled in `Governance`. The
+wiki_exploit_scenario: |
+    Per Solodit #57143: ## Summary
+    
+    A vulnerability has been identified in the `Governance::cancel` function, which fails to properly remove a proposal's execution record from the `TimelockController`. This allows an unaware
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TimelockControllerRetainsCanceledProposalsEnablingUnauthor"
+solodit_id: "57143"
+solodit_slug: |
+    timelock-controller-retains-canceled-proposals-enabling-unauthorized-execution-and-severe-governance-voting-manipulation-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(TimelockController|Governance).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

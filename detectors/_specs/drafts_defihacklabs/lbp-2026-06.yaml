@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "lbp-2026-06"
+class_name: "Lbp202606"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-06/LBP_exp.sol"
+help: "LBP 2026-06 — oracle exploit (610.56 BNB)"
+wiki_title: "LBP (2026-06) — oracle"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-06): LBP lost 610.56 BNB. Bug class: oracle. Attack tx: 0x55856d9fda4c5be5193561c7d775e823c3d6e499da44aab9da963daf61c50b0c.
+wiki_exploit_scenario: |
+    Attacker (0xb26dfe6b6180a30e2a2d9826867cc7e06631825a) exploits LBP via oracle: the victim contract 0x88886f0fd371dff856291badced45922bc888888 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Replace spot-price reads with a TWAP wrapper (e.g., Uniswap V3 OracleLibrary.consult) and require a minimum observation window; sanity-check prices against a reference oracle.
+contract_name: "Lbp202606"
+trigger_sig_regex: ".*(getPrice).*"
+required_sibling_regex: ".*(validatePrice).*"
+target_interface_decl: "interface IT { function getPrice(uint256) external; function validatePrice(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "readPrice"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.getPrice(x)"
+sibling_call: "target.validatePrice(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

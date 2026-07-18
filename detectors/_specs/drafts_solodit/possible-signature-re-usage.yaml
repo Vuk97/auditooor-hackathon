@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_require"
+name: "possible-signature-re-usage"
+class_name: "PossibleSignatureReUsage"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52694 (Halborn/Moonscape)"
+help: "POSSIBLE SIGNATURE RE-USAGE"
+wiki_title: "POSSIBLE SIGNATURE RE-USAGE"
+wiki_description: |
+    ##### Description
+    
+    None
+    
+    Code Location
+    -------------
+    
+    #### contracts/defi/MoonscapeDefi.sol
+    
+    ```
+        function stakeToken(uint _stakeId, uint _cityId, uint _buildingId, uint _amount, uint8 v, bytes32[2] calldata sig) external {
+            TokenStaking storage tokenStaking = tokenStakings[_stakeId];
+wiki_exploit_scenario: |
+    Per Solodit #52694: ##### Description
+    
+    None
+    
+    Code Location
+    -------------
+    
+    #### contracts/defi/MoonscapeDefi.sol
+    
+    ```
+        function stakeToken(uint _stakeId, uint _cityId, uint _buildingId, uint _amount, uint8 v, bytes32[2
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleSignatureReUsage"
+solodit_id: "52694"
+solodit_slug: "possible-signature-re-usage-halborn-seascape-moonscape-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stakeToken|tokenStaking|tokenStakings|stakeKey).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "stakeToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

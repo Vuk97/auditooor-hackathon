@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "update-proportion-not-handling-properly-when-totalproportion-100"
+class_name: "UpdateProportionNotHandlingProperlyWhenTotalproportion100"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #37170 (Zokyo/Aarna)"
+help: "Update proportion not handling properly when totalProportion > 100%"
+wiki_title: "Update proportion not handling properly when totalProportion > 100%"
+wiki_description: |
+    **Severity**: High
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In Contract AFiManager.sol, the method updateProportion(...) is handling the case when totalProportion > 100% as follows:
+    ```solidity
+    // fail safe condition
+    if(totalProp > 10000000){ 
+    uint256 rem = totalProp - 10000000;
+    if(_uTokenProportions
+wiki_exploit_scenario: |
+    Per Solodit #37170: **Severity**: High
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In Contract AFiManager.sol, the method updateProportion(...) is handling the case when totalProportion > 100% as follows:
+    ```solidity
+    // fail
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UpdateProportionNotHandlingProperlyWhenTotalproportion100"
+solodit_id: "37170"
+solodit_slug: "update-proportion-not-handling-properly-when-totalproportion-100-zokyo-none-aarna-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateProportion|totalProportion|totalProp|uTokenLen).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateProportion"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

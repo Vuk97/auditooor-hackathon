@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "h-04-staking-rewards-can-be-drained"
+class_name: "H04StakingRewardsCanBeDrained"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #21989 (Code4rena/Popcorn)"
+help: "[H-04] Staking rewards can be drained"
+wiki_title: "[H-04] Staking rewards can be drained"
+wiki_description: |
+    If ERC777 tokens are used for rewards, the entire balance of rewards in the staking contract can get drained by an attacker.
+    
+    ### Proof of Concept
+    
+    ERC777 allow users to register a hook to notify them when tokens are transferred to them.
+    
+    This hook can be used to reenter the contract and drain the
+wiki_exploit_scenario: |
+    Per Solodit #21989: If ERC777 tokens are used for rewards, the entire balance of rewards in the staking contract can get drained by an attacker.
+    
+    ### Proof of Concept
+    
+    ERC777 allow users to register a hook to notify the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04StakingRewardsCanBeDrained"
+solodit_id: "21989"
+solodit_slug: "h-04-staking-rewards-can-be-drained-code4rena-popcorn-popcorn-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Reentrancy, ERC777"
+state_decl: "uint256 internal accruedrewards;"
+fn_name_regex: ".*(claimRewards|MultiRewardStaking|accruedRewards).*"
+read_var_regex: ".*(accruedRewards|claimRewards).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimRewards"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accruedrewards > 0;"

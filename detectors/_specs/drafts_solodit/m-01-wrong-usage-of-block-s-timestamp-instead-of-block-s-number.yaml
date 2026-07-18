@@ -1,0 +1,54 @@
+skeleton: "name_match_missing_call"
+name: "m-01-wrong-usage-of-block-s-timestamp-instead-of-block-s-number"
+class_name: "M01WrongUsageOfBlockSTimestampInsteadOfBlockSNumber"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31722 (Pashov Audit Group/Forgottenplayland)"
+help: "[M-01] Wrong usage of block's timestamp instead of block's number"
+wiki_title: "[M-01] Wrong usage of block's timestamp instead of block's number"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Low
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    When code wants to get last block hash it uses `blockhash(block.timestamp - 1)`.
+    
+    ```solidity
+            bytes32 pseudoRandomness =
+                keccak256(abi.encode(blockhash(block.timestamp - 1), msg.sender, nonces[msg.sender])) >>
+wiki_exploit_scenario: |
+    Per Solodit #31722: **Severity**
+    
+    **Impact:** Low
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    When code wants to get last block hash it uses `blockhash(block.timestamp - 1)`.
+    
+    ```solidity
+            bytes32 pseudoRandomness =
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01WrongUsageOfBlockSTimestampInsteadOfBlockSNumber"
+solodit_id: "31722"
+solodit_slug: "m-01-wrong-usage-of-blocks-timestamp-instead-of-blocks-number-pashov-none-forgottenplayland-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal blockhash;"
+fn_name_regex: ".*(blockhash|pesudoRandomness).*"
+read_var_regex: ".*(blockhash|pesudoRandomness).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "blockhash"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return blockhash > 0;"

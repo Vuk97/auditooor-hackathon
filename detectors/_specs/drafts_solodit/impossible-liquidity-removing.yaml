@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "impossible-liquidity-removing"
+class_name: "ImpossibleLiquidityRemoving"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30785 (MixBytes/Gearbox Protocol)"
+help: "Impossible liquidity removing"
+wiki_title: "Impossible liquidity removing"
+wiki_description: |
+    ##### Description
+    In case all funds were borrowed (big part of funds), users can't return their assets (`amountSent > balanceOf(address(this))`:
+    https://github.com/Gearbox-protocol/gearbox-contracts/blob/0ac33ba87212ce056ac6b6357ad74161d417158a/contracts/pool/PoolService.sol#L182
+    ##### Recommendatio
+wiki_exploit_scenario: |
+    Per Solodit #30785: ##### Description
+    In case all funds were borrowed (big part of funds), users can't return their assets (`amountSent > balanceOf(address(this))`:
+    https://github.com/Gearbox-protocol/gearbox-contracts/b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ImpossibleLiquidityRemoving"
+solodit_id: "30785"
+solodit_slug: "impossible-liquidity-removing-mixbytes-none-gearbox-protocol-markdown_"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(amountSent|balanceOf).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "amountSent"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

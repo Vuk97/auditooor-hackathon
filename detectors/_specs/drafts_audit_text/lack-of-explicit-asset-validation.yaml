@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-explicit-asset-validation"
+class_name: "LackOfExplicitAssetValidation"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit GTE Perps - Zellic Audit Report"
+help: |
+    There is no explicit check for the asset parameter in the postFillOrder, postFillCloseOrder, postLimitOrder, and cancel functions to ensure that a market exists for the specified a
+wiki_title: "Lack of explicit asset validation"
+wiki_description: |
+    There is no explicit check for the asset parameter in the postFillOrder, postFillCloseOrder, postLimitOrder, and cancel functions to ensure that a market exists for the specified asset. Although using an asset parameter corresponding to a nonexistent market causes these functions to revert, it is pr
+wiki_exploit_scenario: |
+    Per audit finding: There is no explicit check for the asset parameter in the postFillOrder, postFillCloseOrder, postLimitOrder, and cancel functions to ensure that a market exists for the specified asset. Although using
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfExplicitAssetValidation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(postFillOrder|postFillCloseOrder|postLimitOrder).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "postFillOrder"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

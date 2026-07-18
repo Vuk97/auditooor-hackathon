@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "chainid-type-confusion"
+class_name: "ChainidTypeConfusion"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Maia DAO Ulysses Protocol May 2023 - Zellic Audit Report"
+help: |
+    To distinguish between the various chains being used, each chain is assigned a unique identifier that determines where cross-chain calls will be executed. Throughout the code, the
+wiki_title: "ChainId type confusion"
+wiki_description: |
+    To distinguish between the various chains being used, each chain is assigned a unique identifier that determines where cross-chain calls will be executed. Throughout the code, the chain identifier is represented as both uint256 and uint24, which can create issues when data is packed and unpacked wit
+wiki_exploit_scenario: |
+    Per audit finding: To distinguish between the various chains being used, each chain is assigned a unique identifier that determines where cross-chain calls will be executed. Throughout the code, the chain identifier is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainidTypeConfusion"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(addGlobalToken|anyExecute|funcId).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-04-convexcurvelpvault-s-transferyield-can-become-stuck-with-ze"
+class_name: "M04ConvexcurvelpvaultSTransferyieldCanBecomeStuckWithZe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2337 (Code4rena/Sturdy)"
+help: "[M-04] ConvexCurveLPVault's `_transferYield` can become stuck with zero reward transfer"
+wiki_title: "[M-04] ConvexCurveLPVault's `_transferYield` can become stuck with zero reward transfer"
+wiki_description: |
+    _Submitted by hyh_
+    
+    Now there are no checks for the amounts to be transferred via \_transferYield and \_processTreasury. As reward token list is external and an arbitrary token can end up there, in the case when such token doesn't allow for zero amount transfers, the reward retrieval can become unav
+wiki_exploit_scenario: |
+    Per Solodit #2337: _Submitted by hyh_
+    
+    Now there are no checks for the amounts to be transferred via \_transferYield and \_processTreasury. As reward token list is external and an arbitrary token can end up there, in th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04ConvexcurvelpvaultSTransferyieldCanBecomeStuckWithZe"
+solodit_id: "2337"
+solodit_slug: |
+    m-04-convexcurvelpvaults-_transferyield-can-become-stuck-with-zero-reward-transfer-code4rena-sturdy-sturdy-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(processYield|yieldManager|treasuryAmount|yieldAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "processYield"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

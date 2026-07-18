@@ -1,0 +1,20 @@
+id: treasury-deposit-without-transfer-check
+title: "Treasury deposit updates accounting without verifying actual token transfer"
+severity: High
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.2"
+bug_class: authorization
+indicators:
+  - "function `deposit(user: Address, token: Address, amount: u128)` that writes `storage::add_balance(user, amount)` without calling `token.transfer_from(user, current_contract, amount)` inside the same call"
+  - "accounting update not gated by a transfer result or balance-delta check"
+  - "no `caller.require_auth()` on the depositor address in a deposit entrypoint"
+victim: "Protocol operator and admin withdrawals: admins cannot reconcile storage against actual token holdings; phantom balances block legitimate sweeps."
+exploit_precondition: "Entry point is public and does not itself perform the token transfer."
+real_world_example: |
+  Halborn 7.2 (CRITICAL): Treasury deposit updates internal accounting without verifying that a real token transfer occurred, so attackers can fabricate arbitrary balances in storage.
+suggested_remediation: "Execute the token transfer inside the deposit entrypoint and require the depositor's auth; write storage from the measured balance delta."
+cross_refs:
+  - caller-supplied-accounting-fact

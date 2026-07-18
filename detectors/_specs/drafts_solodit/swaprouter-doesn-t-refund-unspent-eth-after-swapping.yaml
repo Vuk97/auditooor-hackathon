@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "swaprouter-doesn-t-refund-unspent-eth-after-swapping"
+class_name: "SwaprouterDoesnTRefundUnspentEthAfterSwapping"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29628 (Spearbit/Velodrome Finance)"
+help: "SwapRouter doesn't refund unspent ETH after swapping"
+wiki_title: "SwapRouter doesn't refund unspent ETH after swapping"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    - `SwapRouter.sol#L106`
+    - `SwapRouter.sol#L126`
+    - `SwapRouter.sol#L196`
+    - `SwapRouter.sol#L220`
+    
+    ## Description
+    `SwapRouter` allows swapping of ETH for ERC20 tokens. The difference between selling ETH and an ERC20 token is that the contract can compute and request
+wiki_exploit_scenario: |
+    Per Solodit #29628: ## Severity: High Risk
+    
+    ## Context
+    - `SwapRouter.sol#L106`
+    - `SwapRouter.sol#L126`
+    - `SwapRouter.sol#L196`
+    - `SwapRouter.sol#L220`
+    
+    ## Description
+    `SwapRouter` allows swapping of ETH for ERC20 tokens.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwaprouterDoesnTRefundUnspentEthAfterSwapping"
+solodit_id: "29628"
+solodit_slug: "swaprouter-doesnt-refund-unspent-eth-after-swapping-spearbit-none-velodrome-finance-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal refundeth;"
+fn_name_regex: ".*(SwapRouter|sqrtPriceLimitX96|refundETH).*"
+read_var_regex: ".*(refundETH|sqrtPriceLimitX96).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SwapRouter"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return refundeth > 0;"

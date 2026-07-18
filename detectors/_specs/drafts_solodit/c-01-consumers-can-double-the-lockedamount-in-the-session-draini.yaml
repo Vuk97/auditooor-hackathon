@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "c-01-consumers-can-double-the-lockedamount-in-the-session-draini"
+class_name: "C01ConsumersCanDoubleTheLockedamountInTheSessionDraini"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61395 (Shieldify/Etherspot Credibleaccountmodule Mitigation)"
+help: |
+    [C-01] Consumers Can Double the `lockedAmount` In the Session, Draining the SCW and Preventing Claiming of the Session
+wiki_title: |
+    [C-01] Consumers Can Double the `lockedAmount` In the Session, Draining the SCW and Preventing Claiming of the Session
+wiki_description: |
+    ## Severity
+    
+    Critical Risk
+    
+    ## Description
+    
+    When validating the execution of the tx that consumed the locked tokens, the execution can either be a `singleCall()` or `batchCall()`. While validating the batch, we are iterating over all transactions and validating the locked token consumption.
+    
+    [Credi
+wiki_exploit_scenario: |
+    Per Solodit #61395: ## Severity
+    
+    Critical Risk
+    
+    ## Description
+    
+    When validating the execution of the tx that consumed the locked tokens, the execution can either be a `singleCall()` or `batchCall()`. While validating th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01ConsumersCanDoubleTheLockedamountInTheSessionDraini"
+solodit_id: "61395"
+solodit_slug: |
+    c-01-consumers-can-double-the-lockedamount-in-the-session-draining-the-scw-and-preventing-claiming-of-the-session-shieldify-none-etherspot-credibleaccountmodule-mitigation-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal batchcall;"
+fn_name_regex: ".*(singleCall|batchCall|sessionKey|claimedAmount).*"
+read_var_regex: ".*(batchCall|claimedAmount|lockedAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "singleCall"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return batchcall > 0;"

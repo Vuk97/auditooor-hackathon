@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "dos-attack-via-dust-executions"
+class_name: "DosAttackViaDustExecutions"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63504 (MixBytes/Barter DAO)"
+help: "DoS Attack via Dust Executions"
+wiki_title: "DoS Attack via Dust Executions"
+wiki_description: |
+    ##### Description
+    A griefer can frontrun any transaction with a signed order and execute it with an extremely small `filledtakerAmount`. Other users cannot complete the order because the `nonceBalance` check will fail:
+    
+    ```solidity
+    uint256 currentMakerBalance = order.makerToken.balanceOf(order.maker
+wiki_exploit_scenario: |
+    Per Solodit #63504: ##### Description
+    A griefer can frontrun any transaction with a signed order and execute it with an extremely small `filledtakerAmount`. Other users cannot complete the order because the `nonceBalance
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DosAttackViaDustExecutions"
+solodit_id: "63504"
+solodit_slug: "dos-attack-via-dust-executions-mixbytes-none-barter-dao-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal filledtakeramount;"
+fn_name_regex: ".*(filledtakerAmount|nonceBalance).*"
+read_var_regex: ".*(filledtakerAmount|nonceBalance).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "filledtakerAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return filledtakeramount > 0;"

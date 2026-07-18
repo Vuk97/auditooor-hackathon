@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-9-messageprocessor-fails-to-disable-unpaidmode-during-untruste"
+class_name: "M9MessageprocessorFailsToDisableUnpaidmodeDuringUntruste"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64204 (Sherlock/Centrifuge Protocol V3 Audit)"
+help: |
+    M-9: `MessageProcessor` fails to disable `unpaidMode` during `UntrustedContractUpdate` execution enabling permanent DOS via malicious unpayable batch creation
+wiki_title: |
+    M-9: `MessageProcessor` fails to disable `unpaidMode` during `UntrustedContractUpdate` execution enabling permanent DOS via malicious unpayable batch creation
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-10-centrifuge-protocol-v3-1-audit-judging/issues/984 
+    
+    ## Found by 
+    0x52
+    
+    ## Summary
+    
+    An attacker can permanently break pool accounting synchronization by exploiting the fact that `UntrustedContractUpdate` messages execute with `unpaidMode = true`. The
+wiki_exploit_scenario: |
+    Per Solodit #64204: Source: https://github.com/sherlock-audit/2025-10-centrifuge-protocol-v3-1-audit-judging/issues/984 
+    
+    ## Found by 
+    0x52
+    
+    ## Summary
+    
+    An attacker can permanently break pool accounting synchronization
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M9MessageprocessorFailsToDisableUnpaidmodeDuringUntruste"
+solodit_id: "64204"
+solodit_slug: |
+    m-9-messageprocessor-fails-to-disable-unpaidmode-during-untrustedcontractupdate-execution-enabling-permanent-dos-via-malicious-unpayable-batch-creation-sherlock-centrifuge-protocol-v3-audit-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal unpaidmode;"
+fn_name_regex: ".*(UntrustedContractUpdate|unpaidMode|UpdateHoldingAmount|UpdateShares).*"
+read_var_regex: ".*(unpaidMode).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "UntrustedContractUpdate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return unpaidmode > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "discrepancy-in-transaction-rlp-decoding-between-zkevm-and-evm"
+class_name: "DiscrepancyInTransactionRlpDecodingBetweenZkevmAndEvm"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "hexens audit Hexens_Polygon_zkEVM_PUBLIC_27.02.23"
+help: |
+    In the load-tx-rlp.zkasm implementation of transaction RLP decoding the code label dataREAD stands for the part of decoding the DATA ﬁeld of the transaction. The data ﬁeld is encod
+wiki_title: "DISCREPANCY IN TRANSACTION RLP DECODING BETWEEN ZKEVM AND EVM"
+wiki_description: |
+    In the load-tx-rlp.zkasm implementation of transaction RLP decoding the code label dataREAD stands for the part of decoding the DATA ﬁeld of the transaction. The data ﬁeld is encoded as an RLP string and can be of both short and long size, as the RLP format states (https://ethereum.org/en/developers
+wiki_exploit_scenario: |
+    Per audit finding: In the load-tx-rlp.zkasm implementation of transaction RLP decoding the code label dataREAD stands for the part of decoding the DATA ﬁeld of the transaction. The data ﬁeld is encoded as an RLP string
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DiscrepancyInTransactionRlpDecodingBetweenZkevmAndEvm"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(dataREAD|zkEVM).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "dataREAD"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "mixedswaprouter-2024-05"
+class_name: "Mixedswaprouter202405"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-05/MixedSwapRouter_exp.sol"
+help: "MixedSwapRouter 2024-05 — reentrancy exploit (Lost: =>10000 USD(WINR tokens))"
+wiki_title: "MixedSwapRouter (2024-05) — reentrancy"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-05): MixedSwapRouter lost Lost: =>10000 USD(WINR tokens). Bug class: reentrancy. Attack tx: unknown.
+wiki_exploit_scenario: |
+    Attacker (0xfeef112831cc8f790abe71b4b196c220ee26ecf3) exploits MixedSwapRouter via reentrancy: the victim contract 0x58637aaac44e2a2f190d9e1976e236d86d691542 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Apply the nonReentrant modifier (OZ ReentrancyGuard) to every externally-callable state-mutating entry point that transfers value, and follow the checks-effects-interactions pattern.
+contract_name: "Mixedswaprouter202405"
+fn_name_regex: ".*(withdraw).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(nonReentrant).*"
+guarded_helper_name: "nonReentrant"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

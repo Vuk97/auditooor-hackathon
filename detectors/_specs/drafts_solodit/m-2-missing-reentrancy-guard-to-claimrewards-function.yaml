@@ -1,0 +1,44 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-2-missing-reentrancy-guard-to-claimrewards-function"
+class_name: "M2MissingReentrancyGuardToClaimrewardsFunction"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3560 (Sherlock/Sense)"
+help: "M-2: Missing ReEntrancy Guard to `claimRewards` function"
+wiki_title: "M-2: Missing ReEntrancy Guard to `claimRewards` function"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-11-sense-judging/issues/40 
+    
+    ## Found by 
+    0xSmartContract
+    
+    ## Summary
+    There is no re-entry risk on true ERC-20 tokens that work according to the spec (i.e. audited, etc.).
+    
+    However you can write a malicious ERC-20 with custom safetransferFrom() or appro
+wiki_exploit_scenario: |
+    Per Solodit #3560: Source: https://github.com/sherlock-audit/2022-11-sense-judging/issues/40 
+    
+    ## Found by 
+    0xSmartContract
+    
+    ## Summary
+    There is no re-entry risk on true ERC-20 tokens that work according to the spec (i.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2MissingReentrancyGuardToClaimrewardsFunction"
+solodit_id: "3560"
+solodit_slug: "m-2-missing-reentrancy-guard-to-claimrewards-function-sherlock-sense-sense-git"
+solodit_quality: "2.3333333333333335"
+solodit_rarity: "1"
+solodit_tags: "Reentrancy"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(claimRewards).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

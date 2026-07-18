@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "fng-15-cerc721-liquidation-will-always-revert-if-interest-state-"
+class_name: "Fng15Cerc721LiquidationWillAlwaysRevertIfInterestState"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62381 (Hexens/Fungify)"
+help: "[FNG-15] CErc721 liquidation will always revert if interest state is up-to-date"
+wiki_title: "[FNG-15] CErc721 liquidation will always revert if interest state is up-to-date"
+wiki_description: |
+    **Severity:** High
+    
+    **Path:** CErc721.sol:_liquidateBorrow#L428-L464
+    
+    **Description:** The function `_liquidateBorrow` of the CErc721 contract fetches the current exchange rate using `accrueInterest()` on line 431:
+    ```
+    uint assetsExchangeRate = accrueInterest();
+    ```
+    Afterwards, this value is used in
+wiki_exploit_scenario: |
+    Per Solodit #62381: **Severity:** High
+    
+    **Path:** CErc721.sol:_liquidateBorrow#L428-L464
+    
+    **Description:** The function `_liquidateBorrow` of the CErc721 contract fetches the current exchange rate using `accrueInterest()
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Fng15Cerc721LiquidationWillAlwaysRevertIfInterestState"
+solodit_id: "62381"
+solodit_slug: |
+    fng-15-cerc721-liquidation-will-always-revert-if-interest-state-is-up-to-date-hexens-none-fungify-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accrualblocknumber;"
+fn_name_regex: ".*(accrueInterest|accrualBlockNumber|NO_ERROR).*"
+read_var_regex: ".*(accrualBlockNumber|accrueInterest).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "accrueInterest"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accrualblocknumber > 0;"

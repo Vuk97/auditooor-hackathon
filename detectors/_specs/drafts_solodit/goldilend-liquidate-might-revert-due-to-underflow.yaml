@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "goldilend-liquidate-might-revert-due-to-underflow"
+class_name: "GoldilendLiquidateMightRevertDueToUnderflow"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30931 (Cyfrin/Goldilocks)"
+help: "`Goldilend.liquidate()` might revert due to underflow"
+wiki_title: "`Goldilend.liquidate()` might revert due to underflow"
+wiki_description: |
+    **Severity:** Medium
+    
+    **Description:** In `repay()`, there would be a rounding during the `interest` calculation.
+    
+    ```solidity
+      function repay(uint256 repayAmount, uint256 _userLoanId) external {
+          Loan memory userLoan = loans[msg.sender][_userLoanId];
+          if(userLoan.borrowedAmount < repayAm
+wiki_exploit_scenario: |
+    Per Solodit #30931: **Severity:** Medium
+    
+    **Description:** In `repay()`, there would be a rounding during the `interest` calculation.
+    
+    ```solidity
+      function repay(uint256 repayAmount, uint256 _userLoanId) external {
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GoldilendLiquidateMightRevertDueToUnderflow"
+solodit_id: "30931"
+solodit_slug: "goldilendliquidate-might-revert-due-to-underflow-cyfrin-none-cyfrin-goldilocks-v11-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal interest;"
+fn_name_regex: ".*(repay|interest|liquidate|outstandingDebt).*"
+read_var_regex: ".*(interest|liquidate|outstandingDebt).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "repay"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return interest > 0;"

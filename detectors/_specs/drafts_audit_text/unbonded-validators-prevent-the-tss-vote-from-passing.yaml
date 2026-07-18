@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unbonded-validators-prevent-the-tss-vote-from-passing"
+class_name: "UnbondedValidatorsPreventTheTssVoteFromPassing"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit ZetaChain - 6.30.23 Zellic Audit Report"
+help: |
+    Bonded validators can cast a vote to add a new TSS by sending a MsgCreateTSSVoter. The issue is that there is a check to allow only bonded validators to vote, but for the vote to p
+wiki_title: "Unbonded validators prevent the TSS vote from passing"
+wiki_description: |
+    Bonded validators can cast a vote to add a new TSS by sending a MsgCreateTSSVoter. The issue is that there is a check to allow only bonded validators to vote, but for the vote to pass, the number of signers must be equal to the total number of validators (which includes unbonded/unbonding validators
+wiki_exploit_scenario: |
+    Per audit finding: Bonded validators can cast a vote to add a new TSS by sending a MsgCreateTSSVoter. The issue is that there is a check to allow only bonded validators to vote, but for the vote to pass, the number of s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnbondedValidatorsPreventTheTssVoteFromPassing"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(msgServer|goCtx|tssVoter).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "msgServer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

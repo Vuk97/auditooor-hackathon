@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "price-manipulation-through-uniswap-pool"
+class_name: "PriceManipulationThroughUniswapPool"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44767 (Zokyo/Umami)"
+help: "Price manipulation through Uniswap pool"
+wiki_title: "Price manipulation through Uniswap pool"
+wiki_description: |
+    **Severity**: High
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In contract UniswapV3SwapManager, the swap of tokens is done through the _swapTokenExactInput function, which first create the necessary parameters for the swap and then call the function exactInput from the Uniswap V3 Router. To swap tokens
+wiki_exploit_scenario: |
+    Per Solodit #44767: **Severity**: High
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In contract UniswapV3SwapManager, the swap of tokens is done through the _swapTokenExactInput function, which first create the necessary para
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PriceManipulationThroughUniswapPool"
+solodit_id: "44767"
+solodit_slug: "price-manipulation-through-uniswap-pool-zokyo-none-umami-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

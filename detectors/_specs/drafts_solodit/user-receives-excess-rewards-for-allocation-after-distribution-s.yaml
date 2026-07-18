@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "user-receives-excess-rewards-for-allocation-after-distribution-s"
+class_name: "UserReceivesExcessRewardsForAllocationAfterDistributionS"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46640 (Cantina/Usual)"
+help: "User receives excess rewards for allocation after distribution start"
+wiki_title: "User receives excess rewards for allocation after distribution start "
+wiki_description: |
+    ## Issue Report: Reward Calculation in UsualSP Contract
+    
+    ## Context
+    - **Location:** `RewardAccrualBase.sol#L128-L133`, `UsualSP.sol#L325-L356`
+    
+    ## Description
+    The `UsualSP` contract incorrectly calculates rewards for users who receive allocations after the reward distribution has started. This resul
+wiki_exploit_scenario: |
+    Per Solodit #46640: ## Issue Report: Reward Calculation in UsualSP Contract
+    
+    ## Context
+    - **Location:** `RewardAccrualBase.sol#L128-L133`, `UsualSP.sol#L325-L356`
+    
+    ## Description
+    The `UsualSP` contract incorrectly calcul
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UserReceivesExcessRewardsForAllocationAfterDistributionS"
+solodit_id: "46640"
+solodit_slug: "user-receives-excess-rewards-for-allocation-after-distribution-start-cantina-none-usual-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(UsualSP|RewardAccrualBase|rewardPerTokenStored|lastRewardPerTokenUsed).*"
+primary_var_regex: ".*(allocate|lastRewardPerTokenUsed|rewardPerTokenStored).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

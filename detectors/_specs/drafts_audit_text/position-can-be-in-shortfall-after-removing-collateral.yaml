@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "position-can-be-in-shortfall-after-removing-collateral"
+class_name: "PositionCanBeInShortfallAfterRemovingCollateral"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Echelon - Zellic Audit Report"
+help: |
+    The remove_collateral_internal function decides to check if the position is in shortfall after re- moving collateral depending on whether the checkShortfall argument is true or fal
+wiki_title: "Position can be in shortfall after removing collateral"
+wiki_description: |
+    The remove_collateral_internal function decides to check if the position is in shortfall after re- moving collateral depending on whether the checkShortfall argument is true or false: else if (checkShortfall) { // check account position not shortfall // if caller is `liquidate_internal`, we don't ch
+wiki_exploit_scenario: |
+    Per audit finding: The remove_collateral_internal function decides to check if the position is in shortfall after re- moving collateral depending on whether the checkShortfall argument is true or false: else if (checkSh
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PositionCanBeInShortfallAfterRemovingCollateral"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(liquidate_internal).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

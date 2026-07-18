@@ -1,0 +1,48 @@
+skeleton: "state_write_without_paired_write"
+name: "in-compound-implementation-p2p-indexes-can-be-stale"
+class_name: "InCompoundImplementationP2pIndexesCanBeStale"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6911 (Spearbit/Morpho)"
+help: "In Compound implementation, P2P indexes can be stale"
+wiki_title: "In Compound implementation, P2P indexes can be stale"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - `MorphoUtils.sol`#L119-L156
+    - `PositionsManager.sol`#L344
+    - `PositionsManager.sol`#L447
+    - `PositionsManager.sol`#L502-L505
+    
+    ## Description
+    The current implementation of `MorphoUtils._isLiquidatable` loops through all of the tokens in which the user has supplied
+wiki_exploit_scenario: |
+    Per Solodit #6911: ## Severity: Medium Risk
+    
+    ## Context
+    - `MorphoUtils.sol`#L119-L156
+    - `PositionsManager.sol`#L344
+    - `PositionsManager.sol`#L447
+    - `PositionsManager.sol`#L502-L505
+    
+    ## Description
+    The current implementa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InCompoundImplementationP2pIndexesCanBeStale"
+solodit_id: "6911"
+solodit_slug: "in-compound-implementation-p2p-indexes-can-be-stale-spearbit-morpho-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Business Logic"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(liquidate|withdraw|borrow).*"
+primary_var_regex: ".*(borrow|liquidate|withdraw).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

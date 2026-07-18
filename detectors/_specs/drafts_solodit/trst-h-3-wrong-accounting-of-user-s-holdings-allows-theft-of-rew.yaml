@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "trst-h-3-wrong-accounting-of-user-s-holdings-allows-theft-of-rew"
+class_name: "TrstH3WrongAccountingOfUserSHoldingsAllowsTheftOfRew"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18878 (Trust Security/Ninja Yield Farming )"
+help: "TRST-H-3 Wrong accounting of user's holdings allows theft of reward"
+wiki_title: "TRST-H-3 Wrong accounting of user's holdings allows theft of reward"
+wiki_description: |
+    **Description:**
+    In `deposit()`, `withdraw()` and `withdrawProfit()`, `rewarder.onReward()` is called for reward 
+    bookkeeping. It will transfer previous eligible rewards and update the current amount user 
+    has:
+    
+    ```solidity
+          user.amount = _amt;
+          user.rewardDebt = (_amt * pool.accRewardPerS
+wiki_exploit_scenario: |
+    Per Solodit #18878: **Description:**
+    In `deposit()`, `withdraw()` and `withdrawProfit()`, `rewarder.onReward()` is called for reward 
+    bookkeeping. It will transfer previous eligible rewards and update the current amount
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstH3WrongAccountingOfUserSHoldingsAllowsTheftOfRew"
+solodit_id: "18878"
+solodit_slug: |
+    trst-h-3-wrong-accounting-of-users-holdings-allows-theft-of-reward-trust-security-none-ninja-yield-farming-v3-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(deposit|withdraw|withdrawProfit|onReward).*"
+read_var_regex: ".*(deposit|onReward|withdraw).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposit > 0;"

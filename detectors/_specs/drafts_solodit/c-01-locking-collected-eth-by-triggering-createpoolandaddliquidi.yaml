@@ -1,0 +1,49 @@
+skeleton: "paired_function_divergence"
+name: "c-01-locking-collected-eth-by-triggering-createpoolandaddliquidi"
+class_name: "C01LockingCollectedEthByTriggeringCreatepoolandaddliquidi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36317 (Pashov Audit Group/Serious)"
+help: "[C-01] Locking collected ETH by triggering `createPoolAndAddLiquidity` twice"
+wiki_title: "[C-01] Locking collected ETH by triggering `createPoolAndAddLiquidity` twice"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    When users create a token in the Serious market, it can be funded by calling `buyToken` and providing the required amount of ETH and users will receive the requested amount of the token. Until the token is fully funded (`tokensSo
+wiki_exploit_scenario: |
+    Per Solodit #36317: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    When users create a token in the Serious market, it can be funded by calling `buyToken` and providing the required amount of ETH
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01LockingCollectedEthByTriggeringCreatepoolandaddliquidi"
+solodit_id: "36317"
+solodit_slug: |
+    c-01-locking-collected-eth-by-triggering-createpoolandaddliquidity-twice-pashov-audit-group-none-serious-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(buyToken|createPoolAndAddLiquidity|ethAmount).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_require"
+name: "risk-of-multiple-dividend-payouts-in-a-day"
+class_name: "RiskOfMultipleDividendPayoutsInADay"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53389 (TrailOfBits/Franklin Templeton Tokenized Money Market Fund)"
+help: "Risk of multiple dividend payouts in a day"
+wiki_title: "Risk of multiple dividend payouts in a day"
+wiki_description: |
+    ## Type: Timing
+    
+    ## Difficulty: Medium
+    
+    ## Target
+    - `FT/infrastructure/modules/TransferAgentModule.sol`
+    - `FT/MoneyMarketFund.sol`
+    
+    ## Description
+    The fund manager can lose the system’s money by making multiple dividend payouts in a day when they should be paid out only once a day. 
+    
+    The `distribute
+wiki_exploit_scenario: |
+    Per Solodit #53389: ## Type: Timing
+    
+    ## Difficulty: Medium
+    
+    ## Target
+    - `FT/infrastructure/modules/TransferAgentModule.sol`
+    - `FT/MoneyMarketFund.sol`
+    
+    ## Description
+    The fund manager can lose the system’s money by makin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RiskOfMultipleDividendPayoutsInADay"
+solodit_id: "53389"
+solodit_slug: |
+    risk-of-multiple-dividend-payouts-in-a-day-trailofbits-none-franklin-templeton-tokenized-money-market-fund-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal adjustbalance;"
+fn_name_regex: ".*(distributeDividends|MoneyMarketFund|date|external).*"
+write_var_regex: ".*(adjustBalance|date|distributeDividends).*"
+guard_var_regex: ".*(adjustBalance|date|distributeDividends).*"
+vuln_fn_name: "distributeDividends"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "adjustbalance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

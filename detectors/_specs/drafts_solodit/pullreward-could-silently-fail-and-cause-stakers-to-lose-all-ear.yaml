@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "pullreward-could-silently-fail-and-cause-stakers-to-lose-all-ear"
+class_name: "PullrewardCouldSilentlyFailAndCauseStakersToLoseAllEar"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16643 (TrailOfBits/Sherlock Protocol V2)"
+help: "pullReward could silently fail and cause stakers to lose all earned SHER rewards"
+wiki_title: "pullReward could silently fail and cause stakers to lose all earned SHER rewards"
+wiki_description: |
+    ## Description
+    
+    If the `SherDistributionManager.pullReward` function reverts, the calling function (`_stake`) will not set the SHER rewards in the staker’s position NFT. As a result, the staker will not receive the payout of SHER rewards after the stake period has passed.
+    
+    ```solidity
+    // Sets the ti
+wiki_exploit_scenario: |
+    Per Solodit #16643: ## Description
+    
+    If the `SherDistributionManager.pullReward` function reverts, the calling function (`_stake`) will not set the SHER rewards in the staker’s position NFT. As a result, the staker will n
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PullrewardCouldSilentlyFailAndCauseStakersToLoseAllEar"
+solodit_id: "16643"
+solodit_slug: |
+    pullreward-could-silently-fail-and-cause-stakers-to-lose-all-earned-sher-rewards-trailofbits-sherlock-protocol-v2-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal pullreward;"
+fn_name_regex: ".*(pullReward|SherRewardsError|sherRewards).*"
+read_var_regex: ".*(pullReward|sherRewards).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "pullReward"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return pullreward > 0;"

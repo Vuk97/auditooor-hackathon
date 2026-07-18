@@ -1,0 +1,42 @@
+skeleton: "paired_function_divergence"
+name: "h-1-pool-deviation-check-in-simplemanager-on-rebalance-can-be-by"
+class_name: "H1PoolDeviationCheckInSimplemanagerOnRebalanceCanBeBy"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20735 (Sherlock/Arrakis)"
+help: "H-1: Pool deviation check in SimpleManager on rebalance can be bypassed"
+wiki_title: "H-1: Pool deviation check in SimpleManager on rebalance can be bypassed"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-06-arrakis-judging/issues/26 
+    
+    ## Found by 
+    cergyk, n33k
+    ## Summary
+    In `SimpleManager` a price deviation check is enforced to prevent an operator to add liquidity to a UniV3 pool at a really unfavorable price during rebalance and backrun to extract vaul
+wiki_exploit_scenario: |
+    Per Solodit #20735: Source: https://github.com/sherlock-audit/2023-06-arrakis-judging/issues/26 
+    
+    ## Found by 
+    cergyk, n33k
+    ## Summary
+    In `SimpleManager` a price deviation check is enforced to prevent an operator to add
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1PoolDeviationCheckInSimplemanagerOnRebalanceCanBeBy"
+solodit_id: "20735"
+solodit_slug: "h-1-pool-deviation-check-in-simplemanager-on-rebalance-can-be-bypassed-sherlock-none-arrakis-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

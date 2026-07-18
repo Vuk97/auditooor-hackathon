@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "redeem-without-redemptions-might-still-return-success"
+class_name: "RedeemWithoutRedemptionsMightStillReturnSuccess"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18032 (TrailOfBits/Liquity)"
+help: "Redeem without redemptions might still return success"
+wiki_title: "Redeem without redemptions might still return success"
+wiki_description: |
+    ## Description
+    
+    A redeem when there are no redeemable troves does not cause the transaction to revert. Note that this excludes the very first redemption (see TOB-LQT-014). When a redemption is initiated, the smart contract will check if there are any troves with ICR >= MCR, and use those to fulfill
+wiki_exploit_scenario: |
+    Per Solodit #18032: ## Description
+    
+    A redeem when there are no redeemable troves does not cause the transaction to revert. Note that this excludes the very first redemption (see TOB-LQT-014). When a redemption is initiat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RedeemWithoutRedemptionsMightStillReturnSuccess"
+solodit_id: "18032"
+solodit_slug: "redeem-without-redemptions-might-still-return-success-trailofbits-liquity-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal currentborrower;"
+fn_name_regex: ".*(currentBorrower|redeemCollateral|TroveManager).*"
+write_var_regex: ".*(currentBorrower|redeemCollateral).*"
+guard_var_regex: ".*(currentBorrower|redeemCollateral).*"
+vuln_fn_name: "currentBorrower"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "currentborrower = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

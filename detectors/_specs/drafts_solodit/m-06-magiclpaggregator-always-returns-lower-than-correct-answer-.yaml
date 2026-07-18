@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-06-magiclpaggregator-always-returns-lower-than-correct-answer-"
+class_name: "M06MagiclpaggregatorAlwaysReturnsLowerThanCorrectAnswer"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32062 (Code4rena/Abracadabra Money)"
+help: "[M-06] MagicLpAggregator always returns lower than correct answer, leading to arbitrage loss"
+wiki_title: "[M-06] MagicLpAggregator always returns lower than correct answer, leading to arbitrage loss"
+wiki_description: |
+    MagicLpAggregator is used to price LP tokens for "closely-tied" underlying tokens. It calculates the price below:
+    
+        function latestAnswer() public view override returns (int256) {
+            uint256 baseAnswerNomalized = uint256(baseOracle.latestAnswer()) * (10 ** (WAD - baseOracle.decimals()));
+wiki_exploit_scenario: |
+    Per Solodit #32062: MagicLpAggregator is used to price LP tokens for "closely-tied" underlying tokens. It calculates the price below:
+    
+        function latestAnswer() public view override returns (int256) {
+            uint256
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06MagiclpaggregatorAlwaysReturnsLowerThanCorrectAnswer"
+solodit_id: "32062"
+solodit_slug: |
+    m-06-magiclpaggregator-always-returns-lower-than-correct-answer-leading-to-arbitrage-loss-code4rena-abracadabra-money-abracadabra-money-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(latestAnswer|baseAnswerNomalized|baseOracle|quoteAnswerNormalized).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "latestAnswer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

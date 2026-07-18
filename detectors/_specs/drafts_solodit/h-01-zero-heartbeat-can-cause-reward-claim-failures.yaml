@@ -1,0 +1,47 @@
+skeleton: "state_write_without_paired_write"
+name: "h-01-zero-heartbeat-can-cause-reward-claim-failures"
+class_name: "H01ZeroHeartbeatCanCauseRewardClaimFailures"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #63737 (Pashov Audit Group/Level_2025-04-09)"
+help: "[H-01] Zero `heartBeat` can cause reward claim failures"
+wiki_title: "[H-01] Zero `heartBeat` can cause reward claim failures"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    The `OracleLib` and `RewardsManager` contracts work together to enable reward claiming based on asset prices. A key part of this process involves the `getAssets()` function in `StrategyLib`, which calculates the total assets hel
+wiki_exploit_scenario: |
+    Per Solodit #63737: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    The `OracleLib` and `RewardsManager` contracts work together to enable reward claiming based on asset prices. A key part of this
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01ZeroHeartbeatCanCauseRewardClaimFailures"
+solodit_id: "63737"
+solodit_slug: |
+    h-01-zero-heartbeat-can-cause-reward-claim-failures-pashov-audit-group-none-level_2025-04-09-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(OracleLib|RewardsManager|getAssets|StrategyLib).*"
+primary_var_regex: ".*(getAccruedYield|getAssets|getPriceAndDecimals).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

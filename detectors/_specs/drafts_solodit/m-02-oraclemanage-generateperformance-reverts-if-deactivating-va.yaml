@@ -1,0 +1,49 @@
+skeleton: "state_write_without_paired_write"
+name: "m-02-oraclemanage-generateperformance-reverts-if-deactivating-va"
+class_name: "M02OraclemanageGenerateperformanceRevertsIfDeactivatingVa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58618 (Pashov Audit Group/Kinetiq_2025-02-26)"
+help: |
+    [M-02] `OracleManage::generatePerformance` reverts if deactivating validator with ongoing rebalance request
+wiki_title: |
+    [M-02] `OracleManage::generatePerformance` reverts if deactivating validator with ongoing rebalance request
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    `OracleManager::generatePerformance` is intended to update the stats of every validator and the `totalBalance` in `ValidatorManager`. This function is called once an hour (or at whatever interval is set by `MIN_UPDATE_INTERVAL`). I
+wiki_exploit_scenario: |
+    Per Solodit #58618: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    `OracleManager::generatePerformance` is intended to update the stats of every validator and the `totalBalance` in `ValidatorManager
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02OraclemanageGenerateperformanceRevertsIfDeactivatingVa"
+solodit_id: "58618"
+solodit_slug: |
+    m-02-oraclemanagegenerateperformance-reverts-if-deactivating-validator-with-ongoing-rebalance-request-pashov-audit-group-none-kinetiq_2025-02-26-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(totalBalance|ValidatorManager|MIN_UPDATE_INTERVAL).*"
+primary_var_regex: ".*(totalBalance).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "trst-m-11-no-slippage-protection-for-cross-chain-swaps-in-starga"
+class_name: "TrstM11NoSlippageProtectionForCrossChainSwapsInStarga"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19007 (Trust Security/Mozaic Archimedes)"
+help: "TRST-M-11 No slippage protection for cross-chain swaps in StargatePlugin"
+wiki_title: "TRST-M-11 No slippage protection for cross-chain swaps in StargatePlugin"
+wiki_description: |
+    **Description:**
+    The StargatePlugin calls StargateRouter's swap() function to do a cross-chain swap.
+    ```solidity 
+                // Swaps
+                IStargateRouter(_router).swap(_dstChainId, _srcPoolId, _dstPoolId, 
+                      payable(address(this)), _amountLD, 0, IStargateRouter.lzTxObj(0, 0,
+wiki_exploit_scenario: |
+    Per Solodit #19007: **Description:**
+    The StargatePlugin calls StargateRouter's swap() function to do a cross-chain swap.
+    ```solidity 
+                // Swaps
+                IStargateRouter(_router).swap(_dstChainId, _srcPoolId
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM11NoSlippageProtectionForCrossChainSwapsInStarga"
+solodit_id: "19007"
+solodit_slug: |
+    trst-m-11-no-slippage-protection-for-cross-chain-swaps-in-stargateplugin-trust-security-none-mozaic-archimedes-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "LayerZero"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(lzTxObj|encodePacked).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "lzTxObj"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

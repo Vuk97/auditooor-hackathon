@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "debtmanager-requestliquidity-from-other-silos-even-if-not-needed"
+class_name: "DebtmanagerRequestliquidityFromOtherSilosEvenIfNotNeeded"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #54509 (Cantina/Sturdy)"
+help: "DebtManager.requestLiquidity from other silos even if not needed at all"
+wiki_title: "DebtManager.requestLiquidity from other silos even if not needed at all "
+wiki_description: |
+    ## Context: DebtManager.sol#L218
+    
+    ## Description
+    The `requestLiquidity` function allows users to request liquidity from other silos to fulfill a borrowAsset operation. A silo could be any other lending protocol that implements the ERC4626 standard.
+    
+    The aggregator, a `YearnVaultV3`, is responsible f
+wiki_exploit_scenario: |
+    Per Solodit #54509: ## Context: DebtManager.sol#L218
+    
+    ## Description
+    The `requestLiquidity` function allows users to request liquidity from other silos to fulfill a borrowAsset operation. A silo could be any other lendin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DebtmanagerRequestliquidityFromOtherSilosEvenIfNotNeeded"
+solodit_id: "54509"
+solodit_slug: "debtmanagerrequestliquidity-from-other-silos-even-if-not-needed-at-all-cantina-none-sturdy-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal e1c04047;"
+fn_name_regex: ".*(requestLiquidity|YearnVaultV3|totalIdle|requiredAmount).*"
+write_var_regex: ".*(e1c04047|requestLiquidity|requiredAmount).*"
+guard_var_regex: ".*(e1c04047|requestLiquidity|requiredAmount).*"
+vuln_fn_name: "requestLiquidity"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "e1c04047 = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

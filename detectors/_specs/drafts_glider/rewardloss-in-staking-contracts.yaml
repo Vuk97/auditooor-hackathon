@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "rewardloss-in-staking-contracts"
+class_name: "RewardlossInStakingContracts"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: reward-loss-in-staking-contracts"
+help: "RewardLoss in Staking Contracts"
+wiki_title: "RewardLoss in Staking Contracts"
+wiki_description: |
+    Detects contracts implementing the common staking reward pattern, specifically: - rewardPerToken() function - lastTimeRewardApplicable() function - updateReward() or _updateReward() or getReward() functions This query can be used to identify contracts that implement reward calculation logic that cou
+wiki_exploit_scenario: |
+    Per Glider query tags []: Detects contracts implementing the common staking reward pattern, specifically: - rewardPerToken() function - lastTimeRewardApplicable() function - updateReward() or _updateReward() or getReward() fun
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "RewardlossInStakingContracts"
+fn_name_regex: ".*(rewardPerToken).*"
+read_var_regex: ".*(rewardpert).*"
+required_call_regex: ".*(accrue|update|sync|validate|check).*"
+guarded_helper_name: "_guard"
+vuln_fn_name: "rewardPerToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return rewardpert > 0;"
+state_decl: "uint256 internal rewardpert;"

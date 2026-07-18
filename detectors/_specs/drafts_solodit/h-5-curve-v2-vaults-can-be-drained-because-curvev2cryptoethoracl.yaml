@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-5-curve-v2-vaults-can-be-drained-because-curvev2cryptoethoracl"
+class_name: "H5CurveV2VaultsCanBeDrainedBecauseCurvev2cryptoethoracl"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27081 (Sherlock/Tokemak)"
+help: "H-5: Curve V2 Vaults can be drained because CurveV2CryptoEthOracle can be reentered with WETH tokens"
+wiki_title: "H-5: Curve V2 Vaults can be drained because CurveV2CryptoEthOracle can be reentered with WETH tokens"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-06-tokemak-judging/issues/481 
+    
+    ## Found by 
+    0x007, 0xVolodya, Kalyan-Singh
+    CurveV2CryptoEthOracle assumes that Curve pools that could be reentered must have `0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE` token. But this is a wrong assumption cause tokens
+wiki_exploit_scenario: |
+    Per Solodit #27081: Source: https://github.com/sherlock-audit/2023-06-tokemak-judging/issues/481 
+    
+    ## Found by 
+    0x007, 0xVolodya, Kalyan-Singh
+    CurveV2CryptoEthOracle assumes that Curve pools that could be reentered must
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H5CurveV2VaultsCanBeDrainedBecauseCurvev2cryptoethoracl"
+solodit_id: "27081"
+solodit_slug: |
+    h-5-curve-v2-vaults-can-be-drained-because-curvev2cryptoethoracle-can-be-reentered-with-weth-tokens-sherlock-tokemak-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal checkreentrancy;"
+fn_name_regex: ".*(checkReentrancy|CRV_ETH_CURVE_V2_POOL).*"
+read_var_regex: ".*(checkReentrancy).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "checkReentrancy"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return checkreentrancy > 0;"

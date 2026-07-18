@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-03-nounsdaov3proposals-cancel-should-allow-to-cancel-the-propo"
+class_name: "M03Nounsdaov3proposalsCancelShouldAllowToCancelThePropo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20192 (Code4rena/Nouns DAO)"
+help: "[M-03] `NounsDAOV3Proposals.cancel()` should allow to cancel the proposal of the Expired state"
+wiki_title: "[M-03] `NounsDAOV3Proposals.cancel()` should allow to cancel the proposal of the Expired state"
+wiki_description: |
+    cancel() does not allow to cancel proposals in the final states Canceled/Defeated/Expired/Executed/Vetoed.
+    
+    ```solidity
+        function cancel(NounsDAOStorageV3.StorageV3 storage ds, uint256 proposalId) external {
+            NounsDAOStorageV3.ProposalState proposalState = stateInternal(ds, proposalId);
+wiki_exploit_scenario: |
+    Per Solodit #20192: cancel() does not allow to cancel proposals in the final states Canceled/Defeated/Expired/Executed/Vetoed.
+    
+    ```solidity
+        function cancel(NounsDAOStorageV3.StorageV3 storage ds, uint256 proposalId)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03Nounsdaov3proposalsCancelShouldAllowToCancelThePropo"
+solodit_id: "20192"
+solodit_slug: |
+    m-03-nounsdaov3proposalscancel-should-allow-to-cancel-the-proposal-of-the-expired-state-code4rena-nouns-dao-nouns-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal objectionperiodendblock;"
+fn_name_regex: ".*(stateInternal|objectionPeriodEndBlock|GRACE_PERIOD).*"
+read_var_regex: ".*(objectionPeriodEndBlock|stateInternal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "stateInternal"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return objectionperiodendblock > 0;"

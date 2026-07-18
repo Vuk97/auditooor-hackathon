@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "challenge-ids-can-be-overwritten"
+class_name: "ChallengeIdsCanBeOverwritten"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #52531 (Halborn/Sidekick Contracts)"
+help: "Challenge Ids can be overwritten"
+wiki_title: "Challenge Ids can be overwritten"
+wiki_description: |
+    ##### Description
+    
+    The `createTransaction()` function in the `Escrow` contract uses a `challenge_id` mapping to track transactions by their challenge identifier. However, there is no check to prevent duplicate `_challengeId` values. When a transaction is created with a `_challengeId` that already ex
+wiki_exploit_scenario: |
+    Per Solodit #52531: ##### Description
+    
+    The `createTransaction()` function in the `Escrow` contract uses a `challenge_id` mapping to track transactions by their challenge identifier. However, there is no check to prevent
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChallengeIdsCanBeOverwritten"
+solodit_id: "52531"
+solodit_slug: "challenge-ids-can-be-overwritten-halborn-sidekick-sidekick-contracts-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal challenge_id;"
+fn_name_regex: ".*(createTransaction|Escrow|challenge_id|getTransactionByChallengeId).*"
+write_var_regex: ".*(challenge_id|createTransaction|getTransactionByChallengeId).*"
+guard_var_regex: ".*(challenge_id|createTransaction|getTransactionByChallengeId).*"
+vuln_fn_name: "createTransaction"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "challenge_id = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

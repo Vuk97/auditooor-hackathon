@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "validatestack-allows-any-stack-to-be-used-with-collateral-with-n"
+class_name: "ValidatestackAllowsAnyStackToBeUsedWithCollateralWithN"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7282 (Spearbit/Astaria)"
+help: "validateStack allows any stack to be used with collateral with no liens"
+wiki_title: "validateStack allows any stack to be used with collateral with no liens"
+wiki_description: |
+    ## Severity: Critical Risk
+    
+    ## Context
+    LienToken.sol#L225-232
+    
+    ## Description
+    The `validateStack` modifier is used to confirm that a stack entered by a user matches the `stateHash` in storage. However, the function reverts under the following conditions:
+    
+    ```solidity
+    if (stateHash != bytes32(0) && k
+wiki_exploit_scenario: |
+    Per Solodit #7282: ## Severity: Critical Risk
+    
+    ## Context
+    LienToken.sol#L225-232
+    
+    ## Description
+    The `validateStack` modifier is used to confirm that a stack entered by a user matches the `stateHash` in storage. However
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ValidatestackAllowsAnyStackToBeUsedWithCollateralWithN"
+solodit_id: "7282"
+solodit_slug: "validatestack-allows-any-stack-to-be-used-with-collateral-with-no-liens-spearbit-astaria-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal buyoutlien;"
+fn_name_regex: ".*(validateStack|stateHash|buyoutLien|handleBuyoutLien).*"
+write_var_regex: ".*(buyoutLien|handleBuyoutLien|stateHash).*"
+guard_var_regex: ".*(buyoutLien|handleBuyoutLien|stateHash).*"
+vuln_fn_name: "validateStack"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "buyoutlien = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

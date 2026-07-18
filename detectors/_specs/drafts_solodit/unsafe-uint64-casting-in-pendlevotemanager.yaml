@@ -1,0 +1,55 @@
+skeleton: "name_match_missing_call"
+name: "unsafe-uint64-casting-in-pendlevotemanager"
+class_name: "UnsafeUint64CastingInPendlevotemanager"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44834 (Zokyo/Penpie)"
+help: "Unsafe Uint64 Casting in PendleVoteManager"
+wiki_title: "Unsafe Uint64 Casting in PendleVoteManager"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+     In _getVoteInPercentage() function:
+     ```solidity
+    169  else {
+    170    votePerc = exactVoteCount * 100 / totalVotes();
+    171    pendleVote = uint64(_getExactPercentage(votePerc));
+    172  }
+    
+    And
+    161     exactVoteCount = uint256(_vote) + _currentV
+wiki_exploit_scenario: |
+    Per Solodit #44834: **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+     In _getVoteInPercentage() function:
+     ```solidity
+    169  else {
+    170    votePerc = exactVoteCount * 100 / totalVotes();
+    171    pendleVote = ui
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnsafeUint64CastingInPendlevotemanager"
+solodit_id: "44834"
+solodit_slug: "unsafe-uint64-casting-in-pendlevotemanager-zokyo-none-penpie-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(votePerc|exactVoteCount|totalVotes|pendleVote).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "votePerc"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "m-19-when-users-transfer-giantlp-some-rewards-may-be-lost"
+class_name: "M19WhenUsersTransferGiantlpSomeRewardsMayBeLost"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5927 (Code4rena/Stakehouse Protocol)"
+help: "[M-19] When users transfer GiantLP, some rewards may be lost"
+wiki_title: "[M-19] When users transfer GiantLP, some rewards may be lost"
+wiki_description: |
+    GiantMevAndFeesPool.beforeTokenTransfer will try to distribute the user's current rewards to the user when transferring GaintLP, but since beforeTokenTransfer will not call StakingFundsVault.claimRewards to claim the latest rewards, thus making the calculated accumulatedETHPerLPShare smaller and ca
+wiki_exploit_scenario: |
+    Per Solodit #5927: GiantMevAndFeesPool.beforeTokenTransfer will try to distribute the user's current rewards to the user when transferring GaintLP, but since beforeTokenTransfer will not call StakingFundsVault.claimRew
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M19WhenUsersTransferGiantlpSomeRewardsMayBeLost"
+solodit_id: "5927"
+solodit_slug: |
+    m-19-when-users-transfer-giantlp-some-rewards-may-be-lost-code4rena-stakehouse-protocol-lsd-network-stakehouse-contest-git
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Don't update state"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(beforeTokenTransfer|claimRewards|accumulatedETHPerLPShare|updateAccumulatedETHPerLP).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "beforeTokenTransfer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

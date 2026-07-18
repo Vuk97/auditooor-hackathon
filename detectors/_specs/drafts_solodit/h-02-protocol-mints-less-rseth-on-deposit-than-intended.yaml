@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-02-protocol-mints-less-rseth-on-deposit-than-intended"
+class_name: "H02ProtocolMintsLessRsethOnDepositThanIntended"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29051 (Code4rena/Kelp DAO)"
+help: "[H-02] Protocol mints less rsETH on deposit than intended"
+wiki_title: "[H-02] Protocol mints less rsETH on deposit than intended"
+wiki_description: |
+    Price of rsETH is calculated as `totalLockedETH / rsETHSupply`. rsETH price is used to calculate rsETH amount to mint when user deposits. Formulas are following:
+    
+    *   `rsethAmountToMint = amount * assetPrice / rsEthPrice`
+    *   `rsEthPrice = totalEthLocked / rsETHSupply`
+    
+    Problem is that it transfers
+wiki_exploit_scenario: |
+    Per Solodit #29051: Price of rsETH is calculated as `totalLockedETH / rsETHSupply`. rsETH price is used to calculate rsETH amount to mint when user deposits. Formulas are following:
+    
+    *   `rsethAmountToMint = amount * as
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02ProtocolMintsLessRsethOnDepositThanIntended"
+solodit_id: "29051"
+solodit_slug: "h-02-protocol-mints-less-rseth-on-deposit-than-intended-code4rena-kelp-dao-kelp-dao-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balanceof;"
+fn_name_regex: ".*(rsethAmountToMint|totalEthLocked|getTotalAssetDeposits|balanceOf).*"
+read_var_regex: ".*(balanceOf|getTotalAssetDeposits|rsethAmountToMint).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rsethAmountToMint"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balanceof > 0;"

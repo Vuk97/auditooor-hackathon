@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-05-wrapnativetokeninwallet-always-reverts-on-arbitrum"
+class_name: "M05WrapnativetokeninwalletAlwaysRevertsOnArbitrum"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36887 (Code4rena/BendDAO)"
+help: "[M-05] `wrapNativeTokenInWallet()` always reverts on Arbitrum"
+wiki_title: "[M-05] `wrapNativeTokenInWallet()` always reverts on Arbitrum"
+wiki_description: |
+    `VaultLogic.wrapNativeTokenInWallet()` is used in a number of places
+    It's mainly used to store `msg.value` into `WETH` and then transfer it to `msg.sender`.
+    
+    ```solidity
+      function wrapNativeTokenInWallet(address wrappedNativeToken, address user, uint256 amount) internal {
+        require(amount > 0, E
+wiki_exploit_scenario: |
+    Per Solodit #36887: `VaultLogic.wrapNativeTokenInWallet()` is used in a number of places
+    It's mainly used to store `msg.value` into `WETH` and then transfer it to `msg.sender`.
+    
+    ```solidity
+      function wrapNativeTokenInW
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05WrapnativetokeninwalletAlwaysRevertsOnArbitrum"
+solodit_id: "36887"
+solodit_slug: "m-05-wrapnativetokeninwallet-always-reverts-on-arbitrum-code4rena-benddao-benddao-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal transferfrom;"
+fn_name_regex: ".*(WETH|transferFrom|wrapNativeTokenInWallet).*"
+read_var_regex: ".*(transferFrom|wrapNativeTokenInWallet).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "WETH"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return transferfrom > 0;"

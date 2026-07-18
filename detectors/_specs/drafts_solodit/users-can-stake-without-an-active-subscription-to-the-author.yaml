@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "users-can-stake-without-an-active-subscription-to-the-author"
+class_name: "UsersCanStakeWithoutAnActiveSubscriptionToTheAuthor"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #51785 (Halborn/Staking)"
+help: "Users can stake without an active subscription to the author"
+wiki_title: "Users can stake without an active subscription to the author"
+wiki_description: |
+    ##### Description
+    
+    To stake, a subscriber must have an active subscription to the author.
+    
+    However, in the `StakingVault::_deposit` function, the following checks are used to restrict staking:
+    
+    ```
+    require(author != address(0), "UI");
+    require(authorTokenFactory.balanceOf(receiver, uint256(uint160(au
+wiki_exploit_scenario: |
+    Per Solodit #51785: ##### Description
+    
+    To stake, a subscriber must have an active subscription to the author.
+    
+    However, in the `StakingVault::_deposit` function, the following checks are used to restrict staking:
+    
+    ```
+    re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanStakeWithoutAnActiveSubscriptionToTheAuthor"
+solodit_id: "51785"
+solodit_slug: "users-can-stake-without-an-active-subscription-to-the-author-halborn-altcoinist-staking-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(authorTokenFactory|balanceOf|postTGE|startPrank).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "authorTokenFactory"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

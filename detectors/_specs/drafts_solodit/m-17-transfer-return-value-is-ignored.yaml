@@ -1,0 +1,36 @@
+skeleton: "paired_function_divergence"
+name: "m-17-transfer-return-value-is-ignored"
+class_name: "M17TransferReturnValueIsIgnored"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1233 (Code4rena/NFTX)"
+help: "[M-17] transfer return value is ignored"
+wiki_title: "[M-17] transfer return value is ignored"
+wiki_description: |
+    _Submitted by robee, also found by 0x1f8b, cmichel, csanuragjain, defsec, hyh, leastwood, sirhashalot, and WatchPug_
+    
+    Need to use safeTransfer instead of transfer. As there are popular tokens, such as USDT that transfer/transferFrom method doesn’t return anything. The transfer return value has to be
+wiki_exploit_scenario: |
+    Per Solodit #1233: _Submitted by robee, also found by 0x1f8b, cmichel, csanuragjain, defsec, hyh, leastwood, sirhashalot, and WatchPug_
+    
+    Need to use safeTransfer instead of transfer. As there are popular tokens, such as
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M17TransferReturnValueIsIgnored"
+solodit_id: "1233"
+solodit_slug: "m-17-transfer-return-value-is-ignored-code4rena-nftx-nftx-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

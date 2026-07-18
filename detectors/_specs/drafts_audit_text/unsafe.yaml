@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unsafe"
+class_name: "Unsafe"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-10-ramses-exchange"
+help: |
+    [L-09] Unsafe unchecked block and potential overflow risk The use of the unchecked block in the code introduces a risk of overflow if the tokensOwed0 and tokensOwed1 values grow to
+wiki_title: "Unsafe"
+wiki_description: |
+    [L-09] Unsafe unchecked block and potential overflow risk The use of the unchecked block in the code introduces a risk of overflow if the tokensOwed0 and tokensOwed1 values grow too large, especially when fees accumulate over a long period without being collected by the position owner. Although the
+wiki_exploit_scenario: |
+    Per audit finding: [L-09] Unsafe unchecked block and potential overflow risk The use of the unchecked block in the code introduces a risk of overflow if the tokensOwed0 and tokensOwed1 values grow too large, especially
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Unsafe"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(tokensOwed0|tokensOwed1|mulDiv).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "tokensOwed0"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

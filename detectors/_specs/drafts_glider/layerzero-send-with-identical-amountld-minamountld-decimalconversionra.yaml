@@ -1,0 +1,25 @@
+skeleton: "state_write_without_paired_write"
+name: "layerzero-send-with-identical-amountld-minamountld-decimalconversionra"
+class_name: "LayerzeroSendWithIdenticalAmountldMinamountldDecimalconversionra"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: layer-zero-token-transfers-are-configured-causing"
+help: "LayerZero send with identical amountLD/minAmountLD (decimalConversionRate slippage)"
+wiki_title: "LayerZero send with identical amountLD/minAmountLD (decimalConversionRate slippage)"
+wiki_description: |
+    Flags LayerZero/OFT sends where minAmountLD tracks amountLD (or a single var) without considering decimalConversionRate/removeDust, causing SlippageExceeded when dust is removed.
+wiki_exploit_scenario: |
+    Per Glider query tags [layerzero, oft, slippage, minAmountLD, removeDust]: Flags LayerZero/OFT sends where minAmountLD tracks amountLD (or a single var) without considering decimalConversionRate/removeDust, causing SlippageExceeded when dust is removed.
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "LayerzeroSendWithIdenticalAmountldMinamountldDecimalconversionra"
+fn_name_regex: ".*(amountLD).*"
+primary_var_regex: ".*(balance|amount|position|stake).*"
+paired_var_regex: ".*(flag|status|cleared|isLong|reset).*"
+vuln_fn_name: "amountLD"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;

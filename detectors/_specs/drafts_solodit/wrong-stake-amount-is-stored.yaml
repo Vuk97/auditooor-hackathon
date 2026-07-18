@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "wrong-stake-amount-is-stored"
+class_name: "WrongStakeAmountIsStored"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57584 (Zokyo/Tokensfarm)"
+help: "Wrong stake amount is stored."
+wiki_title: "Wrong stake amount is stored."
+wiki_description: |
+    **Description**
+    
+    Perpetual TokensFarm.sol: function_deposit(), line 1083. The_amount parameter is stored in 'stake.amount'. In case there is a stake fee, a greater amount would be stored instead of the value after taking the fee.
+    
+    **Recommendation**
+    
+    Store 'stakedAmount` in `stake.amount`.
+    
+    **Re-aud
+wiki_exploit_scenario: |
+    Per Solodit #57584: **Description**
+    
+    Perpetual TokensFarm.sol: function_deposit(), line 1083. The_amount parameter is stored in 'stake.amount'. In case there is a stake fee, a greater amount would be stored instead of th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrongStakeAmountIsStored"
+solodit_id: "57584"
+solodit_slug: "wrong-stake-amount-is-stored-zokyo-none-tokensfarm-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stakedAmount).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "stakedAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

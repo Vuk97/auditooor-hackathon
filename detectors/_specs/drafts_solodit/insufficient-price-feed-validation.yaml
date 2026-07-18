@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "insufficient-price-feed-validation"
+class_name: "InsufficientPriceFeedValidation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #59635 (Quantstamp/Hifi Finance)"
+help: "Insufficient Price Feed Validation"
+wiki_title: "Insufficient Price Feed Validation"
+wiki_description: |
+    **Update**
+    Fixed in commit [4ddb307](https://github.com/hifi-finance/hifi/commit/4ddb307) by a new state variable `priceStalenessThreshold` and checking the returned price freshness to be within its value.
+    
+    **File(s) affected:**`packages/protocol/contracts/oracles/ChainlinkOperator.sol`
+    
+    **Descripti
+wiki_exploit_scenario: |
+    Per Solodit #59635: **Update**
+    Fixed in commit [4ddb307](https://github.com/hifi-finance/hifi/commit/4ddb307) by a new state variable `priceStalenessThreshold` and checking the returned price freshness to be within its v
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InsufficientPriceFeedValidation"
+solodit_id: "59635"
+solodit_slug: "insufficient-price-feed-validation-quantstamp-hifi-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(priceStalenessThreshold|ChainlinkOperator|getPrice|updatedAt).*"
+primary_var_regex: ".*(getPrice|priceStalenessThreshold|updatedAt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "same-wallet-can-be-added-multiple-times-to-an-investor-artificia"
+class_name: "SameWalletCanBeAddedMultipleTimesToAnInvestorArtificia"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64480 (Cyfrin/Securitize Global Registry)"
+help: |
+    Same wallet can be added multiple times to an investor, artificially increasing their wallet count causing adding new wallets to revert
+wiki_title: |
+    Same wallet can be added multiple times to an investor, artificially increasing their wallet count causing adding new wallets to revert
+wiki_description: |
+    **Description:** `GlobalRegistryService::_updateInvestor` calls `_addWallet` when the wallet being added is already registered to this investor:
+    ```solidity
+    for (uint8 i = 0; i < walletAddresses.length; i++) {
+        // @audit if it is a wallet and it doesn't belong to this investor, revert
+        if (isW
+wiki_exploit_scenario: |
+    Per Solodit #64480: **Description:** `GlobalRegistryService::_updateInvestor` calls `_addWallet` when the wallet being added is already registered to this investor:
+    ```solidity
+    for (uint8 i = 0; i < walletAddresses.lengt
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SameWalletCanBeAddedMultipleTimesToAnInvestorArtificia"
+solodit_id: "64480"
+solodit_slug: |
+    same-wallet-can-be-added-multiple-times-to-an-investor-artificially-increasing-their-wallet-count-causing-adding-new-wallets-to-revert-cyfrin-none-securitize-global-registry-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal removeinvestor;"
+fn_name_regex: ".*(walletCount|MAX_WALLETS_PER_INVESTOR|removeInvestor|view).*"
+read_var_regex: ".*(removeInvestor|view|walletCount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "walletCount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return removeinvestor > 0;"

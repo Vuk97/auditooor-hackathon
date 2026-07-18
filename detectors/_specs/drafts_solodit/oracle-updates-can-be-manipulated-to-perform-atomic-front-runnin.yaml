@@ -1,0 +1,39 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "oracle-updates-can-be-manipulated-to-perform-atomic-front-runnin"
+class_name: "OracleUpdatesCanBeManipulatedToPerformAtomicFrontRunnin"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #13642 (ConsenSys/Bancor V2 AMM Security Audit)"
+help: "Oracle updates can be manipulated to perform atomic front-running attack ✓ Addressed"
+wiki_title: "Oracle updates can be manipulated to perform atomic front-running attack ✓ Addressed"
+wiki_description: |
+    #### Resolution
+    
+    
+    
+    The issue was mitigated by updating the Oracle price only once per block and consistently only using the old value throughout the block instead of querying the Oracle when adding or removing liquidity. Arbitrageurs can now no longer do the profitable trade within a single transact
+wiki_exploit_scenario: |
+    Per Solodit #13642: #### Resolution
+    
+    
+    
+    The issue was mitigated by updating the Oracle price only once per block and consistently only using the old value throughout the block instead of querying the Oracle when adding or
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OracleUpdatesCanBeManipulatedToPerformAtomicFrontRunnin"
+solodit_id: "13642"
+solodit_slug: |
+    oracle-updates-can-be-manipulated-to-perform-atomic-front-running-attack-addressed-consensys-bancor-v2-amm-security-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(handleExternalRateChange).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

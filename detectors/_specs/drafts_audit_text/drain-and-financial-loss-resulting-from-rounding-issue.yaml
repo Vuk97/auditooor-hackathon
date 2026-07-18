@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "drain-and-financial-loss-resulting-from-rounding-issue"
+class_name: "DrainAndFinancialLossResultingFromRoundingIssue"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit StakeKit - Zellic Audit Report"
+help: |
+    In AllocatorVaultV1, the convertToShares and convertToAssets functions determine the ratio between assets and shares, influencing how deposits and withdrawals are executed: functio
+wiki_title: "Drain and financial loss resulting from rounding issue"
+wiki_description: |
+    In AllocatorVaultV1, the convertToShares and convertToAssets functions determine the ratio between assets and shares, influencing how deposits and withdrawals are executed: function convertToShares(uint256 assets) public view override returns (uint256) { return (assets * (totalSupply() + VIRTUAL_SHA
+wiki_exploit_scenario: |
+    Per audit finding: In AllocatorVaultV1, the convertToShares and convertToAssets functions determine the ratio between assets and shares, influencing how deposits and withdrawals are executed: function convertToShares(ui
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DrainAndFinancialLossResultingFromRoundingIssue"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(convertToShares|convertToAssets|totalSupply).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "convertToShares"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

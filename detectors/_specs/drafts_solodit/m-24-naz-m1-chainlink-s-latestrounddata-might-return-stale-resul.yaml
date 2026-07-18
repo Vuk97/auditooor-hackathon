@@ -1,0 +1,33 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-24-naz-m1-chainlink-s-latestrounddata-might-return-stale-resul"
+class_name: "M24NazM1ChainlinkSLatestrounddataMightReturnStaleResul"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3228 (Code4rena/Olympus DAO)"
+help: "[M-24] [NAZ-M1] Chainlink's `latestRoundData` Might Return Stale Results"
+wiki_title: "[M-24] [NAZ-M1] Chainlink's `latestRoundData` Might Return Stale Results"
+wiki_description: |
+    _Submitted by 0xNazgul, also found by &#95;&#95;141345&#95;&#95;, 0x1f8b, ak1, brgltd, cccz, csanuragjain, Dravee, Guardian, hyh, IllIllI, itsmeSTYJ, Jujic, Lambda, pashov, peachtea, rbserver, reassor, Sm4rty, TomJ, and zzzitron_
+    
+    <https://github.com/code-423n4/2022-08-olympus/blob/main/src/modules/
+wiki_exploit_scenario: |
+    Per Solodit #3228: _Submitted by 0xNazgul, also found by &#95;&#95;141345&#95;&#95;, 0x1f8b, ak1, brgltd, cccz, csanuragjain, Dravee, Guardian, hyh, IllIllI, itsmeSTYJ, Jujic, Lambda, pashov, peachtea, rbserver, reassor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M24NazM1ChainlinkSLatestrounddataMightReturnStaleResul"
+solodit_id: "3228"
+solodit_slug: |
+    m-24-naz-m1-chainlinks-latestrounddata-might-return-stale-results-code4rena-olympus-dao-olympus-dao-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Stale Price, Oracle, Chainlink"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(latestRoundData|updatedAt).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

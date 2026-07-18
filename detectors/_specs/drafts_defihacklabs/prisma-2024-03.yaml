@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "prisma-2024-03"
+class_name: "Prisma202403"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-03/Prisma_exp.sol"
+help: "Prisma 2024-03 — flashloan exploit (~$11M)"
+wiki_title: "Prisma (2024-03) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-03): Prisma lost ~$11M. Bug class: flashloan. Attack tx: 0x00c503b595946bccaea3d58025b5f9b3726177bbdc9674e634244135282116c7.
+wiki_exploit_scenario: |
+    Attacker (0x7e39e3b3ff7adef2613d5cc49558eab74b9a4202) exploits Prisma via flashloan: the victim contract 0xcc7218100da61441905e0c327749972e3cbee9ee exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Prisma202403"
+trigger_sig_regex: ".*(onFlashLoan).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function onFlashLoan(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.onFlashLoan(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

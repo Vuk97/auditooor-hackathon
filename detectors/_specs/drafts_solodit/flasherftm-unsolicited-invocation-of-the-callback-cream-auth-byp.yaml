@@ -1,0 +1,36 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "flasherftm-unsolicited-invocation-of-the-callback-cream-auth-byp"
+class_name: "FlasherftmUnsolicitedInvocationOfTheCallbackCreamAuthByp"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16523 (ConsenSys/Fuji Protocol)"
+help: "FlasherFTM - Unsolicited invocation of the callback (CREAM auth bypass)"
+wiki_title: "FlasherFTM - Unsolicited invocation of the callback (CREAM auth bypass)"
+wiki_description: |
+    #### Description
+    
+    
+    **TL;DR:** Anyone can call `ICTokenFlashloan(crToken).flashLoan(address(FlasherFTM), address(FlasherFTM), info.amount, params)` directly and pass validation checks in `onFlashLoan()`. This call forces it to accept unsolicited flash loans and execute the actions provided under the
+wiki_exploit_scenario: |
+    Per Solodit #16523: #### Description
+    
+    
+    **TL;DR:** Anyone can call `ICTokenFlashloan(crToken).flashLoan(address(FlasherFTM), address(FlasherFTM), info.amount, params)` directly and pass validation checks in `onFlashLoan()
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FlasherftmUnsolicitedInvocationOfTheCallbackCreamAuthByp"
+solodit_id: "16523"
+solodit_slug: "flasherftm-unsolicited-invocation-of-the-callback-cream-auth-bypass-consensys-fuji-protocol-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(onFlashLoan|initiator).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

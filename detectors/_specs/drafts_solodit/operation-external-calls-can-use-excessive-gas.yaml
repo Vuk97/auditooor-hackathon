@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "operation-external-calls-can-use-excessive-gas"
+class_name: "OperationExternalCallsCanUseExcessiveGas"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19282 (SigmaPrime/BLS Wallet)"
+help: "Operation External Calls Can Use Excessive Gas"
+wiki_title: "Operation External Calls Can Use Excessive Gas"
+wiki_description: |
+    ## Description
+    
+    Once a wallet’s operation is run in `VerificationGateway`, control is handed over to `BLSWallet` via the calls `wallet.performOperation()` and `wallet.nonce()`.
+    
+    ```solidity
+    (bool success, bytes[] memory resultSet) = wallet.performOperation(bundle.operations[i]);
+    ```
+    
+    `wallet` is an
+wiki_exploit_scenario: |
+    Per Solodit #19282: ## Description
+    
+    Once a wallet’s operation is run in `VerificationGateway`, control is handed over to `BLSWallet` via the calls `wallet.performOperation()` and `wallet.nonce()`.
+    
+    ```solidity
+    (bool succ
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OperationExternalCallsCanUseExcessiveGas"
+solodit_id: "19282"
+solodit_slug: "operation-external-calls-can-use-excessive-gas-sigmaprime-none-bls-wallet-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal gaslimit;"
+fn_name_regex: ".*(VerificationGateway|BLSWallet|wallet|processBundle).*"
+read_var_regex: ".*(gasLimit|processBundle|wallet).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "VerificationGateway"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return gaslimit > 0;"

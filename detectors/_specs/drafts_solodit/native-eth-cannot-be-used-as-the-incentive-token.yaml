@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "native-eth-cannot-be-used-as-the-incentive-token"
+class_name: "NativeEthCannotBeUsedAsTheIncentiveToken"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46281 (Cantina/Clave)"
+help: "Native ETH cannot be used as the incentive token"
+wiki_title: "Native ETH cannot be used as the incentive token "
+wiki_description: |
+    ## Context
+    - `ClaggBaseAdapter.sol#L231-L232`
+    - `IncentiveVault.sol#L32-L45`
+    - `IncentiveVault.sol#L48-L58`
+    
+    ## Description
+    In `ClaggBaseAdapter.setIncentive()`, `safeApprove()` is always called before transferring the incentive token (i.e., token below) to `IncentiveVault`:
+    
+    ```solidity
+    IERC20(toke
+wiki_exploit_scenario: |
+    Per Solodit #46281: ## Context
+    - `ClaggBaseAdapter.sol#L231-L232`
+    - `IncentiveVault.sol#L32-L45`
+    - `IncentiveVault.sol#L48-L58`
+    
+    ## Description
+    In `ClaggBaseAdapter.setIncentive()`, `safeApprove()` is always called befor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NativeEthCannotBeUsedAsTheIncentiveToken"
+solodit_id: "46281"
+solodit_slug: "native-eth-cannot-be-used-as-the-incentive-token-cantina-none-clave-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal safeapprove;"
+fn_name_regex: ".*(safeApprove|IncentiveVault|storeTokens|withdrawTokens).*"
+read_var_regex: ".*(safeApprove|storeTokens|withdrawTokens).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeApprove"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return safeapprove > 0;"

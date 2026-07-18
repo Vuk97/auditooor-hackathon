@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "m-01-priceoracle-has-invalid-checks-on-price-staleness"
+class_name: "M01PriceoracleHasInvalidChecksOnPriceStaleness"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36883 (Code4rena/BendDAO)"
+help: "[M-01] PriceOracle has invalid checks on price staleness"
+wiki_title: "[M-01] PriceOracle has invalid checks on price staleness"
+wiki_description: |
+    There are two checks on price staleness in `PriceOracle::getAssetPriceFromChainlink`, but both checks are invalid.
+    
+    1. `updatedAt != 0` - In chainlink aggregator, the price is updated at a set heartbeat and a threshold of deviation. `updatedAt` should be used to check if the answer is within the he
+wiki_exploit_scenario: |
+    Per Solodit #36883: There are two checks on price staleness in `PriceOracle::getAssetPriceFromChainlink`, but both checks are invalid.
+    
+    1. `updatedAt != 0` - In chainlink aggregator, the price is updated at a set heartb
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01PriceoracleHasInvalidChecksOnPriceStaleness"
+solodit_id: "36883"
+solodit_slug: "m-01-priceoracle-has-invalid-checks-on-price-staleness-code4rena-benddao-benddao-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal answeredinround;"
+fn_name_regex: ".*(updatedAt|answeredInRound).*"
+write_var_regex: ".*(answeredInRound|updatedAt).*"
+guard_var_regex: ".*(answeredInRound|updatedAt).*"
+vuln_fn_name: "updatedAt"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "answeredinround = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

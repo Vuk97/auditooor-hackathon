@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "removal-from-callbackauthorized-is-not-conclusive"
+class_name: "RemovalFromCallbackauthorizedIsNotConclusive"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Bond Protocol - Zellic Audit Report"
+help: |
+    The callbackAuthorized mapping dictates which msg.sender is allowed to perform ca llbacks on a specific market, and it is set via the setCallbackAuthStatus function. The status of
+wiki_title: "Removal from callbackAuthorized is not conclusive"
+wiki_description: |
+    The callbackAuthorized mapping dictates which msg.sender is allowed to perform ca llbacks on a specific market, and it is set via the setCallbackAuthStatus function. The status of this authorization is only checked when the market is created, despite the fact that the msg.sender can lose their right
+wiki_exploit_scenario: |
+    Per audit finding: The callbackAuthorized mapping dictates which msg.sender is allowed to perform ca llbacks on a specific market, and it is set via the setCallbackAuthStatus function. The status of this authorization i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RemovalFromCallbackauthorizedIsNotConclusive"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(callbackAuthorized|setCallbackAuthStatus|allowNewMarkets).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "callbackAuthorized"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

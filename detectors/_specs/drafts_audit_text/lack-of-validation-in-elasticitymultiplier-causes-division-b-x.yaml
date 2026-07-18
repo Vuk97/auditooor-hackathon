@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-validation-in-elasticitymultiplier-causes-division-b-x"
+class_name: "LackOfValidationInElasticitymultiplierCausesDivisionBX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Swisstronik - Zellic Audit Report"
+help: |
+    In CalculateBaseFee, the code assumes that ElasticityMultiplier cannot be zero due to validation, but validateElasticityMultiplier only checks for the correct data type (uint32) an
+wiki_title: "Lack of validation in ElasticityMultiplier causes division by zero"
+wiki_description: |
+    In CalculateBaseFee, the code assumes that ElasticityMultiplier cannot be zero due to validation, but validateElasticityMultiplier only checks for the correct data type (uint32) and not whether the value is nonzero. func validateElasticityMultiplier(i interface{}) error { _, ok := i.(uint32) if !ok
+wiki_exploit_scenario: |
+    Per audit finding: In CalculateBaseFee, the code assumes that ElasticityMultiplier cannot be zero due to validation, but validateElasticityMultiplier only checks for the correct data type (uint32) and not whether the va
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfValidationInElasticitymultiplierCausesDivisionBX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(validateElasticityMultiplier|parentGasTargetBig|gasLimit).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "validateElasticityMultiplier"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "router-provide-and-enforce-safe-defaults-config"
+class_name: "RouterProvideAndEnforceSafeDefaultsConfig"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #13334 (ConsenSys/Connext NXTP — Noncustodial Xchain Transfer Protocol)"
+help: "Router - Provide and enforce safe defaults (config)"
+wiki_title: "Router - Provide and enforce safe defaults (config)"
+wiki_description: |
+    #### Description
+    
+    
+    Chain `confirmations` default to `1` which is not safe. In case of a re-org the router might (temporarily) get out of sync with the chain and perform actions it should not perform. This may put funds at risk.
+    
+    
+    #### Examples
+    
+    
+    the schema requires an unsafe minimum of 1 confirmatio
+wiki_exploit_scenario: |
+    Per Solodit #13334: #### Description
+    
+    
+    Chain `confirmations` default to `1` which is not safe. In case of a re-org the router might (temporarily) get out of sync with the chain and perform actions it should not perform.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RouterProvideAndEnforceSafeDefaultsConfig"
+solodit_id: "13334"
+solodit_slug: |
+    router-provide-and-enforce-safe-defaults-config-consensys-connext-nxtp-noncustodial-xchain-transfer-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal confirmations;"
+fn_name_regex: ".*(confirmations).*"
+read_var_regex: ".*(confirmations).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "confirmations"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return confirmations > 0;"

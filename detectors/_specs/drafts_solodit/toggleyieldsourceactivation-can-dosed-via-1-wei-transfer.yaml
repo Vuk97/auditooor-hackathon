@@ -1,0 +1,54 @@
+skeleton: "name_match_missing_call"
+name: "toggleyieldsourceactivation-can-dosed-via-1-wei-transfer"
+class_name: "ToggleyieldsourceactivationCanDosedVia1WeiTransfer"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63082 (Spearbit/Superform v2 Periphery)"
+help: "_toggleYieldSourceActivation can DoSed via 1 wei transfer"
+wiki_title: "_toggleYieldSourceActivation can DoSed via 1 wei transfer"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    SuperVaultStrategy.sol#L787-L802
+    
+    ## Description
+    The code strictly requires that the TVL owner share is 0:
+    
+    ```solidity
+    if (IYieldSourceOracle(yieldSource.oracle).getTVLByOwnerOfShares(source, address(this)) > 0) {
+        revert INVALID_AMOUNT();
+    }
+    ```
+    
+    Then a user
+wiki_exploit_scenario: |
+    Per Solodit #63082: ## Severity: Medium Risk
+    
+    ## Context
+    SuperVaultStrategy.sol#L787-L802
+    
+    ## Description
+    The code strictly requires that the TVL owner share is 0:
+    
+    ```solidity
+    if (IYieldSourceOracle(yieldSource.oracle).
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ToggleyieldsourceactivationCanDosedVia1WeiTransfer"
+solodit_id: "63082"
+solodit_slug: "toggleyieldsourceactivation-can-dosed-via-1-wei-transfer-spearbit-none-superform-v2-periphery-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal gettvlbyownerofshares;"
+fn_name_regex: ".*(getTVLByOwnerOfShares).*"
+read_var_regex: ".*(getTVLByOwnerOfShares).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getTVLByOwnerOfShares"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return gettvlbyownerofshares > 0;"

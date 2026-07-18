@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "m-2-after-a-liquidator-liquidates-someone-else-s-position-it-cou"
+class_name: "M2AfterALiquidatorLiquidatesSomeoneElseSPositionItCou"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35128 (Sherlock/Notional Leveraged Vaults: Pendle PT and Vault Incentives)"
+help: |
+    M-2: After a liquidator liquidates someone else’s position, it could cause a Denial of Service (DoS) when their own position also needs to be liquidated.
+wiki_title: |
+    M-2: After a liquidator liquidates someone else’s position, it could cause a Denial of Service (DoS) when their own position also needs to be liquidated.
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-06-leveraged-vaults-judging/issues/44 
+    
+    ## Found by 
+    ZeroTrust
+    
+    ## Summary
+    After a liquidator liquidates someone else’s position, it could cause a Denial of Service (DoS) when their own position also needs to be liquidated.
+    ## Vulnerability Detail
+    ```ja
+wiki_exploit_scenario: |
+    Per Solodit #35128: Source: https://github.com/sherlock-audit/2024-06-leveraged-vaults-judging/issues/44 
+    
+    ## Found by 
+    ZeroTrust
+    
+    ## Summary
+    After a liquidator liquidates someone else’s position, it could cause a Denial
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2AfterALiquidatorLiquidatesSomeoneElseSPositionItCou"
+solodit_id: "35128"
+solodit_slug: |
+    m-2-after-a-liquidator-liquidates-someone-elses-position-it-could-cause-a-denial-of-service-dos-when-their-own-position-also-needs-to-be-liquidated-sherlock-notional-leveraged-vaults-pendle-pt-and-vault-incentives-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(vaultShares|getAccountWithdrawRequest|requestId|hasSplit).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "vaultShares"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

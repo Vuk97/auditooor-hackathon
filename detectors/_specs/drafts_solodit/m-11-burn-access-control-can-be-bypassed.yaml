@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-11-burn-access-control-can-be-bypassed"
+class_name: "M11BurnAccessControlCanBeBypassed"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2886 (Code4rena/Yieldy)"
+help: "[M-11] Burn access control can be bypassed"
+wiki_title: "[M-11] Burn access control can be bypassed"
+wiki_description: |
+    _Submitted by pashov, also found by csanuragjain, hake, kenta, m&#95;Rassska, and oyc&#95;109_
+    
+    `transferFrom` method does not check if `_to` argument is the zero address.
+    
+    ### Impact
+    
+    This can lead to token burns without calling the `burn` function, which has access control `onlyRole(MINTER_BURNER_
+wiki_exploit_scenario: |
+    Per Solodit #2886: _Submitted by pashov, also found by csanuragjain, hake, kenta, m&#95;Rassska, and oyc&#95;109_
+    
+    `transferFrom` method does not check if `_to` argument is the zero address.
+    
+    ### Impact
+    
+    This can lead t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11BurnAccessControlCanBeBypassed"
+solodit_id: "2886"
+solodit_slug: "m-11-burn-access-control-can-be-bypassed-code4rena-yieldy-yieldy-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal burn;"
+fn_name_regex: ".*(transferFrom|burn|onlyRole).*"
+read_var_regex: ".*(burn|onlyRole|transferFrom).*"
+required_call_regex: ".*the.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return burn > 0;"

@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-05-borrowers-lose-funds-if-they-call-repayandcloseloan-instead"
+class_name: "M05BorrowersLoseFundsIfTheyCallRepayandcloseloanInstead"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1860 (Code4rena/Backed Protocol)"
+help: "[M-05] Borrowers lose funds if they call `repayAndCloseLoan` instead of `closeLoan`"
+wiki_title: "[M-05] Borrowers lose funds if they call `repayAndCloseLoan` instead of `closeLoan`"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    [NFTLoanFacilitator.sol#L241](https://github.com/code-423n4/2022-04-backed/blob/e8015d7c4b295af131f017e646ba1b99c8f608f0/contracts/NFTLoanFacilitator.sol#L241)<br>
+    
+    The `repayAndCloseLoan` function does not revert if there has not been a lender for a loan (matched with `lend`
+wiki_exploit_scenario: |
+    Per Solodit #1860: _Submitted by cmichel_
+    
+    [NFTLoanFacilitator.sol#L241](https://github.com/code-423n4/2022-04-backed/blob/e8015d7c4b295af131f017e646ba1b99c8f608f0/contracts/NFTLoanFacilitator.sol#L241)<br>
+    
+    The `repayA
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05BorrowersLoseFundsIfTheyCallRepayandcloseloanInstead"
+solodit_id: "1860"
+solodit_slug: |
+    m-05-borrowers-lose-funds-if-they-call-repayandcloseloan-instead-of-closeloan-code4rena-backed-protocol-backed-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal closeloan;"
+fn_name_regex: ".*(repayAndCloseLoan|lend|closeLoan|interest).*"
+read_var_regex: ".*(closeLoan|createLoan|interest).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "repayAndCloseLoan"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return closeloan > 0;"

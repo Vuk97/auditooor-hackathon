@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-maxallowedcollateral-check-could-be-bypassed-using-topup-x"
+class_name: "TheMaxallowedcollateralCheckCouldBeBypassedUsingTopupX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Ostium - Zellic Audit Report"
+help: |
+    The function topUpCollateral can be used by traders to increase the collateral size of their trades. But there is no check in this function to verify if the new collateral size has
+wiki_title: "The maxAllowedCollateral check could be bypassed using topUpCollat-"
+wiki_description: |
+    The function topUpCollateral can be used by traders to increase the collateral size of their trades. But there is no check in this function to verify if the new collateral size has bypassed the maxAllowed- Collateral. function topUpCollateral(uint16 pairIndex, uint8 index, uint256 topUpAmount) exter
+wiki_exploit_scenario: |
+    Per audit finding: The function topUpCollateral can be used by traders to increase the collateral size of their trades. But there is no check in this function to verify if the new collateral size has bypassed the maxAll
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheMaxallowedcollateralCheckCouldBeBypassedUsingTopupX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(topUpCollateral|maxAllowed|pairIndex).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "topUpCollateral"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

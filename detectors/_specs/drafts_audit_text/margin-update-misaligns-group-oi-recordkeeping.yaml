@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "margin-update-misaligns-group-oi-recordkeeping"
+class_name: "MarginUpdateMisalignsGroupOiRecordkeeping"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Bloom Trading - Zellic Audit Report"
+help: |
+    The PairStorage contract keeps track of the long and short open interest for each group of pairs to limit exposure to correlated assets. When a trade is opened, its OI is added to
+wiki_title: "Margin update misaligns group OI recordkeeping"
+wiki_description: |
+    The PairStorage contract keeps track of the long and short open interest for each group of pairs to limit exposure to correlated assets. When a trade is opened, its OI is added to the group OI, and when it’s closed its OI is removed. During updateMarginCallback, the new position and leverage are cal
+wiki_exploit_scenario: |
+    Per audit finding: The PairStorage contract keeps track of the long and short open interest for each group of pairs to limit exposure to correlated assets. When a trade is opened, its OI is added to the group OI, and wh
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MarginUpdateMisalignsGroupOiRecordkeeping"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

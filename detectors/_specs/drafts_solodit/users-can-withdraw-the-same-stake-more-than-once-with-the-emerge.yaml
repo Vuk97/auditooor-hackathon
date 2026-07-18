@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "users-can-withdraw-the-same-stake-more-than-once-with-the-emerge"
+class_name: "UsersCanWithdrawTheSameStakeMoreThanOnceWithTheEmerge"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57583 (Zokyo/Tokensfarm)"
+help: "Users can withdraw the same stake more than once with the emergency withdrawal function."
+wiki_title: "Users can withdraw the same stake more than once with the emergency withdrawal function."
+wiki_description: |
+    **Description**
+    
+    TokensFarm.sol: function emergencyWithdraw().
+    Perpetual TokensFarm.sol: function emergencyWithdraw(). Users can execute the emergencyWithdraw() function with the same stake, even when the amount of the stake is 0. Due to this, the 'participants' array is updated every time, deleting
+wiki_exploit_scenario: |
+    Per Solodit #57583: **Description**
+    
+    TokensFarm.sol: function emergencyWithdraw().
+    Perpetual TokensFarm.sol: function emergencyWithdraw(). Users can execute the emergencyWithdraw() function with the same stake, even when
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanWithdrawTheSameStakeMoreThanOnceWithTheEmerge"
+solodit_id: "57583"
+solodit_slug: |
+    users-can-withdraw-the-same-stake-more-than-once-with-the-emergency-withdrawal-function-zokyo-none-tokensfarm-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(emergencyWithdraw).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "emergencyWithdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

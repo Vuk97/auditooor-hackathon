@@ -1,0 +1,48 @@
+skeleton: "state_write_without_paired_write"
+name: "refund-uses-pre-refresh-price"
+class_name: "RefundUsesPreRefreshPrice"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64800 (Spearbit/Buck Labs)"
+help: "Refund uses pre-refresh price"
+wiki_title: "Refund uses pre-refresh price"
+wiki_description: |
+    ## Medium Risk Report
+    
+    **Severity:** Medium Risk  
+    **Context:** 
+    - `LiquidityWindowV2.sol#L408-L409`
+    - `LiquidityWindowV2.sol#L414-L415`
+    - `LiquidityWindowV2.sol#L442`
+    
+    **Description:**  
+    Refunds compute the effective price using a view-only read of the PolicyManager and only refresh the oracle afte
+wiki_exploit_scenario: |
+    Per Solodit #64800: ## Medium Risk Report
+    
+    **Severity:** Medium Risk  
+    **Context:** 
+    - `LiquidityWindowV2.sol#L408-L409`
+    - `LiquidityWindowV2.sol#L414-L415`
+    - `LiquidityWindowV2.sol#L442`
+    
+    **Description:**  
+    Refunds comp
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RefundUsesPreRefreshPrice"
+solodit_id: "64800"
+solodit_slug: "refund-uses-pre-refresh-price-spearbit-none-buck-labs-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getRefundParams|capPrice|spread|refreshPrice).*"
+primary_var_regex: ".*(capPrice|f40ce28|getRefundParams).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "oracle-void-outcome-leaves-predictionmarketv3managerclob-voidedp"
+class_name: "OracleVoidOutcomeLeavesPredictionmarketv3managerclobVoidedp"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #65418 (Cyfrin/Myriad Clob)"
+help: "Oracle void outcome leaves `PredictionMarketV3ManagerCLOB.voidedPayouts` unset, locking collateral"
+wiki_title: "Oracle void outcome leaves `PredictionMarketV3ManagerCLOB.voidedPayouts` unset, locking collateral"
+wiki_description: |
+    **Description:** `PredictionMarketV3ManagerCLOB::resolveMarket` accepts `outcome == -1` from an oracle and marks the market as resolved with `resolvedOutcome = -1`, but it never populates `voidedPayouts[marketId]`.
+    
+    ```solidity
+    // PredictionMarketV3ManagerCLOB.sol:174-182
+    (int256 outcome, bool resol
+wiki_exploit_scenario: |
+    Per Solodit #65418: **Description:** `PredictionMarketV3ManagerCLOB::resolveMarket` accepts `outcome == -1` from an oracle and marks the market as resolved with `resolvedOutcome = -1`, but it never populates `voidedPayou
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OracleVoidOutcomeLeavesPredictionmarketv3managerclobVoidedp"
+solodit_id: "65418"
+solodit_slug: |
+    oracle-void-outcome-leaves-predictionmarketv3managerclobvoidedpayouts-unset-locking-collateral-cyfrin-none-myriad-clob-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getvoidedpayouts;"
+fn_name_regex: ".*(getVoidedPayouts|ConditionalTokens|PredictionMarketV3ManagerCLOB|voidedPayouts).*"
+read_var_regex: ".*(getVoidedPayouts|voidedPayouts).*"
+required_call_regex: ".*voidedPayouts.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getVoidedPayouts"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getvoidedpayouts > 0;"

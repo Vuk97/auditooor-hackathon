@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "m-04-wrong-percent-for-fraxlendpaircore-dirtyliquidationfee"
+class_name: "M04WrongPercentForFraxlendpaircoreDirtyliquidationfee"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24833 (Code4rena/Frax Finance)"
+help: "[M-04] Wrong percent for `FraxlendPairCore.dirtyLiquidationFee`."
+wiki_title: "[M-04] Wrong percent for `FraxlendPairCore.dirtyLiquidationFee`."
+wiki_description: |
+    After confirming with the sponsor, `dirtyLiquidationFee` is 90% of `cleanLiquidationFee` like the [comment](https://github.com/code-423n4/2022-08-frax/blob/c4189a3a98b38c8c962c5ea72f1a322fbc2ae45f/src/contracts/FraxlendPairCore.sol#L194).
+    
+    But it uses `9% (9000 / 1e5 = 0.09)` and the fee calculatio
+wiki_exploit_scenario: |
+    Per Solodit #24833: After confirming with the sponsor, `dirtyLiquidationFee` is 90% of `cleanLiquidationFee` like the [comment](https://github.com/code-423n4/2022-08-frax/blob/c4189a3a98b38c8c962c5ea72f1a322fbc2ae45f/sr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04WrongPercentForFraxlendpaircoreDirtyliquidationfee"
+solodit_id: "24833"
+solodit_slug: "m-04-wrong-percent-for-fraxlendpaircoredirtyliquidationfee-code4rena-frax-finance-frax-finance-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cleanliquidationfee;"
+fn_name_regex: ".*(dirtyLiquidationFee|cleanLiquidationFee).*"
+read_var_regex: ".*(cleanLiquidationFee|dirtyLiquidationFee).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "dirtyLiquidationFee"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cleanliquidationfee > 0;"

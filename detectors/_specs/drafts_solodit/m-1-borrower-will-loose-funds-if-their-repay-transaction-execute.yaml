@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-1-borrower-will-loose-funds-if-their-repay-transaction-execute"
+class_name: "M1BorrowerWillLooseFundsIfTheirRepayTransactionExecute"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58398 (Sherlock/LEND)"
+help: |
+    M-1: Borrower will loose funds if their repay transaction executes after cross-chain liquidation call
+wiki_title: |
+    M-1: Borrower will loose funds if their repay transaction executes after cross-chain liquidation call
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-05-lend-audit-contest-judging/issues/433 
+    
+    ## Found by 
+    jokr, patitonar
+    
+    ### Summary
+    
+    In the current cross-chain liquidation flow, the liquidation begins on the destination chain, which sends a `CrossChainLiquidationExecute` message to the source chain.
+wiki_exploit_scenario: |
+    Per Solodit #58398: Source: https://github.com/sherlock-audit/2025-05-lend-audit-contest-judging/issues/433 
+    
+    ## Found by 
+    jokr, patitonar
+    
+    ### Summary
+    
+    In the current cross-chain liquidation flow, the liquidation begins
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1BorrowerWillLooseFundsIfTheirRepayTransactionExecute"
+solodit_id: "58398"
+solodit_slug: |
+    m-1-borrower-will-loose-funds-if-their-repay-transaction-executes-after-cross-chain-liquidation-call-sherlock-lend-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal repaycrosschainborrow;"
+fn_name_regex: ".*(CrossChainLiquidationExecute|LiquidationSuccess|repayCrossChainBorrow).*"
+read_var_regex: ".*(repayCrossChainBorrow).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "CrossChainLiquidationExecute"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return repaycrosschainborrow > 0;"

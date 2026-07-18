@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-11-the-outbound-transaction-tracker-only-keeps-track-of-a-maxi"
+class_name: "M11TheOutboundTransactionTrackerOnlyKeepsTrackOfAMaxi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36940 (Code4rena/ZetaChain)"
+help: |
+    [M-11] The outbound transaction tracker only keeps track of a maximum of two different transaction hashes, preventing cctxs from being efficiently confirmed and blocking the outbou
+wiki_title: |
+    [M-11] The outbound transaction tracker only keeps track of a maximum of two different transaction hashes, preventing cctxs from being efficiently confirmed and
+wiki_description: |
+    The outbound transaction queue is potentially blocked by such "stuck" transactions, preventing other pending cctxs from being sent out.
+    
+    ### Proof of Concept
+    
+    The `AddToOutTxTracker` function, handling the `MsgAddToOutTxTracker` message, adds a transaction hash associated with a pending cctx to the
+wiki_exploit_scenario: |
+    Per Solodit #36940: The outbound transaction queue is potentially blocked by such "stuck" transactions, preventing other pending cctxs from being sent out.
+    
+    ### Proof of Concept
+    
+    The `AddToOutTxTracker` function, handli
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11TheOutboundTransactionTrackerOnlyKeepsTrackOfAMaxi"
+solodit_id: "36940"
+solodit_slug: |
+    m-11-the-outbound-transaction-tracker-only-keeps-track-of-a-maximum-of-two-different-transaction-hashes-preventing-cctxs-from-being-efficiently-confirmed-and-blocking-the-outbound-transaction-queue-code4rena-zetachain-zetachain-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(AddToOutTxTracker|MsgAddToOutTxTracker|CctxStatus_OutboundMined).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "AddToOutTxTracker"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

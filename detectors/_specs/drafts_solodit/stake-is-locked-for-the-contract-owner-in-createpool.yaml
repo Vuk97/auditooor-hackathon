@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "stake-is-locked-for-the-contract-owner-in-createpool"
+class_name: "StakeIsLockedForTheContractOwnerInCreatepool"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27997 (MixBytes/Clearpool)"
+help: "Stake is locked for the contract owner in `_createPool()`"
+wiki_title: "Stake is locked for the contract owner in `_createPool()`"
+wiki_description: |
+    ##### Description
+    The `_createPool()` method is called from the `createPoolInitial()` and `createPool()` methods which are marked with the `onlyOwner` modifier.
+    Thus,
+    ```
+    info.staker = msg.sender;
+    info.stakedAmount = staking.lockStake(msg.sender);
+    ```
+    at https://github.com/clearpool-finance/permissi
+wiki_exploit_scenario: |
+    Per Solodit #27997: ##### Description
+    The `_createPool()` method is called from the `createPoolInitial()` and `createPool()` methods which are marked with the `onlyOwner` modifier.
+    Thus,
+    ```
+    info.staker = msg.sender;
+    inf
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StakeIsLockedForTheContractOwnerInCreatepool"
+solodit_id: "27997"
+solodit_slug: "stake-is-locked-for-the-contract-owner-in-_createpool-mixbytes-none-clearpool-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal createpool;"
+fn_name_regex: ".*(createPoolInitial|createPool|onlyOwner).*"
+read_var_regex: ".*(createPool|createPoolInitial|onlyOwner).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "createPoolInitial"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return createpool > 0;"

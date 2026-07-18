@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "h-17-second-per-liquidity-inside-could-overflow-uint256-causing-"
+class_name: "H17SecondPerLiquidityInsideCouldOverflowUint256Causing"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26051 (Code4rena/Maia DAO Ecosystem)"
+help: |
+    [H-17] Second per liquidity inside could overflow `uint256` causing the LP position to be locked in `UniswapV3Staker`
+wiki_title: |
+    [H-17] Second per liquidity inside could overflow `uint256` causing the LP position to be locked in `UniswapV3Staker`
+wiki_description: |
+    `UniswapV3Staker` depends on the second per liquidity inside values from the `Uniswap V3 Pool` to calculate the amount of rewards a position should receive. This value represents the amount of second liquidity inside a tick range that is "active" (`tickLower < currentTick < tickUpper`). The second
+wiki_exploit_scenario: |
+    Per Solodit #26051: `UniswapV3Staker` depends on the second per liquidity inside values from the `Uniswap V3 Pool` to calculate the amount of rewards a position should receive. This value represents the amount of second
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H17SecondPerLiquidityInsideCouldOverflowUint256Causing"
+solodit_id: "26051"
+solodit_slug: |
+    h-17-second-per-liquidity-inside-could-overflow-uint256-causing-the-lp-position-to-be-locked-in-uniswapv3staker-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Uniswap"
+state_decl: "uint256 internal computeboostedsecondsinsidex128;"
+fn_name_regex: ".*(UniswapV3Staker|RewardMath|computeBoostedSecondsInsideX128).*"
+read_var_regex: ".*(computeBoostedSecondsInsideX128).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "UniswapV3Staker"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return computeboostedsecondsinsidex128 > 0;"

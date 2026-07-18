@@ -1,0 +1,96 @@
+"""Tests for tools/salvage-question-enumerator.py - R63 / CAP-GAP-99."""
+import json, os, subprocess, tempfile, unittest, pathlib
+
+TOOL = "/Users/wolf/auditooor-mcp/tools/salvage-question-enumerator.py"
+
+class SalvageQuestionEnumeratorTests(unittest.TestCase):
+
+    def _run(self, draft_text, workspace=None, strict=False, extra_flags=None):
+        with tempfile.TemporaryDirectory() as tmp:
+            draft_path = pathlib.Path(tmp) / "test-draft.md"
+            draft_path.write_text(draft_text)
+            args = ["python3", TOOL, "--draft", str(draft_path), "--json"]
+            if workspace: args += ["--workspace", workspace]
+            if strict: args.append("--strict")
+            if extra_flags: args += extra_flags
+            res = subprocess.run(args, capture_output=True, text=True, timeout=15)
+            return res
+
+    def test_walk_back_signals_detected_NOT_SALVAGEABLE(self):
+        res = self._run("# Draft\n\nThis is **NOT-SALVAGEABLE** per the prior analysis.")
+        self.assertEqual(res.returncode, 0, res.stderr)
+        v = json.loads(res.stdout)
+        self.assertEqual(v["verdict"], "ok")
+        self.assertEqual(v["framings_emitted"], 10)
+        self.assertTrue(any("NOT" in s for s in v["walk_back_signals"]))
+
+    def test_walk_back_signals_detected_walk_back(self):
+        res = self._run("# Draft\n\nHonest walk-back: the prior claim was overstated.")
+        self.assertEqual(res.returncode, 0, res.stderr)
+        v = json.loads(res.stdout)
+        self.assertEqual(v["verdict"], "ok")
+
+    def test_walk_back_signals_detected_honest_concession(self):
+        res = self._run("# Draft\n\nHonest concession: the dispute is closed.")
+        self.assertEqual(res.returncode, 0, res.stderr)
+        v = json.loads(res.stdout)
+        self.assertEqual(v["verdict"], "ok")
+
+    def test_strict_mode_no_walk_back_fails(self):
+        res = self._run("# Draft\n\nThis is a normal finding.", strict=True)
+        self.assertNotEqual(res.returncode, 0)
+        v = json.loads(res.stdout)
+        self.assertEqual(v["verdict"], "fail-draft-not-walked-back")
+
+    def test_non_strict_mode_no_walk_back_passes(self):
+        res = self._run("# Draft\n\nThis is a normal finding.", strict=False)
+        self.assertEqual(res.returncode, 0)
+        v = json.loads(res.stdout)
+        self.assertEqual(v["verdict"], "ok")
+
+    def test_emits_10_framings(self):
+        res = self._run("NOT-SALVAGEABLE")
+        v = json.loads(res.stdout)
+        self.assertEqual(v["framings_emitted"], 10)
+
+    def test_output_jsonl_valid(self):
+        res = self._run("NOT-SALVAGEABLE")
+        v = json.loads(res.stdout)
+        jsonl_path = pathlib.Path(v["output_jsonl"])
+        self.assertTrue(jsonl_path.is_file())
+        tasks = [json.loads(line) for line in jsonl_path.read_text().splitlines() if line.strip()]
+        self.assertEqual(len(tasks), 10)
+        for t in tasks:
+            self.assertIn("task_id", t)
+            self.assertIn("prompt", t)
+            self.assertIn("meta", t)
+            self.assertEqual(t["meta"]["generator"], "salvage-question-enumerator")
+
+    def test_each_framing_id_unique(self):
+        res = self._run("NOT-SALVAGEABLE")
+        v = json.loads(res.stdout)
+        tasks = [json.loads(l) for l in pathlib.Path(v["output_jsonl"]).read_text().splitlines() if l.strip()]
+        ids = [t["meta"]["framing_id"] for t in tasks]
+        self.assertEqual(len(ids), len(set(ids)))
+
+    def test_each_framing_prompt_contains_unique_focus(self):
+        res = self._run("NOT-SALVAGEABLE")
+        v = json.loads(res.stdout)
+        tasks = [json.loads(l) for l in pathlib.Path(v["output_jsonl"]).read_text().splitlines() if l.strip()]
+        focus_phrases = []
+        for t in tasks:
+            # The PROMPT_TEMPLATE includes the framing focus
+            self.assertIn("Focus areas:", t["prompt"])
+            for line in t["prompt"].split("\n"):
+                if line.strip().startswith("Focus areas:"):
+                    focus_phrases.append(line)
+        self.assertEqual(len(focus_phrases), 10)
+        self.assertEqual(len(set(focus_phrases)), 10)  # all distinct
+
+    def test_sidecar_dir_created(self):
+        res = self._run("NOT-SALVAGEABLE")
+        v = json.loads(res.stdout)
+        self.assertTrue(pathlib.Path(v["sidecar_dir"]).is_dir())
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

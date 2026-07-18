@@ -1,0 +1,38 @@
+skeleton: "paired_function_divergence"
+name: "signatures-may-be-replayed-across-different-wallets"
+class_name: "SignaturesMayBeReplayedAcrossDifferentWallets"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19281 (SigmaPrime/BLS Wallet)"
+help: "Signatures May Be Replayed Across Different Wallets"
+wiki_title: "Signatures May Be Replayed Across Different Wallets"
+wiki_description: |
+    ## Description
+    
+    Users can change the key pair that their wallet uses if they call `setBLSKeyForWallet()`. If a user swaps to a new wallet and then updates this new wallet to use their public key from the old wallet, then all operations signed by the old wallet are now valid for the new wallet.
+    
+    Whil
+wiki_exploit_scenario: |
+    Per Solodit #19281: ## Description
+    
+    Users can change the key pair that their wallet uses if they call `setBLSKeyForWallet()`. If a user swaps to a new wallet and then updates this new wallet to use their public key from
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SignaturesMayBeReplayedAcrossDifferentWallets"
+solodit_id: "19281"
+solodit_slug: "signatures-may-be-replayed-across-different-wallets-sigmaprime-none-bls-wallet-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(setBLSKeyForWallet).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

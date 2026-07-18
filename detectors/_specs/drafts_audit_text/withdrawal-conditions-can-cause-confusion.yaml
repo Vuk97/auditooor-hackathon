@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "withdrawal-conditions-can-cause-confusion"
+class_name: "WithdrawalConditionsCanCauseConfusion"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Rainmaker - Zellic Audit Report"
+help: |
+    The withdraw function in DefinitiveStakingManager begins as follows: /** * @dev Withdraw tokens from the strategy *) function withdraw(uint256 _lpTokenAmount, uint8 _index) public
+wiki_title: "Withdrawal conditions can cause confusion"
+wiki_description: |
+    The withdraw function in DefinitiveStakingManager begins as follows: /** * @dev Withdraw tokens from the strategy *) function withdraw(uint256 _lpTokenAmount, uint8 _index) public { StrategyStaker storage staker = strategyStakers[msg.sender]; require(_lpTokenAmount > 0, "Withdraw amount can't be zer
+wiki_exploit_scenario: |
+    Per audit finding: The withdraw function in DefinitiveStakingManager begins as follows: /** * @dev Withdraw tokens from the strategy *) function withdraw(uint256 _lpTokenAmount, uint8 _index) public { StrategyStaker sto
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WithdrawalConditionsCanCauseConfusion"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(strategyStakers|underlyingTokenAddresses).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "strategyStakers"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

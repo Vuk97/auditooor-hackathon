@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "test-suite-misses-some-settlement-edge-cases-14"
+class_name: "TestSuiteMissesSomeSettlementEdgeCases14"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit RFQ Protocol - Zellic Audit Report"
+help: |
+    The settleRFQ fee calculation depends on rfqParams.feePips, but feePips is not included in either side's signed EIP-712 witness payload. The contract computes feeAmount as takerSwa
+wiki_title: "Test suite misses some settlement edge cases                                 14"
+wiki_description: |
+    The settleRFQ fee calculation depends on rfqParams.feePips, but feePips is not included in either side's signed EIP-712 witness payload. The contract computes feeAmount as takerSwapIntent.inputAmount * rfqParams.feePips / PIPS and then derives quoteAmount from that result. While maker and taker inte
+wiki_exploit_scenario: |
+    Per audit finding: The settleRFQ fee calculation depends on rfqParams.feePips, but feePips is not included in either side's signed EIP-712 witness payload. The contract computes feeAmount as takerSwapIntent.inputAmount
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TestSuiteMissesSomeSettlementEdgeCases14"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(settleRFQ|rfqParams|feePips).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "settleRFQ"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

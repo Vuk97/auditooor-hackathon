@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "potential-reentrance-issue"
+class_name: "PotentialReentranceIssue"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44822 (Zokyo/Mercydao)"
+help: "Potential reentrance issue"
+wiki_title: "Potential reentrance issue"
+wiki_description: |
+    **Severity**: High
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    modifier updateReward on line 150 calls to the _executeSwap and then updates the state in the _notifyRewardAmount function. The _executeSwap does multiple external calls, including ETH transfers. This can lead to reentrance issues.
+    
+    **Recomm
+wiki_exploit_scenario: |
+    Per Solodit #44822: **Severity**: High
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    modifier updateReward on line 150 calls to the _executeSwap and then updates the state in the _notifyRewardAmount function. The _executeSwap
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialReentranceIssue"
+solodit_id: "44822"
+solodit_slug: "potential-reentrance-issue-zokyo-none-mercydao-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal nonreentrant;"
+fn_name_regex: ".*(nonReentrant|update).*"
+read_var_regex: ".*(nonReentrant|update).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "nonReentrant"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return nonreentrant > 0;"

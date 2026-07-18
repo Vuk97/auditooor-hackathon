@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "batchdeposit-and-batchwithdraw-leave-undistributed-un"
+class_name: "BatchdepositAndBatchwithdrawLeaveUndistributedUn"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit BrahmaFi - Zellic Audit Report"
+help: |
+    The users of the Batcher contract use the depositFunds() function to deposit stakeable tokens into the batcher. The keeper of the Batcher contract uses the batchDeposit() function
+wiki_title: "batchDeposit() and batchWithdraw() leave undistributed, un-"
+wiki_description: |
+    The users of the Batcher contract use the depositFunds() function to deposit stakeable tokens into the batcher. The keeper of the Batcher contract uses the batchDeposit() function to merge several user deposits, send the users’ stakeable tokens to the vault, receive LP tokens from the vault and dist
+wiki_exploit_scenario: |
+    Per audit finding: The users of the Batcher contract use the depositFunds() function to deposit stakeable tokens into the batcher. The keeper of the Batcher contract uses the batchDeposit() function to merge several use
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BatchdepositAndBatchwithdrawLeaveUndistributedUn"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositFunds|batchDeposit|initiateWithdrawal).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositFunds"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

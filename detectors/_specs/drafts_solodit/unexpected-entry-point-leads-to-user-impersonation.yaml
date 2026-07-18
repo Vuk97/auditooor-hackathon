@@ -1,0 +1,31 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "unexpected-entry-point-leads-to-user-impersonation"
+class_name: "UnexpectedEntryPointLeadsToUserImpersonation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #32833 (OpenZeppelin/Wido Comet Collateral Swap Contracts)"
+help: "Unexpected Entry Point Leads to User Impersonation"
+wiki_title: "Unexpected Entry Point Leads to User Impersonation"
+wiki_description: |
+    Both `WidoCollateralSwap_Aave.executeOperation` and `WidoCollateralSwap_ERC3156.onFlashLoan` check if the message sender is an authorized flash loan provider but neither check to see if the loan originated from the swap contract itself. This is important because these flash loan callbacks are expect
+wiki_exploit_scenario: |
+    Per Solodit #32833: Both `WidoCollateralSwap_Aave.executeOperation` and `WidoCollateralSwap_ERC3156.onFlashLoan` check if the message sender is an authorized flash loan provider but neither check to see if the loan origi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnexpectedEntryPointLeadsToUserImpersonation"
+solodit_id: "32833"
+solodit_slug: |
+    unexpected-entry-point-leads-to-user-impersonation-openzeppelin-none-wido-comet-collateral-swap-contracts-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(swapCollateral|params|data|executeOperation).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

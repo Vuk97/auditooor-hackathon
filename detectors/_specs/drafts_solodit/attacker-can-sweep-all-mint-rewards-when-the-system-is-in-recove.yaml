@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_call"
+name: "attacker-can-sweep-all-mint-rewards-when-the-system-is-in-recove"
+class_name: "AttackerCanSweepAllMintRewardsWhenTheSystemIsInRecove"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53163 (Cantina/Bima)"
+help: "Attacker can sweep all mint rewards when the system is in Recovery Mode"
+wiki_title: "Attacker can sweep all mint rewards when the system is in Recovery Mode "
+wiki_description: |
+    ## Vulnerability Report
+    
+    ## Context
+    - TroveManager.sol#L1056
+    - TroveManager.sol#L1098
+    
+    ## Description
+    When the system is in Recovery Mode, the mint rewards are not distributed within TroveManager:
+    
+    ```solidity
+    if (!_isRecoveryMode) _updateMintVolume(_borrower, _compositeDebt);
+    ```
+    
+    However, this all
+wiki_exploit_scenario: |
+    Per Solodit #53163: ## Vulnerability Report
+    
+    ## Context
+    - TroveManager.sol#L1056
+    - TroveManager.sol#L1098
+    
+    ## Description
+    When the system is in Recovery Mode, the mint rewards are not distributed within TroveManager:
+    
+    ``
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AttackerCanSweepAllMintRewardsWhenTheSystemIsInRecove"
+solodit_id: "53163"
+solodit_slug: "attacker-can-sweep-all-mint-rewards-when-the-system-is-in-recovery-mode-cantina-none-bima-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accountlatestmint;"
+fn_name_regex: ".*(accountLatestMint|totalMints).*"
+read_var_regex: ".*(accountLatestMint|totalMints).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "accountLatestMint"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accountlatestmint > 0;"

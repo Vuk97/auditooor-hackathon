@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "outdated-interest-rate"
+class_name: "OutdatedInterestRate"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37394 (Zokyo/Paribus)"
+help: "Outdated interest rate"
+wiki_title: "Outdated interest rate"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Acknowledged
+    
+    **Description**
+    
+    In Contract PToken.sol, the methods `borrowRatePerBlock(...)` and `supplyRatePerBlock(...)` uses interestRateModel contract’s getBorrowRate() and getSupplyRate().
+    
+    Further,  getBorrowRate() and getSupplyRate() use the `utilizationRate(
+wiki_exploit_scenario: |
+    Per Solodit #37394: **Severity**: Medium
+    
+    **Status**: Acknowledged
+    
+    **Description**
+    
+    In Contract PToken.sol, the methods `borrowRatePerBlock(...)` and `supplyRatePerBlock(...)` uses interestRateModel contract’s getBorrow
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OutdatedInterestRate"
+solodit_id: "37394"
+solodit_slug: "outdated-interest-rate-zokyo-none-paribus-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accrueinterest;"
+fn_name_regex: ".*(borrowRatePerBlock|supplyRatePerBlock|utilizationRate|accrueInterest).*"
+read_var_regex: ".*(accrueInterest|borrowRatePerBlock|supplyRatePerBlock).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "borrowRatePerBlock"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accrueinterest > 0;"

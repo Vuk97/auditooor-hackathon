@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "m-05-admin-can-break-numberofvalidtokens"
+class_name: "M05AdminCanBreakNumberofvalidtokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42374 (Code4rena/Mellow Protocol)"
+help: "[M-05] Admin can break `_numberOfValidTokens`"
+wiki_title: "[M-05] Admin can break `_numberOfValidTokens`"
+wiki_description: |
+    _Submitted by cmichel, also found by gzeon and 0x1f8b_
+    
+    The `ProtocolGovernance._numberOfValidTokens` can be decreased by the admin in the `ProtocolGovernance.removeFromTokenWhitelist` function:
+    
+    ```solidity
+    function removeFromTokenWhitelist(address addr) external {
+        require(isAdmin(msg.sender),
+wiki_exploit_scenario: |
+    Per Solodit #42374: _Submitted by cmichel, also found by gzeon and 0x1f8b_
+    
+    The `ProtocolGovernance._numberOfValidTokens` can be decreased by the admin in the `ProtocolGovernance.removeFromTokenWhitelist` function:
+    
+    ```s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05AdminCanBreakNumberofvalidtokens"
+solodit_id: "42374"
+solodit_slug: "m-05-admin-can-break-_numberofvalidtokens-code4rena-mellow-protocol-mellow-protocol-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal tokenwhitelist;"
+fn_name_regex: ".*(tokenWhitelist).*"
+write_var_regex: ".*(tokenWhitelist).*"
+guard_var_regex: ".*(tokenWhitelist).*"
+vuln_fn_name: "tokenWhitelist"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "tokenwhitelist = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

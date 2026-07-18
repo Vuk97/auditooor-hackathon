@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "operator-can-over-allocate-the-same-stake-to-unlimited-nodes-wit"
+class_name: "OperatorCanOverAllocateTheSameStakeToUnlimitedNodesWit"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61258 (Cyfrin/Suzaku Core)"
+help: |
+    Operator can over allocate the same stake to unlimited nodes within one epoch causing weight inflation and reward theft
+wiki_title: |
+    Operator can over allocate the same stake to unlimited nodes within one epoch causing weight inflation and reward theft
+wiki_description: |
+    **Description:** The `AvalancheL1Middleware::addNode()` function is the entry-point an operator calls to register a new P-chain validator.
+    Before accepting the request the function asks `_getOperatorAvailableStake()` how much of the operator’s collateral is still free. That helper subtracts only `op
+wiki_exploit_scenario: |
+    Per Solodit #61258: **Description:** The `AvalancheL1Middleware::addNode()` function is the entry-point an operator calls to register a new P-chain validator.
+    Before accepting the request the function asks `_getOperatorA
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OperatorCanOverAllocateTheSameStakeToUnlimitedNodesWit"
+solodit_id: "61258"
+solodit_slug: |
+    operator-can-over-allocate-the-same-stake-to-unlimited-nodes-within-one-epoch-causing-weight-inflation-and-reward-theft-cyfrin-none-suzaku-core-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addnode;"
+fn_name_regex: ".*(totalStake|operatorLockedStake|newStake|lockedStake).*"
+read_var_regex: ".*(addNode|lockedStake|newStake).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalStake"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addnode > 0;"

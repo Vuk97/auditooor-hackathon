@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "m-17-the-return-value-of-buyallamount-is-incorrect"
+class_name: "M17TheReturnValueOfBuyallamountIsIncorrect"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #48973 (Code4rena/Rubicon)"
+help: "[M-17] The return value of `buyAllAmount` is incorrect"
+wiki_title: "[M-17] The return value of `buyAllAmount` is incorrect"
+wiki_description: |
+    `buyAllAmount` will return the amount of tokens spent on the exchange, but the actual return value is less than the actual amount of tokens spent.
+    
+    Consider WBTC price is 10000 USDC and the total fee is 10%.
+    The user calls `buyAllAmount` to buy 1 WBTC, and the calculated `fill_amt` is 10,000 USDC.
+wiki_exploit_scenario: |
+    Per Solodit #48973: `buyAllAmount` will return the amount of tokens spent on the exchange, but the actual return value is less than the actual amount of tokens spent.
+    
+    Consider WBTC price is 10000 USDC and the total fee
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M17TheReturnValueOfBuyallamountIsIncorrect"
+solodit_id: "48973"
+solodit_slug: "m-17-the-return-value-of-buyallamount-is-incorrect-code4rena-rubicon-rubicon-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(buyAllAmount|fill_amt).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

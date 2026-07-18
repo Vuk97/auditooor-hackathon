@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "if-main-oracle-is-removed-from-approved-list-it-will-keep-return"
+class_name: "IfMainOracleIsRemovedFromApprovedListItWillKeepReturn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49690 (Codehawks/QuantAMM)"
+help: |
+    If main oracle is removed from approved list it will keep returning not stale but invalid data (0 value)
+wiki_title: |
+    If main oracle is removed from approved list it will keep returning not stale but invalid data (0 value)
+wiki_description: |
+    ## Summary
+    
+    Because  stale data is preferred over a revert - if a primary oracle is disabled without backups `getData` would keep providing invalid data (0 value) to the rules until oracle is re-enabled.
+    
+    ## Vulnerability Details
+    
+    As the stated in the cyfrin report 7.2.4 in regards to oracles
+    
+    `A st
+wiki_exploit_scenario: |
+    Per Solodit #49690: ## Summary
+    
+    Because  stale data is preferred over a revert - if a primary oracle is disabled without backups `getData` would keep providing invalid data (0 value) to the rules until oracle is re-enabl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IfMainOracleIsRemovedFromApprovedListItWillKeepReturn"
+solodit_id: "49690"
+solodit_slug: |
+    if-main-oracle-is-removed-from-approved-list-it-will-keep-returning-not-stale-but-invalid-data-0-value-codehawks-quantamm-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getData).*"
+primary_var_regex: ".*(getData).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

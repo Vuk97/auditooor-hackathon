@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-8-mainvault-rebalancexchain-doesn-t-check-that-savedtotalunder"
+class_name: "M8MainvaultRebalancexchainDoesnTCheckThatSavedtotalunder"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #12238 (Sherlock/Derby)"
+help: "M-8: MainVault.rebalanceXChain doesn't check that savedTotalUnderlying >= reservedFunds"
+wiki_title: "M-8: MainVault.rebalanceXChain doesn't check that savedTotalUnderlying >= reservedFunds"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-derby-judging/issues/107 
+    
+    ## Found by 
+    rvierdiiev
+    
+    ## Summary
+    MainVault.rebalanceXChain doesn't check that savedTotalUnderlying >= reservedAmount. Because of that, shortage can occur, if vault will lose some underlying during cross chain calls and r
+wiki_exploit_scenario: |
+    Per Solodit #12238: Source: https://github.com/sherlock-audit/2023-01-derby-judging/issues/107 
+    
+    ## Found by 
+    rvierdiiev
+    
+    ## Summary
+    MainVault.rebalanceXChain doesn't check that savedTotalUnderlying >= reservedAmount. Be
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M8MainvaultRebalancexchainDoesnTCheckThatSavedtotalunder"
+solodit_id: "12238"
+solodit_slug: |
+    m-8-mainvaultrebalancexchain-doesnt-check-that-savedtotalunderlying-reservedfunds-sherlock-derby-derby-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal reservedfunds;"
+fn_name_regex: ".*(reservedFunds|totalWithdrawalRequests|setXChainAllocation|SendingFundsXChain).*"
+read_var_regex: ".*(reservedFunds|setXChainAllocation|totalWithdrawalRequests).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "reservedFunds"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return reservedfunds > 0;"

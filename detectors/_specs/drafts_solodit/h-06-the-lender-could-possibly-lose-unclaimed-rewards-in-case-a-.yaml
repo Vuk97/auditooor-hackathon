@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "h-06-the-lender-could-possibly-lose-unclaimed-rewards-in-case-a-"
+class_name: "H06TheLenderCouldPossiblyLoseUnclaimedRewardsInCaseA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20074 (Code4rena/Ajna Protocol)"
+help: "[H-06] The lender could possibly lose unclaimed rewards in case a bucket goes bankrupt"
+wiki_title: "[H-06] The lender could possibly lose unclaimed rewards in case a bucket goes bankrupt"
+wiki_description: |
+    When the lender calls `PositionManager.memorializePositions` method the following happens:
+    
+    1.  Records bucket indexes along with its deposit times and lpBalances
+    2.  Transfers LP ownership from the lender to PositionManager contract.
+    
+    In point 1, it checks if there is a previous deposit and the bu
+wiki_exploit_scenario: |
+    Per Solodit #20074: When the lender calls `PositionManager.memorializePositions` method the following happens:
+    
+    1.  Records bucket indexes along with its deposit times and lpBalances
+    2.  Transfers LP ownership from the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H06TheLenderCouldPossiblyLoseUnclaimedRewardsInCaseA"
+solodit_id: "20074"
+solodit_slug: |
+    h-06-the-lender-could-possibly-lose-unclaimed-rewards-in-case-a-bucket-goes-bankrupt-code4rena-ajna-protocol-ajna-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimrewards;"
+fn_name_regex: ".*(claimRewards).*"
+write_var_regex: ".*(claimRewards).*"
+guard_var_regex: ".*(claimRewards).*"
+vuln_fn_name: "claimRewards"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "claimrewards = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-01-fees-will-be-lost-in-the-event-that-a-user-withdraws-from-m"
+class_name: "M01FeesWillBeLostInTheEventThatAUserWithdrawsFromM"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #55690 (0x52/Ubet)"
+help: |
+    [M-01] Fees will be lost in the event that a user withdraws from MarketFundingPool and there isn't enough reserves to cover fees
+wiki_title: |
+    [M-01] Fees will be lost in the event that a user withdraws from MarketFundingPool and there isn't enough reserves to cover fees
+wiki_description: |
+    **Details**
+    
+    [ParentFundingPool.sol#L631-L646](https://github.com/SportsFI-UBet/ubet-contracts-v1/blob/64157824f67d6000588ae4235a49ccd24dede5c3/contracts/funding/ParentFundingPool.sol#L631-L646)
+    
+        function _reevaluateGainsOnPool(bool force) private returns (uint256 fees) {
+            uint256 lastBlo
+wiki_exploit_scenario: |
+    Per Solodit #55690: **Details**
+    
+    [ParentFundingPool.sol#L631-L646](https://github.com/SportsFI-UBet/ubet-contracts-v1/blob/64157824f67d6000588ae4235a49ccd24dede5c3/contracts/funding/ParentFundingPool.sol#L631-L646)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01FeesWillBeLostInTheEventThatAUserWithdrawsFromM"
+solodit_id: "55690"
+solodit_slug: |
+    m-01-fees-will-be-lost-in-the-event-that-a-user-withdraws-from-marketfundingpool-and-there-isnt-enough-reserves-to-cover-fees-0x52-none-ubet-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(lastBlock|lastFeeEvaluationBlock|feeEvaluationBlockPeriod|poolValue).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "lastBlock"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

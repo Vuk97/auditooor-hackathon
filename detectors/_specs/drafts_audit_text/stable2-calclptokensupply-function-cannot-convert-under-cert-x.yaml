@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "stable2-calclptokensupply-function-cannot-convert-under-cert-x"
+class_name: "Stable2CalclptokensupplyFunctionCannotConvertUnderCertX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-08-basin"
+help: |
+    Egis_Security calcLpTokenSupply is used in both calcReserveAtRatioLiquidity and calcReserveAtRatioSwap , we’ll focus on calcReserveAtRatioLiquidity . calcLpTokenSupply is called in
+wiki_title: |
+    Stable2::calcLpTokenSupply() function cannot convert under certain circumstances, DoSing calcReserveAtRatioLiquidity
+wiki_description: |
+    Egis_Security calcLpTokenSupply is used in both calcReserveAtRatioLiquidity and calcReserveAtRatioSwap , we’ll focus on calcReserveAtRatioLiquidity . calcLpTokenSupply is called inside calcRate here: function calcReserveAtRatioLiquidity ( uint256 [] calldata reserves uint256 j uint256 [] calldata ra
+wiki_exploit_scenario: |
+    Per audit finding: Egis_Security calcLpTokenSupply is used in both calcReserveAtRatioLiquidity and calcReserveAtRatioSwap , we’ll focus on calcReserveAtRatioLiquidity . calcLpTokenSupply is called inside calcRate here:
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Stable2CalclptokensupplyFunctionCannotConvertUnderCertX"
+state_decl: "uint256 internal scaledreserves;"
+fn_name_regex: ".*(scaledReserves).*"
+read_var_regex: ".*(scaledReserves).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "scaledReserves"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return scaledreserves > 0;"

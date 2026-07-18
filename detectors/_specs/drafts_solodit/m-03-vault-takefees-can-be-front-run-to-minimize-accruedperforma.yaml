@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-03-vault-takefees-can-be-front-run-to-minimize-accruedperforma"
+class_name: "M03VaultTakefeesCanBeFrontRunToMinimizeAccruedperforma"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #22000 (Code4rena/Popcorn)"
+help: "[M-03] `Vault::takeFees` can be front run to minimize `accruedPerformanceFee`"
+wiki_title: "[M-03] `Vault::takeFees` can be front run to minimize `accruedPerformanceFee`"
+wiki_description: |
+    `performanceFee` is a fee on the profits of the vault. The `feeRecipient` (or any user) can collect these at any point.
+    
+    They rely on the difference between the current share value and the `highWaterMark` that records a historical share value.
+    
+    The issue is that this `highWaterMark` is written on i
+wiki_exploit_scenario: |
+    Per Solodit #22000: `performanceFee` is a fee on the profits of the vault. The `feeRecipient` (or any user) can collect these at any point.
+    
+    They rely on the difference between the current share value and the `highWater
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03VaultTakefeesCanBeFrontRunToMinimizeAccruedperforma"
+solodit_id: "22000"
+solodit_slug: |
+    m-03-vaulttakefees-can-be-front-run-to-minimize-accruedperformancefee-code4rena-popcorn-popcorn-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(performanceFee|feeRecipient|highWaterMark|deposit).*"
+read_var_regex: ".*(deposit|feeRecipient|highWaterMark).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "performanceFee"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposit > 0;"

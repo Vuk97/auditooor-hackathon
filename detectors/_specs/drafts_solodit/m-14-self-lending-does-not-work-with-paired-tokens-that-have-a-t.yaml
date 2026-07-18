@@ -1,0 +1,53 @@
+skeleton: "paired_function_divergence"
+name: "m-14-self-lending-does-not-work-with-paired-tokens-that-have-a-t"
+class_name: "M14SelfLendingDoesNotWorkWithPairedTokensThatHaveAT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52766 (Sherlock/Peapods)"
+help: |
+    M-14: self-lending does not work with paired tokens that have a transfer tax because addLiquidityV2 does not account for fee-on-transfer on the PAIRED_LP_TOKEN
+wiki_title: |
+    M-14: self-lending does not work with paired tokens that have a transfer tax because addLiquidityV2 does not account for fee-on-transfer on the PAIRED_LP_TOKEN
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/300 
+    
+    The protocol has acknowledged this issue.
+    
+    ## Found by 
+    Schnilch, X77, pkqs90
+    
+    ### Summary
+    
+    `addLiquidityV2` transfers PAIRED_LP_TOKEN and pTKN from the address that wants to add liquidity. The issue, however, is
+wiki_exploit_scenario: |
+    Per Solodit #52766: Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/300 
+    
+    The protocol has acknowledged this issue.
+    
+    ## Found by 
+    Schnilch, X77, pkqs90
+    
+    ### Summary
+    
+    `addLiquidityV2` tran
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14SelfLendingDoesNotWorkWithPairedTokensThatHaveAT"
+solodit_id: "52766"
+solodit_slug: |
+    m-14-self-lending-does-not-work-with-paired-tokens-that-have-a-transfer-tax-because-addliquidityv2-does-not-account-for-fee-on-transfer-on-the-paired_lp_token-sherlock-peapods-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLPAndStake|addLeverage|addLiquidity).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

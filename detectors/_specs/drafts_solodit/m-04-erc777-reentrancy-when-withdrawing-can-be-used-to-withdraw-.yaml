@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "m-04-erc777-reentrancy-when-withdrawing-can-be-used-to-withdraw-"
+class_name: "M04Erc777ReentrancyWhenWithdrawingCanBeUsedToWithdraw"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5733 (Code4rena/Inverse Finance)"
+help: "[M-04] ERC777 reentrancy when withdrawing can be used to withdraw all collateral"
+wiki_title: "[M-04] ERC777 reentrancy when withdrawing can be used to withdraw all collateral"
+wiki_description: |
+    [Market.sol#L464](https://github.com/code-423n4/2022-10-inverse/blob/cc281e5800d5860c816138980f08b84225e430fe/src/Market.sol#L464)<br>
+    
+    Markets can be deployed with arbitrary tokens for the collateral, including ERC777 tokens (that are downwards-compatible with ERC20). However, when the system is u
+wiki_exploit_scenario: |
+    Per Solodit #5733: [Market.sol#L464](https://github.com/code-423n4/2022-10-inverse/blob/cc281e5800d5860c816138980f08b84225e430fe/src/Market.sol#L464)<br>
+    
+    Markets can be deployed with arbitrary tokens for the collatera
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04Erc777ReentrancyWhenWithdrawingCanBeUsedToWithdraw"
+solodit_id: "5733"
+solodit_slug: |
+    m-04-erc777-reentrancy-when-withdrawing-can-be-used-to-withdraw-all-collateral-code4rena-inverse-finance-inverse-finance-contest-git
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Reentrancy"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(collateral|collateralFactorBps|getWithdrawalLimitInternal).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

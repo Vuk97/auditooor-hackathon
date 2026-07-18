@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "missing-safe-transferring-in-some-contracts"
+class_name: "MissingSafeTransferringInSomeContracts"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Plaza Core Protocol - Zellic Audit Report"
+help: |
+    Some parts of the codebase use safeTransfer and safeTransferFrom, but there are sections that still use transferFrom as is. function bid(uint256 buyReserveAmount, uint256 sellCoupo
+wiki_title: "Missing safe transferring in some contracts"
+wiki_description: |
+    Some parts of the codebase use safeTransfer and safeTransferFrom, but there are sections that still use transferFrom as is. function bid(uint256 buyReserveAmount, uint256 sellCouponAmount) external auctionActive returns(uint256) { //... IERC20(buyCouponToken).transferFrom(msg.sender, address(this),
+wiki_exploit_scenario: |
+    Per audit finding: Some parts of the codebase use safeTransfer and safeTransferFrom, but there are sections that still use transferFrom as is. function bid(uint256 buyReserveAmount, uint256 sellCouponAmount) external au
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingSafeTransferringInSomeContracts"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(safeTransfer|safeTransferFrom|transferFrom).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeTransfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

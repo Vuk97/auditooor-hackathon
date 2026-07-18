@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m-14-dos-attack-to-swapaction-transferandswap-when-using-an-erc2"
+class_name: "M14DosAttackToSwapactionTransferandswapWhenUsingAnErc2"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49051 (Code4rena/LoopFi)"
+help: "[M-14] DOS attack to `SwapAction.transferAndSwap()` when using  an ERC20 permit `transferFrom`"
+wiki_title: "[M-14] DOS attack to `SwapAction.transferAndSwap()` when using  an ERC20 permit `transferFrom`"
+wiki_description: |
+    `SwapAction.transferAndSwap()` will perform a `_transferFrom` to transfer the input tokens to the user proxy and then perform a swap via a router. When it uses an ERC20 permit `transferFrom`, an attacker can extract the `v, r, s` from the `safePermit()` call and frontruns it with a direct `safePerm
+wiki_exploit_scenario: |
+    Per Solodit #49051: `SwapAction.transferAndSwap()` will perform a `_transferFrom` to transfer the input tokens to the user proxy and then perform a swap via a router. When it uses an ERC20 permit `transferFrom`, an atta
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14DosAttackToSwapactionTransferandswapWhenUsingAnErc2"
+solodit_id: "49051"
+solodit_slug: |
+    m-14-dos-attack-to-swapactiontransferandswap-when-using-an-erc20-permit-transferfrom-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal permit;"
+fn_name_regex: ".*(transferFrom|safePermit|permit2|permit).*"
+read_var_regex: ".*(permit|permit2|safePermit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return permit > 0;"

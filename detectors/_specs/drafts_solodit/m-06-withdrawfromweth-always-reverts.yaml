@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "m-06-withdrawfromweth-always-reverts"
+class_name: "M06WithdrawfromwethAlwaysReverts"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24647 (Code4rena/Sushi)"
+help: "[M-06] `withdrawFromWETH` always reverts"
+wiki_title: "[M-06] `withdrawFromWETH` always reverts"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `TridentHelper.withdrawFromWETH` (used in `TridentRouter.unwrapWETH`) function performs a low-level call to `WETH.withdraw(amount)`.
+    
+    It then checks if the return `data` length is more or equal to `32` bytes, however `WETH.withdraw` returns `void` and has a return value o
+wiki_exploit_scenario: |
+    Per Solodit #24647: _Submitted by cmichel_
+    
+    The `TridentHelper.withdrawFromWETH` (used in `TridentRouter.unwrapWETH`) function performs a low-level call to `WETH.withdraw(amount)`.
+    
+    It then checks if the return `data` le
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06WithdrawfromwethAlwaysReverts"
+solodit_id: "24647"
+solodit_slug: "m-06-withdrawfromweth-always-reverts-code4rena-sushi-sushi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal data;"
+fn_name_regex: ".*(data|void|unwrapWETH|success).*"
+write_var_regex: ".*(data|success|unwrapWETH).*"
+guard_var_regex: ".*(data|success|unwrapWETH).*"
+vuln_fn_name: "data"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "data = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

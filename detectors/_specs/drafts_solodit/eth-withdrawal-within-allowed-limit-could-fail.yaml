@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "eth-withdrawal-within-allowed-limit-could-fail"
+class_name: "EthWithdrawalWithinAllowedLimitCouldFail"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #10308 (OpenZeppelin/zkSync – L1 Diff Audit (February 2023))"
+help: "ETH withdrawal within allowed limit could fail"
+wiki_title: "ETH withdrawal within allowed limit could fail"
+wiki_description: |
+    The protocol enforces an ETH withdraw limit (currently 10% of the total balance) within each 1-day window as a safety mechanism. This is done through the [`_verifyWithdrawalLimit` function in `Mailbox.sol`](https://github.com/matter-labs/zksync-2-contracts/blob/3f345ce52bc378c4b5d710c80d817db1707750
+wiki_exploit_scenario: |
+    Per Solodit #10308: The protocol enforces an ETH withdraw limit (currently 10% of the total balance) within each 1-day window as a safety mechanism. This is done through the [`_verifyWithdrawalLimit` function in `Mailbox
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EthWithdrawalWithinAllowedLimitCouldFail"
+solodit_id: "10308"
+solodit_slug: |
+    eth-withdrawal-within-allowed-limit-could-fail-openzeppelin-zksync-l1-diff-audit-february-2023-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawnAmountInWindow|limitData|withdrawalFactor|lastWithdrawalLimitReset).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "withdrawnAmountInWindow"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

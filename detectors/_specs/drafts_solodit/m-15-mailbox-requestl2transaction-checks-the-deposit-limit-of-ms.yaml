@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-15-mailbox-requestl2transaction-checks-the-deposit-limit-of-ms"
+class_name: "M15MailboxRequestl2transactionChecksTheDepositLimitOfMs"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30294 (Code4rena/zkSync)"
+help: |
+    [M-15] `Mailbox.requestL2Transaction()` checks the deposit limit of `msg.sender` (`L1WethBridge`) instead of the real depositor of weth from L1, as a result, after certain time, no
+wiki_title: |
+    [M-15] `Mailbox.requestL2Transaction()` checks the deposit limit of `msg.sender` (`L1WethBridge`) instead of the real depositor of weth from L1, as a result, af
+wiki_description: |
+    ### Proof of Concept
+    
+    The `flow bridgeProxy.deposit() -> L1WethBridge.deposit() -> Mailbox.requestL2Transaction()` allows one to deposit WETH from L1 to L2.  However, when checking the deposit limit for a particular depositor, `Mailbox.requestL2Transaction()` checks the limit of `msg.sender`, which
+wiki_exploit_scenario: |
+    Per Solodit #30294: ### Proof of Concept
+    
+    The `flow bridgeProxy.deposit() -> L1WethBridge.deposit() -> Mailbox.requestL2Transaction()` allows one to deposit WETH from L1 to L2.  However, when checking the deposit limit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15MailboxRequestl2transactionChecksTheDepositLimitOfMs"
+solodit_id: "30294"
+solodit_slug: |
+    m-15-mailboxrequestl2transaction-checks-the-deposit-limit-of-msgsender-l1wethbridge-instead-of-the-real-depositor-of-weth-from-l1-as-a-result-after-certain-time-nobody-will-be-able-to-deposit-weth-anymore-from-l1-code4rena-zksync-zksync-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal test_depositexceedlimit;"
+fn_name_regex: ".*(L1WethBridge|test_DepositExceedLimit).*"
+read_var_regex: ".*(test_DepositExceedLimit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "L1WethBridge"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return test_depositexceedlimit > 0;"

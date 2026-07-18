@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "sessionmanager-reschedulegame-advances-the-start-time-but-not-th"
+class_name: "SessionmanagerReschedulegameAdvancesTheStartTimeButNotTh"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65387 (Cyfrin/Majority Protocol)"
+help: |
+    `SessionManager::rescheduleGame` advances the start time but not the end time allowing for a griefing attack where the game creator can collect fees while preventing users from par
+wiki_title: |
+    `SessionManager::rescheduleGame` advances the start time but not the end time allowing for a griefing attack where the game creator can collect fees while preve
+wiki_description: |
+    **Description:** When a game creator reschedules a game, they set a new start time, but the end time is never updated.
+    
+    ```solidity
+     function rescheduleGame(uint256 _gameId, uint256 _newStartTime)
+            external
+            onlyCreator(_gameId)
+            onlyState(_gameId, SessionState.Created)
+        {
+wiki_exploit_scenario: |
+    Per Solodit #65387: **Description:** When a game creator reschedules a game, they set a new start time, but the end time is never updated.
+    
+    ```solidity
+     function rescheduleGame(uint256 _gameId, uint256 _newStartTime)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SessionmanagerReschedulegameAdvancesTheStartTimeButNotTh"
+solodit_id: "65387"
+solodit_slug: |
+    sessionmanagerreschedulegame-advances-the-start-time-but-not-the-end-time-allowing-for-a-griefing-attack-where-the-game-creator-can-collect-fees-while-preventing-users-from-participating-cyfrin-none-majority-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(minimumRescheduleTime|rescheduleGame).*"
+primary_var_regex: ".*(minimumRescheduleTime|rescheduleGame).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

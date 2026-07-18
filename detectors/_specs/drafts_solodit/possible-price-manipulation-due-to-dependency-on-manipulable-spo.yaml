@@ -1,0 +1,44 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "possible-price-manipulation-due-to-dependency-on-manipulable-spo"
+class_name: "PossiblePriceManipulationDueToDependencyOnManipulableSpo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37061 (Zokyo/Cvi)"
+help: "Possible price manipulation due to dependency on manipulable spot price"
+wiki_title: "Possible price manipulation due to dependency on manipulable spot price"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    
+    The ThetaVault contract's _deposit function and the VolatilityToken contract's mintTokens function use a spot price as a fallback mechanism for determining the intrinsic token price when certain conditions are met (e.g., when balance or s
+wiki_exploit_scenario: |
+    Per Solodit #37061: **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    
+    The ThetaVault contract's _deposit function and the VolatilityToken contract's mintTokens function use a spot price as a fallback mechanis
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossiblePriceManipulationDueToDependencyOnManipulableSpo"
+solodit_id: "37061"
+solodit_slug: "possible-price-manipulation-due-to-dependency-on-manipulable-spot-price-zokyo-none-cvi-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(mintTokens|volToken|getSpotPrice).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_require"
+name: "when-fillorder-small-pnl-can-cause-orderfee-settlementfee-to-not"
+class_name: "WhenFillorderSmallPnlCanCauseOrderfeeSettlementfeeToNot"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #38010 (Codehawks/Zaros)"
+help: "when fillOrder() , small pnl can cause orderFee/settlementFee to not be fully collected"
+wiki_title: "when fillOrder() , small pnl can cause orderFee/settlementFee to not be fully collected"
+wiki_description: |
+    ## Summary
+    
+    `withdrawMarginUsd()` uses `round down` to compute `requiredMarginInCollateralX18`
+    
+    May result in `fillOrder()` part of `fee` not being collected
+    
+    ## Vulnerability Details
+    
+    in `fillOrder()`
+    We will deduct 3 fees `settlementFee` , `orderFee` , `pnl`
+    
+    `fillOrder()` -> `deductAccountMargin(
+wiki_exploit_scenario: |
+    Per Solodit #38010: ## Summary
+    
+    `withdrawMarginUsd()` uses `round down` to compute `requiredMarginInCollateralX18`
+    
+    May result in `fillOrder()` part of `fee` not being collected
+    
+    ## Vulnerability Details
+    
+    in `fillOrder()
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WhenFillorderSmallPnlCanCauseOrderfeeSettlementfeeToNot"
+solodit_id: "38010"
+solodit_slug: |
+    when-fillorder-small-pnl-can-cause-orderfeesettlementfee-to-not-be-fully-collected-codehawks-zaros-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deductaccountmargin;"
+fn_name_regex: ".*(withdrawMarginUsd|requiredMarginInCollateralX18|fillOrder|fee).*"
+write_var_regex: ".*(deductAccountMargin|fee|fillOrder).*"
+guard_var_regex: ".*(deductAccountMargin|fee|fillOrder).*"
+vuln_fn_name: "withdrawMarginUsd"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "deductaccountmargin = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

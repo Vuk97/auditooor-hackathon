@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "reentrancy-leading-to-double-delegation"
+class_name: "ReentrancyLeadingToDoubleDelegation"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "hexens audit 1inch_FusionMode_Hexens.1"
+help: |
+    In the function _removeAllPods contract iterates over the delegated pods and burns the delegation balances via calling updateBalances on pods, the bug arises since the balance is s
+wiki_title: "REENTRANCY LEADING TO DOUBLE DELEGATION"
+wiki_description: |
+    In the function _removeAllPods contract iterates over the delegated pods and burns the delegation balances via calling updateBalances on pods, the bug arises since the balance is saved once on line 87, and an illicit actor can use both a valid pod and a rogue pod. Thus the ﬁrst call to the rogue pod
+wiki_exploit_scenario: |
+    Per audit finding: In the function _removeAllPods contract iterates over the delegated pods and burns the delegation balances via calling updateBalances on pods, the bug arises since the balance is saved once on line 87
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyLeadingToDoubleDelegation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateBalances).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateBalances"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

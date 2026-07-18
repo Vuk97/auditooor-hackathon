@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "m-01-splits-with-too-many-recipients-can-lead-to-locked-funds"
+class_name: "M01SplitsWithTooManyRecipientsCanLeadToLockedFunds"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31752 (ZachObront/Splits)"
+help: "[M-01] Splits with too many recipients can lead to locked funds"
+wiki_title: "[M-01] Splits with too many recipients can lead to locked funds"
+wiki_description: |
+    When calling `distribute()` for a given Wallet, it is required to send assets to all recipients. In the event that a Split is initialized with too many recipients, the gas cost of such a transaction can get so high that it will not fit within the block gas limit. In such a case, all funds will be st
+wiki_exploit_scenario: |
+    Per Solodit #31752: When calling `distribute()` for a given Wallet, it is required to send assets to all recipients. In the event that a Split is initialized with too many recipients, the gas cost of such a transaction c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01SplitsWithTooManyRecipientsCanLeadToLockedFunds"
+solodit_id: "31752"
+solodit_slug: "m-01-splits-with-too-many-recipients-can-lead-to-locked-funds-zachobront-none-splits-v2-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal distribute;"
+fn_name_regex: ".*(distribute|execCalls).*"
+write_var_regex: ".*(distribute|execCalls).*"
+guard_var_regex: ".*(distribute|execCalls).*"
+vuln_fn_name: "distribute"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "distribute = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

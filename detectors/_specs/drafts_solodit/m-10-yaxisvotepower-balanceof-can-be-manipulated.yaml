@@ -1,0 +1,46 @@
+skeleton: "paired_function_divergence"
+name: "m-10-yaxisvotepower-balanceof-can-be-manipulated"
+class_name: "M10YaxisvotepowerBalanceofCanBeManipulated"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42289 (Code4rena/yAxis)"
+help: "[M-10] `YAxisVotePower.balanceOf` can be manipulated"
+wiki_title: "[M-10] `YAxisVotePower.balanceOf` can be manipulated"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `YAxisVotePower.balanceOf` contract uses the Uniswap pool reserves to compute a `_lpStakingYax` reward:
+    
+    ```solidity
+    (uint256 _yaxReserves,,) = yaxisEthUniswapV2Pair.getReserves();
+    int256 _lpStakingYax = _yaxReserves
+        .mul(_stakeAmount)
+        .div(_supply)
+        .add(rewar
+wiki_exploit_scenario: |
+    Per Solodit #42289: _Submitted by cmichel_
+    
+    The `YAxisVotePower.balanceOf` contract uses the Uniswap pool reserves to compute a `_lpStakingYax` reward:
+    
+    ```solidity
+    (uint256 _yaxReserves,,) = yaxisEthUniswapV2Pair.getRes
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10YaxisvotepowerBalanceofCanBeManipulated"
+solodit_id: "42289"
+solodit_slug: "m-10-yaxisvotepowerbalanceof-can-be-manipulated-code4rena-yaxis-yaxis-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balanceOf).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

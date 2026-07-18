@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "m-2-reinvestreward-generates-dust-totalpoolclaim-causing-vault-a"
+class_name: "M2ReinvestrewardGeneratesDustTotalpoolclaimCausingVaultA"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29103 (Sherlock/Notional Update #4)"
+help: "M-2: reinvestReward() generates dust totalPoolClaim causing vault abnormal"
+wiki_title: "M-2: reinvestReward() generates dust totalPoolClaim causing vault abnormal"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-10-notional-judging/issues/17 
+    
+    ## Found by 
+    bin2chen, tvdung94
+    ## Summary
+    
+    If the first user deposits too small , due to the round down, it may result in 0 shares, which will result in 0 shares no matter how much is deposited later. 
+    In `National`, thi
+wiki_exploit_scenario: |
+    Per Solodit #29103: Source: https://github.com/sherlock-audit/2023-10-notional-judging/issues/17 
+    
+    ## Found by 
+    bin2chen, tvdung94
+    ## Summary
+    
+    If the first user deposits too small , due to the round down, it may result i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2ReinvestrewardGeneratesDustTotalpoolclaimCausingVaultA"
+solodit_id: "29103"
+solodit_slug: |
+    m-2-reinvestreward-generates-dust-totalpoolclaim-causing-vault-abnormal-sherlock-notional-update-4-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deposit;"
+fn_name_regex: ".*(National|reinvestReward|deposit|INTERNAL_TOKEN_PRECISION).*"
+read_var_regex: ".*(deposit|reinvestReward|vaultShares).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "National"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposit > 0;"

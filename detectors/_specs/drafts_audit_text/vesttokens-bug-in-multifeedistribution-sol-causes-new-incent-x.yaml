@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "vesttokens-bug-in-multifeedistribution-sol-causes-new-incent-x"
+class_name: "VesttokensBugInMultifeedistributionSolCausesNewIncentX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-loopfi"
+help: |
+    rscodes , also found by 0xpiken and novamanbg In MultiFeeDistribution.sol , the function _notifyReward(address rewardToken, uint256 reward) does not change r.rewardPerTokenStored a
+wiki_title: "vestTokens bug in MultiFeeDistribution.sol causes new incentives to erase previous incentives"
+wiki_description: |
+    rscodes , also found by 0xpiken and novamanbg In MultiFeeDistribution.sol , the function _notifyReward(address rewardToken, uint256 reward) does not change r.rewardPerTokenStored and hence, relies on _updateReward(address account) to be called before any calls to _notifyReward . The rest of the func
+wiki_exploit_scenario: |
+    Per audit finding: rscodes , also found by 0xpiken and novamanbg In MultiFeeDistribution.sol , the function _notifyReward(address rewardToken, uint256 reward) does not change r.rewardPerTokenStored and hence, relies on
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VesttokensBugInMultifeedistributionSolCausesNewIncentX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rewardToken|rewardPerTokenStored|vestTokens).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rewardToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

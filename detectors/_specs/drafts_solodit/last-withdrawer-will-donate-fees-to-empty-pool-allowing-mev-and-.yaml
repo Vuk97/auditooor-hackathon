@@ -1,0 +1,45 @@
+skeleton: "paired_function_divergence"
+name: "last-withdrawer-will-donate-fees-to-empty-pool-allowing-mev-and-"
+class_name: "LastWithdrawerWillDonateFeesToEmptyPoolAllowingMevAnd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49703 (Codehawks/QuantAMM)"
+help: |
+    Last withdrawer will donate fees to empty pool allowing MEV and having always stuck funds in the pool
+wiki_title: |
+    Last withdrawer will donate fees to empty pool allowing MEV and having always stuck funds in the pool
+wiki_description: |
+    ## Summary
+    
+    in `onAfterRemoveLiquidity()` fees of the withdrawn tokens amounts (whatever its upLift or the minimum fees) of the last user withdrawing from the pool will be donated to empty pool.
+    
+    ## Vulnerability Details
+    
+    > _**NOTE!**_:  the bug about `accruedQuantAMMFees` wrong distribution since A
+wiki_exploit_scenario: |
+    Per Solodit #49703: ## Summary
+    
+    in `onAfterRemoveLiquidity()` fees of the withdrawn tokens amounts (whatever its upLift or the minimum fees) of the last user withdrawing from the pool will be donated to empty pool.
+    
+    ## V
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LastWithdrawerWillDonateFeesToEmptyPoolAllowingMevAnd"
+solodit_id: "49703"
+solodit_slug: |
+    last-withdrawer-will-donate-fees-to-empty-pool-allowing-mev-and-having-always-stuck-funds-in-the-pool-codehawks-quantamm-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(accruedQuantAMMFees|onAfterRemoveLiquidity|poolsFeeData).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

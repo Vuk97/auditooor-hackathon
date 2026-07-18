@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "h-1-empty-orders-do-not-request-from-oracle-and-during-settlemen"
+class_name: "H1EmptyOrdersDoNotRequestFromOracleAndDuringSettlemen"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31170 (Sherlock/Perennial V2 Update #2)"
+help: |
+    H-1: Empty orders do not request from oracle and during settlement they use an invalid oracle version with `price=0` which messes up a lot of fees and funding accounting leading to
+wiki_title: |
+    H-1: Empty orders do not request from oracle and during settlement they use an invalid oracle version with `price=0` which messes up a lot of fees and funding a
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-02-perennial-v2-3-judging/issues/5 
+    
+    ## Found by 
+    panprog
+    ## Summary
+    
+    When `market.update` which doesn't change user's position is called, a new (current) global order is created, but the oracle version is not requested due to empty order. This means th
+wiki_exploit_scenario: |
+    Per Solodit #31170: Source: https://github.com/sherlock-audit/2024-02-perennial-v2-3-judging/issues/5 
+    
+    ## Found by 
+    panprog
+    ## Summary
+    
+    When `market.update` which doesn't change user's position is called, a new (current
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1EmptyOrdersDoNotRequestFromOracleAndDuringSettlemen"
+solodit_id: "31170"
+solodit_slug: |
+    h-1-empty-orders-do-not-request-from-oracle-and-during-settlement-they-use-an-invalid-oracle-version-with-price0-which-messes-up-a-lot-of-fees-and-funding-accounting-leading-to-loss-of-funds-for-the-makers-sherlock-perennial-v2-update-2-git
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(Version).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Version"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

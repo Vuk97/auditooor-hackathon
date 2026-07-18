@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "m-15-l2governor-execute-accepts-expired-defeated-proposals-attac"
+class_name: "M15L2governorExecuteAcceptsExpiredDefeatedProposalsAttac"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58349 (Code4rena/Audit 507)"
+help: |
+    [M-15] `L2Governor.execute()` accepts `Expired` / `Defeated` proposals, attacker front-runs `BlackGovernor` `nudge()`, blocks legitimate emission-rate votes, freezes tail emissions
+wiki_title: |
+    [M-15] `L2Governor.execute()` accepts `Expired` / `Defeated` proposals, attacker front-runs `BlackGovernor` `nudge()`, blocks legitimate emission-rate votes, fr
+wiki_description: |
+    <https://github.com/code-423n4/2025-05-blackhole/blob/main/contracts/governance/Governor.sol# L317-L320>
+    
+    ### Finding description
+    
+    The `L2Governor.execute()` function (in `contracts/governance/L2Governor.sol`, inherited by `BlackGovernor.sol`) erroneously permits execution of `Expired` or `Defeate
+wiki_exploit_scenario: |
+    Per Solodit #58349: <https://github.com/code-423n4/2025-05-blackhole/blob/main/contracts/governance/Governor.sol# L317-L320>
+    
+    ### Finding description
+    
+    The `L2Governor.execute()` function (in `contracts/governance/L2Gov
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15L2governorExecuteAcceptsExpiredDefeatedProposalsAttac"
+solodit_id: "58349"
+solodit_slug: |
+    m-15-l2governorexecute-accepts-expired-defeated-proposals-attacker-front-runs-blackgovernor-nudge-blocks-legitimate-emission-rate-votes-freezes-tail-emissions-code4rena-audit-507-audit-507-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal execute;"
+fn_name_regex: ".*(Expired|Defeated|nudge|propose).*"
+write_var_regex: ".*(execute|nudge|propose).*"
+guard_var_regex: ".*(execute|nudge|propose).*"
+vuln_fn_name: "Expired"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "execute = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

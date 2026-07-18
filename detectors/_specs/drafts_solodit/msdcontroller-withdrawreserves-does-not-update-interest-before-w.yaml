@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "msdcontroller-withdrawreserves-does-not-update-interest-before-w"
+class_name: "MsdcontrollerWithdrawreservesDoesNotUpdateInterestBeforeW"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #13521 (ConsenSys/dForce Lending Protocol Review)"
+help: "MSDController._withdrawReserves does not update interest before withdrawal"
+wiki_title: "MSDController._withdrawReserves does not update interest before withdrawal"
+wiki_description: |
+    #### Resolution
+    
+    
+    
+    This issue was addressed in commit [`2b5946e`](https://github.com/dforce-network/LendingContracts/commit/2b5946e4aa280240a4fccf76d027b5fe4c83fb0b) by changing `calcEquity` to update the interest of each MSDMinter assigned to an MSD asset.
+    
+    
+    Note that this method iterates over each
+wiki_exploit_scenario: |
+    Per Solodit #13521: #### Resolution
+    
+    
+    
+    This issue was addressed in commit [`2b5946e`](https://github.com/dforce-network/LendingContracts/commit/2b5946e4aa280240a4fccf76d027b5fe4c83fb0b) by changing `calcEquity` to update
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MsdcontrollerWithdrawreservesDoesNotUpdateInterestBeforeW"
+solodit_id: "13521"
+solodit_slug: |
+    msdcontroller_withdrawreserves-does-not-update-interest-before-withdrawal-consensys-dforce-lending-protocol-review-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(calcEquity|iMSD|MSDS).*"
+primary_var_regex: ".*(calcEquity|iMSD).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,45 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-1-an-update-gap-in-chainlink-s-feed-can-malfunction-the-whole-"
+class_name: "H1AnUpdateGapInChainlinkSFeedCanMalfunctionTheWhole"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3508 (Sherlock/Float Capital)"
+help: "H-1: An update gap in Chainlink's feed can malfunction the whole market"
+wiki_title: "H-1: An update gap in Chainlink's feed can malfunction the whole market"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-11-float-capital-judging/issues/42 
+    
+    ## Found by 
+    WATCHPUG
+    
+    ## Summary
+    
+    The `roundId` that is used for settling the price change and pushing the `latestExecutedEpochIndex` forward is strictly limited to be in a precise period of time. When there is no s
+wiki_exploit_scenario: |
+    Per Solodit #3508: Source: https://github.com/sherlock-audit/2022-11-float-capital-judging/issues/42 
+    
+    ## Found by 
+    WATCHPUG
+    
+    ## Summary
+    
+    The `roundId` that is used for settling the price change and pushing the `latestE
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1AnUpdateGapInChainlinkSFeedCanMalfunctionTheWhole"
+solodit_id: "3508"
+solodit_slug: |
+    h-1-an-update-gap-in-chainlinks-feed-can-malfunction-the-whole-market-sherlock-float-capital-float-capital-git
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Oracle, Chainlink"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(roundId|latestExecutedEpochIndex|EPOCH_LENGTH).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

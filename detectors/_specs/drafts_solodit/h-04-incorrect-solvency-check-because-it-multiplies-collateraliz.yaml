@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "h-04-incorrect-solvency-check-because-it-multiplies-collateraliz"
+class_name: "H04IncorrectSolvencyCheckBecauseItMultipliesCollateraliz"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27494 (Code4rena/Tapioca DAO)"
+help: |
+    [H-04] Incorrect solvency check because it multiplies collateralizationRate by share not amount when calculating liquidation threshold
+wiki_title: |
+    [H-04] Incorrect solvency check because it multiplies collateralizationRate by share not amount when calculating liquidation threshold
+wiki_description: |
+    When a Collateralized Debt Position (CDP) reaches that liquidation threshold, it becomes eligible for liquidation and anyone can repay a position in exchange for a portion of the collateral.
+    `Market._isSolvent` is used to check if the user is solvent. if not, then it can be liquidated. Here is the
+wiki_exploit_scenario: |
+    Per Solodit #27494: When a Collateralized Debt Position (CDP) reaches that liquidation threshold, it becomes eligible for liquidation and anyone can repay a position in exchange for a portion of the collateral.
+    `Market.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04IncorrectSolvencyCheckBecauseItMultipliesCollateraliz"
+solodit_id: "27494"
+solodit_slug: |
+    h-04-incorrect-solvency-check-because-it-multiplies-collateralizationrate-by-share-not-amount-when-calculating-liquidation-threshold-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(borrowPart|userBorrowPart|collateralShare|userCollateralShare).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "borrowPart"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

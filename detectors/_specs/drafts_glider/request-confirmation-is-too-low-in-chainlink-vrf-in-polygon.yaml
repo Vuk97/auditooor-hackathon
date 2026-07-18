@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "request-confirmation-is-too-low-in-chainlink-vrf-in-polygon"
+class_name: "RequestConfirmationIsTooLowInChainlinkVrfInPolygon"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: request-confirmation-is-too-low-in-chainlink-vrf-i"
+help: "request confirmation is too low in chainlink vrf in polygon"
+wiki_title: "request confirmation is too low in chainlink vrf in polygon"
+wiki_description: |
+    Check if when calling requestRandomWords, requestConfirmations number is large enough in polygon, since reorg depth in polygon mostly around 2-6 blocks, if it is not large enough, result can be changed
+wiki_exploit_scenario: |
+    Per Glider query tags [chainlink, randomness.]: Check if when calling requestRandomWords, requestConfirmations number is large enough in polygon, since reorg depth in polygon mostly around 2-6 blocks, if it is not large enough, result can be change
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "RequestConfirmationIsTooLowInChainlinkVrfInPolygon"
+fn_name_regex: ".*(requestRandomWords).*"
+read_var_regex: ".*(requestran).*"
+required_call_regex: ".*(accrue|update|sync|validate|check).*"
+guarded_helper_name: "_guard"
+vuln_fn_name: "requestRandomWords"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return requestran > 0;"
+state_decl: "uint256 internal requestran;"

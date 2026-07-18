@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "checkpoints-are-incorrectly-cleared-during-transferfrom"
+class_name: "CheckpointsAreIncorrectlyClearedDuringTransferfrom"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-05-blackhole"
+help: |
+    rashmor Finding description and impact In the VotingEscrow contract, the transferFrom function delegates to _transferFrom , which in turn calls moveTokenDelegates from VotingDelega
+wiki_title: "Checkpoints are incorrectly cleared during transferFrom"
+wiki_description: |
+    rashmor Finding description and impact In the VotingEscrow contract, the transferFrom function delegates to _transferFrom , which in turn calls moveTokenDelegates from VotingDelegationLib . This function is responsible for updating historical checkpoints that track which token IDs were delegated to
+wiki_exploit_scenario: |
+    Per audit finding: rashmor Finding description and impact In the VotingEscrow contract, the transferFrom function delegates to _transferFrom , which in turn calls moveTokenDelegates from VotingDelegationLib . This funct
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CheckpointsAreIncorrectlyClearedDuringTransferfrom"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(transferFrom|moveTokenDelegates|srcRep).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

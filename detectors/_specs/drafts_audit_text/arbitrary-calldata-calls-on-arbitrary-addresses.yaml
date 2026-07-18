@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "arbitrary-calldata-calls-on-arbitrary-addresses"
+class_name: "ArbitraryCalldataCallsOnArbitraryAddresses"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Scroll - 05.26.23 Zellic Audit Report"
+help: |
+    The messenger contracts allow for the relaying of messages from one chain to the other. As currently implemented, they perform a low-level call to an arbitrary address with arbitra
+wiki_title: "Arbitrary calldata calls on arbitrary addresses"
+wiki_description: |
+    The messenger contracts allow for the relaying of messages from one chain to the other. As currently implemented, they perform a low-level call to an arbitrary address with arbitrary calldata, both supplied as messages over the bridge. This allows for the execution of external calls in the context o
+wiki_exploit_scenario: |
+    Per audit finding: The messenger contracts allow for the relaying of messages from one chain to the other. As currently implemented, they perform a low-level call to an arbitrary address with arbitrary calldata, both su
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ArbitraryCalldataCallsOnArbitraryAddresses"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(relayMessageWithProof|whenNotPaused|onlyWhitelistedSender).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "relayMessageWithProof"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

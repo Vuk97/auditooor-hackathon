@@ -1,0 +1,31 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-01-reward-rates-can-be-changed-through-flash-borrows"
+class_name: "M01RewardRatesCanBeChangedThroughFlashBorrows"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3993 (Code4rena/Based Loans)"
+help: "[M-01] Reward rates can be changed through flash borrows"
+wiki_title: "[M-01] Reward rates can be changed through flash borrows"
+wiki_description: |
+    The rewards per market are proportional to their `totalBorrows` which can be changed by a large holder who deposits lots of collateral, takes out a huge borrow in the market, updates the rewards, and then unwinds the position.
+    They'll only pay gas fees as the borrow / repay can happen in the same b
+wiki_exploit_scenario: |
+    Per Solodit #3993: The rewards per market are proportional to their `totalBorrows` which can be changed by a large holder who deposits lots of collateral, takes out a huge borrow in the market, updates the rewards, and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01RewardRatesCanBeChangedThroughFlashBorrows"
+solodit_id: "3993"
+solodit_slug: "m-01-reward-rates-can-be-changed-through-flash-borrows-code4rena-based-loans-based-loans-contest-git"
+solodit_quality: "5"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(totalBorrows|refreshCompSpeeds).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

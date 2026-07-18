@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-03-size-uses-wrong-source-to-query-available-liquidity-on-aave"
+class_name: "M03SizeUsesWrongSourceToQueryAvailableLiquidityOnAave"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #38042 (Code4rena/Size)"
+help: |
+    [M-03] Size uses wrong source to query available liquidity on Aave, resulting in borrow and lend operations being bricked upon mainnet deployment
+wiki_title: |
+    [M-03] Size uses wrong source to query available liquidity on Aave, resulting in borrow and lend operations being bricked upon mainnet deployment
+wiki_description: |
+    Size queries the `underlyingBorrowToken` balance of the `variablePool` during borrowing and lending actions in order to check available liquidity. If there is not enough available liquidity for the new borrower to withdraw the borrowed assets, the function call will revert:
+    
+    [Size::buyCreditMarket]
+wiki_exploit_scenario: |
+    Per Solodit #38042: Size queries the `underlyingBorrowToken` balance of the `variablePool` during borrowing and lending actions in order to check available liquidity. If there is not enough available liquidity for the n
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03SizeUsesWrongSourceToQueryAvailableLiquidityOnAave"
+solodit_id: "38042"
+solodit_slug: |
+    m-03-size-uses-wrong-source-to-query-available-liquidity-on-aave-resulting-in-borrow-and-lend-operations-being-bricked-upon-mainnet-deployment-code4rena-size-size-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal underlyingborrowtoken;"
+fn_name_regex: ".*(underlyingBorrowToken|variablePool|AToken|Pool).*"
+read_var_regex: ".*(underlyingBorrowToken|variablePool).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "underlyingBorrowToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return underlyingborrowtoken > 0;"

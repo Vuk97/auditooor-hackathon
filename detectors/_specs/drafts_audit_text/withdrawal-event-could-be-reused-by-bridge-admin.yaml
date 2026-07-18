@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "withdrawal-event-could-be-reused-by-bridge-admin"
+class_name: "WithdrawalEventCouldBeReusedByBridgeAdmin"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Astria Bridge - Zellic Audit Report"
+help: |
+    In astria-bridge-withdrawer, bridge address and withdrawer address have permissions to with- draw assets from the bridge. Both bridge address and withdrawer address could execute C
+wiki_title: "Withdrawal event could be reused by bridge admin"
+wiki_description: |
+    In astria-bridge-withdrawer, bridge address and withdrawer address have permissions to with- draw assets from the bridge. Both bridge address and withdrawer address could execute CollectWithdrawals and Sub- mitWithdrawals using astria-cli to withdraw assets from the bridge. But there is no marking o
+wiki_exploit_scenario: |
+    Per audit finding: In astria-bridge-withdrawer, bridge address and withdrawer address have permissions to with- draw assets from the bridge. Both bridge address and withdrawer address could execute CollectWithdrawals an
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WithdrawalEventCouldBeReusedByBridgeAdmin"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(mitWithdrawals).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "mitWithdrawals"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

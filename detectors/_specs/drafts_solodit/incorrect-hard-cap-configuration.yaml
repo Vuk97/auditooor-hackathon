@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-hard-cap-configuration"
+class_name: "IncorrectHardCapConfiguration"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52243 (Halborn/Bridge Smart Contracts)"
+help: "Incorrect HARD\_CAP Configuration"
+wiki_title: "Incorrect HARD\_CAP Configuration"
+wiki_description: |
+    ##### Description
+    
+    The contract defines the HARD\_CAP as follows:
+    
+    ```
+    uint256 public constant HARD_CAP = 110_000_000 ether;   // <= 110_000_000e18
+    ```
+    
+    This configuration assumes 18 decimal places, which is standard for many ERC20 tokens.
+    
+    However, the contract explicitly defines 9 decimal places f
+wiki_exploit_scenario: |
+    Per Solodit #52243: ##### Description
+    
+    The contract defines the HARD\_CAP as follows:
+    
+    ```
+    uint256 public constant HARD_CAP = 110_000_000 ether;   // <= 110_000_000e18
+    ```
+    
+    This configuration assumes 18 decimal places, w
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectHardCapConfiguration"
+solodit_id: "52243"
+solodit_slug: "incorrect-hard_cap-configuration-halborn-dynex-bridge-smart-contracts-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(HARD_CAP).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "HARD_CAP"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

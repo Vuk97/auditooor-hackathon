@@ -1,0 +1,23 @@
+id: fail-open-unwrap-or-empty-on-acl-list
+title: "unwrap_or(Vec::new()) on ACL list treats missing/expired config as 'open access'"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44331"
+  - "44333"
+bug_class: ttl-archival
+indicators:
+  - "`env.storage().persistent().get::<_, Vec<Address>>(&DataKey::Whitelist).unwrap_or(Vec::new(&env))` pattern"
+  - "`unwrap_or(Vec::new(&env))` on a blacklist/whitelist key whose absence should mean fail-closed"
+  - "`if whitelist.is_empty() { return Ok(()) }` bypass when the whitelist key is missing"
+  - "ACL helpers that refresh only their own TTL, leaving consolidated maps to expire independently"
+victim: "Protocol governance: after TTL expiry, blacklisted liquidators regain access or restricted assets become openly-usable until admin re-syncs."
+exploit_precondition: "Persistent storage returns None for archived entries (pre-v23) OR the code manually clears the list via a desynced refresh path."
+real_world_example: |
+  V12 #44333 (High, V12-self-invalidated on v23): `get_liquidation_blacklist` converts missing entry to `Vec::new(env)`; `is_blacklisted_for_liquidation` treats an empty vector as open access.
+suggested_remediation: "Store ACL lists in instance storage or explicitly refuse to serve when absent (fail-closed). Use `has()` + explicit error rather than `unwrap_or(empty)`."
+cross_refs:
+  - ttl-archival-unwrap-or-zero-hides-debt
+  - ttl-desynced-registries

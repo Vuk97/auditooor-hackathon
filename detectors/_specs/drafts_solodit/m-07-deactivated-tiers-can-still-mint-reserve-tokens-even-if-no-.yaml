@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "m-07-deactivated-tiers-can-still-mint-reserve-tokens-even-if-no-"
+class_name: "M07DeactivatedTiersCanStillMintReserveTokensEvenIfNo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5814 (Code4rena/Juicebox)"
+help: "[M-07] Deactivated tiers can still mint reserve tokens, even if no non-reserve tokens were minted."
+wiki_title: "[M-07] Deactivated tiers can still mint reserve tokens, even if no non-reserve tokens were minted."
+wiki_description: |
+    Tiers in Juicebox can be deactivated using the adjustTiers() function. It makes sense that reserve tokens may be minted in deactivated tiers, in order to be consistent with already minted tokens. However, the code allows the first reserve token to be minted in a deactivated tier, *even* though ther
+wiki_exploit_scenario: |
+    Per Solodit #5814: Tiers in Juicebox can be deactivated using the adjustTiers() function. It makes sense that reserve tokens may be minted in deactivated tiers, in order to be consistent with already minted tokens. How
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07DeactivatedTiersCanStillMintReserveTokensEvenIfNo"
+solodit_id: "5814"
+solodit_slug: |
+    m-07-deactivated-tiers-can-still-mint-reserve-tokens-even-if-no-non-reserve-tokens-were-minted-code4rena-juicebox-juicebox-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(adjustTiers|recordMintReservesFor|tokenIds|initialQuantity).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "adjustTiers"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

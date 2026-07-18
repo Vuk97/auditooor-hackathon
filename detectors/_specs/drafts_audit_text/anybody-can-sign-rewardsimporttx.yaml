@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "anybody-can-sign-rewardsimporttx"
+class_name: "AnybodyCanSignRewardsimporttx"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "hexens audit Camino_Network_Security_review_20.02 "
+help: |
+    The executor of RewardsImportTx does not verify credentials of transaction inputs which makes it possible for anyone to submit this transaction to the mempool. Although UTXO output
+wiki_title: "ANYBODY CAN SIGN REWARDSIMPORTTX"
+wiki_description: |
+    The executor of RewardsImportTx does not verify credentials of transaction inputs which makes it possible for anyone to submit this transaction to the mempool. Although UTXO outputOwners can only be the treasury address, it might be worth investigating possible ways to authorize the submission of th
+wiki_exploit_scenario: |
+    Per audit finding: The executor of RewardsImportTx does not verify credentials of transaction inputs which makes it possible for anyone to submit this transaction to the mempool. Although UTXO outputOwners can only be t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnybodyCanSignRewardsimporttx"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(outputOwners).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "outputOwners"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

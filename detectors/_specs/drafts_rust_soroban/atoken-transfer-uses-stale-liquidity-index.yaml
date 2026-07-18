@@ -1,0 +1,19 @@
+id: atoken-transfer-uses-stale-liquidity-index
+title: "aToken transfer may use stale liquidity_index when contract call fails"
+severity: Low
+language: rust
+platform: soroban
+source: "watchpug-rev3"
+source_ids:
+  - "WP-L9"
+bug_class: error-handling
+indicators:
+  - "`let idx = pool.get_reserve_normalized_income(asset).unwrap_or(cached_index)` pattern"
+  - "failure of live fetch silently falls back to cached index without error"
+victim: "Users: transfer happens on wrong index basis after pool call fails."
+exploit_precondition: "Pool contract call transiently fails."
+real_world_example: |
+  WatchPug WP-L9 (Low): aToken transfer may use stale liquidity_index when contract call fails.
+suggested_remediation: "Propagate error; require fresh index."
+cross_refs:
+  - scaled-share-rounding-mismatch

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "m-02-removedliquidity-can-be-underflowed-to-lock-other-user-s-de"
+class_name: "M02RemovedliquidityCanBeUnderflowedToLockOtherUserSDe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33619 (Code4rena/Panoptic)"
+help: "[M-02] `removedLiquidity` can be underflowed to lock other user's deposits"
+wiki_title: "[M-02] `removedLiquidity` can be underflowed to lock other user's deposits"
+wiki_description: |
+    1. Attacker can cause deposits of other users to be locked.
+    2. Attacker can manipulate the `premia` calculated to extremely high levels.
+    
+    ### Proof of Concept
+    
+    When burning a long token, the `removedLiquidity` is subtracted in an unchecked block.
+    
+    <https://github.com/code-423n4/2023-11-panoptic/blo
+wiki_exploit_scenario: |
+    Per Solodit #33619: 1. Attacker can cause deposits of other users to be locked.
+    2. Attacker can manipulate the `premia` calculated to extremely high levels.
+    
+    ### Proof of Concept
+    
+    When burning a long token, the `removed
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02RemovedliquidityCanBeUnderflowedToLockOtherUserSDe"
+solodit_id: "33619"
+solodit_slug: |
+    m-02-removedliquidity-can-be-underflowed-to-lock-other-users-deposits-code4rena-panoptic-panoptic-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal feesbase;"
+fn_name_regex: ".*(premia|removedLiquidity|netLiquidity|removedAmount).*"
+write_var_regex: ".*(feesBase|netLiquidity|premia).*"
+guard_var_regex: ".*(feesBase|netLiquidity|premia).*"
+vuln_fn_name: "premia"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "feesbase = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

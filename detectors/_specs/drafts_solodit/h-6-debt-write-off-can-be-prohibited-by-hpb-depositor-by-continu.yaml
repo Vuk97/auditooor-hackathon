@@ -1,0 +1,49 @@
+skeleton: "state_write_without_paired_write"
+name: "h-6-debt-write-off-can-be-prohibited-by-hpb-depositor-by-continu"
+class_name: "H6DebtWriteOffCanBeProhibitedByHpbDepositorByContinu"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19771 (Sherlock/Ajna Update)"
+help: |
+    H-6: Debt write off can be prohibited by HPB depositor by continuously allocating settlement blocking dust deposits in the higher buckets
+wiki_title: |
+    H-6: Debt write off can be prohibited by HPB depositor by continuously allocating settlement blocking dust deposits in the higher buckets
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-04-ajna-judging/issues/110 
+    
+    ## Found by 
+    hyh
+    ## Summary
+    
+    High price bucket depositor who faces bad debt settlement can add multiple dust quote token deposits to many higher price buckets and stale settlement.
+    
+    ## Vulnerability Detail
+    
+    HPB depositor hav
+wiki_exploit_scenario: |
+    Per Solodit #19771: Source: https://github.com/sherlock-audit/2023-04-ajna-judging/issues/110 
+    
+    ## Found by 
+    hyh
+    ## Summary
+    
+    High price bucket depositor who faces bad debt settlement can add multiple dust quote token dep
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H6DebtWriteOffCanBeProhibitedByHpbDepositorByContinu"
+solodit_id: "19771"
+solodit_slug: |
+    h-6-debt-write-off-can-be-prohibited-by-hpb-depositor-by-continuously-allocating-settlement-blocking-dust-deposits-in-the-higher-buckets-sherlock-none-ajna-update-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(bucketTake|removeCollateral|removeQuoteToken|settlePoolDebt).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

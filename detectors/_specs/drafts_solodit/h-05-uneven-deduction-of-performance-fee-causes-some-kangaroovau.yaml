@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "h-05-uneven-deduction-of-performance-fee-causes-some-kangaroovau"
+class_name: "H05UnevenDeductionOfPerformanceFeeCausesSomeKangaroovau"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20228 (Code4rena/Polynomial Protocol)"
+help: |
+    [H-05] Uneven deduction of performance fee causes some KangarooVault users to lose part of their token value
+wiki_title: |
+    [H-05] Uneven deduction of performance fee causes some KangarooVault users to lose part of their token value
+wiki_description: |
+    In `KangarooVault._resetTrade()`, a `performanceFee` is charged upon closing of all positions, on the `premiumCollected`. This is inconsistent with `getTokenPrice()` as `premiumCollected` is factored in the token price computation, while the `performanceFee` is not. This leads to an uneven distribu
+wiki_exploit_scenario: |
+    Per Solodit #20228: In `KangarooVault._resetTrade()`, a `performanceFee` is charged upon closing of all positions, on the `premiumCollected`. This is inconsistent with `getTokenPrice()` as `premiumCollected` is factored
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05UnevenDeductionOfPerformanceFeeCausesSomeKangaroovau"
+solodit_id: "20228"
+solodit_slug: |
+    h-05-uneven-deduction-of-performance-fee-causes-some-kangaroovault-users-to-lose-part-of-their-token-value-code4rena-polynomial-protocol-polynomial-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal gettokenprice;"
+fn_name_regex: ".*(performanceFee|premiumCollected|getTokenPrice|KangarooVault).*"
+read_var_regex: ".*(getTokenPrice|performanceFee|premiumCollected).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "performanceFee"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return gettokenprice > 0;"

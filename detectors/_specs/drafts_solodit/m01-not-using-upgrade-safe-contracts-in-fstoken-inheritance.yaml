@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m01-not-using-upgrade-safe-contracts-in-fstoken-inheritance"
+class_name: "M01NotUsingUpgradeSafeContractsInFstokenInheritance"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11134 (OpenZeppelin/Futureswap V2 Audit)"
+help: "[M01] Not using upgrade safe contracts in FsToken inheritance"
+wiki_title: "[M01] Not using upgrade safe contracts in FsToken inheritance"
+wiki_description: |
+    The `FsToken` contract is intended to be an upgradeable contract, used behind a proxy (namely, the `FsTokenProxy` contract).  
+    
+    However, the contracts `ERC20Snapshot`, `ERC20Mintable` and `ERC20Burnable` in the inheritance chain of `FsToken` are *not* imported from the upgrade safe library [`@openze
+wiki_exploit_scenario: |
+    Per Solodit #11134: The `FsToken` contract is intended to be an upgradeable contract, used behind a proxy (namely, the `FsTokenProxy` contract).  
+    
+    However, the contracts `ERC20Snapshot`, `ERC20Mintable` and `ERC20Burnab
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01NotUsingUpgradeSafeContractsInFstokenInheritance"
+solodit_id: "11134"
+solodit_slug: |
+    m01-not-using-upgrade-safe-contracts-in-fstoken-inheritance-openzeppelin-futureswap-v2-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(FsToken|FsTokenProxy|ERC20Snapshot|ERC20Mintable).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "FsToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

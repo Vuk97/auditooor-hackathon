@@ -1,0 +1,45 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-1-chainlinkaggregator-binary-search-for-roundid-does-not-work-"
+class_name: "M1ChainlinkaggregatorBinarySearchForRoundidDoesNotWork"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19153 (Sherlock/Perennial)"
+help: |
+    M-1: ChainlinkAggregator: binary search for roundId does not work correctly and Oracle can even end up temporarily DOSed
+wiki_title: |
+    M-1: ChainlinkAggregator: binary search for roundId does not work correctly and Oracle can even end up temporarily DOSed
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-05-perennial-judging/issues/4 
+    
+    ## Found by 
+    roguereddwarf
+    ## Summary
+    When a phase switchover occurs, it can be necessary that phases need to be searched for a `roundId` with a timestamp as close as possible but bigger than `targetTimestamp`.
+    
+    Finding t
+wiki_exploit_scenario: |
+    Per Solodit #19153: Source: https://github.com/sherlock-audit/2023-05-perennial-judging/issues/4 
+    
+    ## Found by 
+    roguereddwarf
+    ## Summary
+    When a phase switchover occurs, it can be necessary that phases need to be searched
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1ChainlinkaggregatorBinarySearchForRoundidDoesNotWork"
+solodit_id: "19153"
+solodit_slug: |
+    m-1-chainlinkaggregator-binary-search-for-roundid-does-not-work-correctly-and-oracle-can-even-end-up-temporarily-dosed-sherlock-none-perennial-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Oracle"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(roundId|targetTimestamp|ChainlinkAggregator|minRoundId).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

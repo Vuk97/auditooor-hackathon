@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "user-is-able-to-revert-a-position-being-closed"
+class_name: "UserIsAbleToRevertAPositionBeingClosed"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Wasabi Perps - Zellic Audit Report"
+help: |
+    Both long and short pools make use of the common BaseWasabiPool::_payCloseAmounts func- tion to transfer the fees and the payout when closing or liquidating a position. The functio
+wiki_title: "User is able to revert a position being closed"
+wiki_description: |
+    Both long and short pools make use of the common BaseWasabiPool::_payCloseAmounts func- tion to transfer the fees and the payout when closing or liquidating a position. The function takes an _unwrapWETH argument that determines whether the transfer should be made as WETH or ETH. If an ETH transfer i
+wiki_exploit_scenario: |
+    Per audit finding: Both long and short pools make use of the common BaseWasabiPool::_payCloseAmounts func- tion to transfer the fees and the payout when closing or liquidating a position. The function takes an _unwrapWE
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UserIsAbleToRevertAPositionBeingClosed"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(payETH).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "payETH"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

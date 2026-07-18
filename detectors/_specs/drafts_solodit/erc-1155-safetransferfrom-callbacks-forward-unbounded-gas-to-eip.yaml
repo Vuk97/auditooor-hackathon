@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "erc-1155-safetransferfrom-callbacks-forward-unbounded-gas-to-eip"
+class_name: "Erc1155SafetransferfromCallbacksForwardUnboundedGasToEip"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65420 (Cyfrin/Myriad Clob)"
+help: "ERC 1155 `safeTransferFrom` callbacks forward unbounded gas to EIP 7702 EOAs"
+wiki_title: "ERC 1155 `safeTransferFrom` callbacks forward unbounded gas to EIP 7702 EOAs"
+wiki_description: |
+    **Description:** When the exchange distributes outcome tokens to traders, every transfer goes through ERC-1155 `safeTransferFrom`, which checks whether the recipient has code and, if so, invokes `onERC1155Received` with no explicit gas cap. Historically this was safe for EOA recipients because `to.c
+wiki_exploit_scenario: |
+    Per Solodit #65420: **Description:** When the exchange distributes outcome tokens to traders, every transfer goes through ERC-1155 `safeTransferFrom`, which checks whether the recipient has code and, if so, invokes `onER
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Erc1155SafetransferfromCallbacksForwardUnboundedGasToEip"
+solodit_id: "65420"
+solodit_slug: |
+    erc-1155-safetransferfrom-callbacks-forward-unbounded-gas-to-eip-7702-eoas-cyfrin-none-myriad-clob-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal onerc1155received;"
+fn_name_regex: ".*(safeTransferFrom|onERC1155Received|try|MyriadCTFExchange).*"
+read_var_regex: ".*(onERC1155Received|safeTransferFrom|try).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeTransferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return onerc1155received > 0;"

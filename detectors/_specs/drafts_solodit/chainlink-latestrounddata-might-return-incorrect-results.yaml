@@ -1,0 +1,38 @@
+skeleton: "paired_function_divergence"
+name: "chainlink-latestrounddata-might-return-incorrect-results"
+class_name: "ChainlinkLatestrounddataMightReturnIncorrectResults"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51132 (Halborn/Primex Contracts)"
+help: "CHAINLINK latestRoundData MIGHT RETURN INCORRECT RESULTS"
+wiki_title: "CHAINLINK latestRoundData MIGHT RETURN INCORRECT RESULTS"
+wiki_description: |
+    ##### Description
+    
+    The `getExchangeRate` function from the `PriceOracle.sol` contract calls the `latestRoundData` function from ChainLink price feeds. However, there is no check on the return values to validate stale data prices.
+    
+    This could lead to stale prices according to the ChainLink documentat
+wiki_exploit_scenario: |
+    Per Solodit #51132: ##### Description
+    
+    The `getExchangeRate` function from the `PriceOracle.sol` contract calls the `latestRoundData` function from ChainLink price feeds. However, there is no check on the return values t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainlinkLatestrounddataMightReturnIncorrectResults"
+solodit_id: "51132"
+solodit_slug: "chainlink-latestrounddata-might-return-incorrect-results-halborn-primex-primex-contracts-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(getExchangeRate|latestRoundData).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

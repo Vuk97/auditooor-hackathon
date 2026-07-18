@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "uninitialized-cctp-domain-mapping-can-send-usdc-to-the-incorrect"
+class_name: "UninitializedCctpDomainMappingCanSendUsdcToTheIncorrect"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64317 (Cyfrin/Securitize Bridge Cctp)"
+help: "Uninitialized CCTP domain mapping can send USDC to the incorrect blockchain"
+wiki_title: "Uninitialized CCTP domain mapping can send USDC to the incorrect blockchain"
+wiki_description: |
+    **Description:** `USDCBridgeV2::chainIdToCCTPDomain` maps Wormhole chain IDs to Circle's CCTP domain IDs:
+    ```solidity
+    mapping(uint16 => uint32) public chainIdToCCTPDomain;
+    
+    function getCCTPDomain(uint16 _chain) internal view returns (uint32) {
+        return chainIdToCCTPDomain[_chain];  // @audit retur
+wiki_exploit_scenario: |
+    Per Solodit #64317: **Description:** `USDCBridgeV2::chainIdToCCTPDomain` maps Wormhole chain IDs to Circle's CCTP domain IDs:
+    ```solidity
+    mapping(uint16 => uint32) public chainIdToCCTPDomain;
+    
+    function getCCTPDomain(uint
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UninitializedCctpDomainMappingCanSendUsdcToTheIncorrect"
+solodit_id: "64317"
+solodit_slug: |
+    uninitialized-cctp-domain-mapping-can-send-usdc-to-the-incorrect-blockchain-cyfrin-none-securitize-bridge-cctp-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal setbridgeaddress;"
+fn_name_regex: ".*(uint32|setBridgeAddress).*"
+read_var_regex: ".*(setBridgeAddress|uint32).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "uint32"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return setbridgeaddress > 0;"

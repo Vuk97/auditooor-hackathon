@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "balance-offset-check-uses-requested-amount"
+class_name: "BalanceOffsetCheckUsesRequestedAmount"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit ether.fi - Zellic Audit Report"
+help: |
+    When depositWithERC20 is called to deposit an ERC-20 token, function depositWithERC20(address _token, uint256 _amount, address _referral) public whenNotPaused nonReentrant returns
+wiki_title: "Balance-offset check uses requested amount"
+wiki_description: |
+    When depositWithERC20 is called to deposit an ERC-20 token, function depositWithERC20(address _token, uint256 _amount, address _referral) public whenNotPaused nonReentrant returns (uint256) { require(isTokenWhitelisted(_token), "token is not whitelisted"); crossover uint256 balance = tokenAmountToEt
+wiki_exploit_scenario: |
+    Per audit finding: When depositWithERC20 is called to deposit an ERC-20 token, function depositWithERC20(address _token, uint256 _amount, address _referral) public whenNotPaused nonReentrant returns (uint256) { require(
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BalanceOffsetCheckUsesRequestedAmount"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositWithERC20|whenNotPaused|nonReentrant).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "depositWithERC20"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

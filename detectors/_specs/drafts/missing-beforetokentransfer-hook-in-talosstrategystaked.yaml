@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "missing-beforetokentransfer-hook-in-talosstrategystaked"
+class_name: "MissingBeforetokentransferHookInTalosstrategystaked"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_af"
+help: |
+    ERC20 transfer hook not overridden; flywheel reward index mismatches after transfers enabling reward drain via inflated balance.
+wiki_title: "Missing `_beforeTokenTransfer` Hook in TalosStrategyStaked"
+wiki_description: |
+    ERC20 transfer hook not overridden; flywheel reward index mismatches after transfers enabling reward drain via inflated balance.
+wiki_exploit_scenario: |
+    Attacker exploits Missing `_beforeTokenTransfer` Hook in TalosStrategyStaked as described: ERC20 transfer hook not overridden; flywheel reward index mismatches after transfers enabling reward drain via inflated balance.
+wiki_recommendation: "ERC20 used as flywheel strategy without `_beforeTokenTransfer` calling `flywheel.accrue`."
+contract_name: "MissingBeforetokentransferHookInTalosstrategystaked"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(beforetokentransfer|hook|talosstrategystaked).*"
+read_var_regex: ".*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "beforetokentransfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

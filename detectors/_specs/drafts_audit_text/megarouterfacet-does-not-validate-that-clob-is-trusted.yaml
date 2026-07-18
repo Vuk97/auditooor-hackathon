@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "megarouterfacet-does-not-validate-that-clob-is-trusted"
+class_name: "MegarouterfacetDoesNotValidateThatClobIsTrusted"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit GTE Launchpad- Zellic Audit Report"
+help: |
+    The MegaRouterFacet contract provides functions that act as a wrapper for multicalls, for example, clobCancel or clobPostLimitOrder. These functions accept an arbitrary clob contra
+wiki_title: "MegaRouterFacet does not validate that clob is trusted"
+wiki_description: |
+    The MegaRouterFacet contract provides functions that act as a wrapper for multicalls, for example, clobCancel or clobPostLimitOrder. These functions accept an arbitrary clob contract address provided by the caller and do not perform validation to ensure that this contract was created using the trust
+wiki_exploit_scenario: |
+    Per audit finding: The MegaRouterFacet contract provides functions that act as a wrapper for multicalls, for example, clobCancel or clobPostLimitOrder. These functions accept an arbitrary clob contract address provided
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MegarouterfacetDoesNotValidateThatClobIsTrusted"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(clobCancel|clobPostLimitOrder|clobFactory).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "clobCancel"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

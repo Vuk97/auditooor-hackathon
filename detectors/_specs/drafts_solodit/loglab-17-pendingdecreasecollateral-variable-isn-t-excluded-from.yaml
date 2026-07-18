@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "loglab-17-pendingdecreasecollateral-variable-isn-t-excluded-from"
+class_name: "Loglab17PendingdecreasecollateralVariableIsnTExcludedFrom"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62398 (Hexens/Basisos)"
+help: |
+    [LOGLAB-17] pendingDecreaseCollateral variable isn't excluded from the positionNetBalance() value in the leverage and rebalance calculations, which may lead to incorrect rebalance
+wiki_title: |
+    [LOGLAB-17] pendingDecreaseCollateral variable isn't excluded from the positionNetBalance() value in the leverage and rebalance calculations, which may lead to 
+wiki_description: |
+    **Severity:** High
+    
+    **Path:** src/strategy/BasisStrategy.sol#L779-L884
+    
+    **Description:** During a partial deutilizing action, the `BasisStrategy::spotSellCallback()` function will assign the `collateralDeltaToDecrease` value to the `$.pendingDecreaseCollateral` storage variable when `collateralDelta
+wiki_exploit_scenario: |
+    Per Solodit #62398: **Severity:** High
+    
+    **Path:** src/strategy/BasisStrategy.sol#L779-L884
+    
+    **Description:** During a partial deutilizing action, the `BasisStrategy::spotSellCallback()` function will assign the `collater
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Loglab17PendingdecreasecollateralVariableIsnTExcludedFrom"
+solodit_id: "62398"
+solodit_slug: |
+    loglab-17-pendingdecreasecollateral-variable-isnt-excluded-from-the-positionnetbalance-value-in-the-leverage-and-rebalance-calculations-which-may-lead-to-incorrect-rebalance-actions-for-the-strategy-hexens-none-basisos-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal collateraldeltaamount;"
+fn_name_regex: ".*(collateralDeltaToDecrease|limitDecreaseCollateral|collateralDeltaAmount|pendingDecreaseCollateral).*"
+read_var_regex: ".*(collateralDeltaAmount|collateralDeltaToDecrease|limitDecreaseCollateral).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "collateralDeltaToDecrease"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return collateraldeltaamount > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "bonded-validators-can-trigger-reverts-for-successful-trans"
+class_name: "BondedValidatorsCanTriggerRevertsForSuccessfulTrans"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit ZetaChain - 6.30.23 Zellic Audit Report"
+help: |
+    A single bonded validator has the ability to add or remove transactions from the out tracker, as the only check is that they are bonded. func (k msgServer) AddToOutTxTracker(goCtx
+wiki_title: "Bonded validators can trigger reverts for successful trans-"
+wiki_description: |
+    A single bonded validator has the ability to add or remove transactions from the out tracker, as the only check is that they are bonded. func (k msgServer) AddToOutTxTracker(goCtx context.Context, msg *types.MsgAddToOutTxTracker) (*types.MsgAddToOutTxTrackerResponse, error) { ctx :) sdk.UnwrapSDKCon
+wiki_exploit_scenario: |
+    Per audit finding: A single bonded validator has the ability to add or remove transactions from the out tracker, as the only check is that they are bonded. func (k msgServer) AddToOutTxTracker(goCtx context.Context, msg
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BondedValidatorsCanTriggerRevertsForSuccessfulTrans"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(msgServer|goCtx).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "msgServer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

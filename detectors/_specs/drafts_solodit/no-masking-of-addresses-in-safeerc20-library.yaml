@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "no-masking-of-addresses-in-safeerc20-library"
+class_name: "NoMaskingOfAddressesInSafeerc20Library"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32423 (OpenZeppelin/1inch Limit Order Settlement Audit)"
+help: "No Masking of Addresses in SafeERC20 Library"
+wiki_title: "No Masking of Addresses in SafeERC20 Library"
+wiki_description: |
+    The `SafeERC20` library is used to implement several ERC-20 functions (`transfer`, `transferFrom`, `approve` etc.) in a way that is both gas-efficient and maximally compatible with different ERC-20 token implementations. The library uses assembly for efficiency.
+    
+    
+    However, in multiple functions, the
+wiki_exploit_scenario: |
+    Per Solodit #32423: The `SafeERC20` library is used to implement several ERC-20 functions (`transfer`, `transferFrom`, `approve` etc.) in a way that is both gas-efficient and maximally compatible with different ERC-20 to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoMaskingOfAddressesInSafeerc20Library"
+solodit_id: "32423"
+solodit_slug: |
+    no-masking-of-addresses-in-safeerc20-library-openzeppelin-none-1inch-limit-order-settlement-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal approve;"
+fn_name_regex: ".*(SafeERC20|transfer|transferFrom|approve).*"
+read_var_regex: ".*(approve|safeTransferFrom|transfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SafeERC20"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return approve > 0;"

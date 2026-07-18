@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "wrong-validation-in-defaultundelegationpolicy-onundelegate"
+class_name: "WrongValidationInDefaultundelegationpolicyOnundelegate"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27151 (Cyfrin/Streamr)"
+help: "Wrong validation in `DefaultUndelegationPolicy.onUndelegate()`"
+wiki_title: "Wrong validation in `DefaultUndelegationPolicy.onUndelegate()`"
+wiki_description: |
+    **Severity:** High
+    
+    **Description:** In `onUndelegate()`, it checks if the operator owner still holds at least `minimumSelfDelegationFraction` of total supply.
+    
+    ```solidity
+       function onUndelegate(address delegator, uint amount) external {
+           // limitation only applies to the operator, others c
+wiki_exploit_scenario: |
+    Per Solodit #27151: **Severity:** High
+    
+    **Description:** In `onUndelegate()`, it checks if the operator owner still holds at least `minimumSelfDelegationFraction` of total supply.
+    
+    ```solidity
+       function onUndelegate(ad
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrongValidationInDefaultundelegationpolicyOnundelegate"
+solodit_id: "27151"
+solodit_slug: "wrong-validation-in-defaultundelegationpolicyonundelegate-cyfrin-none-cyfrin-streamr-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Coding-Bug"
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(onUndelegate|minimumSelfDelegationFraction|amount|balanceOf).*"
+write_var_regex: ".*(amount|balanceOf|minimumSelfDelegationFraction).*"
+guard_var_regex: ".*(amount|balanceOf|minimumSelfDelegationFraction).*"
+vuln_fn_name: "onUndelegate"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

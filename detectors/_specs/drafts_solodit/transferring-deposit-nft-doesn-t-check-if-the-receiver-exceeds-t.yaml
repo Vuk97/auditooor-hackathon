@@ -1,0 +1,45 @@
+skeleton: "paired_function_divergence"
+name: "transferring-deposit-nft-doesn-t-check-if-the-receiver-exceeds-t"
+class_name: "TransferringDepositNftDoesnTCheckIfTheReceiverExceedsT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49685 (Codehawks/QuantAMM)"
+help: "Transferring deposit NFT doesn't check if the receiver exceeds the 100 deposit limit"
+wiki_title: "Transferring deposit NFT doesn't check if the receiver exceeds the 100 deposit limit"
+wiki_description: |
+    ## Summary
+    
+    Transferring doesn't check if the receiver already has 100 deposits and allows exceeding it without limit.
+    
+    ## Vulnerability Details
+    
+    When transferring deposit NFT the functionality doesn't check if the receiver already has reached the limit. Thus allowing for a user address to potential
+wiki_exploit_scenario: |
+    Per Solodit #49685: ## Summary
+    
+    Transferring doesn't check if the receiver already has 100 deposits and allows exceeding it without limit.
+    
+    ## Vulnerability Details
+    
+    When transferring deposit NFT the functionality doesn'
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TransferringDepositNftDoesnTCheckIfTheReceiverExceedsT"
+solodit_id: "49685"
+solodit_slug: |
+    transferring-deposit-nft-doesnt-check-if-the-receiver-exceeds-the-100-deposit-limit-codehawks-quantamm-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "h-03-convexstakingwrapper-sol-after-shutdown-rewards-can-be-stol"
+class_name: "H03ConvexstakingwrapperSolAfterShutdownRewardsCanBeStol"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27368 (Code4rena/Reserve)"
+help: "[H-03] ConvexStakingWrapper.sol after shutdown，rewards can be stolen"
+wiki_title: "[H-03] ConvexStakingWrapper.sol after shutdown，rewards can be stolen"
+wiki_description: |
+    After shutdown, checkpoints are stopped, leading to possible theft of rewards.
+    
+    ### Proof of Concept
+    
+    `ConvexStakingWrapper` No more `checkpoints` after `shutdown`, i.e. no updates `reward.reward_integral_for[user]`
+    
+    ```solidity
+        function _beforeTokenTransfer(
+            address _from,
+            addr
+wiki_exploit_scenario: |
+    Per Solodit #27368: After shutdown, checkpoints are stopped, leading to possible theft of rewards.
+    
+    ### Proof of Concept
+    
+    `ConvexStakingWrapper` No more `checkpoints` after `shutdown`, i.e. no updates `reward.reward_int
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03ConvexstakingwrapperSolAfterShutdownRewardsCanBeStol"
+solodit_id: "27368"
+solodit_slug: "h-03-convexstakingwrappersol-after-shutdownrewards-can-be-stolen-code4rena-reserve-reserve-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal checkpoints;"
+fn_name_regex: ".*(ConvexStakingWrapper|checkpoints|shutdown|rewards).*"
+read_var_regex: ".*(checkpoints|claimRewards|rewards).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ConvexStakingWrapper"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return checkpoints > 0;"

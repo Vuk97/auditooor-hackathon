@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "bam-s-collectpremium-vulnerable-to-sandwich-attacks"
+class_name: "BamSCollectpremiumVulnerableToSandwichAttacks"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Blackhaven (Core Contracts) - Zellic Audit Report"
+help: |
+    The collectPremium function in BAM swaps RBT for USDM via Uniswap V3 with a configurable slippage tolerance (default 5%): function _swapToUSDM(uint256 _amount) internal { // [...]
+wiki_title: "BAM's collectPremium vulnerable to sandwich attacks"
+wiki_description: |
+    The collectPremium function in BAM swaps RBT for USDM via Uniswap V3 with a configurable slippage tolerance (default 5%): function _swapToUSDM(uint256 _amount) internal { // [...] if (rbtOracle != address(0)) { uint256 rbtPrice = IOracle(rbtOracle).getPrice(); uint256 expectedUSDM = (_amount * rbtPr
+wiki_exploit_scenario: |
+    Per audit finding: The collectPremium function in BAM swaps RBT for USDM via Uniswap V3 with a configurable slippage tolerance (default 5%): function _swapToUSDM(uint256 _amount) internal { // [...] if (rbtOracle != add
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BamSCollectpremiumVulnerableToSandwichAttacks"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(collectPremium|rbtOracle|rbtPrice).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "collectPremium"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

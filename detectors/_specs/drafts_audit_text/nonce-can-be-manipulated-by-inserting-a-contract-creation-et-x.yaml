@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "nonce-can-be-manipulated-by-inserting-a-contract-creation-et-x"
+class_name: "NonceCanBeManipulatedByInsertingAContractCreationEtX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-11-nibiru"
+help: |
+    Sentryx The Ante handler for MsgEthereumTx transactions is responsible for ensuring messages are coming with correct nonces. After doing so, it’ll increment the account’s sequences
+wiki_title: |
+    Nonce can be manipulated by inserting a contract creation EthereumTx message first in an SDK TX with multiple EthereumTX
+wiki_description: |
+    Sentryx The Ante handler for MsgEthereumTx transactions is responsible for ensuring messages are coming with correct nonces. After doing so, it’ll increment the account’s sequences for each message that the account has signed and broadcasted. The problem is that when the EthereumTx() message server
+wiki_exploit_scenario: |
+    Per audit finding: Sentryx The Ante handler for MsgEthereumTx transactions is responsible for ensuring messages are coming with correct nonces. After doing so, it’ll increment the account’s sequences for each message th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NonceCanBeManipulatedByInsertingAContractCreationEtX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(evmObj|stateDB|commitCtx).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "evmObj"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

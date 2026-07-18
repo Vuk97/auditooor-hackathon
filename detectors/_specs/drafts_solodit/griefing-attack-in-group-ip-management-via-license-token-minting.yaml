@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "griefing-attack-in-group-ip-management-via-license-token-minting"
+class_name: "GriefingAttackInGroupIpManagementViaLicenseTokenMinting"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #52386 (Halborn/Proof of Creativity Protocol)"
+help: "Griefing attack in group IP management via license token minting"
+wiki_title: "Griefing attack in group IP management via license token minting"
+wiki_description: |
+    ##### Description
+    
+    The `registerGroup` function in the `GroupingModule` allows users to register a new Group IP account. It internally calls the `registerGroup` function on the `GroupIPAssetRegistry` contract for the actual accounting process:
+    
+    ```
+    function registerGroup(address groupPool) external
+wiki_exploit_scenario: |
+    Per Solodit #52386: ##### Description
+    
+    The `registerGroup` function in the `GroupingModule` allows users to register a new Group IP account. It internally calls the `registerGroup` function on the `GroupIPAssetRegistry`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GriefingAttackInGroupIpManagementViaLicenseTokenMinting"
+solodit_id: "52386"
+solodit_slug: |
+    griefing-attack-in-group-ip-management-via-license-token-minting-halborn-story-proof-of-creativity-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addip;"
+fn_name_regex: ".*(registerGroup|GroupingModule|GroupIPAssetRegistry|attachLicenseTerms).*"
+read_var_regex: ".*(addIp|attachLicenseTerms|getTotalTokensByLicensor).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "registerGroup"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addip > 0;"

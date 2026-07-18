@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "external-calls-may-use-more-gas-than-gaslimit"
+class_name: "ExternalCallsMayUseMoreGasThanGaslimit"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36817 (Spearbit/Fastlane Atlas)"
+help: "External calls may use more gas than gasLimit"
+wiki_title: "External calls may use more gas than gasLimit"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    `ExecutionEnvironment.sol#L213`
+    
+    ## Description
+    In the following case, `.call` copies the entire return data to memory even if it isn't used:
+    
+    ```solidity
+    (success,) = solverOp.solver.call{ gas: gasLimit, value: solverOp.value }(solverCallData);
+    ```
+wiki_exploit_scenario: |
+    Per Solodit #36817: ## Severity: Medium Risk
+    
+    ## Context
+    `ExecutionEnvironment.sol#L213`
+    
+    ## Description
+    In the following case, `.call` copies the entire return data to memory even if it isn't used:
+    
+    ```solidity
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExternalCallsMayUseMoreGasThanGaslimit"
+solodit_id: "36817"
+solodit_slug: "external-calls-may-use-more-gas-than-gaslimit-spearbit-none-fastlane-atlas-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal call;"
+fn_name_regex: ".*(solverGasLimit|ExcessivelySafeCall|call|SafeCall).*"
+read_var_regex: ".*(call|solverGasLimit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "solverGasLimit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return call > 0;"

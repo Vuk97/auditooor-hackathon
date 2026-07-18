@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-28-extrarewardstashv2-s-stashrewards-can-become-unavailable"
+class_name: "M28Extrarewardstashv2SStashrewardsCanBecomeUnavailable"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6149 (Code4rena/veToken Finance)"
+help: "[M-28] ExtraRewardStashV2's stashRewards can become unavailable"
+wiki_title: "[M-28] ExtraRewardStashV2's stashRewards can become unavailable"
+wiki_description: |
+    _Submitted by hyh_
+    
+    There is no check for the reward token amount to be transferred out in stashRewards(). As reward token list is external (controlled with `IGauge(gauge).reward_tokens`), and an arbitrary token can end up there, in the case when such token doesn't allow for zero amount transfers, t
+wiki_exploit_scenario: |
+    Per Solodit #6149: _Submitted by hyh_
+    
+    There is no check for the reward token amount to be transferred out in stashRewards(). As reward token list is external (controlled with `IGauge(gauge).reward_tokens`), and an arbi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M28Extrarewardstashv2SStashrewardsCanBecomeUnavailable"
+solodit_id: "6149"
+solodit_slug: |
+    m-28-extrarewardstashv2s-stashrewards-can-become-unavailable-code4rena-vetoken-finance-vetoken-finance-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(stashRewards|amount|token).*"
+write_var_regex: ".*(amount|stashRewards|token).*"
+guard_var_regex: ".*(amount|stashRewards|token).*"
+vuln_fn_name: "stashRewards"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

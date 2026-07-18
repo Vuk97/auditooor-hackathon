@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "h-01-flash-swap-call-back-prior-to-transferring-tokens-in-indexp"
+class_name: "H01FlashSwapCallBackPriorToTransferringTokensInIndexp"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #24640 (Code4rena/Sushi)"
+help: "[H-01] Flash swap call back prior to transferring tokens in `indexPool`"
+wiki_title: "[H-01] Flash swap call back prior to transferring tokens in `indexPool`"
+wiki_description: |
+    _Submitted by broccoli, also found by 0xsanson and cmichel_
+    
+    #### Impact
+    In the `IndexPool` contract, `flashSwap` does not work.
+    The callback function is called prior to token transfer. The sender won't receive tokens in the callBack function.
+    `ITridentCallee(msg.sender).tridentSwapCallback(context)
+wiki_exploit_scenario: |
+    Per Solodit #24640: _Submitted by broccoli, also found by 0xsanson and cmichel_
+    
+    #### Impact
+    In the `IndexPool` contract, `flashSwap` does not work.
+    The callback function is called prior to token transfer. The sender won
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01FlashSwapCallBackPriorToTransferringTokensInIndexp"
+solodit_id: "24640"
+solodit_slug: "h-01-flash-swap-call-back-prior-to-transferring-tokens-in-indexpool-code4rena-sushi-sushi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amountin;"
+fn_name_regex: ".*(IndexPool|flashSwap|Flashswap|indexPools).*"
+write_var_regex: ".*(amountIn|flashSwap|indexPools).*"
+guard_var_regex: ".*(amountIn|flashSwap|indexPools).*"
+vuln_fn_name: "IndexPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amountin = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

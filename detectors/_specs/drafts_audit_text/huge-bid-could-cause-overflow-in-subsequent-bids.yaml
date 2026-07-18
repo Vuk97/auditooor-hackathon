@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "huge-bid-could-cause-overflow-in-subsequent-bids"
+class_name: "HugeBidCouldCauseOverflowInSubsequentBids"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Plaza Core Protocol - Zellic Audit Report"
+help: |
+    In Auction, insertSortedBid is called by the bid function to insert a new bid into the linked list of bids. Because there is no limit on the buyReserveAmount a bidder can bid, mali
+wiki_title: "Huge bid could cause overflow in subsequent bids"
+wiki_description: |
+    In Auction, insertSortedBid is called by the bid function to insert a new bid into the linked list of bids. Because there is no limit on the buyReserveAmount a bidder can bid, malicious bidders can set a buyReserveAmount as large as possible so that subsequent bids will fail due to overflow. functio
+wiki_exploit_scenario: |
+    Per audit finding: In Auction, insertSortedBid is called by the bid function to insert a new bid into the linked list of bids. Because there is no limit on the buyReserveAmount a bidder can bid, malicious bidders can se
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "HugeBidCouldCauseOverflowInSubsequentBids"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(insertSortedBid|buyReserveAmount|newBidIndex).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "insertSortedBid"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

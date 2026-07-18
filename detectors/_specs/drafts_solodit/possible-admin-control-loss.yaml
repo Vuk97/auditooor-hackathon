@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "possible-admin-control-loss"
+class_name: "PossibleAdminControlLoss"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28413 (MixBytes/Lido)"
+help: "Possible admin control loss"
+wiki_title: "Possible admin control loss"
+wiki_description: |
+    ##### Description
+    In the current version of protocol, admin can set address of a new admin to zero, which means that nobody can call admin functions after that:
+    https://github.com/lidofinance/steth-price-feed/blob/459495f07c97d04f6e3839e7a3b32acfcade22ad/contracts/PriceFeedProxy.sol#L106
+    https://git
+wiki_exploit_scenario: |
+    Per Solodit #28413: ##### Description
+    In the current version of protocol, admin can set address of a new admin to zero, which means that nobody can call admin functions after that:
+    https://github.com/lidofinance/steth-pr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleAdminControlLoss"
+solodit_id: "28413"
+solodit_slug: "possible-admin-control-loss-mixbytes-none-lido-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(newAdmin).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "newAdmin"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

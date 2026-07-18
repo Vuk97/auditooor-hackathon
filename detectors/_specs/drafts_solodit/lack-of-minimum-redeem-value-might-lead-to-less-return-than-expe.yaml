@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "lack-of-minimum-redeem-value-might-lead-to-less-return-than-expe"
+class_name: "LackOfMinimumRedeemValueMightLeadToLessReturnThanExpe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18205 (TrailOfBits/Origin Dollar)"
+help: "Lack of minimum redeem value might lead to less return than expected"
+wiki_title: "Lack of minimum redeem value might lead to less return than expected"
+wiki_description: |
+    ## Type: Undefined Behavior
+    **Target:** AaveStrategy.sol
+    
+    **Difficulty:** Low
+    
+    ## Description
+    The lack of a minimum redeem amount argument in the redeem functions could make a redeemer receive less assets than expected.
+    
+    ```solidity
+    if (redeemFeeBps > 0) {
+        uint256 redeemFee = _amount.mul(redeemF
+wiki_exploit_scenario: |
+    Per Solodit #18205: ## Type: Undefined Behavior
+    **Target:** AaveStrategy.sol
+    
+    **Difficulty:** Low
+    
+    ## Description
+    The lack of a minimum redeem amount argument in the redeem functions could make a redeemer receive less as
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfMinimumRedeemValueMightLeadToLessReturnThanExpe"
+solodit_id: "18205"
+solodit_slug: "lack-of-minimum-redeem-value-might-lead-to-less-return-than-expected-trailofbits-origin-dollar-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(redeemFeeBps|redeemFee).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "redeemFeeBps"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

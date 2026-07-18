@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "m-09-bkdlocker-depositfees-can-be-blocked"
+class_name: "M09BkdlockerDepositfeesCanBeBlocked"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2604 (Code4rena/Backd)"
+help: "[M-09] BkdLocker depositFees can be blocked"
+wiki_title: "[M-09] BkdLocker depositFees can be blocked"
+wiki_description: |
+    _Submitted by csanuragjain_
+    
+    burnFees will fail if none of the pool tokens have underlying token as native ETH token. This is shown below. Since burnFees fails so no fees is deposited in BKDLocker.
+    
+    ### Proof of Concept
+    
+    1.  Assume RewardHandler.sol has currently amount 5 as address(this).balance (e
+wiki_exploit_scenario: |
+    Per Solodit #2604: _Submitted by csanuragjain_
+    
+    burnFees will fail if none of the pool tokens have underlying token as native ETH token. This is shown below. Since burnFees fails so no fees is deposited in BKDLocker.
+    
+    #
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09BkdlockerDepositfeesCanBeBlocked"
+solodit_id: "2604"
+solodit_slug: "m-09-bkdlocker-depositfees-can-be-blocked-code4rena-backd-backd-tokenomics-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(burnFees|ethBalance|feeBurner|burnToTarget).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "burnFees"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

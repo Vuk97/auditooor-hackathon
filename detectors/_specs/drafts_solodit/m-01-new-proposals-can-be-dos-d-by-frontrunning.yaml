@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-01-new-proposals-can-be-dos-d-by-frontrunning"
+class_name: "M01NewProposalsCanBeDosDByFrontrunning"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18701 (ZachObront/Optimismgovernor.Md)"
+help: "[M-01] New proposals can be DOS'd by frontrunning"
+wiki_title: "[M-01] New proposals can be DOS'd by frontrunning"
+wiki_description: |
+    To create a new proposal using the `ApprovalVotingModule`, the Manager of the governor contract calls `proposeWithModule()`:
+    
+    ```solidity
+    function proposeWithModule(VotingModule module, bytes memory proposalData, string memory description)
+    public
+    onlyManager
+    returns (uint256)
+    {
+    require(
+    getVotes(_ms
+wiki_exploit_scenario: |
+    Per Solodit #18701: To create a new proposal using the `ApprovalVotingModule`, the Manager of the governor contract calls `proposeWithModule()`:
+    
+    ```solidity
+    function proposeWithModule(VotingModule module, bytes memory p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01NewProposalsCanBeDosDByFrontrunning"
+solodit_id: "18701"
+solodit_slug: "m-01-new-proposals-can-be-dosd-by-frontrunning-zachobront-none-optimismgovernormd-markdown_"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Front-Running, DOS"
+state_decl: "uint256 internal hashproposalwithmodule;"
+fn_name_regex: ".*(ApprovalVotingModule|proposeWithModule|proposalId|hashProposalWithModule).*"
+read_var_regex: ".*(hashProposalWithModule|proposalId|proposeWithModule).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ApprovalVotingModule"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return hashproposalwithmodule > 0;"

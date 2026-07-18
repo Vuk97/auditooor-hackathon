@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-alignment-safety-message"
+class_name: "MissingAlignmentSafetyMessage"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Pinocchio and p-token - Zellic Audit Report"
+help: |
+    The safety comment for InstructionContext::new_unchecked reads as follows: /// Creates a new [`InstructionContext`] for the input buffer. /// /// # Safety /// /// The caller must e
+wiki_title: "Missing alignment safety message"
+wiki_description: |
+    The safety comment for InstructionContext::new_unchecked reads as follows: /// Creates a new [`InstructionContext`] for the input buffer. /// /// # Safety /// /// The caller must ensure that the input buffer is valid, i.e., it represents /// the program input parameters serialized by the SVM loader.
+wiki_exploit_scenario: |
+    Per audit finding: The safety comment for InstructionContext::new_unchecked reads as follows: /// Creates a new [`InstructionContext`] for the input buffer. /// /// # Safety /// /// The caller must ensure that the input
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingAlignmentSafetyMessage"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(InstructionContext).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "InstructionContext"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

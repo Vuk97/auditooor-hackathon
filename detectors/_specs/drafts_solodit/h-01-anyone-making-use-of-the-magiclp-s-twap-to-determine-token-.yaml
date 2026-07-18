@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "h-01-anyone-making-use-of-the-magiclp-s-twap-to-determine-token-"
+class_name: "H01AnyoneMakingUseOfTheMagiclpSTwapToDetermineToken"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #32053 (Code4rena/Abracadabra Money)"
+help: "[H-01] Anyone making use of the MagicLP's TWAP to determine token prices will be exploitable."
+wiki_title: "[H-01] Anyone making use of the MagicLP's TWAP to determine token prices will be exploitable."
+wiki_description: |
+    MagicLP provides a TWAP value which can be accessed via `_BASE_PRICE_CUMULATIVE_LAST_`
+    
+    It is updated in the function below:
+    
+        function _twapUpdate() internal {
+            uint32 blockTimestamp = uint32(block.timestamp % 2 ** 32);
+            uint32 timeElapsed = blockTimestamp - _BLOCK_TIMESTAMP_LAST_
+wiki_exploit_scenario: |
+    Per Solodit #32053: MagicLP provides a TWAP value which can be accessed via `_BASE_PRICE_CUMULATIVE_LAST_`
+    
+    It is updated in the function below:
+    
+        function _twapUpdate() internal {
+            uint32 blockTimestamp = uin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01AnyoneMakingUseOfTheMagiclpSTwapToDetermineToken"
+solodit_id: "32053"
+solodit_slug: |
+    h-01-anyone-making-use-of-the-magiclps-twap-to-determine-token-prices-will-be-exploitable-code4rena-abracadabra-money-abracadabra-money-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(timeElapsed|getMidPrice|baseBalance|quoteBalance).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "timeElapsed"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

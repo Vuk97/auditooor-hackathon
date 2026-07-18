@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "potential-uninitialized-entropyslots-reading-in-getnextentro-x"
+class_name: "PotentialUninitializedEntropyslotsReadingInGetnextentroX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-traitforge"
+help: |
+    pep7siup , also found by anonymousjoe boredpukar amaron shaflow2 , and d3e4 The getNextEntropy function can be called at any time without waiting for the write entropy batches proc
+wiki_title: "Potential uninitialized entropySlots reading in getNextEntropy , causing 0 entropy mint"
+wiki_description: |
+    pep7siup , also found by anonymousjoe boredpukar amaron shaflow2 , and d3e4 The getNextEntropy function can be called at any time without waiting for the write entropy batches process to finish. This could lead to the function returning an uninitialized entropy value of 000000 , resulting in users l
+wiki_exploit_scenario: |
+    Per audit finding: pep7siup , also found by anonymousjoe boredpukar amaron shaflow2 , and d3e4 The getNextEntropy function can be called at any time without waiting for the write entropy batches process to finish. This
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialUninitializedEntropyslotsReadingInGetnextentroX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getNextEntropy|currentSlotIndex|lastInitializedIndex).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "getNextEntropy"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

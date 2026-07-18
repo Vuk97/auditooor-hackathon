@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "zero-address-rfqordersigner-allows-unrestricted-order-execution"
+class_name: "ZeroAddressRfqordersignerAllowsUnrestrictedOrderExecution"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56822 (MixBytes/XPress)"
+help: "Zero-Address `rfqOrderSigner` Allows Unrestricted Order Execution"
+wiki_title: "Zero-Address `rfqOrderSigner` Allows Unrestricted Order Execution"
+wiki_description: |
+    ##### Description
+    This issue has been identified within the `_swapWithRfqOrder` functions of the `RfqProxyLOB` contract. 
+    
+    If `rfqOrderSigner` is set to `address(0)`, the signature verification logic will treat any invalid signature as signed correctly, because `signer == rfqOrderSigner` trivially m
+wiki_exploit_scenario: |
+    Per Solodit #56822: ##### Description
+    This issue has been identified within the `_swapWithRfqOrder` functions of the `RfqProxyLOB` contract. 
+    
+    If `rfqOrderSigner` is set to `address(0)`, the signature verification logic
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ZeroAddressRfqordersignerAllowsUnrestrictedOrderExecution"
+solodit_id: "56822"
+solodit_slug: "zero-address-rfqordersigner-allows-unrestricted-order-execution-mixbytes-none-xpress-markdown"
+solodit_quality: "2"
+solodit_rarity: "3"
+solodit_tags: ""
+state_decl: "uint256 internal rfqordersigner;"
+fn_name_regex: ".*(RfqProxyLOB|rfqOrderSigner).*"
+write_var_regex: ".*(rfqOrderSigner).*"
+guard_var_regex: ".*(rfqOrderSigner).*"
+vuln_fn_name: "RfqProxyLOB"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "rfqordersigner = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "invalid-disputed-l2-block-number-is-passed-to-vm"
+class_name: "InvalidDisputedL2BlockNumberIsPassedToVm"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-optimism"
+help: |
+    xuwinnie The span of the game tree at split depth is far larger than the length between the starting block and the claimed block. When starting block + trace index + 1 > claimed bl
+wiki_title: "Invalid DISPUTED_L2_BLOCK_NUMBER is passed to VM"
+wiki_description: |
+    xuwinnie The span of the game tree at split depth is far larger than the length between the starting block and the claimed block. When starting block + trace index + 1 > claimed block , honest party should continue to commit to the root of the claimed block. However, the DISPUTED_L2_BLOCK_NUMBER pas
+wiki_exploit_scenario: |
+    Per audit finding: xuwinnie The span of the game tree at split depth is far larger than the length between the starting block and the claimed block. When starting block + trace index + 1 > claimed block , honest party s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InvalidDisputedL2BlockNumberIsPassedToVm"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(l1Head|addLocalData|startingPos).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "l1Head"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

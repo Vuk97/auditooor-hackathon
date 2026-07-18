@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "h-03-univ3vault-sol-collectearnings-can-be-front-run"
+class_name: "H03Univ3vaultSolCollectearningsCanBeFrontRun"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42370 (Code4rena/Mellow Protocol)"
+help: "[H-03] `UniV3Vault.sol#collectEarnings()` can be front run"
+wiki_title: "[H-03] `UniV3Vault.sol#collectEarnings()` can be front run"
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    For `UniV3Vault`, it seems that lp fees are collected through `collectEarnings()` callable by the `strategy` and reinvested (rebalanced).
+    
+    However, in the current implementation, unharvested yields are not included in `tvl()`, making it vulnerable to front-run attacks that s
+wiki_exploit_scenario: |
+    Per Solodit #42370: _Submitted by WatchPug_
+    
+    For `UniV3Vault`, it seems that lp fees are collected through `collectEarnings()` callable by the `strategy` and reinvested (rebalanced).
+    
+    However, in the current implementati
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03Univ3vaultSolCollectearningsCanBeFrontRun"
+solodit_id: "42370"
+solodit_slug: "h-03-univ3vaultsolcollectearnings-can-be-front-run-code4rena-mellow-protocol-mellow-protocol-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal collectearnings;"
+fn_name_regex: ".*(UniV3Vault|collectEarnings|strategy|tvl).*"
+read_var_regex: ".*(collectEarnings|strategy|tokensOwed).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "UniV3Vault"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return collectearnings > 0;"

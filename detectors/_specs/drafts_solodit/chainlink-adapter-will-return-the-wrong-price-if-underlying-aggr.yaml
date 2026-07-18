@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "chainlink-adapter-will-return-the-wrong-price-if-underlying-aggr"
+class_name: "ChainlinkAdapterWillReturnTheWrongPriceIfUnderlyingAggr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37392 (Zokyo/Paribus)"
+help: "Chainlink adapter will return the wrong price if underlying aggregator hits `minAnswer/maxAnswer`"
+wiki_title: "Chainlink adapter will return the wrong price if underlying aggregator hits `minAnswer/maxAnswer`"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**:  Resolved
+    
+    **Description**
+    
+    `ChainlinkAggregators` have a built-in circuit breaker in case prices go outside predetermined `minAnswer` and `maxAnswer` price bands. Therefore, if an asset suffers a huge loss in value, such as in case of the LUNA crash, the Chainlink
+wiki_exploit_scenario: |
+    Per Solodit #37392: **Severity**: Medium
+    
+    **Status**:  Resolved
+    
+    **Description**
+    
+    `ChainlinkAggregators` have a built-in circuit breaker in case prices go outside predetermined `minAnswer` and `maxAnswer` price bands. Th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainlinkAdapterWillReturnTheWrongPriceIfUnderlyingAggr"
+solodit_id: "37392"
+solodit_slug: |
+    chainlink-adapter-will-return-the-wrong-price-if-underlying-aggregator-hits-minanswermaxanswer-zokyo-none-paribus-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal maxanswer;"
+fn_name_regex: ".*(ChainlinkAggregators|minAnswer|maxAnswer).*"
+read_var_regex: ".*(maxAnswer|minAnswer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ChainlinkAggregators"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return maxanswer > 0;"

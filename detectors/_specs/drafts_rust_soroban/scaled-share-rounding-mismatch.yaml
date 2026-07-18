@@ -1,0 +1,21 @@
+id: scaled-share-rounding-mismatch
+title: "Scaled-share rounding mismatch between transfer validation and execution"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44848"
+bug_class: precision-loss
+indicators:
+  - "HF validation uses nominal underlying `amount`"
+  - "transfer/burn settles on scaled shares computed with `ray_div_up`, consuming a larger effective balance"
+  - "`balance_of_with_index` rounds half-up, treated as exact spendable"
+victim: "Protocol: undercollateralized positions pass HF check while transfer actually moves more collateral value."
+exploit_precondition: "Attacker crafts amounts near rounding boundaries."
+real_world_example: |
+  V12 #44848 (High): Scaled-share rounding mismatch breaks transfer and withdraw accounting.
+suggested_remediation: "Reconcile on the exact scaled-share delta; compute underlying from that delta with no-overpay rounding."
+cross_refs:
+  - burn-scaled-transfers-full-underlying-on-overshoot
+  - precision-loss-div-before-mul

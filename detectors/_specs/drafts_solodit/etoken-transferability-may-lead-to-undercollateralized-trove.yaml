@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "etoken-transferability-may-lead-to-undercollateralized-trove"
+class_name: "EtokenTransferabilityMayLeadToUndercollateralizedTrove"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #60122 (Quantstamp/Ethereum Reserve Dollar (ERD))"
+help: "EToken Transferability May Lead to Undercollateralized Trove"
+wiki_title: "EToken Transferability May Lead to Undercollateralized Trove"
+wiki_description: |
+    **Update**
+    Marked as "Fixed" by the client. Addressed in: `87680502edc325f16b93658111635ba482b9a5eb`. The client provided the following explanation:
+    
+    > Disabled transferability of EToken.
+    
+    **File(s) affected:**`EToken.sol`, `CollateralManager.sol`
+    
+    **Description:** ETokens require that the trove add
+wiki_exploit_scenario: |
+    Per Solodit #60122: **Update**
+    Marked as "Fixed" by the client. Addressed in: `87680502edc325f16b93658111635ba482b9a5eb`. The client provided the following explanation:
+    
+    > Disabled transferability of EToken.
+    
+    **File(s) a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EtokenTransferabilityMayLeadToUndercollateralizedTrove"
+solodit_id: "60122"
+solodit_slug: |
+    etoken-transferability-may-lead-to-undercollateralized-trove-quantstamp-ethereum-reserve-dollar-erd-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(validAdjustment|rETH|stETH).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

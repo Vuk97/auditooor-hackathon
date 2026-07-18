@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "treasury-withdrawals-will-revert-for-non-18-token-decimals"
+class_name: "TreasuryWithdrawalsWillRevertForNon18TokenDecimals"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62141 (Spearbit/Pendle Core v3)"
+help: "Treasury withdrawals will revert for non-18 token decimals"
+wiki_title: "Treasury withdrawals will revert for non-18 token decimals"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    **File:** Storage.sol  
+    **Lines:** 147-151
+    
+    ## Description
+    The `treasuryCash` is in scaled amounts, but it isn't unscaled to the raw amounts for withdrawals. As a result, it will revert for tokens with `scalingFactor > 1`, such as tokens that have less than 18 de
+wiki_exploit_scenario: |
+    Per Solodit #62141: ## Severity: Medium Risk
+    
+    ## Context
+    **File:** Storage.sol  
+    **Lines:** 147-151
+    
+    ## Description
+    The `treasuryCash` is in scaled amounts, but it isn't unscaled to the raw amounts for withdrawals. As a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TreasuryWithdrawalsWillRevertForNon18TokenDecimals"
+solodit_id: "62141"
+solodit_slug: "treasury-withdrawals-will-revert-for-non-18-token-decimals-spearbit-none-pendle-core-v3-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal treasurycash;"
+fn_name_regex: ".*(treasuryCash).*"
+read_var_regex: ".*(treasuryCash).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "treasuryCash"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return treasurycash > 0;"

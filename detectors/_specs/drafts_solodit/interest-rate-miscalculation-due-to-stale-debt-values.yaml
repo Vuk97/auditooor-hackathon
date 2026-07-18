@@ -1,0 +1,44 @@
+skeleton: "state_write_without_paired_write"
+name: "interest-rate-miscalculation-due-to-stale-debt-values"
+class_name: "InterestRateMiscalculationDueToStaleDebtValues"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28718 (MixBytes/AAVE)"
+help: "Interest Rate Miscalculation Due to Stale Debt Values"
+wiki_title: "Interest Rate Miscalculation Due to Stale Debt Values"
+wiki_description: |
+    ##### Description
+    
+    https://github.com/aave/protocol-v2/blob/f435b2fa0ac589852ca3dd6ae2b0fbfbc7079d54/contracts/lendingpool/LendingPoolCollateralManager.sol#L227-L232
+    
+    ```solidity
+    principalReserve.updateInterestRates(
+      principal,
+      principalReserve.aTokenAddress,
+      vars.actualAmountToLiquidate,
+      0
+wiki_exploit_scenario: |
+    Per Solodit #28718: ##### Description
+    
+    https://github.com/aave/protocol-v2/blob/f435b2fa0ac589852ca3dd6ae2b0fbfbc7079d54/contracts/lendingpool/LendingPoolCollateralManager.sol#L227-L232
+    
+    ```solidity
+    principalReserve.upda
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InterestRateMiscalculationDueToStaleDebtValues"
+solodit_id: "28718"
+solodit_slug: "interest-rate-miscalculation-due-to-stale-debt-values-mixbytes-none-aave-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(updateInterestRates).*"
+primary_var_regex: ".*(updateInterestRates).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

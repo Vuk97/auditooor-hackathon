@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "unsafe-cast-can-allow-users-to-permanently-mint-gold-tokens"
+class_name: "UnsafeCastCanAllowUsersToPermanentlyMintGoldTokens"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50499 (Halborn/Proof of Play / Pirate Nation)"
+help: "UNSAFE CAST CAN ALLOW USERS TO PERMANENTLY MINT GOLD TOKENS"
+wiki_title: "UNSAFE CAST CAN ALLOW USERS TO PERMANENTLY MINT GOLD TOKENS"
+wiki_description: |
+    ##### Description
+    
+    In the contract `StakingSystem`, the function `claimNavyStakeRewards()` is used to claim the Gold Tokens rewards for the Navy ships staked. This function calls the `_claimGameItemStakeRewards()` to calculate the `goldOwed`:
+    
+    #### StakingSystem.sol
+    
+    ```
+    function claimNavyStakeRewar
+wiki_exploit_scenario: |
+    Per Solodit #50499: ##### Description
+    
+    In the contract `StakingSystem`, the function `claimNavyStakeRewards()` is used to claim the Gold Tokens rewards for the Navy ships staked. This function calls the `_claimGameItemSt
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnsafeCastCanAllowUsersToPermanentlyMintGoldTokens"
+solodit_id: "50499"
+solodit_slug: |
+    unsafe-cast-can-allow-users-to-permanently-mint-gold-tokens-halborn-proof-of-play-proof-of-play-pirate-nation-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimnavystakerewards;"
+fn_name_regex: ".*(StakingSystem|claimNavyStakeRewards|goldOwed).*"
+write_var_regex: ".*(claimNavyStakeRewards|goldOwed).*"
+guard_var_regex: ".*(claimNavyStakeRewards|goldOwed).*"
+vuln_fn_name: "StakingSystem"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "claimnavystakerewards = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

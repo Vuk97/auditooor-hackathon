@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-25-amm-pool-can-be-drained-using-a-flashloan-and-calling-stabi"
+class_name: "M25AmmPoolCanBeDrainedUsingAFlashloanAndCallingStabi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42390 (Code4rena/Malt Finance)"
+help: "[M-25] AMM pool can be drained using a flashloan and calling `stabilize`"
+wiki_title: "[M-25] AMM pool can be drained using a flashloan and calling `stabilize`"
+wiki_description: |
+    _Submitted by stonesandtrees_
+    
+    All of the `rewardToken` in a given AMM pool can be removed from the AMM pool and distributed as LP rewards.
+    
+    #### Proof of Concept
+    
+    In the `stabilize` method in the `StabilizerNode` the initial check to see if the Malt price needs to be stabilized it uses a short peri
+wiki_exploit_scenario: |
+    Per Solodit #42390: _Submitted by stonesandtrees_
+    
+    All of the `rewardToken` in a given AMM pool can be removed from the AMM pool and distributed as LP rewards.
+    
+    #### Proof of Concept
+    
+    In the `stabilize` method in the `St
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M25AmmPoolCanBeDrainedUsingAFlashloanAndCallingStabi"
+solodit_id: "42390"
+solodit_slug: |
+    m-25-amm-pool-can-be-drained-using-a-flashloan-and-calling-stabilize-code4rena-malt-finance-malt-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(rewardToken|stabilize|StabilizerNode|UniswapHandler).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

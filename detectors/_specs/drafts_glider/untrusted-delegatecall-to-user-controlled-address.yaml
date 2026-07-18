@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "untrusted-delegatecall-to-user-controlled-address"
+class_name: "UntrustedDelegatecallToUserControlledAddress"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: untrusted-delegatecall-execution-during-initializa"
+help: "Untrusted Delegatecall to User-Controlled Address"
+wiki_title: "Untrusted Delegatecall to User-Controlled Address"
+wiki_description: |
+    Detects delegatecall operations where the target address comes from user input, function parameters, or mutable storage without proper validation or access control. Delegatecall executes code in the context of the calling contract, meaning an attacker-controlled target can completely take over the c
+wiki_exploit_scenario: |
+    Per Glider query tags [delegatecall, access control, critical, parity-hack, storage-collision]: Detects delegatecall operations where the target address comes from user input, function parameters, or mutable storage without proper validation or access control. Delegatecall executes code in the c
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "UntrustedDelegatecallToUserControlledAddress"
+fn_name_regex: ".*(onlyOwner).*"
+read_var_regex: ".*(onlyowner).*"
+required_call_regex: ".*(accrue|update|sync|validate|check).*"
+guarded_helper_name: "_guard"
+vuln_fn_name: "onlyOwner"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return onlyowner > 0;"
+state_decl: "uint256 internal onlyowner;"

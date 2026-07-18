@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "m-08-owner-of-fraxlendpair-can-set-arbitrary-time-lock-contract-"
+class_name: "M08OwnerOfFraxlendpairCanSetArbitraryTimeLockContract"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24837 (Code4rena/Frax Finance)"
+help: "[M-08] Owner of `FraxlendPair` can set arbitrary time lock contract address to circumvent time lock"
+wiki_title: "[M-08] Owner of `FraxlendPair` can set arbitrary time lock contract address to circumvent time lock"
+wiki_description: |
+    _Submitted by berndartmueller_
+    
+    The ownership of a deployed Fraxlend pair is transferred to `COMPTROLLER_ADDRESS` on deployment via `FraxlendPairDeployer_deploySecond`. This very owner is able to change the currently used time lock contract address with the `FraxlendPair.setTimeLock` function. A tim
+wiki_exploit_scenario: |
+    Per Solodit #24837: _Submitted by berndartmueller_
+    
+    The ownership of a deployed Fraxlend pair is transferred to `COMPTROLLER_ADDRESS` on deployment via `FraxlendPairDeployer_deploySecond`. This very owner is able to chan
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08OwnerOfFraxlendpairCanSetArbitraryTimeLockContract"
+solodit_id: "24837"
+solodit_slug: |
+    m-08-owner-of-fraxlendpair-can-set-arbitrary-time-lock-contract-address-to-circumvent-time-lock-code4rena-frax-finance-frax-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(setTimeLock).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,21 @@
+pattern: from-adv-unauthenticated-sync-data
+source: advisory-seed-corpus/unauthenticated_sync_data
+severity: MEDIUM
+confidence: MEDIUM
+backend: regex
+tags: [insufficient-data-authenticity]
+
+# CLASS-LEVEL mechanism detector auto-derived from 1 advisory seed(s).
+# Mechanism matched, not any instance. Anti-overfit verified by advisory-seed-to-dsl.py.
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-gvjc-3w7c-92jx
+
+preconditions: []
+
+match:
+  - function.kind: external_or_public
+  - function.body_contains_regex: "(?i)(restart_sync\\s*\\(|reset_sync\\s*\\(|self\\.\\s*sync_status\\s*\\.\\s*(?:lock|reset))"
+  - function.body_not_contains_regex: "(?i)(per[_-]?peer|peer[_-]?id|ban[_-]?peer|disconnect\\s*\\(\\s*peer|misbehav|penal|signature_?valid|merkle_?proof|checkpoint_?verified|verify_?pow)"
+
+help: "A sync/import path lets ONE peer's invalid data trigger a global action (restart_sync) or accepts external block/state without per-peer attribution or an authenticity proof - sync poisoning / single-peer DoS."
+wiki_title: "Unauthenticated Sync Data"
+wiki_description: "A sync/import path lets ONE peer's invalid data trigger a global action (restart_sync) or accepts external block/state without per-peer attribution or an authenticity proof - sync poisoning / single-peer DoS."

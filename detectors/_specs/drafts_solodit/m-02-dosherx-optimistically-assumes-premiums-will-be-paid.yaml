@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-02-dosherx-optimistically-assumes-premiums-will-be-paid"
+class_name: "M02DosherxOptimisticallyAssumesPremiumsWillBePaid"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25524 (Code4rena/Sherlock)"
+help: "[M-02] `_doSherX` optimistically assumes premiums will be paid"
+wiki_title: "[M-02] `_doSherX` optimistically assumes premiums will be paid"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `_doSherX` function does not attempt to pay off the accrued premiums ("pay off debt") for most tokens, only for the ones that would otherwise revert the tx:
+    
+    ```solidity
+    // Expensive operation, only execute to prevent tx reverts
+    if (amounts[i] > ps.sherXUnderlying) {
+      Li
+wiki_exploit_scenario: |
+    Per Solodit #25524: _Submitted by cmichel_
+    
+    The `_doSherX` function does not attempt to pay off the accrued premiums ("pay off debt") for most tokens, only for the ones that would otherwise revert the tx:
+    
+    ```solidity
+    //
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02DosherxOptimisticallyAssumesPremiumsWillBePaid"
+solodit_id: "25524"
+solodit_slug: "m-02-_dosherx-optimistically-assumes-premiums-will-be-paid-code4rena-sherlock-sherlock-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calcunderlying;"
+fn_name_regex: ".*(calcUnderlying).*"
+read_var_regex: ".*(calcUnderlying).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "calcUnderlying"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calcunderlying > 0;"

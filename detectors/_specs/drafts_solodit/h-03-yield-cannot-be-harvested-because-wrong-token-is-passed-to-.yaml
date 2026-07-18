@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-03-yield-cannot-be-harvested-because-wrong-token-is-passed-to-"
+class_name: "H03YieldCannotBeHarvestedBecauseWrongTokenIsPassedTo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18688 (ZachObront/Olympusdao)"
+help: "[H-03] Yield cannot be harvested because wrong token is passed to Incentives Controller"
+wiki_title: "[H-03] Yield cannot be harvested because wrong token is passed to Incentives Controller"
+wiki_description: |
+    In order to harvest rewards from Silo, the SiloAMO contains a `harvestYield()` function. This function checks the rewards balance of the contract, and then calls `claimRewards()` to claim them.
+    
+    ```solidity
+    function harvestYield() external {
+    ISiloIncentivesController incentivesController_ = ISiloInc
+wiki_exploit_scenario: |
+    Per Solodit #18688: In order to harvest rewards from Silo, the SiloAMO contains a `harvestYield()` function. This function checks the rewards balance of the contract, and then calls `claimRewards()` to claim them.
+    
+    ```so
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03YieldCannotBeHarvestedBecauseWrongTokenIsPassedTo"
+solodit_id: "18688"
+solodit_slug: |
+    h-03-yield-cannot-be-harvested-because-wrong-token-is-passed-to-incentives-controller-zachobront-none-olympusdao-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimrewards;"
+fn_name_regex: ".*(harvestYield|claimRewards|OHM|totalSupply).*"
+read_var_regex: ".*(claimRewards|harvestYield|totalSupply).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "harvestYield"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimrewards > 0;"

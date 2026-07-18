@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_require"
+name: "h-01-calling-splitvalue-when-token-index-is-not-the-latest-will-"
+class_name: "H01CallingSplitvalueWhenTokenIndexIsNotTheLatestWill"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20449 (Pashov Audit Group/Hypercerts)"
+help: "[H-01] Calling `splitValue` when token index is not the latest will overwrite other claims' storage"
+wiki_title: "[H-01] Calling `splitValue` when token index is not the latest will overwrite other claims' storage"
+wiki_description: |
+    **Impact:**
+    High, as it can lead to loss of units for an account without any action on his side
+    
+    **Likelihood:**
+    Medium, because it can happen only with a token that has a non-latest index
+    
+    **Description**
+    
+    The logic in `_splitValue` is flawed here:
+    
+    ```solidity
+    uint256 currentID = _tokenID;
+    ...
+    toI
+wiki_exploit_scenario: |
+    Per Solodit #20449: **Impact:**
+    High, as it can lead to loss of units for an account without any action on his side
+    
+    **Likelihood:**
+    Medium, because it can happen only with a token that has a non-latest index
+    
+    **Descript
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01CallingSplitvalueWhenTokenIndexIsNotTheLatestWill"
+solodit_id: "20449"
+solodit_slug: |
+    h-01-calling-splitvalue-when-token-index-is-not-the-latest-will-overwrite-other-claims-storage-pashov-none-hypercerts-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal splitvalue;"
+fn_name_regex: ".*(splitValue|tokenValues).*"
+write_var_regex: ".*(splitValue|tokenValues).*"
+guard_var_regex: ".*(splitValue|tokenValues).*"
+vuln_fn_name: "splitValue"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "splitvalue = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

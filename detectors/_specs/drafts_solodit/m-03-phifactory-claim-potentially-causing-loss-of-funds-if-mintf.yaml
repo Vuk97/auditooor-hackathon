@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m-03-phifactory-claim-potentially-causing-loss-of-funds-if-mintf"
+class_name: "M03PhifactoryClaimPotentiallyCausingLossOfFundsIfMintf"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41096 (Code4rena/Phi)"
+help: "[M-03] `PhiFactory:claim` potentially causing loss of funds if `mintFee` changed beforehand"
+wiki_title: "[M-03] `PhiFactory:claim` potentially causing loss of funds if `mintFee` changed beforehand"
+wiki_description: |
+    If the `mintFee` was lowered by the Art creator via `updateArtSettings` before the `claim` was executed, the `msg.value` from user would become larger than the updated value of `mintFee`. As the function does not validate `msg.value` and consumes the `mintFee` directly, the excess ETH sent by the u
+wiki_exploit_scenario: |
+    Per Solodit #41096: If the `mintFee` was lowered by the Art creator via `updateArtSettings` before the `claim` was executed, the `msg.value` from user would become larger than the updated value of `mintFee`. As the func
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03PhifactoryClaimPotentiallyCausingLossOfFundsIfMintf"
+solodit_id: "41096"
+solodit_slug: |
+    m-03-phifactoryclaim-potentially-causing-loss-of-funds-if-mintfee-changed-beforehand-code4rena-phi-phi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claim;"
+fn_name_regex: ".*(mintFee|updateArtSettings|claim|PhiFactory).*"
+read_var_regex: ".*(claim|externally|merkleClaim).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mintFee"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claim > 0;"

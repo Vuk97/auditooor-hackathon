@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "floodplain-selector-extension-does-not-prevent-ifulfiller-source"
+class_name: "FloodplainSelectorExtensionDoesNotPreventIfulfillerSource"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56966 (Cyfrin/Bunni)"
+help: |
+    `FloodPlain` selector extension does not prevent `IFulfiller::sourceConsideration` callback from being called within pre/post hooks
+wiki_title: |
+    `FloodPlain` selector extension does not prevent `IFulfiller::sourceConsideration` callback from being called within pre/post hooks
+wiki_description: |
+    **Description:** The `FloodPlain` contracts implement a check in `Hooks::execute` which intends to prevent spoofing by invoking the fulfiller callback during execution of the pre/post hooks:
+    
+    ```solidity
+        bytes28 constant SELECTOR_EXTENSION = bytes28(keccak256("IFulfiller.sourceConsiderations"
+wiki_exploit_scenario: |
+    Per Solodit #56966: **Description:** The `FloodPlain` contracts implement a check in `Hooks::execute` which intends to prevent spoofing by invoking the fulfiller callback during execution of the pre/post hooks:
+    
+    ```sol
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FloodplainSelectorExtensionDoesNotPreventIfulfillerSource"
+solodit_id: "56966"
+solodit_slug: |
+    floodplain-selector-extension-does-not-prevent-ifulfillersourceconsideration-callback-from-being-called-within-prepost-hooks-cyfrin-none-bunni-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal selectorextension;"
+fn_name_regex: ".*(FloodPlain|sourceConsideration|sourceConsiderations|selectorExtension).*"
+write_var_regex: ".*(selectorExtension|sourceConsideration|sourceConsiderations).*"
+guard_var_regex: ".*(selectorExtension|sourceConsideration|sourceConsiderations).*"
+vuln_fn_name: "FloodPlain"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "selectorextension = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

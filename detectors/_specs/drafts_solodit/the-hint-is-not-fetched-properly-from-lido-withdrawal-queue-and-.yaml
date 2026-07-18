@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "the-hint-is-not-fetched-properly-from-lido-withdrawal-queue-and-"
+class_name: "TheHintIsNotFetchedProperlyFromLidoWithdrawalQueueAnd"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #46432 (Cantina/Balmy)"
+help: |
+    The hint is not fetched properly from lido withdrawal queue and make all lido delayed with- draw revert
+wiki_title: |
+    The hint is not fetched properly from lido withdrawal queue and make all lido delayed with- draw revert 
+wiki_description: |
+    ## LidoSTETHDelayedWithdrawalAdapter.sol
+    
+    ## Context
+    LidoSTETHDelayedWithdrawalAdapter.sol#L173-L175
+    
+    ## Description
+    ```solidity
+    uint256[] memory hints = _queue.findCheckpointHints(requestsToClaim, 1, requestsToClaim.length + 1);
+    ```
+    The `hints` are fetched using the code above. According to the cod
+wiki_exploit_scenario: |
+    Per Solodit #46432: ## LidoSTETHDelayedWithdrawalAdapter.sol
+    
+    ## Context
+    LidoSTETHDelayedWithdrawalAdapter.sol#L173-L175
+    
+    ## Description
+    ```solidity
+    uint256[] memory hints = _queue.findCheckpointHints(requestsToClaim, 1,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheHintIsNotFetchedProperlyFromLidoWithdrawalQueueAnd"
+solodit_id: "46432"
+solodit_slug: |
+    the-hint-is-not-fetched-properly-from-lido-withdrawal-queue-and-make-all-lido-delayed-with-draw-revert-cantina-none-balmy-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal findcheckpointshints;"
+fn_name_regex: ".*(hints|firstIndex|getLastCheckpointIndex|findCheckpointsHints).*"
+read_var_regex: ".*(findCheckpointsHints|firstIndex|getLastCheckpointIndex).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "hints"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return findcheckpointshints > 0;"

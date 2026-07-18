@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "mevbot-0xdd7c-2024-07"
+class_name: "Mevbot0xdd7c202407"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-07/MEVbot_0xdd7c_exp.sol"
+help: "MEVbot_0xdd7c 2024-07 — reentrancy exploit (unknown)"
+wiki_title: "MEVbot_0xdd7c (2024-07) — reentrancy"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-07): MEVbot_0xdd7c lost unknown. Bug class: reentrancy. Attack tx: unknown.
+wiki_exploit_scenario: |
+    Attacker (0x98250d30aed204e5cbb8fef7f099bc68dbc4b896) exploits MEVbot_0xdd7c via reentrancy: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Apply the nonReentrant modifier (OZ ReentrancyGuard) to every externally-callable state-mutating entry point that transfers value, and follow the checks-effects-interactions pattern.
+contract_name: "Mevbot0xdd7c202407"
+fn_name_regex: ".*(withdraw).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(nonReentrant).*"
+guarded_helper_name: "nonReentrant"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

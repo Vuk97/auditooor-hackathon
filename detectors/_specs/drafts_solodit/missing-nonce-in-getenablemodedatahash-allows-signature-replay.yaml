@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "missing-nonce-in-getenablemodedatahash-allows-signature-replay"
+class_name: "MissingNonceInGetenablemodedatahashAllowsSignatureReplay"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36589 (Codehawks/Biconomy: Nexus)"
+help: "Missing nonce in `_getEnableModeDataHash()` allows signature replay"
+wiki_title: "Missing nonce in `_getEnableModeDataHash()` allows signature replay"
+wiki_description: |
+    ## Summary
+    
+    `_getEnableModeDataHash()` doesn't include a nonce, thereby allowing enable mode signatures to be replayed.
+    
+    ## Vulnerability Details
+    
+    When Nexus account owners send a transaction with enable mode in `PackedUserOperation.nonce`, [`validateUserOp()`](https://github.com/Cyfrin/2024-07-bico
+wiki_exploit_scenario: |
+    Per Solodit #36589: ## Summary
+    
+    `_getEnableModeDataHash()` doesn't include a nonce, thereby allowing enable mode signatures to be replayed.
+    
+    ## Vulnerability Details
+    
+    When Nexus account owners send a transaction with ena
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingNonceInGetenablemodedatahashAllowsSignatureReplay"
+solodit_id: "36589"
+solodit_slug: "missing-nonce-in-_getenablemodedatahash-allows-signature-replay-codehawks-biconomy-nexus-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal enablemodesignature;"
+fn_name_regex: ".*(validateUserOp|module|moduleInitData|enableModeSignature).*"
+read_var_regex: ".*(enableModeSignature|module|moduleInitData).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "validateUserOp"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return enablemodesignature > 0;"

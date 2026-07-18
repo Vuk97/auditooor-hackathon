@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "using-fee-on-transfer-tokens-to-fund-distribution-proposals-crea"
+class_name: "UsingFeeOnTransferTokensToFundDistributionProposalsCrea"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27307 (Cyfrin/Dexe)"
+help: |
+    Using fee-on-transfer tokens to fund distribution proposals creates under-funded proposals which causes claiming rewards to revert
+wiki_title: |
+    Using fee-on-transfer tokens to fund distribution proposals creates under-funded proposals which causes claiming rewards to revert
+wiki_description: |
+    **Description:** `DistributionProposal::execute()` [L67](https://github.com/dexe-network/DeXe-Protocol/tree/f2fe12eeac0c4c63ac39670912640dc91d94bda5/contracts/gov/proposals/DistributionProposal.sol#L67) doesn't account for Fee-On-Transfer tokens but sets `proposal.rewardAmount` to the input `amount`
+wiki_exploit_scenario: |
+    Per Solodit #27307: **Description:** `DistributionProposal::execute()` [L67](https://github.com/dexe-network/DeXe-Protocol/tree/f2fe12eeac0c4c63ac39670912640dc91d94bda5/contracts/gov/proposals/DistributionProposal.sol#L6
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsingFeeOnTransferTokensToFundDistributionProposalsCrea"
+solodit_id: "27307"
+solodit_slug: |
+    using-fee-on-transfer-tokens-to-fund-distribution-proposals-creates-under-funded-proposals-which-causes-claiming-rewards-to-revert-cyfrin-none-cyfrin-dexe-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(amount|DistributionProposal).*"
+read_var_regex: ".*(amount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "amount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

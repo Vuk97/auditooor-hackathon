@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "no-money-back"
+class_name: "NoMoneyBack"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57471 (Zokyo/Tokensfarm)"
+help: "No money back."
+wiki_title: "No money back."
+wiki_description: |
+    **Description**
+    
+    TokensFarm.sol / Perpetual TokensFarm, function deposit / makeDepositRequest
+    
+    If the farm contracts allow commission via eth (isFlatFeeAllowed), and the user sends eth more than the required limit, the rest will not be returned to him.
+    
+    **Recommendation**
+    
+    Add the processing of this
+wiki_exploit_scenario: |
+    Per Solodit #57471: **Description**
+    
+    TokensFarm.sol / Perpetual TokensFarm, function deposit / makeDepositRequest
+    
+    If the farm contracts allow commission via eth (isFlatFeeAllowed), and the user sends eth more than the r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoMoneyBack"
+solodit_id: "57471"
+solodit_slug: "no-money-back-zokyo-none-tokensfarm-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(makeDepositRequest|isFlatFeeAllowed).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "makeDepositRequest"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "stale-oracle-price-risk"
+class_name: "StaleOraclePriceRisk"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit d3-doma - Zellic Audit Report"
+help: |
+    This issue is related to price-data reliability. When the ProxyDomaRecord::getNativePrice function queries the USD price of native currency using the Chainlink oracle, validation l
+wiki_title: "Stale oracle price risk"
+wiki_description: |
+    This issue is related to price-data reliability. When the ProxyDomaRecord::getNativePrice function queries the USD price of native currency using the Chainlink oracle, validation logic to check whether the returned price data is stale is missing. The current implementation simply retrieves the price
+wiki_exploit_scenario: |
+    Per audit finding: This issue is related to price-data reliability. When the ProxyDomaRecord::getNativePrice function queries the USD price of native currency using the Chainlink oracle, validation logic to check whethe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StaleOraclePriceRisk"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getNativePrice).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "getNativePrice"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "reentrancy-to-unicrowclaim-can-claim-twice"
+class_name: "ReentrancyToUnicrowclaimCanClaimTwice"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #21040 (AuditOne/Unicrow)"
+help: "Reentrancy to UnicrowClaim can claim twice"
+wiki_title: "Reentrancy to UnicrowClaim can claim twice"
+wiki_description: |
+    **Description:** 
+    
+    In function `refund()`,it set `claimed = 1`after withdrawing to buyer. If currency is native token or ERC777 with hook,buyer can take control of the execution flow and call `UnicrowClaim.singleClaim()`function. Since `claimed`is not set and consensus are set to positive value,it w
+wiki_exploit_scenario: |
+    Per Solodit #21040: **Description:** 
+    
+    In function `refund()`,it set `claimed = 1`after withdrawing to buyer. If currency is native token or ERC777 with hook,buyer can take control of the execution flow and call `Unicrow
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyToUnicrowclaimCanClaimTwice"
+solodit_id: "21040"
+solodit_slug: "reentrancy-to-unicrowclaim-can-claim-twice-auditone-none-unicrow-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimed;"
+fn_name_regex: ".*(refund|claimed|setClaimed).*"
+read_var_regex: ".*(claimed|refund|setClaimed).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "refund"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimed > 0;"

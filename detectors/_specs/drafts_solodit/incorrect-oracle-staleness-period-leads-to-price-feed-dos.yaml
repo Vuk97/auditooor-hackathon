@@ -1,0 +1,44 @@
+skeleton: "state_write_without_paired_write"
+name: "incorrect-oracle-staleness-period-leads-to-price-feed-dos"
+class_name: "IncorrectOracleStalenessPeriodLeadsToPriceFeedDos"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61525 (TrailOfBits/CAP Labs Covered Agent Protocol)"
+help: "Incorrect oracle staleness period leads to price feed DoS"
+wiki_title: "Incorrect oracle staleness period leads to price feed DoS"
+wiki_description: |
+    ## Difficulty: High
+    
+    ## Type: Configuration
+    
+    ## Description
+    The PriceOracle uses a unique staleness period for all price feeds, despite different assets having varying update frequencies (heartbeats), causing denial of service in price retrieval functions for some assets. 
+    
+    ```solidity
+    /// @dev Init
+wiki_exploit_scenario: |
+    Per Solodit #61525: ## Difficulty: High
+    
+    ## Type: Configuration
+    
+    ## Description
+    The PriceOracle uses a unique staleness period for all price feeds, despite different assets having varying update frequencies (heartbeats),
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectOracleStalenessPeriodLeadsToPriceFeedDos"
+solodit_id: "61525"
+solodit_slug: |
+    incorrect-oracle-staleness-period-leads-to-price-feed-dos-trailofbits-none-cap-labs-covered-agent-protocol-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(onlyInitializing|getPriceOracleStorage|accessControl|getPrice).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

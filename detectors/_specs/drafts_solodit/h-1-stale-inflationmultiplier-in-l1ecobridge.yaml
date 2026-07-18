@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "h-1-stale-inflationmultiplier-in-l1ecobridge"
+class_name: "H1StaleInflationmultiplierInL1ecobridge"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18609 (Sherlock/Eco Protocol)"
+help: "H-1: Stale inflationMultiplier in L1ECOBridge"
+wiki_title: "H-1: Stale inflationMultiplier in L1ECOBridge"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-05-ecoprotocol-judging/issues/126 
+    
+    ## Found by 
+    0xRobocop, Dug, GimelSec, J4de, n33k, nobody2018, toshii
+    ## Summary 
+    
+    `L1ECOBridge::inflationMultiplier` is updated through `L1ECOBridge::rebase` on Ethereum, and it is used in `_initiateERC20Deposit` and
+wiki_exploit_scenario: |
+    Per Solodit #18609: Source: https://github.com/sherlock-audit/2023-05-ecoprotocol-judging/issues/126 
+    
+    ## Found by 
+    0xRobocop, Dug, GimelSec, J4de, n33k, nobody2018, toshii
+    ## Summary 
+    
+    `L1ECOBridge::inflationMultiplier`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1StaleInflationmultiplierInL1ecobridge"
+solodit_id: "18609"
+solodit_slug: "h-1-stale-inflationmultiplier-in-l1ecobridge-sherlock-none-eco-protocol-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(finalizeERC20Withdrawal|rebase|inflationMultiplier|transferFrom).*"
+primary_var_regex: ".*(finalizeERC20Withdrawal|inflationMultiplier|rebase).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

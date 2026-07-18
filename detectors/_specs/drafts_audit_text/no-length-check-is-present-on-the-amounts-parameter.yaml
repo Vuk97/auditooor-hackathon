@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "no-length-check-is-present-on-the-amounts-parameter"
+class_name: "NoLengthCheckIsPresentOnTheAmountsParameter"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Polygon Staking - Zellic Audit Report"
+help: |
+    The depositQueuedTokens and forceUnbond functions both take in an _amounts array that is expected to match the length of the _vaultIds array: function depositQueuedTokens( uint256[
+wiki_title: "No length check is present on the amounts parameter"
+wiki_description: |
+    The depositQueuedTokens and forceUnbond functions both take in an _amounts array that is expected to match the length of the _vaultIds array: function depositQueuedTokens( uint256[] calldata _vaultIds, uint256[] calldata _amounts ) external onlyFundFlowController { // [...] for (uint256 i = 0; i < _
+wiki_exploit_scenario: |
+    Per audit finding: The depositQueuedTokens and forceUnbond functions both take in an _amounts array that is expected to match the length of the _vaultIds array: function depositQueuedTokens( uint256[] calldata _vaultIds
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoLengthCheckIsPresentOnTheAmountsParameter"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositQueuedTokens|forceUnbond|onlyFundFlowController).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "depositQueuedTokens"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

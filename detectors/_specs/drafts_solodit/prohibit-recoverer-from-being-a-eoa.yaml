@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "prohibit-recoverer-from-being-a-eoa"
+class_name: "ProhibitRecovererFromBeingAEoa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30504 (MixBytes/Kinto)"
+help: "Prohibit `_recoverer` from being a EOA"
+wiki_title: "Prohibit `_recoverer` from being a EOA"
+wiki_description: |
+    ##### Description
+    
+    - https://github.com/KintoXYZ/kinto-core/blob/f7dd98f66b9dfba1f73758703b808051196e740b/src/wallet/KintoWallet.sol#L93
+    
+    In the current architecture it is not allowed to call `KintoWallet` directly. Thus, the `startRecovery` and `finishRecovery` methods are not available to EOA.
+    
+    Us
+wiki_exploit_scenario: |
+    Per Solodit #30504: ##### Description
+    
+    - https://github.com/KintoXYZ/kinto-core/blob/f7dd98f66b9dfba1f73758703b808051196e740b/src/wallet/KintoWallet.sol#L93
+    
+    In the current architecture it is not allowed to call `KintoWa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProhibitRecovererFromBeingAEoa"
+solodit_id: "30504"
+solodit_slug: "prohibit-_recoverer-from-being-a-eoa-mixbytes-none-kinto-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal finishrecovery;"
+fn_name_regex: ".*(KintoWallet|startRecovery|finishRecovery|recoverer).*"
+read_var_regex: ".*(finishRecovery|recoverer|startRecovery).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "KintoWallet"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return finishrecovery > 0;"

@@ -1,0 +1,34 @@
+skeleton: "paired_function_divergence"
+name: "m-08-users-can-t-remove-liquidity-while-a-pool-is-disabled"
+class_name: "M08UsersCanTRemoveLiquidityWhileAPoolIsDisabled"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41526 (Code4rena/Superposition)"
+help: "[M-08] Users can't remove liquidity while a pool is disabled"
+wiki_title: "[M-08] Users can't remove liquidity while a pool is disabled"
+wiki_description: |
+    There is a functionality for disabling a pool in case of unforeseen circumstances or if a problem occurs. While the pool is disabled the users should not be able to do certain actions but removing their liquidity should not be one of them.
+    
+    When a problem occurs in the pool, users should be able to
+wiki_exploit_scenario: |
+    Per Solodit #41526: There is a functionality for disabling a pool in case of unforeseen circumstances or if a problem occurs. While the pool is disabled the users should not be able to do certain actions but removing th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08UsersCanTRemoveLiquidityWhileAPoolIsDisabled"
+solodit_id: "41526"
+solodit_slug: "m-08-users-cant-remove-liquidity-while-a-pool-is-disabled-code4rena-superposition-superposition-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(delta|update_position|update_position_internal).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

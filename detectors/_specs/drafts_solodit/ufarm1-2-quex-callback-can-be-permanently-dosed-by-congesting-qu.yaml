@@ -1,0 +1,40 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "ufarm1-2-quex-callback-can-be-permanently-dosed-by-congesting-qu"
+class_name: "Ufarm12QuexCallbackCanBePermanentlyDosedByCongestingQu"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62437 (Hexens/Ufarm)"
+help: "[UFARM1-2] Quex callback can be permanently DoSed by congesting queues"
+wiki_title: "[UFARM1-2] Quex callback can be permanently DoSed by congesting queues"
+wiki_description: |
+    **Severity:** Critical
+    
+    **Path:** main/contracts/pool/UFarmPool.sol:quexCallback (L881-1007)
+    
+    **Description:** The UFarmPool contract uses the Quex Oracle to query off-chain information, namely the total value of the pool (`_totalCost`). 
+    
+    Any deposit or withdrawal action will add this action to the
+wiki_exploit_scenario: |
+    Per Solodit #62437: **Severity:** Critical
+    
+    **Path:** main/contracts/pool/UFarmPool.sol:quexCallback (L881-1007)
+    
+    **Description:** The UFarmPool contract uses the Quex Oracle to query off-chain information, namely the to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Ufarm12QuexCallbackCanBePermanentlyDosedByCongestingQu"
+solodit_id: "62437"
+solodit_slug: "ufarm1-2-quex-callback-can-be-permanently-dosed-by-congesting-queues-hexens-none-ufarm-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(depositQueue|withdrawQueue|quexCallback).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

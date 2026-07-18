@@ -1,0 +1,33 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-04-dao-execute-bytes32-action-uint256-is-vulnerable-to-re-entr"
+class_name: "M04DaoExecuteBytes32ActionUint256IsVulnerableToReEntr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29070 (Code4rena/Aragon Protocol)"
+help: "[M-04] `DAO.execute`(`bytes32`, `Action[]`, `uint256`) is vulnerable to re-entrancy attacks"
+wiki_title: "[M-04] `DAO.execute`(`bytes32`, `Action[]`, `uint256`) is vulnerable to re-entrancy attacks"
+wiki_description: |
+    The present implementation permits the execution of a predetermined sequence of instructions, where the order of execution is at times crucial, as described [in the documentation](https://devs.aragon.org/docs/osx/how-it-works/core/dao/actions):
+    
+    > Imagine a DAO is currently governed by a multisig (
+wiki_exploit_scenario: |
+    Per Solodit #29070: The present implementation permits the execution of a predetermined sequence of instructions, where the order of execution is at times crucial, as described [in the documentation](https://devs.aragon
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04DaoExecuteBytes32ActionUint256IsVulnerableToReEntr"
+solodit_id: "29070"
+solodit_slug: |
+    m-04-daoexecutebytes32-action-uint256-is-vulnerable-to-re-entrancy-attacks-code4rena-aragon-protocol-aragon-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(DAOsWilling|executeDaosWilling).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

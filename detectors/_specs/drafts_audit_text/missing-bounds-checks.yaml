@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "missing-bounds-checks"
+class_name: "MissingBoundsChecks"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Maia DAO Partner Vault - Zellic Audit Report"
+help: |
+    Values in the EnumerableAddressToUint92MapLib library cannot exceed 296 , and doing so would lead to corrupting the key-value pair, because these are ORed together. function joinKe
+wiki_title: "Missing bounds checks"
+wiki_description: |
+    Values in the EnumerableAddressToUint92MapLib library cannot exceed 296 , and doing so would lead to corrupting the key-value pair, because these are ORed together. function joinKeyValue(address key, uint256 value) internal pure returns (bytes32 keyValuePair) { /// @solidity memory-safe-assembly ass
+wiki_exploit_scenario: |
+    Per audit finding: Values in the EnumerableAddressToUint92MapLib library cannot exceed 296 , and doing so would lead to corrupting the key-value pair, because these are ORed together. function joinKeyValue(address key,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingBoundsChecks"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

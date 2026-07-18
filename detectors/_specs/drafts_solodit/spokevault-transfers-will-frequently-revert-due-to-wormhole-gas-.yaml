@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "spokevault-transfers-will-frequently-revert-due-to-wormhole-gas-"
+class_name: "SpokevaultTransfersWillFrequentlyRevertDueToWormholeGas"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44292 (Cyfrin/M)"
+help: "SpokeVault transfers will frequently revert due to Wormhole gas fee fluctuations"
+wiki_title: "SpokeVault transfers will frequently revert due to Wormhole gas fee fluctuations"
+wiki_description: |
+    **Description:** The `SpokeVault.transferExcessM()` function forwards ETH to pay for Wormhole gas fees, but any excess ETH sent will cause the transaction to revert since `SpokeVault` lacks capability to receive ETH refunds. Current implementation only works if the user sends a fee that is exactly e
+wiki_exploit_scenario: |
+    Per Solodit #44292: **Description:** The `SpokeVault.transferExcessM()` function forwards ETH to pay for Wormhole gas fees, but any excess ETH sent will cause the transaction to revert since `SpokeVault` lacks capability
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SpokevaultTransfersWillFrequentlyRevertDueToWormholeGas"
+solodit_id: "44292"
+solodit_slug: |
+    spokevault-transfers-will-frequently-revert-due-to-wormhole-gas-fee-fluctuations-cyfrin-none-m-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal transferexcessm;"
+fn_name_regex: ".*(SpokeVault|transferExcessM).*"
+read_var_regex: ".*(transferExcessM).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SpokeVault"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return transferexcessm > 0;"

@@ -1,0 +1,47 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-1-cnumatoken-leveragestrategy-can-be-re-entered-causing-all-th"
+class_name: "H1CnumatokenLeveragestrategyCanBeReEnteredCausingAllTh"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45276 (Sherlock/Numa)"
+help: |
+    H-1: CNumaToken.leverageStrategy() can be re-entered, causing all the vault funds to be moved to a cToken, crashing NUMA price.
+wiki_title: |
+    H-1: CNumaToken.leverageStrategy() can be re-entered, causing all the vault funds to be moved to a cToken, crashing NUMA price.
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-12-numa-audit-judging/issues/39 
+    
+    ## Found by 
+    Vidus, jokr, juaan
+    
+    ### Summary
+    
+    [`CNumaToken.leverageStrategy()`](https://github.com/sherlock-audit/2024-12-numa-audit/blob/ae1d7781efb4cb2c3a40c642887ddadeecabb97d/Numa/contracts/lending/CNumaToken
+wiki_exploit_scenario: |
+    Per Solodit #45276: Source: https://github.com/sherlock-audit/2024-12-numa-audit-judging/issues/39 
+    
+    ## Found by 
+    Vidus, jokr, juaan
+    
+    ### Summary
+    
+    [`CNumaToken.leverageStrategy()`](https://github.com/sherlock-audi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1CnumatokenLeveragestrategyCanBeReEnteredCausingAllTh"
+solodit_id: "45276"
+solodit_slug: |
+    h-1-cnumatokenleveragestrategy-can-be-re-entered-causing-all-the-vault-funds-to-be-moved-to-a-ctoken-crashing-numa-price-sherlock-numa-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(leverageStrategy|repayLeverage|leverageDebt|FakeCollateral).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

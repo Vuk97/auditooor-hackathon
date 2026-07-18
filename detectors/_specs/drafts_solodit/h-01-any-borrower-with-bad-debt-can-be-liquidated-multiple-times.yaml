@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "h-01-any-borrower-with-bad-debt-can-be-liquidated-multiple-times"
+class_name: "H01AnyBorrowerWithBadDebtCanBeLiquidatedMultipleTimes"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #24828 (Code4rena/Frax Finance)"
+help: "[H-01] Any borrower with bad debt can be liquidated multiple times to lock funds in the lending pair"
+wiki_title: "[H-01] Any borrower with bad debt can be liquidated multiple times to lock funds in the lending pair"
+wiki_description: |
+    _Submitted by panprog, also found by 0xA5DF and Lambda_
+    
+    Leftover shares in `liquidateClean` are only subtracted from pair totals, but not from user's borrowed shares. This means that after `liquidateClean`, borrower's shares will be greater than `0` (leftover shares after liquidations), but the use
+wiki_exploit_scenario: |
+    Per Solodit #24828: _Submitted by panprog, also found by 0xA5DF and Lambda_
+    
+    Leftover shares in `liquidateClean` are only subtracted from pair totals, but not from user's borrowed shares. This means that after `liquidate
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01AnyBorrowerWithBadDebtCanBeLiquidatedMultipleTimes"
+solodit_id: "24828"
+solodit_slug: |
+    h-01-any-borrower-with-bad-debt-can-be-liquidated-multiple-times-to-lock-funds-in-the-lending-pair-code4rena-frax-finance-frax-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidateclean;"
+fn_name_regex: ".*(liquidateClean).*"
+read_var_regex: ".*(liquidateClean).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidateClean"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return liquidateclean > 0;"

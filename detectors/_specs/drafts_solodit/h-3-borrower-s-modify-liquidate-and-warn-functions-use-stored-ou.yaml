@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "h-3-borrower-s-modify-liquidate-and-warn-functions-use-stored-ou"
+class_name: "H3BorrowerSModifyLiquidateAndWarnFunctionsUseStoredOu"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27661 (Sherlock/Aloe)"
+help: |
+    H-3: `Borrower`'s `modify`, `liquidate` and `warn` functions use stored (outdated) account liabilities which makes it possible for the user to intentionally put him into bad debt i
+wiki_title: |
+    H-3: `Borrower`'s `modify`, `liquidate` and `warn` functions use stored (outdated) account liabilities which makes it possible for the user to intentionally put
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-10-aloe-judging/issues/41 
+    
+    ## Found by 
+    0x007, 0xReiAyanami, Nyx, SilentDefendersOfDeFi, mstpr-brainbot, panprog, roguereddwarf
+    
+    `Borrower._getLiabilities()` function returns **stored** borrow balance:
+    ```solidity
+    function _getLiabilities() private vie
+wiki_exploit_scenario: |
+    Per Solodit #27661: Source: https://github.com/sherlock-audit/2023-10-aloe-judging/issues/41 
+    
+    ## Found by 
+    0x007, 0xReiAyanami, Nyx, SilentDefendersOfDeFi, mstpr-brainbot, panprog, roguereddwarf
+    
+    `Borrower._getLiabiliti
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H3BorrowerSModifyLiquidateAndWarnFunctionsUseStoredOu"
+solodit_id: "27661"
+solodit_slug: |
+    h-3-borrowers-modify-liquidate-and-warn-functions-use-stored-outdated-account-liabilities-which-makes-it-possible-for-the-user-to-intentionally-put-him-into-bad-debt-in-1-transaction-sherlock-aloe-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidate;"
+fn_name_regex: ".*(Borrower|modify|liquidate|warn).*"
+read_var_regex: ".*(liquidate|liquidation|modify).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Borrower"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return liquidate > 0;"

@@ -1,0 +1,21 @@
+pattern: from-adv-incomplete-cleanup-on-reorg
+source: advisory-seed-corpus/incomplete_cleanup_on_reorg
+severity: MEDIUM
+confidence: MEDIUM
+backend: regex
+tags: [incomplete-cleanup]
+
+# CLASS-LEVEL mechanism detector auto-derived from 2 advisory seed(s).
+# Mechanism matched, not any instance. Anti-overfit verified by advisory-seed-to-dsl.py.
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-2gf8-q9rr-jq3h
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-4m69-67m6-prqp
+
+preconditions: []
+
+match:
+  - function.kind: external_or_public
+  - function.body_contains_regex: "(?s)(?:\\.insert\\s*\\([^;]*\\)\\s*;(?:(?!\\.remove\\s*\\()[\\s\\S]){0,160}?\\breturn\\s+Err\\b|Err\\s*\\(\\s*_?\\s*(?:elapsed|timeout|deadline)\\w*\\s*\\)\\s*=>[^,}]*?return\\s+Err|\\bfn\\s+pop_tip\\b(?:(?!subtree_roots\\s*\\.\\s*pop)[\\s\\S]){0,300}?remove_block)"
+
+help: "A state write or partial rollback path does not clear all derived index/cache state (a missing remove(key) after an error return, or a retained subtree-root after pop) - residue persists and corrupts state across a reorg."
+wiki_title: "Incomplete Cleanup On Reorg"
+wiki_description: "A state write or partial rollback path does not clear all derived index/cache state (a missing remove(key) after an error return, or a retained subtree-root after pop) - residue persists and corrupts state across a reorg."

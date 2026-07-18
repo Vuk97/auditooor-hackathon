@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "gauge-stakers-won-t-get-any-reward-due-to-round-down-in-user-wei"
+class_name: "GaugeStakersWonTGetAnyRewardDueToRoundDownInUserWei"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57268 (Codehawks/Core Contracts)"
+help: "Gauge stakers won't get any reward due to round-down in user weight calculation"
+wiki_title: "Gauge stakers won't get any reward due to round-down in user weight calculation"
+wiki_description: |
+    ## Summary
+    
+    GaugeController has weight precision of 4, however BaseGauge calculates weight precision in 18. Due to this, user's earned amount will be zero at all times.
+    
+    ## Vulnerability Details
+    
+    ### Root Cause Analysis
+    
+    The following is how user's earned amount is calculated in gauge:
+    
+    ```Solidity
+wiki_exploit_scenario: |
+    Per Solodit #57268: ## Summary
+    
+    GaugeController has weight precision of 4, however BaseGauge calculates weight precision in 18. Due to this, user's earned amount will be zero at all times.
+    
+    ## Vulnerability Details
+    
+    ###
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GaugeStakersWonTGetAnyRewardDueToRoundDownInUserWei"
+solodit_id: "57268"
+solodit_slug: |
+    gauge-stakers-wont-get-any-reward-due-to-round-down-in-user-weight-calculation-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal earned;"
+fn_name_regex: ".*(earned).*"
+read_var_regex: ".*(earned).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "earned"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return earned > 0;"

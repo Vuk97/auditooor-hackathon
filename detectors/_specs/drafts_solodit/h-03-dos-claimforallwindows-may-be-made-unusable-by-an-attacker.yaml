@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "h-03-dos-claimforallwindows-may-be-made-unusable-by-an-attacker"
+class_name: "H03DosClaimforallwindowsMayBeMadeUnusableByAnAttacker"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1754 (Code4rena/Joyn)"
+help: "[H-03] DoS: `claimForAllWindows()` May Be Made Unusable By An Attacker"
+wiki_title: "[H-03] DoS: `claimForAllWindows()` May Be Made Unusable By An Attacker"
+wiki_description: |
+    _Submitted by kirk-baird, also found by hyh and Ruhum_
+    
+    When the value of `currentWindow` is raised sufficiently high `Splitter.claimForAllWindows()` will not be able to be called due to the block gas limit.
+    
+    `currentWindow` can only ever be incremented and thus will always increase. This value will
+wiki_exploit_scenario: |
+    Per Solodit #1754: _Submitted by kirk-baird, also found by hyh and Ruhum_
+    
+    When the value of `currentWindow` is raised sufficiently high `Splitter.claimForAllWindows()` will not be able to be called due to the block gas
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03DosClaimforallwindowsMayBeMadeUnusableByAnAttacker"
+solodit_id: "1754"
+solodit_slug: "h-03-dos-claimforallwindows-may-be-made-unusable-by-an-attacker-code4rena-joyn-joyn-contest-git"
+solodit_quality: "4"
+solodit_rarity: "5"
+solodit_tags: "Denial-Of-Service, Gas Limit"
+state_decl: "uint256 internal currentwindow;"
+fn_name_regex: ".*(currentWindow|incrementWindow|IRoyaltyVault|claimForAllWindows).*"
+write_var_regex: ".*(currentWindow|incrementWindow).*"
+guard_var_regex: ".*(currentWindow|incrementWindow).*"
+vuln_fn_name: "currentWindow"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "currentwindow = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

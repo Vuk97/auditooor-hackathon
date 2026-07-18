@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "m-01-incorrect-excessfeerefundaddress-and-callvaluerefundaddress"
+class_name: "M01IncorrectExcessfeerefundaddressAndCallvaluerefundaddress"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31595 (Pashov Audit Group/Hytopia)"
+help: |
+    [M-01] Incorrect `excessFeeRefundAddress` and `callValueRefundAddress` are provided when bridging tokens to the L2
+wiki_title: |
+    [M-01] Incorrect `excessFeeRefundAddress` and `callValueRefundAddress` are provided when bridging tokens to the L2
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Medium, `address(this)` is provided for the `excessFeeRefundAddress` and `callValueRefundAddress` parameters when calling `createRetryableTicket`, which could lead to a loss of excess fee and the ability to cancel the L1 -> L2 ticket.
+    
+    **Likelihood:** Medium, The ability to
+wiki_exploit_scenario: |
+    Per Solodit #31595: **Severity**
+    
+    **Impact:** Medium, `address(this)` is provided for the `excessFeeRefundAddress` and `callValueRefundAddress` parameters when calling `createRetryableTicket`, which could lead to a loss
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01IncorrectExcessfeerefundaddressAndCallvaluerefundaddress"
+solodit_id: "31595"
+solodit_slug: |
+    m-01-incorrect-excessfeerefundaddress-and-callvaluerefundaddress-are-provided-when-bridging-tokens-to-the-l2-pashov-none-hytopia-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal callvaluerefundaddress;"
+fn_name_regex: ".*(excessFeeRefundAddress|callValueRefundAddress|createRetryableTicket).*"
+write_var_regex: ".*(callValueRefundAddress|createRetryableTicket|excessFeeRefundAddress).*"
+guard_var_regex: ".*(callValueRefundAddress|createRetryableTicket|excessFeeRefundAddress).*"
+vuln_fn_name: "excessFeeRefundAddress"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "callvaluerefundaddress = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

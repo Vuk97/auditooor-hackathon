@@ -1,0 +1,20 @@
+id: stale-snapshot-over-claim-rewards
+title: "Stale user snapshots let users over-claim rewards"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44862"
+bug_class: reward-accounting
+indicators:
+  - "per-user reward snapshot not updated on every balance change"
+  - "claim computes `(global_index - user_snapshot) * user_balance` where `user_balance` is current but `user_snapshot` is stale"
+victim: "Protocol reward pool."
+exploit_precondition: "User balance increased since last snapshot update."
+real_world_example: |
+  V12 #44862 (High): Stale snapshots let users over-claim rewards.
+suggested_remediation: "Snapshot user index on every balance change (transfer/mint/burn)."
+cross_refs:
+  - stale-reward-indexes-accrue
+  - post-exit-settlement-erases-rewards

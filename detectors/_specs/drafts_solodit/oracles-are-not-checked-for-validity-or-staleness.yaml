@@ -1,0 +1,39 @@
+skeleton: "state_write_without_paired_write"
+name: "oracles-are-not-checked-for-validity-or-staleness"
+class_name: "OraclesAreNotCheckedForValidityOrStaleness"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #59250 (Quantstamp/Sperax - Farms)"
+help: "Oracles Are Not Checked for Validity or Staleness"
+wiki_title: "Oracles Are Not Checked for Validity or Staleness"
+wiki_description: |
+    **Update**
+    Marked as "Acknowledged" by the client. The client provided the following explanation:
+    
+    > *   We are going to use USDs Master Oracle contract which is already audited.
+    > *   Deployed contract: https://arbiscan.io/address/0x14D99412dAB1878dC01Fe7a1664cdE85896e8E50#readContract
+    > *   Audit
+wiki_exploit_scenario: |
+    Per Solodit #59250: **Update**
+    Marked as "Acknowledged" by the client. The client provided the following explanation:
+    
+    > *   We are going to use USDs Master Oracle contract which is already audited.
+    > *   Deployed contra
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OraclesAreNotCheckedForValidityOrStaleness"
+solodit_id: "59250"
+solodit_slug: "oracles-are-not-checked-for-validity-or-staleness-quantstamp-sperax-farms-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(readContract|masterOracle).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

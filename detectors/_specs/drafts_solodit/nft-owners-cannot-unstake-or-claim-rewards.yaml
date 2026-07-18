@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "nft-owners-cannot-unstake-or-claim-rewards"
+class_name: "NftOwnersCannotUnstakeOrClaimRewards"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50357 (Halborn/Lighthouse NFT Staking)"
+help: "NFT OWNERS CANNOT UNSTAKE OR CLAIM REWARDS"
+wiki_title: "NFT OWNERS CANNOT UNSTAKE OR CLAIM REWARDS"
+wiki_description: |
+    ##### Description
+    
+    After staking, users are neither able to withdraw their NFT nor claim the rewards due to a mistake in the code. This will lead to the asset being locked forever.
+    
+    `LightHouseStaking.sol` Lines# 157 and 177.
+    
+    ```
+     function unstake(uint256 sessionId, uint256 nftId) external {
+wiki_exploit_scenario: |
+    Per Solodit #50357: ##### Description
+    
+    After staking, users are neither able to withdraw their NFT nor claim the rewards due to a mistake in the code. This will lead to the asset being locked forever.
+    
+    `LightHouseStaking
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NftOwnersCannotUnstakeOrClaimRewards"
+solodit_id: "50357"
+solodit_slug: "nft-owners-cannot-unstake-or-claim-rewards-halborn-seascape-lighthouse-nft-staking-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(sessionId|nftId|rewardPool|playerChallenge).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "sessionId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

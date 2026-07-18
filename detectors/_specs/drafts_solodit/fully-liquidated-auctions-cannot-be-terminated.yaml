@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "fully-liquidated-auctions-cannot-be-terminated"
+class_name: "FullyLiquidatedAuctionsCannotBeTerminated"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #38535 (SigmaPrime/Derive)"
+help: "Fully Liquidated Auctions Cannot Be Terminated"
+wiki_title: "Fully Liquidated Auctions Cannot Be Terminated"
+wiki_description: |
+    ## Description
+    
+    It is possible to lock auctions in a state where it is impossible to terminate or start a new auction.
+    
+    On line [482] in `DutchAuction.sol`, there is the condition `if (convertedPercentage > maxOfCurrent)`. If this condition is true, then the auction is terminated.
+    
+    For an auction th
+wiki_exploit_scenario: |
+    Per Solodit #38535: ## Description
+    
+    It is possible to lock auctions in a state where it is impossible to terminate or start a new auction.
+    
+    On line [482] in `DutchAuction.sol`, there is the condition `if (convertedPercen
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FullyLiquidatedAuctionsCannotBeTerminated"
+solodit_id: "38535"
+solodit_slug: "fully-liquidated-auctions-cannot-be-terminated-sigmaprime-none-derive-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bid;"
+fn_name_regex: ".*(maxOfCurrent|bid|percentOfAccount|convertedPercentage).*"
+read_var_regex: ".*(bid|convertedPercentage|maxOfCurrent).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "maxOfCurrent"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return bid > 0;"

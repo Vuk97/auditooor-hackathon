@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-05-missing-configuration-validations-constraints-can-lead-to-s"
+class_name: "M05MissingConfigurationValidationsConstraintsCanLeadToS"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20313 (Pashov Audit Group/Zerem)"
+help: "[M-05] Missing configuration validations & constraints can lead to stuck funds"
+wiki_title: "[M-05] Missing configuration validations & constraints can lead to stuck funds"
+wiki_description: |
+    **Proof of Concept**
+    
+    If a protocol integrates with Zerem it needs to deploy different instances of `Zerem.sol` for each `underlyingToken`. In the constructor there are some configurations being set but the inputs are not validated at all. Now if the deployer did not configure them correctly, or fat
+wiki_exploit_scenario: |
+    Per Solodit #20313: **Proof of Concept**
+    
+    If a protocol integrates with Zerem it needs to deploy different instances of `Zerem.sol` for each `underlyingToken`. In the constructor there are some configurations being set b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05MissingConfigurationValidationsConstraintsCanLeadToS"
+solodit_id: "20313"
+solodit_slug: |
+    m-05-missing-configuration-validations-constraints-can-lead-to-stuck-funds-pashov-none-zerem-markdown
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal liquidatefunds;"
+fn_name_regex: ".*(underlyingToken|unlockDelaySec|unlockPeriodSec|liquidateFunds).*"
+write_var_regex: ".*(liquidateFunds|underlyingToken|unlockDelaySec).*"
+guard_var_regex: ".*(liquidateFunds|underlyingToken|unlockDelaySec).*"
+vuln_fn_name: "underlyingToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "liquidatefunds = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

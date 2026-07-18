@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-setvestingperiod-may-relock-previously-released-assets"
+class_name: "TheSetvestingperiodMayRelockPreviouslyReleasedAssets"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Falcon Finance - Zellic Audit Report"
+help: |
+    The setVestingPeriod function in the StakedUSDf contract allows changing the vestingPeriod duration, but it does not verify whether the current unvested amount is zero. As a result
+wiki_title: "The setVestingPeriod may relock previously released assets"
+wiki_description: |
+    The setVestingPeriod function in the StakedUSDf contract allows changing the vestingPeriod duration, but it does not verify whether the current unvested amount is zero. As a result, if the vesting period is increased, a portion of previously released assets may become locked again. function _setVest
+wiki_exploit_scenario: |
+    Per audit finding: The setVestingPeriod function in the StakedUSDf contract allows changing the vestingPeriod duration, but it does not verify whether the current unvested amount is zero. As a result, if the vesting per
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheSetvestingperiodMayRelockPreviouslyReleasedAssets"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setVestingPeriod|vestingPeriod|newPeriod).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setVestingPeriod"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

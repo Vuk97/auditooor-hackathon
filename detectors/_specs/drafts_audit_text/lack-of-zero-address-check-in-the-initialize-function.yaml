@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-zero-address-check-in-the-initialize-function"
+class_name: "LackOfZeroAddressCheckInTheInitializeFunction"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Frax - Zellic Audit Report"
+help: |
+    In the initialize function, ownership is set by calling _transferOwnership with the provided owner address. However, there is no validation to ensure that this address is not the z
+wiki_title: "Lack of zero-address check in the initialize function"
+wiki_description: |
+    In the initialize function, ownership is set by calling _transferOwnership with the provided owner address. However, there is no validation to ensure that this address is not the zero address. function initialize(address _owner, string memory _name, string memory _symbol) public { require(owner() ==
+wiki_exploit_scenario: |
+    Per audit finding: In the initialize function, ownership is set by calling _transferOwnership with the provided owner address. However, there is no validation to ensure that this address is not the zero address. functio
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfZeroAddressCheckInTheInitializeFunction"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(newOwner|oldOwner).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "newOwner"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "unauthorized-token-transfers-can-result-in-loss-of-funds"
+class_name: "UnauthorizedTokenTransfersCanResultInLossOfFunds"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider AST: unauthorized-erc-20-token-transfers"
+help: "Unauthorized token transfers can result in loss of funds"
+wiki_title: "Unauthorized token transfers can result in loss of funds"
+wiki_description: |
+    Contracts that store ERC-20 tokens must protect their funds from theft. This query looks for cases where any user can make an unauthorized call to transfer tokens to another arbitrary address.
+wiki_exploit_scenario: |
+    Tags [ERC-20, Access control]: Contracts that store ERC-20 tokens must protect their funds from theft. This query looks for cases where any user can make an unauthorized call to transfer tokens to another arbitrary address.
+wiki_recommendation: "Apply the access check implied by the Glider query filter."
+contract_name: "UnauthorizedTokenTransfersCanResultInLossOfFunds"
+fn_name_regex: ".*"
+read_var_regex: ".*unauthorized.*"
+required_call_regex: ".*(validate|check|verify|require).*"
+guarded_helper_name: "_validateGuard"
+vuln_fn_name: "unauthorizedFn"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return unauthorized > 0;"
+state_decl: "uint256 internal unauthorized;"

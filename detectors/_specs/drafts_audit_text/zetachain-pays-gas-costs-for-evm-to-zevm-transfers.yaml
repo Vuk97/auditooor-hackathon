@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "zetachain-pays-gas-costs-for-evm-to-zevm-transfers"
+class_name: "ZetachainPaysGasCostsForEvmToZevmTransfers"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit ZetaChain - 11.14.23 Zellic Audit Report"
+help: |
+    When an EVM-to-zEVM cross-chain transfer is initiated, the user initiating the transfer only pays gas fees for the EVM transaction. ZetaChain incurs the gas costs for any transacti
+wiki_title: "ZetaChain pays gas costs for EVM-to-zEVM transfers"
+wiki_description: |
+    When an EVM-to-zEVM cross-chain transfer is initiated, the user initiating the transfer only pays gas fees for the EVM transaction. ZetaChain incurs the gas costs for any transaction initiated on the zEVM to finish the cross-chain transfer. This seems to be intended by Ze- taChain. However, when a u
+wiki_exploit_scenario: |
+    Per audit finding: When an EVM-to-zEVM cross-chain transfer is initiated, the user initiating the transfer only pays gas fees for the EVM transaction. ZetaChain incurs the gas costs for any transaction initiated on the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ZetachainPaysGasCostsForEvmToZevmTransfers"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(zEVM|taChain|onCrossChainCall).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "zEVM"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

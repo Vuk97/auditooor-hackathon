@@ -1,0 +1,26 @@
+skeleton: "state_write_without_paired_write"
+name: "incorrect-accounting-bug-of-the-ydusd-vault-leads-to-total-l-x"
+class_name: "IncorrectAccountingBugOfTheYdusdVaultLeadsToTotalLX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-dittoeth"
+help: |
+    serial-coder , also found by d3e4 Summary The current implementation of the yDUSD vault does not properly support the auto-compounding token rewards mechanism by directly minting t
+wiki_title: "Incorrect accounting bug of the yDUSD vault leads to total loss of depositors’ DUSD"
+wiki_description: |
+    serial-coder , also found by d3e4 Summary The current implementation of the yDUSD vault does not properly support the auto-compounding token rewards mechanism by directly minting the DUSD assets to the vault. Due to an incorrect accounting bug of the vault’s total supply (shares), depositors can los
+wiki_exploit_scenario: |
+    Per audit finding: serial-coder , also found by d3e4 Summary The current implementation of the yDUSD vault does not properly support the auto-compounding token rewards mechanism by directly minting the DUSD assets to th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectAccountingBugOfTheYdusdVaultLeadsToTotalLX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(yDUSD|newDebt|totalAssets).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

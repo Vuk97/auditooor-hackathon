@@ -1,0 +1,49 @@
+skeleton: "paired_function_divergence"
+name: "h-01-incorrect-swapping-path-in-processwithdrawals"
+class_name: "H01IncorrectSwappingPathInProcesswithdrawals"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45530 (Pashov Audit Group/GammaSwap_2024-12-30)"
+help: "[H-01] Incorrect swapping path in `processWithdrawals()`"
+wiki_title: "[H-01] Incorrect swapping path in `processWithdrawals()`"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    When the `GammaVault` manager calls the `processWithdrawals()` , the `withdrawVault` transfers its `GammaVault` token holdings to the `GammaVault`, then the `GammaVault` calculates the corresponding liquidity to withdraw from Uni
+wiki_exploit_scenario: |
+    Per Solodit #45530: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    When the `GammaVault` manager calls the `processWithdrawals()` , the `withdrawVault` transfers its `GammaVault` token holdings to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01IncorrectSwappingPathInProcesswithdrawals"
+solodit_id: "45530"
+solodit_slug: |
+    h-01-incorrect-swapping-path-in-processwithdrawals-pashov-audit-group-none-gammaswap_2024-12-30-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(assetToken|baseBalance|path1).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

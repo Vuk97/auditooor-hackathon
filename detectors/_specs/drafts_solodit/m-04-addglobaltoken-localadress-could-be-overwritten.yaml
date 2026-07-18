@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-04-addglobaltoken-localadress-could-be-overwritten"
+class_name: "M04AddglobaltokenLocaladressCouldBeOverwritten"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28809 (Code4rena/Maia DAO)"
+help: "[M-04] `addGlobalToken()` `localAdress` could be overwritten"
+wiki_title: "[M-04] `addGlobalToken()` `localAdress` could be overwritten"
+wiki_description: |
+    `CoreBranchRouter.addGlobalToken()` is used to set the local token of chains.
+    
+    When `CoreBranchRouter.addGlobalToken(_dstChainId = ftm)`, it will execute follow step:
+    1. `[root]CoreRootRouter.\_addGlobalToken()`
+        - 1.1 check `isGlobalAddress(\_globalAddress)`
+        - 1.2 check not `isGlobalToken(\
+wiki_exploit_scenario: |
+    Per Solodit #28809: `CoreBranchRouter.addGlobalToken()` is used to set the local token of chains.
+    
+    When `CoreBranchRouter.addGlobalToken(_dstChainId = ftm)`, it will execute follow step:
+    1. `[root]CoreRootRouter.\_addGl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04AddglobaltokenLocaladressCouldBeOverwritten"
+solodit_id: "28809"
+solodit_slug: "m-04-addglobaltoken-localadress-could-be-overwritten-code4rena-maia-dao-maia-dao-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addglobaltoken;"
+fn_name_regex: ".*(isGlobalAddress|isGlobalToken|isLocalToken|globalGlobal).*"
+read_var_regex: ".*(addGlobalToken|alice_LocalTokenAddress|bob_LocalTokenAddress).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "isGlobalAddress"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addglobaltoken > 0;"

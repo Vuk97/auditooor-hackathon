@@ -1,0 +1,34 @@
+skeleton: "state_write_without_paired_write"
+name: "using-oracle-method-that-could-return-0"
+class_name: "UsingOracleMethodThatCouldReturn0"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57677 (Zokyo/Boba Network)"
+help: "Using oracle method that could return 0"
+wiki_title: "Using oracle method that could return 0"
+wiki_description: |
+    **Description**
+    
+    In contract Boba Deposit Paymaster, function "getTokenValueOfEth" is translating a given value amount of ethereum into the underlying token amount, for that the business logic is using oracles to query for values and different token decimals, oracles will be chosen by the admin of t
+wiki_exploit_scenario: |
+    Per Solodit #57677: **Description**
+    
+    In contract Boba Deposit Paymaster, function "getTokenValueOfEth" is translating a given value amount of ethereum into the underlying token amount, for that the business logic is usin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsingOracleMethodThatCouldReturn0"
+solodit_id: "57677"
+solodit_slug: "using-oracle-method-that-could-return-0-zokyo-none-boba-network-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getTokenValueOfEth|latestAnswer|latestRoundData|updatedAt).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

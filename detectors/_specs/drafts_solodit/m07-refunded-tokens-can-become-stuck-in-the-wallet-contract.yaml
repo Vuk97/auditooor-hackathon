@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m07-refunded-tokens-can-become-stuck-in-the-wallet-contract"
+class_name: "M07RefundedTokensCanBecomeStuckInTheWalletContract"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11140 (OpenZeppelin/Futureswap V2 Audit)"
+help: "[M07] Refunded tokens can become stuck in the Wallet contract"
+wiki_title: "[M07] Refunded tokens can become stuck in the Wallet contract"
+wiki_description: |
+    The [`Wallet.refund` function](https://github.com/futureswap/fs_core/blob/96255fc4a550a5f34681c117b5969b848d07b3a3/contracts/wallet/Wallet.sol#L340) can be called by anyone. It transfers `_amount` of `_tokenAddress` tokens from `msg.sender` to the Wallet contract, and credits `_userAddress`. If `_to
+wiki_exploit_scenario: |
+    Per Solodit #11140: The [`Wallet.refund` function](https://github.com/futureswap/fs_core/blob/96255fc4a550a5f34681c117b5969b848d07b3a3/contracts/wallet/Wallet.sol#L340) can be called by anyone. It transfers `_amount` of
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07RefundedTokensCanBecomeStuckInTheWalletContract"
+solodit_id: "11140"
+solodit_slug: |
+    m07-refunded-tokens-can-become-stuck-in-the-wallet-contract-openzeppelin-futureswap-v2-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal refund;"
+fn_name_regex: ".*(refund).*"
+read_var_regex: ".*(refund).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "refund"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return refund > 0;"

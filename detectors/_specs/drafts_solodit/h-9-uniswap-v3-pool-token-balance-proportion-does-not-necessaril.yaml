@@ -1,0 +1,45 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-9-uniswap-v3-pool-token-balance-proportion-does-not-necessaril"
+class_name: "H9UniswapV3PoolTokenBalanceProportionDoesNotNecessaril"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19138 (Sherlock/USSD - Autonomous Secure Dollar)"
+help: |
+    H-9: Uniswap v3 pool token balance proportion does not necessarily correspond to the price, and it is easy to manipulate.
+wiki_title: |
+    H-9: Uniswap v3 pool token balance proportion does not necessarily correspond to the price, and it is easy to manipulate.
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-05-USSD-judging/issues/808 
+    
+    ## Found by 
+    0xRan4212, Bahurum, VAD37, WATCHPUG, curiousapple, mahdikarimi, n33k, nobody2018, simon135
+    ## Summary
+    
+    `getSupplyProportion()` retrieves Uniswap v3 pool balances, but the proportion of pool tokens doesn't always
+wiki_exploit_scenario: |
+    Per Solodit #19138: Source: https://github.com/sherlock-audit/2023-05-USSD-judging/issues/808 
+    
+    ## Found by 
+    0xRan4212, Bahurum, VAD37, WATCHPUG, curiousapple, mahdikarimi, n33k, nobody2018, simon135
+    ## Summary
+    
+    `getSupp
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H9UniswapV3PoolTokenBalanceProportionDoesNotNecessaril"
+solodit_id: "19138"
+solodit_slug: |
+    h-9-uniswap-v3-pool-token-balance-proportion-does-not-necessarily-correspond-to-the-price-and-it-is-easy-to-manipulate-sherlock-none-ussd-autonomous-secure-dollar-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Uniswap, Flash Loan, Overflow/Underflow"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(getSupplyProportion|ownval|USSDamount|DAIamount).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

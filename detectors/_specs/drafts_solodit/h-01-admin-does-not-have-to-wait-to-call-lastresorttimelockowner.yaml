@@ -1,0 +1,41 @@
+skeleton: "state_write_without_paired_write"
+name: "h-01-admin-does-not-have-to-wait-to-call-lastresorttimelockowner"
+class_name: "H01AdminDoesNotHaveToWaitToCallLastresorttimelockowner"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6394 (Code4rena/Forgeries)"
+help: "[H-01] Admin does not have to wait to call `lastResortTimelockOwnerClaimNFT()`"
+wiki_title: "[H-01] Admin does not have to wait to call `lastResortTimelockOwnerClaimNFT()`"
+wiki_description: |
+    On contest page:
+    `"If no users ultimately claim the NFT, the admin specifies a timelock period after which they can retrieve the raffled NFT."`
+    
+    Let's assume a recoverTimelock of 1 week.
+    
+    The specification suggests that 1 week from the winner not having claimed the NFT. Meaning that the admin shoul
+wiki_exploit_scenario: |
+    Per Solodit #6394: On contest page:
+    `"If no users ultimately claim the NFT, the admin specifies a timelock period after which they can retrieve the raffled NFT."`
+    
+    Let's assume a recoverTimelock of 1 week.
+    
+    The specifi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01AdminDoesNotHaveToWaitToCallLastresorttimelockowner"
+solodit_id: "6394"
+solodit_slug: |
+    h-01-admin-does-not-have-to-wait-to-call-lastresorttimelockownerclaimnft-code4rena-forgeries-forgeries-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(lastResortTimelockOwnerClaimNFT|drawTimelock|redraw|recoverTimelock).*"
+primary_var_regex: ".*(drawBufferTime|drawTimelock|initialize).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,48 @@
+skeleton: "paired_function_divergence"
+name: "missing-liquidity-checks-when-initiating-long-term-swaps"
+class_name: "MissingLiquidityChecksWhenInitiatingLongTermSwaps"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #17909 (TrailOfBits/Frax Finance)"
+help: "Missing liquidity checks when initiating long-term swaps"
+wiki_title: "Missing liquidity checks when initiating long-term swaps"
+wiki_description: |
+    ## Audit Report
+    
+    ## Difficulty: Low
+    
+    ## Type: Auditing and Logging
+    
+    ## Description
+    
+    When a long-term swap is submitted to a `UniV2TWAMMPair` instance, the code performs checks, such as those ensuring that the selling rate of a given token is nonzero, before the order is recorded. However, the code d
+wiki_exploit_scenario: |
+    Per Solodit #17909: ## Audit Report
+    
+    ## Difficulty: Low
+    
+    ## Type: Auditing and Logging
+    
+    ## Description
+    
+    When a long-term swap is submitted to a `UniV2TWAMMPair` instance, the code performs checks, such as those ensuring
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingLiquidityChecksWhenInitiatingLongTermSwaps"
+solodit_id: "17909"
+solodit_slug: "missing-liquidity-checks-when-initiating-long-term-swaps-trailofbits-frax-finance-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

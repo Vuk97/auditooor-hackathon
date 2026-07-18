@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "staked-assets-can-be-locked-in-lido-due-to-vulnerable-check--x"
+class_name: "StakedAssetsCanBeLockedInLidoDueToVulnerableCheckX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-benddao-invitational"
+help: |
+    oakcobalt Code reference: YieldEthStakingLido.sol#L85 Finding description and impact In Lido’s WithdrawRequest(WithdrawalQueue.sol) implementation , only a withdraw request with st
+wiki_title: "Staked assets can be locked in Lido, due to vulnerable check in YieldEthStakingLido::protocolDeposit"
+wiki_description: |
+    oakcobalt Code reference: YieldEthStakingLido.sol#L85 Finding description and impact In Lido’s WithdrawRequest(WithdrawalQueue.sol) implementation , only a withdraw request with stETH amount within MIN_STETH_WITHDRAWAL_AMOUNT MAX_STETH_WITHDRAWAL_AMOUNT ( [100, 1000ether]) can be processed. If the y
+wiki_exploit_scenario: |
+    Per audit finding: oakcobalt Code reference: YieldEthStakingLido.sol#L85 Finding description and impact In Lido’s WithdrawRequest(WithdrawalQueue.sol) implementation , only a withdraw request with stETH amount within MI
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StakedAssetsCanBeLockedInLidoDueToVulnerableCheckX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stETH|yieldAmount|protocolDeposit).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "stETH"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

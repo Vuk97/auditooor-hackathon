@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "m-01-the-removesessionkey-will-never-remove-the-unbounded-sessio"
+class_name: "M01TheRemovesessionkeyWillNeverRemoveTheUnboundedSessio"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61415 (Shieldify/Etherspot Credibleaccountmodule)"
+help: |
+    [M-01] The `_removeSessionKey()` Will Never Remove the Unbounded Session Key Array Due to Gas-Based DoS
+wiki_title: |
+    [M-01] The `_removeSessionKey()` Will Never Remove the Unbounded Session Key Array Due to Gas-Based DoS
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    Attacker creates as many session keys for a target wallet as there is no upper limit in `enableSessionKey()`. The attacker locks funds in the last created session key.  
+    Now, when someone(`SESSION_KEY_DISABLER`) tries to disable the session key by calling t
+wiki_exploit_scenario: |
+    Per Solodit #61415: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    Attacker creates as many session keys for a target wallet as there is no upper limit in `enableSessionKey()`. The attacker locks funds in the last created se
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01TheRemovesessionkeyWillNeverRemoveTheUnboundedSessio"
+solodit_id: "61415"
+solodit_slug: |
+    m-01-the-_removesessionkey-will-never-remove-the-unbounded-session-key-array-due-to-gas-based-dos-shieldify-none-etherspot-credibleaccountmodule-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal batchdisablesessionkeys;"
+fn_name_regex: ".*(enableSessionKey|SESSION_KEY_DISABLER|disableSessionKey|batchDisableSessionKeys).*"
+read_var_regex: ".*(batchDisableSessionKeys|disableSessionKey|enableSessionKey).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "enableSessionKey"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return batchdisablesessionkeys > 0;"

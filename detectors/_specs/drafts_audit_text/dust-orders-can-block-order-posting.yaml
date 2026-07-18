@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "dust-orders-can-block-order-posting"
+class_name: "DustOrdersCanBlockOrderPosting"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-07-gte-spot-clob-and-router"
+help: |
+    montecristo , also found by 0xAsen gesha17 gizzy holtzzx newspacexyz , and solhhj clob/CLOB.sol #L807-L849 When matching incoming orders, maker orders can be reduced below the mini
+wiki_title: "Dust orders can block order posting"
+wiki_description: |
+    montecristo , also found by 0xAsen gesha17 gizzy holtzzx newspacexyz , and solhhj clob/CLOB.sol #L807-L849 When matching incoming orders, maker orders can be reduced below the minimum limit without checks, resulting in dust positions remaining in the order book. These dust orders can block new incom
+wiki_exploit_scenario: |
+    Per audit finding: montecristo , also found by 0xAsen gesha17 gizzy holtzzx newspacexyz , and solhhj clob/CLOB.sol #L807-L849 When matching incoming orders, maker orders can be reduced below the minimum limit without ch
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DustOrdersCanBlockOrderPosting"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(minLimitOrderAmountInBase|orderRemoved|matchData).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "minLimitOrderAmountInBase"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

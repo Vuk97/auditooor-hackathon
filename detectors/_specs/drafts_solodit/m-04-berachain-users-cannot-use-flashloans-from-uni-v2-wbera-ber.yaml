@@ -1,0 +1,50 @@
+skeleton: "paired_function_divergence"
+name: "m-04-berachain-users-cannot-use-flashloans-from-uni-v2-wbera-ber"
+class_name: "M04BerachainUsersCannotUseFlashloansFromUniV2WberaBer"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #45358 (Shieldify/Berabot)"
+help: "[M-04] Berachain Users Cannot Use Flashloans from Uni V2 `WBERA/BerabotToken` Pool"
+wiki_title: "[M-04] Berachain Users Cannot Use Flashloans from Uni V2 `WBERA/BerabotToken` Pool"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    `Berabot` automatically swaps accumulated fees for `WBERA` in the `_transfer()` function by calling the `swapBack()` function when specific conditions are met.
+    
+    ```solidity
+    if (
+        canSwap && // contract balance is above or equal 0.02% of total supply
+        !
+wiki_exploit_scenario: |
+    Per Solodit #45358: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    `Berabot` automatically swaps accumulated fees for `WBERA` in the `_transfer()` function by calling the `swapBack()` function when specific conditions are met
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04BerachainUsersCannotUseFlashloansFromUniV2WberaBer"
+solodit_id: "45358"
+solodit_slug: |
+    m-04-berachain-users-cannot-use-flashloans-from-uni-v2-wberaberabottoken-pool-shieldify-none-berabot-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(from|swapBack).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

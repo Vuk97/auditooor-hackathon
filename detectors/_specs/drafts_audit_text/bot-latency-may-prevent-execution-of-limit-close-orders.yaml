@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "bot-latency-may-prevent-execution-of-limit-close-orders"
+class_name: "BotLatencyMayPreventExecutionOfLimitCloseOrders"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    When a limit-close order is executed via executeLimitOrder, the callback function checks if the current price (a.price) is in the correct range depending on the type of the limit o
+wiki_title: "Bot latency may prevent execution of limit-close orders"
+wiki_description: |
+    When a limit-close order is executed via executeLimitOrder, the callback function checks if the current price (a.price) is in the correct range depending on the type of the limit order. function executeLimitCloseOrderCallback(AggregatorAnswer memory a) external override onlyPriceAggregator { //... i
+wiki_exploit_scenario: |
+    Per audit finding: When a limit-close order is executed via executeLimitOrder, the callback function checks if the current price (a.price) is in the correct range depending on the type of the limit order. function execu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BotLatencyMayPreventExecutionOfLimitCloseOrders"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(executeLimitOrder|executeLimitCloseOrderCallback|onlyPriceAggregator).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "executeLimitOrder"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

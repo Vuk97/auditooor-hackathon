@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "creditdelegationbranch-depositcreditformarket-cannot-update-mark"
+class_name: "CreditdelegationbranchDepositcreditformarketCannotUpdateMark"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49979 (Codehawks/Part 2)"
+help: "CreditDelegationBranch::depositCreditForMarket cannot update market realized debt properly"
+wiki_title: "CreditDelegationBranch::depositCreditForMarket cannot update market realized debt properly"
+wiki_description: |
+    ## Summary
+    The function `CreditDelegationBranch::depositCreditForMarket` calls `market.settleCreditDeposit`, which modifies `realizedDebtUsdPerVaultShare`. However, if `CreditDelegationBranch::updateMarketCreditDelegations` is called immediately after, it **resets `realizedDebtUsdPerVaultShare` to i
+wiki_exploit_scenario: |
+    Per Solodit #49979: ## Summary
+    The function `CreditDelegationBranch::depositCreditForMarket` calls `market.settleCreditDeposit`, which modifies `realizedDebtUsdPerVaultShare`. However, if `CreditDelegationBranch::updateM
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CreditdelegationbranchDepositcreditformarketCannotUpdateMark"
+solodit_id: "49979"
+solodit_slug: |
+    creditdelegationbranchdepositcreditformarket-cannot-update-market-realized-debt-properly-codehawks-zaros-part-2-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal creditdeposits;"
+fn_name_regex: ".*(realizedDebtUsdPerVaultShare|settleCreditDeposit|depositCreditForMarket|creditDeposits).*"
+read_var_regex: ".*(creditDeposits|depositCreditForMarket|distributeDebtToVaults).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "realizedDebtUsdPerVaultShare"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return creditdeposits > 0;"

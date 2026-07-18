@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "addresses-may-accidentally-be-overwritten"
+class_name: "AddressesMayAccidentallyBeOverwritten"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Maia DAO Ulysses Protocol May 2023 - Zellic Audit Report"
+help: |
+    The addEcosystemTokenToChain function may only be called by the contract owner. It adds entries to the double mappings getGlobalAddressFromLocal and getLocalAd dressFromGlobal, whi
+wiki_title: "Addresses may accidentally be overwritten"
+wiki_description: |
+    The addEcosystemTokenToChain function may only be called by the contract owner. It adds entries to the double mappings getGlobalAddressFromLocal and getLocalAd dressFromGlobal, which map between local and global address on a specific chain. However, there are no checks done to ensure that the mappin
+wiki_exploit_scenario: |
+    Per audit finding: The addEcosystemTokenToChain function may only be called by the contract owner. It adds entries to the double mappings getGlobalAddressFromLocal and getLocalAd dressFromGlobal, which map between local
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AddressesMayAccidentallyBeOverwritten"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addEcosystemTokenToChain|getGlobalAddressFromLocal|getLocalAd).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "addEcosystemTokenToChain"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

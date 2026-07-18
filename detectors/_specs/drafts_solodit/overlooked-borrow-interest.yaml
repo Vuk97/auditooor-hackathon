@@ -1,0 +1,34 @@
+skeleton: "state_write_without_paired_write"
+name: "overlooked-borrow-interest"
+class_name: "OverlookedBorrowInterest"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #47333 (OtterSec/Folks Finance X-Chain)"
+help: "Overlooked Borrow Interest"
+wiki_title: "Overlooked Borrow Interest"
+wiki_description: |
+    ## Liquidation Logic Issue
+    
+    The liquidation logic does not account for borrow interest accrued in the violator debt, resulting in the debt notional amount to be underestimated. This happens because the `calcLiquidationAmounts` function references the `violatorLoanBorrow.balance` variable without upd
+wiki_exploit_scenario: |
+    Per Solodit #47333: ## Liquidation Logic Issue
+    
+    The liquidation logic does not account for borrow interest accrued in the violator debt, resulting in the debt notional amount to be underestimated. This happens because th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OverlookedBorrowInterest"
+solodit_id: "47333"
+solodit_slug: "overlooked-borrow-interest-ottersec-none-folks-finance-x-chain-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(calcLiquidationAmounts|repayBorrowAmount).*"
+primary_var_regex: ".*(calcLiquidationAmounts|repayBorrowAmount).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

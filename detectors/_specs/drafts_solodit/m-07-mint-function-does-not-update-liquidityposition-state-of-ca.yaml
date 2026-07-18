@@ -1,0 +1,39 @@
+skeleton: "state_write_without_paired_write"
+name: "m-07-mint-function-does-not-update-liquidityposition-state-of-ca"
+class_name: "M07MintFunctionDoesNotUpdateLiquiditypositionStateOfCa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24910 (Code4rena/Timeswap)"
+help: |
+    [M-07] `Mint` function does not update `LiquidityPosition` state of caller before minting LP tokens. This
+wiki_title: |
+    [M-07] `Mint` function does not update `LiquidityPosition` state of caller before minting LP tokens. This
+wiki_description: |
+    <https://github.com/code-423n4/2023-01-timeswap/blob/ef4c84fb8535aad8abd6b67cc45d994337ec4514/packages/v2-pool/src/structs/Pool.sol#L302> 
+    
+    <https://github.com/code-423n4/2023-01-timeswap/blob/ef4c84fb8535aad8abd6b67cc45d994337ec4514/packages/v2-pool/src/structs/LiquidityPosition.sol#L60>
+    
+    ### Impa
+wiki_exploit_scenario: |
+    Per Solodit #24910: <https://github.com/code-423n4/2023-01-timeswap/blob/ef4c84fb8535aad8abd6b67cc45d994337ec4514/packages/v2-pool/src/structs/Pool.sol#L302> 
+    
+    <https://github.com/code-423n4/2023-01-timeswap/blob/ef4c84
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07MintFunctionDoesNotUpdateLiquiditypositionStateOfCa"
+solodit_id: "24910"
+solodit_slug: |
+    m-07-mint-function-does-not-update-liquidityposition-state-of-caller-before-minting-lp-tokens-this-code4rena-timeswap-timeswap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(mint|updateDurationWeightBeforeMaturity|short|long0).*"
+primary_var_regex: ".*(burn|fee|growth).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,42 @@
+skeleton: "paired_function_divergence"
+name: "h-01-avoidance-of-liquidation-via-malicious-oracle"
+class_name: "H01AvoidanceOfLiquidationViaMaliciousOracle"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #2126 (Code4rena/Abracadabra Money)"
+help: "[H-01] Avoidance of Liquidation Via Malicious Oracle"
+wiki_title: "[H-01] Avoidance of Liquidation Via Malicious Oracle"
+wiki_description: |
+    _Submitted by BowTiedWardens, also found by gzeon, and hyh_
+    
+    Issue: Arbitrary oracles are permitted on construction of loans, and there is no check that the lender agrees to the used oracle.
+    
+    Consequences: A borrower who requests a loan with a malicious oracle can avoid legitimate liquidation.
+    
+    ###
+wiki_exploit_scenario: |
+    Per Solodit #2126: _Submitted by BowTiedWardens, also found by gzeon, and hyh_
+    
+    Issue: Arbitrary oracles are permitted on construction of loans, and there is no check that the lender agrees to the used oracle.
+    
+    Conseque
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01AvoidanceOfLiquidationViaMaliciousOracle"
+solodit_id: "2126"
+solodit_slug: "h-01-avoidance-of-liquidation-via-malicious-oracle-code4rena-abracadabra-money-abranft-contest-git"
+solodit_quality: "3"
+solodit_rarity: "1"
+solodit_tags: "Oracle"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(removeCollateral|require).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

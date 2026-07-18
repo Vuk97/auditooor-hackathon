@@ -1,0 +1,35 @@
+skeleton: "paired_function_divergence"
+name: "m-03-no-entry-checks-in-crossswap-exact-tokensfor-exact-tokens"
+class_name: "M03NoEntryChecksInCrossswapExactTokensforExactTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3868 (Code4rena/Marginswap)"
+help: "[M-03] No entry checks in crossSwap[Exact]TokensFor[Exact]Tokens"
+wiki_title: "[M-03] No entry checks in crossSwap[Exact]TokensFor[Exact]Tokens"
+wiki_description: |
+    The functions crossSwapTokensForExactTokens and crossSwapExactTokensForTokens of MarginRouter.sol do not check who is calling the function. They also do not check the contents of pairs and tokens nor do they check if the size of pairs and tokens is the same.
+    
+    `registerTradeAndBorrow` within `regist
+wiki_exploit_scenario: |
+    Per Solodit #3868: The functions crossSwapTokensForExactTokens and crossSwapExactTokensForTokens of MarginRouter.sol do not check who is calling the function. They also do not check the contents of pairs and tokens nor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03NoEntryChecksInCrossswapExactTokensforExactTokens"
+solodit_id: "3868"
+solodit_slug: |
+    m-03-no-entry-checks-in-crossswapexacttokensforexacttokens-code4rena-marginswap-marginswap-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(registerTrade|registerTradeAndBorrow).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

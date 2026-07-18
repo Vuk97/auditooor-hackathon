@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "front-running-staking-unstakerequestwithpermit-can-invalidate-us"
+class_name: "FrontRunningStakingUnstakerequestwithpermitCanInvalidateUs"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63669 (MixBytes/Mantle Network)"
+help: "Front-running `Staking.unstakeRequestWithPermit()` can invalidate user transaction"
+wiki_title: "Front-running `Staking.unstakeRequestWithPermit()` can invalidate user transaction"
+wiki_description: |
+    ##### Description
+    An attacker can read the `v`, `r`, `s` from the mempool and call `mETH.permit()` first, consuming the user's signature and updating the nonce. The subsequent user transaction `Staking.unstakeRequestWithPermit()` then reverts on the `permit()` call due to an invalidated signature/no
+wiki_exploit_scenario: |
+    Per Solodit #63669: ##### Description
+    An attacker can read the `v`, `r`, `s` from the mempool and call `mETH.permit()` first, consuming the user's signature and updating the nonce. The subsequent user transaction `Stakin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FrontRunningStakingUnstakerequestwithpermitCanInvalidateUs"
+solodit_id: "63669"
+solodit_slug: |
+    front-running-stakingunstakerequestwithpermit-can-invalidate-user-transaction-mixbytes-none-mantle-network-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal permit;"
+fn_name_regex: ".*(permit|unstakeRequestManager).*"
+read_var_regex: ".*(permit|unstakeRequestManager).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "permit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return permit > 0;"

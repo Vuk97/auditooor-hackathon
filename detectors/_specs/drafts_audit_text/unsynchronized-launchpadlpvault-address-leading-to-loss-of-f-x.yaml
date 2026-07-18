@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "unsynchronized-launchpadlpvault-address-leading-to-loss-of-f-x"
+class_name: "UnsynchronizedLaunchpadlpvaultAddressLeadingToLossOfFX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-08-gte-perps-and-launchpad"
+help: |
+    gizzy , also found by 0xMilenov AvantGard Bale , and nem0TheFinder launchpad/Launchpad.sol #L414 The Launchpad contract can update its launchpadLPVault address, but the GTELaunchpa
+wiki_title: "Unsynchronized LaunchpadLPVault address leading to Loss of fee to Stakers of new launchPad token"
+wiki_description: |
+    gizzy , also found by 0xMilenov AvantGard Bale , and nem0TheFinder launchpad/Launchpad.sol #L414 The Launchpad contract can update its launchpadLPVault address, but the GTELaunchpadV2PairFactory has an immutable launchpadLp field. This creates a desynchronization where new pairs created after vault
+wiki_exploit_scenario: |
+    Per audit finding: gizzy , also found by 0xMilenov AvantGard Bale , and nem0TheFinder launchpad/Launchpad.sol #L414 The Launchpad contract can update its launchpadLPVault address, but the GTELaunchpadV2PairFactory has a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnsynchronizedLaunchpadlpvaultAddressLeadingToLossOfFX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

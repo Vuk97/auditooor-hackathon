@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "m-01-l2-oracle-update-can-be-sandwiched-to-gain-extra-tokens"
+class_name: "M01L2OracleUpdateCanBeSandwichedToGainExtraTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44031 (Shieldify/Dinero Supereth)"
+help: "[M-01] L2 Oracle Update Can Be Sandwiched to Gain Extra Tokens"
+wiki_title: "[M-01] L2 Oracle Update Can Be Sandwiched to Gain Extra Tokens"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    When a user calls `deposit()` in `L2SyncPool`, he deposits in the asset (tokenIn) and gets some shares. This asset will be in the contract until `sync()` is called to bridge the assets to L1 and be deposited into the `apxETH` vault.
+    
+    The shares the user gets
+wiki_exploit_scenario: |
+    Per Solodit #44031: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    When a user calls `deposit()` in `L2SyncPool`, he deposits in the asset (tokenIn) and gets some shares. This asset will be in the contract until `sync()` is c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01L2OracleUpdateCanBeSandwichedToGainExtraTokens"
+solodit_id: "44031"
+solodit_slug: "m-01-l2-oracle-update-can-be-sandwiched-to-gain-extra-tokens-shieldify-none-dinero-supereth-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal apxeth;"
+fn_name_regex: ".*(deposit|L2SyncPool|sync|apxETH).*"
+read_var_regex: ".*(apxETH|convertToShares|deposit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return apxeth > 0;"

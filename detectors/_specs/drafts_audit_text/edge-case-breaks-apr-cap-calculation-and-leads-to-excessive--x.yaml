@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "edge-case-breaks-apr-cap-calculation-and-leads-to-excessive--x"
+class_name: "EdgeCaseBreaksAprCapCalculationAndLeadsToExcessiveX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-blend-v2-audit-certora-formal-verification"
+help: |
+    Sparrow In the fee vault’s update_rate function, there’s an edge case that affects the calculation of target growth rate when the product of 100_000 * target_apr * time_elapsed is
+wiki_title: "Edge case breaks APR cap calculation and leads to excessive fee extraction from the pool"
+wiki_description: |
+    Sparrow In the fee vault’s update_rate function, there’s an edge case that affects the calculation of target growth rate when the product of 100_000 * target_apr * time_elapsed is less than SECONDS_PER_YEAR (31,536,000). Due to integer division, this calculation results in 0, making the target growt
+wiki_exploit_scenario: |
+    Per audit finding: Sparrow In the fee vault’s update_rate function, there’s an edge case that affects the calculation of target growth rate when the product of 100_000 * target_apr * time_elapsed is less than SECONDS_PE
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EdgeCaseBreaksAprCapCalculationAndLeadsToExcessiveX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(SECONDS_PER_YEAR).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SECONDS_PER_YEAR"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

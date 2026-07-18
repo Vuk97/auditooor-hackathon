@@ -1,0 +1,20 @@
+id: out-of-range-reserve-params-truncated
+title: "Out-of-range reserve parameters silently truncated"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.32"
+bug_class: precision-loss
+indicators:
+  - "bitfield packing: `self.data = (self.data & !MASK) | ((value & FIELD_MASK) << SHIFT)`"
+  - "no check that `value <= FIELD_MAX` before packing"
+victim: "Protocol governance: admin intends to set a higher value but it's silently truncated to the low bits."
+exploit_precondition: "Admin sets a value above the encoded field capacity."
+real_world_example: |
+  Halborn 7.32 (LOW): Out-of-range reserve parameters are silently truncated, causing broken risk limits.
+suggested_remediation: "Validate `value <= FIELD_MAX` before packing."
+cross_refs:
+  - unbounded-interest-rate-parameters
+  - unbounded-reserve-factor

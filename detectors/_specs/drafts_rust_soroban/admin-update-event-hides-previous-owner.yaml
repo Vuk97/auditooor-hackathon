@@ -1,0 +1,19 @@
+id: admin-update-event-hides-previous-owner
+title: "Admin update event does not include previous owner"
+severity: Info
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.51"
+bug_class: error-handling
+indicators:
+  - "`env.events().publish(('admin','updated'), new_admin)` without old_admin"
+  - "no transition record suitable for off-chain monitoring"
+victim: "Operators monitoring admin changes."
+exploit_precondition: "Admin change happens."
+real_world_example: |
+  Halborn 7.51 (INFO): Admin update event obscures previous owner.
+suggested_remediation: "Emit `(old_admin, new_admin)` tuple."
+cross_refs:
+  - missing-two-step-admin-acceptance

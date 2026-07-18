@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "function-domultistake-does-not-spend-all-input-eth"
+class_name: "FunctionDomultistakeDoesNotSpendAllInputEth"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Asymmetry Finanace safETH - Zellic Audit Report"
+help: |
+    When a user wants to stake more than singleDerivativeThreshold, and there is not enough left in the premint supply, the contract ends up calling doMultiStake(), which does a weight
+wiki_title: "Function doMultiStake() does not spend all input ETH"
+wiki_description: |
+    When a user wants to stake more than singleDerivativeThreshold, and there is not enough left in the premint supply, the contract ends up calling doMultiStake(), which does a weighted stake into multiple derivatives. ...)) uint256 amountStaked = 0; for (uint256 i = 0; i < derivativeCount; i+)) { if (
+wiki_exploit_scenario: |
+    Per audit finding: When a user wants to stake more than singleDerivativeThreshold, and there is not enough left in the premint supply, the contract ends up calling doMultiStake(), which does a weighted stake into multip
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FunctionDomultistakeDoesNotSpendAllInputEth"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(singleDerivativeThreshold|doMultiStake|amountStaked).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "singleDerivativeThreshold"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

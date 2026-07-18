@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "fake-vesting-events-generation-using-inexistent-stepvesting"
+class_name: "FakeVestingEventsGenerationUsingInexistentStepvesting"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-secondswap"
+help: |
+    [L-04] Fake Vesting events generation using inexistent stepVesting addresses Fake Vesting events could be generated in SecondSwap_VestingDeployer::createVesting() and SecondSwap_Ve
+wiki_title: "Fake Vesting events generation using inexistent stepVesting"
+wiki_description: |
+    [L-04] Fake Vesting events generation using inexistent stepVesting addresses Fake Vesting events could be generated in SecondSwap_VestingDeployer::createVesting() and SecondSwap_VestingDeployer::createVestings() as there is no check of the stepVesting address is actually a real deployed one. Proof o
+wiki_exploit_scenario: |
+    Per audit finding: [L-04] Fake Vesting events generation using inexistent stepVesting addresses Fake Vesting events could be generated in SecondSwap_VestingDeployer::createVesting() and SecondSwap_VestingDeployer::creat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FakeVestingEventsGenerationUsingInexistentStepvesting"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stepVesting|createVesting|createVestings).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "stepVesting"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,36 @@
+skeleton: "paired_function_divergence"
+name: "m-02-latestrounddata-does-not-update-the-oracle-exchangerate-sol"
+class_name: "M02LatestrounddataDoesNotUpdateTheOracleExchangerateSol"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25547 (Code4rena/Notional)"
+help: "[M-02] `.latestRoundData()` does not update the oracle - `ExchangeRate.sol`"
+wiki_title: "[M-02] `.latestRoundData()` does not update the oracle - `ExchangeRate.sol`"
+wiki_description: |
+    _Submitted by a_delamo, also found by tensors, JMukesh, cmichel and defsec_
+    
+    The method `.latestRoundData()` on an oracle returns the latest updated price from the oracle, but this is not the current price of an asset. To get an accurate current price you need to query it by calling the oracle and w
+wiki_exploit_scenario: |
+    Per Solodit #25547: _Submitted by a_delamo, also found by tensors, JMukesh, cmichel and defsec_
+    
+    The method `.latestRoundData()` on an oracle returns the latest updated price from the oracle, but this is not the current
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02LatestrounddataDoesNotUpdateTheOracleExchangerateSol"
+solodit_id: "25547"
+solodit_slug: "m-02-latestrounddata-does-not-update-the-oracle-exchangeratesol-code4rena-notional-notional-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

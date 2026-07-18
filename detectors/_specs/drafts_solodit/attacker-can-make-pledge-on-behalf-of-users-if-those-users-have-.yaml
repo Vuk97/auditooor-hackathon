@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "attacker-can-make-pledge-on-behalf-of-users-if-those-users-have-"
+class_name: "AttackerCanMakePledgeOnBehalfOfUsersIfThoseUsersHave"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61175 (Cyfrin/Remora Pledge)"
+help: |
+    Attacker can make pledge on behalf of users if those users have approved `PledgeManager` to spend their tokens
+wiki_title: |
+    Attacker can make pledge on behalf of users if those users have approved `PledgeManager` to spend their tokens
+wiki_description: |
+    **Description:** `PledgeManager` requires users to approve it to spend their tokens in order to make pledges. Users can do this by either:
+    1) using `IERC20Permit::permit` which enforces a nonce for the signer, deadline and domain separator
+    2) manually by calling `IERC20::approve`
+    
+    If users use the m
+wiki_exploit_scenario: |
+    Per Solodit #61175: **Description:** `PledgeManager` requires users to approve it to spend their tokens in order to make pledges. Users can do this by either:
+    1) using `IERC20Permit::permit` which enforces a nonce for th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AttackerCanMakePledgeOnBehalfOfUsersIfThoseUsersHave"
+solodit_id: "61175"
+solodit_slug: |
+    attacker-can-make-pledge-on-behalf-of-users-if-those-users-have-approved-pledgemanager-to-spend-their-tokens-cyfrin-none-remora-pledge-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(PledgeManager).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "PledgeManager"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

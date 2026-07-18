@@ -1,0 +1,38 @@
+skeleton: "paired_function_divergence"
+name: "interest-accumulation-prior-to-bucket-launch"
+class_name: "InterestAccumulationPriorToBucketLaunch"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #59041 (Quantstamp/Primex Finance)"
+help: "Interest Accumulation Prior to Bucket Launch"
+wiki_title: "Interest Accumulation Prior to Bucket Launch"
+wiki_description: |
+    **Update**
+    The team fixed the issue as recommended in the commit `541096b`. Notably, the client also adjusted the bar to register as zero when "ur" holds a zero value, a modification unrelated to the current fix.
+    
+    **File(s) affected:**`Bucket.sol`
+    
+    **Description:** According to the [documentation](h
+wiki_exploit_scenario: |
+    Per Solodit #59041: **Update**
+    The team fixed the issue as recommended in the commit `541096b`. Notably, the client also adjusted the bar to register as zero when "ur" holds a zero value, a modification unrelated to the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InterestAccumulationPriorToBucketLaunch"
+solodit_id: "59041"
+solodit_slug: "interest-accumulation-prior-to-bucket-launch-quantstamp-primex-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(withdraw).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

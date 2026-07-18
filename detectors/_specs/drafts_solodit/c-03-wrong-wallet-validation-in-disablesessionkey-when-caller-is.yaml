@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "c-03-wrong-wallet-validation-in-disablesessionkey-when-caller-is"
+class_name: "C03WrongWalletValidationInDisablesessionkeyWhenCallerIs"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61405 (Shieldify/Etherspot Credibleaccountmodule)"
+help: "[C-03] Wrong Wallet Validation in `disableSessionKey()` When Caller is `SESSION_KEY_DISABLER` Role"
+wiki_title: "[C-03] Wrong Wallet Validation in `disableSessionKey()` When Caller is `SESSION_KEY_DISABLER` Role"
+wiki_description: |
+    ## Severity
+    
+    Critical Risk
+    
+    ## Description
+    
+    When a `SESSION_KEY_DISABLER` calls `disableSessionKey()`, the function incorrectly checks `sessionData[_sessionKey][msg.sender].validUntil` (which is always 0 for disablers) rather than the target session's expiration time.
+    
+    This causes the token claim v
+wiki_exploit_scenario: |
+    Per Solodit #61405: ## Severity
+    
+    Critical Risk
+    
+    ## Description
+    
+    When a `SESSION_KEY_DISABLER` calls `disableSessionKey()`, the function incorrectly checks `sessionData[_sessionKey][msg.sender].validUntil` (which is alwa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C03WrongWalletValidationInDisablesessionkeyWhenCallerIs"
+solodit_id: "61405"
+solodit_slug: |
+    c-03-wrong-wallet-validation-in-disablesessionkey-when-caller-is-session_key_disabler-role-shieldify-none-etherspot-credibleaccountmodule-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal disablesessionkey;"
+fn_name_regex: ".*(SESSION_KEY_DISABLER|disableSessionKey|validUntil|LockedTokensNotClaimed).*"
+read_var_regex: ".*(disableSessionKey|targetWallet|validUntil).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SESSION_KEY_DISABLER"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return disablesessionkey > 0;"

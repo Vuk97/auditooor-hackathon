@@ -1,0 +1,46 @@
+skeleton: "state_write_without_paired_write"
+name: "m-08-borroweroperations-alters-user-debt-but-enforces-prices-are"
+class_name: "M08BorroweroperationsAltersUserDebtButEnforcesPricesAre"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53848 (Recon Audits/Apollon Report)"
+help: |
+    [M-08] `BorrowerOperations` alters user debt but enforces prices are not stale only for debts that are being actively altered
+wiki_title: |
+    [M-08] `BorrowerOperations` alters user debt but enforces prices are not stale only for debts that are being actively altered
+wiki_description: |
+    **Impact**
+    
+    A common pattern used in Apollon for price validation looks as follows:
+    
+    https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87/packages/contracts/contracts/BorrowerOperations.sol#L248-L270
+    
+    ```solidity
+      function addColl(
+        TokenAmount[] memory _colls,
+        ad
+wiki_exploit_scenario: |
+    Per Solodit #53848: **Impact**
+    
+    A common pattern used in Apollon for price validation looks as follows:
+    
+    https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87/packages/contracts/contracts/Borro
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08BorroweroperationsAltersUserDebtButEnforcesPricesAre"
+solodit_id: "53848"
+solodit_slug: |
+    m-08-borroweroperations-alters-user-debt-but-enforces-prices-are-not-stale-only-for-debts-that-are-being-actively-altered-recon-audits-none-apollon-report-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(BorrowerOperations).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

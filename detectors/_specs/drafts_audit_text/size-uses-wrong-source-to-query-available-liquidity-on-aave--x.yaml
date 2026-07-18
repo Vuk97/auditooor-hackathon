@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "size-uses-wrong-source-to-query-available-liquidity-on-aave--x"
+class_name: "SizeUsesWrongSourceToQueryAvailableLiquidityOnAaveX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-06-size"
+help: |
+    JCN , also found by mt030d 0xpiken silver_eth grearlake elhaj zarkk01 trachev ilchovski bin2chen VAD37 , and SpicyMeatball Size queries the underlyingBorrowToken balance of the var
+wiki_title: |
+    Size uses wrong source to query available liquidity on Aave, resulting in borrow and lend operations being bricked upon mainnet deployment
+wiki_description: |
+    JCN , also found by mt030d 0xpiken silver_eth grearlake elhaj zarkk01 trachev ilchovski bin2chen VAD37 , and SpicyMeatball Size queries the underlyingBorrowToken balance of the variablePool during borrowing and lending actions in order to check available liquidity. If there is not enough available l
+wiki_exploit_scenario: |
+    Per audit finding: JCN , also found by mt030d 0xpiken silver_eth grearlake elhaj zarkk01 trachev ilchovski bin2chen VAD37 , and SpicyMeatball Size queries the underlyingBorrowToken balance of the variablePool during bor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SizeUsesWrongSourceToQueryAvailableLiquidityOnAaveX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(underlyingBorrowToken|variablePool|buyCreditMarket).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "underlyingBorrowToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

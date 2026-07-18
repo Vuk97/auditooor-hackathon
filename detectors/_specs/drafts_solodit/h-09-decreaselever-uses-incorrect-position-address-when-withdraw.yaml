@@ -1,0 +1,42 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-09-decreaselever-uses-incorrect-position-address-when-withdraw"
+class_name: "H09DecreaseleverUsesIncorrectPositionAddressWhenWithdraw"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49031 (Code4rena/LoopFi)"
+help: "[H-09] `decreaseLever` uses incorrect position address when withdrawing"
+wiki_title: "[H-09] `decreaseLever` uses incorrect position address when withdrawing"
+wiki_description: |
+    `decreaseLever` will always revert for `Position4626` associated vaults.
+    
+    ### Proof of Concept
+    
+    When decreasing lever, the control is passed over to the actual implementation contract for the `flashLoan` execution:
+    
+    ```solidity
+        function decreaseLever(
+            LeverParams calldata leverParams,
+wiki_exploit_scenario: |
+    Per Solodit #49031: `decreaseLever` will always revert for `Position4626` associated vaults.
+    
+    ### Proof of Concept
+    
+    When decreasing lever, the control is passed over to the actual implementation contract for the `flashL
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H09DecreaseleverUsesIncorrectPositionAddressWhenWithdraw"
+solodit_id: "49031"
+solodit_slug: "h-09-decreaselever-uses-incorrect-position-address-when-withdrawing-code4rena-loopfi-loopfi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(decreaseLever|Position4626|flashLoan|onCreditFlashLoan).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

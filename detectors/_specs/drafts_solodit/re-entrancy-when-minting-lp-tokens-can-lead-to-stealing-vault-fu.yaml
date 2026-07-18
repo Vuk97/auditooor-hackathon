@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "re-entrancy-when-minting-lp-tokens-can-lead-to-stealing-vault-fu"
+class_name: "ReEntrancyWhenMintingLpTokensCanLeadToStealingVaultFu"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50767 (Halborn/Passage)"
+help: "RE-ENTRANCY WHEN MINTING LP TOKENS CAN LEAD TO STEALING VAULT FUNDS"
+wiki_title: "RE-ENTRANCY WHEN MINTING LP TOKENS CAN LEAD TO STEALING VAULT FUNDS"
+wiki_description: |
+    ##### Description
+    
+    The `BPLP` contract uses ERC1155 tokens to be able to keep track of tokens based on the vault id. However, because ERC1155 tokens call the `onERC1155Received` on the destination address after being minted, they are prone to re-entrancy vulnerabilities.
+    
+    Moreover, the deposit funct
+wiki_exploit_scenario: |
+    Per Solodit #50767: ##### Description
+    
+    The `BPLP` contract uses ERC1155 tokens to be able to keep track of tokens based on the vault id. However, because ERC1155 tokens call the `onERC1155Received` on the destination add
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReEntrancyWhenMintingLpTokensCanLeadToStealingVaultFu"
+solodit_id: "50767"
+solodit_slug: |
+    re-entrancy-when-minting-lp-tokens-can-lead-to-stealing-vault-funds-halborn-bracketfi-passage-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amteth;"
+fn_name_regex: ".*(BPLP|onERC1155Received|amtETH).*"
+read_var_regex: ".*(amtETH|onERC1155Received).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BPLP"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amteth > 0;"

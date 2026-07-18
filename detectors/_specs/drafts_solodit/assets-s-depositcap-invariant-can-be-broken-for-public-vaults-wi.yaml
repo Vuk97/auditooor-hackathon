@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "assets-s-depositcap-invariant-can-be-broken-for-public-vaults-wi"
+class_name: "AssetsSDepositcapInvariantCanBeBrokenForPublicVaultsWi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7317 (Spearbit/Astaria)"
+help: "assets < s.depositCap invariant can be broken for public vaults with non-zero deposit caps"
+wiki_title: "assets < s.depositCap invariant can be broken for public vaults with non-zero deposit caps"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - PublicVault.sol#L207-L208
+    - PublicVault.sol#L231-L232
+    
+    ## Description
+    The following check in `mint` / `deposit` does not take into consideration the new shares / amount supplied to the endpoint, since the `yIntercept` in `totalAssets()` is only updated after ca
+wiki_exploit_scenario: |
+    Per Solodit #7317: ## Severity: Medium Risk
+    
+    ## Context
+    - PublicVault.sol#L207-L208
+    - PublicVault.sol#L231-L232
+    
+    ## Description
+    The following check in `mint` / `deposit` does not take into consideration the new shares /
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AssetsSDepositcapInvariantCanBeBrokenForPublicVaultsWi"
+solodit_id: "7317"
+solodit_slug: |
+    assets-sdepositcap-invariant-can-be-broken-for-public-vaults-with-non-zero-deposit-caps-spearbit-astaria-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation, Bypass limit"
+state_decl: "uint256 internal afterdeposit;"
+fn_name_regex: ".*(mint|deposit|yIntercept|totalAssets).*"
+write_var_regex: ".*(afterDeposit|assets|deposit).*"
+guard_var_regex: ".*(afterDeposit|assets|deposit).*"
+vuln_fn_name: "mint"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "afterdeposit = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "double-spending-through-double-entry-point-tokens"
+class_name: "DoubleSpendingThroughDoubleEntryPointTokens"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44867 (Zokyo/Velocore)"
+help: "Double spending through Double Entry Point Tokens"
+wiki_title: "Double spending through Double Entry Point Tokens"
+wiki_description: |
+    **Severity**: High
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In contract SwapFacet, method _execute is vulnerable to a read-only reentrance through the convert flow ( opType == 2 ), if the same balance is read from the same tokens twice in the for loop the same delta will be calculated twice creating
+wiki_exploit_scenario: |
+    Per Solodit #44867: **Severity**: High
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In contract SwapFacet, method _execute is vulnerable to a read-only reentrance through the convert flow ( opType == 2 ), if the same balance
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DoubleSpendingThroughDoubleEntryPointTokens"
+solodit_id: "44867"
+solodit_slug: "double-spending-through-double-entry-point-tokens-zokyo-none-velocore-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(opType|opDest|opAmount|opDst).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "opType"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

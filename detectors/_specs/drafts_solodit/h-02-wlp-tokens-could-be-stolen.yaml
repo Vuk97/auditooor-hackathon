@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-02-wlp-tokens-could-be-stolen"
+class_name: "H02WlpTokensCouldBeStolen"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29590 (Code4rena/INIT Capital)"
+help: "[H-02] wLp tokens could be stolen"
+wiki_title: "[H-02] wLp tokens could be stolen"
+wiki_description: |
+    `PosManager#removeCollateralWLpTo` function allows users to remove collateral wrapped in a wLp token that was previously supplied to the protocol:
+    
+    ```solidity
+    File: PosManager.sol
+    249:     function removeCollateralWLpTo(uint _posId, address _wLp, uint _tokenId, uint _amt, address _receiver)
+    250:
+wiki_exploit_scenario: |
+    Per Solodit #29590: `PosManager#removeCollateralWLpTo` function allows users to remove collateral wrapped in a wLp token that was previously supplied to the protocol:
+    
+    ```solidity
+    File: PosManager.sol
+    249:     function
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02WlpTokensCouldBeStolen"
+solodit_id: "29590"
+solodit_slug: "h-02-wlp-tokens-could-be-stolen-code4rena-init-capital-init-capital-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal decollateralizewlp;"
+fn_name_regex: ".*(decollateralizeWLp|liquidateWLp|tokenId).*"
+read_var_regex: ".*(decollateralizeWLp|liquidateWLp|tokenId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "decollateralizeWLp"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return decollateralizewlp > 0;"

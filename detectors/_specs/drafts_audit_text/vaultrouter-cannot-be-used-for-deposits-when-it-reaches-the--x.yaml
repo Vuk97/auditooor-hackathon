@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "vaultrouter-cannot-be-used-for-deposits-when-it-reaches-the--x"
+class_name: "VaultrouterCannotBeUsedForDepositsWhenItReachesTheX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-bakerfi-invitational"
+help: |
+    0xlemon Summary VaultRouter cannot be used for deposits when it reaches the maximum deposit limit because this contract is the msg.sender to the vault and it is treated as a deposi
+wiki_title: "VaultRouter cannot be used for deposits when it reaches the maximum deposit limit"
+wiki_description: |
+    0xlemon Summary VaultRouter cannot be used for deposits when it reaches the maximum deposit limit because this contract is the msg.sender to the vault and it is treated as a depositor who has a limit. Vulnerability Details When doing deposits to a vault from the VaultRouter the router does an extern
+wiki_exploit_scenario: |
+    Per audit finding: 0xlemon Summary VaultRouter cannot be used for deposits when it reaches the maximum deposit limit because this contract is the msg.sender to the vault and it is treated as a depositor who has a limit.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VaultrouterCannotBeUsedForDepositsWhenItReachesTheX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getMaxDeposit|balanceOf|maxDepositLocal).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "getMaxDeposit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

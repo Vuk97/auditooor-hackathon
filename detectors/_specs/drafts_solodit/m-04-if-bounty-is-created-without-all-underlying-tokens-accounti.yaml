@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-04-if-bounty-is-created-without-all-underlying-tokens-accounti"
+class_name: "M04IfBountyIsCreatedWithoutAllUnderlyingTokensAccounti"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31770 (ZachObront/Alongside)"
+help: "[M-04] If bounty is created without all underlying tokens, accounting will be permanently thrown off"
+wiki_title: "[M-04] If bounty is created without all underlying tokens, accounting will be permanently thrown off"
+wiki_description: |
+    When a bounty is created, it includes a `nominal` value for each underlying token.
+    
+    If the token is not going to be adjusted, the `nominal` value should equal the previous nominal amount, minus all fees that have accrued since then.
+    
+    ```solidity
+    uint256 realUnitsAtLastFeeTimestamp = fmul(
+        vault.
+wiki_exploit_scenario: |
+    Per Solodit #31770: When a bounty is created, it includes a `nominal` value for each underlying token.
+    
+    If the token is not going to be adjusted, the `nominal` value should equal the previous nominal amount, minus all fe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04IfBountyIsCreatedWithoutAllUnderlyingTokensAccounti"
+solodit_id: "31770"
+solodit_slug: |
+    m-04-if-bounty-is-created-without-all-underlying-tokens-accounting-will-be-permanently-thrown-off-zachobront-none-alongside-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lastknownmultiplier;"
+fn_name_regex: ".*(nominal|lastKnownMultiplier|SCALAR|trackedMultplier).*"
+read_var_regex: ".*(lastKnownMultiplier|nominal|realUnits).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "nominal"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return lastknownmultiplier > 0;"

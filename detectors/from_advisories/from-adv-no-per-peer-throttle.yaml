@@ -1,0 +1,22 @@
+pattern: from-adv-no-per-peer-throttle
+source: advisory-seed-corpus/no_per_peer_throttle
+severity: MEDIUM
+confidence: MEDIUM
+backend: regex
+tags: [resource-exhaustion-dos]
+
+# CLASS-LEVEL mechanism detector auto-derived from 2 advisory seed(s).
+# Mechanism matched, not any instance. Anti-overfit verified by advisory-seed-to-dsl.py.
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-4fc2-h7jh-287c
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-h9hm-m2xj-4rq9
+
+preconditions: []
+
+match:
+  - function.kind: external_or_public
+  - function.body_contains_regex: "(?i)(Semaphore::new\\s*\\(|\\.acquire\\s*\\(|\\bin[_-]?flight\\b|restart_sync\\s*\\(|reset_sync\\s*\\()"
+  - function.body_not_contains_regex: "(?i)(per[_-]?peer|peer[_-]?id|HashMap<\\s*(?:PeerId|SocketAddr)|rate[_-]?limit|\\bquota\\b|\\bbackoff\\b|max[_-]?in[_-]?flight)"
+
+help: "An inbound request/sync/gossip path consumes a SHARED concurrency slot (Semaphore/acquire) or triggers a GLOBAL reset (restart_sync) with no per-peer keying - a single peer exhausts the resource or stalls discovery for everyone."
+wiki_title: "No Per Peer Throttle"
+wiki_description: "An inbound request/sync/gossip path consumes a SHARED concurrency slot (Semaphore/acquire) or triggers a GLOBAL reset (restart_sync) with no per-peer keying - a single peer exhausts the resource or stalls discovery for everyone."

@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "h-2-withdrawals-with-high-gas-limits-can-be-bricked-by-a-malicio"
+class_name: "H2WithdrawalsWithHighGasLimitsCanBeBrickedByAMalicio"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6495 (Sherlock/Optimism)"
+help: "H-2: Withdrawals with high gas limits can be bricked by a malicious user, permanently locking funds"
+wiki_title: "H-2: Withdrawals with high gas limits can be bricked by a malicious user, permanently locking funds"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-optimism-judging/issues/96 
+    
+    ## Found by 
+    Allarious, obront, ladboy233, Barichek
+    
+    ## Summary
+    
+    Transactions to execute a withdrawal from the Optimism Portal require the caller to send enough gas to cover `gasLimit` specified by the withdrawer. 
+    
+    Becau
+wiki_exploit_scenario: |
+    Per Solodit #6495: Source: https://github.com/sherlock-audit/2023-01-optimism-judging/issues/96 
+    
+    ## Found by 
+    Allarious, obront, ladboy233, Barichek
+    
+    ## Summary
+    
+    Transactions to execute a withdrawal from the Optimism P
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H2WithdrawalsWithHighGasLimitsCanBeBrickedByAMalicio"
+solodit_id: "6495"
+solodit_slug: |
+    h-2-withdrawals-with-high-gas-limits-can-be-bricked-by-a-malicious-user-permanently-locking-funds-sherlock-optimism-optimism-git
+solodit_quality: "4"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal finalizewithdrawaltransaction;"
+fn_name_regex: ".*(gasLimit|gasleft|finalizeWithdrawalTransaction|L2ToL1MessagePasser).*"
+write_var_regex: ".*(finalizeWithdrawalTransaction|gasLimit|gasleft).*"
+guard_var_regex: ".*(finalizeWithdrawalTransaction|gasLimit|gasleft).*"
+vuln_fn_name: "gasLimit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "finalizewithdrawaltransaction = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

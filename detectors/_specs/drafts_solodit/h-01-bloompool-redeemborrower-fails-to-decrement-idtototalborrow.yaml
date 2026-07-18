@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "h-01-bloompool-redeemborrower-fails-to-decrement-idtototalborrow"
+class_name: "H01BloompoolRedeemborrowerFailsToDecrementIdtototalborrow"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #55673 (0x52/Stusdcxbloom)"
+help: |
+    [H-01] BloomPool#redeemBorrower fails to decrement \_idToTotalBorrowed leading to large portions of borrower funds being permanently trapped in the contract
+wiki_title: |
+    [H-01] BloomPool#redeemBorrower fails to decrement \_idToTotalBorrowed leading to large portions of borrower funds being permanently trapped in the contract
+wiki_description: |
+    **Details**
+    
+    [BloomPool.sol#L133-L136](https://github.com/Blueberryfi/bloom-v2/blob/87a60380331cc914be41ad57691f08b532a4d6fb/src/BloomPool.sol#L133-L136)
+    
+        uint256 totalBorrowAmount = _idToTotalBorrowed[id];
+        uint256 borrowAmount = _borrowerAmounts[msg.sender][id];
+    
+        reward = (_tbyBorrowerR
+wiki_exploit_scenario: |
+    Per Solodit #55673: **Details**
+    
+    [BloomPool.sol#L133-L136](https://github.com/Blueberryfi/bloom-v2/blob/87a60380331cc914be41ad57691f08b532a4d6fb/src/BloomPool.sol#L133-L136)
+    
+        uint256 totalBorrowAmount = _idToTotalBor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01BloompoolRedeemborrowerFailsToDecrementIdtototalborrow"
+solodit_id: "55673"
+solodit_slug: |
+    h-01-bloompoolredeemborrower-fails-to-decrement-_idtototalborrowed-leading-to-large-portions-of-borrower-funds-being-permanently-trapped-in-the-contract-0x52-none-stusdcxbloom-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalBorrowAmount|borrowAmount|assetAmount|safeTransfer).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "totalBorrowAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

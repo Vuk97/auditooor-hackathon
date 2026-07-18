@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-03-openedition-buy-might-revert-due-to-uint-overflow-when-it-s"
+class_name: "M03OpeneditionBuyMightRevertDueToUintOverflowWhenItS"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6360 (Code4rena/Escher)"
+help: "[M-03] `OpenEdition.buy()` might revert due to uint overflow when it should work."
+wiki_title: "[M-03] `OpenEdition.buy()` might revert due to uint overflow when it should work."
+wiki_description: |
+    `OpenEdition.buy()` might revert due to uint overflow when it should work.
+    
+    ### Proof of Concept
+    
+    `OpenEdition.buy()` validates the total funds like below.
+    
+    ```solidity
+        function buy(uint256 _amount) external payable {
+            uint24 amount = uint24(_amount);
+            Sale memory temp = sale;
+wiki_exploit_scenario: |
+    Per Solodit #6360: `OpenEdition.buy()` might revert due to uint overflow when it should work.
+    
+    ### Proof of Concept
+    
+    `OpenEdition.buy()` validates the total funds like below.
+    
+    ```solidity
+        function buy(uint256 _amou
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03OpeneditionBuyMightRevertDueToUintOverflowWhenItS"
+solodit_id: "6360"
+solodit_slug: |
+    m-03-openeditionbuy-might-revert-due-to-uint-overflow-when-it-should-work-code4rena-escher-escher-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(amount|uint24|uint72|buy).*"
+read_var_regex: ".*(amount|buy|uint24).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "amount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

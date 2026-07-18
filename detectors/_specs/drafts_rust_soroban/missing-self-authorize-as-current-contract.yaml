@@ -1,0 +1,21 @@
+id: missing-self-authorize-as-current-contract
+title: "Cross-contract call passes current_contract_address but omits authorize_as_current_contract"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44801"
+bug_class: authorization
+indicators:
+  - "call pattern: `SomeClient::new(&env, &addr).method(&env.current_contract_address(), ...)` where the callee invokes `caller.require_auth()`"
+  - "missing preceding `env.authorize_as_current_contract(vec![InvokerContractAuthEntry::Contract(...)])`"
+  - "Treasury/router `withdraw` or `transfer_*` routines that pass `env.current_contract_address()` as `from` but never pre-authorize"
+victim: "Protocol: functionality bricks because every treasury/router self-call reverts with Auth InvalidAction. Funds can become stuck."
+exploit_precondition: "Any caller invokes the flow; the contract-owned transfer fails unconditionally until code is patched."
+real_world_example: |
+  V12 #44801 (High): `KineticRouter::transfer_premium_to_treasury` forwards `env.current_contract_address()` as `caller` into `AToken::transfer_underlying_to` which calls `caller.require_auth()`, but the router never calls `env.authorize_as_current_contract(...)`.
+suggested_remediation: "Before every cross-contract call where the current contract is the authenticated actor, call `env.authorize_as_current_contract(vec![InvokerContractAuthEntry::Contract(SubContractInvocation { context: ContractContext { contract: target, fn_name, args }, sub_invocations: vec![...] })])` with the full call tree."
+cross_refs:
+  - flat-auth-tree-nested-call
+  - missing-require-auth-on-privileged-entrypoint

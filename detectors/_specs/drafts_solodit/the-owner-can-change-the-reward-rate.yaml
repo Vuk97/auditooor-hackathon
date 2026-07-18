@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "the-owner-can-change-the-reward-rate"
+class_name: "TheOwnerCanChangeTheRewardRate"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57515 (Zokyo/Sharkswap)"
+help: "The owner can change the reward rate."
+wiki_title: "The owner can change the reward rate."
+wiki_description: |
+    **Description**
+    
+    CloneRewarderTime.sol: function setReward PerSecond(). Function allows the owner to change reward per second without updating the current "accToken1PerShare" of the pools. This way, users might lose their pending rewards in case the owner sets a lower value or a 0.
+    
+    **Recommendation
+wiki_exploit_scenario: |
+    Per Solodit #57515: **Description**
+    
+    CloneRewarderTime.sol: function setReward PerSecond(). Function allows the owner to change reward per second without updating the current "accToken1PerShare" of the pools. This way, u
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheOwnerCanChangeTheRewardRate"
+solodit_id: "57515"
+solodit_slug: "the-owner-can-change-the-reward-rate-zokyo-none-sharkswap-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(setReward|accToken1PerShare|updatePool|dApp).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "h-02-bps-to-decimal-conversion-is-wrong-leading-users-to-dramati"
+class_name: "H02BpsToDecimalConversionIsWrongLeadingUsersToDramati"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18708 (ZachObront/Hook)"
+help: "[H-02] BPS_TO_DECIMAL conversion is wrong, leading users to dramatically overpay for options"
+wiki_title: "[H-02] BPS_TO_DECIMAL conversion is wrong, leading users to dramatically overpay for options"
+wiki_description: |
+    The constant value used to convert bips to decimals is defined as:
+    
+    ```solidity
+    uint256 constant BPS_TO_DECIMAL = 10e14;
+    ```
+    
+    `10e14` is equivalent to `1e15`, which when multiplied by `10_000 bips` equals `1e19`, which is 10x higher than it should be.
+    
+    The result is that the `decimalVol` and `rateDe
+wiki_exploit_scenario: |
+    Per Solodit #18708: The constant value used to convert bips to decimals is defined as:
+    
+    ```solidity
+    uint256 constant BPS_TO_DECIMAL = 10e14;
+    ```
+    
+    `10e14` is equivalent to `1e15`, which when multiplied by `10_000 bips` eq
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02BpsToDecimalConversionIsWrongLeadingUsersToDramati"
+solodit_id: "18708"
+solodit_slug: |
+    h-02-bps_to_decimal-conversion-is-wrong-leading-users-to-dramatically-overpay-for-options-zachobront-none-hook-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal decimalvol;"
+fn_name_regex: ".*(decimalVol|rateDecimal).*"
+read_var_regex: ".*(decimalVol|rateDecimal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "decimalVol"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return decimalvol > 0;"

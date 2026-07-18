@@ -1,0 +1,48 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "reportoracle-can-be-sandwiched-for-profit"
+class_name: "ReportoracleCanBeSandwichedForProfit"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20752 (ConsenSys/Geodefi)"
+help: "reportOracle can be sandwiched for profit."
+wiki_title: "reportOracle can be sandwiched for profit."
+wiki_description: |
+    #### Description
+    
+    
+    The fact that price update happens in an on-chain transaction gives the searches the ability to see the future price and then act accordingly.
+    
+    
+    #### Examples
+    
+    
+    MEV searcher can find the `reportOracle` transaction in the mem-pool and if the price is about to increase he could proc
+wiki_exploit_scenario: |
+    Per Solodit #20752: #### Description
+    
+    
+    The fact that price update happens in an on-chain transaction gives the searches the ability to see the future price and then act accordingly.
+    
+    
+    #### Examples
+    
+    
+    MEV searcher can fin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReportoracleCanBeSandwichedForProfit"
+solodit_id: "20752"
+solodit_slug: "reportoracle-can-be-sandwiched-for-profit-consensys-none-geodefi-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(reportOracle).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,44 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-13-flashloan-end-result-isn-t-controlled"
+class_name: "M13FlashloanEndResultIsnTControlled"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6310 (Sherlock/Ajna)"
+help: "M-13: Flashloan end result isn't controlled"
+wiki_title: "M-13: Flashloan end result isn't controlled"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-ajna-judging/issues/101 
+    
+    ## Found by 
+    hyh, CRYP70, minhtrng, ctf\_sec
+    
+    ## Summary
+    
+    FlashLoan logic do not control the end result of transferring tokens out and back in. Given that protocol aims to support arbitrary non-rebasing / without fee on tran
+wiki_exploit_scenario: |
+    Per Solodit #6310: Source: https://github.com/sherlock-audit/2023-01-ajna-judging/issues/101 
+    
+    ## Found by 
+    hyh, CRYP70, minhtrng, ctf\_sec
+    
+    ## Summary
+    
+    FlashLoan logic do not control the end result of transferring toke
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M13FlashloanEndResultIsnTControlled"
+solodit_id: "6310"
+solodit_slug: "m-13-flashloan-end-result-isnt-controlled-sherlock-ajna-ajna-git"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(safeTransfer).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

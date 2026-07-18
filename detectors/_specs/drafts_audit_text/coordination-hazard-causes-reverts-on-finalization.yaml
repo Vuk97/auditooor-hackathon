@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "coordination-hazard-causes-reverts-on-finalization"
+class_name: "CoordinationHazardCausesRevertsOnFinalization"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Lido Fixed Income - Zellic Audit Report"
+help: |
+    If a vault has many depositors, when a vault's time period has ended and then its withdrawal is final- ized, it is likely that multiple depositors want to withdraw. To do this, the
+wiki_title: "Coordination hazard causes reverts on finalization"
+wiki_description: |
+    If a vault has many depositors, when a vault's time period has ended and then its withdrawal is final- ized, it is likely that multiple depositors want to withdraw. To do this, the first such withdrawer must call finalizeVaultEndedWithdrawals: function finalizeVaultEndedWithdrawals(uint256 side) ext
+wiki_exploit_scenario: |
+    Per audit finding: If a vault has many depositors, when a vault's time period has ended and then its withdrawal is final- ized, it is likely that multiple depositors want to withdraw. To do this, the first such withdraw
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CoordinationHazardCausesRevertsOnFinalization"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(finalizeVaultEndedWithdrawals|vaultEndedWithdrawalRequestIds|vaultEndedWithdrawalsFinalized).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "finalizeVaultEndedWithdrawals"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-01-memory-corruption-in-getbytes32frombytes-can-likely-lead-to"
+class_name: "M01MemoryCorruptionInGetbytes32frombytesCanLikelyLeadTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26938 (Code4rena/Basin)"
+help: "[M-01] Memory corruption in getBytes32FromBytes() can likely lead to loss of funds"
+wiki_title: "[M-01] Memory corruption in getBytes32FromBytes() can likely lead to loss of funds"
+wiki_description: |
+    The `LibBytes` library is used to read and store `uint128` types compactly for Well functions. The function `getBytes32FromBytes()`  will fetch a specific index as `bytes32`.
+    
+    ```solidity
+    /**
+     * @dev Read the `i`th 32-byte chunk from `data`.
+     */
+    function getBytes32FromBytes(bytes memory data, uint2
+wiki_exploit_scenario: |
+    Per Solodit #26938: The `LibBytes` library is used to read and store `uint128` types compactly for Well functions. The function `getBytes32FromBytes()`  will fetch a specific index as `bytes32`.
+    
+    ```solidity
+    /**
+     * @dev
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01MemoryCorruptionInGetbytes32frombytesCanLikelyLeadTo"
+solodit_id: "26938"
+solodit_slug: |
+    m-01-memory-corruption-in-getbytes32frombytes-can-likely-lead-to-loss-of-funds-code4rena-basin-basin-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal data;"
+fn_name_regex: ".*(LibBytes|getBytes32FromBytes|data|readUint128).*"
+read_var_regex: ".*(data|getBytes32FromBytes|readUint128).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LibBytes"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return data > 0;"

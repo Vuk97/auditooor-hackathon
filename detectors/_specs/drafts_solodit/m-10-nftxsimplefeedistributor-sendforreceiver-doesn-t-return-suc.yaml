@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-10-nftxsimplefeedistributor-sendforreceiver-doesn-t-return-suc"
+class_name: "M10NftxsimplefeedistributorSendforreceiverDoesnTReturnSuc"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42415 (Code4rena/NFTX)"
+help: |
+    [M-10] NFTXSimpleFeeDistributor._sendForReceiver doesn't return success if receiver is not a contract
+wiki_title: |
+    [M-10] NFTXSimpleFeeDistributor._sendForReceiver doesn't return success if receiver is not a contract
+wiki_description: |
+    _Submitted by hyh_
+    
+    Double spending of fees being distributed will happen in favor of the first fee receivers in the `feeReceivers` list at the expense of the last ones.
+    As `_sendForReceiver` doesn't return success for completed transfer when receiver isn't a contract, the corresponding fee amount i
+wiki_exploit_scenario: |
+    Per Solodit #42415: _Submitted by hyh_
+    
+    Double spending of fees being distributed will happen in favor of the first fee receivers in the `feeReceivers` list at the expense of the last ones.
+    As `_sendForReceiver` doesn't
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10NftxsimplefeedistributorSendforreceiverDoesnTReturnSuc"
+solodit_id: "42415"
+solodit_slug: |
+    m-10-nftxsimplefeedistributor_sendforreceiver-doesnt-return-success-if-receiver-is-not-a-contract-code4rena-nftx-nftx-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amounttosend;"
+fn_name_regex: ".*(feeReceivers|distribute|safeTransfer|amountToSend).*"
+read_var_regex: ".*(amountToSend|distribute|feeReceivers).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "feeReceivers"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amounttosend > 0;"

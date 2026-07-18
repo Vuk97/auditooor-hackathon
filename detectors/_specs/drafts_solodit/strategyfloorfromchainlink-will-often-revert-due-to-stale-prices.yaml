@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "strategyfloorfromchainlink-will-often-revert-due-to-stale-prices"
+class_name: "StrategyfloorfromchainlinkWillOftenRevertDueToStalePrices"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6970 (Spearbit/LOOKSRARE)"
+help: "StrategyFloorFromChainlink will often revert due to stale prices"
+wiki_title: "StrategyFloorFromChainlink will often revert due to stale prices"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    StrategyFloorFromChainlink.sol
+    
+    ## Description
+    The `FloorFromChainlink` strategy inherits from `BaseStrategyChainlinkPriceLatency`, so it can have a `maxLatency` of at most 3600 seconds. However, all of the Chainlink mainnet floor price feeds have a heartbeat of
+wiki_exploit_scenario: |
+    Per Solodit #6970: ## Severity: Medium Risk
+    
+    ## Context
+    StrategyFloorFromChainlink.sol
+    
+    ## Description
+    The `FloorFromChainlink` strategy inherits from `BaseStrategyChainlinkPriceLatency`, so it can have a `maxLatency` o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StrategyfloorfromchainlinkWillOftenRevertDueToStalePrices"
+solodit_id: "6970"
+solodit_slug: "strategyfloorfromchainlink-will-often-revert-due-to-stale-prices-spearbit-looksrare-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Stale Price"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(FloorFromChainlink|BaseStrategyChainlinkPriceLatency|maxLatency|PriceNotRecentEnough).*"
+primary_var_regex: ".*(maxLatency|updateAt).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

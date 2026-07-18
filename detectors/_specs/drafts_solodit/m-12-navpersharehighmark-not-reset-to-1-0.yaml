@@ -1,0 +1,44 @@
+skeleton: "state_write_without_paired_write"
+name: "m-12-navpersharehighmark-not-reset-to-1-0"
+class_name: "M12NavpersharehighmarkNotResetTo10"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27104 (Sherlock/Tokemak)"
+help: "M-12: `navPerShareHighMark` not reset to 1.0"
+wiki_title: "M-12: `navPerShareHighMark` not reset to 1.0"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-06-tokemak-judging/issues/661 
+    
+    ## Found by 
+    berndartmueller, xiaoming90
+    
+    The `navPerShareHighMark` was not reset to 1.0 when a vault had been fully exited, leading to a loss of fee.
+    
+    ## Vulnerability Detail
+    
+    The LMPVault will only collect fees if the c
+wiki_exploit_scenario: |
+    Per Solodit #27104: Source: https://github.com/sherlock-audit/2023-06-tokemak-judging/issues/661 
+    
+    ## Found by 
+    berndartmueller, xiaoming90
+    
+    The `navPerShareHighMark` was not reset to 1.0 when a vault had been fully exit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12NavpersharehighmarkNotResetTo10"
+solodit_id: "27104"
+solodit_slug: "m-12-navpersharehighmark-not-reset-to-10-sherlock-tokemak-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(navPerShareHighMark|currentNavPerShare|effectiveNavPerShareHighMark|totalAssets).*"
+primary_var_regex: ".*(currentNavPerShare|effectiveNavPerShareHighMark|navPerShareHighMark).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

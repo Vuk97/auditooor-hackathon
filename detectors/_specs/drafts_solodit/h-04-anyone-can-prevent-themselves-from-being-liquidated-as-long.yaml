@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "h-04-anyone-can-prevent-themselves-from-being-liquidated-as-long"
+class_name: "H04AnyoneCanPreventThemselvesFromBeingLiquidatedAsLong"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #15977 (Code4rena/ParaSpace)"
+help: |
+    [H-04] Anyone can prevent themselves from being liquidated as long as they hold one of the supported NFTs
+wiki_title: |
+    [H-04] Anyone can prevent themselves from being liquidated as long as they hold one of the supported NFTs
+wiki_description: |
+    Contrary to what the function comments say, `removeFeeder()` is able to be called by anyone, not just the owner. By removing all feeders (i.e. floor twap price oracle keepers), a malicious user can cause all queries for the price of NFTs reliant on the `NFTFloorOracle` (all NFTs except for the Unis
+wiki_exploit_scenario: |
+    Per Solodit #15977: Contrary to what the function comments say, `removeFeeder()` is able to be called by anyone, not just the owner. By removing all feeders (i.e. floor twap price oracle keepers), a malicious user can c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04AnyoneCanPreventThemselvesFromBeingLiquidatedAsLong"
+solodit_id: "15977"
+solodit_slug: |
+    h-04-anyone-can-prevent-themselves-from-being-liquidated-as-long-as-they-hold-one-of-the-supported-nfts-code4rena-paraspace-paraspace-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidateerc721;"
+fn_name_regex: ".*(removeFeeder|NFTFloorOracle|liquidateERC721|onlyRole).*"
+read_var_regex: ".*(liquidateERC721|onlyRole|onlyWhenFeederExisted).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "removeFeeder"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return liquidateerc721 > 0;"

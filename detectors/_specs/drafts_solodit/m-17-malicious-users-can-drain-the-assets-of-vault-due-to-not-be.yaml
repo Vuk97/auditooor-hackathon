@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-17-malicious-users-can-drain-the-assets-of-vault-due-to-not-be"
+class_name: "M17MaliciousUsersCanDrainTheAssetsOfVaultDueToNotBe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #22014 (Code4rena/Popcorn)"
+help: "[M-17] Malicious Users Can Drain The Assets Of Vault. (Due to not being ERC4626 Complaint)"
+wiki_title: "[M-17] Malicious Users Can Drain The Assets Of Vault. (Due to not being ERC4626 Complaint)"
+wiki_description: |
+    Malicious users can drain the assets of the vault.
+    
+    ### Proof of Concept
+    
+    The `withdraw` function users `convertToShares` to convert the assets to the amount of shares. These shares are burned from the users account and the assets are returned to the user.
+    
+    The function `withdraw` is shown below:
+wiki_exploit_scenario: |
+    Per Solodit #22014: Malicious users can drain the assets of the vault.
+    
+    ### Proof of Concept
+    
+    The `withdraw` function users `convertToShares` to convert the assets to the amount of shares. These shares are burned from t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M17MaliciousUsersCanDrainTheAssetsOfVaultDueToNotBe"
+solodit_id: "22014"
+solodit_slug: |
+    m-17-malicious-users-can-drain-the-assets-of-vault-due-to-not-being-erc4626-complaint-code4rena-popcorn-popcorn-contest-git
+solodit_quality: "2"
+solodit_rarity: "2"
+solodit_tags: "Rounding, ERC4626, EIP-4626"
+state_decl: "uint256 internal converttoshares;"
+fn_name_regex: ".*(withdraw|convertToShares|mint|deposit).*"
+read_var_regex: ".*(convertToShares|deposit|mint).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return converttoshares > 0;"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "voting-to-change-rewardsinfo-voterewardscoefficient-has-an-unint"
+class_name: "VotingToChangeRewardsinfoVoterewardscoefficientHasAnUnint"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27317 (Cyfrin/Dexe)"
+help: |
+    Voting to change `RewardsInfo::voteRewardsCoefficient` has an unintended side-effect of retrospectively changing voting rewards for active proposals
+wiki_title: |
+    Voting to change `RewardsInfo::voteRewardsCoefficient` has an unintended side-effect of retrospectively changing voting rewards for active proposals
+wiki_description: |
+    **Description:** `GovSettings::editSettings` is one of the functions that can be executed via an internal proposal. When this function is called, setting are validated via `GovSettings::_validateProposalSettings`. This function does not check the value of `RewardsInfo::voteRewardsCoefficient` while
+wiki_exploit_scenario: |
+    Per Solodit #27317: **Description:** `GovSettings::editSettings` is one of the functions that can be executed via an internal proposal. When this function is called, setting are validated via `GovSettings::_validatePropo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VotingToChangeRewardsinfoVoterewardscoefficientHasAnUnint"
+solodit_id: "27317"
+solodit_slug: |
+    voting-to-change-rewardsinfovoterewardscoefficient-has-an-unintended-side-effect-of-retrospectively-changing-voting-rewards-for-active-proposals-cyfrin-none-cyfrin-dexe-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal rewardscoefficient;"
+fn_name_regex: ".*(rewardsCoefficient|voteRewardMultiplier).*"
+read_var_regex: ".*(rewardsCoefficient|voteRewardMultiplier).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rewardsCoefficient"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return rewardscoefficient > 0;"

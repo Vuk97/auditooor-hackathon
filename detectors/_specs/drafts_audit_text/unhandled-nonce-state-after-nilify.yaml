@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unhandled-nonce-state-after-nilify"
+class_name: "UnhandledNonceStateAfterNilify"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero TON - Zellic Audit Report"
+help: |
+    After a nilify operation, a nonce may end up in a state where the commit pipeline considers it com- mitted while the execution queue regards it as uncommitted, effectively (committ
+wiki_title: "Unhandled nonce state after nilify"
+wiki_description: |
+    After a nilify operation, a nonce may end up in a state where the commit pipeline considers it com- mitted while the execution queue regards it as uncommitted, effectively (committed, uncommit- ted). The channelCommitPacket function is designed to handle only two clear transitions: 1. (uncommitted,
+wiki_exploit_scenario: |
+    Per audit finding: After a nilify operation, a nonce may end up in a state where the commit pipeline considers it com- mitted while the execution queue regards it as uncommitted, effectively (committed, uncommit- ted).
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnhandledNonceStateAfterNilify"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(channelCommitPacket|incomingNonce|expectedCurrentState).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "channelCommitPacket"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

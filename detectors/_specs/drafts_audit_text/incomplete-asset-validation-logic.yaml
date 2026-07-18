@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incomplete-asset-validation-logic"
+class_name: "IncompleteAssetValidationLogic"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Singularity - Zellic Audit Report"
+help: |
+    The _validateAssets function is defined in CurveAssetManagerHelper as follows. function _validateAssets( address[8] memory coins, address[4] memory assets ) internal pure returns (
+wiki_title: "Incomplete asset-validation logic"
+wiki_description: |
+    The _validateAssets function is defined in CurveAssetManagerHelper as follows. function _validateAssets( address[8] memory coins, address[4] memory assets ) internal pure returns (bool) { for (uint256 i = 0; i < 4; i++) { if (coins[i] == address(0)) { continue; } if (assets[i] != address(0)) { if (a
+wiki_exploit_scenario: |
+    Per audit finding: The _validateAssets function is defined in CurveAssetManagerHelper as follows. function _validateAssets( address[8] memory coins, address[4] memory assets ) internal pure returns (bool) { for (uint256
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncompleteAssetValidationLogic"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(poolToken1|poolToken2|extraToken1).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "poolToken1"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

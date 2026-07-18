@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-01-rewards-might-be-lost-due-to-the-error-that-updaterewardind"
+class_name: "H01RewardsMightBeLostDueToTheErrorThatUpdaterewardind"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49111 (Code4rena/LoopFi)"
+help: |
+    [H-01] Rewards might be lost due to the error that `_updateRewardIndex()` might advance `lastBalance` without advancing index for a token
+wiki_title: |
+    [H-01] Rewards might be lost due to the error that `_updateRewardIndex()` might advance `lastBalance` without advancing index for a token
+wiki_description: |
+    The function `_updateRewardIndex()` is used to update the `lastBalance` and `index` of each reward token. This function will be called when a user deposits, withdraws collateral or claims rewards.
+    
+    However, the function might not advance `index` when `accrued.divDown(totalShares) = 0`. This might h
+wiki_exploit_scenario: |
+    Per Solodit #49111: The function `_updateRewardIndex()` is used to update the `lastBalance` and `index` of each reward token. This function will be called when a user deposits, withdraws collateral or claims rewards.
+    
+    H
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01RewardsMightBeLostDueToTheErrorThatUpdaterewardind"
+solodit_id: "49111"
+solodit_slug: |
+    h-01-rewards-might-be-lost-due-to-the-error-that-_updaterewardindex-might-advance-lastbalance-without-advancing-index-for-a-token-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accrued;"
+fn_name_regex: ".*(lastBalance|index|totalShares|accrued).*"
+read_var_regex: ".*(accrued|deposit|getRewards).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "lastBalance"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accrued > 0;"

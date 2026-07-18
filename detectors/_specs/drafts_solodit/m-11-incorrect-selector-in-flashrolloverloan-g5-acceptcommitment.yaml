@@ -1,0 +1,45 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-11-incorrect-selector-in-flashrolloverloan-g5-acceptcommitment"
+class_name: "M11IncorrectSelectorInFlashrolloverloanG5Acceptcommitment"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32388 (Sherlock/Teller Finance)"
+help: |
+    M-11: Incorrect selector in `FlashRolloverLoan_G5::_acceptCommitment()` does not match `SmartCommitmentForwarder::acceptCommitmentWithRecipient()`
+wiki_title: |
+    M-11: Incorrect selector in `FlashRolloverLoan_G5::_acceptCommitment()` does not match `SmartCommitmentForwarder::acceptCommitmentWithRecipient()`
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-04-teller-finance-judging/issues/135 
+    
+    ## Found by 
+    0x73696d616f, 0xadrii, EgisSecurity, KupiaSec, dirtymic, kennedy1030, merlin, no
+    ## Summary
+    
+    `FlashRolloverLoan_G5::_acceptCommitment()` allows picking the `SmartCommitmentForwarder`, but the selector
+wiki_exploit_scenario: |
+    Per Solodit #32388: Source: https://github.com/sherlock-audit/2024-04-teller-finance-judging/issues/135 
+    
+    ## Found by 
+    0x73696d616f, 0xadrii, EgisSecurity, KupiaSec, dirtymic, kennedy1030, merlin, no
+    ## Summary
+    
+    `FlashRo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11IncorrectSelectorInFlashrolloverloanG5Acceptcommitment"
+solodit_id: "32388"
+solodit_slug: |
+    m-11-incorrect-selector-in-flashrolloverloan_g5_acceptcommitment-does-not-match-smartcommitmentforwarderacceptcommitmentwithrecipient-sherlock-teller-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(SmartCommitmentForwarder|LenderCommitmentGroup_Smart|acceptSmartCommitmentWithRecipient|FlashRolloverLoan_G5).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

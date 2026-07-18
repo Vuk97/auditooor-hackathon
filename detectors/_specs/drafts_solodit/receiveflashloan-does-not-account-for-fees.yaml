@@ -1,0 +1,46 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "receiveflashloan-does-not-account-for-fees"
+class_name: "ReceiveflashloanDoesNotAccountForFees"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26340 (TrailOfBits/Lindy Labs Sandclock)"
+help: "receiveFlashLoan does not account for fees"
+wiki_title: "receiveFlashLoan does not account for fees"
+wiki_description: |
+    ## Diﬃculty: High
+    
+    ## Type: Data Validation
+    
+    ### Target: 
+    `src/steth/scWETHv2.sol`, `src/steth/scUSDCv2.sol`
+    
+    ### Description
+    The `receiveFlashLoan` functions of the `scWETHv2` and `scUSDCv2` vaults ignore the Balancer flash loan fees and repay exactly the amount that was loaned. This is not current
+wiki_exploit_scenario: |
+    Per Solodit #26340: ## Diﬃculty: High
+    
+    ## Type: Data Validation
+    
+    ### Target: 
+    `src/steth/scWETHv2.sol`, `src/steth/scUSDCv2.sol`
+    
+    ### Description
+    The `receiveFlashLoan` functions of the `scWETHv2` and `scUSDCv2` vaults i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReceiveflashloanDoesNotAccountForFees"
+solodit_id: "26340"
+solodit_slug: "receiveflashloan-does-not-account-for-fees-trailofbits-none-lindy-labs-sandclock-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "External Contract"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(receiveFlashLoan|scWETHv2|scUSDCv2|receivedFeeAmount).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

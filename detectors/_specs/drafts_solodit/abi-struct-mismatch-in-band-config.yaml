@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "abi-struct-mismatch-in-band-config"
+class_name: "AbiStructMismatchInBandConfig"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #64664 (Spearbit/Buck Labs: Smart Contracts)"
+help: "ABI struct mismatch in band config"
+wiki_title: "ABI struct mismatch in band config"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    `LiquidityWindow.sol#L33-L41`
+    
+    ## Description
+    `LiquidityWindow` defines a `localIPolicyManager.BandConfig` struct that does not match the layout used by `PolicyManager`. This compiles because function selectors depend only on the function name and inputs, but the r
+wiki_exploit_scenario: |
+    Per Solodit #64664: ## Severity: High Risk
+    
+    ## Context
+    `LiquidityWindow.sol#L33-L41`
+    
+    ## Description
+    `LiquidityWindow` defines a `localIPolicyManager.BandConfig` struct that does not match the layout used by `PolicyManag
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AbiStructMismatchInBandConfig"
+solodit_id: "64664"
+solodit_slug: "abi-struct-mismatch-in-band-config-spearbit-none-buck-labs-smart-contracts-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(LiquidityWindow|PolicyManager|floorBps|deviationThresholdBps).*"
+primary_var_regex: ".*(deviationThresholdBps|floorBps).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

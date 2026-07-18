@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-01-raw-ierc20-approve-in-setvaultstrategy-is-incompatible-with"
+class_name: "M01RawIerc20ApproveInSetvaultstrategyIsIncompatibleWith"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65266 (Shieldify/Springx)"
+help: "[M-01] Raw `IERC20.approve()` in `setVaultStrategy()` is Incompatible with USDT0"
+wiki_title: "[M-01] Raw `IERC20.approve()` in `setVaultStrategy()` is Incompatible with USDT0"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `SpringXVault.setVaultStrategy()` directly calls `IERC20(assets).approve(...)` twice — once to reset to zero and once to approve `type(uint256).max` for the new strategy. The protocol confirms USDT0 is one of the supported assets for `SpringXVault`. USD
+wiki_exploit_scenario: |
+    Per Solodit #65266: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `SpringXVault.setVaultStrategy()` directly calls `IERC20(assets).approve(...)` twice — once to reset to zero and once to approve `type(uint256).max` for
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01RawIerc20ApproveInSetvaultstrategyIsIncompatibleWith"
+solodit_id: "65266"
+solodit_slug: |
+    m-01-raw-ierc20approve-in-setvaultstrategy-is-incompatible-with-usdt0-shieldify-none-springx-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal approve;"
+fn_name_regex: ".*(SpringXVault|TetherTokenV2|approve|setVaultStrategy).*"
+read_var_regex: ".*(approve|setVaultStrategy).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SpringXVault"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return approve > 0;"

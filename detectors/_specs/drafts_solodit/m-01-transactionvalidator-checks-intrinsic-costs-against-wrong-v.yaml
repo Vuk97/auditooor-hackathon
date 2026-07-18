@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "m-01-transactionvalidator-checks-intrinsic-costs-against-wrong-v"
+class_name: "M01TransactionvalidatorChecksIntrinsicCostsAgainstWrongV"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30280 (Code4rena/zkSync)"
+help: "[M-01] TransactionValidator checks intrinsic costs against wrong value"
+wiki_title: "[M-01] TransactionValidator checks intrinsic costs against wrong value"
+wiki_description: |
+    An incorrect check allows an ``L1->L2`` transaction to be sent that does not cover the sum of overhead and intrinsic costs for the operator.
+    
+    ### Proof of Concept
+    
+    The `gasLimit` required for a transaction consists of (see [docs](https://github.com/code-423n4/2023-10-zksync/blob/main/docs/Smart%20c
+wiki_exploit_scenario: |
+    Per Solodit #30280: An incorrect check allows an ``L1->L2`` transaction to be sent that does not cover the sum of overhead and intrinsic costs for the operator.
+    
+    ### Proof of Concept
+    
+    The `gasLimit` required for a trans
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01TransactionvalidatorChecksIntrinsicCostsAgainstWrongV"
+solodit_id: "30280"
+solodit_slug: "m-01-transactionvalidator-checks-intrinsic-costs-against-wrong-value-code4rena-zksync-zksync-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal actualgaslimit;"
+fn_name_regex: ".*(gasLimit|actualGasLimit|totalGasLimit).*"
+write_var_regex: ".*(actualGasLimit|gasLimit|totalGasLimit).*"
+guard_var_regex: ".*(actualGasLimit|gasLimit|totalGasLimit).*"
+vuln_fn_name: "gasLimit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "actualgaslimit = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

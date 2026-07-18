@@ -1,0 +1,45 @@
+skeleton: "state_write_without_paired_write"
+name: "m-8-redeeming-all-uxd-tokens-is-not-possible-if-some-have-been-m"
+class_name: "M8RedeemingAllUxdTokensIsNotPossibleIfSomeHaveBeenM"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6266 (Sherlock/UXD Protocol)"
+help: "M-8: Redeeming all UXD tokens is not possible if some have been minted via Perp quote minting"
+wiki_title: "M-8: Redeeming all UXD tokens is not possible if some have been minted via Perp quote minting"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-uxd-judging/issues/338 
+    
+    ## Found by 
+    berndartmueller
+    
+    ## Summary
+    
+    If some UXD tokens have been minted via Perp quote minting (i.e. `USDC` - due to negative PnL), rather than asset minting (i.e. `WETH`), redeeming all UXD tokens is not possible anymo
+wiki_exploit_scenario: |
+    Per Solodit #6266: Source: https://github.com/sherlock-audit/2023-01-uxd-judging/issues/338 
+    
+    ## Found by 
+    berndartmueller
+    
+    ## Summary
+    
+    If some UXD tokens have been minted via Perp quote minting (i.e. `USDC` - due to ne
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M8RedeemingAllUxdTokensIsNotPossibleIfSomeHaveBeenM"
+solodit_id: "6266"
+solodit_slug: |
+    m-8-redeeming-all-uxd-tokens-is-not-possible-if-some-have-been-minted-via-perp-quote-minting-sherlock-uxd-uxd-protocol-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(USDC|WETH|netAssetDeposits|assetToken).*"
+primary_var_regex: ".*(amount|assetToken|netAssetDeposits).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

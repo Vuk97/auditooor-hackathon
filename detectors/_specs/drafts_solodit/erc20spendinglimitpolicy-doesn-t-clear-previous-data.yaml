@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "erc20spendinglimitpolicy-doesn-t-clear-previous-data"
+class_name: "Erc20spendinglimitpolicyDoesnTClearPreviousData"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42096 (Cantina/Biconomy)"
+help: "ERC20SpendingLimitPolicy doesn't clear previous data"
+wiki_title: "ERC20SpendingLimitPolicy doesn't clear previous data "
+wiki_description: |
+    ## Policy Storage Management in SmartSession
+    
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    When a policy is disabled in the SmartSession system, there is no logic that is executed to clean up the policy's storage. To avoid issues if a policy is re-enabled with the same
+wiki_exploit_scenario: |
+    Per Solodit #42096: ## Policy Storage Management in SmartSession
+    
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    When a policy is disabled in the SmartSession system, there is no logic that i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Erc20spendinglimitpolicyDoesnTClearPreviousData"
+solodit_id: "42096"
+solodit_slug: "erc20spendinglimitpolicy-doesnt-clear-previous-data-cantina-none-biconomy-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal alreadyspent;"
+fn_name_regex: ".*(configId|initializeWithMultiplexer|ERC20SpendingLimitPolicy|alreadySpent).*"
+write_var_regex: ".*(alreadySpent|configId|initializeWithMultiplexer).*"
+guard_var_regex: ".*(alreadySpent|configId|initializeWithMultiplexer).*"
+vuln_fn_name: "configId"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "alreadyspent = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

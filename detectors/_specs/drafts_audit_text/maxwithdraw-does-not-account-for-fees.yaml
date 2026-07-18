@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "maxwithdraw-does-not-account-for-fees"
+class_name: "MaxwithdrawDoesNotAccountForFees"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit SpiceFi Vaults - Zellic Audit Report"
+help: |
+    In vault Spice4626, the check for maximum withdrawals can pass but the call to _wit hdraw can still fail because fees are not accounted for. function maxWithdraw(address owner) pub
+wiki_title: "MaxWithdraw does not account for fees"
+wiki_description: |
+    In vault Spice4626, the check for maximum withdrawals can pass but the call to _wit hdraw can still fail because fees are not accounted for. function maxWithdraw(address owner) public view override returns (uint256) { ...)) return paused() ? 0 : _convertToAssets( balanceOf(owner), MathUpgradeable.Ro
+wiki_exploit_scenario: |
+    Per audit finding: In vault Spice4626, the check for maximum withdrawals can pass but the call to _wit hdraw can still fail because fees are not accounted for. function maxWithdraw(address owner) public view override re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaxwithdrawDoesNotAccountForFees"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxWithdraw|balanceOf|feesAddr1).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "maxWithdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

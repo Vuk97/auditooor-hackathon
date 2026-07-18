@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "h-05-users-can-get-immediate-profit-when-deposit-and-redeem-in-p"
+class_name: "H05UsersCanGetImmediateProfitWhenDepositAndRedeemInP"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29458 (Code4rena/Dopex)"
+help: "[H-05] Users can get immediate profit when deposit and redeem in `PerpetualAtlanticVaultLP`"
+wiki_title: "[H-05] Users can get immediate profit when deposit and redeem in `PerpetualAtlanticVaultLP`"
+wiki_description: |
+    Due to wrong order between `previewDeposit` and `updateFunding` inside `PerpetualAtlanticVaultLP.deposit`. In some case, user can get immediate profit when call `deposit` and `redeem` in the same block.
+    
+    ### Proof of Concept
+    
+    When `deposit` is called, first `previewDeposit` will be called to get th
+wiki_exploit_scenario: |
+    Per Solodit #29458: Due to wrong order between `previewDeposit` and `updateFunding` inside `PerpetualAtlanticVaultLP.deposit`. In some case, user can get immediate profit when call `deposit` and `redeem` in the same blo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05UsersCanGetImmediateProfitWhenDepositAndRedeemInP"
+solodit_id: "29458"
+solodit_slug: |
+    h-05-users-can-get-immediate-profit-when-deposit-and-redeem-in-perpetualatlanticvaultlp-code4rena-dopex-dopex-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assets;"
+fn_name_regex: ".*(previewDeposit|updateFunding|deposit|redeem).*"
+write_var_regex: ".*(assets|convertToShares|deposit).*"
+guard_var_regex: ".*(assets|convertToShares|deposit).*"
+vuln_fn_name: "previewDeposit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "assets = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

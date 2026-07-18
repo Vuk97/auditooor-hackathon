@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-11-later-challengers-can-bid-on-the-previous-challenge-to-exte"
+class_name: "M11LaterChallengersCanBidOnThePreviousChallengeToExte"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20032 (Code4rena/Frankencoin)"
+help: |
+    [M-11] Later challengers can bid on the previous challenge to extend the expiration time of the previous challenge, so that their own challenge can succeed before the previous chal
+wiki_title: |
+    [M-11] Later challengers can bid on the previous challenge to extend the expiration time of the previous challenge, so that their own challenge can succeed befo
+wiki_description: |
+    When bidders bid, if the expiration time of the challenge is less than 30 minutes, the expiration time will be extended.
+    
+    ```solidity
+                uint256 earliestEnd = block.timestamp + 30 minutes;
+                if (earliestEnd >= challenge.end) {
+                    // bump remaining time like ebay does
+wiki_exploit_scenario: |
+    Per Solodit #20032: When bidders bid, if the expiration time of the challenge is less than 30 minutes, the expiration time will be extended.
+    
+    ```solidity
+                uint256 earliestEnd = block.timestamp + 30 minutes;
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11LaterChallengersCanBidOnThePreviousChallengeToExte"
+solodit_id: "20032"
+solodit_slug: |
+    m-11-later-challengers-can-bid-on-the-previous-challenge-to-extend-the-expiration-time-of-the-previous-challenge-so-that-their-own-challenge-can-succeed-before-the-previous-challenge-and-get-challenge-rewards-code4rena-frankencoin-frankencoin-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(earliestEnd|notifyChallengeSucceeded).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "earliestEnd"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

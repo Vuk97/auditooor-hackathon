@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-01-cancelpromotion-unable-to-cancel-unstarted-promotions"
+class_name: "M01CancelpromotionUnableToCancelUnstartedPromotions"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25617 (Code4rena/PoolTogether)"
+help: "[M-01] `cancelPromotion()` Unable to cancel unstarted promotions"
+wiki_title: "[M-01] `cancelPromotion()` Unable to cancel unstarted promotions"
+wiki_description: |
+    _Submitted by WatchPug, also found by kenzo, and certora_
+    
+    For unstarted promotions, `cancelPromotion()` will revert at `block.timestamp - _promotion.startTimestamp` in `_getCurrentEpochId()`.
+    
+    Call stack: `cancelPromotion()` -> `_getRemainingRewards()` -> `_getCurrentEpochId()`.
+    
+    <https://github.co
+wiki_exploit_scenario: |
+    Per Solodit #25617: _Submitted by WatchPug, also found by kenzo, and certora_
+    
+    For unstarted promotions, `cancelPromotion()` will revert at `block.timestamp - _promotion.startTimestamp` in `_getCurrentEpochId()`.
+    
+    Call s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01CancelpromotionUnableToCancelUnstartedPromotions"
+solodit_id: "25617"
+solodit_slug: "m-01-cancelpromotion-unable-to-cancel-unstarted-promotions-code4rena-pooltogether-pooltogether-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cancelpromotion;"
+fn_name_regex: ".*(cancelPromotion).*"
+read_var_regex: ".*(cancelPromotion).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "cancelPromotion"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cancelpromotion > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "gaslimit-and-chainid-max-size-difference-between-zkevm-and-evm"
+class_name: "GaslimitAndChainidMaxSizeDifferenceBetweenZkevmAndEvm"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "hexens audit Hexens_Polygon_zkEVM_PUBLIC_27.02.23"
+help: |
+    There is a difference between the transaction’s gas limit and chain id max sizes between zkEVM and EVM implementations. In https://github.com/0xPolygonHermez/zkevm-rom/blob/develop
+wiki_title: "GASLIMIT AND CHAINID MAX SIZE DIFFERENCE BETWEEN ZKEVM AND EVM"
+wiki_description: |
+    There is a difference between the transaction’s gas limit and chain id max sizes between zkEVM and EVM implementations. In https://github.com/0xPolygonHermez/zkevm-rom/blob/develop/main/load-t x-rlp.zkasm GasLimit’s maximal size is deﬁned as 256 bit and ChainID’s 64 bit. The EVM sizes are: Gas limit
+wiki_exploit_scenario: |
+    Per audit finding: There is a difference between the transaction’s gas limit and chain id max sizes between zkEVM and EVM implementations. In https://github.com/0xPolygonHermez/zkevm-rom/blob/develop/main/load-t x-rlp.z
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GaslimitAndChainidMaxSizeDifferenceBetweenZkevmAndEvm"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(zkEVM|chainID|zkASM).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "zkEVM"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "out-of-bounds-read-from-toaddressbytes-allows-undefined"
+class_name: "OutOfBoundsReadFromToaddressbytesAllowsUndefined"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero Solidity Examples - Zellic Audit Report"
+help: |
+    The following assembly code may read up to 32 bytes out of bounds of toAddressByt es because the size of toAddressBytes is not checked: address toAddress; assembly { toAddress :) m
+wiki_title: "Out-of-bounds read from toAddressBytes allows undefined"
+wiki_description: |
+    The following assembly code may read up to 32 bytes out of bounds of toAddressByt es because the size of toAddressBytes is not checked: address toAddress; assembly { toAddress :) mload(add(toAddressBytes, 20)) }
+wiki_exploit_scenario: |
+    Per audit finding: The following assembly code may read up to 32 bytes out of bounds of toAddressByt es because the size of toAddressBytes is not checked: address toAddress; assembly { toAddress :) mload(add(toAddressBy
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OutOfBoundsReadFromToaddressbytesAllowsUndefined"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(toAddressByt|toAddressBytes|toAddress).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "toAddressByt"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

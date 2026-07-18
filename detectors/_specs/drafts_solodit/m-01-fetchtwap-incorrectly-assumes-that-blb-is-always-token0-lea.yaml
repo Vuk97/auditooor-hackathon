@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "m-01-fetchtwap-incorrectly-assumes-that-blb-is-always-token0-lea"
+class_name: "M01FetchtwapIncorrectlyAssumesThatBlbIsAlwaysToken0Lea"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #55656 (0x52/Blueberry Staking)"
+help: "[M-01] \_fetchTWAP incorrectly assumes that blb is always token0 leading to bad pricing if it isn't"
+wiki_title: "[M-01] \_fetchTWAP incorrectly assumes that blb is always token0 leading to bad pricing if it isn't"
+wiki_description: |
+    **Details**
+    
+    [BlueberryStaking.sol#L812-L819](https://github.com/Blueberryfi/blueberry-staking/blob/efaf7fc690e38914ba475d5ac61a4d0bd3f45c0d/src/BlueberryStaking.sol#L812-L819)
+    
+        (int56[] memory tickCumulatives, ) = _pool.observe(_secondsArray);
+    
+        int56 _tickDifference = tickCumulatives[1] - t
+wiki_exploit_scenario: |
+    Per Solodit #55656: **Details**
+    
+    [BlueberryStaking.sol#L812-L819](https://github.com/Blueberryfi/blueberry-staking/blob/efaf7fc690e38914ba475d5ac61a4d0bd3f45c0d/src/BlueberryStaking.sol#L812-L819)
+    
+        (int56[] memory ti
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01FetchtwapIncorrectlyAssumesThatBlbIsAlwaysToken0Lea"
+solodit_id: "55656"
+solodit_slug: |
+    m-01-_fetchtwap-incorrectly-assumes-that-blb-is-always-token0-leading-to-bad-pricing-if-it-isnt-0x52-none-blueberry-staking-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "h-01-overlayv1uniswapv3market-computes-wrong-market-liquidity"
+class_name: "H01Overlayv1uniswapv3marketComputesWrongMarketLiquidity"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1062 (Code4rena/Overlay Protocol)"
+help: "[H-01] OverlayV1UniswapV3Market computes wrong market liquidity"
+wiki_title: "[H-01] OverlayV1UniswapV3Market computes wrong market liquidity"
+wiki_description: |
+    ## Handle
+    
+    cmichel
+    
+    
+    ## Vulnerability details
+    
+    The `OverlayV1UniswapV3Market.fetchPricePoint` tries to compute the market depth in OVL terms as `marketLiquidity (in ETH) / ovlPrice (in ETH per OVL)`.
+    To get the market liquidity _in ETH_ (and not the other token pair), it uses the `ethIs0` boolean.
+wiki_exploit_scenario: |
+    Per Solodit #1062: ## Handle
+    
+    cmichel
+    
+    
+    ## Vulnerability details
+    
+    The `OverlayV1UniswapV3Market.fetchPricePoint` tries to compute the market depth in OVL terms as `marketLiquidity (in ETH) / ovlPrice (in ETH per OVL)`.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01Overlayv1uniswapv3marketComputesWrongMarketLiquidity"
+solodit_id: "1062"
+solodit_slug: |
+    h-01-overlayv1uniswapv3market-computes-wrong-market-liquidity-code4rena-overlay-protocol-overlay-protocol-contest-git
+solodit_quality: "4"
+solodit_rarity: "2"
+solodit_tags: "Wrong Math, Business Logic"
+state_decl: "uint256 internal ethis0;"
+fn_name_regex: ".*(ethIs0|ovlFeed|marketFeed|fetchPricePoint).*"
+read_var_regex: ".*(ethIs0|fetchPricePoint|marketFeed).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ethIs0"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ethis0 > 0;"

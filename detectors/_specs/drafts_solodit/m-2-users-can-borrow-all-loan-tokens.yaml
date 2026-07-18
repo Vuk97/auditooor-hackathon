@@ -1,0 +1,46 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-2-users-can-borrow-all-loan-tokens"
+class_name: "M2UsersCanBorrowAllLoanTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18614 (Sherlock/Surge)"
+help: "M-2: Users can borrow all loan tokens"
+wiki_title: "M-2: Users can borrow all loan tokens"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-02-surge-judging/issues/106 
+    
+    ## Found by 
+    shaka
+    ## Summary
+    
+    Utilization rate check can be bypassed depositing additional loan tokens and withdrawing them in the same transaction.
+    
+    ## Vulnerability Detail
+    
+    In the `borrow` function it is checked that the
+wiki_exploit_scenario: |
+    Per Solodit #18614: Source: https://github.com/sherlock-audit/2023-02-surge-judging/issues/106 
+    
+    ## Found by 
+    shaka
+    ## Summary
+    
+    Utilization rate check can be bypassed depositing additional loan tokens and withdrawing the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2UsersCanBorrowAllLoanTokens"
+solodit_id: "18614"
+solodit_slug: "m-2-users-can-borrow-all-loan-tokens-sherlock-none-surge-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(borrow).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

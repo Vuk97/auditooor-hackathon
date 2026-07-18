@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "replay-create2-on-destroyed-minipools"
+class_name: "ReplayCreate2OnDestroyedMinipools"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19525 (SigmaPrime/Rocketpool)"
+help: "Replay CREATE2 On Destroyed Minipools"
+wiki_title: "Replay CREATE2 On Destroyed Minipools"
+wiki_description: |
+    ## Description
+    
+    The opcode `CREATE2` creates a new contract at a deterministically generated address. The address is calculated from the contract bytecode, a salt, and the sender address. Since the address is deterministic, we can recreate it using the same parameters; however, it will not overwrite
+wiki_exploit_scenario: |
+    Per Solodit #19525: ## Description
+    
+    The opcode `CREATE2` creates a new contract at a deterministically generated address. The address is calculated from the contract bytecode, a salt, and the sender address. Since the ad
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReplayCreate2OnDestroyedMinipools"
+solodit_id: "19525"
+solodit_slug: "replay-create2-on-destroyed-minipools-sigmaprime-none-rocketpool-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal close;"
+fn_name_regex: ".*(CREATE2|selfdestruct|deployContract|voteScrub).*"
+write_var_regex: ".*(close|deployContract|selfdestruct).*"
+guard_var_regex: ".*(close|deployContract|selfdestruct).*"
+vuln_fn_name: "CREATE2"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "close = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

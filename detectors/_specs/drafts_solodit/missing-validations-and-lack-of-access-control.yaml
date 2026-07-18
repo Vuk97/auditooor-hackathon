@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "missing-validations-and-lack-of-access-control"
+class_name: "MissingValidationsAndLackOfAccessControl"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #47160 (OtterSec/MegaETH)"
+help: "Missing Validations and Lack of Access Control"
+wiki_title: "Missing Validations and Lack of Access Control"
+wiki_description: |
+    ## Review of LaunchBridge Implementation
+    
+    In the current implementation of LaunchBridge, `transitionAll`, `transitionETHAndUSD`, and `transitionLockedToken` may be called by any address for any user. This enables users to manipulate `targetUSD`, set arbitrary values for `minGasLimit`, or execute a s
+wiki_exploit_scenario: |
+    Per Solodit #47160: ## Review of LaunchBridge Implementation
+    
+    In the current implementation of LaunchBridge, `transitionAll`, `transitionETHAndUSD`, and `transitionLockedToken` may be called by any address for any user.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingValidationsAndLackOfAccessControl"
+solodit_id: "47160"
+solodit_slug: "missing-validations-and-lack-of-access-control-ottersec-none-megaeth-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal mingaslimit;"
+fn_name_regex: ".*(transitionAll|transitionETHAndUSD|transitionLockedToken|targetUSD).*"
+write_var_regex: ".*(minGasLimit|targetUSD|transitionAll).*"
+guard_var_regex: ".*(minGasLimit|targetUSD|transitionAll).*"
+vuln_fn_name: "transitionAll"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "mingaslimit = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

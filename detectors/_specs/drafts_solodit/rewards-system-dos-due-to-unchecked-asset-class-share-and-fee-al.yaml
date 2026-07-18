@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "rewards-system-dos-due-to-unchecked-asset-class-share-and-fee-al"
+class_name: "RewardsSystemDosDueToUncheckedAssetClassShareAndFeeAl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61251 (Cyfrin/Suzaku Core)"
+help: "Rewards system DOS due to unchecked asset class share and fee allocations"
+wiki_title: "Rewards system DOS due to unchecked asset class share and fee allocations"
+wiki_description: |
+    **Description:** The REWARDS_MANAGER_ROLE can set asset class reward shares without validating that the total allocation does not exceed 100%. This enables over-allocation of rewards, leading to potential insolvency and denial of service for later claimers.
+    
+    A similar issue exists when assigning fee
+wiki_exploit_scenario: |
+    Per Solodit #61251: **Description:** The REWARDS_MANAGER_ROLE can set asset class reward shares without validating that the total allocation does not exceed 100%. This enables over-allocation of rewards, leading to poten
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RewardsSystemDosDueToUncheckedAssetClassShareAndFeeAl"
+solodit_id: "61251"
+solodit_slug: |
+    rewards-system-dos-due-to-unchecked-asset-class-share-and-fee-allocations-cyfrin-none-suzaku-core-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimoperatorfee;"
+fn_name_regex: ".*(claimOperatorFee|operatorShare).*"
+write_var_regex: ".*(claimOperatorFee|operatorShare).*"
+guard_var_regex: ".*(claimOperatorFee|operatorShare).*"
+vuln_fn_name: "claimOperatorFee"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "claimoperatorfee = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

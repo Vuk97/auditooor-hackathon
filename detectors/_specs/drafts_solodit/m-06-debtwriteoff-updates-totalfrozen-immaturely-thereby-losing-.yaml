@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-06-debtwriteoff-updates-totalfrozen-immaturely-thereby-losing-"
+class_name: "M06DebtwriteoffUpdatesTotalfrozenImmaturelyTherebyLosing"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25599 (Code4rena/Union Finance)"
+help: "[M-06] debtWriteOff updates `totalFrozen` immaturely, thereby losing staker rewards"
+wiki_title: "[M-06] debtWriteOff updates `totalFrozen` immaturely, thereby losing staker rewards"
+wiki_description: |
+    _Submitted by kenzo, also found by itsmeSTYJ_
+    
+    `debtWriteOff` updates `totalFrozen` before withdrawing `unionToken` rewards.
+    As the borrower is overdue, this means the staker calling debtWriteOff will lose his rewards if for example `totalStaked` == `totalFrozen`.
+    (Note: If the borrower would to fir
+wiki_exploit_scenario: |
+    Per Solodit #25599: _Submitted by kenzo, also found by itsmeSTYJ_
+    
+    `debtWriteOff` updates `totalFrozen` before withdrawing `unionToken` rewards.
+    As the borrower is overdue, this means the staker calling debtWriteOff will
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06DebtwriteoffUpdatesTotalfrozenImmaturelyTherebyLosing"
+solodit_id: "25599"
+solodit_slug: |
+    m-06-debtwriteoff-updates-totalfrozen-immaturely-thereby-losing-staker-rewards-code4rena-union-finance-union-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calculaterewards;"
+fn_name_regex: ".*(debtWriteOff|totalFrozen|unionToken|totalStaked).*"
+read_var_regex: ".*(calculateRewards|calculateRewardsByBlocks|debtWriteOff).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "debtWriteOff"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calculaterewards > 0;"

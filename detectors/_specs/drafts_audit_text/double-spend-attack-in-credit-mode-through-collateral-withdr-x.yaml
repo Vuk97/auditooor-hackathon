@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "double-spend-attack-in-credit-mode-through-collateral-withdr-x"
+class_name: "DoubleSpendAttackInCreditModeThroughCollateralWithdrX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Hyperbeat Pay - Zellic Audit Report"
+help: |
+    A malicious user can execute a double-spend attack in CREDIT mode by withdrawing collateral between card authorization and settlement, causing the operator's borrowing attempt to f
+wiki_title: "Double-spend attack in CREDIT mode through collateral-withdrawal race"
+wiki_description: |
+    A malicious user can execute a double-spend attack in CREDIT mode by withdrawing collateral between card authorization and settlement, causing the operator's borrowing attempt to fail. This is the attack sequence: 1. A user supplies collateral into the service then requests a collateral withdrawal v
+wiki_exploit_scenario: |
+    Per audit finding: A malicious user can execute a double-spend attack in CREDIT mode by withdrawing collateral between card authorization and settlement, causing the operator's borrowing attempt to fail. This is the att
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DoubleSpendAttackInCreditModeThroughCollateralWithdrX"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(executeServiceAction|executeApprovedServiceAction|actionId).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

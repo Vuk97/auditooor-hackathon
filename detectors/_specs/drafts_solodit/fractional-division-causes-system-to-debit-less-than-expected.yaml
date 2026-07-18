@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "fractional-division-causes-system-to-debit-less-than-expected"
+class_name: "FractionalDivisionCausesSystemToDebitLessThanExpected"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62142 (Spearbit/Pendle Core v3)"
+help: "Fractional division causes system to debit less than expected"
+wiki_title: "Fractional division causes system to debit less than expected"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - `PaymentLib.sol#L22`
+    - `PaymentLib.sol#L28`
+    
+    ## Description
+    A key system invariant is that the sum of the `accCash` of all users and the `treasuryCash` for a given `tokenId` should be no more than the actual token balance held by the `MarketHub`. It is possible
+wiki_exploit_scenario: |
+    Per Solodit #62142: ## Severity: Medium Risk
+    
+    ## Context
+    - `PaymentLib.sol#L22`
+    - `PaymentLib.sol#L28`
+    
+    ## Description
+    A key system invariant is that the sum of the `accCash` of all users and the `treasuryCash` for a giv
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FractionalDivisionCausesSystemToDebitLessThanExpected"
+solodit_id: "62142"
+solodit_slug: "fractional-division-causes-system-to-debit-less-than-expected-spearbit-none-pendle-core-v3-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal acccash;"
+fn_name_regex: ".*(accCash|treasuryCash|tokenId|MarketHub).*"
+read_var_regex: ".*(accCash|tokenId|treasuryCash).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "accCash"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return acccash > 0;"

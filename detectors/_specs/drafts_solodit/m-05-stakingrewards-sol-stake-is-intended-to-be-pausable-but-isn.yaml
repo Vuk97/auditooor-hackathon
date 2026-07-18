@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-05-stakingrewards-sol-stake-is-intended-to-be-pausable-but-isn"
+class_name: "M05StakingrewardsSolStakeIsIntendedToBePausableButIsn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5786 (Code4rena/Y2k Finance)"
+help: "[M-05] StakingRewards.sol#stake is intended to be pausable but isn't"
+wiki_title: "[M-05] StakingRewards.sol#stake is intended to be pausable but isn't"
+wiki_description: |
+    Staking is unable to be paused as intended.
+    
+    ### Proof of Concept
+    
+    StakingRewards.sol inherits pausable and implements the whenNotPaused modifier on stake, but doesn't implement any method to actually pause or unpause the contract. Pausable.sol only implements internal functions, which requires ext
+wiki_exploit_scenario: |
+    Per Solodit #5786: Staking is unable to be paused as intended.
+    
+    ### Proof of Concept
+    
+    StakingRewards.sol inherits pausable and implements the whenNotPaused modifier on stake, but doesn't implement any method to actuall
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05StakingrewardsSolStakeIsIntendedToBePausableButIsn"
+solodit_id: "5786"
+solodit_slug: |
+    m-05-stakingrewardssolstake-is-intended-to-be-pausable-but-isnt-code4rena-y2k-finance-y2k-finance-contest-git
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Pause, Business Logic"
+state_decl: "uint256 internal setpaused;"
+fn_name_regex: ".*(setPaused).*"
+read_var_regex: ".*(setPaused).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setPaused"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return setpaused > 0;"

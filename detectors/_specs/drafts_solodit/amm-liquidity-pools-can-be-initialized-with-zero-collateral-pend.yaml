@@ -1,0 +1,48 @@
+skeleton: "paired_function_divergence"
+name: "amm-liquidity-pools-can-be-initialized-with-zero-collateral-pend"
+class_name: "AmmLiquidityPoolsCanBeInitializedWithZeroCollateralPend"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #13721 (ConsenSys/MCDEX Mai Protocol V2)"
+help: "AMM - Liquidity pools can be initialized with zero collateral  Pending"
+wiki_title: "AMM - Liquidity pools can be initialized with zero collateral  Pending"
+wiki_description: |
+    #### Resolution
+    
+    
+    
+    This issue was addressed by checking that `amount > 0`. The assessment team would like to note that;
+    
+    
+    * The client chose to verify that `amount` is non-zero when calling `createPool` instead of requiring a minimum of a `lotSize`.
+    * The client did not address the issues about `rem
+wiki_exploit_scenario: |
+    Per Solodit #13721: #### Resolution
+    
+    
+    
+    This issue was addressed by checking that `amount > 0`. The assessment team would like to note that;
+    
+    
+    * The client chose to verify that `amount` is non-zero when calling `createPoo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AmmLiquidityPoolsCanBeInitializedWithZeroCollateralPend"
+solodit_id: "13721"
+solodit_slug: |
+    amm-liquidity-pools-can-be-initialized-with-zero-collateral-pending-consensys-mcdex-mai-protocol-v2-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity|amount|createPool).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

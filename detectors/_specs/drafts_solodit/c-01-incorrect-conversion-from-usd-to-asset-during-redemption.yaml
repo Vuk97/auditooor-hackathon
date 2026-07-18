@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_call"
+name: "c-01-incorrect-conversion-from-usd-to-asset-during-redemption"
+class_name: "C01IncorrectConversionFromUsdToAssetDuringRedemption"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61476 (Pashov Audit Group/Blueberry_2025-04-30)"
+help: "[C-01] Incorrect conversion from USD to asset during redemption"
+wiki_title: "[C-01] Incorrect conversion from USD to asset during redemption"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    In the deposit() function, the conversion from asset amount to USD value is performed by multiplying the spot rate:
+    `        uint256 usdValue = escrow.getRate(details.spotMarket).mulWadDown(amount * scaler);
+    `
+    in the redeem() func
+wiki_exploit_scenario: |
+    Per Solodit #61476: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    In the deposit() function, the conversion from asset amount to USD value is performed by multiplying the spot rate:
+    `        uint2
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01IncorrectConversionFromUsdToAssetDuringRedemption"
+solodit_id: "61476"
+solodit_slug: |
+    c-01-incorrect-conversion-from-usd-to-asset-during-redemption-pashov-audit-group-none-blueberry_2025-04-30-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(usdValue|getRate|spotMarket|mulWadDown).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "usdValue"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

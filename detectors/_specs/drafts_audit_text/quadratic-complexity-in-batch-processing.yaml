@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "quadratic-complexity-in-batch-processing"
+class_name: "QuadraticComplexityInBatchProcessing"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Jovay Relayer - Zellic Audit Report"
+help: |
+    When RollupAggregator.process() is called during L2 → L1 batch creation, the entire accumulated batch data is reserialized and compressed for every block processed. This results in
+wiki_title: "Quadratic complexity in batch processing"
+wiki_description: |
+    When RollupAggregator.process() is called during L2 → L1 batch creation, the entire accumulated batch data is reserialized and compressed for every block processed. This results in O(N²) computational complexity, where N is the number of blocks in the batch. The block processing pattern is as follow
+wiki_exploit_scenario: |
+    Per audit finding: When RollupAggregator.process() is called during L2 → L1 batch creation, the entire accumulated batch data is reserialized and compressed for every block processed. This results in O(N²) computational
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "QuadraticComplexityInBatchProcessing"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(blockTrace|growingBatchInfo|getGrowingBatchInfo).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "blockTrace"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

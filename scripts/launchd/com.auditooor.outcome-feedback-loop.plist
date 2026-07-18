@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  com.auditooor.outcome-feedback-loop.plist
+  F5 outcome feedback loop — daily 04:30 local time.
+  Runs after gap-analyzer (04:00) and memory rollup (04:15).
+
+  Install:
+    cp scripts/launchd/com.auditooor.outcome-feedback-loop.plist \
+       ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.auditooor.outcome-feedback-loop.plist
+
+  Test run:
+    launchctl start com.auditooor.outcome-feedback-loop
+
+  Uninstall:
+    launchctl unload ~/Library/LaunchAgents/com.auditooor.outcome-feedback-loop.plist
+    rm ~/Library/LaunchAgents/com.auditooor.outcome-feedback-loop.plist
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.auditooor.outcome-feedback-loop</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/env</string>
+        <string>bash</string>
+        <string>-c</string>
+        <string>
+            set -euo pipefail
+            REPO="${HOME}/Documents/Codex/auditooor"
+            LOG="${REPO}/logs/outcome-feedback-loop.log"
+            mkdir -p "${REPO}/logs"
+            DATE=$(date +%Y-%m-%d)
+            echo "[${DATE} 04:30] outcome-feedback-loop START" >> "${LOG}"
+
+            # Step 1: outcome-feedback-loop (tier calibration)
+            python3 "${REPO}/tools/outcome-feedback-loop.py" \
+                --outcomes "${REPO}/reference/outcomes.jsonl" \
+                --registry "${REPO}/detectors/_tier_registry.yaml" \
+                --vault-dir "${REPO}/obsidian-vault" \
+                >> "${LOG}" 2>&1
+
+            # Step 2: per-platform-precision (platform breakdown)
+            python3 "${REPO}/tools/per-platform-precision.py" \
+                --outcomes "${REPO}/reference/outcomes.jsonl" \
+                --vault-dir "${REPO}/obsidian-vault" \
+                --docs-dir "${REPO}/docs" \
+                >> "${LOG}" 2>&1
+
+            echo "[${DATE} 04:30] outcome-feedback-loop DONE" >> "${LOG}"
+        </string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>4</integer>
+        <key>Minute</key>
+        <integer>30</integer>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/com.auditooor.outcome-feedback-loop.stdout</string>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/com.auditooor.outcome-feedback-loop.stderr</string>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/wolf/Documents/Codex/auditooor</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin</string>
+    </dict>
+
+    <!-- Throttle: only fire once per day even if the daemon re-triggers -->
+    <key>ThrottleInterval</key>
+    <integer>82800</integer>
+</dict>
+</plist>

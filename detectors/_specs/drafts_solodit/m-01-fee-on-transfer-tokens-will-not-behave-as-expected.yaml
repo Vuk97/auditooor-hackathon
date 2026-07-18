@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "m-01-fee-on-transfer-tokens-will-not-behave-as-expected"
+class_name: "M01FeeOnTransferTokensWillNotBehaveAsExpected"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6511 (Code4rena/Numoen)"
+help: "[M-01] Fee on transfer tokens will not behave as expected"
+wiki_title: "[M-01] Fee on transfer tokens will not behave as expected"
+wiki_description: |
+    In Numoen, it does not specifically restrict the type of ERC20 collateral used for borrowing.
+    
+    If fee on transfer token(s) is/are entailed, it will specifically make `mint()` revert in Lendgine.sol when checking if `balanceAfter < balanceBefore + collateral`.
+    
+    ### Proof of Concept
+    
+    [File: Lendgine.
+wiki_exploit_scenario: |
+    Per Solodit #6511: In Numoen, it does not specifically restrict the type of ERC20 collateral used for borrowing.
+    
+    If fee on transfer token(s) is/are entailed, it will specifically make `mint()` revert in Lendgine.sol w
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01FeeOnTransferTokensWillNotBehaveAsExpected"
+solodit_id: "6511"
+solodit_slug: "m-01-fee-on-transfer-tokens-will-not-behave-as-expected-code4rena-numoen-numoen-contest-git"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Fee On Transfer"
+state_decl: "uint256 internal mint;"
+fn_name_regex: ".*(mint).*"
+read_var_regex: ".*(mint).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mint"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return mint > 0;"

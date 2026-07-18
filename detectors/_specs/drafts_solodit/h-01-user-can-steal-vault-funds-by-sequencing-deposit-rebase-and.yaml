@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "h-01-user-can-steal-vault-funds-by-sequencing-deposit-rebase-and"
+class_name: "H01UserCanStealVaultFundsBySequencingDepositRebaseAnd"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18761 (ZachObront/Dyad)"
+help: "[H-01] User can steal vault funds by sequencing deposit, rebase, and redeem"
+wiki_title: "[H-01] User can steal vault funds by sequencing deposit, rebase, and redeem"
+wiki_description: |
+    When a user deposits into the protocol, their msg.value is converted into a number of shares in two steps:
+    
+    - \_eth2dyad() calculates the USD value of the ETH, based on the current oracle.
+    - \_deposit2Shares() calculates the number of shares they should receive for that USD value.
+    
+    The issue lies in
+wiki_exploit_scenario: |
+    Per Solodit #18761: When a user deposits into the protocol, their msg.value is converted into a number of shares in two steps:
+    
+    - \_eth2dyad() calculates the USD value of the ETH, based on the current oracle.
+    - \_deposit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01UserCanStealVaultFundsBySequencingDepositRebaseAnd"
+solodit_id: "18761"
+solodit_slug: |
+    h-01-user-can-steal-vault-funds-by-sequencing-deposit-rebase-and-redeem-zachobront-none-dyad-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalDeposit|totalDeposits).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "totalDeposit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

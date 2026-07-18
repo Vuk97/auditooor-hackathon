@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "unneeded-receive-function-12"
+class_name: "UnneededReceiveFunction12"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Acctual Batch Payments - Zellic Audit Report"
+help: |
+    When processing ERC-20 payments, the payBills function calls transferFrom directly, requiring the return value of the token to be true, indicating success. Unfortunately, some toke
+wiki_title: "Unneeded receive function                                      12"
+wiki_description: |
+    When processing ERC-20 payments, the payBills function calls transferFrom directly, requiring the return value of the token to be true, indicating success. Unfortunately, some tokens — including USDT and BNB on some chains — do not strictly adhere to the ERC-20 standard; their transferFrom function
+wiki_exploit_scenario: |
+    Per audit finding: When processing ERC-20 payments, the payBills function calls transferFrom directly, requiring the return value of the token to be true, indicating success. Unfortunately, some tokens — including USDT
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnneededReceiveFunction12"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(payBills|transferFrom).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "payBills"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

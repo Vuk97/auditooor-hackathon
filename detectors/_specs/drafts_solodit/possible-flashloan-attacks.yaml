@@ -1,0 +1,35 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "possible-flashloan-attacks"
+class_name: "PossibleFlashloanAttacks"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28550 (MixBytes/Yearn Finance)"
+help: "Possible flashloan attacks"
+wiki_title: "Possible flashloan attacks"
+wiki_description: |
+    ##### Description
+    In current contract some functions can be influenced by flashloan attacks.
+    - https://github.com/orbxball/stablecoins-3pool/blob/adeb776933c6cb3b8306239cc3357d4c6239a88d/contracts/StrategyDAI.sol#L71
+    - https://github.com/orbxball/stablecoins-3pool/blob/adeb776933c6cb3b8306239cc3357d
+wiki_exploit_scenario: |
+    Per Solodit #28550: ##### Description
+    In current contract some functions can be influenced by flashloan attacks.
+    - https://github.com/orbxball/stablecoins-3pool/blob/adeb776933c6cb3b8306239cc3357d4c6239a88d/contracts/Str
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleFlashloanAttacks"
+solodit_id: "28550"
+solodit_slug: "possible-flashloan-attacks-mixbytes-none-yearn-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(balanceOfy3CRVinWant).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

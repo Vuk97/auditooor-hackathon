@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "storage-gaps-improperly-defined"
+class_name: "StorageGapsImproperlyDefined"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Spectral Modelers - Zellic Audit Report"
+help: |
+    Multiple contracts across the codebase are theoretically upgradable. All upgradable contracts require defining the gap array that allows allocating the storage safely in the future
+wiki_title: "Storage gaps improperly defined"
+wiki_description: |
+    Multiple contracts across the codebase are theoretically upgradable. All upgradable contracts require defining the gap array that allows allocating the storage safely in the future upgrades of the contracts, therefore eliminating the risk of storage collisions. For example, the Competition contract
+wiki_exploit_scenario: |
+    Per audit finding: Multiple contracts across the codebase are theoretically upgradable. All upgradable contracts require defining the gap array that allows allocating the storage safely in the future upgrades of the con
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StorageGapsImproperlyDefined"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxValidators|validatorToken|validatorStakeAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "maxValidators"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

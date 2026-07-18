@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "potential-incorrect-index-update-in-revived-gauge-under-spec-x"
+class_name: "PotentialIncorrectIndexUpdateInRevivedGaugeUnderSpecX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-09-fenix-finance"
+help: |
+    nnez This vulnerability could allow revived gauges to claim more rewards than intended under specific circumstances, potentially leading to unfair distribution of rewards. Descript
+wiki_title: "Potential incorrect index update in revived gauge under specific conditions"
+wiki_description: |
+    nnez This vulnerability could allow revived gauges to claim more rewards than intended under specific circumstances, potentially leading to unfair distribution of rewards. Description The reviveGauge function fails to update the gauge’s index to the current global index when reviving a previously ki
+wiki_exploit_scenario: |
+    Per audit finding: nnez This vulnerability could allow revived gauges to claim more rewards than intended under specific circumstances, potentially leading to unfair distribution of rewards. Description The reviveGauge
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialIncorrectIndexUpdateInRevivedGaugeUnderSpecX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(reviveGauge|distributeAll|onlyRole).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "reviveGauge"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

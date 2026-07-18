@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "m-01-bypass-userwithdrawlimitperperiod-check"
+class_name: "M01BypassUserwithdrawlimitperperiodCheck"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6063 (Code4rena/prePO)"
+help: "[M-01] Bypass `userWithdrawLimitPerPeriod` check"
+wiki_title: "[M-01] Bypass `userWithdrawLimitPerPeriod` check"
+wiki_description: |
+    User can bypass the `userWithdrawLimitPerPeriod` check by transferring the balance to another account.
+    
+    ### Proof of Concept
+    
+    1.  Assume `userWithdrawLimitPerPeriod` is set to `1000`
+    2.  User A has current deposit of amount `2000` and wants to withdraw everything instantly
+    3.  User A calls the with
+wiki_exploit_scenario: |
+    Per Solodit #6063: User can bypass the `userWithdrawLimitPerPeriod` check by transferring the balance to another account.
+    
+    ### Proof of Concept
+    
+    1.  Assume `userWithdrawLimitPerPeriod` is set to `1000`
+    2.  User A has c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01BypassUserwithdrawlimitperperiodCheck"
+solodit_id: "6063"
+solodit_slug: "m-01-bypass-userwithdrawlimitperperiod-check-code4rena-prepo-prepo-contest-git"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Bypass limit"
+state_decl: "uint256 internal userwithdrawlimitperperiod;"
+fn_name_regex: ".*(userWithdrawLimitPerPeriod).*"
+write_var_regex: ".*(userWithdrawLimitPerPeriod).*"
+guard_var_regex: ".*(userWithdrawLimitPerPeriod).*"
+vuln_fn_name: "userWithdrawLimitPerPeriod"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "userwithdrawlimitperperiod = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

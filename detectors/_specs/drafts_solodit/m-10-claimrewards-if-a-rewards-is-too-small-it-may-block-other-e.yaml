@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-10-claimrewards-if-a-rewards-is-too-small-it-may-block-other-e"
+class_name: "M10ClaimrewardsIfARewardsIsTooSmallItMayBlockOtherE"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20734 (Sherlock/Bond Options)"
+help: "M-10: claimRewards() If a rewards is too small, it may block other epochs"
+wiki_title: "M-10: claimRewards() If a rewards is too small, it may block other epochs"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-06-bond-judging/issues/110 
+    
+    ## Found by 
+    TrungOre, bin2chen, pep7siup
+    ## Summary
+    When `claimRewards()`, if some `rewards` is too small after being round down to 0
+    If `payoutToken` does not support transferring 0, it will block the subsequent epochs
+    ##
+wiki_exploit_scenario: |
+    Per Solodit #20734: Source: https://github.com/sherlock-audit/2023-06-bond-judging/issues/110 
+    
+    ## Found by 
+    TrungOre, bin2chen, pep7siup
+    ## Summary
+    When `claimRewards()`, if some `rewards` is too small after being round
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10ClaimrewardsIfARewardsIsTooSmallItMayBlockOtherE"
+solodit_id: "20734"
+solodit_slug: "m-10-claimrewards-if-a-rewards-is-too-small-it-may-block-other-epochs-sherlock-none-bond-options-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimrewards;"
+fn_name_regex: ".*(claimRewards|rewards|payoutToken|rewardsPerTokenEnd).*"
+read_var_regex: ".*(claimRewards|payoutToken|rewards).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimRewards"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimrewards > 0;"

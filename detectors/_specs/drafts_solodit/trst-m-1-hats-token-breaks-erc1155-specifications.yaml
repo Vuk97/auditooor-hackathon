@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "trst-m-1-hats-token-breaks-erc1155-specifications"
+class_name: "TrstM1HatsTokenBreaksErc1155Specifications"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18925 (Trust Security/Hats Protocol)"
+help: "TRST-M-1 Hats token breaks ERC1155 specifications"
+wiki_title: "TRST-M-1 Hats token breaks ERC1155 specifications"
+wiki_description: |
+    **Description:**
+    The Hats token implements ERC1155 (https://eips.ethereum.org/EIPS/eip-1155). It implements safeTransferFrom() and
+    batchSafeTransferFrom() as revert-only functions, so tokens cannot be transferred using 
+    standard ERC1155 means. However, hats can still be transferred using `mintHat()`
+wiki_exploit_scenario: |
+    Per Solodit #18925: **Description:**
+    The Hats token implements ERC1155 (https://eips.ethereum.org/EIPS/eip-1155). It implements safeTransferFrom() and
+    batchSafeTransferFrom() as revert-only functions, so tokens cannot be
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM1HatsTokenBreaksErc1155Specifications"
+solodit_id: "18925"
+solodit_slug: "trst-m-1-hats-token-breaks-erc1155-specifications-trust-security-none-hats-protocol-markdown_"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal minthat;"
+fn_name_regex: ".*(mintHat|mintTopHat|transferHat|safeTransferFrom).*"
+read_var_regex: ".*(mintHat|mintTopHat|safeBatchTransferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mintHat"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return minthat > 0;"

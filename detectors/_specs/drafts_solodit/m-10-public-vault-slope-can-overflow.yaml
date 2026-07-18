@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "m-10-public-vault-slope-can-overflow"
+class_name: "M10PublicVaultSlopeCanOverflow"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25826 (Code4rena/Astaria)"
+help: "[M-10] Public vault slope can overflow"
+wiki_title: "[M-10] Public vault slope can overflow"
+wiki_description: |
+    <https://github.com/code-423n4/2023-01-astaria/blob/main/src/PublicVault.sol#L562-L568><br>
+    <https://github.com/code-423n4/2023-01-astaria/blob/57c2fe33c1d57bc2814bfd23592417fc4d5bf7de/src/LienToken.sol#L702-L704>
+    
+    The slope of public vault can overflow in the afterPayment function due to unchecked
+wiki_exploit_scenario: |
+    Per Solodit #25826: <https://github.com/code-423n4/2023-01-astaria/blob/main/src/PublicVault.sol#L562-L568><br>
+    <https://github.com/code-423n4/2023-01-astaria/blob/57c2fe33c1d57bc2814bfd23592417fc4d5bf7de/src/LienToken.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10PublicVaultSlopeCanOverflow"
+solodit_id: "25826"
+solodit_slug: "m-10-public-vault-slope-can-overflow-code4rena-astaria-astaria-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(afterPayment|totalAssets).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "afterPayment"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

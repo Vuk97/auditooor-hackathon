@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "unsafe-swagger-content-security-policy"
+class_name: "UnsafeSwaggerContentSecurityPolicy"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Babylon Genesis Chain - Zellic Audit Report"
+help: |
+    The default Content-Security-Policy (CSP) header value for staking-api-service is safe, but a second CSP is used for /swagger/* routes: // CSP for /swagger/* path swaggerCSP := "de
+wiki_title: "Unsafe swagger Content Security Policy"
+wiki_description: |
+    The default Content-Security-Policy (CSP) header value for staking-api-service is safe, but a second CSP is used for /swagger/* routes: // CSP for /swagger/* path swaggerCSP := "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://stackpath.bootstrap.com ..." //
+wiki_exploit_scenario: |
+    Per audit finding: The default Content-Security-Policy (CSP) header value for staking-api-service is safe, but a second CSP is used for /swagger/* routes: // CSP for /swagger/* path swaggerCSP := "default-src 'self'; sc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnsafeSwaggerContentSecurityPolicy"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(swaggerCSP|defaultCSP|swaggerPathPrefix).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swaggerCSP"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-1-claimfromindividualplugin-may-endup-claiming-the-reward-from"
+class_name: "M1ClaimfromindividualpluginMayEndupClaimingTheRewardFrom"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3633 (Sherlock/Telcoin)"
+help: |
+    M-1: `claimFromIndividualPlugin()` may endup claiming the reward from a different plugin with wrong `auxData` when the index as changed due to `removePlugin()`
+wiki_title: |
+    M-1: `claimFromIndividualPlugin()` may endup claiming the reward from a different plugin with wrong `auxData` when the index as changed due to `removePlugin()`
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-11-telcoin-judging/issues/86 
+    
+    ## Found by 
+    WATCHPUG
+    
+    ## Summary
+    
+    When `removePlugin()` happens between the user sends the `claimFromIndividualPlugin()` transaction and before it gets minted, it may lead to lesser rewards as the `auxData` prepared for a
+wiki_exploit_scenario: |
+    Per Solodit #3633: Source: https://github.com/sherlock-audit/2022-11-telcoin-judging/issues/86 
+    
+    ## Found by 
+    WATCHPUG
+    
+    ## Summary
+    
+    When `removePlugin()` happens between the user sends the `claimFromIndividualPlugin()`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1ClaimfromindividualpluginMayEndupClaimingTheRewardFrom"
+solodit_id: "3633"
+solodit_slug: |
+    m-1-claimfromindividualplugin-may-endup-claiming-the-reward-from-a-different-plugin-with-wrong-auxdata-when-the-index-as-changed-due-to-removeplugin-sherlock-telcoin-telcoin-git
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Array Reorder"
+state_decl: "uint256 internal auxdata;"
+fn_name_regex: ".*(removePlugin|claimFromIndividualPlugin|auxData|pluginIndex).*"
+read_var_regex: ".*(auxData|claimFromIndividualPlugin|pluginAddress).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "removePlugin"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return auxdata > 0;"

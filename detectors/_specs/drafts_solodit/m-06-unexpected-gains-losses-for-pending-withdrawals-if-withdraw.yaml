@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-06-unexpected-gains-losses-for-pending-withdrawals-if-withdraw"
+class_name: "M06UnexpectedGainsLossesForPendingWithdrawalsIfWithdraw"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31644 (Pashov Audit Group/Nume)"
+help: "[M-06] Unexpected gains&losses for pending withdrawals if WITHDRAWAL_STAKE is changed"
+wiki_title: "[M-06] Unexpected gains&losses for pending withdrawals if WITHDRAWAL_STAKE is changed"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High, potential funds stolen from other users and DoS
+    
+    **Likelihood:** Low, as `Withdrawal_Stake` is not so likely to be changed, must be increased, and must have pending withdrawals
+    
+    **Description**
+    
+    `submitWithdrawalRequest()` receives `msg.value` as `WITHDRAWAL_STAKE`. H
+wiki_exploit_scenario: |
+    Per Solodit #31644: **Severity**
+    
+    **Impact:** High, potential funds stolen from other users and DoS
+    
+    **Likelihood:** Low, as `Withdrawal_Stake` is not so likely to be changed, must be increased, and must have pending wit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06UnexpectedGainsLossesForPendingWithdrawalsIfWithdraw"
+solodit_id: "31644"
+solodit_slug: |
+    m-06-unexpected-gainslosses-for-pending-withdrawals-if-withdrawal_stake-is-changed-pashov-none-nume-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal notarizesettlement;"
+fn_name_regex: ".*(Withdrawal_Stake|submitWithdrawalRequest|WITHDRAWAL_STAKE|notarizeSettlement).*"
+read_var_regex: ".*(notarizeSettlement|setWithdrawStake|submitWithdrawalRequest).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Withdrawal_Stake"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return notarizesettlement > 0;"

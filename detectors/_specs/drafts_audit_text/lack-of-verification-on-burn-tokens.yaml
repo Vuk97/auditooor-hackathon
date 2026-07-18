@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "lack-of-verification-on-burn-tokens"
+class_name: "LackOfVerificationOnBurnTokens"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Trillion EVM cross chain contract - Zellic Audit Report"
+help: |
+    During token bridging, an input token is burned to ensure 1:1 bridging (excluding fees) against token's minted through off-chain processes. However, at this stage any token can be
+wiki_title: "Lack of verification on burn tokens"
+wiki_description: |
+    During token bridging, an input token is burned to ensure 1:1 bridging (excluding fees) against token's minted through off-chain processes. However, at this stage any token can be used as the _burnTo- kenAddress, whereas bridging is only intended to support two tokens TNUSD and TNSGD.
+wiki_exploit_scenario: |
+    Per audit finding: During token bridging, an input token is burned to ensure 1:1 bridging (excluding fees) against token's minted through off-chain processes. However, at this stage any token can be used as the _burnTo-
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfVerificationOnBurnTokens"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(kenAddress).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "kenAddress"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "bypass-of-over-collateralization-checks"
+class_name: "BypassOfOverCollateralizationChecks"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #47964 (OtterSec/Pike)"
+help: "Bypass Of Over-Collateralization Checks"
+wiki_title: "Bypass Of Over-Collateralization Checks"
+wiki_description: |
+    ## Vulnerability Report: processBorrow Function
+    
+    The `processBorrow` function exhibits an exploitable defect in its loan value computation logic, which allows users to open under-collateralized debts. The `hub` iterates over each of the whitelisted assets with non-zero collateral amounts, and in eac
+wiki_exploit_scenario: |
+    Per Solodit #47964: ## Vulnerability Report: processBorrow Function
+    
+    The `processBorrow` function exhibits an exploitable defect in its loan value computation logic, which allows users to open under-collateralized debts.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BypassOfOverCollateralizationChecks"
+solodit_id: "47964"
+solodit_slug: "bypass-of-over-collateralization-checks-ottersec-none-pike-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrowamountinusd;"
+fn_name_regex: ".*(processBorrow|hub|collateralBalances|totalCollateralInUsd).*"
+write_var_regex: ".*(borrowAmountInUSD|collateralBalances|hub).*"
+guard_var_regex: ".*(borrowAmountInUSD|collateralBalances|hub).*"
+vuln_fn_name: "processBorrow"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "borrowamountinusd = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

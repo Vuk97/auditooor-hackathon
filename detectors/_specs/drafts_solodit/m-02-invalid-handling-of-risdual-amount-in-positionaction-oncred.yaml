@@ -1,0 +1,33 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-02-invalid-handling-of-risdual-amount-in-positionaction-oncred"
+class_name: "M02InvalidHandlingOfRisdualAmountInPositionactionOncred"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49114 (Code4rena/LoopFi)"
+help: |
+    [M-02] Invalid handling of risdual amount in `PositionAction::onCreditFlashLoan`, forcing it to revert
+wiki_title: |
+    [M-02] Invalid handling of risdual amount in `PositionAction::onCreditFlashLoan`, forcing it to revert
+wiki_description: |
+    Users can call `PositionAction::decreaseLever` through a proxy, to "Decrease the leverage of a position by taking out a credit flash loan to withdraw and sell collateral". After it is called, the flash loan lender sends the credit and calls `onCreditFlashLoan`, which handles all that logic. When do
+wiki_exploit_scenario: |
+    Per Solodit #49114: Users can call `PositionAction::decreaseLever` through a proxy, to "Decrease the leverage of a position by taking out a credit flash loan to withdraw and sell collateral". After it is called, the fla
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02InvalidHandlingOfRisdualAmountInPositionactionOncred"
+solodit_id: "49114"
+solodit_slug: |
+    m-02-invalid-handling-of-risdual-amount-in-positionactiononcreditflashloan-forcing-it-to-revert-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(onCreditFlashLoan|decreaseLever).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

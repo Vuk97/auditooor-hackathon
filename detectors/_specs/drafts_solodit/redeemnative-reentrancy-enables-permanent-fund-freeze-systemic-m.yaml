@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "redeemnative-reentrancy-enables-permanent-fund-freeze-systemic-m"
+class_name: "RedeemnativeReentrancyEnablesPermanentFundFreezeSystemicM"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #63524 (MixBytes/Notional Finance)"
+help: |
+    `redeemNative()` Reentrancy Enables Permanent Fund Freeze, Systemic Misaccounting, and Liquidation Cascades
+wiki_title: |
+    `redeemNative()` Reentrancy Enables Permanent Fund Freeze, Systemic Misaccounting, and Liquidation Cascades
+wiki_description: |
+    ##### Description
+    The redemption flow in `AbstractYieldStrategy.redeemNative()` is vulnerable to reentrancy that corrupts internal accounting and can permanently freeze a portion of the vault's yield tokens. The `redeemNative()` function calls `AbstractStakingStrategy._redeemShares()`, which for ins
+wiki_exploit_scenario: |
+    Per Solodit #63524: ##### Description
+    The redemption flow in `AbstractYieldStrategy.redeemNative()` is vulnerable to reentrancy that corrupts internal accounting and can permanently freeze a portion of the vault's yield
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RedeemnativeReentrancyEnablesPermanentFundFreezeSystemicM"
+solodit_id: "63524"
+solodit_slug: |
+    redeemnative-reentrancy-enables-permanent-fund-freeze-systemic-misaccounting-and-liquidation-cascades-mixbytes-none-notional-finance-markdown
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal redeemnative;"
+fn_name_regex: ".*(redeemNative|s_yieldTokenBalance|yieldTokensBefore).*"
+read_var_regex: ".*(redeemNative|s_yieldTokenBalance|yieldTokensBefore).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "redeemNative"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return redeemnative > 0;"

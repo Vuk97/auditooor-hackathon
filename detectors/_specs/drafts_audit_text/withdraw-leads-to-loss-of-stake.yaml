@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "withdraw-leads-to-loss-of-stake"
+class_name: "WithdrawLeadsToLossOfStake"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Chateau - Zellic Audit Report"
+help: |
+    Whenever the owner of the StakingPool contract calls withdraw(), the indexStar variable is set to be equal to indexEnd. function withdraw() public onlyOwner { // ... indexStar = in
+wiki_title: "Withdraw leads to loss of stake"
+wiki_description: |
+    Whenever the owner of the StakingPool contract calls withdraw(), the indexStar variable is set to be equal to indexEnd. function withdraw() public onlyOwner { // ... indexStar = indexEnd; // ... } These two variables represent the cut-off index for withdrawn stakes and the next index to assign when
+wiki_exploit_scenario: |
+    Per audit finding: Whenever the owner of the StakingPool contract calls withdraw(), the indexStar variable is set to be equal to indexEnd. function withdraw() public onlyOwner { // ... indexStar = indexEnd; // ... } The
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WithdrawLeadsToLossOfStake"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(indexStar|indexEnd|onlyOwner).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "indexStar"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

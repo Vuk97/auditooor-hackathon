@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "invalid-threshold-can-halt-the-protocol"
+class_name: "InvalidThresholdCanHaltTheProtocol"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Mina Token Bridge EVM - Zellic Audit Report"
+help: |
+    The argument _newThreshold for the function changeThreshold must be less than or equal to the number of validators. function changeThreshold(uint256 _newThreshold) external onlyOwn
+wiki_title: "Invalid threshold can halt the protocol"
+wiki_description: |
+    The argument _newThreshold for the function changeThreshold must be less than or equal to the number of validators. function changeThreshold(uint256 _newThreshold) external onlyOwner() { threshold = _newThreshold; emit ChangeThreshold(_newThreshold); }
+wiki_exploit_scenario: |
+    Per audit finding: The argument _newThreshold for the function changeThreshold must be less than or equal to the number of validators. function changeThreshold(uint256 _newThreshold) external onlyOwner() { threshold = _
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InvalidThresholdCanHaltTheProtocol"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(changeThreshold|onlyOwner).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "changeThreshold"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

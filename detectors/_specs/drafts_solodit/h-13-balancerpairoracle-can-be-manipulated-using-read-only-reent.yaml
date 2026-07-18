@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-13-balancerpairoracle-can-be-manipulated-using-read-only-reent"
+class_name: "H13BalancerpairoracleCanBeManipulatedUsingReadOnlyReent"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18493 (Sherlock/Blueberry Update)"
+help: "H-13: `BalancerPairOracle` can be manipulated using read-only reentrancy"
+wiki_title: "H-13: `BalancerPairOracle` can be manipulated using read-only reentrancy"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-04-blueberry-judging/issues/141 
+    
+    ## Found by 
+    cuthalion0x
+    ## Summary
+    
+    `BalancerPairOracle.getPrice` makes an external call to `BalancerVault.getPoolTokens` without checking the Balancer Vault's reentrancy guard. As a result, the oracle can be trivially
+wiki_exploit_scenario: |
+    Per Solodit #18493: Source: https://github.com/sherlock-audit/2023-04-blueberry-judging/issues/141 
+    
+    ## Found by 
+    cuthalion0x
+    ## Summary
+    
+    `BalancerPairOracle.getPrice` makes an external call to `BalancerVault.getPoolToke
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H13BalancerpairoracleCanBeManipulatedUsingReadOnlyReent"
+solodit_id: "18493"
+solodit_slug: |
+    h-13-balancerpairoracle-can-be-manipulated-using-read-only-reentrancy-sherlock-none-blueberry-update-git
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Read-only Reentrancy, Oracle, Flash Loan"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(BalancerPairOracle).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

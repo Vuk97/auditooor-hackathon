@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "m-13-vault-claimreward-if-have-a-market-without-reward-token-it-"
+class_name: "M13VaultClaimrewardIfHaveAMarketWithoutRewardTokenIt"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28964 (Sherlock/Perennial V2 Update #1)"
+help: |
+    M-13: vault.claimReward() If have a market without reward token, it may cause all markets to be unable to retrieve rewards.
+wiki_title: |
+    M-13: vault.claimReward() If have a market without reward token, it may cause all markets to be unable to retrieve rewards.
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-10-perennial-judging/issues/46 
+    
+    ## Found by 
+    bin2chen
+    ## Summary
+    In `vault.claimReward()`, it will loop through all `market` of `vault` to execute `claimReward()`, and transfer `rewards` to `factory().owner()`. 
+    If one of the markets does not have `rew
+wiki_exploit_scenario: |
+    Per Solodit #28964: Source: https://github.com/sherlock-audit/2023-10-perennial-judging/issues/46 
+    
+    ## Found by 
+    bin2chen
+    ## Summary
+    In `vault.claimReward()`, it will loop through all `market` of `vault` to execute `clai
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M13VaultClaimrewardIfHaveAMarketWithoutRewardTokenIt"
+solodit_id: "28964"
+solodit_slug: |
+    m-13-vaultclaimreward-if-have-a-market-without-reward-token-it-may-cause-all-markets-to-be-unable-to-retrieve-rewards-sherlock-perennial-v2-update-1-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimreward;"
+fn_name_regex: ".*(market|vault|claimReward|rewards).*"
+read_var_regex: ".*(claimReward|initialize|market).*"
+required_call_regex: ".*rewards.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "market"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimreward > 0;"

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "curveswapper-lacks-slippage-protection-on-curve-pool-interaction"
+class_name: "CurveswapperLacksSlippageProtectionOnCurvePoolInteraction"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52469 (Halborn/Hooks Contracts)"
+help: "CurveSwapper Lacks Slippage Protection on Curve Pool Interactions"
+wiki_title: "CurveSwapper Lacks Slippage Protection on Curve Pool Interactions"
+wiki_description: |
+    ##### Description
+    
+    The `CurveSwapper` contract does not enforce slippage protection in its swap operations. Specifically, in the `swap()` function, when adding liquidity or removing liquidity, the `min_amount` parameter is hardcoded to `0`:
+    
+    ```
+    function swap(
+      address tokenIn,
+      uint256 amount,
+wiki_exploit_scenario: |
+    Per Solodit #52469: ##### Description
+    
+    The `CurveSwapper` contract does not enforce slippage protection in its swap operations. Specifically, in the `swap()` function, when adding liquidity or removing liquidity, the `mi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CurveswapperLacksSlippageProtectionOnCurvePoolInteraction"
+solodit_id: "52469"
+solodit_slug: |
+    curveswapper-lacks-slippage-protection-on-curve-pool-interactions-halborn-tren-finance-hooks-contracts-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal minamountout;"
+fn_name_regex: ".*(CurveSwapper|swap|min_amount|minAmountOut).*"
+read_var_regex: ".*(minAmountOut|min_amount|swap).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "CurveSwapper"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return minamountout > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "reentrancy-check-in"
+class_name: "ReentrancyCheckIn"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-09-kakarot"
+help: |
+    RadiantLabs , also found by muellerberndt and zhaojie The account_contract has a reentrancy check in execute_starknet_call to prevent calls made from the Kakarot EVM to Starknet to
+wiki_title: "Reentrancy check in"
+wiki_description: |
+    RadiantLabs , also found by muellerberndt and zhaojie The account_contract has a reentrancy check in execute_starknet_call to prevent calls made from the Kakarot EVM to Starknet to re-enter the Kakarot EVM. The check is implemented by checking that execute_starknet_call calls Kakarot’s address only
+wiki_exploit_scenario: |
+    Per audit finding: RadiantLabs , also found by muellerberndt and zhaojie The account_contract has a reentrancy check in execute_starknet_call to prevent calls made from the Kakarot EVM to Starknet to re-enter the Kakaro
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyCheckIn"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(kakarotReentrancy).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "kakarotReentrancy"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

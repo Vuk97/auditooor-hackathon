@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "m-8-oracle-sol-observe-function-has-overflow-risk-and-should-cas"
+class_name: "M8OracleSolObserveFunctionHasOverflowRiskAndShouldCas"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27670 (Sherlock/Aloe)"
+help: "M-8: Oracle.sol: observe function has overflow risk and should cast to uint256 like Uniswap V3 does"
+wiki_title: "M-8: Oracle.sol: observe function has overflow risk and should cast to uint256 like Uniswap V3 does"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-10-aloe-judging/issues/85 
+    
+    ## Found by 
+    roguereddwarf
+    The `Oracle.observe` function basically uses the same math from the Uniswap V3 code to search for observations.  
+    
+    In comparison to Uniswap V3, the `Oracle.observe` function takes a `seed` such that
+wiki_exploit_scenario: |
+    Per Solodit #27670: Source: https://github.com/sherlock-audit/2023-10-aloe-judging/issues/85 
+    
+    ## Found by 
+    roguereddwarf
+    The `Oracle.observe` function basically uses the same math from the Uniswap V3 code to search for
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M8OracleSolObserveFunctionHasOverflowRiskAndShouldCas"
+solodit_id: "27670"
+solodit_slug: |
+    m-8-oraclesol-observe-function-has-overflow-risk-and-should-cast-to-uint256-like-uniswap-v3-does-sherlock-aloe-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal delta;"
+fn_name_regex: ".*(seed|secondsPerLiquidityCumulativeX128|unchecked|liqCumR).*"
+write_var_regex: ".*(delta|denom|liqCumL).*"
+guard_var_regex: ".*(delta|denom|liqCumL).*"
+vuln_fn_name: "seed"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "delta = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

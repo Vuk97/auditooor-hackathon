@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "the-transferred-amount-may-not-reflect-msg-value"
+class_name: "TheTransferredAmountMayNotReflectMsgValue"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Sushiswap Route Processor - Zellic Audit Report"
+help: |
+    The wrapAndDistributeERC20Amounts function wraps the native tokens that were sup- plied by the user and then forwards them to the pools that RouteProcessor interacts with. Here, th
+wiki_title: "The transferred amount may not reflect msg.value"
+wiki_description: |
+    The wrapAndDistributeERC20Amounts function wraps the native tokens that were sup- plied by the user and then forwards them to the pools that RouteProcessor interacts with. Here, the msg.value parameter is not checked against the amountTotal variable, leaving room for error. function wrapAndDistribut
+wiki_exploit_scenario: |
+    Per audit finding: The wrapAndDistributeERC20Amounts function wraps the native tokens that were sup- plied by the user and then forwards them to the pools that RouteProcessor interacts with. Here, the msg.value paramete
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheTransferredAmountMayNotReflectMsgValue"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(wrapAndDistributeERC20Amounts|amountTotal|wNATIVE).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "wrapAndDistributeERC20Amounts"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

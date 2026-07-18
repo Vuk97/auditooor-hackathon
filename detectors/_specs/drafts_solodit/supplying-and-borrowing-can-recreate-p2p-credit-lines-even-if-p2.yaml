@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "supplying-and-borrowing-can-recreate-p2p-credit-lines-even-if-p2"
+class_name: "SupplyingAndBorrowingCanRecreateP2pCreditLinesEvenIfP2"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6910 (Spearbit/Morpho)"
+help: "Supplying and borrowing can recreate p2p credit lines even if p2p is disabled"
+wiki_title: "Supplying and borrowing can recreate p2p credit lines even if p2p is disabled"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    **Context:** 
+    - aave-v2/EntryPositionsManager.sol#L117
+    - aave-v2/EntryPositionsManager.sol#L215
+    - compound/PositionsManager.sol#L258
+    - compound/PositionsManager.sol#L354
+    
+    **Description:**  
+    When supplying/borrowing, the algorithm attempts to reduce the deltas `p2pBorrowDelt
+wiki_exploit_scenario: |
+    Per Solodit #6910: ## Severity: Medium Risk
+    
+    **Context:** 
+    - aave-v2/EntryPositionsManager.sol#L117
+    - aave-v2/EntryPositionsManager.sol#L215
+    - compound/PositionsManager.sol#L258
+    - compound/PositionsManager.sol#L354
+    
+    **D
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SupplyingAndBorrowingCanRecreateP2pCreditLinesEvenIfP2"
+solodit_id: "6910"
+solodit_slug: "supplying-and-borrowing-can-recreate-p2p-credit-lines-even-if-p2p-is-disabled-spearbit-morpho-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Bypass limit"
+state_decl: "uint256 internal increasedelta;"
+fn_name_regex: ".*(p2pBorrowDelta|p2pSupplyDelta|increaseDelta|p2pAmount).*"
+read_var_regex: ".*(increaseDelta|p2pAmount|p2pBorrowDelta).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "p2pBorrowDelta"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return increasedelta > 0;"

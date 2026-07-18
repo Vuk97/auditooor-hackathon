@@ -1,0 +1,49 @@
+skeleton: "paired_function_divergence"
+name: "h-04-an-attacker-can-massively-inflate-the-share-value"
+class_name: "H04AnAttackerCanMassivelyInflateTheShareValue"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45991 (Pashov Audit Group/Peapods_2024-11-16)"
+help: "[H-04] An attacker can massively inflate the share value"
+wiki_title: "[H-04] An attacker can massively inflate the share value"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    Since the total assets/shares are tracked via an internal storage variable, a traditional vault inflation attack cannot occur in the Fraxlend pairs. However, by exploiting the rounding directions when minting/burning shares, an a
+wiki_exploit_scenario: |
+    Per Solodit #45991: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    Since the total assets/shares are tracked via an internal storage variable, a traditional vault inflation attack cannot occur in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04AnAttackerCanMassivelyInflateTheShareValue"
+solodit_id: "45991"
+solodit_slug: |
+    h-04-an-attacker-can-massively-inflate-the-share-value-pashov-audit-group-none-peapods_2024-11-16-markdown
+solodit_quality: "5"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(contracts).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

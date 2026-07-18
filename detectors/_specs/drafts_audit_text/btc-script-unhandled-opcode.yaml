@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "btc-script-unhandled-opcode"
+class_name: "BtcScriptUnhandledOpcode"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Lorenzo Protocol - Zellic Audit Report"
+help: |
+    The extractPaymentToWithOpReturnId function extracts the user's Lorenzo address from the Bit- coin transaction metadata. This is the address to which stBTC is minted. It only handl
+wiki_title: "BTC script unhandled opcode"
+wiki_description: |
+    The extractPaymentToWithOpReturnId function extracts the user's Lorenzo address from the Bit- coin transaction metadata. This is the address to which stBTC is minted. It only handles the OP_PUSHDATA1 case when extracting the address. if pkScriptLen > 1 && pkScriptLen <= maxOpReturnPkScriptSize && pk
+wiki_exploit_scenario: |
+    Per audit finding: The extractPaymentToWithOpReturnId function extracts the user's Lorenzo address from the Bit- coin transaction metadata. This is the address to which stBTC is minted. It only handles the OP_PUSHDATA1
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BtcScriptUnhandledOpcode"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(extractPaymentToWithOpReturnId|stBTC|pkScriptLen).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "extractPaymentToWithOpReturnId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

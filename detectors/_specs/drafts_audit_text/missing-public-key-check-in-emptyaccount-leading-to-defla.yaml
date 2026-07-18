@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-public-key-check-in-emptyaccount-leading-to-defla"
+class_name: "MissingPublicKeyCheckInEmptyaccountLeadingToDefla"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit SPL Token - Zellic Audit Report"
+help: |
+    A token account can only be closed if it has a zero balance. This applies to the regu- lar cleartext balance as well as to the balances managed by the confidential transfer extensi
+wiki_title: "Missing public key check in EmptyAccount leading to defla-"
+wiki_description: |
+    A token account can only be closed if it has a zero balance. This applies to the regu- lar cleartext balance as well as to the balances managed by the confidential transfer extension. Since the latter balances are encrypted, a special instruction called Empt yAccount has to be executed before closin
+wiki_exploit_scenario: |
+    Per audit finding: A token account can only be closed if it has a zero balance. This applies to the regu- lar cleartext balance as well as to the balances managed by the confidential transfer extension. Since the latter
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingPublicKeyCheckInEmptyaccountLeadingToDefla"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(yAccount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "yAccount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

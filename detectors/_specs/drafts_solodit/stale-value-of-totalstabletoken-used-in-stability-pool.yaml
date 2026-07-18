@@ -1,0 +1,30 @@
+skeleton: "state_write_without_paired_write"
+name: "stale-value-of-totalstabletoken-used-in-stability-pool"
+class_name: "StaleValueOfTotalstabletokenUsedInStabilityPool"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61794 (OpenZeppelin/f(x) v2 Audit)"
+help: "Stale Value of totalStableToken Used in Stability Pool"
+wiki_title: "Stale Value of totalStableToken Used in Stability Pool"
+wiki_description: |
+    The [sync modifier](https://github.com/AladdinDAO/fx-protocol-contracts/blob/56a47eab8d10334e479df83a2b13a8b68ce390e9/contracts/core/FxUSDBasePool.sol#L165-L174) updates the `totalStableToken` variable to the latest value in case the stable token has been deposited into a strategy and is generating
+wiki_exploit_scenario: |
+    Per Solodit #61794: The [sync modifier](https://github.com/AladdinDAO/fx-protocol-contracts/blob/56a47eab8d10334e479df83a2b13a8b68ce390e9/contracts/core/FxUSDBasePool.sol#L165-L174) updates the `totalStableToken` variabl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StaleValueOfTotalstabletokenUsedInStabilityPool"
+solodit_id: "61794"
+solodit_slug: "stale-value-of-totalstabletoken-used-in-stability-pool-openzeppelin-none-fx-v2-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(totalStableToken|deposit|redeem|sync).*"
+primary_var_regex: ".*(deposit|minSharesOut|previewDeposit).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

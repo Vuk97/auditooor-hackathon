@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "h-13-processoffersfromexecutiondata-lack-of-check-executiondata-"
+class_name: "H13ProcessoffersfromexecutiondataLackOfCheckExecutiondata"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35215 (Code4rena/Gondi)"
+help: "[H-13] `_processOffersFromExecutionData()` lack of check `executionData.duration<=offer.duration`"
+wiki_title: "[H-13] `_processOffersFromExecutionData()` lack of check `executionData.duration<=offer.duration`"
+wiki_description: |
+    `emitLoan()` only limits `offer.duration != 0`. There's no limit in `executionData.duration<=offer.duration`.
+    
+    `emitLoan()` -> `_processOffersFromExecutionData()` -> `_validateOfferExecution()`
+    
+    ```solidity
+        function _validateOfferExecution(
+            OfferExecution calldata _offerExecution,
+wiki_exploit_scenario: |
+    Per Solodit #35215: `emitLoan()` only limits `offer.duration != 0`. There's no limit in `executionData.duration<=offer.duration`.
+    
+    `emitLoan()` -> `_processOffersFromExecutionData()` -> `_validateOfferExecution()`
+    
+    ```s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H13ProcessoffersfromexecutiondataLackOfCheckExecutiondata"
+solodit_id: "35215"
+solodit_slug: |
+    h-13-_processoffersfromexecutiondata-lack-of-check-executiondatadurationofferduration-code4rena-gondi-gondi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal emitloan;"
+fn_name_regex: ".*(emitLoan|lender|LoanManager|repayLoan).*"
+write_var_regex: ".*(emitLoan|lender|pendingQueues).*"
+guard_var_regex: ".*(emitLoan|lender|pendingQueues).*"
+vuln_fn_name: "emitLoan"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "emitloan = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

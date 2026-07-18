@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "chisale-2024-11"
+class_name: "Chisale202411"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-11/ChiSale_exp.sol"
+help: "ChiSale 2024-11 — flashloan exploit (16.3k USD)"
+wiki_title: "ChiSale (2024-11) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-11): ChiSale lost 16.3k USD. Bug class: flashloan. Attack tx: 0x586a2a4368a1a45489a8a9b4273509b524b672c33e6c544d2682771b44f05e87.
+wiki_exploit_scenario: |
+    Attacker (0xe60329a82c5add1898ba273fc53835ac7e6fd5ca) exploits ChiSale via flashloan: the victim contract 0x050163597d9905ba66400f7b3ca8f2ef23df702d exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Chisale202411"
+trigger_sig_regex: ".*(receiveFlashLoan).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function receiveFlashLoan(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.receiveFlashLoan(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "m-05-liquidator-might-end-up-paying-much-more-asset-than-collate"
+class_name: "M05LiquidatorMightEndUpPayingMuchMoreAssetThanCollate"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24834 (Code4rena/Frax Finance)"
+help: "[M-05] Liquidator might end up paying much more asset than collateral received"
+wiki_title: "[M-05] Liquidator might end up paying much more asset than collateral received"
+wiki_description: |
+    `liquidateClean` doesn't check that the amount of shares the liquidator repays are covered by the collateral available, if the user repays more shares than (equally worth) collateral available - he'll get only the amount of collateral available.
+    
+    ### Impact
+    
+    Liquidator might end up paying assets th
+wiki_exploit_scenario: |
+    Per Solodit #24834: `liquidateClean` doesn't check that the amount of shares the liquidator repays are covered by the collateral available, if the user repays more shares than (equally worth) collateral available - he'l
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05LiquidatorMightEndUpPayingMuchMoreAssetThanCollate"
+solodit_id: "24834"
+solodit_slug: |
+    m-05-liquidator-might-end-up-paying-much-more-asset-than-collateral-received-code4rena-frax-finance-frax-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(liquidateClean).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

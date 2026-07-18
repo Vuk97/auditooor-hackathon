@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "no-mechanism-to-remove-backing-tokens-30"
+class_name: "NoMechanismToRemoveBackingTokens30"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Blackhaven (Core Contracts) - Zellic Audit Report"
+help: |
+    The redeem, redeemEarly, and getBondInfo functions use terms.vestingTerm as the vesting term for all bonds: function redeem(uint256 _tokenId) external nonReentrant { // [...] uint2
+wiki_title: "No mechanism to remove backing tokens                            30"
+wiki_description: |
+    The redeem, redeemEarly, and getBondInfo functions use terms.vestingTerm as the vesting term for all bonds: function redeem(uint256 _tokenId) external nonReentrant { // [...] uint256 maturityTime = startTime + terms.vestingTerm; require(block.timestamp >= maturityTime, "Bond not fully vested"); // [
+wiki_exploit_scenario: |
+    Per audit finding: The redeem, redeemEarly, and getBondInfo functions use terms.vestingTerm as the vesting term for all bonds: function redeem(uint256 _tokenId) external nonReentrant { // [...] uint256 maturityTime = st
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoMechanismToRemoveBackingTokens30"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(redeemEarly|getBondInfo|vestingTerm).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "redeemEarly"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

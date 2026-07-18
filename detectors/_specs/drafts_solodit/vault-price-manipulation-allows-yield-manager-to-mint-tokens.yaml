@@ -1,0 +1,48 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "vault-price-manipulation-allows-yield-manager-to-mint-tokens"
+class_name: "VaultPriceManipulationAllowsYieldManagerToMintTokens"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #65131 (Spearbit/Aragon Generic Money)"
+help: "Vault price manipulation allows yield manager to mint tokens"
+wiki_title: "Vault price manipulation allows yield manager to mint tokens"
+wiki_description: |
+    ## High Risk Vulnerability Report
+    
+    ## Severity
+    High Risk
+    
+    ## Context
+    YieldManager.sol#L51-L61
+    
+    ## Description
+    The yield manager can mint additional tokens whenever the value of the backing assets is higher than the total amount of shares. The method for determining the current value of backing asset
+wiki_exploit_scenario: |
+    Per Solodit #65131: ## High Risk Vulnerability Report
+    
+    ## Severity
+    High Risk
+    
+    ## Context
+    YieldManager.sol#L51-L61
+    
+    ## Description
+    The yield manager can mint additional tokens whenever the value of the backing assets is h
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VaultPriceManipulationAllowsYieldManagerToMintTokens"
+solodit_id: "65131"
+solodit_slug: "vault-price-manipulation-allows-yield-manager-to-mint-tokens-spearbit-none-aragon-generic-money-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(vault_additionalOwnedAssets|additionalOwnedAssets|distributeYield).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

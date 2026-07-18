@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "trst-m-2-attacker-can-force-partial-withdrawals-to-fail"
+class_name: "TrstM2AttackerCanForcePartialWithdrawalsToFail"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18880 (Trust Security/Ninja Yield Farming )"
+help: "TRST-M-2 Attacker can force partial withdrawals to fail"
+wiki_title: "TRST-M-2 Attacker can force partial withdrawals to fail"
+wiki_description: |
+    **Description:**
+    In Ninja vaults, users call `withdraw()` to take back their deposited tokens. There is 
+    bookkeeping on remaining amount:
+    
+    ```solidity
+          uint256 userAmount = balanceOf(msg.sender);
+             // - Underlying (Frontend ONLY)
+                if (userAmount == 0) {
+                user.amount
+wiki_exploit_scenario: |
+    Per Solodit #18880: **Description:**
+    In Ninja vaults, users call `withdraw()` to take back their deposited tokens. There is 
+    bookkeeping on remaining amount:
+    
+    ```solidity
+          uint256 userAmount = balanceOf(msg.sender);
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM2AttackerCanForcePartialWithdrawalsToFail"
+solodit_id: "18880"
+solodit_slug: |
+    trst-m-2-attacker-can-force-partial-withdrawals-to-fail-trust-security-none-ninja-yield-farming-v3-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal withdraw;"
+fn_name_regex: ".*(withdraw).*"
+read_var_regex: ".*(withdraw).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return withdraw > 0;"

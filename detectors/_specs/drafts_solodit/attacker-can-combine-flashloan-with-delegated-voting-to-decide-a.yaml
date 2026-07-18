@@ -1,0 +1,33 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "attacker-can-combine-flashloan-with-delegated-voting-to-decide-a"
+class_name: "AttackerCanCombineFlashloanWithDelegatedVotingToDecideA"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27294 (Cyfrin/Dexe)"
+help: |
+    Attacker can combine flashloan with delegated voting to decide a proposal and withdraw their tokens while the proposal is still in Locked state
+wiki_title: |
+    Attacker can combine flashloan with delegated voting to decide a proposal and withdraw their tokens while the proposal is still in Locked state
+wiki_description: |
+    **Description:** Attacker can combine a flashloan with delegated voting to bypass the existing flashloan mitigations, allowing the attacker to decide a proposal & withdraw their tokens while the proposal is still in the Locked state. The entire attack can be performed in 1 transaction via an attack
+wiki_exploit_scenario: |
+    Per Solodit #27294: **Description:** Attacker can combine a flashloan with delegated voting to bypass the existing flashloan mitigations, allowing the attacker to decide a proposal & withdraw their tokens while the propo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AttackerCanCombineFlashloanWithDelegatedVotingToDecideA"
+solodit_id: "27294"
+solodit_slug: |
+    attacker-can-combine-flashloan-with-delegated-voting-to-decide-a-proposal-and-withdraw-their-tokens-while-the-proposal-is-still-in-locked-state-cyfrin-none-cyfrin-dexe-markdown
+solodit_quality: "3"
+solodit_rarity: "5"
+solodit_tags: "Vote, Flash Loan, Delegate"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(govPoolAddress|tokenAddress|proposalId|votingToken).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

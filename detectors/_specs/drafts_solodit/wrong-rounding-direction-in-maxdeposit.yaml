@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "wrong-rounding-direction-in-maxdeposit"
+class_name: "WrongRoundingDirectionInMaxdeposit"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40867 (Cantina/Morpho)"
+help: "Wrong rounding direction in _maxdeposit"
+wiki_title: "Wrong rounding direction in _maxdeposit "
+wiki_description: |
+    ## Context
+    MetaMorpho.sol#L651
+    
+    ## Description
+    The `_maxDeposit` should over-estimate the returned `totalSuppliable` assets, as otherwise, when over-estimating, a deposit using this `_maxDeposit` value might revert. This means `totalSuppliable` should round down, which means the `supplyCap.zeroFloor
+wiki_exploit_scenario: |
+    Per Solodit #40867: ## Context
+    MetaMorpho.sol#L651
+    
+    ## Description
+    The `_maxDeposit` should over-estimate the returned `totalSuppliable` assets, as otherwise, when over-estimating, a deposit using this `_maxDeposit` valu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrongRoundingDirectionInMaxdeposit"
+solodit_id: "40867"
+solodit_slug: "wrong-rounding-direction-in-_maxdeposit-cantina-none-morpho-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal supplyassets;"
+fn_name_regex: ".*(totalSuppliable|supplyAssets).*"
+read_var_regex: ".*(supplyAssets|totalSuppliable).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalSuppliable"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return supplyassets > 0;"

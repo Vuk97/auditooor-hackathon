@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_require"
+name: "wiselending03-2024-01"
+class_name: "Wiselending03202401"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-01/WiseLending03_exp.sol"
+help: "WiseLending03 2024-01 — rounding exploit (~464K USD$)"
+wiki_title: "WiseLending03 (2024-01) — rounding"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-01): WiseLending03 lost ~464K USD$. Bug class: rounding. Attack tx: 0x04e16a79ff928db2fa88619cdd045cdfc7979a61d836c9c9e585b3d6f6d8bc31.
+wiki_exploit_scenario: |
+    Attacker (0xb90cf1d740b206b6d80854bc525e609dc42b45dc) exploits WiseLending03 via rounding: the victim contract 0x37e49bf3749513a02fa535f0cbc383796e8107e4 exposes a code path that can be triggered without the guard expected by the name_match_missing_require skeleton.
+wiki_recommendation: |
+    Use mulDiv with explicit rounding direction; require the resulting amount to stay within tolerance bounds; never round user-withdraw amounts up.
+contract_name: "Wiselending03202401"
+fn_name_regex: ".*(withdraw).*"
+write_var_regex: ".*(admin|owner|balance|amount).*"
+guard_var_regex: ".*(admin|owner|balance|amount).*"
+vuln_fn_name: "withdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(msg.sender == owner, \"!auth\");"
+state_decl: |
+    uint256 internal balance;
+        address internal owner;

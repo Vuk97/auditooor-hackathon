@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "json-rpc-filtercriteria-addresses-are-unbound-and-can-be-use-x"
+class_name: "JsonRpcFiltercriteriaAddressesAreUnboundAndCanBeUseX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-initia-cosmos"
+help: |
+    berndartmueller The eth_getLogs ETH JSON-RPC method returns an array of all logs matching a given filter criteria, e.g., a topic list Topics and/or a list of addresses ( Addresses
+wiki_title: "JSON-RPC FilterCriteria.Addresses are unbound and can be used to DoS the RPC"
+wiki_description: |
+    berndartmueller The eth_getLogs ETH JSON-RPC method returns an array of all logs matching a given filter criteria, e.g., a topic list Topics and/or a list of addresses ( Addresses ) that restricts matches to events created by specific contracts. While Topics is limited to maxTopics = 4 Addresses in
+wiki_exploit_scenario: |
+    Per audit finding: berndartmueller The eth_getLogs ETH JSON-RPC method returns an array of all logs matching a given filter criteria, e.g., a topic list Topics and/or a list of addresses ( Addresses ) that restricts mat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "JsonRpcFiltercriteriaAddressesAreUnboundAndCanBeUseX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxTopics|errExceedMaxTopics|newBlockFilter).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "maxTopics"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,40 @@
+skeleton: "state_write_without_paired_write"
+name: "m-2-escrow-record-not-cleared-on-cancellation-and-order-fill"
+class_name: "M2EscrowRecordNotClearedOnCancellationAndOrderFill"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20288 (Sherlock/Dinari)"
+help: "M-2: Escrow record not cleared on cancellation and order fill"
+wiki_title: "M-2: Escrow record not cleared on cancellation and order fill"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-06-dinari-judging/issues/56 
+    
+    ## Found by 
+    Delvir0, bin2chen, bitsurfer, chainNue, ctf\_sec, dirk\_y, hals, volodya
+    ## Summary
+    In `DirectBuyIssuer.sol`, a market buy requires the operator to take the payment token as escrow prior to filling the order. C
+wiki_exploit_scenario: |
+    Per Solodit #20288: Source: https://github.com/sherlock-audit/2023-06-dinari-judging/issues/56 
+    
+    ## Found by 
+    Delvir0, bin2chen, bitsurfer, chainNue, ctf\_sec, dirk\_y, hals, volodya
+    ## Summary
+    In `DirectBuyIssuer.sol`,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2EscrowRecordNotClearedOnCancellationAndOrderFill"
+solodit_id: "20288"
+solodit_slug: "m-2-escrow-record-not-cleared-on-cancellation-and-order-fill-sherlock-none-dinari-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Missing-Logic, Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(takeEscrow|requestCancel|cancelOrder|getOrderEscrow).*"
+primary_var_regex: ".*(cancelOrder|getOrderEscrow|requestCancel).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

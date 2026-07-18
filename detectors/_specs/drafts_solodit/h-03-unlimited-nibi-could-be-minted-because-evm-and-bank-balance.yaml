@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "h-03-unlimited-nibi-could-be-minted-because-evm-and-bank-balance"
+class_name: "H03UnlimitedNibiCouldBeMintedBecauseEvmAndBankBalance"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49271 (Code4rena/Nibiru)"
+help: "[H-03] Unlimited Nibi could be minted because evm and bank balance are not synced when staking"
+wiki_title: "[H-03] Unlimited Nibi could be minted because evm and bank balance are not synced when staking"
+wiki_description: |
+    `NibiruBankKeeper.SyncStateDBWithAccount` function in [`bank_extension.go`](https://github.com/code-423n4/2024-11-nibiru/blob/main/x/evm/keeper/bank_extension.go#L80C1-L91C2) is responsible for synchronizing the EVM state database (`StateDB`) with the corresponding bank account balance whenever the
+wiki_exploit_scenario: |
+    Per Solodit #49271: `NibiruBankKeeper.SyncStateDBWithAccount` function in [`bank_extension.go`](https://github.com/code-423n4/2024-11-nibiru/blob/main/x/evm/keeper/bank_extension.go#L80C1-L91C2) is responsible for synch
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03UnlimitedNibiCouldBeMintedBecauseEvmAndBankBalance"
+solodit_id: "49271"
+solodit_slug: |
+    h-03-unlimited-nibi-could-be-minted-because-evm-and-bank-balance-are-not-synced-when-staking-code4rena-nibiru-nibiru-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(StateDB|SyncStateDBWithAccount).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "StateDB"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

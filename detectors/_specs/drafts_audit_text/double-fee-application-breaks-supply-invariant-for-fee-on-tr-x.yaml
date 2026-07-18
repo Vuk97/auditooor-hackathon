@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "double-fee-application-breaks-supply-invariant-for-fee-on-tr-x"
+class_name: "DoubleFeeApplicationBreaksSupplyInvariantForFeeOnTrX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-11-nibiru"
+help: |
+    0x41 The EVM module incorrectly handles fee-on-transfer tokens when converting bank coins back to ERC20s, resulting in unbacked bank coins remaining in circulation. This breaks the
+wiki_title: "Double fee application breaks supply invariant for fee-on-transfer ERC20s"
+wiki_description: |
+    0x41 The EVM module incorrectly handles fee-on-transfer tokens when converting bank coins back to ERC20s, resulting in unbacked bank coins remaining in circulation. This breaks the intended 1:1 supply tracking invariant between ERC20 tokens and their bank coin representations. When converting from E
+wiki_exploit_scenario: |
+    Per audit finding: 0x41 The EVM module incorrectly handles fee-on-transfer tokens when converting bank coins back to ERC20s, resulting in unbacked bank coins remaining in circulation. This breaks the intended 1:1 supply
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DoubleFeeApplicationBreaksSupplyInvariantForFeeOnTrX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(sendToBank|convertCoinToEvmBornERC20|gotAmount).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "sendToBank"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

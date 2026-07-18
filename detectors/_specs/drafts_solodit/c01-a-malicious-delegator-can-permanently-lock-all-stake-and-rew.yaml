@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "c01-a-malicious-delegator-can-permanently-lock-all-stake-and-rew"
+class_name: "C01AMaliciousDelegatorCanPermanentlyLockAllStakeAndRew"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #11309 (OpenZeppelin/Audius Contracts Audit)"
+help: |
+    [C01] A malicious delegator can permanently lock all stake and rewards for a victim service provider and all of its honest delegators
+wiki_title: |
+    [C01] A malicious delegator can permanently lock all stake and rewards for a victim service provider and all of its honest delegators
+wiki_description: |
+    The [`DelegateManager.requestUndelegateStake` function](https://github.com/AudiusProject/audius-protocol/blob/6f3b31562b9d4c43cef91af0a011986a2580fba2/eth-contracts/contracts/DelegateManager.sol#L183) increases the value of the [`spDelegateInfo[_target].totalLockedUpStake`](https://github.com/Audius
+wiki_exploit_scenario: |
+    Per Solodit #11309: The [`DelegateManager.requestUndelegateStake` function](https://github.com/AudiusProject/audius-protocol/blob/6f3b31562b9d4c43cef91af0a011986a2580fba2/eth-contracts/contracts/DelegateManager.sol#L183)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01AMaliciousDelegatorCanPermanentlyLockAllStakeAndRew"
+solodit_id: "11309"
+solodit_slug: |
+    c01-a-malicious-delegator-can-permanently-lock-all-stake-and-rewards-for-a-victim-service-provider-and-all-of-its-honest-delegators-openzeppelin-audius-contracts-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cancelundelegatestake;"
+fn_name_regex: ".*(cancelUndelegateStake|requestUndelegateStake|totalBalanceOutsideStaking|claimRewards).*"
+read_var_regex: ".*(cancelUndelegateStake|claimRewards|requestUndelegateStake).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "cancelUndelegateStake"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cancelundelegatestake > 0;"

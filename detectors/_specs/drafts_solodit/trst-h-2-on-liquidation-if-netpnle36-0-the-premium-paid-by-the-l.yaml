@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "trst-h-2-on-liquidation-if-netpnle36-0-the-premium-paid-by-the-l"
+class_name: "TrstH2OnLiquidationIfNetpnle360ThePremiumPaidByTheL"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19046 (Trust Security/Stella)"
+help: |
+    TRST-H-2 On liquidation, if netPnLE36 <= 0, the premium paid by the liquidator is locked in the contract.
+wiki_title: |
+    TRST-H-2 On liquidation, if netPnLE36 <= 0, the premium paid by the liquidator is locked in the contract.
+wiki_description: |
+    **Description:**
+    When liquidating a position, the liquidator is required to pay premium to Lender, which is 
+    accumulated in **sharingProfitTokenAmts** together with Lender's profit and paid to Lender in 
+    `_shareProfitsAndRepayAllDebts()`. 
+    ```solidity
+            (
+            netPnLE36,
+                 lender
+wiki_exploit_scenario: |
+    Per Solodit #19046: **Description:**
+    When liquidating a position, the liquidator is required to pay premium to Lender, which is 
+    accumulated in **sharingProfitTokenAmts** together with Lender's profit and paid to Lender
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstH2OnLiquidationIfNetpnle360ThePremiumPaidByTheL"
+solodit_id: "19046"
+solodit_slug: |
+    trst-h-2-on-liquidation-if-netpnle36-0-the-premium-paid-by-the-liquidator-is-locked-in-the-contract-trust-security-none-stella-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(sharingProfitTokenAmts|netPnLE36|lenderProfitUSDValueE36|borrowTotalUSDValueE36).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "sharingProfitTokenAmts"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

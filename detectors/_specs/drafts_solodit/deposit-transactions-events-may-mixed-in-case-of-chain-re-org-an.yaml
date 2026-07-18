@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "deposit-transactions-events-may-mixed-in-case-of-chain-re-org-an"
+class_name: "DepositTransactionsEventsMayMixedInCaseOfChainReOrgAn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53109 (Cantina/DESK)"
+help: "Deposit transactions / events may mixed in case of chain re-org and lead to double deposit"
+wiki_title: "Deposit transactions / events may mixed in case of chain re-org and lead to double deposit "
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    Vault.sol#L99
+    
+    ## Description
+    When User calls the `Vault::deposit(...)` function, his assets are transferred to the Vault and `requestId` is generated for the deposit that will be used to increase his collateral:
+    
+    ```solidity
+    function deposit(address _tokenAddres
+wiki_exploit_scenario: |
+    Per Solodit #53109: ## Severity: Medium Risk
+    
+    ## Context
+    Vault.sol#L99
+    
+    ## Description
+    When User calls the `Vault::deposit(...)` function, his assets are transferred to the Vault and `requestId` is generated for the depo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DepositTransactionsEventsMayMixedInCaseOfChainReOrgAn"
+solodit_id: "53109"
+solodit_slug: |
+    deposit-transactions-events-may-mixed-in-case-of-chain-re-org-and-lead-to-double-deposit-cantina-none-desk-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal requestid;"
+fn_name_regex: ".*(requestId).*"
+read_var_regex: ".*(requestId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "requestId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return requestid > 0;"

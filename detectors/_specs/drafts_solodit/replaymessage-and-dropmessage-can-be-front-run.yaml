@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "replaymessage-and-dropmessage-can-be-front-run"
+class_name: "ReplaymessageAndDropmessageCanBeFrontRun"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32909 (OpenZeppelin/Scroll GasSwap, Multiple Verifier, Wrapped Ether and Diff Audit)"
+help: "replayMessage and dropMessage Can Be Front-Run"
+wiki_title: "replayMessage and dropMessage Can Be Front-Run"
+wiki_description: |
+    The [`L1ScrollMessenger`](https://github.com/scroll-tech/scroll/blob/2eb458cf4224d82fc56254e91e297a9ed261cefb/contracts/src/L1/gateways/L1ERC20Gateway.sol#L130) contract is used to send messages from L1 to L2. Failed messages can be replayed using the [`replayMessage` function](https://github.com/sc
+wiki_exploit_scenario: |
+    Per Solodit #32909: The [`L1ScrollMessenger`](https://github.com/scroll-tech/scroll/blob/2eb458cf4224d82fc56254e91e297a9ed261cefb/contracts/src/L1/gateways/L1ERC20Gateway.sol#L130) contract is used to send messages from
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReplaymessageAndDropmessageCanBeFrontRun"
+solodit_id: "32909"
+solodit_slug: |
+    replaymessage-and-dropmessage-can-be-front-run-openzeppelin-none-scroll-gasswap-multiple-verifier-wrapped-ether-and-diff-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal dropmessage;"
+fn_name_regex: ".*(L1ScrollMessenger|replayMessage|dropMessage).*"
+read_var_regex: ".*(dropMessage|replayMessage).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "L1ScrollMessenger"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return dropmessage > 0;"

@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "trst-m-4-hedgedelta-0-doesn-t-behave-properly"
+class_name: "TrstM4Hedgedelta0DoesnTBehaveProperly"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18849 (Trust Security/Rysk Uniswapv3Rangeorderreactor)"
+help: "TRST-M-4 hedgeDelta(0) doesn’t behave properly"
+wiki_title: "TRST-M-4 hedgeDelta(0) doesn’t behave properly"
+wiki_description: |
+    **Description:**
+    `hedgeDelta()` is called again by the pool when the exposure to underlying asset needs to 
+    change. If it was previously non-zero and the pool wishes to reset the delta to zero, 
+    `hedgeDelta(0)` would be called. Unfortunately, it will never execute.
+    
+    Flow will enter the sell wETH bra
+wiki_exploit_scenario: |
+    Per Solodit #18849: **Description:**
+    `hedgeDelta()` is called again by the pool when the exposure to underlying asset needs to 
+    change. If it was previously non-zero and the pool wishes to reset the delta to zero, 
+    `hedg
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM4Hedgedelta0DoesnTBehaveProperly"
+solodit_id: "18849"
+solodit_slug: |
+    trst-m-4-hedgedelta0-doesnt-behave-properly-trust-security-none-rysk-uniswapv3rangeorderreactor-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal hedgedelta;"
+fn_name_regex: ".*(hedgeDelta).*"
+read_var_regex: ".*(hedgeDelta).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "hedgeDelta"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return hedgedelta > 0;"

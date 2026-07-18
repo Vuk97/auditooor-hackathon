@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "m-8-optimism-portal-can-run-out-of-gas-due-to-incorrect-overhead"
+class_name: "M8OptimismPortalCanRunOutOfGasDueToIncorrectOverhead"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6504 (Sherlock/Optimism)"
+help: "M-8: Optimism Portal can run out of gas due to incorrect overhead estimation"
+wiki_title: "M-8: Optimism Portal can run out of gas due to incorrect overhead estimation"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-optimism-judging/issues/138 
+    
+    ## Found by 
+    GalloDaSballo
+    
+    ## Summary
+    
+    In contrast to `CrossDomainMessenger` which has a 5k gas buffer, the Optimism Portal doesn't, meaning all its relayed calls will have 5k+ less gas than intended.
+    
+    This forces integ
+wiki_exploit_scenario: |
+    Per Solodit #6504: Source: https://github.com/sherlock-audit/2023-01-optimism-judging/issues/138 
+    
+    ## Found by 
+    GalloDaSballo
+    
+    ## Summary
+    
+    In contrast to `CrossDomainMessenger` which has a 5k gas buffer, the Optimism Po
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M8OptimismPortalCanRunOutOfGasDueToIncorrectOverhead"
+solodit_id: "6504"
+solodit_slug: |
+    m-8-optimism-portal-can-run-out-of-gas-due-to-incorrect-overhead-estimation-sherlock-optimism-optimism-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(CrossDomainMessenger|SafeCall).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "CrossDomainMessenger"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

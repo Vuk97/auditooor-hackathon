@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-13-generalrepay-repayjusd-returns-excess-usdc-to-to-address-ra"
+class_name: "M13GeneralrepayRepayjusdReturnsExcessUsdcToToAddressRa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18480 (Sherlock/JOJO Exchange)"
+help: "M-13: GeneralRepay#repayJUSD returns excess USDC to `to` address rather than msg.sender"
+wiki_title: "M-13: GeneralRepay#repayJUSD returns excess USDC to `to` address rather than msg.sender"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-04-jojo-judging/issues/459 
+    
+    ## Found by 
+    0x52
+    ## Summary
+    
+    When using GeneralRepay#repayJUSD to repay a position on JUSDBank, any excess tokens are sent to the `to` address. While this is fine for users that are repaying their own debt this is not good
+wiki_exploit_scenario: |
+    Per Solodit #18480: Source: https://github.com/sherlock-audit/2023-04-jojo-judging/issues/459 
+    
+    ## Found by 
+    0x52
+    ## Summary
+    
+    When using GeneralRepay#repayJUSD to repay a position on JUSDBank, any excess tokens are sent
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M13GeneralrepayRepayjusdReturnsExcessUsdcToToAddressRa"
+solodit_id: "18480"
+solodit_slug: |
+    m-13-generalrepayrepayjusd-returns-excess-usdc-to-to-address-rather-than-msgsender-sherlock-none-jojo-exchange-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(repayJUSD|flashloanImpl|jusdExchange|borrowBalance).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

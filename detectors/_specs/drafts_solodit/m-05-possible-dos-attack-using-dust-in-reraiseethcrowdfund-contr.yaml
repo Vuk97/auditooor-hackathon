@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-05-possible-dos-attack-using-dust-in-reraiseethcrowdfund-contr"
+class_name: "M05PossibleDosAttackUsingDustInReraiseethcrowdfundContr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19992 (Code4rena/PartyDAO)"
+help: "[M-05] Possible DOS attack using dust in `ReraiseETHCrowdfund._contribute()`"
+wiki_title: "[M-05] Possible DOS attack using dust in `ReraiseETHCrowdfund._contribute()`"
+wiki_description: |
+    Normal contributors wouldn't contribute to the crowdfund properly by a malicious frontrunner.
+    
+    ### Proof of Concept
+    
+    When users contribute to the `ReraiseETHCrowdfund`, it mints the crowdfund NFT in `_contribute()`.
+    
+    ```solidity
+    File: 2023-04-party\contracts\crowdfund\ReraiseETHCrowdfund.sol
+    228:
+wiki_exploit_scenario: |
+    Per Solodit #19992: Normal contributors wouldn't contribute to the crowdfund properly by a malicious frontrunner.
+    
+    ### Proof of Concept
+    
+    When users contribute to the `ReraiseETHCrowdfund`, it mints the crowdfund NFT in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05PossibleDosAttackUsingDustInReraiseethcrowdfundContr"
+solodit_id: "19992"
+solodit_slug: |
+    m-05-possible-dos-attack-using-dust-in-reraiseethcrowdfund_contribute-code4rena-partydao-party-protocol-versus-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal contribute;"
+fn_name_regex: ".*(ReraiseETHCrowdfund|votingPower|contributeFor|contribute).*"
+read_var_regex: ".*(contribute|contributeFor|votingPower).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ReraiseETHCrowdfund"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return contribute > 0;"

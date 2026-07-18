@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-06-imprecise-management-of-users-allowance-allows-the-admin-of"
+class_name: "M06ImpreciseManagementOfUsersAllowanceAllowsTheAdminOf"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42471 (Code4rena/Aave Lens)"
+help: |
+    [M-06] Imprecise management of users' allowance allows the admin of the upgradeable proxy contract to rug users
+wiki_title: |
+    [M-06] Imprecise management of users' allowance allows the admin of the upgradeable proxy contract to rug users
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    In the current implementation, when there is a fee on follow or collect, users need to approve to the follow modules or collect module contract, and then the `Hub` contract can call `processFollow()` and transfer funds from an arbitrary address (as the `follower` parameter).
+wiki_exploit_scenario: |
+    Per Solodit #42471: _Submitted by WatchPug_
+    
+    In the current implementation, when there is a fee on follow or collect, users need to approve to the follow modules or collect module contract, and then the `Hub` contract ca
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06ImpreciseManagementOfUsersAllowanceAllowsTheAdminOf"
+solodit_id: "42471"
+solodit_slug: |
+    m-06-imprecise-management-of-users-allowance-allows-the-admin-of-the-upgradeable-proxy-contract-to-rug-users-code4rena-aave-lens-aave-lens-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal allowance;"
+fn_name_regex: ".*(Hub|processFollow|follower|allowance).*"
+read_var_regex: ".*(allowance|follower|processFollow).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Hub"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return allowance > 0;"

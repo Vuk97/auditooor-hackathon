@@ -1,0 +1,45 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-19-manipulate-allocations-from-game-using-flashloans"
+class_name: "M19ManipulateAllocationsFromGameUsingFlashloans"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #12249 (Sherlock/Derby)"
+help: "M-19: Manipulate Allocations from game using flashloans"
+wiki_title: "M-19: Manipulate Allocations from game using flashloans"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-01-derby-judging/issues/172 
+    
+    ## Found by 
+    oot2k
+    
+    ## Summary
+    A user can use flashloans to leverage the amount of derby token dedicated towards a certain protocol.
+    ## Vulnerability Detail
+    Consider the following scenario:
+    A malicious user wants to manipul
+wiki_exploit_scenario: |
+    Per Solodit #12249: Source: https://github.com/sherlock-audit/2023-01-derby-judging/issues/172 
+    
+    ## Found by 
+    oot2k
+    
+    ## Summary
+    A user can use flashloans to leverage the amount of derby token dedicated towards a certain
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M19ManipulateAllocationsFromGameUsingFlashloans"
+solodit_id: "12249"
+solodit_slug: "m-19-manipulate-allocations-from-game-using-flashloans-sherlock-derby-derby-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(pushAllocationsToController|pushAllocationsToVaults).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

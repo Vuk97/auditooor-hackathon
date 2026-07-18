@@ -1,0 +1,41 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "eip-3156-requires-flashfee-and-maxflashloan-to-accommodate-their"
+class_name: "Eip3156RequiresFlashfeeAndMaxflashloanToAccommodateTheir"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54633 (Cantina/BadgerDAO)"
+help: "EIP-3156 requires flashFee() and maxFlashLoan() to accommodate their logic to flashLoansPaused ﬂag"
+wiki_title: "EIP-3156 requires flashFee() and maxFlashLoan() to accommodate their logic to flashLoansPaused ﬂag "
+wiki_description: |
+    ## Context
+    - **Files**: BorrowerOperations.sol#L816-L828, ActivePool.sol#L311-L332
+    
+    ## Description
+    Per ERC-3156, `flashFee()` can revert, while `maxFlashLoan()` can return 0 when `flashLoansPaused == true`:
+    
+    - The `maxFlashLoan` function **MUST** return the maximum loan possible for token. If a toke
+wiki_exploit_scenario: |
+    Per Solodit #54633: ## Context
+    - **Files**: BorrowerOperations.sol#L816-L828, ActivePool.sol#L311-L332
+    
+    ## Description
+    Per ERC-3156, `flashFee()` can revert, while `maxFlashLoan()` can return 0 when `flashLoansPaused ==
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Eip3156RequiresFlashfeeAndMaxflashloanToAccommodateTheir"
+solodit_id: "54633"
+solodit_slug: |
+    eip-3156-requires-flashfee-and-maxflashloan-to-accommodate-their-logic-to-flashloanspaused-flag-cantina-none-badgerdao-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(flashFee|maxFlashLoan|flashLoansPaused).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

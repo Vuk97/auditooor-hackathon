@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "user-funds-lock-in-mystaking-due-to-stakercount-manipulation"
+class_name: "UserFundsLockInMystakingDueToStakercountManipulation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57533 (Zokyo/Magic Yearn)"
+help: "User funds lock in MyStaking due to stakerCount manipulation."
+wiki_title: "User funds lock in MyStaking due to stakerCount manipulation."
+wiki_description: |
+    **Description**
+    
+    MyStaking.sol: function_withdraw(). When the user stakes, there is the increase of the counter 'stakerCount on line 227. After that, when the user redeems their funds, there is the subtraction of the counter in the function_withdraw() on line 319. However, there is no check that the
+wiki_exploit_scenario: |
+    Per Solodit #57533: **Description**
+    
+    MyStaking.sol: function_withdraw(). When the user stakes, there is the increase of the counter 'stakerCount on line 227. After that, when the user redeems their funds, there is the su
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UserFundsLockInMystakingDueToStakercountManipulation"
+solodit_id: "57533"
+solodit_slug: "user-funds-lock-in-mystaking-due-to-stakercount-manipulation-zokyo-none-magic-yearn-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stakerCount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "stakerCount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

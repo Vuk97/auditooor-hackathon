@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "nudge-check-will-break-once-limit-is-reached"
+class_name: "NudgeCheckWillBreakOnceLimitIsReached"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21392 (Spearbit/Velodrome Finance)"
+help: "Nudge check will break once limit is reached"
+wiki_title: "Nudge check will break once limit is reached"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context: 
+    Minter.sol#L75
+    
+    ## Description: 
+    Because you're checking both sides, once `oldRate` reaches the `MAX_RATE`, every new `nudge` call will revert. This means that if `_newRate` ever gets to `MAXIMUM_TAIL_RATE` or `MINIMUM_TAIL_RATE`, `nudge` will stop working.
+    
+    ##
+wiki_exploit_scenario: |
+    Per Solodit #21392: ## Severity: Medium Risk
+    
+    ## Context: 
+    Minter.sol#L75
+    
+    ## Description: 
+    Because you're checking both sides, once `oldRate` reaches the `MAX_RATE`, every new `nudge` call will revert. This means that i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NudgeCheckWillBreakOnceLimitIsReached"
+solodit_id: "21392"
+solodit_slug: "nudge-check-will-break-once-limit-is-reached-spearbit-none-velodrome-finance-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal nudge;"
+fn_name_regex: ".*(oldRate|MAX_RATE|nudge|MAXIMUM_TAIL_RATE).*"
+write_var_regex: ".*(nudge|oldRate|require).*"
+guard_var_regex: ".*(nudge|oldRate|require).*"
+vuln_fn_name: "oldRate"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "nudge = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

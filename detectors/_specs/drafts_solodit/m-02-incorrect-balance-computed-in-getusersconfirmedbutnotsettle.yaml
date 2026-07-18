@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "m-02-incorrect-balance-computed-in-getusersconfirmedbutnotsettle"
+class_name: "M02IncorrectBalanceComputedInGetusersconfirmedbutnotsettle"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25531 (Code4rena/Float Capital)"
+help: "[M-02] Incorrect balance computed in `getUsersConfirmedButNotSettledSynthBalance()`"
+wiki_title: "[M-02] Incorrect balance computed in `getUsersConfirmedButNotSettledSynthBalance()`"
+wiki_description: |
+    _Submitted by hack3r-0m and cmichel_
+    
+    Consider the following state:
+    ```solidity
+    long_synth_balace = 300;
+    short_synth_balace = 200;
+    
+    marketUpdateIndex[1] = x;
+    userNextPrice_currentUpdateIndex = 0;
+    userNextPrice_syntheticToken_toShiftAwayFrom_marketSide[1][true] = 0;
+    batched_amountSyntheticToken_toShi
+wiki_exploit_scenario: |
+    Per Solodit #25531: _Submitted by hack3r-0m and cmichel_
+    
+    Consider the following state:
+    ```solidity
+    long_synth_balace = 300;
+    short_synth_balace = 200;
+    
+    marketUpdateIndex[1] = x;
+    userNextPrice_currentUpdateIndex = 0;
+    user
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02IncorrectBalanceComputedInGetusersconfirmedbutnotsettle"
+solodit_id: "25531"
+solodit_slug: |
+    m-02-incorrect-balance-computed-in-getusersconfirmedbutnotsettledsynthbalance-code4rena-float-capital-float-capital-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getusersconfirmedbutnotsettledsynthbalance;"
+fn_name_regex: ".*(shiftPositionFromLongNextPrice|getUsersConfirmedButNotSettledSynthBalance).*"
+read_var_regex: ".*(getUsersConfirmedButNotSettledSynthBalance|shiftPositionFromLongNextPrice).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "shiftPositionFromLongNextPrice"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getusersconfirmedbutnotsettledsynthbalance > 0;"

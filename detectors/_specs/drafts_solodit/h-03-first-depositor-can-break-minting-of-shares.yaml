@@ -1,0 +1,32 @@
+skeleton: "paired_function_divergence"
+name: "h-03-first-depositor-can-break-minting-of-shares"
+class_name: "H03FirstDepositorCanBreakMintingOfShares"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6098 (Code4rena/Caviar)"
+help: "[H-03] First depositor can break minting of shares"
+wiki_title: "[H-03] First depositor can break minting of shares"
+wiki_description: |
+    The attack vector and impact is the same as [TOB-YEARN-003](https://github.com/yearn/yearn-security/blob/master/audits/20210719\_ToB_yearn_vaultsv2/ToB\_-\_Yearn_Vault_v\_2\_Smart_Contracts_Audit_Report.pdf), where users may not receive shares in exchange for their deposits if the total asset amoun
+wiki_exploit_scenario: |
+    Per Solodit #6098: The attack vector and impact is the same as [TOB-YEARN-003](https://github.com/yearn/yearn-security/blob/master/audits/20210719\_ToB_yearn_vaultsv2/ToB\_-\_Yearn_Vault_v\_2\_Smart_Contracts_Audit_Rep
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03FirstDepositorCanBreakMintingOfShares"
+solodit_id: "6098"
+solodit_slug: "h-03-first-depositor-can-break-minting-of-shares-code4rena-caviar-caviar-contest-git"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "First Depositor Issue"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(baseToken|quoteToken).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

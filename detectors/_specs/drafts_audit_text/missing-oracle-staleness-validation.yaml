@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-oracle-staleness-validation"
+class_name: "MissingOracleStalenessValidation"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Blackhaven (Core Contracts) - Zellic Audit Report"
+help: |
+    The singleNAV and FDV functions in BackingCalculator consume oracle prices through IOracle.getPrice() without any staleness checks or validation: function singleNAV(address _token)
+wiki_title: "Missing oracle staleness validation"
+wiki_description: |
+    The singleNAV and FDV functions in BackingCalculator consume oracle prices through IOracle.getPrice() without any staleness checks or validation: function singleNAV(address _token) public view returns (uint256 _netAssetValue) { BackingTokenDetails memory backingTokenDetails = backingTokenDetailsForA
+wiki_exploit_scenario: |
+    Per audit finding: The singleNAV and FDV functions in BackingCalculator consume oracle prices through IOracle.getPrice() without any staleness checks or validation: function singleNAV(address _token) public view returns
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingOracleStalenessValidation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(singleNAV|getPrice|backingTokenDetails).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "singleNAV"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

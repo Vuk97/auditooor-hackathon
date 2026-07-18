@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "when-a-user-single-side-deposit-into-a-pool-slippage-protect-x"
+class_name: "WhenAUserSingleSideDepositIntoAPoolSlippageProtectX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-11-mantra-dex"
+help: |
+    oakcobalt , also found by Egis_Security When a user single-side deposit into a pool, a swap is performed first before liquidity provision. The vulnerability is belief_price is alwa
+wiki_title: "When a user single-side deposit into a pool, slippage protection is invalid"
+wiki_description: |
+    oakcobalt , also found by Egis_Security When a user single-side deposit into a pool, a swap is performed first before liquidity provision. The vulnerability is belief_price is always set to NONE which causes slippage protection to be invalid in some cases. //contracts/pool-manager/src/liquidity/comm
+wiki_exploit_scenario: |
+    Per audit finding: oakcobalt , also found by Egis_Security When a user single-side deposit into a pool, a swap is performed first before liquidity provision. The vulnerability is belief_price is always set to NONE which
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WhenAUserSingleSideDepositIntoAPoolSlippageProtectX"
+state_decl: "uint256 internal belief_price;"
+fn_name_regex: ".*(belief_price|max_spread).*"
+write_var_regex: ".*(belief_price|max_spread).*"
+guard_var_regex: ".*(belief_price|max_spread).*"
+vuln_fn_name: "belief_price"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "belief_price = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

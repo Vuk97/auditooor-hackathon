@@ -1,0 +1,48 @@
+skeleton: "state_write_without_paired_write"
+name: "redemption-price-can-stale-while-waiting-for-liquidity"
+class_name: "RedemptionPriceCanStaleWhileWaitingForLiquidity"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64976 (Spearbit/Tenbin)"
+help: "Redemption price can stale while waiting for liquidity"
+wiki_title: "Redemption price can stale while waiting for liquidity"
+wiki_description: |
+    ## Security Analysis Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `Controller.sol#L331-L380`
+    
+    ## Description
+    Redemption orders fix `collateral_amount` and `asset_amount` when signed, but execution is synchronous and requires the `CollateralManager` to have idle collateral. If funds are locked in
+wiki_exploit_scenario: |
+    Per Solodit #64976: ## Security Analysis Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `Controller.sol#L331-L380`
+    
+    ## Description
+    Redemption orders fix `collateral_amount` and `asset_amount` when signed, but execution
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RedemptionPriceCanStaleWhileWaitingForLiquidity"
+solodit_id: "64976"
+solodit_slug: "redemption-price-can-stale-while-waiting-for-liquidity-spearbit-none-tenbin-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(collateral_amount|asset_amount|CollateralManager).*"
+primary_var_regex: ".*(asset_amount|collateral_amount).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

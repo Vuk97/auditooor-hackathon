@@ -1,0 +1,27 @@
+skeleton: name_match_missing_call
+name: unchecked-compound-v2-return-code
+class_name: UncheckedCompoundV2ReturnCode
+wave: 16
+severity: MEDIUM
+confidence: HIGH
+source: "Cantina periphery competition M-01 + generic Compound V2 integration pattern"
+help: "Compound V2 cToken calls (mint/redeem/borrow/repayBorrow) return error codes instead of reverting — unchecked returns silently swallow failures"
+wiki_title: "Unchecked Compound V2 return code on cToken operation"
+wiki_description: "Compound V2 cToken functions (mint, redeem, redeemUnderlying, borrow, repayBorrow, liquidateBorrow) return a uint256 error code instead of reverting on failure. Callers that ignore this return value (or treat any return as success) silently continue execution with a failed operation, leading to accounting discrepancies, lost funds, or phantom positions."
+wiki_exploit_scenario: "A migration adapter calls cToken.redeem(shares) without checking the return code. The redemption fails (e.g., insufficient liquidity) but the adapter proceeds to call Morpho.supply() with the redeemed amount — which is zero. The user's position appears migrated but their Compound position is intact and the Morpho position is empty."
+wiki_recommendation: "Always require the return value == 0 for Compound V2 cToken calls: `require(cToken.mint(amount) == 0, 'mint failed')`. Or use a library that wraps and checks."
+contract_name: CompoundV2Migrator
+state_decl: |
+    uint256 internal balance;
+fn_name_regex: ".*(migrate|redeem|repay|borrow|liquidate|mint).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(require|revert|assert|check|verify).*"
+guarded_helper_name: _requireSuccess
+vuln_fn_name: migrateBorrow
+vuln_fn_params: "uint256 amount"
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: |
+    balance += amount;
+    return true;

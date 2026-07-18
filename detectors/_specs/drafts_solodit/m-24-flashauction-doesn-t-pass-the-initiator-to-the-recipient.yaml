@@ -1,0 +1,34 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-24-flashauction-doesn-t-pass-the-initiator-to-the-recipient"
+class_name: "M24FlashauctionDoesnTPassTheInitiatorToTheRecipient"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25840 (Code4rena/Astaria)"
+help: "[M-24] FlashAuction doesn't pass the initiator to the recipient"
+wiki_title: "[M-24] FlashAuction doesn't pass the initiator to the recipient"
+wiki_description: |
+    <https://github.com/code-423n4/2023-01-astaria/blob/main/src/CollateralToken.sol#L307-L310>
+    
+    Existing flashloans pass the initiator to the recipient in the function's params, e.g. [AAVE](https://github.com/aave/aave-v3-core/blob/master/contracts/flashloan/interfaces/IFlashLoanReceiver.sol#L29) or [
+wiki_exploit_scenario: |
+    Per Solodit #25840: <https://github.com/code-423n4/2023-01-astaria/blob/main/src/CollateralToken.sol#L307-L310>
+    
+    Existing flashloans pass the initiator to the recipient in the function's params, e.g. [AAVE](https://gith
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M24FlashauctionDoesnTPassTheInitiatorToTheRecipient"
+solodit_id: "25840"
+solodit_slug: "m-24-flashauction-doesnt-pass-the-initiator-to-the-recipient-code4rena-astaria-astaria-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(flashAction|onFlashAction|data).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

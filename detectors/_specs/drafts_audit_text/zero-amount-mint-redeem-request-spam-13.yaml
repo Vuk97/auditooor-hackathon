@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "zero-amount-mint-redeem-request-spam-13"
+class_name: "ZeroAmountMintRedeemRequestSpam13"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit XAGm - Zellic Audit Report"
+help: |
+    When transferring ownership, a TransferOwnershipReq is created along with the UpgradeCap. However, the TransferOwnershipReq is not bound to the type of state. As a result, anyone c
+wiki_title: "Zero-amount mint/redeem request spam                       13"
+wiki_description: |
+    When transferring ownership, a TransferOwnershipReq is created along with the UpgradeCap. However, the TransferOwnershipReq is not bound to the type of state. As a result, anyone can call revoke_transfer_ownership with their own fake mToken, allowing them to steal the UpgradeCap. entry fun revoke_tr
+wiki_exploit_scenario: |
+    Per audit finding: When transferring ownership, a TransferOwnershipReq is created along with the UpgradeCap. However, the TransferOwnershipReq is not bound to the type of state. As a result, anyone can call revoke_trans
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ZeroAmountMintRedeemRequestSpam13"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(mToken).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "mToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

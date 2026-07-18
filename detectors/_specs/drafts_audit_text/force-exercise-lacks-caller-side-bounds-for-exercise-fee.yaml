@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "force-exercise-lacks-caller-side-bounds-for-exercise-fee"
+class_name: "ForceExerciseLacksCallerSideBoundsForExerciseFee"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-12-panoptic-next-core"
+help: |
+    Nyx PanopticPool.sol L1598-L1664 Summary The force exercise path ( dispatchFrom() → _forceExercise() ) computes an exerciseCost() and immediately settles it without any caller-prov
+wiki_title: "Force exercise lacks caller-side bounds for exercise fee"
+wiki_description: |
+    Nyx PanopticPool.sol L1598-L1664 Summary The force exercise path ( dispatchFrom() → _forceExercise() ) computes an exerciseCost() and immediately settles it without any caller-provided bounds on the maximum amount the caller is willing to pay. Because the fee depends on currentTick twapTick , and pe
+wiki_exploit_scenario: |
+    Per audit finding: Nyx PanopticPool.sol L1598-L1664 Summary The force exercise path ( dispatchFrom() → _forceExercise() ) computes an exerciseCost() and immediately settles it without any caller-provided bounds on the m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ForceExerciseLacksCallerSideBoundsForExerciseFee"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(dispatchFrom|exerciseCost|currentTick).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "dispatchFrom"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

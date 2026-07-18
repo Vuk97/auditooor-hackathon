@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "trst-h-3-the-liquidated-person-can-make-the-liquidator-lose-prem"
+class_name: "TrstH3TheLiquidatedPersonCanMakeTheLiquidatorLosePrem"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #19047 (Trust Security/Stella)"
+help: "TRST-H-3 The liquidated person can make the liquidator lose premium by adding collateral in advance"
+wiki_title: "TRST-H-3 The liquidated person can make the liquidator lose premium by adding collateral in advance"
+wiki_description: |
+    **Description:**
+    When the position with **debtRatioE18 >= 1e18** or **startLiqTimestamp ! = 0**, the position can 
+    be liquidated. On liquidation, the liquidator needs to pay premium, but the profit is related 
+    to the position's health factor and **deltaTime**, and when **discount == 0**, the liquida
+wiki_exploit_scenario: |
+    Per Solodit #19047: **Description:**
+    When the position with **debtRatioE18 >= 1e18** or **startLiqTimestamp ! = 0**, the position can 
+    be liquidated. On liquidation, the liquidator needs to pay premium, but the profit is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstH3TheLiquidatedPersonCanMakeTheLiquidatorLosePrem"
+solodit_id: "19047"
+solodit_slug: |
+    trst-h-3-the-liquidated-person-can-make-the-liquidator-lose-premium-by-adding-collateral-in-advance-trust-security-none-stella-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Front-Running"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(debtRatioE18|startLiqTimestamp|deltaTime|positionDeadline).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "debtRatioE18"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-05-collectfees-updates-delinquency-wrongly-as-writestate-is-ca"
+class_name: "M05CollectfeesUpdatesDelinquencyWronglyAsWritestateIsCa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29017 (Code4rena/Wildcat Protocol)"
+help: |
+    [M-05] `collectFees()` updates delinquency wrongly as `_writeState()` is called before assets are transferred
+wiki_title: |
+    [M-05] `collectFees()` updates delinquency wrongly as `_writeState()` is called before assets are transferred
+wiki_description: |
+    The `collectFees()` function calls `_writeState()` before transferring assets to the `feeRecipient`:
+    
+    [WildcatMarket.sol#L106-L107](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/WildcatMarket.sol#L106-L107)
+    
+    ```solidity
+        _writeState(state);
+        asset.safeTransfer(feeRecipien
+wiki_exploit_scenario: |
+    Per Solodit #29017: The `collectFees()` function calls `_writeState()` before transferring assets to the `feeRecipient`:
+    
+    [WildcatMarket.sol#L106-L107](https://github.com/code-423n4/2023-10-wildcat/blob/main/src/market/
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05CollectfeesUpdatesDelinquencyWronglyAsWritestateIsCa"
+solodit_id: "29017"
+solodit_slug: |
+    m-05-collectfees-updates-delinquency-wrongly-as-_writestate-is-called-before-assets-are-transferred-code4rena-wildcat-protocol-wildcat-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal collectfees;"
+fn_name_regex: ".*(collectFees|feeRecipient|totalAssets|isDelinquent).*"
+read_var_regex: ".*(collectFees|feeRecipient|isDelinquent).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "collectFees"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return collectfees > 0;"

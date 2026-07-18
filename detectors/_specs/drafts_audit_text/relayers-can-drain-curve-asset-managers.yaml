@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "relayers-can-drain-curve-asset-managers"
+class_name: "RelayersCanDrainCurveAssetManagers"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Singularity - Zellic Audit Report"
+help: |
+    For several types of actions, fees are paid to a relayer and the fee manager (as a service fee). In most cases, the fees are calculated by the following function: function calculat
+wiki_title: "Relayers can drain Curve asset managers"
+wiki_description: |
+    For several types of actions, fees are paid to a relayer and the fee manager (as a service fee). In most cases, the fees are calculated by the following function: function calculateFee( uint256 amount, uint256 relayerRefund ) external view returns (uint256, uint256, uint256) { uint256 serviceFeePerc
+wiki_exploit_scenario: |
+    Per audit finding: For several types of actions, fees are paid to a relayer and the fee manager (as a service fee). In most cases, the fees are calculated by the following function: function calculateFee( uint256 amount
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RelayersCanDrainCurveAssetManagers"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(calculateFee|relayerRefund|serviceFeePercent).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "calculateFee"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

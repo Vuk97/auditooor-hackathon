@@ -1,0 +1,23 @@
+id: unbounded-persistent-vector-growth
+title: "Unbounded Vec<...> in persistent storage inflates footprint"
+severity: Medium
+language: rust
+platform: soroban
+source: "halborn-2025-09 | k2-v12"
+source_ids:
+  - "7.12"
+  - "44822"
+  - "44852"
+bug_class: ttl-archival
+indicators:
+  - "`env.storage().persistent().set(&DataKey::RewardList, &vec_that_can_grow_forever)`"
+  - "push-only pattern with no bound check (`list.push_back(x)` without `if list.len() >= MAX { ... }`)"
+  - "liquidation-history / incentives list that anyone can grow via dust transfers or micro-actions"
+victim: "Protocol: storage entry grows past write cost limit, causing DoS on every function that reads the list."
+exploit_precondition: "Public entrypoint that appends to the list is callable with low-cost dust amounts."
+real_world_example: |
+  V12 #44822 (Medium): Unsolicited dust transfers fill all active reserve slots; V12 #44852 (Medium): Unbounded liquidation history DoSes helper paths.
+suggested_remediation: "Enforce a hard `MAX_LIST_LEN` on every push. Prefer sharded sub-keys or ring-buffer semantics for growth-prone data."
+cross_refs:
+  - dynamic-per-asset-instance-storage-size-cap
+  - dust-transfer-fills-reserve-slots

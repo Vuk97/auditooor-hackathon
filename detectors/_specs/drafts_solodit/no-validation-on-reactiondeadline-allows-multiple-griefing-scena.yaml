@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "no-validation-on-reactiondeadline-allows-multiple-griefing-scena"
+class_name: "NoValidationOnReactiondeadlineAllowsMultipleGriefingScena"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65384 (Cyfrin/Majority Protocol)"
+help: "No validation on `reactionDeadline` allows multiple griefing scenarios"
+wiki_title: "No validation on `reactionDeadline` allows multiple griefing scenarios"
+wiki_description: |
+    **Description:** When a creator creates a game they send an array of bytes32  `promptHash`  variables associated with the questions:
+    ```solidity
+     function createGame(
+            uint256 _startTime,
+            uint256 _endTime,
+            uint256 _ticketPrice,
+            uint256 _creatorFee,
+            address _tok
+wiki_exploit_scenario: |
+    Per Solodit #65384: **Description:** When a creator creates a game they send an array of bytes32  `promptHash`  variables associated with the questions:
+    ```solidity
+     function createGame(
+            uint256 _startTime,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoValidationOnReactiondeadlineAllowsMultipleGriefingScena"
+solodit_id: "65384"
+solodit_slug: |
+    no-validation-on-reactiondeadline-allows-multiple-griefing-scenarios-cyfrin-none-majority-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal prompthash;"
+fn_name_regex: ".*(promptHash|startAndRevealGameQuestion|revealGameQuestion|revealQuestion).*"
+read_var_regex: ".*(promptHash|reactionDeadline|revealGameQuestion).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "promptHash"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return prompthash > 0;"

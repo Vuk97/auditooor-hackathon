@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-check-that-chainaddresssizemap-is-setted-for-dstchainid"
+class_name: "LackOfCheckThatChainaddresssizemapIsSettedForDstchainid"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero Core Audit (June 3rd 2022) - Zellic Audit Report"
+help: |
+    The send function accepts the recipient’s dstChainId and _dstAddress. Since the _ds tAddress is intended for another network, it is transmitted as bytes and its length is checked t
+wiki_title: "Lack of check that chainAddressSizeMap is setted for dstChainId"
+wiki_description: |
+    The send function accepts the recipient’s dstChainId and _dstAddress. Since the _ds tAddress is intended for another network, it is transmitted as bytes and its length is checked to make sure that the address is correct. But if the length value for dstChainId is not set by the owner, dstAddress leng
+wiki_exploit_scenario: |
+    Per audit finding: The send function accepts the recipient’s dstChainId and _dstAddress. Since the _ds tAddress is intended for another network, it is transmitted as bytes and its length is checked to make sure that the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfCheckThatChainaddresssizemapIsSettedForDstchainid"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(dstChainId|tAddress|dstAddress).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "dstChainId"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

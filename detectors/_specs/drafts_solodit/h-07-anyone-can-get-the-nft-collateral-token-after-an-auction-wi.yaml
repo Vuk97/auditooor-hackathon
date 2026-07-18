@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "h-07-anyone-can-get-the-nft-collateral-token-after-an-auction-wi"
+class_name: "H07AnyoneCanGetTheNftCollateralTokenAfterAnAuctionWi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36881 (Code4rena/BendDAO)"
+help: |
+    [H-07] Anyone can get the NFT collateral token after an Auction without bidding due to missing check on `msg.sender`
+wiki_title: |
+    [H-07] Anyone can get the NFT collateral token after an Auction without bidding due to missing check on `msg.sender`
+wiki_description: |
+    <https://github.com/code-423n4/2024-07-benddao/blob/117ef61967d4b318fc65170061c9577e674fffa1/src/libraries/logic/IsolateLogic.sol#L477>
+    
+    In IsolateLogic.sol, liquidation of an isolate loan can only be placed after the auction period is passed with bidding. The problem is that there is a missing che
+wiki_exploit_scenario: |
+    Per Solodit #36881: <https://github.com/code-423n4/2024-07-benddao/blob/117ef61967d4b318fc65170061c9577e674fffa1/src/libraries/logic/IsolateLogic.sol#L477>
+    
+    In IsolateLogic.sol, liquidation of an isolate loan can only b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H07AnyoneCanGetTheNftCollateralTokenAfterAnAuctionWi"
+solodit_id: "36881"
+solodit_slug: |
+    h-07-anyone-can-get-the-nft-collateral-token-after-an-auction-without-bidding-due-to-missing-check-on-msgsender-code4rena-benddao-benddao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Access Control"
+state_decl: "uint256 internal executeisolateliquidate;"
+fn_name_regex: ".*(isolateLiquidate|executeIsolateLiquidate|test_Anyone_Can_LiquidateWETH|tsLiquidator1).*"
+write_var_regex: ".*(executeIsolateLiquidate|isolateLiquidate|test_Anyone_Can_LiquidateWETH).*"
+guard_var_regex: ".*(executeIsolateLiquidate|isolateLiquidate|test_Anyone_Can_LiquidateWETH).*"
+vuln_fn_name: "isolateLiquidate"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "executeisolateliquidate = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

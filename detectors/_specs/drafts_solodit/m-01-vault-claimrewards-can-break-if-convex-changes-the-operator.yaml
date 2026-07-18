@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m-01-vault-claimrewards-can-break-if-convex-changes-the-operator"
+class_name: "M01VaultClaimrewardsCanBreakIfConvexChangesTheOperator"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31842 (Code4rena/Amphora Protocol)"
+help: "[M-01] `Vault.claimRewards` can break if Convex changes the operator"
+wiki_title: "[M-01] `Vault.claimRewards` can break if Convex changes the operator"
+wiki_description: |
+    `Vault.claimRewards` assumes that CVX will always get minted to the Vault (if there is a CRV reward). If CVX does not get minted, the claim will fail, preventing payout of CRV and extra rewards. Looking at the Convex code there can be the case where the operator has changed, causing no mint to happ
+wiki_exploit_scenario: |
+    Per Solodit #31842: `Vault.claimRewards` assumes that CVX will always get minted to the Vault (if there is a CRV reward). If CVX does not get minted, the claim will fail, preventing payout of CRV and extra rewards. Look
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01VaultClaimrewardsCanBreakIfConvexChangesTheOperator"
+solodit_id: "31842"
+solodit_slug: |
+    m-01-vaultclaimrewards-can-break-if-convex-changes-the-operator-code4rena-amphora-protocol-amphora-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal operator;"
+fn_name_regex: ".*(Cvx|operator|Booster|BaseRewardPool).*"
+read_var_regex: ".*(operator).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Cvx"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return operator > 0;"

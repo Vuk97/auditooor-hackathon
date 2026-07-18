@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-reinitialization-safeguard-in-basehandler-basestorag-x"
+class_name: "MissingReinitializationSafeguardInBasehandlerBasestoragX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero TON - Zellic Audit Report"
+help: |
+    The contract framework provided by baseHandler and baseStorage includes an initialized flag to prevent interactions with completely uninitialized contracts. However, it lacks an ex
+wiki_title: "Missing reinitialization safeguard in baseHandler/baseStorage framework"
+wiki_description: |
+    The contract framework provided by baseHandler and baseStorage includes an initialized flag to prevent interactions with completely uninitialized contracts. However, it lacks an explicit mecha- nism to prevent reinitialization of contracts that have already undergone a successful initialization. Wit
+wiki_exploit_scenario: |
+    Per audit finding: The contract framework provided by baseHandler and baseStorage includes an initialized flag to prevent interactions with completely uninitialized contracts. However, it lacks an explicit mecha- nism t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingReinitializationSafeguardInBasehandlerBasestoragX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(baseHandler|baseStorage|baseStorageIndex).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "baseHandler"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

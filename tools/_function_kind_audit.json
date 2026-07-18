@@ -1,0 +1,217 @@
+{
+  "_doc": "Audit of function.kind: <value> usage across reference/patterns.dsl/. Updated after PR #140 Part 3 engine extension (Codex decision). engine_recognized.atomic = the four pure Solidity visibility tokens. engine_recognized.composite = special-cased composites (`any`, `external_or_public`). engine_recognized.dynamic_visibility_composite = the new `_or_`/`|` dispatch added in Part 3 \u2014 any composite formed by joining 2+ of {external, public, internal, private} with `_or_` separators is honored, plus the legacy pipe typo `internal|external_or_public` normalized via split-on-`|`. silent_no_op_values now contains ONLY values the engine still rejects: state-mutability hybrids (must be split into function.kind: + function.state_mutability:) and non-Solidity / domain markers (move to an appropriate backend or rewrite/drop case-by-case). See Codex decision points 2 + 3 \u2014 these stay fail-loud on purpose.",
+  "engine_source": "detectors/_predicate_engine.py (function.kind handler)",
+  "engine_recognized": {
+    "atomic": [
+      "external",
+      "internal",
+      "private",
+      "public"
+    ],
+    "composite": [
+      "any",
+      "external_or_public"
+    ],
+    "dynamic_visibility_composite": "Any token of the form '<vis>(_or_<vis>)+' or '<vis>|<vis>(_or_<vis>)+' where <vis> in {external, public, internal, private}. Examples: external_or_public_or_internal, internal_or_external, internal_or_private_or_public, internal|external_or_public."
+  },
+  "value_counts": {
+    "external_or_public": 918,
+    "external_or_public_or_internal": 98,
+    "any": 68,
+    "internal_or_external": 44,
+    "external": 42,
+    "internal": 21,
+    "internal_or_private": 15,
+    "internal_or_public": 11,
+    "internal_or_external_or_public": 7,
+    "external_or_public_or_internal_view": 4,
+    "view_or_external": 3,
+    "internal|external_or_public": 2,
+    "constructor_or_external_or_public": 2,
+    "internal_or_private_or_public": 2,
+    "public": 2,
+    "handler": 2,
+    "cosmos_msg_handler": 1,
+    "rust_fn_runtime": 1,
+    "geth_state_mutator": 1,
+    "anchor_instruction": 1,
+    "view_or_pure": 1,
+    "type_definition": 1,
+    "public_or_internal": 1,
+    "view_or_internal": 1,
+    "rust_fn_circuit": 1
+  },
+  "silent_no_op_values": [
+    "anchor_instruction",
+    "constructor_or_external_or_public",
+    "cosmos_msg_handler",
+    "external_or_public_or_internal_view",
+    "geth_state_mutator",
+    "handler",
+    "rust_fn_circuit",
+    "rust_fn_runtime",
+    "type_definition",
+    "view_or_external",
+    "view_or_internal",
+    "view_or_pure"
+  ],
+  "silent_no_op_total_occurrences": 19,
+  "silent_no_op_by_category": {
+    "non-Solidity / domain marker": 10,
+    "state-mutability hybrid": 9
+  },
+  "affected_files": [
+    {
+      "file": "reference/patterns.dsl/curve-lp-virtual-price-no-read-only-reentrancy-check.yaml",
+      "pattern_id": "curve-lp-virtual-price-no-read-only-reentrancy-check",
+      "line": 27,
+      "current_value": "view_or_external",
+      "category": "state-mutability hybrid",
+      "rationale": "mixes visibility + state-mutability \u2014 split into separate function.kind: + function.state_mutability: predicates, or add an explicit rationale and widen intentionally"
+    },
+    {
+      "file": "reference/patterns.dsl/evmos-bank-send-to-blocklisted-module-account.yaml",
+      "pattern_id": "evmos-bank-send-to-blocklisted-module-account",
+      "line": 16,
+      "current_value": "cosmos_msg_handler",
+      "category": "non-Solidity / domain marker",
+      "rationale": "unrecognized token(s) \u2014 non-Solidity / domain marker; move to an appropriate backend or rewrite/drop case-by-case"
+    },
+    {
+      "file": "reference/patterns.dsl/fx-euler-irm-kink-type-truncation.yaml",
+      "pattern_id": "fx-euler-irm-kink-type-truncation",
+      "line": 13,
+      "current_value": "constructor_or_external_or_public",
+      "category": "non-Solidity / domain marker",
+      "rationale": "unrecognized token(s) \u2014 non-Solidity / domain marker; move to an appropriate backend or rewrite/drop case-by-case"
+    },
+    {
+      "file": "reference/patterns.dsl/fx-euler-synth-self-not-excluded-supply.yaml",
+      "pattern_id": "fx-euler-synth-self-not-excluded-supply",
+      "line": 13,
+      "current_value": "constructor_or_external_or_public",
+      "category": "non-Solidity / domain marker",
+      "rationale": "unrecognized token(s) \u2014 non-Solidity / domain marker; move to an appropriate backend or rewrite/drop case-by-case"
+    },
+    {
+      "file": "reference/patterns.dsl/leverage-uses-wrong-max-when-lower-bound-exists.yaml",
+      "pattern_id": "leverage-uses-wrong-max-when-lower-bound-exists",
+      "line": 27,
+      "current_value": "view_or_external",
+      "category": "state-mutability hybrid",
+      "rationale": "mixes visibility + state-mutability \u2014 split into separate function.kind: + function.state_mutability: predicates, or add an explicit rationale and widen intentionally"
+    },
+    {
+      "file": "reference/patterns.dsl/merkle-root-disputed-but-dispute-period-passed.yaml",
+      "pattern_id": "merkle-root-disputed-but-dispute-period-passed",
+      "line": 26,
+      "current_value": "view_or_external",
+      "category": "state-mutability hybrid",
+      "rationale": "mixes visibility + state-mutability \u2014 split into separate function.kind: + function.state_mutability: predicates, or add an explicit rationale and widen intentionally"
+    },
+    {
+      "file": "reference/patterns.dsl/moonbeam-frontier-msgvalue-128bit-truncation.yaml",
+      "pattern_id": "moonbeam-frontier-msgvalue-128bit-truncation",
+      "line": 17,
+      "current_value": "rust_fn_runtime",
+      "category": "non-Solidity / domain marker",
+      "rationale": "unrecognized token(s) \u2014 non-Solidity / domain marker; move to an appropriate backend or rewrite/drop case-by-case"
+    },
+    {
+      "file": "reference/patterns.dsl/optimism-selfdestruct-balance-zeroed-outside-erc20-shadow.yaml",
+      "pattern_id": "optimism-selfdestruct-balance-zeroed-outside-erc20-shadow",
+      "line": 17,
+      "current_value": "geth_state_mutator",
+      "category": "non-Solidity / domain marker",
+      "rationale": "unrecognized token(s) \u2014 non-Solidity / domain marker; move to an appropriate backend or rewrite/drop case-by-case"
+    },
+    {
+      "file": "reference/patterns.dsl/options-preview-mint-unchecked-overflow-free-shares.yaml",
+      "pattern_id": "options-preview-mint-unchecked-overflow-free-shares",
+      "line": 16,
+      "current_value": "external_or_public_or_internal_view",
+      "category": "state-mutability hybrid",
+      "rationale": "mixes visibility + state-mutability \u2014 split into separate function.kind: + function.state_mutability: predicates, or add an explicit rationale and widen intentionally"
+    },
+    {
+      "file": "reference/patterns.dsl/perp-half-liquidation-degrades-to-full-liquidation-atomically.yaml",
+      "pattern_id": "perp-half-liquidation-degrades-to-full-liquidation-atomically",
+      "line": 17,
+      "current_value": "external_or_public_or_internal_view",
+      "category": "state-mutability hybrid",
+      "rationale": "mixes visibility + state-mutability \u2014 split into separate function.kind: + function.state_mutability: predicates, or add an explicit rationale and widen intentionally"
+    },
+    {
+      "file": "reference/patterns.dsl/perp-shared-health-factor-multi-debt-positions-overslash.yaml",
+      "pattern_id": "perp-shared-health-factor-multi-debt-positions-overslash",
+      "line": 18,
+      "current_value": "external_or_public_or_internal_view",
+      "category": "state-mutability hybrid",
+      "rationale": "mixes visibility + state-mutability \u2014 split into separate function.kind: + function.state_mutability: predicates, or add an explicit rationale and widen intentionally"
+    },
+    {
+      "file": "reference/patterns.dsl/raydium-remaining-accounts-bitmap-unverified.yaml",
+      "pattern_id": "raydium-remaining-accounts-bitmap-unverified",
+      "line": 17,
+      "current_value": "anchor_instruction",
+      "category": "non-Solidity / domain marker",
+      "rationale": "unrecognized token(s) \u2014 non-Solidity / domain marker; move to an appropriate backend or rewrite/drop case-by-case"
+    },
+    {
+      "file": "reference/patterns.dsl/receipt-decimals-read-after-burn.yaml",
+      "pattern_id": "receipt-decimals-read-after-burn",
+      "line": 28,
+      "current_value": "view_or_pure",
+      "category": "state-mutability hybrid",
+      "rationale": "mixes visibility + state-mutability \u2014 split into separate function.kind: + function.state_mutability: predicates, or add an explicit rationale and widen intentionally"
+    },
+    {
+      "file": "reference/patterns.dsl/serde-untagged-enum-first-variant-shadows-all-sibling-variants.yaml",
+      "pattern_id": "serde-untagged-enum-first-variant-shadows-all-sibling-variants",
+      "line": 25,
+      "current_value": "type_definition",
+      "category": "non-Solidity / domain marker",
+      "rationale": "unrecognized token(s) \u2014 non-Solidity / domain marker; move to an appropriate backend or rewrite/drop case-by-case"
+    },
+    {
+      "file": "reference/patterns.dsl/solana-anchor-mut-missing-on-pool-state-in-token-moving-handler.yaml",
+      "pattern_id": "solana-anchor-mut-missing-on-pool-state-in-token-moving-handler",
+      "line": 27,
+      "current_value": "handler",
+      "category": "non-Solidity / domain marker",
+      "rationale": "unrecognized token(s) \u2014 non-Solidity / domain marker; move to an appropriate backend or rewrite/drop case-by-case"
+    },
+    {
+      "file": "reference/patterns.dsl/solana-margin-transfer-deposit-missing-health-check.yaml",
+      "pattern_id": "solana-margin-transfer-deposit-missing-health-check",
+      "line": 27,
+      "current_value": "handler",
+      "category": "non-Solidity / domain marker",
+      "rationale": "unrecognized token(s) \u2014 non-Solidity / domain marker; move to an appropriate backend or rewrite/drop case-by-case"
+    },
+    {
+      "file": "reference/patterns.dsl/uniswap-lp-perp-feegrowth-underflow-reverts-operation.yaml",
+      "pattern_id": "uniswap-lp-perp-feegrowth-underflow-reverts-operation",
+      "line": 17,
+      "current_value": "external_or_public_or_internal_view",
+      "category": "state-mutability hybrid",
+      "rationale": "mixes visibility + state-mutability \u2014 split into separate function.kind: + function.state_mutability: predicates, or add an explicit rationale and widen intentionally"
+    },
+    {
+      "file": "reference/patterns.dsl/withdrawable-per-share-division-before-multiplication.yaml",
+      "pattern_id": "withdrawable-per-share-division-before-multiplication",
+      "line": 17,
+      "current_value": "view_or_internal",
+      "category": "state-mutability hybrid",
+      "rationale": "mixes visibility + state-mutability \u2014 split into separate function.kind: + function.state_mutability: predicates, or add an explicit rationale and widen intentionally"
+    },
+    {
+      "file": "reference/patterns.dsl/zksync-unconstrained-witness-allocation-mantissa.yaml",
+      "pattern_id": "zksync-unconstrained-witness-allocation-mantissa",
+      "line": 17,
+      "current_value": "rust_fn_circuit",
+      "category": "non-Solidity / domain marker",
+      "rationale": "unrecognized token(s) \u2014 non-Solidity / domain marker; move to an appropriate backend or rewrite/drop case-by-case"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "m-5-if-referral-or-liquidator-is-the-same-address-as-the-account"
+class_name: "M5IfReferralOrLiquidatorIsTheSameAddressAsTheAccount"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31177 (Sherlock/Perennial V2 Update #2)"
+help: |
+    M-5: If referral or liquidator is the same address as the account, then liquidation/referral fees will be lost due to local storage being overwritten after the `claimable` amount i
+wiki_title: |
+    M-5: If referral or liquidator is the same address as the account, then liquidation/referral fees will be lost due to local storage being overwritten after the 
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-02-perennial-v2-3-judging/issues/16 
+    
+    ## Found by 
+    bin2chen, panprog
+    ## Summary
+    
+    Any user (address) can be liquidator and/or referral, including account's own address (the user can self-liquidate or self-refer). During the market settlement, liquidator
+wiki_exploit_scenario: |
+    Per Solodit #31177: Source: https://github.com/sherlock-audit/2024-02-perennial-v2-3-judging/issues/16 
+    
+    ## Found by 
+    bin2chen, panprog
+    ## Summary
+    
+    Any user (address) can be liquidator and/or referral, including account'
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M5IfReferralOrLiquidatorIsTheSameAddressAsTheAccount"
+solodit_id: "31177"
+solodit_slug: |
+    m-5-if-referral-or-liquidator-is-the-same-address-as-the-account-then-liquidationreferral-fees-will-be-lost-due-to-local-storage-being-overwritten-after-the-claimable-amount-is-credited-to-liquidator-or-referral-sherlock-perennial-v2-update-2-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimable).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimable"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,33 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-11-the-variable-fshareratio-is-vulnerable-to-manipulation-by-f"
+class_name: "M11TheVariableFshareratioIsVulnerableToManipulationByF"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42209 (Code4rena/FairSide)"
+help: "[M-11] The variable `fShareRatio` is vulnerable to manipulation by flash minting and burning"
+wiki_title: "[M-11] The variable `fShareRatio` is vulnerable to manipulation by flash minting and burning"
+wiki_description: |
+    The variable `fShareRatio` in the function `purchaseMembership` of contract `FSDNetwork` is vulnerable to manipulation by flash minting and burning, which could affect several critical logics, such as the check of enough capital in the pool (line 139-142) and the staking rewards (line 179-182).
+    
+    Th
+wiki_exploit_scenario: |
+    Per Solodit #42209: The variable `fShareRatio` in the function `purchaseMembership` of contract `FSDNetwork` is vulnerable to manipulation by flash minting and burning, which could affect several critical logics, such a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11TheVariableFshareratioIsVulnerableToManipulationByF"
+solodit_id: "42209"
+solodit_slug: |
+    m-11-the-variable-fshareratio-is-vulnerable-to-manipulation-by-flash-minting-and-burning-code4rena-fairside-fairside-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(fShareRatio|purchaseMembership|FSDNetwork).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

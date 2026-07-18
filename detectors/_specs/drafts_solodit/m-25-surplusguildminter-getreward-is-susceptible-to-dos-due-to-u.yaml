@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "m-25-surplusguildminter-getreward-is-susceptible-to-dos-due-to-u"
+class_name: "M25SurplusguildminterGetrewardIsSusceptibleToDosDueToU"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30245 (Code4rena/Ethereum Credit Guild)"
+help: "[M-25] `SurplusGuildMinter.getReward()` is susceptible to DoS due to unbounded loop"
+wiki_title: "[M-25] `SurplusGuildMinter.getReward()` is susceptible to DoS due to unbounded loop"
+wiki_description: |
+    The `SurplusGuildMinter.getReward()` function [invokes](https://github.com/code-423n4/2023-12-ethereumcreditguild/blob/main/src/loan/SurplusGuildMinter.sol#L239) `ProfitManager.claimRewards()` that in a loop claims reward through all gauges/terms for `SurplusGuildMinter` as follows.
+    
+        function c
+wiki_exploit_scenario: |
+    Per Solodit #30245: The `SurplusGuildMinter.getReward()` function [invokes](https://github.com/code-423n4/2023-12-ethereumcreditguild/blob/main/src/loan/SurplusGuildMinter.sol#L239) `ProfitManager.claimRewards()` that i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M25SurplusguildminterGetrewardIsSusceptibleToDosDueToU"
+solodit_id: "30245"
+solodit_slug: |
+    m-25-surplusguildmintergetreward-is-susceptible-to-dos-due-to-unbounded-loop-code4rena-ethereum-credit-guild-ethereum-credit-guild-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getreward;"
+fn_name_regex: ".*(SurplusGuildMinter|stake|unstake|getReward).*"
+write_var_regex: ".*(getReward|stake|unstake).*"
+guard_var_regex: ".*(getReward|stake|unstake).*"
+vuln_fn_name: "SurplusGuildMinter"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "getreward = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

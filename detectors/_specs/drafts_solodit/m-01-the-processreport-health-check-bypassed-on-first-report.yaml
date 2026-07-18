@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-01-the-processreport-health-check-bypassed-on-first-report"
+class_name: "M01TheProcessreportHealthCheckBypassedOnFirstReport"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65275 (Shieldify/Tulpea)"
+help: "[M-01] The `processReport()` Health Check Bypassed on First Report"
+wiki_title: "[M-01] The `processReport()` Health Check Bypassed on First Report"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `processReport()` enforces `maxProfitReportBps` deviation bounds only when `previousDebt > 0`. Because `addStrategy` initializes `currentDebt = 0`, the first `processReport()` call for every strategy skips health checks and accepts any reported `totalAs
+wiki_exploit_scenario: |
+    Per Solodit #65275: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `processReport()` enforces `maxProfitReportBps` deviation bounds only when `previousDebt > 0`. Because `addStrategy` initializes `currentDebt = 0`, the f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01TheProcessreportHealthCheckBypassedOnFirstReport"
+solodit_id: "65275"
+solodit_slug: "m-01-the-processreport-health-check-bypassed-on-first-report-shieldify-none-tulpea-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addstrategy;"
+fn_name_regex: ".*(processReport|maxProfitReportBps|addStrategy|totalAssets).*"
+read_var_regex: ".*(addStrategy|maxProfitReportBps|processReport).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "processReport"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addstrategy > 0;"

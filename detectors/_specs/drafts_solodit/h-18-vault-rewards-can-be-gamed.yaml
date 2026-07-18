@@ -1,0 +1,34 @@
+skeleton: "paired_function_divergence"
+name: "h-18-vault-rewards-can-be-gamed"
+class_name: "H18VaultRewardsCanBeGamed"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3921 (Code4rena/Vader Protocol)"
+help: "[H-18]  Vault rewards can be gamed"
+wiki_title: "[H-18]  Vault rewards can be gamed"
+wiki_description: |
+    The `_deposit` function increases the member's _weight_ by `_weight = iUTILS(UTILS()).calcValueInBase(iSYNTH(_synth).TOKEN(), _amount);` which is the swap output amount when trading the deposited underlying synth amount.
+    
+    Notice that anyone can create synths of custom tokens by calling `Pools.deplo
+wiki_exploit_scenario: |
+    Per Solodit #3921: The `_deposit` function increases the member's _weight_ by `_weight = iUTILS(UTILS()).calcValueInBase(iSYNTH(_synth).TOKEN(), _amount);` which is the swap output amount when trading the deposited und
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H18VaultRewardsCanBeGamed"
+solodit_id: "3921"
+solodit_slug: "h-18-vault-rewards-can-be-gamed-code4rena-vader-protocol-vader-protocol-contest-git"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(calcReward|harvest|synth).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

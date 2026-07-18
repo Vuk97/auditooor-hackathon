@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-06-fees-are-taken-on-risk-collateral"
+class_name: "M06FeesAreTakenOnRiskCollateral"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5787 (Code4rena/Y2k Finance)"
+help: "[M-06] Fees are taken on risk collateral"
+wiki_title: "[M-06] Fees are taken on risk collateral"
+wiki_description: |
+    Fees are taken on funds deposited as collateral.
+    
+    ### Proof of Concept
+    
+        uint256 feeValue = calculateWithdrawalFeeValue(entitledShares, id);
+    
+    In L226 of Vault.sol#withdraw the fee is taken on the entire collateral deposited by the risk users. This is problematic for two reasons. The first is tha
+wiki_exploit_scenario: |
+    Per Solodit #5787: Fees are taken on funds deposited as collateral.
+    
+    ### Proof of Concept
+    
+        uint256 feeValue = calculateWithdrawalFeeValue(entitledShares, id);
+    
+    In L226 of Vault.sol#withdraw the fee is taken on the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06FeesAreTakenOnRiskCollateral"
+solodit_id: "5787"
+solodit_slug: "m-06-fees-are-taken-on-risk-collateral-code4rena-y2k-finance-y2k-finance-contest-git"
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(feeValue|calculateWithdrawalFeeValue|entitledShares).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "feeValue"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "possible-incorrect-tokens-redeeming"
+class_name: "PossibleIncorrectTokensRedeeming"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28465 (MixBytes/C.R.E.A.M. Finance)"
+help: "Possible incorrect tokens redeeming"
+wiki_title: "Possible incorrect tokens redeeming"
+wiki_description: |
+    ##### Description
+    In following function tx can fail if user try redeem incorrect amount of tokens:
+    https://github.com/CreamFi/compound-protocol/blob/23a4ae93adc70334553f5a83429a4e967c1eefaa/contracts/CCollateralCapErc20.sol#L555
+    
+    ##### Recommendation
+    We recommend to add a simple check:
+    ```solidity=
+wiki_exploit_scenario: |
+    Per Solodit #28465: ##### Description
+    In following function tx can fail if user try redeem incorrect amount of tokens:
+    https://github.com/CreamFi/compound-protocol/blob/23a4ae93adc70334553f5a83429a4e967c1eefaa/contracts/
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PossibleIncorrectTokensRedeeming"
+solodit_id: "28465"
+solodit_slug: "possible-incorrect-tokens-redeeming-mixbytes-none-cream-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(redeemTokens|accountTokens).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "redeemTokens"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

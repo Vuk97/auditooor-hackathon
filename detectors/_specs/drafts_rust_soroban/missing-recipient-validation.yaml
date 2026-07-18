@@ -1,0 +1,19 @@
+id: missing-recipient-validation
+title: "Missing recipient validation enables accidental fund loss"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.20"
+bug_class: input-validation
+indicators:
+  - "`transfer_to(to, amount)` without `if to == Address::zero() || to == current_contract_address()`"
+  - "`repay(on_behalf_of, amount)` without validating `on_behalf_of`"
+victim: "Users: funds sent to zero/wrong address are lost."
+exploit_precondition: "User passes invalid recipient."
+real_world_example: |
+  Halborn 7.20 (LOW): Missing recipient validation enables accidental fund loss.
+suggested_remediation: "Validate recipient: nonzero, non-current-contract, optionally whitelist."
+cross_refs:
+  - empty-whitelist-array-grants-bypass

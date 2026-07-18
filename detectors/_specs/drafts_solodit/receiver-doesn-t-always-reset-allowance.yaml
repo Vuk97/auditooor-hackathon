@@ -1,0 +1,48 @@
+skeleton: "state_write_without_paired_write"
+name: "receiver-doesn-t-always-reset-allowance"
+class_name: "ReceiverDoesnTAlwaysResetAllowance"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #15922 (Spearbit/LI.FI)"
+help: "Receiver doesn't always reset allowance"
+wiki_title: "Receiver doesn't always reset allowance"
+wiki_description: |
+    ## Security Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    Receiver.sol#L224-L297
+    
+    ## Description
+    The function `_swapAndCompleteBridgeTokens()` of Receiver resets the approval to the executor at the end of an ERC20 transfer. However, if there is insufficient gas, the approval is not reset. This allow
+wiki_exploit_scenario: |
+    Per Solodit #15922: ## Security Report
+    
+    ## Severity
+    **High Risk**
+    
+    ## Context
+    Receiver.sol#L224-L297
+    
+    ## Description
+    The function `_swapAndCompleteBridgeTokens()` of Receiver resets the approval to the executor at the en
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReceiverDoesnTAlwaysResetAllowance"
+solodit_id: "15922"
+solodit_slug: "receiver-doesnt-always-reset-allowance-spearbit-lifi-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Allowance, Approve"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(isNativeAsset|assetId|safeIncreaseAllowance|reserveRecoverGas).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

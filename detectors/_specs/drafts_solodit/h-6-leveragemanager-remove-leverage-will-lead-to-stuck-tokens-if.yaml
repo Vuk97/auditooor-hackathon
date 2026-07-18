@@ -1,0 +1,55 @@
+skeleton: "paired_function_divergence"
+name: "h-6-leveragemanager-remove-leverage-will-lead-to-stuck-tokens-if"
+class_name: "H6LeveragemanagerRemoveLeverageWillLeadToStuckTokensIf"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #52751 (Sherlock/Peapods)"
+help: |
+    H-6: LeverageManager remove leverage will lead to stuck tokens if slippage `_podSwapAmtOutMin` is set.
+wiki_title: |
+    H-6: LeverageManager remove leverage will lead to stuck tokens if slippage `_podSwapAmtOutMin` is set.
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/446 
+    
+    ## Found by 
+    X77, ZoA, elolpuer, pkqs90
+    
+    
+    ### Summary
+    
+    LeverageManager remove leverage will lead to stuck tokens if slippage `_podSwapAmtOutMin` is set.
+    
+    ### Root Cause
+    
+    First we need to understand the workflow of
+wiki_exploit_scenario: |
+    Per Solodit #52751: Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/446 
+    
+    ## Found by 
+    X77, ZoA, elolpuer, pkqs90
+    
+    
+    ### Summary
+    
+    LeverageManager remove leverage will lead to stuck tokens
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H6LeveragemanagerRemoveLeverageWillLeadToStuckTokensIf"
+solodit_id: "52751"
+solodit_slug: |
+    h-6-leveragemanager-remove-leverage-will-lead-to-stuck-tokens-if-slippage-_podswapamtoutmin-is-set-sherlock-peapods-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

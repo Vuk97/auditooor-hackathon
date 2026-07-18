@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "dos-of-pool-adapters-via-positive-allowance"
+class_name: "DosOfPoolAdaptersViaPositiveAllowance"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41148 (MixBytes/EYWA)"
+help: "DOS of pool adapters via positive allowance"
+wiki_title: "DOS of pool adapters via positive allowance"
+wiki_description: |
+    ##### Description
+    
+    All pool adapters have public `swap()` methods. A hacker can directly call `swap()` to invoke `safeIncreaseAllowance()` and then leave this allowance unspent due to `minAmountOut > minDy`:
+    ```
+    SafeERC20.safeIncreaseAllowance(erc20Impl, pool, amountIn);
+    
+    uint256 minDy = poolImpl.ge
+wiki_exploit_scenario: |
+    Per Solodit #41148: ##### Description
+    
+    All pool adapters have public `swap()` methods. A hacker can directly call `swap()` to invoke `safeIncreaseAllowance()` and then leave this allowance unspent due to `minAmountOut >
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DosOfPoolAdaptersViaPositiveAllowance"
+solodit_id: "41148"
+solodit_slug: "dos-of-pool-adapters-via-positive-allowance-mixbytes-none-eywa-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal allowance;"
+fn_name_regex: ".*(swap|safeIncreaseAllowance|approve|allowance).*"
+read_var_regex: ".*(allowance|approve|safeIncreaseAllowance).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swap"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return allowance > 0;"

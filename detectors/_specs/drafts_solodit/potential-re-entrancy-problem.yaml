@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "potential-re-entrancy-problem"
+class_name: "PotentialReEntrancyProblem"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28569 (MixBytes/Bond Appetit)"
+help: "Potential re-entrancy problem"
+wiki_title: "Potential re-entrancy problem"
+wiki_description: |
+    ##### Description
+    At the line https://github.com/bondappetit/bondappetit-protocol/blob/355180f0aca0b29d60d808f761052956b7a3a159/contracts/profit/ProfitSplitter.sol#L227 contract transfers incoming tokens to `recipient`, however that place can be re-entered in case of callbacks from `incoming` contra
+wiki_exploit_scenario: |
+    Per Solodit #28569: ##### Description
+    At the line https://github.com/bondappetit/bondappetit-protocol/blob/355180f0aca0b29d60d808f761052956b7a3a159/contracts/profit/ProfitSplitter.sol#L227 contract transfers incoming tok
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialReEntrancyProblem"
+solodit_id: "28569"
+solodit_slug: "potential-re-entrancy-problem-mixbytes-none-bond-appetit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal incoming;"
+fn_name_regex: ".*(recipient|incoming).*"
+read_var_regex: ".*(incoming|recipient).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "recipient"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return incoming > 0;"

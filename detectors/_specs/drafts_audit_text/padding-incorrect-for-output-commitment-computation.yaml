@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "padding-incorrect-for-output-commitment-computation"
+class_name: "PaddingIncorrectForOutputCommitmentComputation"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Brevis - Zellic Audit Report"
+help: |
+    In sdk/host_circuit.go, the function commitOutput handles padding before calculating the Keccak hash of the output bits. See Discussion section 4.12. ↗ for a description of the pad
+wiki_title: "Padding incorrect for output-commitment computation"
+wiki_description: |
+    In sdk/host_circuit.go, the function commitOutput handles padding before calculating the Keccak hash of the output bits. See Discussion section 4.12. ↗ for a description of the padding used for Kec- cak. In the code, the implementation is as follows: func (c *HostCircuit) commitOutput(bits []fronten
+wiki_exploit_scenario: |
+    Per audit finding: In sdk/host_circuit.go, the function commitOutput handles padding before calculating the Keccak hash of the output bits. See Discussion section 4.12. ↗ for a description of the padding used for Kec- c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PaddingIncorrectForOutputCommitmentComputation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(commitOutput|paddedLen).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "commitOutput"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "m-10-does-not-check-if-to-chain-and-to-handler-is-whitelisted-in"
+class_name: "M10DoesNotCheckIfToChainAndToHandlerIsWhitelistedIn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49157 (Code4rena/Chakra)"
+help: |
+    [M-10] Does not check if `to_chain` and `to_handler` is whitelisted in `cross_chain_erc20_settlement`
+wiki_title: |
+    [M-10] Does not check if `to_chain` and `to_handler` is whitelisted in `cross_chain_erc20_settlement`
+wiki_description: |
+    ### Impact
+    
+    The handler does not prevent tokens from being sent to incorrect chains and handlers. If a message is sent to an incorrect handler, the failure cannot be handled through `receive_cross_chain_callback`.
+    
+    ### Proof of Concept
+    
+    `Handler.cross_chain_erc20_settlement` does not check if `to_c
+wiki_exploit_scenario: |
+    Per Solodit #49157: ### Impact
+    
+    The handler does not prevent tokens from being sent to incorrect chains and handlers. If a message is sent to an incorrect handler, the failure cannot be handled through `receive_cross_ch
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10DoesNotCheckIfToChainAndToHandlerIsWhitelistedIn"
+solodit_id: "49157"
+solodit_slug: |
+    m-10-does-not-check-if-to_chain-and-to_handler-is-whitelisted-in-cross_chain_erc20_settlement-code4rena-chakra-chakra-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(receive_cross_chain_callback|to_chain|to_handler).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

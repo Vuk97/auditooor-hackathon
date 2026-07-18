@@ -1,0 +1,34 @@
+skeleton: "state_write_without_paired_write"
+name: "unlimited-minting-by-reusing-failed-hyperlane-messages"
+class_name: "UnlimitedMintingByReusingFailedHyperlaneMessages"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50682 (Halborn/LMCV part 3)"
+help: "UNLIMITED MINTING BY REUSING FAILED HYPERLANE MESSAGES"
+wiki_title: "UNLIMITED MINTING BY REUSING FAILED HYPERLANE MESSAGES"
+wiki_description: |
+    ##### Description
+    
+    It is possible to transfer `dPrime` tokens across chains using the `dPrimeConnectorHyperlane` contract. If minting the tokens on the destination chain fails, then the program stores the failed transaction in a mapping. It is possible to manually retry the failed transactions by ca
+wiki_exploit_scenario: |
+    Per Solodit #50682: ##### Description
+    
+    It is possible to transfer `dPrime` tokens across chains using the `dPrimeConnectorHyperlane` contract. If minting the tokens on the destination chain fails, then the program stores
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnlimitedMintingByReusingFailedHyperlaneMessages"
+solodit_id: "50682"
+solodit_slug: "unlimited-minting-by-reusing-failed-hyperlane-messages-halborn-damfinance-lmcv-part-3-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(dPrime|dPrimeConnectorHyperlane|retry|failedMessages).*"
+primary_var_regex: ".*(dPrime|dPrimeConnectorHyperlane|failedMessages).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

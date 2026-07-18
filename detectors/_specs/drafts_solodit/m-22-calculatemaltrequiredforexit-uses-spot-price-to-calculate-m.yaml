@@ -1,0 +1,35 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-22-calculatemaltrequiredforexit-uses-spot-price-to-calculate-m"
+class_name: "M22CalculatemaltrequiredforexitUsesSpotPriceToCalculateM"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42387 (Code4rena/Malt Finance)"
+help: "[M-22] `_calculateMaltRequiredForExit` Uses Spot Price To Calculate Malt Quantity In `exitEarly`"
+wiki_title: "[M-22] `_calculateMaltRequiredForExit` Uses Spot Price To Calculate Malt Quantity In `exitEarly`"
+wiki_description: |
+    _Submitted by leastwood_
+    
+    `_calculateMaltRequiredForExit` in `AuctionEscapeHatch` currently uses Malt's spot price to calculate the quantity to return to the exiting user. This spot price simply tracks the Uniswap pool's reserves which can easily be manipulated via a flash loan attack to extract fun
+wiki_exploit_scenario: |
+    Per Solodit #42387: _Submitted by leastwood_
+    
+    `_calculateMaltRequiredForExit` in `AuctionEscapeHatch` currently uses Malt's spot price to calculate the quantity to return to the exiting user. This spot price simply track
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M22CalculatemaltrequiredforexitUsesSpotPriceToCalculateM"
+solodit_id: "42387"
+solodit_slug: |
+    m-22-_calculatemaltrequiredforexit-uses-spot-price-to-calculate-malt-quantity-in-exitearly-code4rena-malt-finance-malt-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(AuctionEscapeHatch|exitEarly).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

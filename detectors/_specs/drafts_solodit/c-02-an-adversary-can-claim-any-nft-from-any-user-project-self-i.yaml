@@ -1,0 +1,53 @@
+skeleton: "paired_function_divergence"
+name: "c-02-an-adversary-can-claim-any-nft-from-any-user-project-self-i"
+class_name: "C02AnAdversaryCanClaimAnyNftFromAnyUserProjectSelfI"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #34166 (Pashov Audit Group/Sft)"
+help: "[C-02] An adversary can claim any NFT from any user (Project self-injected exploit)"
+wiki_title: "[C-02] An adversary can claim any NFT from any user (Project self-injected exploit)"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    The `_claim()` function in `SFT418Core` allows users to claim any NFT, despite the intention to only allow it from the token pool:
+    
+    ```solidity
+        /**
+    @>   * @notice claims an existing chunk in the token pool if the target has e
+wiki_exploit_scenario: |
+    Per Solodit #34166: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    The `_claim()` function in `SFT418Core` allows users to claim any NFT, despite the intention to only allow it from the token pool
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C02AnAdversaryCanClaimAnyNftFromAnyUserProjectSelfI"
+solodit_id: "34166"
+solodit_slug: |
+    c-02-an-adversary-can-claim-any-nft-from-any-user-project-self-injected-exploit-pashov-audit-group-none-sft-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(require).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "denial-of-service-on-behalf-of-borrower"
+class_name: "DenialOfServiceOnBehalfOfBorrower"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Vendor Finance - Zellic Audit Report"
+help: |
+    In LendingPool, the function borrowOnBehalfOf() enables a user to deposit collateral to the lending pool and sends the borrowed tokens to another user. Any user can do this, and an
+wiki_title: "Denial of service on behalf of borrower"
+wiki_description: |
+    In LendingPool, the function borrowOnBehalfOf() enables a user to deposit collateral to the lending pool and sends the borrowed tokens to another user. Any user can do this, and any user can also pay back the loan on behalf of another user. The result is that a borrow position is opened in the Posit
+wiki_exploit_scenario: |
+    Per audit finding: In LendingPool, the function borrowOnBehalfOf() enables a user to deposit collateral to the lending pool and sends the borrowed tokens to another user. Any user can do this, and any user can also pay
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DenialOfServiceOnBehalfOfBorrower"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(borrowOnBehalfOf).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "borrowOnBehalfOf"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

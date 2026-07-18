@@ -1,0 +1,27 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "swapcallbackreentrancy"
+class_name: "Swapcallbackreentrancy"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ac"
+help: |
+    `stHYPEWithdrawalModule.update()` deposits surplus directly to pool via `token.safeTransfer(pool, surplus)`; attacker calls `update()` inside Sovereign Pool's swap callback (`isSwa
+wiki_title: "SwapCallbackReentrancy"
+wiki_description: |
+    `stHYPEWithdrawalModule.update()` deposits surplus directly to pool via `token.safeTransfer(pool, surplus)`; attacker calls `update()` inside Sovereign Pool's swap callback (`isSwapCallback=true`) to steal the surplus as tokenIn payment without spending own funds.
+wiki_exploit_scenario: |
+    Attacker exploits SwapCallbackReentrancy as described: `stHYPEWithdrawalModule.update()` deposits surplus directly to pool via `token.safeTransfer(pool, surplus)`; attacker calls `update()` inside Sovereign Pool's swap callback (`isSwapCallback=true`) to
+wiki_recommendation: |
+    `nonReentrant` on `update()` but sovereign pool swap callback can be triggered from `update()` itself; read-only reentrancy or cross-function reentrancy with callback.
+contract_name: "Swapcallbackreentrancy"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(update|nonReentrant).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "m-04-adminsettledebt-could-be-called-multiple-times-leading-to-t"
+class_name: "M04AdminsettledebtCouldBeCalledMultipleTimesLeadingToT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31519 (Pashov Audit Group/Saffron)"
+help: "[M-04] `adminSettleDebt()` could be called multiple times leading to the loss of funds"
+wiki_title: "[M-04] `adminSettleDebt()` could be called multiple times leading to the loss of funds"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High, since some users could lose their funds by others users claiming these funds
+    
+    **Likelihood:** Low, since multiple call of `adminSettleDebt()` could be done only accidently or by malicious admin
+    
+    **Description**
+    
+    `adminSettleDebt` lack of check if it was already called
+wiki_exploit_scenario: |
+    Per Solodit #31519: **Severity**
+    
+    **Impact:** High, since some users could lose their funds by others users claiming these funds
+    
+    **Likelihood:** Low, since multiple call of `adminSettleDebt()` could be done only acciden
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04AdminsettledebtCouldBeCalledMultipleTimesLeadingToT"
+solodit_id: "31519"
+solodit_slug: |
+    m-04-adminsettledebt-could-be-called-multiple-times-leading-to-the-loss-of-funds-pashov-none-saffron-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal adminsettledebt;"
+fn_name_regex: ".*(adminSettleDebt|vaultEndedStakingEarnings|vaultEndedFixedDepositsFunds).*"
+write_var_regex: ".*(adminSettleDebt|vaultEndedFixedDepositsFunds|vaultEndedStakingEarnings).*"
+guard_var_regex: ".*(adminSettleDebt|vaultEndedFixedDepositsFunds|vaultEndedStakingEarnings).*"
+vuln_fn_name: "adminSettleDebt"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "adminsettledebt = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

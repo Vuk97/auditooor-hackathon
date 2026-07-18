@@ -1,0 +1,52 @@
+skeleton: "paired_function_divergence"
+name: "m-07-pairedlptokentopodlp-does-not-consider-the-pod-and-pairedlp"
+class_name: "M07PairedlptokentopodlpDoesNotConsiderThePodAndPairedlp"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46001 (Pashov Audit Group/Peapods_2024-11-16)"
+help: "[M-07] `_pairedLpTokenToPodLp` does not consider the `pod` and `_pairedLpToken`"
+wiki_title: "[M-07] `_pairedLpTokenToPodLp` does not consider the `pod` and `_pairedLpToken`"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When `_pairedLpTokenToPodLp` is called, it will try to call `indexUtils.addLPAndStake`, providing the `_pairedLpToken` and the `pod` tokens.
+    
+    ```solidity
+        function _pairedLpTokenToPodLp(uint256 _amountIn, uint256 _deadline) inter
+wiki_exploit_scenario: |
+    Per Solodit #46001: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When `_pairedLpTokenToPodLp` is called, it will try to call `indexUtils.addLPAndStake`, providing the `_pairedLpToken` and the `pod`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07PairedlptokentopodlpDoesNotConsiderThePodAndPairedlp"
+solodit_id: "46001"
+solodit_slug: |
+    m-07-_pairedlptokentopodlp-does-not-consider-the-pod-and-_pairedlptoken-pashov-audit-group-none-peapods_2024-11-16-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(pod).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

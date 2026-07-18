@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "underflow-in-vip-quota"
+class_name: "UnderflowInVipQuota"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #47656 (OtterSec/Flooring Protocol)"
+help: "Underflow In VIP Quota"
+wiki_title: "Underflow In VIP Quota"
+wiki_description: |
+    ## VIP Claim Cost Calculation Vulnerability
+    
+    In `getVipClaimCostWithDiscount`, the `totalQuota` field may underflow due to the user resetting the VIP level to zero. `getVipClaimCostWithDiscount` calculates the cost for a VIP user to claim a benefit with a discount based on their VIP level. If the cl
+wiki_exploit_scenario: |
+    Per Solodit #47656: ## VIP Claim Cost Calculation Vulnerability
+    
+    In `getVipClaimCostWithDiscount`, the `totalQuota` field may underflow due to the user resetting the VIP level to zero. `getVipClaimCostWithDiscount` calcu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnderflowInVipQuota"
+solodit_id: "47656"
+solodit_slug: "underflow-in-vip-quota-ottersec-none-flooring-protocol-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cost;"
+fn_name_regex: ".*(getVipClaimCostWithDiscount|totalQuota|cost|quotaUsed).*"
+write_var_regex: ".*(cost|getVipClaimCostWithDiscount|quotaUsed).*"
+guard_var_regex: ".*(cost|getVipClaimCostWithDiscount|quotaUsed).*"
+vuln_fn_name: "getVipClaimCostWithDiscount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "cost = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

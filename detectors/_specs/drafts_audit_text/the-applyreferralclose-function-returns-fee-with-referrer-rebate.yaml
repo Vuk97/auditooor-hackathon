@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "the-applyreferralclose-function-returns-fee-with-referrer-rebate"
+class_name: "TheApplyreferralcloseFunctionReturnsFeeWithReferrerRebate"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    When a trade is being closed, the function _unregisterTrade is called to unregister the trade. The function calls applyReferralClose to calculate the referrerRebate and feeAfterReb
+wiki_title: "The applyReferralClose function returns fee with referrer rebate"
+wiki_description: |
+    When a trade is being closed, the function _unregisterTrade is called to unregister the trade. The function calls applyReferralClose to calculate the referrerRebate and feeAfterRebate. The issue here is that feeAfterRebate includes the referrer rebate too. The function applyReferralClose is responsi
+wiki_exploit_scenario: |
+    Per audit finding: When a trade is being closed, the function _unregisterTrade is called to unregister the trade. The function calls applyReferralClose to calculate the referrerRebate and feeAfterRebate. The issue here
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheApplyreferralcloseFunctionReturnsFeeWithReferrerRebate"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(applyReferralClose|referrerRebate|feeAfterRebate).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "applyReferralClose"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

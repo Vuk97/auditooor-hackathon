@@ -1,0 +1,27 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "rewards-might-be-lost-due-to-the-error-that-updaterewardinde-x"
+class_name: "RewardsMightBeLostDueToTheErrorThatUpdaterewardindeX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-10-loopfi"
+help: |
+    chaduke , also found by Evo The function _updateRewardIndex() is used to update the lastBalance and index of each reward token. This function will be called when a user deposits, w
+wiki_title: |
+    Rewards might be lost due to the error that _updateRewardIndex() might advance lastBalance without advancing index for a token
+wiki_description: |
+    chaduke , also found by Evo The function _updateRewardIndex() is used to update the lastBalance and index of each reward token. This function will be called when a user deposits, withdraws collateral or claims rewards. However, the function might not advance index when accrued.divDown(totalShares) =
+wiki_exploit_scenario: |
+    Per audit finding: chaduke , also found by Evo The function _updateRewardIndex() is used to update the lastBalance and index of each reward token. This function will be called when a user deposits, withdraws collateral
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RewardsMightBeLostDueToTheErrorThatUpdaterewardindeX"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(lastBalance|divDown|totalShares).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

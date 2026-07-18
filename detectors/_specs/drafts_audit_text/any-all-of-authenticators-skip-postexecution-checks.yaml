@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "any-all-of-authenticators-skip-postexecution-checks"
+class_name: "AnyAllOfAuthenticatorsSkipPostexecutionChecks"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Osmosis Authentication Abstraction - Zellic Audit Report"
+help: |
+    The Authenticator interface implements a ConfirmExecution handler, which is exe- cuted by the post-handler. This can be used to enforce transaction rules or validate any posttransa
+wiki_title: "Any/all of authenticators skip postexecution checks"
+wiki_description: |
+    The Authenticator interface implements a ConfirmExecution handler, which is exe- cuted by the post-handler. This can be used to enforce transaction rules or validate any posttransaction changes. The ConfirmExecution handler can reject a transaction if any rules are violated. The AllOfAuthenticator a
+wiki_exploit_scenario: |
+    Per audit finding: The Authenticator interface implements a ConfirmExecution handler, which is exe- cuted by the post-handler. This can be used to enforce transaction rules or validate any posttransaction changes. The C
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyAllOfAuthenticatorsSkipPostexecutionChecks"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(authenticationData|executedAuths).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "authenticationData"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

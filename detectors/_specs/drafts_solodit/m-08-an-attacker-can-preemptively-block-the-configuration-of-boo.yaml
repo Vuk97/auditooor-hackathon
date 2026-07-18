@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "m-08-an-attacker-can-preemptively-block-the-configuration-of-boo"
+class_name: "M08AnAttackerCanPreemptivelyBlockTheConfigurationOfBoo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25968 (Code4rena/PoolTogether)"
+help: |
+    [M-08] An attacker can preemptively block the configuration of boost values or the liquidation pair in `VaultBooster` through front-running
+wiki_title: |
+    [M-08] An attacker can preemptively block the configuration of boost values or the liquidation pair in `VaultBooster` through front-running
+wiki_description: |
+    <https://github.com/GenerationSoftware/pt-v5-vault-boost/blob/9d640051ab61a0fdbcc9500814b7f8242db9aec2/src/VaultBooster.sol#L142-L165><br>
+    <https://github.com/GenerationSoftware/pt-v5-vault-boost/blob/9d640051ab61a0fdbcc9500814b7f8242db9aec2/src/VaultBooster.sol#L211-L237>
+    
+    ### Impact
+    
+    *   This iss
+wiki_exploit_scenario: |
+    Per Solodit #25968: <https://github.com/GenerationSoftware/pt-v5-vault-boost/blob/9d640051ab61a0fdbcc9500814b7f8242db9aec2/src/VaultBooster.sol#L142-L165><br>
+    <https://github.com/GenerationSoftware/pt-v5-vault-boost/blo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08AnAttackerCanPreemptivelyBlockTheConfigurationOfBoo"
+solodit_id: "25968"
+solodit_slug: |
+    m-08-an-attacker-can-preemptively-block-the-configuration-of-boost-values-or-the-liquidation-pair-in-vaultbooster-through-front-running-code4rena-pooltogether-pooltogether-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(liquidate|setBoost|tokenOut).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

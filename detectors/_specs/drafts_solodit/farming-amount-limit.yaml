@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "farming-amount-limit"
+class_name: "FarmingAmountLimit"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #53773 (SigmaPrime/1inch)"
+help: "Farming Amount Limit"
+wiki_title: "Farming Amount Limit"
+wiki_description: |
+    ## Description
+    The `FarmAccounting` contract is used by the `Farm` contract to handle computation on Info. The `Farm` contract works closely with the `ERC20Farmable` contract to create a token system with farming capability.
+    
+    The `startFarming()` function in the `FarmAccounting` contract is used by
+wiki_exploit_scenario: |
+    Per Solodit #53773: ## Description
+    The `FarmAccounting` contract is used by the `Farm` contract to handle computation on Info. The `Farm` contract works closely with the `ERC20Farmable` contract to create a token system
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FarmingAmountLimit"
+solodit_id: "53773"
+solodit_slug: "farming-amount-limit-sigmaprime-none-1inch-pdf_"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal farmedpertoken;"
+fn_name_regex: ".*(FarmAccounting|Farm|ERC20Farmable|startFarming).*"
+write_var_regex: ".*(farmedPerToken|startFarming|uint176).*"
+guard_var_regex: ".*(farmedPerToken|startFarming|uint176).*"
+vuln_fn_name: "FarmAccounting"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "farmedpertoken = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

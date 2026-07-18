@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "erc20-decimals-method-may-be-unimplemented"
+class_name: "Erc20DecimalsMethodMayBeUnimplemented"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit 1inch Farming Audit Report"
+help: |
+    FarmingPool provides a public method to get the number of decimals of the stakingToken which calls the decimals method of the underlying IERC20 token. However, the EIP-20 standard
+wiki_title: "ERC20 decimals() method may be unimplemented"
+wiki_description: |
+    FarmingPool provides a public method to get the number of decimals of the stakingToken which calls the decimals method of the underlying IERC20 token. However, the EIP-20 standard declares that the decimals method is optional and that other contracts and interfaces should not rely on it being presen
+wiki_exploit_scenario: |
+    Per audit finding: FarmingPool provides a public method to get the number of decimals of the stakingToken which calls the decimals method of the underlying IERC20 token. However, the EIP-20 standard declares that the de
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Erc20DecimalsMethodMayBeUnimplemented"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stakingToken).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "stakingToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

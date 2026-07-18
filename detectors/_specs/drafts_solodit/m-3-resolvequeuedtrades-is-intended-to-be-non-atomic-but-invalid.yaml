@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-3-resolvequeuedtrades-is-intended-to-be-non-atomic-but-invalid"
+class_name: "M3ResolvequeuedtradesIsIntendedToBeNonAtomicButInvalid"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3835 (Sherlock/Buffer Finance)"
+help: |
+    M-3: resolveQueuedTrades is intended to be non atomic but invalid signature can still cause entire transaction to revert
+wiki_title: |
+    M-3: resolveQueuedTrades is intended to be non atomic but invalid signature can still cause entire transaction to revert
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-11-buffer-judging/issues/84 
+    
+    ## Found by 
+    0x52
+    
+    ## Summary
+    
+    BufferRouter#resolveQueuedTrades and unlockOptions attempt to be non atomic (i.e. doesn't revert the transaction if one fails) but an invalid signature can still cause the entire transaction t
+wiki_exploit_scenario: |
+    Per Solodit #3835: Source: https://github.com/sherlock-audit/2022-11-buffer-judging/issues/84 
+    
+    ## Found by 
+    0x52
+    
+    ## Summary
+    
+    BufferRouter#resolveQueuedTrades and unlockOptions attempt to be non atomic (i.e. doesn't re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M3ResolvequeuedtradesIsIntendedToBeNonAtomicButInvalid"
+solodit_id: "3835"
+solodit_slug: |
+    m-3-resolvequeuedtrades-is-intended-to-be-non-atomic-but-invalid-signature-can-still-cause-entire-transaction-to-revert-sherlock-buffer-finance-buffer-finance-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(resolveQueuedTrades|unlockOptions|toEthSignedMessageHash|encodePacked).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "resolveQueuedTrades"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

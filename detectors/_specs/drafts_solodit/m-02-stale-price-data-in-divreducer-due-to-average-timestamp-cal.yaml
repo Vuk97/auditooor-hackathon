@@ -1,0 +1,47 @@
+skeleton: "state_write_without_paired_write"
+name: "m-02-stale-price-data-in-divreducer-due-to-average-timestamp-cal"
+class_name: "M02StalePriceDataInDivreducerDueToAverageTimestampCal"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31745 (Pashov Audit Group/Reyanetwork)"
+help: "[M-02] Stale Price Data in `DivReducer` Due to Average Timestamp Calculation"
+wiki_title: "[M-02] Stale Price Data in `DivReducer` Due to Average Timestamp Calculation"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    The `DivReducer` function within the system is designed to calculate the quotient of the prices from two input nodes, typically used for deriving asset prices in alternative currency terms when direct feeds are not available. A cr
+wiki_exploit_scenario: |
+    Per Solodit #31745: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    The `DivReducer` function within the system is designed to calculate the quotient of the prices from two input nodes, typically us
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02StalePriceDataInDivreducerDueToAverageTimestampCal"
+solodit_id: "31745"
+solodit_slug: |
+    m-02-stale-price-data-in-divreducer-due-to-average-timestamp-calculation-pashov-none-reyanetwork-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(DivReducer|updated_at|DivReducerNode).*"
+primary_var_regex: ".*(updated_at).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

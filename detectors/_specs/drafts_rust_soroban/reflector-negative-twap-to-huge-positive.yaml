@@ -1,0 +1,20 @@
+id: reflector-negative-twap-to-huge-positive
+title: "Negative reflector TWAP reinterpreted as huge positive price"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.35"
+bug_class: oracle-cascade
+indicators:
+  - "`price: i128` from Reflector cast to `u128` via `as u128` without sign check"
+  - "missing `if price < 0 { return Err(OracleError::NegativePrice) }` before casting"
+victim: "All borrowers: negative TWAPs become enormous prices, collapsing health factors and triggering false liquidations."
+exploit_precondition: "TWAP window spans a volatile period that can produce a negative reported price."
+real_world_example: |
+  Halborn 7.35 (LOW): Negative reflector TWAP values convert into huge positive prices.
+suggested_remediation: "Guard with `if price <= 0 { return Err(..) }` before every `as u128` cast on oracle-sourced values."
+cross_refs:
+  - reflector-future-timestamp-panics
+  - reflector-hardcoded-decimals

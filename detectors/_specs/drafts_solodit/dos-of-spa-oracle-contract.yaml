@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "dos-of-spa-oracle-contract"
+class_name: "DosOfSpaOracleContract"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #59819 (Quantstamp/Sperax - USDs)"
+help: "DoS of SPA Oracle Contract"
+wiki_title: "DoS of SPA Oracle Contract"
+wiki_description: |
+    **Update**
+    Marked as "Acknowledged" by the client. The client provided the following explanation:
+    
+    > Given that SPA is a volatile token, we have currently set the deviationBips as 100 (1%) and will configure the diaMaxTimeThreshold in the SPAOracle contract to be 30 minutes. This is to ensure a bala
+wiki_exploit_scenario: |
+    Per Solodit #59819: **Update**
+    Marked as "Acknowledged" by the client. The client provided the following explanation:
+    
+    > Given that SPA is a volatile token, we have currently set the deviationBips as 100 (1%) and will co
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DosOfSpaOracleContract"
+solodit_id: "59819"
+solodit_slug: "dos-of-spa-oracle-contract-quantstamp-sperax-usds-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(SPAOracle|lastUpdated).*"
+primary_var_regex: ".*(lastUpdated).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

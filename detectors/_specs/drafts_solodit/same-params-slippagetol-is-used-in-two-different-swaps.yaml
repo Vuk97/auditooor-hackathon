@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "same-params-slippagetol-is-used-in-two-different-swaps"
+class_name: "SameParamsSlippagetolIsUsedInTwoDifferentSwaps"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7240 (Spearbit/Connext)"
+help: "Same params.SlippageTol is used in two different swaps"
+wiki_title: "Same params.SlippageTol is used in two different swaps"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - `BridgeFacet.sol#L299-L304`
+    - `BridgeFacet.sol#L637`
+    
+    ## Description
+    The Connext protocol does a cross-chain transfer with the help of the Nomad protocol. In order to use the Nomad protocol, Connext has to convert the adopted token into the local token. For a c
+wiki_exploit_scenario: |
+    Per Solodit #7240: ## Severity: Medium Risk
+    
+    ## Context
+    - `BridgeFacet.sol#L299-L304`
+    - `BridgeFacet.sol#L637`
+    
+    ## Description
+    The Connext protocol does a cross-chain transfer with the help of the Nomad protocol. In ord
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SameParamsSlippagetolIsUsedInTwoDifferentSwaps"
+solodit_id: "7240"
+solodit_slug: "same-paramsslippagetol-is-used-in-two-different-swaps-spearbit-connext-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(whenNotPaused|nonReentrant|bridgedAmt|swapToLocalAssetIfNeeded).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "whenNotPaused"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

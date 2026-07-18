@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "invalid-maxwithdraw-check-in-withdraw"
+class_name: "InvalidMaxwithdrawCheckInWithdraw"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62985 (Cyfrin/Accountable)"
+help: "Invalid `maxWithdraw()` check in `withdraw()`"
+wiki_title: "Invalid `maxWithdraw()` check in `withdraw()`"
+wiki_description: |
+    **Description:** Vault incorrectly checks `maxWithdraw(receiver)` instead of `maxWithdraw(controller/owner)`.
+    
+    **Impact:**
+    - Allows unauthorized withdrawals by exploiting the receiver's limits instead of the owner's.
+    - DDoS in `withdraw()`
+    
+    **Proof of Concept:** ❌ Violated: https://prover.certora.co
+wiki_exploit_scenario: |
+    Per Solodit #62985: **Description:** Vault incorrectly checks `maxWithdraw(receiver)` instead of `maxWithdraw(controller/owner)`.
+    
+    **Impact:**
+    - Allows unauthorized withdrawals by exploiting the receiver's limits instead
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InvalidMaxwithdrawCheckInWithdraw"
+solodit_id: "62985"
+solodit_slug: "invalid-maxwithdraw-check-in-withdraw-cyfrin-none-accountable-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal maxwithdraw;"
+fn_name_regex: ".*(maxWithdraw|withdraw).*"
+read_var_regex: ".*(maxWithdraw|withdraw).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "maxWithdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return maxwithdraw > 0;"

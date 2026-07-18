@@ -1,0 +1,45 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "ebtctoken-transferfrom-decrease-the-allowance-of-owner-spender-e"
+class_name: "EbtctokenTransferfromDecreaseTheAllowanceOfOwnerSpenderE"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54631 (Cantina/BadgerDAO)"
+help: |
+    EBTCToken.transferFrom decrease the allowance of (owner, spender) even when the allowance is set to type(uint256).max
+wiki_title: |
+    EBTCToken.transferFrom decrease the allowance of (owner, spender) even when the allowance is set to type(uint256).max 
+wiki_description: |
+    ## EBTCToken Implementation Review
+    
+    ## Context
+    EBTCToken.sol#L142-L144
+    
+    ## Description
+    While it's not defined in the EIP-20, it's a common implementation (see both OpenZeppelin and Solmate) that the `transferFrom` function of an ERC20 token does not decrease the allowance of the spender when such al
+wiki_exploit_scenario: |
+    Per Solodit #54631: ## EBTCToken Implementation Review
+    
+    ## Context
+    EBTCToken.sol#L142-L144
+    
+    ## Description
+    While it's not defined in the EIP-20, it's a common implementation (see both OpenZeppelin and Solmate) that the `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EbtctokenTransferfromDecreaseTheAllowanceOfOwnerSpenderE"
+solodit_id: "54631"
+solodit_slug: |
+    ebtctokentransferfrom-decrease-the-allowance-of-owner-spender-even-when-the-allowance-is-set-to-typeuint256max-cantina-none-badgerdao-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(transferFrom|LeverageMacroReference).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

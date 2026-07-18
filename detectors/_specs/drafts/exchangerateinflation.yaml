@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "exchangerateinflation"
+class_name: "Exchangerateinflation"
+wave: "12"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "corpus slice slice_ac"
+help: |
+    When `xZeal.totalSupply() == 0`, `highestExchangeRate` is used as floor; attacker cycles stake/unstake/addRewards to double rate each round, eventually DoSing all future stakers.
+wiki_title: "ExchangeRateInflation"
+wiki_description: |
+    When `xZeal.totalSupply() == 0`, `highestExchangeRate` is used as floor; attacker cycles stake/unstake/addRewards to double rate each round, eventually DoSing all future stakers.
+wiki_exploit_scenario: |
+    Attacker exploits ExchangeRateInflation as described: When `xZeal.totalSupply() == 0`, `highestExchangeRate` is used as floor; attacker cycles stake/unstake/addRewards to double rate each round, eventually DoSing all future stakers.
+wiki_recommendation: |
+    exchange-rate floor variable (`highestExchangeRate`) not reset on zero-supply; `addRewards()` permissionless.
+contract_name: "Exchangerateinflation"
+state_decl: "uint256 internal highestexchangerate;"
+fn_name_regex: ".*(highestExchangeRate|addRewards).*"
+read_var_regex: ".*(highestExchangeRate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "highestExchangeRate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return highestexchangerate > 0;"

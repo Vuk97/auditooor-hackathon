@@ -1,0 +1,50 @@
+skeleton: "paired_function_divergence"
+name: "h-04-price-impact-cannot-properly-be-removed"
+class_name: "H04PriceImpactCannotProperlyBeRemoved"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36422 (Pashov Audit Group/Gainsnetwork May)"
+help: "[H-04] Price impact cannot properly be removed"
+wiki_title: "[H-04] Price impact cannot properly be removed"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    When user's increase position size or update leverage request is successfully executed, it will update user's trade position by calling `updateTradePosition` and providing the new `newCollateralAmount` and `newLeverage`.
+    
+    ```so
+wiki_exploit_scenario: |
+    Per Solodit #36422: **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    When user's increase position size or update leverage request is successfully executed, it will update user's trade position by
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04PriceImpactCannotProperlyBeRemoved"
+solodit_id: "36422"
+solodit_slug: "h-04-price-impact-cannot-properly-be-removed-pashov-audit-group-none-gainsnetwork-may-markdown"
+solodit_quality: "3"
+solodit_rarity: "0"
+solodit_tags: "Wrong Time"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(newCollateralAmount|newLeverage|updateTradePosition).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

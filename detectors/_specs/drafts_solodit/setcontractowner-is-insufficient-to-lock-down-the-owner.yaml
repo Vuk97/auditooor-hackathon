@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "setcontractowner-is-insufficient-to-lock-down-the-owner"
+class_name: "SetcontractownerIsInsufficientToLockDownTheOwner"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #15928 (Spearbit/LI.FI)"
+help: "setContractOwner() is insufficient to lock down the owner"
+wiki_title: "setContractOwner() is insufficient to lock down the owner"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    **Context:** MakeLiFiDiamondImmutable.s.sol#L14-L17. LibDiamond.sol#L70-L75, OwnershipFacet.sol#L66-L73
+    
+    **Description:**  
+    The function `transferOwnershipToZeroAddress()` is meant to make the Diamond immutable. It sets the contract owner to 0. However, the contract owner c
+wiki_exploit_scenario: |
+    Per Solodit #15928: ## Severity: Medium Risk
+    
+    **Context:** MakeLiFiDiamondImmutable.s.sol#L14-L17. LibDiamond.sol#L70-L75, OwnershipFacet.sol#L66-L73
+    
+    **Description:**  
+    The function `transferOwnershipToZeroAddress()` is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SetcontractownerIsInsufficientToLockDownTheOwner"
+solodit_id: "15928"
+solodit_slug: "setcontractowner-is-insufficient-to-lock-down-the-owner-spearbit-lifi-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Ownership"
+state_decl: "uint256 internal cancelownershiptransfer;"
+fn_name_regex: ".*(transferOwnershipToZeroAddress|pendingOwner|confirmOwnershipTransfer|cancelOwnershipTransfer).*"
+read_var_regex: ".*(cancelOwnershipTransfer|confirmOwnershipTransfer|owner).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferOwnershipToZeroAddress"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cancelownershiptransfer > 0;"

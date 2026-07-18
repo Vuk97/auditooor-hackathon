@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "deprecated-eth-transfer-usage"
+class_name: "DeprecatedEthTransferUsage"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57535 (Zokyo/Magic Yearn)"
+help: "Deprecated ETH transfer usage."
+wiki_title: "Deprecated ETH transfer usage."
+wiki_description: |
+    **Description**
+    
+    MyStaking.sol: function daoWithdraw().
+    MyShare.sol: function withdraw Token().
+    MyExchange.sol: function withdraw().
+    MyWrapper.sol: Lines 201, 345, 463, 504, 530.
+    StakingFactory.sol: function withdraw Token().
+    Due to the Istanbul update, there were several changes provided to the EVM
+wiki_exploit_scenario: |
+    Per Solodit #57535: **Description**
+    
+    MyStaking.sol: function daoWithdraw().
+    MyShare.sol: function withdraw Token().
+    MyExchange.sol: function withdraw().
+    MyWrapper.sol: Lines 201, 345, 463, 504, 530.
+    StakingFactory.sol: f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DeprecatedEthTransferUsage"
+solodit_id: "57535"
+solodit_slug: "deprecated-eth-transfer-usage-zokyo-none-magic-yearn-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(daoWithdraw).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "daoWithdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

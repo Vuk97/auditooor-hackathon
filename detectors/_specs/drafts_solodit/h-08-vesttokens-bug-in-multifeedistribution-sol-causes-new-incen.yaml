@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "h-08-vesttokens-bug-in-multifeedistribution-sol-causes-new-incen"
+class_name: "H08VesttokensBugInMultifeedistributionSolCausesNewIncen"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49030 (Code4rena/LoopFi)"
+help: |
+    [H-08] `vestTokens` bug in `MultiFeeDistribution.sol` causes new incentives to erase previous incentives
+wiki_title: |
+    [H-08] `vestTokens` bug in `MultiFeeDistribution.sol` causes new incentives to erase previous incentives
+wiki_description: |
+    In `MultiFeeDistribution.sol`, the function `_notifyReward(address rewardToken, uint256 reward)` does not change `r.rewardPerTokenStored` and hence, relies on `_updateReward(address account)` to be called before any calls to `_notifyReward`. The rest of the functions who call `_notifyReward` follow
+wiki_exploit_scenario: |
+    Per Solodit #49030: In `MultiFeeDistribution.sol`, the function `_notifyReward(address rewardToken, uint256 reward)` does not change `r.rewardPerTokenStored` and hence, relies on `_updateReward(address account)` to be c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H08VesttokensBugInMultifeedistributionSolCausesNewIncen"
+solodit_id: "49030"
+solodit_slug: |
+    h-08-vesttokens-bug-in-multifeedistributionsol-causes-new-incentives-to-erase-previous-incentives-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal rewardpersecond;"
+fn_name_regex: ".*(vestTokens|rewardPerSecond).*"
+read_var_regex: ".*(rewardPerSecond|vestTokens).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "vestTokens"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return rewardpersecond > 0;"

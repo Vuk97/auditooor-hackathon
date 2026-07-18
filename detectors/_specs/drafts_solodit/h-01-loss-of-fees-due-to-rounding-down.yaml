@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "h-01-loss-of-fees-due-to-rounding-down"
+class_name: "H01LossOfFeesDueToRoundingDown"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41859 (Pashov Audit Group/TitanX)"
+help: "[H-01] Loss of fees due to rounding down"
+wiki_title: "[H-01] Loss of fees due to rounding down"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `FarmKeeper` contract uses a `SCALE_FACTOR` of `1e12` when accumulating fees per share of liquidity. For tokens with low decimals (e.g. USDC with 6 decimals) and large liquidity amounts, this can lead to precision loss and ro
+wiki_exploit_scenario: |
+    Per Solodit #41859: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `FarmKeeper` contract uses a `SCALE_FACTOR` of `1e12` when accumulating fees per share of liquidity. For tokens with low deci
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01LossOfFeesDueToRoundingDown"
+solodit_id: "41859"
+solodit_slug: "h-01-loss-of-fees-due-to-rounding-down-pashov-audit-group-none-titanx-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal updatefarm;"
+fn_name_regex: ".*(FarmKeeper|SCALE_FACTOR|updateFarm).*"
+read_var_regex: ".*(updateFarm).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "FarmKeeper"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return updatefarm > 0;"

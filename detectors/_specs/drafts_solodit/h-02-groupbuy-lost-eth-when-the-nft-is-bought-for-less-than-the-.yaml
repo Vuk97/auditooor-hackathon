@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-02-groupbuy-lost-eth-when-the-nft-is-bought-for-less-than-the-"
+class_name: "H02GroupbuyLostEthWhenTheNftIsBoughtForLessThanThe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #12196 (Code4rena/Tessera)"
+help: "[H-02] GroupBuy: Lost ETH when the NFT is bought for less than the minimum reserve price"
+wiki_title: "[H-02] GroupBuy: Lost ETH when the NFT is bought for less than the minimum reserve price"
+wiki_description: |
+    The `purchase` function does not require that an NFT is bought for exactly `minReservePrices[_poolId] * filledQuantities[_poolId]`, the price is only not allowed to be greater:
+    
+    ```solidity
+    if (_price > minReservePrices[_poolId] * filledQuantities[_poolId])
+                revert InvalidPurchase();
+    ```
+wiki_exploit_scenario: |
+    Per Solodit #12196: The `purchase` function does not require that an NFT is bought for exactly `minReservePrices[_poolId] * filledQuantities[_poolId]`, the price is only not allowed to be greater:
+    
+    ```solidity
+    if (_pric
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02GroupbuyLostEthWhenTheNftIsBoughtForLessThanThe"
+solodit_id: "12196"
+solodit_slug: |
+    h-02-groupbuy-lost-eth-when-the-nft-is-bought-for-less-than-the-minimum-reserve-price-code4rena-tessera-tessera-versus-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claim;"
+fn_name_regex: ".*(purchase|claim|contribution).*"
+read_var_regex: ".*(claim|contribution|purchase).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "purchase"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claim > 0;"

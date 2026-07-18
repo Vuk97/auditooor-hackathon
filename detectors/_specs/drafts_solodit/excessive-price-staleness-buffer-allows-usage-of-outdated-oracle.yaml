@@ -1,0 +1,44 @@
+skeleton: "state_write_without_paired_write"
+name: "excessive-price-staleness-buffer-allows-usage-of-outdated-oracle"
+class_name: "ExcessivePriceStalenessBufferAllowsUsageOfOutdatedOracle"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #46259 (Cantina/Bima)"
+help: "Excessive price staleness buffer allows usage of outdated oracle prices"
+wiki_title: "Excessive price staleness buffer allows usage of outdated oracle prices "
+wiki_description: |
+    ## PriceFeed Contract Analysis
+    
+    ## Context
+    **File:** PriceFeed.sol  
+    **Line Range:** 217-L219
+    
+    ## Summary
+    The PriceFeed contract adds a fixed 1-hour buffer to all oracle heartbeats when checking for price staleness. This can allow prices to be used up to 3 times longer than their intended maximum ag
+wiki_exploit_scenario: |
+    Per Solodit #46259: ## PriceFeed Contract Analysis
+    
+    ## Context
+    **File:** PriceFeed.sol  
+    **Line Range:** 217-L219
+    
+    ## Summary
+    The PriceFeed contract adds a fixed 1-hour buffer to all oracle heartbeats when checking for p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExcessivePriceStalenessBufferAllowsUsageOfOutdatedOracle"
+solodit_id: "46259"
+solodit_slug: "excessive-price-staleness-buffer-allows-usage-of-outdated-oracle-prices-cantina-none-bima-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(RESPONSE_TIMEOUT_BUFFER).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

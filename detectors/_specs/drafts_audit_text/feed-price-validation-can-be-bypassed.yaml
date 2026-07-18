@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "feed-price-validation-can-be-bypassed"
+class_name: "FeedPriceValidationCanBeBypassed"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Benqi Oracle - Zellic Audit Report"
+help: |
+    In the BenqiDualOracle contract, the validateFeedPriceDeviation function is designed to validate a manually set price against the prices from the Edge and Chainlink oracles. Howeve
+wiki_title: "Feed price validation can be bypassed"
+wiki_description: |
+    In the BenqiDualOracle contract, the validateFeedPriceDeviation function is designed to validate a manually set price against the prices from the Edge and Chainlink oracles. However, if both the edgeFeed and chainlinkFeed are set to the zero address, the function effectively bypasses the validation
+wiki_exploit_scenario: |
+    Per audit finding: In the BenqiDualOracle contract, the validateFeedPriceDeviation function is designed to validate a manually set price against the prices from the Edge and Chainlink oracles. However, if both the edgeF
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FeedPriceValidationCanBeBypassed"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(validateFeedPriceDeviation|edgeFeed|chainlinkFeed).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "validateFeedPriceDeviation"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

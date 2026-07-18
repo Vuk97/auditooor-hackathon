@@ -1,0 +1,37 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-5-unauthorized-claim-of-non-evm-chain-refunds-in-claimrefund-f"
+class_name: "H5UnauthorizedClaimOfNonEvmChainRefundsInClaimrefundF"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #58582 (Sherlock/DODO Cross-Chain DEX)"
+help: "H-5: Unauthorized Claim of Non-EVM Chain Refunds in `claimRefund` Function"
+wiki_title: "H-5: Unauthorized Claim of Non-EVM Chain Refunds in `claimRefund` Function"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-05-dodo-cross-chain-dex-judging/issues/873 
+    
+    ## Found by 
+    0xAura, 0xEkko, 0xShoonya, 0xfleeb, 0xiehnnkta, 0xkshama-pana, 0xlucky, 0xzey, Abhan1041, Aenovir, AestheticBhai, AnomX, Bbash, BimBamBuki, Bizarro, ChaosSR, Egbe, EgisSecurity, ElmInNyc99, Ethe
+wiki_exploit_scenario: |
+    Per Solodit #58582: Source: https://github.com/sherlock-audit/2025-05-dodo-cross-chain-dex-judging/issues/873 
+    
+    ## Found by 
+    0xAura, 0xEkko, 0xShoonya, 0xfleeb, 0xiehnnkta, 0xkshama-pana, 0xlucky, 0xzey, Abhan1041, Aeno
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H5UnauthorizedClaimOfNonEvmChainRefundsInClaimrefundF"
+solodit_id: "58582"
+solodit_slug: |
+    h-5-unauthorized-claim-of-non-evm-chain-refunds-in-claimrefund-function-sherlock-dodo-cross-chain-dex-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(claimRefund|receiver|require).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,31 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "lack-of-swap-sanitization-could-lead-to-user-s-collateral-being-"
+class_name: "LackOfSwapSanitizationCouldLeadToUserSCollateralBeing"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32836 (OpenZeppelin/Wido Comet Collateral Swap Contracts)"
+help: "Lack of swap sanitization could lead to user's collateral being stolen"
+wiki_title: "Lack of swap sanitization could lead to user's collateral being stolen"
+wiki_description: |
+    During the collateral swap process, the [swap function](https://github.com/widolabs/wido-contracts/blob/d96ef2dd6a7ff3d04c44ebe87994411d1f8c84e7/contracts/compound/libraries/LibCollateralSwap.sol#L62C9-L62C14) is supposed to exchange user's collateral to make up enough funds and repay the flash loan
+wiki_exploit_scenario: |
+    Per Solodit #32836: During the collateral swap process, the [swap function](https://github.com/widolabs/wido-contracts/blob/d96ef2dd6a7ff3d04c44ebe87994411d1f8c84e7/contracts/compound/libraries/LibCollateralSwap.sol#L62C
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfSwapSanitizationCouldLeadToUserSCollateralBeing"
+solodit_id: "32836"
+solodit_slug: |
+    lack-of-swap-sanitization-could-lead-to-users-collateral-being-stolen-openzeppelin-none-wido-comet-collateral-swap-contracts-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(swapCollateral|USDC|USDT).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

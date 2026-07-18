@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "rewards-distribution-dos-due-to-uncached-secondary-asset-classes"
+class_name: "RewardsDistributionDosDueToUncachedSecondaryAssetClasses"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61256 (Cyfrin/Suzaku Core)"
+help: "Rewards distribution DoS due to uncached secondary asset classes"
+wiki_title: "Rewards distribution DoS due to uncached secondary asset classes"
+wiki_description: |
+    **Description:** The rewards calculation directly accesses the totalStakeCache mapping instead of using the getTotalStake() function with proper fallback logic:
+    
+    ```solidity
+    function _calculateOperatorShare(uint48 epoch, address operator) internal {
+      // code..
+    
+      uint96[] memory assetClasses = l1Mi
+wiki_exploit_scenario: |
+    Per Solodit #61256: **Description:** The rewards calculation directly accesses the totalStakeCache mapping instead of using the getTotalStake() function with proper fallback logic:
+    
+    ```solidity
+    function _calculateOperato
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RewardsDistributionDosDueToUncachedSecondaryAssetClasses"
+solodit_id: "61256"
+solodit_slug: "rewards-distribution-dos-due-to-uncached-secondary-asset-classes-cyfrin-none-suzaku-core-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calcandcachestakes;"
+fn_name_regex: ".*(distributeRewards|calcAndCacheStakes).*"
+write_var_regex: ".*(calcAndCacheStakes|distributeRewards).*"
+guard_var_regex: ".*(calcAndCacheStakes|distributeRewards).*"
+vuln_fn_name: "distributeRewards"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "calcandcachestakes = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

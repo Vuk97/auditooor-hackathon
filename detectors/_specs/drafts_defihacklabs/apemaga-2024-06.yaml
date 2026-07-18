@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "apemaga-2024-06"
+class_name: "Apemaga202406"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-06/APEMAGA_exp.sol"
+help: "APEMAGA 2024-06 — swap exploit (unknown)"
+wiki_title: "APEMAGA (2024-06) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-06): APEMAGA lost unknown. Bug class: swap. Attack tx: unknown.
+wiki_exploit_scenario: |
+    Attacker (0xb297735e9fb3e695ccce3963bfe042f318901ea0) exploits APEMAGA via swap: the victim contract 0x56ff4afd909aa66a1530fe69bf94c74e6d44500c exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Apemaga202406"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

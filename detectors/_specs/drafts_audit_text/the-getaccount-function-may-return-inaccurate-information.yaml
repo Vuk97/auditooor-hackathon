@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-getaccount-function-may-return-inaccurate-information"
+class_name: "TheGetaccountFunctionMayReturnInaccurateInformation"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit H20 vlPSDN - Zellic Audit Report"
+help: |
+    The function returns the following information: • balance, the amount of tokens deposited by the user – lockEpochs, the number of epochs for which the tokens are locked – lastEpoch
+wiki_title: "The _getAccount function may return inaccurate information"
+wiki_description: |
+    The function returns the following information: • balance, the amount of tokens deposited by the user – lockEpochs, the number of epochs for which the tokens are locked – lastEpochPaid, the last epoch for which the user has received rewards – rewards, an array of the rewards for each token The funct
+wiki_exploit_scenario: |
+    Per audit finding: The function returns the following information: • balance, the amount of tokens deposited by the user – lockEpochs, the number of epochs for which the tokens are locked – lastEpochPaid, the last epoch
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheGetaccountFunctionMayReturnInaccurateInformation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(lockEpochs|lastEpochPaid|rewardTokens).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "lockEpochs"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "h-04-liquidation-incorrectly-tries-to-transfer-token-from-market"
+class_name: "H04LiquidationIncorrectlyTriesToTransferTokenFromMarket"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #34886 (Code4rena/Predy)"
+help: |
+    [H-04] Liquidation incorrectly tries to transfer token from Market instead of liquidator if `remainingMargin` is negative
+wiki_title: |
+    [H-04] Liquidation incorrectly tries to transfer token from Market instead of liquidator if `remainingMargin` is negative
+wiki_description: |
+    Liquidation cannot be executed if there is bad debt (vault position is negative) after liquidation.
+    
+    ### Bug Description
+    
+    See the liquidation flowchart [here](https://docs.predy.finance/predy-v6/dev/architecture/flowchart#execliquidationcall).
+    
+    The liquidator would call a Market contract, which tri
+wiki_exploit_scenario: |
+    Per Solodit #34886: Liquidation cannot be executed if there is bad debt (vault position is negative) after liquidation.
+    
+    ### Bug Description
+    
+    See the liquidation flowchart [here](https://docs.predy.finance/predy-v6/dev/
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04LiquidationIncorrectlyTriesToTransferTokenFromMarket"
+solodit_id: "34886"
+solodit_slug: |
+    h-04-liquidation-incorrectly-tries-to-transfer-token-from-market-instead-of-liquidator-if-remainingmargin-is-negative-code4rena-predy-predy-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(SettlementCallbackLib|remainingMargin).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SettlementCallbackLib"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

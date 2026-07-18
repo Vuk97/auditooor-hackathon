@@ -1,0 +1,34 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "should-return-zero-but-instead-the-transaction-crashes"
+class_name: "ShouldReturnZeroButInsteadTheTransactionCrashes"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28598 (MixBytes/Cover Protocol)"
+help: "Should return zero. But instead the transaction crashes"
+wiki_title: "Should return zero. But instead the transaction crashes"
+wiki_description: |
+    ##### Description
+    Functions are used to calculate the number of tokens. But in some cases, an arithmetic overflow occurs and the transaction is reverted. This can be avoided by doing a check and returning zero.
+    
+    - At the line https://github.com/CoverProtocol/cover-flashloan/tree/bea8cd444aa1791a97b2
+wiki_exploit_scenario: |
+    Per Solodit #28598: ##### Description
+    Functions are used to calculate the number of tokens. But in some cases, an arithmetic overflow occurs and the transaction is reverted. This can be avoided by doing a check and retur
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ShouldReturnZeroButInsteadTheTransactionCrashes"
+solodit_id: "28598"
+solodit_slug: "should-return-zero-but-instead-the-transaction-crashes-mixbytes-none-cover-protocol-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(amountDaiNeeded|flashFee|daiReceivedFromSwap|totalCost).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

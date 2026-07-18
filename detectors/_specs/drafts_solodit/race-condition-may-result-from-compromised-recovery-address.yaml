@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "race-condition-may-result-from-compromised-recovery-address"
+class_name: "RaceConditionMayResultFromCompromisedRecoveryAddress"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11773 (OpenZeppelin/Recoverable Wallet Audit)"
+help: "Race condition may result from compromised recovery address"
+wiki_title: "Race condition may result from compromised recovery address"
+wiki_description: |
+    The `RecoverableWallet` contract implements a recovery system whereby the owner can register a list of recovery addresses using the `add_recovery_address` function on [line 86](https://github.com/Zoltu/recoverable-wallet/blob/2207f5a7cc3b2607f7f97a769fbca7fe9235952b/contracts/source/recoverable-wall
+wiki_exploit_scenario: |
+    Per Solodit #11773: The `RecoverableWallet` contract implements a recovery system whereby the owner can register a list of recovery addresses using the `add_recovery_address` function on [line 86](https://github.com/Zolt
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RaceConditionMayResultFromCompromisedRecoveryAddress"
+solodit_id: "11773"
+solodit_slug: |
+    race-condition-may-result-from-compromised-recovery-address-openzeppelin-recoverable-wallet-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal active_recovery_address;"
+fn_name_regex: ".*(RecoverableWallet|add_recovery_address|remove_recovery_address|start_recovery).*"
+read_var_regex: ".*(active_recovery_address|add_recovery_address|cancel_recovery).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "RecoverableWallet"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return active_recovery_address > 0;"

@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "native-token-withdrawal-fails-until-manually-approved"
+class_name: "NativeTokenWithdrawalFailsUntilManuallyApproved"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #38064 (Codehawks/Tadle)"
+help: "Native token withdrawal fails until manually approved"
+wiki_title: "Native token withdrawal fails until manually approved"
+wiki_description: |
+    ## Summary
+    
+    TokenManager::withdraw uses a spending allowance on the capital pool to move its funds.
+    
+    When doing a withdrawal, the internal function TokerManager::\_transfer checks for this allowance and attempts to approve spending, but incorrectly passes address(this) instead of the token address.
+wiki_exploit_scenario: |
+    Per Solodit #38064: ## Summary
+    
+    TokenManager::withdraw uses a spending allowance on the capital pool to move its funds.
+    
+    When doing a withdrawal, the internal function TokerManager::\_transfer checks for this allowance a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NativeTokenWithdrawalFailsUntilManuallyApproved"
+solodit_id: "38064"
+solodit_slug: "native-token-withdrawal-fails-until-manually-approved-codehawks-tadle-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(startPrank|preMarktes|createOffer|marketPlace).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "startPrank"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

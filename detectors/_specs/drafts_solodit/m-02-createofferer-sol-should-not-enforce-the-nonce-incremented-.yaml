@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-02-createofferer-sol-should-not-enforce-the-nonce-incremented-"
+class_name: "M02CreateoffererSolShouldNotEnforceTheNonceIncremented"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27407 (Code4rena/Delegate)"
+help: |
+    [M-02] `CreateOfferer.sol` should not enforce the nonce incremented sequentially, otherwise user can DOS the contract by skipping order
+wiki_title: |
+    [M-02] `CreateOfferer.sol` should not enforce the nonce incremented sequentially, otherwise user can DOS the contract by skipping order
+wiki_description: |
+    According to https://github.com/ProjectOpenSea/seaport/blob/main/docs/SeaportDocumentation.md#contract-orders:
+    
+    > "Seaport v1.2 introduced support for a new type of order: the contract order. In brief, a smart contract that implements the ContractOffererInterface (referred to as an “Seaport app con
+wiki_exploit_scenario: |
+    Per Solodit #27407: According to https://github.com/ProjectOpenSea/seaport/blob/main/docs/SeaportDocumentation.md#contract-orders:
+    
+    > "Seaport v1.2 introduced support for a new type of order: the contract order. In brie
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02CreateoffererSolShouldNotEnforceTheNonceIncremented"
+solodit_id: "27407"
+solodit_slug: |
+    m-02-createofferersol-should-not-enforce-the-nonce-incremented-sequentially-otherwise-user-can-dos-the-contract-by-skipping-order-code4rena-delegate-delegate-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(ratifyOrder|processNonce|contractNonce|checkStage).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ratifyOrder"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

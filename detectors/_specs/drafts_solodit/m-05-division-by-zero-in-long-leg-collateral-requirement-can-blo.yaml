@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "m-05-division-by-zero-in-long-leg-collateral-requirement-can-blo"
+class_name: "M05DivisionByZeroInLongLegCollateralRequirementCanBlo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65032 (Code4rena/Panoptic)"
+help: |
+    [M-05] Division-by-zero in long-leg collateral requirement can block solvency checks and `dispatchFrom` (liquidation/force-exercise) for `tickSpacing==1 pools`
+wiki_title: |
+    [M-05] Division-by-zero in long-leg collateral requirement can block solvency checks and `dispatchFrom` (liquidation/force-exercise) for `tickSpacing==1 pools`
+wiki_description: |
+    For pools with `tickSpacing == 1`, a 1-tick-wide long leg (`width == 1`) evaluated at `atTick == strike` triggers a division-by-zero revert inside `RiskEngine` margin computation. Because `PanopticPool.dispatchFrom(...)` always includes `currentTick` in its tick set, any liquidation/force-exercise
+wiki_exploit_scenario: |
+    Per Solodit #65032: For pools with `tickSpacing == 1`, a 1-tick-wide long leg (`width == 1`) evaluated at `atTick == strike` triggers a division-by-zero revert inside `RiskEngine` margin computation. Because `PanopticP
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05DivisionByZeroInLongLegCollateralRequirementCanBlo"
+solodit_id: "65032"
+solodit_slug: |
+    m-05-division-by-zero-in-long-leg-collateral-requirement-can-block-solvency-checks-and-dispatchfrom-liquidationforce-exercise-for-tickspacing1-pools-code4rena-panoptic-panoptic-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal currenttick;"
+fn_name_regex: ".*(RiskEngine|currentTick|dispatchFrom|PanopticPoolTest).*"
+write_var_regex: ".*(currentTick|dispatchFrom).*"
+guard_var_regex: ".*(currentTick|dispatchFrom).*"
+vuln_fn_name: "RiskEngine"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "currenttick = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

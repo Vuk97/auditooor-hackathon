@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "reducing-reserves-requesting-usde-as-the-asset-to-receive-causes"
+class_name: "ReducingReservesRequestingUsdeAsTheAssetToReceiveCauses"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63226 (Cyfrin/Strata Tranches)"
+help: |
+    Reducing reserves requesting `USDe` as the asset to receive causes the Strategy to release more `sUSDe` than necessary
+wiki_title: |
+    Reducing reserves requesting `USDe` as the asset to receive causes the Strategy to release more `sUSDe` than necessary
+wiki_description: |
+    **Description:** When reducing reserves and asking for `USDe`, the Strategy incorrectly transfers sUSDe for the actual amount of asked `USDe` (`tokenAmount`) instead of only transferring the required `sUSDe` to cover the requested `tokenAmount` of `USDe`.
+    
+    ```solidity
+    //sUSDeStrategy::reduceReserve(
+wiki_exploit_scenario: |
+    Per Solodit #63226: **Description:** When reducing reserves and asking for `USDe`, the Strategy incorrectly transfers sUSDe for the actual amount of asked `USDe` (`tokenAmount`) instead of only transferring the required
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReducingReservesRequestingUsdeAsTheAssetToReceiveCauses"
+solodit_id: "63226"
+solodit_slug: |
+    reducing-reserves-requesting-usde-as-the-asset-to-receive-causes-the-strategy-to-release-more-susde-than-necessary-cyfrin-none-strata-tranches-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal susde;"
+fn_name_regex: ".*(USDe|tokenAmount|sUSDe|treasury).*"
+read_var_regex: ".*(sUSDe|tokenAmount|treasury).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "USDe"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return susde > 0;"

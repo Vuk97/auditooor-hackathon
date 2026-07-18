@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "anyone-can-arbitrarily-set-provenstates-chainid-blocknumber-in-p"
+class_name: "AnyoneCanArbitrarilySetProvenstatesChainidBlocknumberInP"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #46224 (Cantina/Eco Inc)"
+help: |
+    Anyone can arbitrarily set provenStates[chainId].blockNumber in proveWorldStateCannon() to prevent proving of all intents
+wiki_title: |
+    Anyone can arbitrarily set provenStates[chainId].blockNumber in proveWorldStateCannon() to prevent proving of all intents 
+wiki_description: |
+    ## Vulnerability Overview
+    
+    ## Context
+    Prover.sol#L449-L475
+    
+    ## Description
+    Anyone can set `provenStates[chainId].blockNumber` to an arbitrarily large value, e.g. `type(uint256).max`, in `proveWorldStateCannon()` to thereafter prevent proving of all intents on the destination `chainId`, leading to lo
+wiki_exploit_scenario: |
+    Per Solodit #46224: ## Vulnerability Overview
+    
+    ## Context
+    Prover.sol#L449-L475
+    
+    ## Description
+    Anyone can set `provenStates[chainId].blockNumber` to an arbitrarily large value, e.g. `type(uint256).max`, in `proveWorldSta
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyoneCanArbitrarilySetProvenstatesChainidBlocknumberInP"
+solodit_id: "46224"
+solodit_slug: |
+    anyone-can-arbitrarily-set-provenstateschainidblocknumber-in-proveworldstatecannon-to-prevent-proving-of-all-intents-cantina-none-eco-inc-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal blockproof;"
+fn_name_regex: ".*(proveWorldStateCannon|chainId|proveIntent|l1WorldStateRoot).*"
+read_var_regex: ".*(blockProof|chainId|l1WorldStateRoot).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "proveWorldStateCannon"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return blockproof > 0;"

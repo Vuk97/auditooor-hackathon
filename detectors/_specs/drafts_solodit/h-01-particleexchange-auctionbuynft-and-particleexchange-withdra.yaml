@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "h-01-particleexchange-auctionbuynft-and-particleexchange-withdra"
+class_name: "H01ParticleexchangeAuctionbuynftAndParticleexchangeWithdra"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20699 (Code4rena/Particle Protocol)"
+help: |
+    [H-01] `ParticleExchange.auctionBuyNft` and `ParticleExchange.withdrawEthWithInterest` function calls can be DOS'ed
+wiki_title: |
+    [H-01] `ParticleExchange.auctionBuyNft` and `ParticleExchange.withdrawEthWithInterest` function calls can be DOS'ed
+wiki_description: |
+    When `lien.borrower` is a contract, its `receive` function can be coded to conditionally revert based on a state boolean variable controlled by `lien.borrower`'s owner. As long as `payback > 0` is true, `lien.borrower`'s `receive` function would be called when calling the following `ParticleExchang
+wiki_exploit_scenario: |
+    Per Solodit #20699: When `lien.borrower` is a contract, its `receive` function can be coded to conditionally revert based on a state boolean variable controlled by `lien.borrower`'s owner. As long as `payback > 0` is tr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01ParticleexchangeAuctionbuynftAndParticleexchangeWithdra"
+solodit_id: "20699"
+solodit_slug: |
+    h-01-particleexchangeauctionbuynft-and-particleexchangewithdrawethwithinterest-function-calls-can-be-dosed-code4rena-particle-protocol-particle-protocol-invitational-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal receive;"
+fn_name_regex: ".*(receive).*"
+read_var_regex: ".*(receive).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "receive"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return receive > 0;"

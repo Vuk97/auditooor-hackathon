@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-02-createbounty-doesn-t-confirm-that-a-rewardtoken-exists-whic"
+class_name: "M02CreatebountyDoesnTConfirmThatARewardtokenExistsWhic"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18780 (ZachObront/Stakedao)"
+help: |
+    [M-02] `createBounty()` doesn't confirm that a `rewardToken` exists, which can be used to steal deterministic tokens
+wiki_title: |
+    [M-02] `createBounty()` doesn't confirm that a `rewardToken` exists, which can be used to steal deterministic tokens
+wiki_description: |
+    When a new bounty is created with the `createBounty()` method, we use the solady `SafeTransferLib` to transfer the token into the contract:
+    
+    ```solidity
+    SafeTransferLib.safeTransferFrom(rewardToken, msg.sender, address(this), totalRewardAmount);
+    ```
+    
+    Digging into this function, we can see that, in t
+wiki_exploit_scenario: |
+    Per Solodit #18780: When a new bounty is created with the `createBounty()` method, we use the solady `SafeTransferLib` to transfer the token into the contract:
+    
+    ```solidity
+    SafeTransferLib.safeTransferFrom(rewardToken, m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02CreatebountyDoesnTConfirmThatARewardtokenExistsWhic"
+solodit_id: "18780"
+solodit_slug: |
+    m-02-createbounty-doesnt-confirm-that-a-rewardtoken-exists-which-can-be-used-to-steal-deterministic-tokens-zachobront-none-stakedao-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(createBounty|SafeTransferLib|transferFrom|from).*"
+read_var_regex: ".*(amount|and|createBounty).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "createBounty"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

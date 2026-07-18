@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "stolen-stale-allowance"
+class_name: "StolenStaleAllowance"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Private Transfer With USX - Zellic Audit Report"
+help: |
+    Users can swap supported tokens to USDC before bridging. Because swapData is user-supplied, a stale token amount may remain unused during the swap. The allowance is not cleared aft
+wiki_title: "Stolen stale allowance"
+wiki_description: |
+    Users can swap supported tokens to USDC before bridging. Because swapData is user-supplied, a stale token amount may remain unused during the swap. The allowance is not cleared afterward. uint256 usdcBefore = IERC20(USDC).balanceOf(address(this)); if (token != address(0)) { IERC20(token).forceApprov
+wiki_exploit_scenario: |
+    Per audit finding: Users can swap supported tokens to USDC before bridging. Because swapData is user-supplied, a stale token amount may remain unused during the swap. The allowance is not cleared afterward. uint256 usdc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StolenStaleAllowance"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(swapData|usdcBefore|balanceOf).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swapData"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

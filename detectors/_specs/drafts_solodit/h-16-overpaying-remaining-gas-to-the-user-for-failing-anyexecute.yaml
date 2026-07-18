@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "h-16-overpaying-remaining-gas-to-the-user-for-failing-anyexecute"
+class_name: "H16OverpayingRemainingGasToTheUserForFailingAnyexecute"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26050 (Code4rena/Maia DAO Ecosystem)"
+help: |
+    [H-16] Overpaying remaining gas to the user for failing `anyExecute` call due to an incorrect gas unit calculation in `BranchBridgeAgent`
+wiki_title: |
+    [H-16] Overpaying remaining gas to the user for failing `anyExecute` call due to an incorrect gas unit calculation in `BranchBridgeAgent`
+wiki_description: |
+    The `anyExecute` method is called by the `Anycall Executor` on the destination chain to execute interaction. The user has to pay for the remote call `ExecutionGas`; this is done at the end of the call. However, if there is not enough `gasRemaining`, the `anyExecute` will be reverted due to a revert
+wiki_exploit_scenario: |
+    Per Solodit #26050: The `anyExecute` method is called by the `Anycall Executor` on the destination chain to execute interaction. The user has to pay for the remote call `ExecutionGas`; this is done at the end of the cal
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H16OverpayingRemainingGasToTheUserForFailingAnyexecute"
+solodit_id: "26050"
+solodit_slug: |
+    h-16-overpaying-remaining-gas-to-the-user-for-failing-anyexecute-call-due-to-an-incorrect-gas-unit-calculation-in-branchbridgeagent-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal anyexecute;"
+fn_name_regex: ".*(anyExecute|ExecutionGas|gasRemaining|gasleft).*"
+read_var_regex: ".*(anyExecute|gasRemaining|gasleft).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "anyExecute"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return anyexecute > 0;"

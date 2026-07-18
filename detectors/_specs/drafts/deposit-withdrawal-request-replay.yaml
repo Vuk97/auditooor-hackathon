@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "deposit-withdrawal-request-replay"
+class_name: "DepositWithdrawalRequestReplay"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ab"
+help: |
+    Batch approval loop applies each request multiple times; no deduplication of already-processed request hashes.
+wiki_title: "Deposit-Withdrawal-Request-Replay"
+wiki_description: |
+    Batch approval loop applies each request multiple times; no deduplication of already-processed request hashes.
+wiki_exploit_scenario: |
+    Attacker exploits Deposit-Withdrawal-Request-Replay as described: Batch approval loop applies each request multiple times; no deduplication of already-processed request hashes.
+wiki_recommendation: "batch approval that processes array elements without marking request hash as consumed."
+contract_name: "DepositWithdrawalRequestReplay"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(deposit|withdrawal|request).*"
+read_var_regex: ".*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

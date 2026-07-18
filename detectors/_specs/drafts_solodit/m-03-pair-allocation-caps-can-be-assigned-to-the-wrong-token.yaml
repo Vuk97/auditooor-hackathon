@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "m-03-pair-allocation-caps-can-be-assigned-to-the-wrong-token"
+class_name: "M03PairAllocationCapsCanBeAssignedToTheWrongToken"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64017 (Shieldify/Prime Vaults)"
+help: "[M-03] Pair Allocation Caps Can Be Assigned to the Wrong Token"
+wiki_title: "[M-03] Pair Allocation Caps Can Be Assigned to the Wrong Token"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `addPairAllocation()` function normalizes `(tokenA, tokenB)` into ascending address order (and `_pairKey()` relies on the same ordering), but it does **not** normalize the corresponding cap inputs. If the manager provides tokens in descending order (`to
+wiki_exploit_scenario: |
+    Per Solodit #64017: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    The `addPairAllocation()` function normalizes `(tokenA, tokenB)` into ascending address order (and `_pairKey()` relies on the same ordering), but it does **n
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03PairAllocationCapsCanBeAssignedToTheWrongToken"
+solodit_id: "64017"
+solodit_slug: "m-03-pair-allocation-caps-can-be-assigned-to-the-wrong-token-shieldify-none-prime-vaults-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addPairAllocation|capA|capB).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

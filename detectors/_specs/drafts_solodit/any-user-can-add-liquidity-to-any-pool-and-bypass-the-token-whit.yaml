@@ -1,0 +1,42 @@
+skeleton: "paired_function_divergence"
+name: "any-user-can-add-liquidity-to-any-pool-and-bypass-the-token-whit"
+class_name: "AnyUserCanAddLiquidityToAnyPoolAndBypassTheTokenWhit"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29614 (TrailOfBits/Salty.IO)"
+help: "Any user can add liquidity to any pool and bypass the token whitelist"
+wiki_title: "Any user can add liquidity to any pool and bypass the token whitelist"
+wiki_description: |
+    ## Diﬃculty: Low
+    
+    ## Type: Data Validation
+    
+    ### Description
+    The absence of token whitelist checks within the `addLiquidity` function allows any user to create trading pairs, including pairs with malicious tokens, and to provide liquidity for arbitrary token pairs. This vulnerability may expose the p
+wiki_exploit_scenario: |
+    Per Solodit #29614: ## Diﬃculty: Low
+    
+    ## Type: Data Validation
+    
+    ### Description
+    The absence of token whitelist checks within the `addLiquidity` function allows any user to create trading pairs, including pairs with malic
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyUserCanAddLiquidityToAnyPoolAndBypassTheTokenWhit"
+solodit_id: "29614"
+solodit_slug: "any-user-can-add-liquidity-to-any-pool-and-bypass-the-token-whitelist-trailofbits-none-saltyio-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

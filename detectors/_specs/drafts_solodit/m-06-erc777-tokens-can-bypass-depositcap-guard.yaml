@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "m-06-erc777-tokens-can-bypass-depositcap-guard"
+class_name: "M06Erc777TokensCanBypassDepositcapGuard"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2095 (Code4rena/Backd)"
+help: "[M-06] ERC777 tokens can bypass `depositCap` guard"
+wiki_title: "[M-06] ERC777 tokens can bypass `depositCap` guard"
+wiki_description: |
+    _Submitted by shenwilly, also found by wuwe1_
+    
+    [LiquidityPool.sol#L523](https://github.com/code-423n4/2022-04-backd/blob/c856714a50437cb33240a5964b63687c9876275b/backd/contracts/pool/LiquidityPool.sol#L523)<br>
+    
+    When ERC777 token is used as the underlying token for a `LiquidityPool`, a depositor can
+wiki_exploit_scenario: |
+    Per Solodit #2095: _Submitted by shenwilly, also found by wuwe1_
+    
+    [LiquidityPool.sol#L523](https://github.com/code-423n4/2022-04-backd/blob/c856714a50437cb33240a5964b63687c9876275b/backd/contracts/pool/LiquidityPool.sol
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06Erc777TokensCanBypassDepositcapGuard"
+solodit_id: "2095"
+solodit_slug: "m-06-erc777-tokens-can-bypass-depositcap-guard-code4rena-backd-backd-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositcap;"
+fn_name_regex: ".*(LiquidityPool|depositFor|depositCap|tokensToSend).*"
+write_var_regex: ".*(depositCap|depositFor|tokensToSend).*"
+guard_var_regex: ".*(depositCap|depositFor|tokensToSend).*"
+vuln_fn_name: "LiquidityPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "depositcap = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "roulettepotv2-2025-01"
+class_name: "Roulettepotv2202501"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-01/RoulettePotV2_exp.sol"
+help: "RoulettePotV2 2025-01 — swap exploit (~28K)"
+wiki_title: "RoulettePotV2 (2025-01) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-01): RoulettePotV2 lost ~28K. Bug class: swap. Attack tx: 0xd9e0014a32d96cfc8b72864988a6e1664a9b6a2e90aeaa895fcd42da11cc3490.
+wiki_exploit_scenario: |
+    Attacker (0x0000000000004f3d8aaf9175fd824cb00ad4bf80) exploits RoulettePotV2 via swap: the victim contract 0xf573748637e0576387289f1914627d716927f90f exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Roulettepotv2202501"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

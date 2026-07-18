@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "impossible-to-claim-rewards-when-xptiers-are-not-set-resulting-i"
+class_name: "ImpossibleToClaimRewardsWhenXptiersAreNotSetResultingI"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #65378 (Cyfrin/Majority Protocol)"
+help: |
+    Impossible to claim rewards when `XPTiers` are not set, resulting in permanently locked tokens once game has concluded
+wiki_title: |
+    Impossible to claim rewards when `XPTiers` are not set, resulting in permanently locked tokens once game has concluded
+wiki_description: |
+    **Description:** `DefaultSession::setXPTiers` enforces that XP tiers  can only be set when the game is in the Created state:
+    
+    ```solidity
+     function setXPTiers(uint256 gameId, uint256[] memory _xpTiers) external {
+            require(
+                msg.sender == SessionManager(sessionManager).getCreator(ga
+wiki_exploit_scenario: |
+    Per Solodit #65378: **Description:** `DefaultSession::setXPTiers` enforces that XP tiers  can only be set when the game is in the Created state:
+    
+    ```solidity
+     function setXPTiers(uint256 gameId, uint256[] memory _xpTiers
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ImpossibleToClaimRewardsWhenXptiersAreNotSetResultingI"
+solodit_id: "65378"
+solodit_slug: |
+    impossible-to-claim-rewards-when-xptiers-are-not-set-resulting-in-permanently-locked-tokens-once-game-has-concluded-cyfrin-none-majority-protocol-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assertresults;"
+fn_name_regex: ".*(assertResults|XPTiers).*"
+read_var_regex: ".*(assertResults).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "assertResults"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assertresults > 0;"

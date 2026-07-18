@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "collateral-health-check-bypass-payinterest"
+class_name: "CollateralHealthCheckBypassPayinterest"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_aa"
+help: |
+    `CErc20InterestMarket.payInterestInternal` reduces user balance without calling `isRedeemAllowed`; allows paying loan interest using collateral-backing tokens, bypassing health che
+wiki_title: "collateral-health-check-bypass-payInterest"
+wiki_description: |
+    `CErc20InterestMarket.payInterestInternal` reduces user balance without calling `isRedeemAllowed`; allows paying loan interest using collateral-backing tokens, bypassing health check and creating collateral-free loans.
+wiki_exploit_scenario: |
+    Attacker exploits collateral-health-check-bypass-payInterest as described: `CErc20InterestMarket.payInterestInternal` reduces user balance without calling `isRedeemAllowed`; allows paying loan interest using collateral-backing tokens, bypassing health check and creating coll
+wiki_recommendation: |
+    `accountTokens[user] -= amount` in a function that does NOT call `comptroller.isRedeemAllowed(user, amount)`.
+contract_name: "CollateralHealthCheckBypassPayinterest"
+state_decl: "uint256 internal isredeemallowed;"
+fn_name_regex: ".*(isRedeemAllowed).*"
+read_var_regex: ".*(isRedeemAllowed).*"
+required_call_regex: ".*isRedeemAllowed.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "isRedeemAllowed"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return isredeemallowed > 0;"

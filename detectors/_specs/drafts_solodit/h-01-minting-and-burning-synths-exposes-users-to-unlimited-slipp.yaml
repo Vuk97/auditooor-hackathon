@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "h-01-minting-and-burning-synths-exposes-users-to-unlimited-slipp"
+class_name: "H01MintingAndBurningSynthsExposesUsersToUnlimitedSlipp"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #986 (Code4rena/Vader Protocol)"
+help: "[H-01] Minting and burning synths exposes users to unlimited slippage"
+wiki_title: "[H-01] Minting and burning synths exposes users to unlimited slippage"
+wiki_description: |
+    _Submitted by TomFrenchBlockchain, also found by cmichel_
+    
+    #### Impact
+    
+    The amount of synths minted / assets received when minting or burning synths can be manipulated to an unlimited extent by manipulating the reserves of the pool
+    
+    #### Proof of Concept
+    
+    See `VaderPool.mintSynth`:
+    <https://github.c
+wiki_exploit_scenario: |
+    Per Solodit #986: _Submitted by TomFrenchBlockchain, also found by cmichel_
+    
+    #### Impact
+    
+    The amount of synths minted / assets received when minting or burning synths can be manipulated to an unlimited extent by manipu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01MintingAndBurningSynthsExposesUsersToUnlimitedSlipp"
+solodit_id: "986"
+solodit_slug: |
+    h-01-minting-and-burning-synths-exposes-users-to-unlimited-slippage-code4rena-vader-protocol-vader-protocol-contest-git
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Slippage"
+state_decl: "uint256 internal foreignasset;"
+fn_name_regex: ".*(nativeDeposit|foreignAsset|nativeAsset).*"
+write_var_regex: ".*(foreignAsset|nativeAsset|nativeDeposit).*"
+guard_var_regex: ".*(foreignAsset|nativeAsset|nativeDeposit).*"
+vuln_fn_name: "nativeDeposit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "foreignasset = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

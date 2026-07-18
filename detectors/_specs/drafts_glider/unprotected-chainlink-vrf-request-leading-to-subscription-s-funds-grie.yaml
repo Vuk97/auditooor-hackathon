@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "unprotected-chainlink-vrf-request-leading-to-subscription-s-funds-grie"
+class_name: "UnprotectedChainlinkVrfRequestLeadingToSubscriptionSFundsGrie"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: unprotected-chainlink-vrf-request-leading-to-subsc"
+help: |
+    Unprotected Chainlink VRF Request Leading to Subscription's Funds Griefing and Randomness Manipulation
+wiki_title: |
+    Unprotected Chainlink VRF Request Leading to Subscription's Funds Griefing and Randomness Manipulation
+wiki_description: |
+    The `requestRandomWords` function (or similar VRF initiation points) lacks proper access control, allowing any external caller to trigger a randomness request. In the Chainlink VRF model, the consumer contract's subscription is charged for every request. By repeatedly calling this unprotected functi
+wiki_exploit_scenario: |
+    Per Glider query tags [chainlink, vrf, access-control, griefing, fund-exhaustion]: The `requestRandomWords` function (or similar VRF initiation points) lacks proper access control, allowing any external caller to trigger a randomness request. In the Chainlink VRF model, the consumer
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "UnprotectedChainlinkVrfRequestLeadingToSubscriptionSFundsGrie"
+fn_name_regex: ".*(requestRandomWords).*"
+write_var_regex: ".*(requestran).*"
+guard_var_regex: ".*(requestran).*"
+vuln_fn_name: "requestRandomWords"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "requestran = newVal;"
+guard_require_line: "require(newVal <= 10000);"
+state_decl: "uint256 internal requestran;"

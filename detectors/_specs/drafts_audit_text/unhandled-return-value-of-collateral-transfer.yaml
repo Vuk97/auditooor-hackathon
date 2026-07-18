@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "unhandled-return-value-of-collateral-transfer"
+class_name: "UnhandledReturnValueOfCollateralTransfer"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Prisma Finance - Zellic Audit Report"
+help: |
+    Certain tokens, such as USDT, do not correctly implement the EIP-20 standard. Their t ransfer and transferFrom functions return void instead of a successful boolean. Con- sequently
+wiki_title: "Unhandled return value of collateral transfer"
+wiki_description: |
+    Certain tokens, such as USDT, do not correctly implement the EIP-20 standard. Their t ransfer and transferFrom functions return void instead of a successful boolean. Con- sequently, calling these functions with the expected EIP-20 function signatures will always result in a revert. The documentation
+wiki_exploit_scenario: |
+    Per audit finding: Certain tokens, such as USDT, do not correctly implement the EIP-20 standard. Their t ransfer and transferFrom functions return void instead of a successful boolean. Con- sequently, calling these func
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnhandledReturnValueOfCollateralTransfer"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferFrom).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

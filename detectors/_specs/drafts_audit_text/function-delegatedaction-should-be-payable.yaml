@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "function-delegatedaction-should-be-payable"
+class_name: "FunctionDelegatedactionShouldBePayable"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Bloom Trading - Zellic Audit Report"
+help: |
+    The delegatedAction function in Delegatable is used to call functions in Trading on behalf of another account. It achieves this by having a call_data parameter and then doing ad- d
+wiki_title: "Function delegatedAction should be payable"
+wiki_description: |
+    The delegatedAction function in Delegatable is used to call functions in Trading on behalf of another account. It achieves this by having a call_data parameter and then doing ad- dress(this).delegatecall to pass in the calldata. However, many functions in Trading, such as updateMargin, openTrade, cl
+wiki_exploit_scenario: |
+    Per audit finding: The delegatedAction function in Delegatable is used to call functions in Trading on behalf of another account. It achieves this by having a call_data parameter and then doing ad- dress(this).delegatec
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FunctionDelegatedactionShouldBePayable"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(delegatedAction|updateMargin|openTrade).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "delegatedAction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_call"
+name: "h-2-invariantlib-uses-current-position-for-margin-check-allowing"
+class_name: "H2InvariantlibUsesCurrentPositionForMarginCheckAllowing"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #45977 (Sherlock/Perennial V2 Update #4)"
+help: |
+    H-2: `InvariantLib` uses current position for margin check allowing to withdraw collateral while the position decrease is only pending and can cause unexpected immediate user liqui
+wiki_title: |
+    H-2: `InvariantLib` uses current position for margin check allowing to withdraw collateral while the position decrease is only pending and can cause unexpected 
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-01-perennial-v2-4-update-judging/issues/30 
+    
+    ## Found by 
+    panprog
+    
+    ### Summary
+    
+    In normal `update`, the `InvariantLib.validate` uses the `currentPosition` for margin check:
+    ```solidity
+            if (
+                !PositionLib.margined(
+                    upda
+wiki_exploit_scenario: |
+    Per Solodit #45977: Source: https://github.com/sherlock-audit/2025-01-perennial-v2-4-update-judging/issues/30 
+    
+    ## Found by 
+    panprog
+    
+    ### Summary
+    
+    In normal `update`, the `InvariantLib.validate` uses the `currentPosition
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H2InvariantlibUsesCurrentPositionForMarginCheckAllowing"
+solodit_id: "45977"
+solodit_slug: |
+    h-2-invariantlib-uses-current-position-for-margin-check-allowing-to-withdraw-collateral-while-the-position-decrease-is-only-pending-and-can-cause-unexpected-immediate-user-liquidation-sherlock-perennial-v2-update-4-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal currentposition;"
+fn_name_regex: ".*(update|currentPosition|latestPosition|InvariantLib).*"
+read_var_regex: ".*(currentPosition|latestPosition|update).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "update"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return currentposition > 0;"

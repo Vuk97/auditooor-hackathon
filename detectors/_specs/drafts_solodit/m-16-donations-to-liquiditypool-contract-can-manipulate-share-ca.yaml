@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "m-16-donations-to-liquiditypool-contract-can-manipulate-share-ca"
+class_name: "M16DonationsToLiquiditypoolContractCanManipulateShareCa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36496 (Pashov Audit Group/Sharwafinance)"
+help: "[M-16] Donations to `LiquidityPool` contract can manipulate share calculation"
+wiki_title: "[M-16] Donations to `LiquidityPool` contract can manipulate share calculation"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    The `provide` function in the `LiquidityPool` contract mints new shares for the caller based on the amount of liquidity provided. The amount of shares minted is calculated as follows:
+    
+    - If the total liquidity (contract's balance
+wiki_exploit_scenario: |
+    Per Solodit #36496: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    The `provide` function in the `LiquidityPool` contract mints new shares for the caller based on the amount of liquidity provided.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M16DonationsToLiquiditypoolContractCanManipulateShareCa"
+solodit_id: "36496"
+solodit_slug: |
+    m-16-donations-to-liquiditypool-contract-can-manipulate-share-calculation-pashov-audit-group-none-sharwafinance-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositshare;"
+fn_name_regex: ".*(provide|LiquidityPool|totalLiquidity|depositShare).*"
+write_var_regex: ".*(depositShare|provide|totalLiquidity).*"
+guard_var_regex: ".*(depositShare|provide|totalLiquidity).*"
+vuln_fn_name: "provide"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "depositshare = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

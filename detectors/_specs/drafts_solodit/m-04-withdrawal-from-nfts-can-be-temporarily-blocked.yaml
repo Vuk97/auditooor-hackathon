@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-04-withdrawal-from-nfts-can-be-temporarily-blocked"
+class_name: "M04WithdrawalFromNftsCanBeTemporarilyBlocked"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30749 (Code4rena/Althea Liquid Infrastructure)"
+help: "[M-04] Withdrawal from NFTs can be temporarily blocked"
+wiki_title: "[M-04] Withdrawal from NFTs can be temporarily blocked"
+wiki_description: |
+    If `nextWithdrawal > ManagedNFTs.length`, the contract won't be able to withdraw revenue from managed NFTs, because `nextWithdrawal` can't reset.
+    
+    ```solidity
+            uint256 limit = Math.min(
+                numWithdrawals + nextWithdrawal,
+                ManagedNFTs.length
+            );
+            uint256 i;
+wiki_exploit_scenario: |
+    Per Solodit #30749: If `nextWithdrawal > ManagedNFTs.length`, the contract won't be able to withdraw revenue from managed NFTs, because `nextWithdrawal` can't reset.
+    
+    ```solidity
+            uint256 limit = Math.min(
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04WithdrawalFromNftsCanBeTemporarilyBlocked"
+solodit_id: "30749"
+solodit_slug: |
+    m-04-withdrawal-from-nfts-can-be-temporarily-blocked-code4rena-althea-liquid-infrastructure-althea-liquid-infrastructure-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal nextwithdrawal;"
+fn_name_regex: ".*(nextWithdrawal|ManagedNFTs|withdrawFromManagedNFTs|transferFrom).*"
+read_var_regex: ".*(nextWithdrawal|onERC721Received|safeTransferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "nextWithdrawal"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return nextwithdrawal > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "muredistribution-2026-05"
+class_name: "Muredistribution202605"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-05/MureDistribution_exp.sol"
+help: "MureDistribution 2026-05 — reentrancy exploit (~5.45 ETH)"
+wiki_title: "MureDistribution (2026-05) — reentrancy"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-05): MureDistribution lost ~5.45 ETH. Bug class: reentrancy. Attack tx: 0xb83040361a0ec72fa2d06ad69493226518a5f8b5d96c19b400626248f9c5b798.
+wiki_exploit_scenario: |
+    Attacker (0x08096e9ae70d7c5f2707b203a7801b75d1412156) exploits MureDistribution via reentrancy: the victim contract 0x365083717efb17f3895290ba38f20f568c7a4d8a exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Apply the nonReentrant modifier (OZ ReentrancyGuard) to every externally-callable state-mutating entry point that transfers value, and follow the checks-effects-interactions pattern.
+contract_name: "Muredistribution202605"
+fn_name_regex: ".*(withdraw).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(nonReentrant).*"
+guarded_helper_name: "nonReentrant"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

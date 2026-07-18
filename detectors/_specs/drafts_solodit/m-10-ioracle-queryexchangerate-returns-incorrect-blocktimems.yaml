@@ -1,0 +1,38 @@
+skeleton: "state_write_without_paired_write"
+name: "m-10-ioracle-queryexchangerate-returns-incorrect-blocktimems"
+class_name: "M10IoracleQueryexchangerateReturnsIncorrectBlocktimems"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49284 (Code4rena/Nibiru)"
+help: "[M-10] `IOracle.queryExchangeRate` returns incorrect `blockTimeMs`"
+wiki_title: "[M-10] `IOracle.queryExchangeRate` returns incorrect `blockTimeMs`"
+wiki_description: |
+    The `IOracle.queryExchangeRate` offers the following lookup functionality, in analogy to other oracles like Chainlinks':
+    
+    ```solidity
+        /// @notice Queries the dated exchange rate for a given pair
+        /// @param pair The asset pair to query. For example, "ubtc:uusd" is the
+        /// USD price of BT
+wiki_exploit_scenario: |
+    Per Solodit #49284: The `IOracle.queryExchangeRate` offers the following lookup functionality, in analogy to other oracles like Chainlinks':
+    
+    ```solidity
+        /// @notice Queries the dated exchange rate for a given pair
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10IoracleQueryexchangerateReturnsIncorrectBlocktimems"
+solodit_id: "49284"
+solodit_slug: "m-10-ioraclequeryexchangerate-returns-incorrect-blocktimems-code4rena-nibiru-nibiru-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(blockTimeMs|blockTime).*"
+primary_var_regex: ".*(blockTime|blockTimeMs).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

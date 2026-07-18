@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "users-can-be-overslashed-in-karma-sol"
+class_name: "UsersCanBeOverslashedInKarmaSol"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65331 (Cyfrin/Statusl)"
+help: "Users can be overslashed in `Karma.sol`"
+wiki_title: "Users can be overslashed in `Karma.sol`"
+wiki_description: |
+    **Description:** `Karma::_calculateSlashAmount` increases slashed amount to `MIN_SLASH_AMOUNT = 1e18` or even full balance:
+    ```solidity
+        function _calculateSlashAmount(uint256 balance) internal view returns (uint256) {
+            uint256 amountToSlash = Math.mulDiv(balance, slashPercentage, MAX_SLAS
+wiki_exploit_scenario: |
+    Per Solodit #65331: **Description:** `Karma::_calculateSlashAmount` increases slashed amount to `MIN_SLASH_AMOUNT = 1e18` or even full balance:
+    ```solidity
+        function _calculateSlashAmount(uint256 balance) internal vie
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanBeOverslashedInKarmaSol"
+solodit_id: "65331"
+solodit_slug: "users-can-be-overslashed-in-karmasol-cyfrin-none-statusl-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(amountToSlash|mulDiv|slashPercentage|rewardRecipient).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "amountToSlash"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

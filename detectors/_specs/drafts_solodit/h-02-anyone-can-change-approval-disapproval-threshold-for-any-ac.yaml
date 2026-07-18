@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "h-02-anyone-can-change-approval-disapproval-threshold-for-any-ac"
+class_name: "H02AnyoneCanChangeApprovalDisapprovalThresholdForAnyAc"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20151 (Code4rena/Llama)"
+help: |
+    [H-02] Anyone can change approval/disapproval threshold for any action using LlamaRelativeQuorum strategy
+wiki_title: |
+    [H-02] Anyone can change approval/disapproval threshold for any action using LlamaRelativeQuorum strategy
+wiki_description: |
+    ### Proof of Concept
+    
+    When a new action is created with `LlamaRelativeQuorum` strategy, `LlamaCore` will call function `validateActionCreation` which is currently implemented as below:
+    
+        function validateActionCreation(ActionInfo calldata actionInfo) external {
+            LlamaPolicy llamaPolicy =
+wiki_exploit_scenario: |
+    Per Solodit #20151: ### Proof of Concept
+    
+    When a new action is created with `LlamaRelativeQuorum` strategy, `LlamaCore` will call function `validateActionCreation` which is currently implemented as below:
+    
+        function
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02AnyoneCanChangeApprovalDisapprovalThresholdForAnyAc"
+solodit_id: "20151"
+solodit_slug: |
+    h-02-anyone-can-change-approvaldisapproval-threshold-for-any-action-using-llamarelativequorum-strategy-code4rena-llama-llama-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Access Control"
+state_decl: "uint256 internal actionapprovalsupply;"
+fn_name_regex: ".*(LlamaRelativeQuorum|LlamaCore|validateActionCreation|actionApprovalSupply).*"
+write_var_regex: ".*(actionApprovalSupply|actionDisapprovalSupply|external).*"
+guard_var_regex: ".*(actionApprovalSupply|actionDisapprovalSupply|external).*"
+vuln_fn_name: "LlamaRelativeQuorum"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "actionapprovalsupply = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "inconsistent-stake-calculation-due-to-mutable-vaultmanager-refer"
+class_name: "InconsistentStakeCalculationDueToMutableVaultmanagerRefer"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61245 (Cyfrin/Suzaku Core)"
+help: "Inconsistent stake calculation due to mutable `vaultManager` reference in `AvalancheL1Middleware`"
+wiki_title: "Inconsistent stake calculation due to mutable `vaultManager` reference in `AvalancheL1Middleware`"
+wiki_description: |
+    **Description**
+    
+    The `AvalancheL1Middleware` contract permits updating the `vaultManager` reference. However, doing so can introduce **critical inconsistencies** in logic that depends on stateful or historical data tied to the original `vaultManager`. Key issues include:
+    
+    * **Vaults registered in th
+wiki_exploit_scenario: |
+    Per Solodit #61245: **Description**
+    
+    The `AvalancheL1Middleware` contract permits updating the `vaultManager` reference. However, doing so can introduce **critical inconsistencies** in logic that depends on stateful or h
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentStakeCalculationDueToMutableVaultmanagerRefer"
+solodit_id: "61245"
+solodit_slug: |
+    inconsistent-stake-calculation-due-to-mutable-vaultmanager-reference-in-avalanchel1middleware-cyfrin-none-suzaku-core-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal disabledtime;"
+fn_name_regex: ".*(AvalancheL1Middleware|vaultManager|enabledTime|disabledTime).*"
+read_var_regex: ".*(disabledTime|enabledTime|getOperatorStake).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "AvalancheL1Middleware"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return disabledtime > 0;"

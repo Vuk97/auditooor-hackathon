@@ -1,0 +1,20 @@
+id: reserve-pause-ignored-in-core-ops
+title: "Reserve-level pauses ignored in core lending operations"
+severity: Medium
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.9"
+bug_class: health-factor
+indicators:
+  - "`supply`/`borrow`/`repay`/`withdraw` do not check `reserve_config.is_paused()`"
+  - "pause flag stored but no read path gates operations on it"
+victim: "Protocol during emergencies: pause does not stop activity."
+exploit_precondition: "Admin pauses a reserve."
+real_world_example: |
+  Halborn 7.9 (MEDIUM): Reserve-level pauses are ignored in core lending operations.
+suggested_remediation: "Every user entry point must check `reserve.is_paused()` and revert."
+cross_refs:
+  - global-pause-does-not-stop-flash-loans
+  - collateral-auto-enable-without-eligibility

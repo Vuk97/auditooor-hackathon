@@ -1,0 +1,42 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "improper-slippage-tolerance-can-leads-to-unexpected-results"
+class_name: "ImproperSlippageToleranceCanLeadsToUnexpectedResults"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37389 (Zokyo/Paribus)"
+help: "Improper slippage tolerance can leads to unexpected results"
+wiki_title: "Improper slippage tolerance can leads to unexpected results"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**:  Resolved
+    
+    **Description**
+    
+    The `FlashloanLiquidator.executeOperation` function is called when a flash loan is made and can only be triggered by an Aave pool after receiving flashloan. The purpose of this function is to perform the liquidation of a specified debt po
+wiki_exploit_scenario: |
+    Per Solodit #37389: **Severity**: Medium
+    
+    **Status**:  Resolved
+    
+    **Description**
+    
+    The `FlashloanLiquidator.executeOperation` function is called when a flash loan is made and can only be triggered by an Aave pool after re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ImproperSlippageToleranceCanLeadsToUnexpectedResults"
+solodit_id: "37389"
+solodit_slug: "improper-slippage-tolerance-can-leads-to-unexpected-results-zokyo-none-paribus-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(executeOperation|amountOutMin|totalDebt).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

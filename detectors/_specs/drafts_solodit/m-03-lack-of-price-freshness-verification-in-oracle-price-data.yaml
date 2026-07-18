@@ -1,0 +1,46 @@
+skeleton: "state_write_without_paired_write"
+name: "m-03-lack-of-price-freshness-verification-in-oracle-price-data"
+class_name: "M03LackOfPriceFreshnessVerificationInOraclePriceData"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31746 (Pashov Audit Group/Reyanetwork)"
+help: "[M-03] Lack of Price Freshness Verification in Oracle Price Data"
+wiki_title: "[M-03] Lack of Price Freshness Verification in Oracle Price Data"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    **Description**
+    
+    The `getOraclePrice` and `getCollateralExchangeInfo` functions retrieve `NodeOutput.Data` containing price information and a timestamp indicating the freshness of this price. An issue has been identified wherein these functio
+wiki_exploit_scenario: |
+    Per Solodit #31746: **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    **Description**
+    
+    The `getOraclePrice` and `getCollateralExchangeInfo` functions retrieve `NodeOutput.Data` containing price information and a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03LackOfPriceFreshnessVerificationInOraclePriceData"
+solodit_id: "31746"
+solodit_slug: "m-03-lack-of-price-freshness-verification-in-oracle-price-data-pashov-none-reyanetwork-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(getOraclePrice|getCollateralExchangeInfo).*"
+primary_var_regex: ".*(getCollateralExchangeInfo|getOraclePrice).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

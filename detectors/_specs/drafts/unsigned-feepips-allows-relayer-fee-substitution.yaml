@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "unsigned-feepips-allows-relayer-fee-substitution"
+class_name: "UnsignedFeepipsAllowsRelayerFeeSubstitution"
+wave: "12"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "corpus slice slice_ag"
+help: |
+    `feePips` not included in EIP-712 signed payload; relayer can substitute any fee value; integer truncation allows different rates to produce same `feeAmount`.
+wiki_title: "Unsigned feePips Allows Relayer Fee Substitution"
+wiki_description: |
+    `feePips` not included in EIP-712 signed payload; relayer can substitute any fee value; integer truncation allows different rates to produce same `feeAmount`.
+wiki_exploit_scenario: |
+    Attacker exploits Unsigned feePips Allows Relayer Fee Substitution as described: `feePips` not included in EIP-712 signed payload; relayer can substitute any fee value; integer truncation allows different rates to produce same `feeAmount`.
+wiki_recommendation: "EIP-712 struct hash missing fields that affect settlement economics."
+contract_name: "UnsignedFeepipsAllowsRelayerFeeSubstitution"
+state_decl: "uint256 internal feeamount;"
+fn_name_regex: ".*(feePips|feeAmount).*"
+read_var_regex: ".*(feeAmount|feePips).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "feePips"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return feeamount > 0;"

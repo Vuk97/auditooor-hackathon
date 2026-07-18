@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "backstop-bid-side-frozen-by-tick-size-constraint"
+class_name: "BackstopBidSideFrozenByTickSizeConstraint"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-08-gte-perps-and-launchpad"
+help: |
+    0xPhantom , also found by 0xShitgem dimulski SeveritySquad , and taticuvostru perps/types/Market.sol #L136 perps/types/CLOBLib.sol #L277 perps/types/Book.sol #L90 Backstop orders a
+wiki_title: "Backstop bid-side frozen by tick-size constraint"
+wiki_description: |
+    0xPhantom , also found by 0xShitgem dimulski SeveritySquad , and taticuvostru perps/types/Market.sol #L136 perps/types/CLOBLib.sol #L277 perps/types/Book.sol #L90 Backstop orders are restricted to maker-only: // contracts/perps/types/Market.sol:141 if ( bookType == BookType . BACKSTOP && args . tif
+wiki_exploit_scenario: |
+    Per audit finding: 0xPhantom , also found by 0xShitgem dimulski SeveritySquad , and taticuvostru perps/types/Market.sol #L136 perps/types/CLOBLib.sol #L277 perps/types/Book.sol #L90 Backstop orders are restricted to mak
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BackstopBidSideFrozenByTickSizeConstraint"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(bookType|getBestAsk|newOrder).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "bookType"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "m-04-admin-can-t-burn-tokens-from-blocklisted-addresses-because-"
+class_name: "M04AdminCanTBurnTokensFromBlocklistedAddressesBecause"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27016 (Code4rena/Ondo Finance)"
+help: |
+    [M-04] Admin can't burn tokens from blocklisted addresses because of a check in `_beforeTokenTransfer`
+wiki_title: |
+    [M-04] Admin can't burn tokens from blocklisted addresses because of a check in `_beforeTokenTransfer`
+wiki_description: |
+    The function `burn` is made so the admin can burn rUSDY tokens from **any account** (this is stated in the comments). However, the admin can't burn tokens if the account from which they're trying to burn tokens is blocklisted/sanctioned/not on the allow-list.
+    
+    ### Proof of Concept
+    
+    Let's check the
+wiki_exploit_scenario: |
+    Per Solodit #27016: The function `burn` is made so the admin can burn rUSDY tokens from **any account** (this is stated in the comments). However, the admin can't burn tokens if the account from which they're trying to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04AdminCanTBurnTokensFromBlocklistedAddressesBecause"
+solodit_id: "27016"
+solodit_slug: |
+    m-04-admin-cant-burn-tokens-from-blocklisted-addresses-because-of-a-check-in-_beforetokentransfer-code4rena-ondo-finance-ondo-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal burn;"
+fn_name_regex: ".*(burn|transferFrom|from).*"
+write_var_regex: ".*(burn|from|transferFrom).*"
+guard_var_regex: ".*(burn|from|transferFrom).*"
+vuln_fn_name: "burn"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "burn = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

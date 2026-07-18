@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "h-03-the-amount-of-debt-removed-during-liquidation-may-be-worth-"
+class_name: "H03TheAmountOfDebtRemovedDuringLiquidationMayBeWorth"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27493 (Code4rena/Tapioca DAO)"
+help: |
+    [H-03] The amount of debt removed during `liquidation` may be worth more than the account's collateral
+wiki_title: |
+    [H-03] The amount of debt removed during `liquidation` may be worth more than the account's collateral
+wiki_description: |
+    The contract decreases user's debts but may not take the full worth in collateral from the user, leading to the contract losing potential funds from the missing collateral.
+    
+    ### Proof of concept
+    
+    During the `liquidate()` function call, the function `_updateBorrowAndCollateralShare()` is eventually
+wiki_exploit_scenario: |
+    Per Solodit #27493: The contract decreases user's debts but may not take the full worth in collateral from the user, leading to the contract losing potential funds from the missing collateral.
+    
+    ### Proof of concept
+    
+    Dur
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03TheAmountOfDebtRemovedDuringLiquidationMayBeWorth"
+solodit_id: "27493"
+solodit_slug: |
+    h-03-the-amount-of-debt-removed-during-liquidation-may-be-worth-more-than-the-accounts-collateral-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal availableborrowpart;"
+fn_name_regex: ".*(liquidate|availableBorrowPart|computeClosingFactor|liquidationBonusAmount).*"
+read_var_regex: ".*(availableBorrowPart|borrowPart|collateralShare).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return availableborrowpart > 0;"

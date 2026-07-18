@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "h-15-wrong-slippage-protection-on-token-token-trades"
+class_name: "H15WrongSlippageProtectionOnTokenTokenTrades"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3918 (Code4rena/Vader Protocol)"
+help: "[H-15] Wrong slippage protection on Token -> Token trades"
+wiki_title: "[H-15] Wrong slippage protection on Token -> Token trades"
+wiki_description: |
+    The `Router.swapWithSynthsWithLimit` allows trading token to token and specifying slippage protection. A token to token trade consists of two trades:
+    
+    1. token to base
+    2. base to token
+    
+    The slippage protection of the second trade (base to token) is computed wrong:
+    
+    ```solidity
+    require(iUTILS(UTILS()
+wiki_exploit_scenario: |
+    Per Solodit #3918: The `Router.swapWithSynthsWithLimit` allows trading token to token and specifying slippage protection. A token to token trade consists of two trades:
+    
+    1. token to base
+    2. base to token
+    
+    The slippage p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H15WrongSlippageProtectionOnTokenTokenTrades"
+solodit_id: "3918"
+solodit_slug: |
+    h-15-wrong-slippage-protection-on-token-token-trades-code4rena-vader-protocol-vader-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(swapWithSynthsWithLimit|iUTILS|calcSwapSlip|inputAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "swapWithSynthsWithLimit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

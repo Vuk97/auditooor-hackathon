@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "feeconversionkeeper-performupkeep-may-exceed-gas-limit-due-to-va"
+class_name: "FeeconversionkeeperPerformupkeepMayExceedGasLimitDueToVa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49983 (Codehawks/Part 2)"
+help: "FeeConversionKeeper::performUpkeep May Exceed Gas Limit Due to Vault Updates"
+wiki_title: "FeeConversionKeeper::performUpkeep May Exceed Gas Limit Due to Vault Updates"
+wiki_description: |
+    ### Summary
+    Chainlink Keepers have a gas limit of 5 million per upkeep [[Doc](https://docs.chain.link/chainlink-automation/overview/supported-networks#arbitrum)]. `FeeConversionKeeper::performUpkeep` calls `convertAccumulatedFeesToWeth`, which calls `_handleWethRewardDistribution`. At the end of `_h
+wiki_exploit_scenario: |
+    Per Solodit #49983: ### Summary
+    Chainlink Keepers have a gas limit of 5 million per upkeep [[Doc](https://docs.chain.link/chainlink-automation/overview/supported-networks#arbitrum)]. `FeeConversionKeeper::performUpkeep`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FeeconversionkeeperPerformupkeepMayExceedGasLimitDueToVa"
+solodit_id: "49983"
+solodit_slug: |
+    feeconversionkeeperperformupkeep-may-exceed-gas-limit-due-to-vault-updates-codehawks-zaros-part-2-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal convertaccumulatedfeestoweth;"
+fn_name_regex: ".*(convertAccumulatedFeesToWeth).*"
+read_var_regex: ".*(convertAccumulatedFeesToWeth).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "convertAccumulatedFeesToWeth"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return convertaccumulatedfeestoweth > 0;"

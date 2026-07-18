@@ -1,0 +1,39 @@
+skeleton: "paired_function_divergence"
+name: "m-05-panoptic-pool-can-be-non-profitable-by-specific-uniswap-gov"
+class_name: "M05PanopticPoolCanBeNonProfitableBySpecificUniswapGov"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33681 (Code4rena/Panoptic)"
+help: "[M-05] Panoptic pool can be non-profitable by specific Uniswap governance"
+wiki_title: "[M-05] Panoptic pool can be non-profitable by specific Uniswap governance"
+wiki_description: |
+    <https://github.com/code-423n4/2024-04-panoptic/blob/main/contracts/CollateralTracker.sol#L247-L251>
+    
+    <https://github.com/code-423n4/2024-04-panoptic/blob/main/contracts/CollateralTracker.sol#L261-L263>
+    
+    Swap commission is paid on the intrinsic value based on `s_ITMSpreadFee` in `CollateralTracker`
+wiki_exploit_scenario: |
+    Per Solodit #33681: <https://github.com/code-423n4/2024-04-panoptic/blob/main/contracts/CollateralTracker.sol#L247-L251>
+    
+    <https://github.com/code-423n4/2024-04-panoptic/blob/main/contracts/CollateralTracker.sol#L261-L2
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05PanopticPoolCanBeNonProfitableBySpecificUniswapGov"
+solodit_id: "33681"
+solodit_slug: |
+    m-05-panoptic-pool-can-be-non-profitable-by-specific-uniswap-governance-code4rena-panoptic-panoptic-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(s_ITMSpreadFee).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "m-02-mev-risk-in-periods-of-high-volatility"
+class_name: "M02MevRiskInPeriodsOfHighVolatility"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18726 (ZachObront/Sound.Xyz)"
+help: "[M-02] MEV risk in periods of high volatility"
+wiki_title: "[M-02] MEV risk in periods of high volatility"
+wiki_description: |
+    Bonding curves are particularly susceptible to MEV. Any transaction along the curve can be sandwich attacked by a bot that creates the following Flashbots bundles:
+    
+    `buy X tokens => ORIGINAL BUY TX => sell X tokens` (where X is the maximum number of tokens that can be bought without causing the orig
+wiki_exploit_scenario: |
+    Per Solodit #18726: Bonding curves are particularly susceptible to MEV. Any transaction along the curve can be sandwich attacked by a bot that creates the following Flashbots bundles:
+    
+    `buy X tokens => ORIGINAL BUY TX =>
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02MevRiskInPeriodsOfHighVolatility"
+solodit_id: "18726"
+solodit_slug: "m-02-mev-risk-in-periods-of-high-volatility-zachobront-none-soundxyz-markdown_"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal buy;"
+fn_name_regex: ".*(buy|sell|minimumPayout|samBurn).*"
+write_var_regex: ".*(buy|minimumPayout|samBurn).*"
+guard_var_regex: ".*(buy|minimumPayout|samBurn).*"
+vuln_fn_name: "buy"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "buy = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

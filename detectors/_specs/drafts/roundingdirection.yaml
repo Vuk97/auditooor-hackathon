@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "roundingdirection"
+class_name: "Roundingdirection"
+wave: "12"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "corpus slice slice_ac"
+help: |
+    `previewWithdrawStaked()` rounds shares-to-burn DOWN instead of UP, allowing zero-share withdrawals that drain USDC rewards.
+wiki_title: "RoundingDirection"
+wiki_description: |
+    `previewWithdrawStaked()` rounds shares-to-burn DOWN instead of UP, allowing zero-share withdrawals that drain USDC rewards.
+wiki_exploit_scenario: |
+    Attacker exploits RoundingDirection as described: `previewWithdrawStaked()` rounds shares-to-burn DOWN instead of UP, allowing zero-share withdrawals that drain USDC rewards.
+wiki_recommendation: "`mulDiv` with `Math.Rounding.Floor` in a withdrawal/burn share calculation — should be `Ceil`."
+contract_name: "Roundingdirection"
+state_decl: "uint256 internal muldiv;"
+fn_name_regex: ".*(previewWithdrawStaked|mulDiv|Ceil).*"
+read_var_regex: ".*(mulDiv).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "previewWithdrawStaked"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return muldiv > 0;"

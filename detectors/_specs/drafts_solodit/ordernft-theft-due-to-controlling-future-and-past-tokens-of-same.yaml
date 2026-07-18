@@ -1,0 +1,44 @@
+skeleton: "state_write_without_paired_write"
+name: "ordernft-theft-due-to-controlling-future-and-past-tokens-of-same"
+class_name: "OrdernftTheftDueToControllingFutureAndPastTokensOfSame"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7254 (Spearbit/CLOBER)"
+help: "OrderNFT theft due to controlling future and past tokens of same order index"
+wiki_title: "OrderNFT theft due to controlling future and past tokens of same order index"
+wiki_description: |
+    ## Severity: Critical Risk
+    
+    ## Context
+    - `OrderBook.sol#L410`
+    - `OrderNFT.sol#L285`
+    
+    ## Description
+    The order queue is implemented as a ring buffer. To retrieve an order (`Orderbook.getOrder`), the index in the queue is computed as `orderIndex % _MAX_ORDER`. The owner of an `OrderNFT` also uses this
+wiki_exploit_scenario: |
+    Per Solodit #7254: ## Severity: Critical Risk
+    
+    ## Context
+    - `OrderBook.sol#L410`
+    - `OrderNFT.sol#L285`
+    
+    ## Description
+    The order queue is implemented as a ring buffer. To retrieve an order (`Orderbook.getOrder`), the in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OrdernftTheftDueToControllingFutureAndPastTokensOfSame"
+solodit_id: "7254"
+solodit_slug: "ordernft-theft-due-to-controlling-future-and-past-tokens-of-same-order-index-spearbit-clober-pdf"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Ownership, Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(OrderNFT|orderIndex).*"
+primary_var_regex: ".*(orderIndex).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

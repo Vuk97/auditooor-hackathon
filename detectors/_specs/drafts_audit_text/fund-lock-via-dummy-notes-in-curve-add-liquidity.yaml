@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "fund-lock-via-dummy-notes-in-curve-add-liquidity"
+class_name: "FundLockViaDummyNotesInCurveAddLiquidity"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Singularity - Zellic Audit Report"
+help: |
+    The CurveFSNAddLiquidityAssetManager contract’s curveAddLiquidity entry point can be used to add liquidity to Curve pools. As part of its arguments, arrays of four assets and amoun
+wiki_title: "Fund lock via dummy notes in curve_add_liquidity"
+wiki_description: |
+    The CurveFSNAddLiquidityAssetManager contract’s curveAddLiquidity entry point can be used to add liquidity to Curve pools. As part of its arguments, arrays of four assets and amounts as well as nullifiers are passed: struct AddLiquidityArgs { bytes32 merkleRoot; bytes32[4] nullifiers; address[4] ass
+wiki_exploit_scenario: |
+    Per audit finding: The CurveFSNAddLiquidityAssetManager contract’s curveAddLiquidity entry point can be used to add liquidity to Curve pools. As part of its arguments, arrays of four assets and amounts as well as nullif
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FundLockViaDummyNotesInCurveAddLiquidity"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(curveAddLiquidity|merkleRoot|lpToken).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "curveAddLiquidity"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

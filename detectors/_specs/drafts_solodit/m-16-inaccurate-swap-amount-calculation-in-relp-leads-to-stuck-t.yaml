@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-16-inaccurate-swap-amount-calculation-in-relp-leads-to-stuck-t"
+class_name: "M16InaccurateSwapAmountCalculationInRelpLeadsToStuckT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29478 (Code4rena/Dopex)"
+help: "[M-16] Inaccurate swap amount calculation in ReLP leads to stuck tokens and lost liquidity"
+wiki_title: "[M-16] Inaccurate swap amount calculation in ReLP leads to stuck tokens and lost liquidity"
+wiki_description: |
+    `ReLPContract` contains logic that removes WETH-RDPX liquidity from Uniswap V2, swaps some amount WETH to RDPX and re-adds the liquidity.
+    
+    The calculation logic for the amount of tokens to swap is unreliable and sometimes reverts or leaves dust WETH in the reLP contract. WETH cannot be recovered un
+wiki_exploit_scenario: |
+    Per Solodit #29478: `ReLPContract` contains logic that removes WETH-RDPX liquidity from Uniswap V2, swaps some amount WETH to RDPX and re-adds the liquidity.
+    
+    The calculation logic for the amount of tokens to swap is un
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M16InaccurateSwapAmountCalculationInRelpLeadsToStuckT"
+solodit_id: "29478"
+solodit_slug: |
+    m-16-inaccurate-swap-amount-calculation-in-relp-leads-to-stuck-tokens-and-lost-liquidity-code4rena-dopex-dopex-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Uniswap"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(ReLPContract|RdpxV2Core).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ReLPContract"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

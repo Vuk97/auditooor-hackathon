@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "inability-to-claim-rewards-from-the-curve-gauge"
+class_name: "InabilityToClaimRewardsFromTheCurveGauge"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #63525 (MixBytes/Notional Finance)"
+help: "Inability to Claim Rewards From the Curve Gauge"
+wiki_title: "Inability to Claim Rewards From the Curve Gauge"
+wiki_description: |
+    ##### Description
+    The `CurveConvex2Token._unstakeLpTokens()` function calls `ICurveGauge(CURVE_GAUGE).withdraw(poolClaim)`, which takes only the `poolClaim` parameter. However, the Curve gauge `withdraw()` function supports an optional `_claim_rewards` flag, which allows claiming rewards during the
+wiki_exploit_scenario: |
+    Per Solodit #63525: ##### Description
+    The `CurveConvex2Token._unstakeLpTokens()` function calls `ICurveGauge(CURVE_GAUGE).withdraw(poolClaim)`, which takes only the `poolClaim` parameter. However, the Curve gauge `withdr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InabilityToClaimRewardsFromTheCurveGauge"
+solodit_id: "63525"
+solodit_slug: "inability-to-claim-rewards-from-the-curve-gauge-mixbytes-none-notional-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal poolclaim;"
+fn_name_regex: ".*(poolClaim|withdraw|withdrawAndUnwrap|ConvexRewardManager).*"
+read_var_regex: ".*(poolClaim|withdraw|withdrawAndUnwrap).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "poolClaim"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return poolclaim > 0;"

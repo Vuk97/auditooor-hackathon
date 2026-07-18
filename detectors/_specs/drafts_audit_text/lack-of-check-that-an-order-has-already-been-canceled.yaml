@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-check-that-an-order-has-already-been-canceled"
+class_name: "LackOfCheckThatAnOrderHasAlreadyBeenCanceled"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Alkimiya - Zellic Audit Report"
+help: |
+    The cancelOrders function allows the maker of the current order to close it at any moment. How- ever, this function does not verify if the order has already been canceled. function
+wiki_title: "Lack of check that an order has already been canceled"
+wiki_description: |
+    The cancelOrders function allows the maker of the current order to close it at any moment. How- ever, this function does not verify if the order has already been canceled. function cancelOrders(SilicaOrder[] calldata orders) external { for (uint256 i = 0; i < orders.length; ++i) { SilicaOrder callda
+wiki_exploit_scenario: |
+    Per audit finding: The cancelOrders function allows the maker of the current order to close it at any moment. How- ever, this function does not verify if the order has already been canceled. function cancelOrders(Silica
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfCheckThatAnOrderHasAlreadyBeenCanceled"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(cancelOrders|orderHash|hashOrder).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "cancelOrders"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

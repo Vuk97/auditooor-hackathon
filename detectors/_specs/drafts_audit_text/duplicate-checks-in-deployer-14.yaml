@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "duplicate-checks-in-deployer-14"
+class_name: "DuplicateChecksInDeployer14"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Blackwing - Zellic Audit Report"
+help: |
+    In the BlackwingVault contract, the deposit() and withdraw() functions do not include checks on the return values of transfer and transferFrom. This parameter should be validated t
+wiki_title: "Duplicate checks in deployer                                        14"
+wiki_description: |
+    In the BlackwingVault contract, the deposit() and withdraw() functions do not include checks on the return values of transfer and transferFrom. This parameter should be validated to ensure the success of the transfer.
+wiki_exploit_scenario: |
+    Per audit finding: In the BlackwingVault contract, the deposit() and withdraw() functions do not include checks on the return values of transfer and transferFrom. This parameter should be validated to ensure the success
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DuplicateChecksInDeployer14"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferFrom).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

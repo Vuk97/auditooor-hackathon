@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "chained-signature-with-checkpoint-usage-disabled-can-bypass--x"
+class_name: "ChainedSignatureWithCheckpointUsageDisabledCanBypassX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-10-sequence"
+help: |
+    hgrano Finding description and impact Consider a scenario where (1) the wallet is behind the checkpointer and (2) a chained signature is used; however, bit 6 ( 0x40 - the checkpoin
+wiki_title: "Chained signature with checkpoint usage disabled can bypass all checkpointer validation"
+wiki_description: |
+    hgrano Finding description and impact Consider a scenario where (1) the wallet is behind the checkpointer and (2) a chained signature is used; however, bit 6 ( 0x40 - the checkpointer usage flag) is zero. As a result, when BaseSig.recover is called the below if-block on BaseSig.sol:88-106 will be sk
+wiki_exploit_scenario: |
+    Per audit finding: hgrano Finding description and impact Consider a scenario where (1) the wallet is behind the checkpointer and (2) a chained signature is used; however, bit 6 ( 0x40 - the checkpointer usage flag) is z
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainedSignatureWithCheckpointUsageDisabledCanBypassX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(signatureFlag|readAddress|checkpointerDataSize).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "signatureFlag"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

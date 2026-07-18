@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "action-sig-missing-intent-hash"
+class_name: "ActionSigMissingIntentHash"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ab"
+help: |
+    Action signatures hash only `ActionData`, not the parent `intentHash`; valid action sig reusable across different intents (cross-intent replay).
+wiki_title: "Action-Sig-Missing-Intent-Hash"
+wiki_description: |
+    Action signatures hash only `ActionData`, not the parent `intentHash`; valid action sig reusable across different intents (cross-intent replay).
+wiki_exploit_scenario: |
+    Attacker exploits Action-Sig-Missing-Intent-Hash as described: Action signatures hash only `ActionData`, not the parent `intentHash`; valid action sig reusable across different intents (cross-intent replay).
+wiki_recommendation: |
+    EIP-712 signing flow for sub-actions where type hash does not include the parent order/intent identifier as a field.
+contract_name: "ActionSigMissingIntentHash"
+state_decl: "uint256 internal intenthash;"
+fn_name_regex: ".*(ActionData|intentHash).*"
+read_var_regex: ".*(intentHash).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ActionData"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return intenthash > 0;"

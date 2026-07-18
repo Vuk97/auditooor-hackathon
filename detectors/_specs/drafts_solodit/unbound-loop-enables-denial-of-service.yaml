@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "unbound-loop-enables-denial-of-service"
+class_name: "UnboundLoopEnablesDenialOfService"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16846 (TrailOfBits/Uniswap V3 Core)"
+help: "Unbound loop enables denial of service"
+wiki_title: "Unbound loop enables denial of service"
+wiki_description: |
+    ## Data Validation
+    
+    **Target:** UniswapV3Pool.sol
+    
+    **Difficulty:** High
+    
+    ## Description
+    
+    The swap function relies on an unbounded loop. An attacker could disrupt swap operations by forcing the loop to go through too many operations, potentially trapping the swap due to a lack of gas.
+    
+    ```solidity
+    Un
+wiki_exploit_scenario: |
+    Per Solodit #16846: ## Data Validation
+    
+    **Target:** UniswapV3Pool.sol
+    
+    **Difficulty:** High
+    
+    ## Description
+    
+    The swap function relies on an unbounded loop. An attacker could disrupt swap operations by forcing the loop to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnboundLoopEnablesDenialOfService"
+solodit_id: "16846"
+solodit_slug: "unbound-loop-enables-denial-of-service-trailofbits-uniswap-v3-core-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(amountSpecifiedRemaining|sqrtPriceX96|sqrtPriceLimitX96|sqrtPriceStartX96).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "amountSpecifiedRemaining"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

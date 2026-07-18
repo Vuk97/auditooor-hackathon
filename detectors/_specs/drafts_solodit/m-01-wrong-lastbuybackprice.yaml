@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "m-01-wrong-lastbuybackprice"
+class_name: "M01WrongLastbuybackprice"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42398 (Code4rena/Yeti Finance)"
+help: "[M-01] Wrong `lastBuyBackPrice`"
+wiki_title: "[M-01] Wrong `lastBuyBackPrice`"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `sYETIToken.lastBuyBackPrice` is set in `buyBack` and hardcoded as:
+    
+    ```solidity
+    function buyBack(address routerAddress, uint256 YUSDToSell, uint256 YETIOutMin, address[] memory path) external onlyOwner {
+        require(YUSDToSell > 0, "Zero amount");
+        require(lastBuyback
+wiki_exploit_scenario: |
+    Per Solodit #42398: _Submitted by cmichel_
+    
+    The `sYETIToken.lastBuyBackPrice` is set in `buyBack` and hardcoded as:
+    
+    ```solidity
+    function buyBack(address routerAddress, uint256 YUSDToSell, uint256 YETIOutMin, address[] m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01WrongLastbuybackprice"
+solodit_id: "42398"
+solodit_slug: "m-01-wrong-lastbuybackprice-code4rena-yeti-finance-yeti-finance-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(amounts|buyBack|effectiveYetiTokenBalance).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-user-controlled-limits-for-input-amount-in-liquidator-li"
+class_name: "LackOfUserControlledLimitsForInputAmountInLiquidatorLi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18098 (TrailOfBits/Maple Labs)"
+help: "Lack of user-controlled limits for input amount in Liquidator.liquidatePortion"
+wiki_title: "Lack of user-controlled limits for input amount in Liquidator.liquidatePortion"
+wiki_description: |
+    ## Target: Liquidator.sol
+    
+    ## Description
+    
+    The `liquidatePortion` function of the `Liquidator` contract computes the amount of funds that will be transferred from the caller to the liquidator contract. The computation uses an asset price retrieved from an oracle.
+    
+    There is no guarantee that the amou
+wiki_exploit_scenario: |
+    Per Solodit #18098: ## Target: Liquidator.sol
+    
+    ## Description
+    
+    The `liquidatePortion` function of the `Liquidator` contract computes the amount of funds that will be transferred from the caller to the liquidator contract
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfUserControlledLimitsForInputAmountInLiquidatorLi"
+solodit_id: "18098"
+solodit_slug: |
+    lack-of-user-controlled-limits-for-input-amount-in-liquidatorliquidateportion-trailofbits-maple-labs-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidateportion;"
+fn_name_regex: ".*(liquidatePortion|Liquidator|maxReturnAmount|require).*"
+write_var_regex: ".*(liquidatePortion|maxReturnAmount|require).*"
+guard_var_regex: ".*(liquidatePortion|maxReturnAmount|require).*"
+vuln_fn_name: "liquidatePortion"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "liquidateportion = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

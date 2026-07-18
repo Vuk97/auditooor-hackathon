@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-01-checkpoint-function-is-not-called-before-staking-which-can-"
+class_name: "M01CheckpointFunctionIsNotCalledBeforeStakingWhichCan"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34922 (Code4rena/Olas)"
+help: |
+    [M-01] `checkpoint` function is not called before staking which can cause loss of rewards for already staked services
+wiki_title: |
+    [M-01] `checkpoint` function is not called before staking which can cause loss of rewards for already staked services
+wiki_description: |
+    Before allowing anyone to stake a service id, the `checkpoint` function should be called in order to distribute already present rewards in the contract and thus update the `availableRewards`. If this doesn't happen and a new service id is staked, then after some time the rewards are then shared amo
+wiki_exploit_scenario: |
+    Per Solodit #34922: Before allowing anyone to stake a service id, the `checkpoint` function should be called in order to distribute already present rewards in the contract and thus update the `availableRewards`. If this
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01CheckpointFunctionIsNotCalledBeforeStakingWhichCan"
+solodit_id: "34922"
+solodit_slug: |
+    m-01-checkpoint-function-is-not-called-before-staking-which-can-cause-loss-of-rewards-for-already-staked-services-code4rena-olas-olas-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal availablerewards;"
+fn_name_regex: ".*(checkpoint|availableRewards|stake).*"
+read_var_regex: ".*(availableRewards|checkpoint|stake).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "checkpoint"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return availablerewards > 0;"

@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "h-17-twaporacle-might-register-with-wrong-token-order"
+class_name: "H17TwaporacleMightRegisterWithWrongTokenOrder"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #1002 (Code4rena/Vader Protocol)"
+help: "[H-17] TWAPOracle might register with wrong token order"
+wiki_title: "[H-17] TWAPOracle might register with wrong token order"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    The `TWAPOracle.registerPair` function takes in a `factory` and (`token0, token1)`.
+    The function accepts a `_factory` argument which means any Uniswap-like factory can be used.
+    
+    When using the actual Uniswap factory's `IUniswapV2Factory(factory).getPair(token0, token1)` call,
+wiki_exploit_scenario: |
+    Per Solodit #1002: _Submitted by cmichel_
+    
+    The `TWAPOracle.registerPair` function takes in a `factory` and (`token0, token1)`.
+    The function accepts a `_factory` argument which means any Uniswap-like factory can be used.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H17TwaporacleMightRegisterWithWrongTokenOrder"
+solodit_id: "1002"
+solodit_slug: |
+    h-17-twaporacle-might-register-with-wrong-token-order-code4rena-vader-protocol-vader-protocol-contest-git
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Token Order"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(factory|token0|token1).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "m-01-first-mint-could-be-frontrun-to-break-l1-totalsupply-calcul"
+class_name: "M01FirstMintCouldBeFrontrunToBreakL1TotalsupplyCalcul"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31767 (ZachObront/Alongside)"
+help: "[M-01] First mint could be frontrun to break L1 `totalSupply` calculation"
+wiki_title: "[M-01] First mint could be frontrun to break L1 `totalSupply` calculation"
+wiki_description: |
+    In order to perform the migration for the AMKT token from L1 to L2, the following process is used:
+    - First, the `totalSupply` of the L1 token is minted on L2
+    - Then, it is sent to the L2 bridge, so that the full quantity is locked in the bridge ready to be withdrawn
+    - When the funds arrive to L1, th
+wiki_exploit_scenario: |
+    Per Solodit #31767: In order to perform the migration for the AMKT token from L1 to L2, the following process is used:
+    - First, the `totalSupply` of the L1 token is minted on L2
+    - Then, it is sent to the L2 bridge, so th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01FirstMintCouldBeFrontrunToBreakL1TotalsupplyCalcul"
+solodit_id: "31767"
+solodit_slug: |
+    m-01-first-mint-could-be-frontrun-to-break-l1-totalsupply-calculation-zachobront-none-alongside-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal issue;"
+fn_name_regex: ".*(totalSupply|mint|issue).*"
+read_var_regex: ".*(issue|mint|totalSupply).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalSupply"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return issue > 0;"

@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "kintoid-lastmonitoredat-fails-the-iskyc-check-for-all-accounts-i"
+class_name: "KintoidLastmonitoredatFailsTheIskycCheckForAllAccountsI"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30502 (MixBytes/Kinto)"
+help: "KintoID.lastMonitoredAt fails the isKYC() check for all accounts if no new monitors appear"
+wiki_title: "KintoID.lastMonitoredAt fails the isKYC() check for all accounts if no new monitors appear"
+wiki_description: |
+    ##### Description
+    
+    `KintoID.lastMonitoredAt` is a very risky parameter. It is reset to the current `block.timestamp` every time `monitor()` is called.
+    If `monitor()` is not called for 7 days - all `isKYC()` checks for all accounts will return `false`.
+    - https://github.com/KintoXYZ/kinto-core/blob/f7
+wiki_exploit_scenario: |
+    Per Solodit #30502: ##### Description
+    
+    `KintoID.lastMonitoredAt` is a very risky parameter. It is reset to the current `block.timestamp` every time `monitor()` is called.
+    If `monitor()` is not called for 7 days - all `is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "KintoidLastmonitoredatFailsTheIskycCheckForAllAccountsI"
+solodit_id: "30502"
+solodit_slug: |
+    kintoidlastmonitoredat-fails-the-iskyc-check-for-all-accounts-if-no-new-monitors-appear-mixbytes-none-kinto-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addsanction;"
+fn_name_regex: ".*(monitor|isKYC|lastMonitoredAt|addTrait).*"
+read_var_regex: ".*(addSanction|addTrait|isKYC).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "monitor"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addsanction > 0;"

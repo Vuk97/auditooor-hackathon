@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "collateral-withdrawal-to-incorrect-address"
+class_name: "CollateralWithdrawalToIncorrectAddress"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "hexens audit RociFi SMA_public"
+help: |
+    In CollateralManager.Sol:claimCollateral a user or loan manager can withdraw deposited collateral funds. However, if the collateral token is WETH, then the unwrapped ETH is sent to
+wiki_title: "COLLATERAL WITHDRAWAL TO INCORRECT ADDRESS"
+wiki_description: |
+    In CollateralManager.Sol:claimCollateral a user or loan manager can withdraw deposited collateral funds. However, if the collateral token is WETH, then the unwrapped ETH is sent to msg.sender instead of user. Any other token is sent to the user that has their balance lowered. +44 1173 182250 info@he
+wiki_exploit_scenario: |
+    Per audit finding: In CollateralManager.Sol:claimCollateral a user or loan manager can withdraw deposited collateral funds. However, if the collateral token is WETH, then the unwrapped ETH is sent to msg.sender instead
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CollateralWithdrawalToIncorrectAddress"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimCollateral|checkAmount|checkFreezerOrUser).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "claimCollateral"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

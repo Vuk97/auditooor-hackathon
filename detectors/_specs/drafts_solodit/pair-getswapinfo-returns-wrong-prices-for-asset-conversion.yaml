@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "pair-getswapinfo-returns-wrong-prices-for-asset-conversion"
+class_name: "PairGetswapinfoReturnsWrongPricesForAssetConversion"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41913 (Spearbit/Sorella Angstrom)"
+help: "Pair.getSwapInfo() returns wrong prices for asset conversion"
+wiki_title: "Pair.getSwapInfo() returns wrong prices for asset conversion"
+wiki_description: |
+    Severity: Medium Risk
+    Context: Pair.sol#L171-L177
+    Description: Pair.getSwapInfo() returns price0Over1 when zeroToOne = true , and price1Over0 when
+    zeroToOne = false :
+    assembly ("memory-safe") {
+    let offsetIfZeroToOne := shl(5, zeroToOne)
+    assetIn := mload(add(self, xor(offsetIfZeroToOne, 0x20)))
+wiki_exploit_scenario: |
+    Per Solodit #41913: Severity: Medium Risk
+    Context: Pair.sol#L171-L177
+    Description: Pair.getSwapInfo() returns price0Over1 when zeroToOne = true , and price1Over0 when
+    zeroToOne = false :
+    assembly ("memory-safe") {
+    l
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PairGetswapinfoReturnsWrongPricesForAssetConversion"
+solodit_id: "41913"
+solodit_slug: "pairgetswapinfo-returns-wrong-prices-for-asset-conversion-spearbit-none-sorella-angstrom-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

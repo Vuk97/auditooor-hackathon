@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-07-permanent-loss-of-yield-for-stakers-in-reward-pools-due-to-"
+class_name: "M07PermanentLossOfYieldForStakersInRewardPoolsDueTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32063 (Code4rena/Abracadabra Money)"
+help: "[M-07] Permanent loss of yield for stakers in reward pools due to precision loss."
+wiki_title: "[M-07] Permanent loss of yield for stakers in reward pools due to precision loss."
+wiki_description: |
+    The LockingMultiRewards contract facilitates distribution of rewards across the remaining epoch duration. The calculation for reward rate is provided below:
+    `reward.rewardRate = amount / _remainingRewardTime;`
+    
+    The `rate` is later multiplied by the  duration to get the total rewards for elapsed tim
+wiki_exploit_scenario: |
+    Per Solodit #32063: The LockingMultiRewards contract facilitates distribution of rewards across the remaining epoch duration. The calculation for reward rate is provided below:
+    `reward.rewardRate = amount / _remainingRe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07PermanentLossOfYieldForStakersInRewardPoolsDueTo"
+solodit_id: "32063"
+solodit_slug: |
+    m-07-permanent-loss-of-yield-for-stakers-in-reward-pools-due-to-precision-loss-code4rena-abracadabra-money-abracadabra-money-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal minremainingtime;"
+fn_name_regex: ".*(rate|minRemainingTime|rewardRate).*"
+read_var_regex: ".*(minRemainingTime|rate|rewardRate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return minremainingtime > 0;"

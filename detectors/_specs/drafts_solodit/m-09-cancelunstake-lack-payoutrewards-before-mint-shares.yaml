@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "m-09-cancelunstake-lack-payoutrewards-before-mint-shares"
+class_name: "M09CancelunstakeLackPayoutrewardsBeforeMintShares"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27341 (Code4rena/Reserve)"
+help: "[M-09] `cancelUnstake` lack `payoutRewards` before mint shares"
+wiki_title: "[M-09] `cancelUnstake` lack `payoutRewards` before mint shares"
+wiki_description: |
+    `cancelUnstake` will cancel the withdrawal request in the queue can mint shares as the current `stakeRate`. But it doesn't `payoutRewards` before `mintStakes`. Therefor it will mint stRsr as a lower rate, which means it will get more rsr.
+    
+    ### Impact
+    
+    Withdrawers in the unstake queue can `cancelUns
+wiki_exploit_scenario: |
+    Per Solodit #27341: `cancelUnstake` will cancel the withdrawal request in the queue can mint shares as the current `stakeRate`. But it doesn't `payoutRewards` before `mintStakes`. Therefor it will mint stRsr as a lower
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09CancelunstakeLackPayoutrewardsBeforeMintShares"
+solodit_id: "27341"
+solodit_slug: "m-09-cancelunstake-lack-payoutrewards-before-mint-shares-code4rena-reserve-reserve-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cancelunstake;"
+fn_name_regex: ".*(cancelUnstake|stakeRate|payoutRewards|mintStakes).*"
+read_var_regex: ".*(cancelUnstake|mintStakes|payoutRewards).*"
+required_call_regex: ".*payoutRewards.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "cancelUnstake"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cancelunstake > 0;"

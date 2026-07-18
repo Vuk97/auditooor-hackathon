@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "pool-cap-check-restricts-future-round-deposits-leading-to-di-x"
+class_name: "PoolCapCheckRestrictsFutureRoundDepositsLeadingToDiX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-11-megapot"
+help: |
+    [L-02] Pool Cap Check Restricts Future Round Deposits Leading to Diminished Prize Pools In processDeposit , the cap check uses lpPoolTotal + pendingDeposits : uint256 totalPoolValu
+wiki_title: |
+    Pool Cap Check Restricts Future Round Deposits Leading to Diminished Prize Pools In processDeposit , the cap check uses lpPoolTotal + pendingDeposits :
+wiki_description: |
+    [L-02] Pool Cap Check Restricts Future Round Deposits Leading to Diminished Prize Pools In processDeposit , the cap check uses lpPoolTotal + pendingDeposits : uint256 totalPoolValue = lpDrawingState [ _drawingId ]. lpPoolTotal + lpDrawingState [ _drawingId ]. pendingDeposits ; if ( _amount + totalPo
+wiki_exploit_scenario: |
+    Per audit finding: [L-02] Pool Cap Check Restricts Future Round Deposits Leading to Diminished Prize Pools In processDeposit , the cap check uses lpPoolTotal + pendingDeposits : uint256 totalPoolValue = lpDrawingState [
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PoolCapCheckRestrictsFutureRoundDepositsLeadingToDiX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(processDeposit|lpPoolTotal|pendingDeposits).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "processDeposit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

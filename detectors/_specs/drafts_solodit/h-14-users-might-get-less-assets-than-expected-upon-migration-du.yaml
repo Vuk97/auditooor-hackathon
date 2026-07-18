@@ -1,0 +1,35 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-14-users-might-get-less-assets-than-expected-upon-migration-du"
+class_name: "H14UsersMightGetLessAssetsThanExpectedUponMigrationDu"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #48953 (Code4rena/Rubicon)"
+help: "[H-14] Users might get less assets than expected upon migration due to price manipulation attacks"
+wiki_title: "[H-14] Users might get less assets than expected upon migration due to price manipulation attacks"
+wiki_description: |
+    It is possible to manipulate the price of `BathV2` tokens before a migration and consequently the migrator will receive underpriced V2 tokens, incurring losses.
+    
+    The migration process of `V2Migrator.migrate()` hands in the user's `BathV1` balance in exchange of its underlying. Then, proceeds to min
+wiki_exploit_scenario: |
+    Per Solodit #48953: It is possible to manipulate the price of `BathV2` tokens before a migration and consequently the migrator will receive underpriced V2 tokens, incurring losses.
+    
+    The migration process of `V2Migrator.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H14UsersMightGetLessAssetsThanExpectedUponMigrationDu"
+solodit_id: "48953"
+solodit_slug: |
+    h-14-users-might-get-less-assets-than-expected-upon-migration-due-to-price-manipulation-attacks-code4rena-rubicon-rubicon-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(BathV2|BathV1|CTokens).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

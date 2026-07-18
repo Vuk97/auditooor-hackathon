@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "front-running-attacks-on-finalize-could-affect-received-token-am"
+class_name: "FrontRunningAttacksOnFinalizeCouldAffectReceivedTokenAm"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7096 (Spearbit/Gauntlet)"
+help: "Front-running attacks on finalize could affect received token amounts"
+wiki_title: "Front-running attacks on finalize could affect received token amounts"
+wiki_description: |
+    ## Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    - `AeraVaultV1.sol#L539`
+    - `AeraVaultV1.sol#L899-L910`
+    
+    ## Description
+    The `returnFunds()` function (called by `finalize()`) withdraws the entire holdings in the Balancer pool but does not allow the caller to specify and enforce the mi
+wiki_exploit_scenario: |
+    Per Solodit #7096: ## Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    - `AeraVaultV1.sol#L539`
+    - `AeraVaultV1.sol#L899-L910`
+    
+    ## Description
+    The `returnFunds()` function (called by `finalize()`) withdraws
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FrontRunningAttacksOnFinalizeCouldAffectReceivedTokenAm"
+solodit_id: "7096"
+solodit_slug: "front-running-attacks-on-finalize-could-affect-received-token-amounts-spearbit-gauntlet-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Front-Running"
+state_decl: "uint256 internal finalize;"
+fn_name_regex: ".*(returnFunds|finalize|initiateFinalization|setSwapEnabled).*"
+read_var_regex: ".*(finalize|initiateFinalization|returnFunds).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "returnFunds"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return finalize > 0;"

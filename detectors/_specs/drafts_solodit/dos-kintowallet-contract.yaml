@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "dos-kintowallet-contract"
+class_name: "DosKintowalletContract"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30497 (MixBytes/Kinto)"
+help: "DoS `KintoWallet` contract"
+wiki_title: "DoS `KintoWallet` contract"
+wiki_description: |
+    ##### Description
+    
+    - https://github.com/KintoXYZ/kinto-core/blob/f7dd98f66b9dfba1f73758703b808051196e740b/src/wallet/KintoWallet.sol#L235
+    
+    `_resetSigners` does not take into account the current `SignerPolicy` in any way. A user can accidentally call `resetSigners` with an array length of 1 (with cur
+wiki_exploit_scenario: |
+    Per Solodit #30497: ##### Description
+    
+    - https://github.com/KintoXYZ/kinto-core/blob/f7dd98f66b9dfba1f73758703b808051196e740b/src/wallet/KintoWallet.sol#L235
+    
+    `_resetSigners` does not take into account the current `Signe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DosKintowalletContract"
+solodit_id: "30497"
+solodit_slug: "dos-kintowallet-contract-mixbytes-none-kinto-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "DOS"
+state_decl: "uint256 internal finishrecovery;"
+fn_name_regex: ".*(SignerPolicy|resetSigners|finishRecovery|policy).*"
+read_var_regex: ".*(finishRecovery|policy|resetSigners).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "SignerPolicy"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return finishrecovery > 0;"

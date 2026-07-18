@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "hardcoded-rate-precision"
+class_name: "HardcodedRatePrecision"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Polygon Staking - Zellic Audit Report"
+help: |
+    The getPrincipalDeposits function in the PolygonVault contract uses the exchange rate to get the current rebasing amount that the principal deposit shares are worth: function getPr
+wiki_title: "Hardcoded rate precision"
+wiki_description: |
+    The getPrincipalDeposits function in the PolygonVault contract uses the exchange rate to get the current rebasing amount that the principal deposit shares are worth: function getPrincipalDeposits() public view returns (uint256) { return (validatorPool.balanceOf(address(this)) * validatorPool.exchang
+wiki_exploit_scenario: |
+    Per audit finding: The getPrincipalDeposits function in the PolygonVault contract uses the exchange rate to get the current rebasing amount that the principal deposit shares are worth: function getPrincipalDeposits() pu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "HardcodedRatePrecision"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getPrincipalDeposits|validatorPool|balanceOf).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getPrincipalDeposits"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

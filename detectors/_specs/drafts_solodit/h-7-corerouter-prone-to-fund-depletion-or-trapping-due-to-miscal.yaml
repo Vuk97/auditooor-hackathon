@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "h-7-corerouter-prone-to-fund-depletion-or-trapping-due-to-miscal"
+class_name: "H7CorerouterProneToFundDepletionOrTrappingDueToMiscal"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #58376 (Sherlock/LEND)"
+help: "H-7: CoreRouter Prone to Fund Depletion or Trapping Due to Miscalculated Redemption Payouts"
+wiki_title: "H-7: CoreRouter Prone to Fund Depletion or Trapping Due to Miscalculated Redemption Payouts"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-05-lend-audit-contest-judging/issues/464 
+    
+    ## Found by 
+    0x15, 0xlucky, 0xzey, 1337web3, Abhan1041, BimBamBuki, Brene, CL001, Etherking, Fade, Frontrunner, HeckerTrieuTien, Hueber, JeRRy0422, Odieli, PNS, Tigerfrake, dimah7, durov, ggg\_ttt\_hhh, ifeco44
+wiki_exploit_scenario: |
+    Per Solodit #58376: Source: https://github.com/sherlock-audit/2025-05-lend-audit-contest-judging/issues/464 
+    
+    ## Found by 
+    0x15, 0xlucky, 0xzey, 1337web3, Abhan1041, BimBamBuki, Brene, CL001, Etherking, Fade, Frontrunner
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H7CorerouterProneToFundDepletionOrTrappingDueToMiscal"
+solodit_id: "58376"
+solodit_slug: |
+    h-7-corerouter-prone-to-fund-depletion-or-trapping-due-to-miscalculated-redemption-payouts-sherlock-lend-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(redeem|LToken|accrueInterest|expectedUnderlying).*"
+primary_var_regex: ".*(accrueInterest|actualUnderlyingReceived|exchangeRateStored).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

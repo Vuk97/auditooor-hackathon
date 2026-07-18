@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_require"
+name: "users-can-join-and-exit-pools-even-where-there-are-no-tokens"
+class_name: "UsersCanJoinAndExitPoolsEvenWhereThereAreNoTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #17672 (TrailOfBits/Balancer Core)"
+help: "Users can join and exit pools even where there are no tokens"
+wiki_title: "Users can join and exit pools even where there are no tokens"
+wiki_description: |
+    ## Data Validation
+    
+    **Target:** BPool.sol
+    
+    **Difficulty:** Low
+    
+    ## Description
+    Incorrect access control in the `joinPool` and `exitPool` functions allow calls to them to succeed even when there are no binded tokens, producing unexpected results.
+    
+    On one hand, if a user calls `joinPool` when `_tokens
+wiki_exploit_scenario: |
+    Per Solodit #17672: ## Data Validation
+    
+    **Target:** BPool.sol
+    
+    **Difficulty:** Low
+    
+    ## Description
+    Incorrect access control in the `joinPool` and `exitPool` functions allow calls to them to succeed even when there are no
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanJoinAndExitPoolsEvenWhereThereAreNoTokens"
+solodit_id: "17672"
+solodit_slug: "users-can-join-and-exit-pools-even-where-there-are-no-tokens-trailofbits-balancer-core-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal exitpool;"
+fn_name_regex: ".*(joinPool|exitPool).*"
+write_var_regex: ".*(exitPool|joinPool).*"
+guard_var_regex: ".*(exitPool|joinPool).*"
+vuln_fn_name: "joinPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "exitpool = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

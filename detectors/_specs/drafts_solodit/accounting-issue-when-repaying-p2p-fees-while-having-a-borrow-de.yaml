@@ -1,0 +1,46 @@
+skeleton: "state_write_without_paired_write"
+name: "accounting-issue-when-repaying-p2p-fees-while-having-a-borrow-de"
+class_name: "AccountingIssueWhenRepayingP2pFeesWhileHavingABorrowDe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16222 (Spearbit/Morpho)"
+help: "Accounting issue when repaying P2P fees while having a borrow delta"
+wiki_title: "Accounting issue when repaying P2P fees while having a borrow delta"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    - `PositionsManagerInternal.sol#L308`
+    - `DeltasLib.sol#L88`
+    - `MarketSideDeltaLib.sol#L63`
+    
+    ## Description
+    When repaying debt on Morpho, any potential borrow delta is matched first. Repaying the delta should involve both decreasing the `scaledDelta` as well as decr
+wiki_exploit_scenario: |
+    Per Solodit #16222: ## Severity: High Risk
+    
+    ## Context
+    - `PositionsManagerInternal.sol#L308`
+    - `DeltasLib.sol#L88`
+    - `MarketSideDeltaLib.sol#L63`
+    
+    ## Description
+    When repaying debt on Morpho, any potential borrow delta i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AccountingIssueWhenRepayingP2pFeesWhileHavingABorrowDe"
+solodit_id: "16222"
+solodit_slug: "accounting-issue-when-repaying-p2p-fees-while-having-a-borrow-delta-spearbit-morpho-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(scaledDelta|scaledP2PAmount|repayFee|decreaseDelta).*"
+primary_var_regex: ".*(decreaseDelta|repayFee|scaledDelta).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

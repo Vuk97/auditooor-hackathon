@@ -1,0 +1,36 @@
+skeleton: "paired_function_divergence"
+name: "h-01-reentrancy-in-buy-function-for-erc777-tokens-allows-buying-"
+class_name: "H01ReentrancyInBuyFunctionForErc777TokensAllowsBuying"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6096 (Code4rena/Caviar)"
+help: "[H-01] Reentrancy in buy function for ERC777 tokens allows buying funds with considerable discount"
+wiki_title: "[H-01] Reentrancy in buy function for ERC777 tokens allows buying funds with considerable discount"
+wiki_description: |
+    <https://github.com/code-423n4/2022-12-caviar/blob/0212f9dc3b6a418803dbfacda0e340e059b8aae2/src/Pair.sol#L95><br>
+    <https://github.com/code-423n4/2022-12-caviar/blob/0212f9dc3b6a418803dbfacda0e340e059b8aae2/src/Pair.sol#L137><br>
+    <https://github.com/code-423n4/2022-12-caviar/blob/0212f9dc3b6a418803d
+wiki_exploit_scenario: |
+    Per Solodit #6096: <https://github.com/code-423n4/2022-12-caviar/blob/0212f9dc3b6a418803dbfacda0e340e059b8aae2/src/Pair.sol#L95><br>
+    <https://github.com/code-423n4/2022-12-caviar/blob/0212f9dc3b6a418803dbfacda0e340e059
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01ReentrancyInBuyFunctionForErc777TokensAllowsBuying"
+solodit_id: "6096"
+solodit_slug: |
+    h-01-reentrancy-in-buy-function-for-erc777-tokens-allows-buying-funds-with-considerable-discount-code4rena-caviar-caviar-contest-git
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: "Reentrancy"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(add|buy|remove).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "divide-before-multiply-loses-precision-in-fivefiftyrule-updateen"
+class_name: "DivideBeforeMultiplyLosesPrecisionInFivefiftyruleUpdateen"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #63780 (Cyfrin/Remora Dynamic Tokens)"
+help: |
+    Divide before multiply loses precision in `FiveFiftyRule::_updateEntityAllowance` and leads to caps being exceeded
+wiki_title: |
+    Divide before multiply loses precision in `FiveFiftyRule::_updateEntityAllowance` and leads to caps being exceeded
+wiki_description: |
+    **Description:** The function `_updateEntityAllowance` contains
+    ```solidity
+    (REMORA_PERCENT_DENOMINATOR / aData.equity) * amount
+    ```
+    
+    This should be `REMOTE_PERCENT_DENOMINATOR * amount / aData.equity` otherwise precision loss occurs.
+    
+    Since `_updateEntityAllowance` is used to calculate the amount b
+wiki_exploit_scenario: |
+    Per Solodit #63780: **Description:** The function `_updateEntityAllowance` contains
+    ```solidity
+    (REMORA_PERCENT_DENOMINATOR / aData.equity) * amount
+    ```
+    
+    This should be `REMOTE_PERCENT_DENOMINATOR * amount / aData.equity
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DivideBeforeMultiplyLosesPrecisionInFivefiftyruleUpdateen"
+solodit_id: "63780"
+solodit_slug: |
+    divide-before-multiply-loses-precision-in-fivefiftyrule_updateentityallowance-and-leads-to-caps-being-exceeded-cyfrin-none-remora-dynamic-tokens-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cantransfer;"
+fn_name_regex: ".*(canTransfer).*"
+read_var_regex: ".*(canTransfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "canTransfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cantransfer > 0;"

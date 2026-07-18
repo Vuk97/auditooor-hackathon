@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-accounting-of-tipbalance-can-indefinitely-stall-report"
+class_name: "IncorrectAccountingOfTipbalanceCanIndefinitelyStallReport"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #34998 (Cyfrin/Casimir)"
+help: "Incorrect accounting of `tipBalance` can indefinitely stall report execution"
+wiki_title: "Incorrect accounting of `tipBalance` can indefinitely stall report execution"
+wiki_description: |
+    **Description:** The `receive` fallback function in `CasimirManager` increases `tip` balance if the sender is not the `DelayedWithdrawalRouter`. The implicit assumption here is that all withdrawals, full or partial, are routed via the `DelayedWithdrawalRouter`. While this assumption is true incase o
+wiki_exploit_scenario: |
+    Per Solodit #34998: **Description:** The `receive` fallback function in `CasimirManager` increases `tip` balance if the sender is not the `DelayedWithdrawalRouter`. The implicit assumption here is that all withdrawals, f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectAccountingOfTipbalanceCanIndefinitelyStallReport"
+solodit_id: "34998"
+solodit_slug: |
+    incorrect-accounting-of-tipbalance-can-indefinitely-stall-report-execution-cyfrin-none-casimir-markdown
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: ""
+state_decl: "uint256 internal receive;"
+fn_name_regex: ".*(receive|CasimirManager|tip|DelayedWithdrawalRouter).*"
+read_var_regex: ".*(receive|tip|withdrawnEffectiveBalance).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "receive"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return receive > 0;"

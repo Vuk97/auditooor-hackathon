@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "fee-amount-may-be-rounded-to-zero"
+class_name: "FeeAmountMayBeRoundedToZero"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Memecoin Launcher - Zellic Audit Report"
+help: |
+    To swap an _amountIn of ETH or tokens, the user has to pay a swap fee. The fee calculation is done as follows: fee = (_amountIn * $.config.tradeFeeBps) / WEI6; In Solidity, if the
+wiki_title: "Fee amount may be rounded to zero"
+wiki_description: |
+    To swap an _amountIn of ETH or tokens, the user has to pay a swap fee. The fee calculation is done as follows: fee = (_amountIn * $.config.tradeFeeBps) / WEI6; In Solidity, if the amount is less than WEI6 / $.config.tradeFeeBps, the fee is rounded down to zero.
+wiki_exploit_scenario: |
+    Per audit finding: To swap an _amountIn of ETH or tokens, the user has to pay a swap fee. The fee calculation is done as follows: fee = (_amountIn * $.config.tradeFeeBps) / WEI6; In Solidity, if the amount is less than
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FeeAmountMayBeRoundedToZero"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(tradeFeeBps).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tradeFeeBps"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

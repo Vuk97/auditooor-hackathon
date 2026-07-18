@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "expired-liens-taken-from-public-vaults-need-to-be-liquidated-oth"
+class_name: "ExpiredLiensTakenFromPublicVaultsNeedToBeLiquidatedOth"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7316 (Spearbit/Astaria)"
+help: |
+    Expired liens taken from public vaults need to be liquidated otherwise processing an epoch halts/reverts
+wiki_title: |
+    Expired liens taken from public vaults need to be liquidated otherwise processing an epoch halts/reverts
+wiki_description: |
+    ## Medium Risk Report
+    
+    **Severity:** Medium Risk  
+    **Context:** PublicVault.sol#L275-L277  
+    
+    ## Description
+    `s.epochData[s.currentEpoch].liensOpenForEpoch` is decremented or is supposed to be decremented when for a lien with an end that falls on this epoch:
+    
+    - The full payment has been made,
+    - Or th
+wiki_exploit_scenario: |
+    Per Solodit #7316: ## Medium Risk Report
+    
+    **Severity:** Medium Risk  
+    **Context:** PublicVault.sol#L275-L277  
+    
+    ## Description
+    `s.epochData[s.currentEpoch].liensOpenForEpoch` is decremented or is supposed to be decremen
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExpiredLiensTakenFromPublicVaultsNeedToBeLiquidatedOth"
+solodit_id: "7316"
+solodit_slug: |
+    expired-liens-taken-from-public-vaults-need-to-be-liquidated-otherwise-processing-an-epoch-spearbit-astaria-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal liquidate;"
+fn_name_regex: ".*(liquidate|processEpoch).*"
+read_var_regex: ".*(liquidate|processEpoch).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return liquidate > 0;"

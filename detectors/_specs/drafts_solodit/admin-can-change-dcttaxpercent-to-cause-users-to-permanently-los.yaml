@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_require"
+name: "admin-can-change-dcttaxpercent-to-cause-users-to-permanently-los"
+class_name: "AdminCanChangeDcttaxpercentToCauseUsersToPermanentlyLos"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40676 (Cantina/Goat Tech)"
+help: "Admin can change _dcttaxpercent to cause users to permanently lose all staked funds"
+wiki_title: "Admin can change _dcttaxpercent to cause users to permanently lose all staked funds "
+wiki_description: |
+    ## Security Report on Controller.sol#L761
+    
+    ## Context
+    - **File:** Controller.sol
+    - **Line:** 761
+    
+    ## Details
+    The `updateConfigs()` function in `Controller.sol` allows any admin to change key parameters, one of which is `_dctTaxPercent`, without any upper limit. This vulnerability allows a rogue admi
+wiki_exploit_scenario: |
+    Per Solodit #40676: ## Security Report on Controller.sol#L761
+    
+    ## Context
+    - **File:** Controller.sol
+    - **Line:** 761
+    
+    ## Details
+    The `updateConfigs()` function in `Controller.sol` allows any admin to change key parameter
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AdminCanChangeDcttaxpercentToCauseUsersToPermanentlyLos"
+solodit_id: "40676"
+solodit_slug: |
+    admin-can-change-_dcttaxpercent-to-cause-users-to-permanently-lose-all-staked-funds-cantina-none-goat-tech-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal devteampercent_;"
+fn_name_regex: ".*(updateConfigs|devTeamPercent_|require).*"
+write_var_regex: ".*(devTeamPercent_|require|updateConfigs).*"
+guard_var_regex: ".*(devTeamPercent_|require|updateConfigs).*"
+vuln_fn_name: "updateConfigs"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "devteampercent_ = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

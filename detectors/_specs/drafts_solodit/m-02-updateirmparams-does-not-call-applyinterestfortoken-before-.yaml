@@ -1,0 +1,39 @@
+skeleton: "paired_function_divergence"
+name: "m-02-updateirmparams-does-not-call-applyinterestfortoken-before-"
+class_name: "M02UpdateirmparamsDoesNotCallApplyinterestfortokenBefore"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34888 (Code4rena/Predy)"
+help: |
+    [M-02] `updateIRMParams` does not call `applyInterestForToken` before updating `irmParams` which leads to incorrect calculation of interest rate for subsequent trades.
+wiki_title: |
+    [M-02] `updateIRMParams` does not call `applyInterestForToken` before updating `irmParams` which leads to incorrect calculation of interest rate for subsequent 
+wiki_description: |
+    <https://github.com/code-423n4/2024-05-predy/blob/a9246db5f874a91fb71c296aac6a66902289306a/src/libraries/logic/AddPairLogic.sol#L128><br><https://github.com/code-423n4/2024-05-predy/blob/a9246db5f874a91fb71c296aac6a66902289306a/src/libraries/logic/AddPairLogic.sol#L96>
+    
+    ### Impact
+    
+    Incorrect intere
+wiki_exploit_scenario: |
+    Per Solodit #34888: <https://github.com/code-423n4/2024-05-predy/blob/a9246db5f874a91fb71c296aac6a66902289306a/src/libraries/logic/AddPairLogic.sol#L128><br><https://github.com/code-423n4/2024-05-predy/blob/a9246db5f874
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02UpdateirmparamsDoesNotCallApplyinterestfortokenBefore"
+solodit_id: "34888"
+solodit_slug: |
+    m-02-updateirmparams-does-not-call-applyinterestfortoken-before-updating-irmparams-which-leads-to-incorrect-calculation-of-interest-rate-for-subsequent-trades-code4rena-predy-predy-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(applyInterestForPoolStatus|applyInterestForToken|basepool).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

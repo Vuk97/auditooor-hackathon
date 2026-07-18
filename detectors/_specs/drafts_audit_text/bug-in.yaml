@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "bug-in"
+class_name: "BugIn"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-loopfi"
+help: |
+    rscodes , also found by pkqs90 In ChefIncentivesController.sol : function claim ( address _user address [] memory _tokens ) public whenNotPaused { if ( eligibilityMode != Eligibili
+wiki_title: "Bug in"
+wiki_description: |
+    rscodes , also found by pkqs90 In ChefIncentivesController.sol : function claim ( address _user address [] memory _tokens ) public whenNotPaused { if ( eligibilityMode != EligibilityModes . DISABLED ) { -> if (! eligibleDataProvider . isEligibleForRewards ( _user )) revert EligibleRequired (); -> ch
+wiki_exploit_scenario: |
+    Per audit finding: rscodes , also found by pkqs90 In ChefIncentivesController.sol : function claim ( address _user address [] memory _tokens ) public whenNotPaused { if ( eligibilityMode != EligibilityModes . DISABLED )
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BugIn"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(whenNotPaused|eligibilityMode|eligibleDataProvider).*"
+required_sibling_regex: ".*refresh.*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

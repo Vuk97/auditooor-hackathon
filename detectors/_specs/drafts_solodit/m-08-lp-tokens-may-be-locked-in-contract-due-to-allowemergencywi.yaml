@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "m-08-lp-tokens-may-be-locked-in-contract-due-to-allowemergencywi"
+class_name: "M08LpTokensMayBeLockedInContractDueToAllowemergencywi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42467 (Code4rena/Trader Joe)"
+help: "[M-08] LP Tokens May Be Locked in Contract Due to `allowEmergencyWithdraw()` in Stage 3"
+wiki_title: "[M-08] LP Tokens May Be Locked in Contract Due to `allowEmergencyWithdraw()` in Stage 3"
+wiki_description: |
+    _Submitted by kirk-baird_
+    
+    The function [allowEmergencyWithdraw()](https://github.com/code-423n4/2022-01-trader-joe/blob/main/contracts/LaunchEvent.sol#L520) may be called by the `rocketJoeFactory.owner()` at any time. If it is called while the protocol is in Stage 3 and a pair has been created then
+wiki_exploit_scenario: |
+    Per Solodit #42467: _Submitted by kirk-baird_
+    
+    The function [allowEmergencyWithdraw()](https://github.com/code-423n4/2022-01-trader-joe/blob/main/contracts/LaunchEvent.sol#L520) may be called by the `rocketJoeFactory.own
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08LpTokensMayBeLockedInContractDueToAllowemergencywi"
+solodit_id: "42467"
+solodit_slug: |
+    m-08-lp-tokens-may-be-locked-in-contract-due-to-allowemergencywithdraw-in-stage-3-code4rena-trader-joe-trader-joe-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(allowEmergencyWithdraw|emergencyWithdraw|isStopped).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

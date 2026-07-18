@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "withdrawalpool-sol-prevent-efficient-return-of-data-in-getbatchi"
+class_name: "WithdrawalpoolSolPreventEfficientReturnOfDataInGetbatchi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #43669 (Codehawks/Liquid Staking)"
+help: |
+    [WithdrawalPool.sol] Prevent efficient return of data in getBatchIds() by blocking updateWithdrawalBatchIdCutoff() update of newWithdrawalIdCutoff
+wiki_title: |
+    [WithdrawalPool.sol] Prevent efficient return of data in getBatchIds() by blocking updateWithdrawalBatchIdCutoff() update of newWithdrawalIdCutoff
+wiki_description: |
+    ## Summary
+    
+    \[WithdrawalPool.sol] `updateWithdrawalBatchIdCutoff()` is used to update values `withdrawalIdCutoff` and `withdrawalBatchIdCutoff` . `withdrawalBatchIdCutoff` is used in `getBatchIds` and `getFinalizedWithdrawalIdsByOwner` view functions to more efficiently return data without iterating
+wiki_exploit_scenario: |
+    Per Solodit #43669: ## Summary
+    
+    \[WithdrawalPool.sol] `updateWithdrawalBatchIdCutoff()` is used to update values `withdrawalIdCutoff` and `withdrawalBatchIdCutoff` . `withdrawalBatchIdCutoff` is used in `getBatchIds` and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WithdrawalpoolSolPreventEfficientReturnOfDataInGetbatchi"
+solodit_id: "43669"
+solodit_slug: |
+    withdrawalpoolsol-prevent-efficient-return-of-data-in-getbatchids-by-blocking-updatewithdrawalbatchidcutoff-update-of-newwithdrawalidcutoff-codehawks-liquid-staking-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getbatchids;"
+fn_name_regex: ".*(updateWithdrawalBatchIdCutoff|withdrawalIdCutoff|withdrawalBatchIdCutoff|getBatchIds).*"
+read_var_regex: ".*(getBatchIds|getFinalizedWithdrawalIdsByOwner|queuedWithdrawal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateWithdrawalBatchIdCutoff"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getbatchids > 0;"

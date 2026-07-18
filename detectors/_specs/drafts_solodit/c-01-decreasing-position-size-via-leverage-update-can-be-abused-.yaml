@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "c-01-decreasing-position-size-via-leverage-update-can-be-abused-"
+class_name: "C01DecreasingPositionSizeViaLeverageUpdateCanBeAbused"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36418 (Pashov Audit Group/Gainsnetwork May)"
+help: "[C-01] Decreasing position size via leverage update can be abused to steal from diamond"
+wiki_title: "[C-01] Decreasing position size via leverage update can be abused to steal from diamond"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    The trader can decrease position size using leverage update, which will then realize the partial profit/loss based on position size delta.
+    
+    However, in the case of a profit, `handleTradePnl()` will incorrectly send the closing fe
+wiki_exploit_scenario: |
+    Per Solodit #36418: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    The trader can decrease position size using leverage update, which will then realize the partial profit/loss based on position si
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01DecreasingPositionSizeViaLeverageUpdateCanBeAbused"
+solodit_id: "36418"
+solodit_slug: |
+    c-01-decreasing-position-size-via-leverage-update-can-be-abused-to-steal-from-diamond-pashov-audit-group-none-gainsnetwork-may-markdown
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal collateralsenttotrader;"
+fn_name_regex: ".*(handleTradePnl|collateralSentToTrader).*"
+read_var_regex: ".*(collateralSentToTrader|handleTradePnl).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "handleTradePnl"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return collateralsenttotrader > 0;"

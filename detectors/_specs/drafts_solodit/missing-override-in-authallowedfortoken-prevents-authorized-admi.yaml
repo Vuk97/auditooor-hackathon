@@ -1,0 +1,49 @@
+skeleton: "paired_function_divergence"
+name: "missing-override-in-authallowedfortoken-prevents-authorized-admi"
+class_name: "MissingOverrideInAuthallowedfortokenPreventsAuthorizedAdmi"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18305 (Spearbit/Sudoswap LSSVM2)"
+help: |
+    Missing override in authAllowedForToken prevents authorized admins from toggling settings and reclaiming pairs
+wiki_title: |
+    Missing override in authAllowedForToken prevents authorized admins from toggling settings and reclaiming pairs
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - `LSSVMPairFactory.sol#L330-L377`
+    - `RoyaltyEngine.sol#L38-L46`
+    
+    ## Description
+    Manifold admins are incorrectly not allowed by `authAllowedForToken` to toggle settings and reclaim their authorized pairs in the protocol context. `authAllowedForToken` checks for d
+wiki_exploit_scenario: |
+    Per Solodit #18305: ## Severity: Medium Risk
+    
+    ## Context
+    - `LSSVMPairFactory.sol#L330-L377`
+    - `RoyaltyEngine.sol#L38-L46`
+    
+    ## Description
+    Manifold admins are incorrectly not allowed by `authAllowedForToken` to toggle set
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingOverrideInAuthallowedfortokenPreventsAuthorizedAdmi"
+solodit_id: "18305"
+solodit_slug: |
+    missing-override-in-authallowedfortoken-prevents-authorized-admins-from-toggling-settings-and-spearbit-sudoswap-lssvm2-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(authAllowedForToken|getAdmins|isAdmin).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

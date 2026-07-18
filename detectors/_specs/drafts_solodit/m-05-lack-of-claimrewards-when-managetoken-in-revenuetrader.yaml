@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-05-lack-of-claimrewards-when-managetoken-in-revenuetrader"
+class_name: "M05LackOfClaimrewardsWhenManagetokenInRevenuetrader"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27337 (Code4rena/Reserve)"
+help: "[M-05] Lack of claimRewards when manageToken in RevenueTrader"
+wiki_title: "[M-05] Lack of claimRewards when manageToken in RevenueTrader"
+wiki_description: |
+    There is a dev comment in the Assert.sol:
+    
+        DEPRECATED: claimRewards() will be removed from all assets and collateral plugins
+    
+    The claimRewards is moved to the `TradingP1.claimRewards/claimRewardsSingle`.
+    
+    But when the `RevenueTraderP1` trade and distribute revenues by `manageToken`, it only cal
+wiki_exploit_scenario: |
+    Per Solodit #27337: There is a dev comment in the Assert.sol:
+    
+        DEPRECATED: claimRewards() will be removed from all assets and collateral plugins
+    
+    The claimRewards is moved to the `TradingP1.claimRewards/claimRewards
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05LackOfClaimrewardsWhenManagetokenInRevenuetrader"
+solodit_id: "27337"
+solodit_slug: "m-05-lack-of-claimrewards-when-managetoken-in-revenuetrader-code4rena-reserve-reserve-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal managetoken;"
+fn_name_regex: ".*(RevenueTraderP1|manageToken).*"
+read_var_regex: ".*(manageToken).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "RevenueTraderP1"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return managetoken > 0;"

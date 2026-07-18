@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "sandwiching-removeliquidity-can-steal-profits-from-lp"
+class_name: "SandwichingRemoveliquidityCanStealProfitsFromLp"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35862 (Spearbit/Hyperdrive June 2023)"
+help: "Sandwiching removeLiquidity can steal profits from LP"
+wiki_title: "Sandwiching removeLiquidity can steal profits from LP"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    HyperdriveLP .sol#L265
+    
+    ## Description
+    During the removal of liquidity, an LP specifies a slippage parameter called `_minOutput`. This slippage parameter is used for the `baseProceeds`, proceeds that are released immediately. Unfortunately, no slippage parameter
+wiki_exploit_scenario: |
+    Per Solodit #35862: ## Severity: Medium Risk
+    
+    ## Context
+    HyperdriveLP .sol#L265
+    
+    ## Description
+    During the removal of liquidity, an LP specifies a slippage parameter called `_minOutput`. This slippage parameter is used f
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SandwichingRemoveliquidityCanStealProfitsFromLp"
+solodit_id: "35862"
+solodit_slug: "sandwiching-removeliquidity-can-steal-profits-from-lp-spearbit-none-hyperdrive-june-2023-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal baseproceeds;"
+fn_name_regex: ".*(baseProceeds|withdrawalShares|withdrawalProceeds).*"
+read_var_regex: ".*(baseProceeds|withdrawalProceeds|withdrawalShares).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "baseProceeds"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return baseproceeds > 0;"

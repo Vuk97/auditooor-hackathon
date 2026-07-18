@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "caterpillar-coin-cut-2024-09"
+class_name: "CaterpillarCoinCut202409"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-09/Caterpillar_Coin_CUT_exp.sol"
+help: "Caterpillar_Coin_CUT 2024-09 — flashloan exploit (~1.4M USD)"
+wiki_title: "Caterpillar_Coin_CUT (2024-09) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-09): Caterpillar_Coin_CUT lost ~1.4M USD. Bug class: flashloan. Attack tx: unknown.
+wiki_exploit_scenario: |
+    Attacker (0x5766d1F03378f50c7c981c014Ed5e5A8124f38A4) exploits Caterpillar_Coin_CUT via flashloan: the victim contract 0x7057f3b0f4d0649b428f0d8378a8a0e7d21d36a7 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "CaterpillarCoinCut202409"
+trigger_sig_regex: ".*(pancakeCall).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function pancakeCall(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.pancakeCall(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

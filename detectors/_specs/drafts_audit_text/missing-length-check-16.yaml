@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-length-check-16"
+class_name: "MissingLengthCheck16"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Plaza - Zellic Audit Report"
+help: |
+    The contract derives the weights of tokens from the ratio of balances of tokens: function createPool(bytes32 salt) external nonReentrant whenNotPaused checkDepositEnded { // (...)
+wiki_title: "Missing length check                                                      16"
+wiki_description: |
+    The contract derives the weights of tokens from the ratio of balances of tokens: function createPool(bytes32 salt) external nonReentrant whenNotPaused checkDepositEnded { // (...) // Determine the normalized weights of the tokens based on the balances of each token for (uint256 i = 0; i < nAllowedTo
+wiki_exploit_scenario: |
+    Per audit finding: The contract derives the weights of tokens from the ratio of balances of tokens: function createPool(bytes32 salt) external nonReentrant whenNotPaused checkDepositEnded { // (...) // Determine the nor
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingLengthCheck16"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(createPool|nonReentrant|whenNotPaused).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "createPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

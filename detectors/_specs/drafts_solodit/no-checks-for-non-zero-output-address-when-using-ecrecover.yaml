@@ -1,0 +1,36 @@
+skeleton: "paired_function_divergence"
+name: "no-checks-for-non-zero-output-address-when-using-ecrecover"
+class_name: "NoChecksForNonZeroOutputAddressWhenUsingEcrecover"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26297 (SigmaPrime/Term Finance)"
+help: "No checks for non-zero output address when using ecrecover()"
+wiki_title: "No checks for non-zero output address when using ecrecover()"
+wiki_description: |
+    ## Description
+    There are no checks to ensure `ecrecover()` does not return zero. As such, any invalid signature would be treated as valid when paired with a zero address. The zero address (stored in `termAuth.user`) and an invalid signature can then be used to authenticate transactions.
+    
+    ## From Aut
+wiki_exploit_scenario: |
+    Per Solodit #26297: ## Description
+    There are no checks to ensure `ecrecover()` does not return zero. As such, any invalid signature would be treated as valid when paired with a zero address. The zero address (stored in `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoChecksForNonZeroOutputAddressWhenUsingEcrecover"
+solodit_id: "26297"
+solodit_slug: "no-checks-for-non-zero-output-address-when-using-ecrecover-sigmaprime-none-term-finance-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(e883f0e|ecrecover).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

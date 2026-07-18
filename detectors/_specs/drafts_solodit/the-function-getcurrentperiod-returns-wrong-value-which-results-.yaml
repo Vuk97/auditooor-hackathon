@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "the-function-getcurrentperiod-returns-wrong-value-which-results-"
+class_name: "TheFunctionGetcurrentperiodReturnsWrongValueWhichResults"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20969 (AuditOne/Soonaverse)"
+help: "The function getCurrentPeriod() returns wrong value which results in staking before startDate"
+wiki_title: "The function getCurrentPeriod() returns wrong value which results in staking before startDate"
+wiki_description: |
+    **Description:** 
+    
+    If block.timestamp < startDate, then the function returns 0, while it also returns 0 if block.timestamp - startDate < periodLength. Due to return of 0 for block.timestamp < startDate, it is possible to stake before startDate.
+    
+    **Recommendations** 
+    
+    Change the function accordingly.
+wiki_exploit_scenario: |
+    Per Solodit #20969: **Description:** 
+    
+    If block.timestamp < startDate, then the function returns 0, while it also returns 0 if block.timestamp - startDate < periodLength. Due to return of 0 for block.timestamp < startDat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheFunctionGetcurrentperiodReturnsWrongValueWhichResults"
+solodit_id: "20969"
+solodit_slug: |
+    the-function-getcurrentperiod-returns-wrong-value-which-results-in-staking-before-startdate-auditone-none-soonaverse-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(startDate|periodLength|getCurrentPeriod).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "startDate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

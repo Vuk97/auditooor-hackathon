@@ -1,0 +1,38 @@
+skeleton: "state_write_without_paired_write"
+name: "when-calling-recalfs-from-dctstake-the-calculated-fs-may-be-inco"
+class_name: "WhenCallingRecalfsFromDctstakeTheCalculatedFsMayBeInco"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40675 (Cantina/Goat Tech)"
+help: "When calling _recalfs from dctstake , the calculated fs may be incorrect"
+wiki_title: "When calling _recalfs from dctstake , the calculated fs may be incorrect "
+wiki_description: |
+    ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    When *reCalFs* is called from *dctStake*, *maxEarning* may be stale. This is because if the *poolOwner* has unshared earnings that have not yet been counted into *maxEarning*, then the actual *maxEarning* will be larger than
+wiki_exploit_scenario: |
+    Per Solodit #40675: ## Context
+    (No context files were provided by the reviewer)
+    
+    ## Description
+    When *reCalFs* is called from *dctStake*, *maxEarning* may be stale. This is because if the *poolOwner* has unshared earning
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WhenCallingRecalfsFromDctstakeTheCalculatedFsMayBeInco"
+solodit_id: "40675"
+solodit_slug: "when-calling-_recalfs-from-dctstake-the-calculated-fs-may-be-incorrect-cantina-none-goat-tech-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(reCalFs|dctStake|maxEarning|poolOwner).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

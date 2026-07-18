@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "out-of-bounds-read"
+class_name: "OutOfBoundsRead"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Biconomy Account Recovery Module - Zellic Audit Report-II"
+help: |
+    The validateUserOp function reads the innerSelector from a bytes array using inline YUL without first checking the array length. (address dest, uint256 callValue, bytes memory inne
+wiki_title: "Out-of-bounds read"
+wiki_description: |
+    The validateUserOp function reads the innerSelector from a bytes array using inline YUL without first checking the array length. (address dest, uint256 callValue, bytes memory innerCallData) = abi .decode( userOp.callData[4:], // skip selector (address, uint256, bytes) ); bytes4 innerSelector; assem
+wiki_exploit_scenario: |
+    Per audit finding: The validateUserOp function reads the innerSelector from a bytes array using inline YUL without first checking the array length. (address dest, uint256 callValue, bytes memory innerCallData) = abi .de
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OutOfBoundsRead"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(validateUserOp|innerSelector|callValue).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "validateUserOp"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

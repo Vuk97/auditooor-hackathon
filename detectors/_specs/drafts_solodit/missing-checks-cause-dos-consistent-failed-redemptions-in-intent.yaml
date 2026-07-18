@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "missing-checks-cause-dos-consistent-failed-redemptions-in-intent"
+class_name: "MissingChecksCauseDosConsistentFailedRedemptionsInIntent"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #52051 (Halborn/Intent Assets)"
+help: "Missing checks cause DoS & consistent failed redemptions in IntentTokenMinting"
+wiki_title: "Missing checks cause DoS & consistent failed redemptions in IntentTokenMinting"
+wiki_description: |
+    ##### Description
+    
+    During the analysis of the `IntentTokenMinting.sol` contract, it was observed that external calls to the `QuotaController.sol` contracts are performed in the execution flow of both `submit` and `redeem` functions. This happens because before any deposit (through the `submit` funct
+wiki_exploit_scenario: |
+    Per Solodit #52051: ##### Description
+    
+    During the analysis of the `IntentTokenMinting.sol` contract, it was observed that external calls to the `QuotaController.sol` contracts are performed in the execution flow of both
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingChecksCauseDosConsistentFailedRedemptionsInIntent"
+solodit_id: "52051"
+solodit_slug: |
+    missing-checks-cause-dos-consistent-failed-redemptions-in-intenttokenminting-halborn-dappos-intent-assets-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal checkquota;"
+fn_name_regex: ".*(submit|redeem|checkQuota).*"
+read_var_regex: ".*(checkQuota|redeem|submit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "submit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return checkquota > 0;"

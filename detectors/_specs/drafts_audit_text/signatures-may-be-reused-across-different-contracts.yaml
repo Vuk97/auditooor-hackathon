@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "signatures-may-be-reused-across-different-contracts"
+class_name: "SignaturesMayBeReusedAcrossDifferentContracts"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Hyperliquid - Zellic Audit Report"
+help: |
+    On the Arbitrum side, the bridge operates by allowing users to perform actions ap- proved by validators. For instance, to request a withdrawal, the user needs at least two thirds o
+wiki_title: "Signatures may be reused across different contracts"
+wiki_description: |
+    On the Arbitrum side, the bridge operates by allowing users to perform actions ap- proved by validators. For instance, to request a withdrawal, the user needs at least two thirds of the validators (if validator power is equally distributed) to sign off us- ing their in-memory hot keys. The bridge ch
+wiki_exploit_scenario: |
+    Per audit finding: On the Arbitrum side, the bridge operates by allowing users to perform actions ap- proved by validators. For instance, to request a withdrawal, the user needs at least two thirds of the validators (if
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SignaturesMayBeReusedAcrossDifferentContracts"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(makeDomainSeparator).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "makeDomainSeparator"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

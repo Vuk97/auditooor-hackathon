@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "h-11-not-enough-margin-pulled-or-burned-from-user-when-adding-to"
+class_name: "H11NotEnoughMarginPulledOrBurnedFromUserWhenAddingTo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6330 (Code4rena/Tigris Trade)"
+help: "[H-11] Not enough margin pulled or burned from user when adding to a position"
+wiki_title: "[H-11] Not enough margin pulled or burned from user when adding to a position"
+wiki_description: |
+    When adding to a position, the amount of margin pulled from the user is not as much as it should be, which leaks value from the protocol, lowering the collateralization ratio of `tigAsset`.
+    
+    ### Proof of Concept
+    
+    In `Trading.addToPosition` the `_handleDeposit` function is called like this:
+    
+    ```js
+    _
+wiki_exploit_scenario: |
+    Per Solodit #6330: When adding to a position, the amount of margin pulled from the user is not as much as it should be, which leaks value from the protocol, lowering the collateralization ratio of `tigAsset`.
+    
+    ### Proo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H11NotEnoughMarginPulledOrBurnedFromUserWhenAddingTo"
+solodit_id: "6330"
+solodit_slug: |
+    h-11-not-enough-margin-pulled-or-burned-from-user-when-adding-to-a-position-code4rena-tigris-trade-tigris-trade-contest-git
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal initiatemarketorder;"
+fn_name_regex: ".*(tigAsset|initiateMarketOrder).*"
+read_var_regex: ".*(initiateMarketOrder|tigAsset).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tigAsset"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return initiatemarketorder > 0;"

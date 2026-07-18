@@ -1,0 +1,20 @@
+id: dust-transfer-fills-reserve-slots
+title: "Unsolicited dust transfers fill all active reserve slots"
+severity: Medium
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44822"
+bug_class: input-validation
+indicators:
+  - "aToken transfer auto-enables collateral with no dust threshold"
+  - "MAX_USER_RESERVES reachable by griefer sending 1 wei aTokens of each reserve"
+victim: "Victim users: transactions that need a free slot revert."
+exploit_precondition: "Attacker can transfer tiny amounts of any reserve's aToken."
+real_world_example: |
+  V12 #44822 (Medium): Unsolicited dust transfers can fill all active reserve slots.
+suggested_remediation: "Require user opt-in for collateral activation on receive; OR enforce minimum amount."
+cross_refs:
+  - reserve-cap-bypass-swap-collateral
+  - collateral-auto-enable-without-eligibility

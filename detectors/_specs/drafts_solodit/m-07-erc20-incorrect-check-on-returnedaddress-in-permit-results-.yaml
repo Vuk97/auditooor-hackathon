@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_require"
+name: "m-07-erc20-incorrect-check-on-returnedaddress-in-permit-results-"
+class_name: "M07Erc20IncorrectCheckOnReturnedaddressInPermitResults"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3055 (Code4rena/Swivel)"
+help: |
+    [M-07] ERC20 Incorrect check on returnedAddress in permit() results in unlimited approval of zero address
+wiki_title: |
+    [M-07] ERC20 Incorrect check on returnedAddress in permit() results in unlimited approval of zero address
+wiki_description: |
+    _Submitted by devtooligan_
+    
+    When creating ERC20.sol from Solmate, a `require()` in `permit()` was converted to a custom error incorrectly.
+    
+    It now reads:
+    
+    ```solidity
+    
+    if (recoveredAddress != address(0) && recoveredAddress != owner) {
+        revert Invalid(msg.sender, owner);
+    }
+    ```
+    
+    So if the `recovere
+wiki_exploit_scenario: |
+    Per Solodit #3055: _Submitted by devtooligan_
+    
+    When creating ERC20.sol from Solmate, a `require()` in `permit()` was converted to a custom error incorrectly.
+    
+    It now reads:
+    
+    ```solidity
+    
+    if (recoveredAddress != address(
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07Erc20IncorrectCheckOnReturnedaddressInPermitResults"
+solodit_id: "3055"
+solodit_slug: |
+    m-07-erc20-incorrect-check-on-returnedaddress-in-permit-results-in-unlimited-approval-of-zero-address-code4rena-swivel-swivel-v3-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal owner;"
+fn_name_regex: ".*(require|permit|recoveredAddress|owner).*"
+write_var_regex: ".*(owner|permit|recoveredAddress).*"
+guard_var_regex: ".*(owner|permit|recoveredAddress).*"
+vuln_fn_name: "require"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "owner = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

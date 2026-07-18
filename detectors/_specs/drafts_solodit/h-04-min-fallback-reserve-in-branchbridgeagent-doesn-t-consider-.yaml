@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "h-04-min-fallback-reserve-in-branchbridgeagent-doesn-t-consider-"
+class_name: "H04MinFallbackReserveInBranchbridgeagentDoesnTConsider"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26038 (Code4rena/Maia DAO Ecosystem)"
+help: |
+    [H-04] `MIN_FALLBACK_RESERVE` (in `BranchBridgeAgent`) doesn't consider the actual gas consumption in ``AnyCall`` contracts, which lets the user underpay the actual cost when reple
+wiki_title: |
+    [H-04] `MIN_FALLBACK_RESERVE` (in `BranchBridgeAgent`) doesn't consider the actual gas consumption in ``AnyCall`` contracts, which lets the user underpay the ac
+wiki_description: |
+    `anyFallback` method is called by the `Anycall Executor` on the source chain in case of a failure of the function `anyExecute` on the root chain. The user has to pay for the execution gas cost for this, which is done at the end of the call. However, if there is not enough `depositedGas`, the  `anyF
+wiki_exploit_scenario: |
+    Per Solodit #26038: `anyFallback` method is called by the `Anycall Executor` on the source chain in case of a failure of the function `anyExecute` on the root chain. The user has to pay for the execution gas cost for th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04MinFallbackReserveInBranchbridgeagentDoesnTConsider"
+solodit_id: "26038"
+solodit_slug: |
+    h-04-min_fallback_reserve-in-branchbridgeagent-doesnt-consider-the-actual-gas-consumption-in-anycall-contracts-which-lets-the-user-underpay-the-actual-cost-when-replenishing-the-execution-budget-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal anyexecute;"
+fn_name_regex: ".*(anyFallback|anyExecute|depositedGas|MIN_FALLBACK_RESERVE).*"
+read_var_regex: ".*(anyExecute|anyFallback|depositedGas).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "anyFallback"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return anyexecute > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "market-close-callback-trusts-collateral-amount"
+class_name: "MarketCloseCallbackTrustsCollateralAmount"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Bloom Trading - Zellic Audit Report"
+help: |
+    When a trader issues a market close, the amount of collateral to close is specified so that the trader has the option to not close all the collateral for a trade. The function in T
+wiki_title: "Market close callback trusts collateral amount"
+wiki_description: |
+    When a trader issues a market close, the amount of collateral to close is specified so that the trader has the option to not close all the collateral for a trade. The function in Trading checks that _amount, which is the amount of collateral closed, is less than the actual amount of collateral held
+wiki_exploit_scenario: |
+    Per audit finding: When a trader issues a market close, the amount of collateral to close is specified so that the trader has the option to not close all the collateral for a trade. The function in Trading checks that _
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MarketCloseCallbackTrustsCollateralAmount"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(initialPosToken|closeTradeMarket|onlyWhitelist).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "initialPosToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

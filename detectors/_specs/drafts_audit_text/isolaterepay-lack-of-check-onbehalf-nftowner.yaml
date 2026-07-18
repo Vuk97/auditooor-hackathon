@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "isolaterepay-lack-of-check-onbehalf-nftowner"
+class_name: "IsolaterepayLackOfCheckOnbehalfNftowner"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-benddao"
+help: |
+    bin2chen When calling isolateRepay() we can specify nftTokenIds and onBehalf . The current implementation just restricts onBehalf!=address(0) and does not restrict onBehalf == nftO
+wiki_title: "isolateRepay() lack of check onBehalf == nftOwner"
+wiki_description: |
+    bin2chen When calling isolateRepay() we can specify nftTokenIds and onBehalf . The current implementation just restricts onBehalf!=address(0) and does not restrict onBehalf == nftOwner . function validateIsolateRepayBasic ( InputTypes.ExecuteIsolateRepayParams memory inputParams DataTypes.PoolData s
+wiki_exploit_scenario: |
+    Per audit finding: bin2chen When calling isolateRepay() we can specify nftTokenIds and onBehalf . The current implementation just restricts onBehalf!=address(0) and does not restrict onBehalf == nftOwner . function vali
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IsolaterepayLackOfCheckOnbehalfNftowner"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(isolateRepay|nftTokenIds|onBehalf).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "isolateRepay"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

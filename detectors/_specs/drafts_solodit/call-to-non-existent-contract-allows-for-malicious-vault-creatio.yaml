@@ -1,0 +1,39 @@
+skeleton: "paired_function_divergence"
+name: "call-to-non-existent-contract-allows-for-malicious-vault-creatio"
+class_name: "CallToNonExistentContractAllowsForMaliciousVaultCreatio"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #52867 (Spearbit/Berachain Pol)"
+help: "Call to non-existent contract allows for malicious vault creation"
+wiki_title: "Call to non-existent contract allows for malicious vault creation"
+wiki_description: |
+    Severity: High Risk
+    Context: StakingRewards.sol#L84
+    Description: The stakingToken for new vaults is never confirmed to be a contract. Combined with the use of
+    Solady's safeTransfer, which does not perform a contract check, a malicious actor may create a vault and obtain
+    an unfair number of share
+wiki_exploit_scenario: |
+    Per Solodit #52867: Severity: High Risk
+    Context: StakingRewards.sol#L84
+    Description: The stakingToken for new vaults is never confirmed to be a contract. Combined with the use of
+    Solady's safeTransfer, which does not
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CallToNonExistentContractAllowsForMaliciousVaultCreatio"
+solodit_id: "52867"
+solodit_slug: "call-to-non-existent-contract-allows-for-malicious-vault-creation-spearbit-none-berachain-pol-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

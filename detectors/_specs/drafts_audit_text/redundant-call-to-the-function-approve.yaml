@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "redundant-call-to-the-function-approve"
+class_name: "RedundantCallToTheFunctionApprove"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Frax0 Mesh - Zellic Audit Report"
+help: |
+    The function burnFrxUSD allows the contract’s owner or operator to burn the frxUSD tokens held by the contract. It calls the function approve of frxUSD to grant itself an allowance
+wiki_title: "Redundant call to the function approve"
+wiki_description: |
+    The function burnFrxUSD allows the contract’s owner or operator to burn the frxUSD tokens held by the contract. It calls the function approve of frxUSD to grant itself an allowance, but burning the tokens held by the contract itself does not consume the allowance. function burnFrxUSD(uint256 amount)
+wiki_exploit_scenario: |
+    Per audit finding: The function burnFrxUSD allows the contract’s owner or operator to burn the frxUSD tokens held by the contract. It calls the function approve of frxUSD to grant itself an allowance, but burning the to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RedundantCallToTheFunctionApprove"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(burnFrxUSD|frxUSD|balanceOf).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "burnFrxUSD"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

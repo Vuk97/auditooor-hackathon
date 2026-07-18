@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "c-01-incorrect-token-order-passed-for-weth-rdnt-swaps"
+class_name: "C01IncorrectTokenOrderPassedForWethRdntSwaps"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31661 (Pashov Audit Group/Radiant)"
+help: "[C-01] Incorrect token order passed for WETH -> RDNT swaps"
+wiki_title: "[C-01] Incorrect token order passed for WETH -> RDNT swaps"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    The `BalancerPoolHelper.swapWethToRdnt()` is intended to swap WETH for RDNT. However, the input and output tokens are in reverse:
+    
+    ```solidity
+    _swap(RDNT_ADDRESS, REAL_WETH_ADDR, _wethAmount, _minAmountOut, WETH_RDNT_POOL_ID, msg
+wiki_exploit_scenario: |
+    Per Solodit #31661: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    The `BalancerPoolHelper.swapWethToRdnt()` is intended to swap WETH for RDNT. However, the input and output tokens are in reverse:
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01IncorrectTokenOrderPassedForWethRdntSwaps"
+solodit_id: "31661"
+solodit_slug: "c-01-incorrect-token-order-passed-for-weth-rdnt-swaps-pashov-none-radiant-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(swapWethToRdnt|wethAddr).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swapWethToRdnt"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

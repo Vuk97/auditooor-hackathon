@@ -1,0 +1,43 @@
+skeleton: "state_write_without_paired_write"
+name: "h-01-incorrect-burn-reward-multiplier-reset-on-claim-reduces-acc"
+class_name: "H01IncorrectBurnRewardMultiplierResetOnClaimReducesAcc"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62873 (Shieldify/Honeypotfinance Nftstaking)"
+help: "[H-01] Incorrect Burn Reward Multiplier Reset on `claim()` Reduces Accrual"
+wiki_title: "[H-01] Incorrect Burn Reward Multiplier Reset on `claim()` Reduces Accrual"
+wiki_description: |
+    ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    Burn-mode rewards compute the multiplier from time since the last burn claim and then reset that reference timestamp on each claim, erasing duration and keeping the multiplier near 1. Normal staking keeps the multiplier based on total elapsed since staking, s
+wiki_exploit_scenario: |
+    Per Solodit #62873: ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    Burn-mode rewards compute the multiplier from time since the last burn claim and then reset that reference timestamp on each claim, erasing duration and keepin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01IncorrectBurnRewardMultiplierResetOnClaimReducesAcc"
+solodit_id: "62873"
+solodit_slug: |
+    h-01-incorrect-burn-reward-multiplier-reset-on-claim-reduces-accrual-shieldify-none-honeypotfinance-nftstaking-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(claim).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "combination-of-ownable-and-accesscontrol-can-cause-loss-of-admin"
+class_name: "CombinationOfOwnableAndAccesscontrolCanCauseLossOfAdmin"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62962 (Cyfrin/Button Basis Trade)"
+help: "Combination of Ownable and AccessControl can cause loss of admin functionality"
+wiki_title: "Combination of Ownable and AccessControl can cause loss of admin functionality"
+wiki_description: |
+    **Description:** `BasisTradeTailor` and `BasisTradeVault` mix `Ownable(2Step)Upgradeable` with `AccessControlUpgradeable`. Several admin wrappers are `onlyOwner` but internally call `grantRole` / `revokeRole`, which themselves require the caller to hold the role’s admin (usually `DEFAULT_ADMIN_ROLE`
+wiki_exploit_scenario: |
+    Per Solodit #62962: **Description:** `BasisTradeTailor` and `BasisTradeVault` mix `Ownable(2Step)Upgradeable` with `AccessControlUpgradeable`. Several admin wrappers are `onlyOwner` but internally call `grantRole` / `rev
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CombinationOfOwnableAndAccesscontrolCanCauseLossOfAdmin"
+solodit_id: "62962"
+solodit_slug: |
+    combination-of-ownable-and-accesscontrol-can-cause-loss-of-admin-functionality-cyfrin-none-button-basis-trade-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal grantrole;"
+fn_name_regex: ".*(BasisTradeTailor|BasisTradeVault|AccessControlUpgradeable|onlyOwner).*"
+read_var_regex: ".*(grantRole|onlyOwner|onlyRole).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BasisTradeTailor"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return grantrole > 0;"

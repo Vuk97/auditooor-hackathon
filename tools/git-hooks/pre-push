@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+# auditooor pre-push hook - MCP token + recall freshness check.
+# Managed by tools/install-hooks.sh - do not edit directly.
+
+set -euo pipefail
+
+AUDITOOOR_RECALL_MAX_AGE_S="${AUDITOOOR_RECALL_MAX_AGE_S:-1800}"
+AUDITOOOR_MCP_REQUIRED="${AUDITOOOR_MCP_REQUIRED:-1}"
+
+REMOTE_NAME="${1:-unknown}"
+REMOTE_URL="${2:-unknown}"
+
+_resolve_path() {
+    python3 - "$1" <<'PYEOF'
+import pathlib
+import sys
+print(pathlib.Path(sys.argv[1]).resolve())
+PYEOF
+}
+
+ACTUAL_WS_ROOT="$(git rev-parse --show-toplevel)"
+ACTUAL_WS_ROOT="$(_resolve_path "$ACTUAL_WS_ROOT")"
+
+if [[ -n "${AUDITOOOR_WS_ROOT:-}" ]]; then
+    OVERRIDE_WS_ROOT="$(_resolve_path "$AUDITOOOR_WS_ROOT")"
+    if [[ "$OVERRIDE_WS_ROOT" != "$ACTUAL_WS_ROOT" ]]; then
+        echo "[pre-push] REJECTED: AUDITOOOR_WS_ROOT resolves to $OVERRIDE_WS_ROOT, but git is pushing $ACTUAL_WS_ROOT." >&2
+        exit 1
+    fi
+fi
+
+WS_ROOT="$ACTUAL_WS_ROOT"
+SENTINEL="$WS_ROOT/.auditooor/last_mcp_recall.json"
+BYPASS_LOG="$WS_ROOT/.auditooor/bypass_log.jsonl"
+TOKEN_TOOL="${AUDITOOOR_MCP_TOKEN_TOOL:-$WS_ROOT/tools/auditooor_mcp_token.py}"
+TOKEN="${AUDITOOOR_MCP_SESSION_TOKEN:-}"
+
+_log_bypass() {
+    local reason="$1"
+    mkdir -p "$WS_ROOT/.auditooor"
+    AUDITOOOR_BYPASS_LOG="$BYPASS_LOG" \
+    AUDITOOOR_BYPASS_REASON="$reason" \
+    AUDITOOOR_REMOTE_NAME="$REMOTE_NAME" \
+    AUDITOOOR_REMOTE_URL="$REMOTE_URL" \
+    python3 - <<'PYEOF'
+import json, time, os, pathlib
+log = pathlib.Path(os.environ["AUDITOOOR_BYPASS_LOG"])
+log.parent.mkdir(parents=True, exist_ok=True)
+with open(log, "a") as f:
+    json.dump({
+        "event": "bypass",
+        "hook": "pre-push",
+        "reason": os.environ.get("AUDITOOOR_BYPASS_REASON", "unknown"),
+        "ts": time.time(),
+        "iso": __import__('datetime').datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+        "user": os.environ.get("USER", "unknown"),
+        "remote_name": os.environ.get("AUDITOOOR_REMOTE_NAME", "unknown"),
+        "remote_url": os.environ.get("AUDITOOOR_REMOTE_URL", "unknown"),
+    }, f)
+    f.write("\n")
+PYEOF
+}
+
+# ------------------------------------------------------------------
+# Bypass path
+# ------------------------------------------------------------------
+if [[ "$AUDITOOOR_MCP_REQUIRED" == "0" ]]; then
+    _log_bypass "AUDITOOOR_MCP_REQUIRED=0"
+    echo "[pre-push] MCP push gate bypass logged (AUDITOOOR_MCP_REQUIRED=0)" >&2
+    exit 0
+fi
+
+# ------------------------------------------------------------------
+# Check sentinel existence and freshness
+# ------------------------------------------------------------------
+if [[ ! -f "$SENTINEL" ]]; then
+    echo "[pre-push] REJECTED: .auditooor/last_mcp_recall.json not found." >&2
+    echo "[pre-push] Run: bash tools/auditooor-session-start.sh" >&2
+    echo "[pre-push] Bypass: AUDITOOOR_MCP_REQUIRED=0 git push ..." >&2
+    exit 1
+fi
+
+NOW="$(python3 -c 'import time; print(int(time.time()))')"
+RECALL_TS="$(AUDITOOOR_RECALL_SENTINEL="$SENTINEL" python3 - <<'PYEOF' 2>/dev/null || echo 0
+import json
+import os
+import pathlib
+
+sentinel = pathlib.Path(os.environ["AUDITOOOR_RECALL_SENTINEL"])
+with sentinel.open() as f:
+    d = json.load(f)
+print(int(d.get("recall_ts", 0)))
+PYEOF
+)"
+
+AGE=$(( NOW - RECALL_TS ))
+
+if [[ $AGE -gt $AUDITOOOR_RECALL_MAX_AGE_S ]]; then
+    echo "[pre-push] REJECTED: MCP recall sentinel is ${AGE}s old (max ${AUDITOOOR_RECALL_MAX_AGE_S}s)." >&2
+    echo "[pre-push] Run: bash tools/auditooor-session-start.sh" >&2
+    echo "[pre-push] Bypass: AUDITOOOR_MCP_REQUIRED=0 git push ..." >&2
+    exit 1
+fi
+
+echo "[pre-push] MCP recall sentinel OK (age: ${AGE}s)" >&2
+
+# ------------------------------------------------------------------
+# Verify write-scoped MCP session token
+# ------------------------------------------------------------------
+if [[ -z "$TOKEN" ]]; then
+    echo "[pre-push] REJECTED: git push requires AUDITOOOR_MCP_SESSION_TOKEN with write scope." >&2
+    echo "[pre-push] Issue: python3 tools/auditooor_mcp_token.py issue --workspace \"\$PWD\" --scope write" >&2
+    echo "[pre-push] Bypass: AUDITOOOR_MCP_REQUIRED=0 git push ..." >&2
+    exit 1
+fi
+
+if [[ ! -x "$TOKEN_TOOL" && ! -f "$TOKEN_TOOL" ]]; then
+    echo "[pre-push] REJECTED: token verifier not found at $TOKEN_TOOL." >&2
+    echo "[pre-push] Bypass: AUDITOOOR_MCP_REQUIRED=0 git push ..." >&2
+    exit 1
+fi
+
+if ! python3 "$TOKEN_TOOL" verify "$TOKEN" --require-scope write --require-workspace "$WS_ROOT" >/dev/null 2>&1; then
+    echo "[pre-push] REJECTED: invalid MCP session token for workspace $WS_ROOT (scope=write)." >&2
+    echo "[pre-push] Issue: python3 tools/auditooor_mcp_token.py issue --workspace \"\$PWD\" --scope write" >&2
+    echo "[pre-push] Bypass: AUDITOOOR_MCP_REQUIRED=0 git push ..." >&2
+    exit 1
+fi
+
+echo "[pre-push] MCP session token OK (scope=write)" >&2
+exit 0

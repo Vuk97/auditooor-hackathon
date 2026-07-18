@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "contracts-that-allow-owners-to-withdraw-tokens-may-represent-backdoor-"
+class_name: "ContractsThatAllowOwnersToWithdrawTokensMayRepresentBackdoor"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider AST: anyone-can-call-erc-token-transfers"
+help: "Contracts that allow owners to withdraw tokens may represent backdoor functions"
+wiki_title: "Contracts that allow owners to withdraw tokens may represent backdoor functions"
+wiki_description: |
+    A contract with a backdoor function that lets the owner withdraw tokens may indicate a scam. This query identifies these backdoor functions via looking for functions that call transfer-like functions for ERC-20, ERC-721, or ERC-1155 tokens and lack modifiers that call msg.sender indicating a lack of
+wiki_exploit_scenario: |
+    Tags [malicious logic, access control]: A contract with a backdoor function that lets the owner withdraw tokens may indicate a scam. This query identifies these backdoor functions via looking for functions that call transfer-like functions 
+wiki_recommendation: "Apply the access check implied by the Glider query filter."
+contract_name: "ContractsThatAllowOwnersToWithdrawTokensMayRepresentBackdoor"
+fn_name_regex: ".*"
+read_var_regex: ".*contracts.*"
+required_call_regex: ".*(owner|admin|onlyOwner|onlyRole).*"
+guarded_helper_name: "_onlyOwner"
+vuln_fn_name: "adapterFn"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return contracts > 0;"
+state_decl: "uint256 internal contracts;"

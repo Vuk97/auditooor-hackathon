@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "sending-zeta-to-a-bitcoin-network-results-in-btc-being-sent--x"
+class_name: "SendingZetaToABitcoinNetworkResultsInBtcBeingSentX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit ZetaChain - 7.12.23 Zellic Audit Report"
+help: |
+    stead This finding was fixed by introducing a new check in the ProcessZetaSentEvent() func- tion that checks to ensure that any external chains ZETA is being sent to has a ZETA- to
+wiki_title: "— Sending ZETA to a Bitcoin network results in BTC being sent instead"
+wiki_description: |
+    stead This finding was fixed by introducing a new check in the ProcessZetaSentEvent() func- tion that checks to ensure that any external chains ZETA is being sent to has a ZETA- token contract deployed on it. Since the Bitcoin chain does not implement smart con- tracts, this check will prevent ZETA
+wiki_exploit_scenario: |
+    Per audit finding: stead This finding was fixed by introducing a new check in the ProcessZetaSentEvent() func- tion that checks to ensure that any external chains ZETA is being sent to has a ZETA- token contract deploye
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SendingZetaToABitcoinNetworkResultsInBtcBeingSentX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(emittingContract|coreParams|zetaObserverKeeper).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "emittingContract"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

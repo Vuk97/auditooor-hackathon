@@ -1,0 +1,35 @@
+skeleton: "state_write_without_paired_write"
+name: "gmpriceoracle-does-not-check-for-chainlink-stale-prices"
+class_name: "GmpriceoracleDoesNotCheckForChainlinkStalePrices"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51842 (Halborn/GMI and Lending)"
+help: "GMPriceOracle does not check for Chainlink stale prices"
+wiki_title: "GMPriceOracle does not check for Chainlink stale prices"
+wiki_description: |
+    ##### Description
+    
+    Chainlink feeds return the time where the price feed was updated with the latest price. This is done to make it possible for developers to choose to either use a price or not if it is considered too old. However, the `GMPriceOracle` does not check this. If the returned pricing dat
+wiki_exploit_scenario: |
+    Per Solodit #51842: ##### Description
+    
+    Chainlink feeds return the time where the price feed was updated with the latest price. This is done to make it possible for developers to choose to either use a price or not if it
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GmpriceoracleDoesNotCheckForChainlinkStalePrices"
+solodit_id: "51842"
+solodit_slug: |
+    gmpriceoracle-does-not-check-for-chainlink-stale-prices-halborn-gloop-finance-gmi-and-lending-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(GMPriceOracle|getPriceFromChainlink|answer|timeStamp).*"
+primary_var_regex: ".*(answer|getPriceFromChainlink|timeStamp).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

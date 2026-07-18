@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "h-01-ousginstantmanager-will-allow-excessive-ousg-token-minting-"
+class_name: "H01OusginstantmanagerWillAllowExcessiveOusgTokenMinting"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #32007 (Code4rena/Ondo Finance)"
+help: "[H-01] `OUSGInstantManager` will allow excessive `OUSG` token minting during `USDC` depeg event"
+wiki_title: "[H-01] `OUSGInstantManager` will allow excessive `OUSG` token minting during `USDC` depeg event"
+wiki_description: |
+    Any user can use `mint` function in `ousgInstantManager` contract to mint `OUSG` tokens by providing `USDC` token. It calls internal function `_mint` where the main logic resides.
+    
+    ```solidity
+    
+      function _mint(uint256 usdcAmountIn, address to) internal returns (uint256 ousgAmountOut) {
+        
+        //
+wiki_exploit_scenario: |
+    Per Solodit #32007: Any user can use `mint` function in `ousgInstantManager` contract to mint `OUSG` tokens by providing `USDC` token. It calls internal function `_mint` where the main logic resides.
+    
+    ```solidity
+    
+      fun
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01OusginstantmanagerWillAllowExcessiveOusgTokenMinting"
+solodit_id: "32007"
+solodit_slug: |
+    h-01-ousginstantmanager-will-allow-excessive-ousg-token-minting-during-usdc-depeg-event-code4rena-ondo-finance-ondo-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal mint;"
+fn_name_regex: ".*(mint|ousgInstantManager|OUSG|USDC).*"
+write_var_regex: ".*(mint|ousgInstantManager).*"
+guard_var_regex: ".*(mint|ousgInstantManager).*"
+vuln_fn_name: "mint"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "mint = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "h-01-wp-h5-l1migrator-sol-migrateeth-does-not-send-bridgeminter-"
+class_name: "H01WpH5L1migratorSolMigrateethDoesNotSendBridgeminter"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25622 (Code4rena/Livepeer)"
+help: |
+    [H-01] [WP-H5] `L1Migrator.sol#migrateETH()` does not send `bridgeMinter`'s ETH to L2 causing ETH get frozen in the contract
+wiki_title: |
+    [H-01] [WP-H5] `L1Migrator.sol#migrateETH()` does not send `bridgeMinter`'s ETH to L2 causing ETH get frozen in the contract
+wiki_description: |
+    _Submitted by WatchPug, also found by gzeon, harleythedog, and Ruhum_.
+    
+    Per the `arb-bridge-eth` code:
+    
+    > all msg.value will deposited to callValueRefundAddress on L2
+    
+    - <https://github.com/OffchainLabs/arbitrum/blob/78118ba205854374ed280a27415cb62c37847f72/packages/arb-bridge-eth/contracts/bridge/I
+wiki_exploit_scenario: |
+    Per Solodit #25622: _Submitted by WatchPug, also found by gzeon, harleythedog, and Ruhum_.
+    
+    Per the `arb-bridge-eth` code:
+    
+    > all msg.value will deposited to callValueRefundAddress on L2
+    
+    - <https://github.com/OffchainLa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01WpH5L1migratorSolMigrateethDoesNotSendBridgeminter"
+solodit_id: "25622"
+solodit_slug: |
+    h-01-wp-h5-l1migratorsolmigrateeth-does-not-send-bridgeminters-eth-to-l2-causing-eth-get-frozen-in-the-contract-code4rena-livepeer-livepeer-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(BridgeMinter|sendTxToL2|bridgeMinter|call).*"
+read_var_regex: ".*(amount|bridgeMinter|call).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BridgeMinter"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "tokens-implementing-token0-or-a-fallback-are-not-supported"
+class_name: "TokensImplementingToken0OrAFallbackAreNotSupported"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53764 (SigmaPrime/Sushi)"
+help: "Tokens Implementing token0() or a Fallback Are Not Supported"
+wiki_title: "Tokens Implementing token0() or a Fallback Are Not Supported"
+wiki_description: |
+    ## Description
+    
+    SushiMakerAuction will reject ERC20 tokens that implement the function `token0()` to prevent the sale of LP tokens which must implement this function.
+    
+    LP tokens are prevented from being used with the `onlyToken` modifier as seen below.
+    
+    ```solidity
+    modifier onlyToken(IERC20 t
+wiki_exploit_scenario: |
+    Per Solodit #53764: ## Description
+    
+    SushiMakerAuction will reject ERC20 tokens that implement the function `token0()` to prevent the sale of LP tokens which must implement this function.
+    
+    LP tokens are prevented from
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokensImplementingToken0OrAFallbackAreNotSupported"
+solodit_id: "53764"
+solodit_slug: "tokens-implementing-token0or-a-fallback-are-not-supported-sigmaprime-none-sushi-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal fallback;"
+fn_name_regex: ".*(token0|onlyToken|fallback|whitelistedTokens).*"
+read_var_regex: ".*(fallback|onlyToken|token0).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "token0"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return fallback > 0;"

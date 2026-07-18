@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "token-overburn-risk"
+class_name: "TokenOverburnRisk"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #47441 (OtterSec/Flooring BT404)"
+help: "Token Overburn Risk"
+wiki_title: "Token Overburn Risk"
+wiki_description: |
+    ## Summary of _burn Function Verification Issue in DN404
+    
+    In `DN404::_burn`, the contract verifies whether the current balance (`fromBalance`) is less than the product of `lockedLength` and `_unit()`. If this verification is successful, the contract reverts with an `InsufficientBalanceToMaintainLock
+wiki_exploit_scenario: |
+    Per Solodit #47441: ## Summary of _burn Function Verification Issue in DN404
+    
+    In `DN404::_burn`, the contract verifies whether the current balance (`fromBalance`) is less than the product of `lockedLength` and `_unit()`.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokenOverburnRisk"
+solodit_id: "47441"
+solodit_slug: "token-overburn-risk-ottersec-none-flooring-bt404-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(fromBalance|lockedLength|InsufficientBalanceToMaintainLockedToken|amount).*"
+write_var_regex: ".*(amount|ed8ec93|fromBalance).*"
+guard_var_regex: ".*(amount|ed8ec93|fromBalance).*"
+vuln_fn_name: "fromBalance"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

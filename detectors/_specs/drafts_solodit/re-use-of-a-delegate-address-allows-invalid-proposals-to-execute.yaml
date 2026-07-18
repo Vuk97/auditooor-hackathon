@@ -1,0 +1,48 @@
+skeleton: "paired_function_divergence"
+name: "re-use-of-a-delegate-address-allows-invalid-proposals-to-execute"
+class_name: "ReUseOfADelegateAddressAllowsInvalidProposalsToExecute"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16747 (TrailOfBits/Basis)"
+help: "Re-use of a delegate address allows invalid proposals to execute"
+wiki_title: "Re-use of a delegate address allows invalid proposals to execute"
+wiki_description: |
+    ## Type: Data Validation
+    
+    ## Target: ElectionCommission.sol (v0)
+    
+    **Difficulty: Low**
+    
+    ### Description
+    
+    If a proposal obtains half of the delegate weights during the tally, it can be executed. Pairing this logic with a re-use of the same delegate address allows any proposal to pass if only one deleg
+wiki_exploit_scenario: |
+    Per Solodit #16747: ## Type: Data Validation
+    
+    ## Target: ElectionCommission.sol (v0)
+    
+    **Difficulty: Low**
+    
+    ### Description
+    
+    If a proposal obtains half of the delegate weights during the tally, it can be executed. Pairing
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReUseOfADelegateAddressAllowsInvalidProposalsToExecute"
+solodit_id: "16747"
+solodit_slug: "re-use-of-a-delegate-address-allows-invalid-proposals-to-execute-trailofbits-basis-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(delegates|tallyProposalResult).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "seizing-assets-as-collateral-without-entering-the-market-may-res"
+class_name: "SeizingAssetsAsCollateralWithoutEnteringTheMarketMayRes"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #34262 (MixBytes/dForce)"
+help: "Seizing assets as collateral without entering the market may result in incorrect value calculation"
+wiki_title: "Seizing assets as collateral without entering the market may result in incorrect value calculation"
+wiki_description: |
+    ##### Description
+    During liquidation, collateral may be seized even if the borrower has not entered the market with it. Sanity checks regarding the price oracle status for the seized asset will be skipped if the market has not been entered for this asset.
+    
+    This issue is labeled as `high` since an ou
+wiki_exploit_scenario: |
+    Per Solodit #34262: ##### Description
+    During liquidation, collateral may be seized even if the borrower has not entered the market with it. Sanity checks regarding the price oracle status for the seized asset will be ski
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SeizingAssetsAsCollateralWithoutEnteringTheMarketMayRes"
+solodit_id: "34262"
+solodit_slug: |
+    seizing-assets-as-collateral-without-entering-the-market-may-result-in-incorrect-value-calculation-mixbytes-none-dforce-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal beforeliquidateborrow;"
+fn_name_regex: ".*(high|iTokenCollateral|liquidateCalculateSeizeTokensV2|beforeLiquidateBorrow).*"
+read_var_regex: ".*(beforeLiquidateBorrow|enterMarket|high).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "high"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return beforeliquidateborrow > 0;"

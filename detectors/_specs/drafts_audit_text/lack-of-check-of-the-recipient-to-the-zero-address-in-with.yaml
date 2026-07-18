@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-check-of-the-recipient-to-the-zero-address-in-with"
+class_name: "LackOfCheckOfTheRecipientToTheZeroAddressInWith"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero Core Audit (June 3rd 2022) - Zellic Audit Report"
+help: |
+    The commission in native tokens for Relayers, Oracles, and Treasury addresses is stored in the nativeFeesmapping. If the caller of thewithdrawNativefunction has any funds accrued f
+wiki_title: "Lack of check of the recipient to the zero address in with-"
+wiki_description: |
+    The commission in native tokens for Relayers, Oracles, and Treasury addresses is stored in the nativeFeesmapping. If the caller of thewithdrawNativefunction has any funds accrued for him, they will be sent to the address of the_toargument using theca ll function for transfer founds. This function do
+wiki_exploit_scenario: |
+    Per audit finding: The commission in native tokens for Relayers, Oracles, and Treasury addresses is stored in the nativeFeesmapping. If the caller of thewithdrawNativefunction has any funds accrued for him, they will be
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfCheckOfTheRecipientToTheZeroAddressInWith"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(nativeFeesmapping|thewithdrawNativefunction|withdrawNative).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "nativeFeesmapping"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

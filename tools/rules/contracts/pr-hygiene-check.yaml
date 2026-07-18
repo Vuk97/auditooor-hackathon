@@ -1,0 +1,47 @@
+# Contract for tools/pr-hygiene-check.py (P17 rule self-test).
+# Binds the PR-hygiene memory-gate to executable fixtures. Under --strict a PR
+# body with NO `## PR Hygiene` block (or an incomplete one) must be refused; a
+# fully-populated hygiene block must pass. This guards against an edit that
+# stops requiring the hygiene block under --strict.
+#
+# No mutation_predicate is declared: the must_catch here exercises the
+# missing-block branch (a structural absence, not a threshold comparison), so
+# the relational/boundary mutation operators do not model its kill. The
+# must_catch/must_pass replay alone is the binding; the mutation-proof is
+# intentionally omitted for this contract.
+name: pr-hygiene-memory-gate
+tool: tools/pr-hygiene-check.py
+rationale: |
+  --strict must exit nonzero when the PR Hygiene block is missing/incomplete.
+  The must_catch body has no `## PR Hygiene` block -> must FAIL under --strict.
+  The must_pass body is a fully-populated hygiene block (all documented labels,
+  exact commands, MCP context pack id/hash/source_refs) -> must PASS.
+argv:
+  - "--strict"
+  - "{fixture}"
+must_catch:
+  - label: pr-body-missing-hygiene-block
+    file: PR.md
+    content: |
+      # Some PR
+
+      Just a description, no PR Hygiene block at all.
+must_pass:
+  - label: pr-body-complete-hygiene-block
+    file: PR.md
+    content: |
+      ## PR Hygiene
+      - Changed-file scope:
+        - exact file list: `tools/pr-hygiene-check.py`, `tools/tests/test_pr_hygiene_check.py`
+        - why these files belong in one slice: adds the PR hygiene checker and its focused tests
+      - Checks run:
+        - exact commands: `python3 -m unittest tools.tests.test_pr_hygiene_check -v`; `python3 tools/pr-hygiene-check.py PR.md --strict`; `python3 tools/vault-mcp-server.py --self-test`
+        - result: pass
+      - MCP context:
+        - context_pack_id: auditooor.vault_context_pack.v1:resume:abc123
+        - context_pack_hash: abc123def456
+        - source_refs: `docs/PR_HYGIENE_MEMORY_GATE_2026-05-06.md`
+        - receipt_proof: none
+      - Generated-file exclusion:
+        - excluded paths/patterns: `agent_outputs/**`, `tools/calibration/*.jsonl`
+        - confirmation: excluded; not staged for this PR

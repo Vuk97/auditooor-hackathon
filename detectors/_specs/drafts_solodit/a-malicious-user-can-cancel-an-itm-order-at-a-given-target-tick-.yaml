@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "a-malicious-user-can-cancel-an-itm-order-at-a-given-target-tick-"
+class_name: "AMaliciousUserCanCancelAnItmOrderAtAGivenTargetTick"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #48911 (Cyfrin/Uniswap V3 Limit Orders)"
+help: |
+    A malicious user can cancel an ITM order at a given target tick by calling `LimitOrderRegistry::cancelOrder` with the opposite direction, separated by one tick space
+wiki_title: |
+    A malicious user can cancel an ITM order at a given target tick by calling `LimitOrderRegistry::cancelOrder` with the opposite direction, separated by one tick 
+wiki_description: |
+    **Description:** Users are able to cancel their limit orders by calling `LimitOrderRegistry::cancelOrder`. By internally calling `_getOrderStatus` and validating the return value, it is intended that only OTM orders should be able to be cancelled.
+    
+    ```solidity
+        function cancelOrder(
+            Unisw
+wiki_exploit_scenario: |
+    Per Solodit #48911: **Description:** Users are able to cancel their limit orders by calling `LimitOrderRegistry::cancelOrder`. By internally calling `_getOrderStatus` and validating the return value, it is intended that
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AMaliciousUserCanCancelAnItmOrderAtAGivenTargetTick"
+solodit_id: "48911"
+solodit_slug: |
+    a-malicious-user-can-cancel-an-itm-order-at-a-given-target-tick-by-calling-limitorderregistrycancelorder-with-the-opposite-direction-separated-by-one-tick-space-cyfrin-none-uniswap-v3-limit-orders-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal direction;"
+fn_name_regex: ".*(direction).*"
+read_var_regex: ".*(direction).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "direction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return direction > 0;"

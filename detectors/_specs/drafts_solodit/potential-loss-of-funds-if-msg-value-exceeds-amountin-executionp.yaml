@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "potential-loss-of-funds-if-msg-value-exceeds-amountin-executionp"
+class_name: "PotentialLossOfFundsIfMsgValueExceedsAmountinExecutionp"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41153 (MixBytes/EYWA)"
+help: "Potential loss of funds if `msg.value` exceeds `amountIn + executionPrice`"
+wiki_title: "Potential loss of funds if `msg.value` exceeds `amountIn + executionPrice`"
+wiki_description: |
+    ##### Description
+    If a user conducts a cross-chain operation with `WRAP_CODE`, they transfer native currency to the router and, in return, receive WETH. At the same time, the user pays an `executionPrice` for the cross-chain transaction.
+    
+    However, there's a risk that users might input a `msg.value`
+wiki_exploit_scenario: |
+    Per Solodit #41153: ##### Description
+    If a user conducts a cross-chain operation with `WRAP_CODE`, they transfer native currency to the router and, in return, receive WETH. At the same time, the user pays an `executionPr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialLossOfFundsIfMsgValueExceedsAmountinExecutionp"
+solodit_id: "41153"
+solodit_slug: "potential-loss-of-funds-if-msgvalue-exceeds-amountin-executionprice-mixbytes-none-eywa-markdown"
+solodit_quality: "5"
+solodit_rarity: "3"
+solodit_tags: "Validation"
+state_decl: "uint256 internal executionprice;"
+fn_name_regex: ".*(WRAP_CODE|executionPrice|require).*"
+write_var_regex: ".*(executionPrice|require).*"
+guard_var_regex: ".*(executionPrice|require).*"
+vuln_fn_name: "WRAP_CODE"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "executionprice = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "repository-setliquidationthreshold-can-unexpectedly-change-the-g"
+class_name: "RepositorySetliquidationthresholdCanUnexpectedlyChangeTheG"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49455 (MixBytes/Liquorice)"
+help: |
+    `Repository.setLiquidationThreshold()` can unexpectedly change the global `defaultConfig.liquidationThreshold` when setting an isolated threshold for a specific asset.
+wiki_title: |
+    `Repository.setLiquidationThreshold()` can unexpectedly change the global `defaultConfig.liquidationThreshold` when setting an isolated threshold for a specific
+wiki_description: |
+    ##### Description
+    
+    When changing the threshold for a specific asset, the threshold for all default tokens may also change in a way that is unfavorable for the protocol:
+    - https://github.com/Liquorice-HQ/contracts/blob/6100e3f6406b1f8a4cadd222870e6ed370f1f8c5/src/contracts/Repository.sol#L288-L290
+    
+    T
+wiki_exploit_scenario: |
+    Per Solodit #49455: ##### Description
+    
+    When changing the threshold for a specific asset, the threshold for all default tokens may also change in a way that is unfavorable for the protocol:
+    - https://github.com/Liquorice-
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RepositorySetliquidationthresholdCanUnexpectedlyChangeTheG"
+solodit_id: "49455"
+solodit_slug: |
+    repositorysetliquidationthreshold-can-unexpectedly-change-the-global-defaultconfigliquidationthreshold-when-setting-an-isolated-threshold-for-a-specific-asset-mixbytes-none-liquorice-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setLiquidationThreshold|defaultConfig|liquidationThreshold).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setLiquidationThreshold"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

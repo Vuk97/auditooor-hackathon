@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "trader-can-t-reduce-open-position-size-when-under-initial-margin"
+class_name: "TraderCanTReduceOpenPositionSizeWhenUnderInitialMargin"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #34827 (Cyfrin/Zaros)"
+help: |
+    Trader can't reduce open position size when under initial margin requirement but over maintenance margin requirement
+wiki_title: |
+    Trader can't reduce open position size when under initial margin requirement but over maintenance margin requirement
+wiki_description: |
+    **Description:** [`OrderBranch::createMarketOrder`](https://github.com/zaros-labs/zaros-core-audit/blob/de09d030c780942b70f1bebcb2d245214144acd2/src/perpetuals/branches/OrderBranch.sol#L204-L208) and [`SettlementBranch::_fillOrder`](https://github.com/zaros-labs/zaros-core-audit/blob/de09d030c780942
+wiki_exploit_scenario: |
+    Per Solodit #34827: **Description:** [`OrderBranch::createMarketOrder`](https://github.com/zaros-labs/zaros-core-audit/blob/de09d030c780942b70f1bebcb2d245214144acd2/src/perpetuals/branches/OrderBranch.sol#L204-L208) and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TraderCanTReduceOpenPositionSizeWhenUnderInitialMargin"
+solodit_id: "34827"
+solodit_slug: |
+    trader-cant-reduce-open-position-size-when-under-initial-margin-requirement-but-over-maintenance-margin-requirement-cyfrin-none-cyfrinzaros-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(createMarketOrder|usdToken|changePrank|tradingAccountId).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "createMarketOrder"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

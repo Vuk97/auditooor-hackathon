@@ -1,0 +1,34 @@
+skeleton: "state_write_without_paired_write"
+name: "flaw-in-tokenomical-model-due-to-setscale-in-marinatev2-sol"
+class_name: "FlawInTokenomicalModelDueToSetscaleInMarinatev2Sol"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57559 (Zokyo/Umami)"
+help: "Flaw in tokenomical model due to `setScale` in MarinateV2.sol."
+wiki_title: "Flaw in tokenomical model due to `setScale` in MarinateV2.sol."
+wiki_description: |
+    **Description**
+    
+    MarinateV2.sol - function setScale causes a flaw in the tokenomical model. SCALE value affects quantities like totalToken RewardsPerStake. Changing SCALE using setScale does not update the quantities that were precalculated, hence this leads to a miscalculation when you execute that
+wiki_exploit_scenario: |
+    Per Solodit #57559: **Description**
+    
+    MarinateV2.sol - function setScale causes a flaw in the tokenomical model. SCALE value affects quantities like totalToken RewardsPerStake. Changing SCALE using setScale does not updat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FlawInTokenomicalModelDueToSetscaleInMarinatev2Sol"
+solodit_id: "57559"
+solodit_slug: "flaw-in-tokenomical-model-due-to-setscale-in-marinatev2sol-zokyo-none-umami-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(setScale).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

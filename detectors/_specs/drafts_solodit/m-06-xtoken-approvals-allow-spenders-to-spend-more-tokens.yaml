@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-06-xtoken-approvals-allow-spenders-to-spend-more-tokens"
+class_name: "M06XtokenApprovalsAllowSpendersToSpendMoreTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42414 (Code4rena/NFTX)"
+help: "[M-06] `xToken` Approvals Allow Spenders To Spend More Tokens"
+wiki_title: "[M-06] `xToken` Approvals Allow Spenders To Spend More Tokens"
+wiki_description: |
+    _Submitted by leastwood_
+    
+    The `approve` function has not been overridden and therefore uses `xToken` shares instead of the equivalent rebalanced amount, i.e. the underlying vault token amount.
+    
+    #### Proof of Concept
+    
+    The approved spender may spend more tokens than desired. In fact, the approved amou
+wiki_exploit_scenario: |
+    Per Solodit #42414: _Submitted by leastwood_
+    
+    The `approve` function has not been overridden and therefore uses `xToken` shares instead of the equivalent rebalanced amount, i.e. the underlying vault token amount.
+    
+    #### P
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06XtokenApprovalsAllowSpendersToSpendMoreTokens"
+solodit_id: "42414"
+solodit_slug: "m-06-xtoken-approvals-allow-spenders-to-spend-more-tokens-code4rena-nftx-nftx-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(approve|xToken|XTokenUpgradeable|transferFrom).*"
+read_var_regex: ".*(amount|approve|shares).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "approve"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

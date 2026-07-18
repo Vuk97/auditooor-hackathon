@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "if-optimism-wallet-has-expensive-receive-function-their-payments"
+class_name: "IfOptimismWalletHasExpensiveReceiveFunctionTheirPayments"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54656 (Cantina/Coinbase)"
+help: "If Optimism Wallet has expensive receive() function, their payments can be bypassed"
+wiki_title: "If Optimism Wallet has expensive receive() function, their payments can be bypassed "
+wiki_description: |
+    ## FeeDisburser.sol #L57
+    
+    ## Description
+    When `disburseFees()` is called, the amount of fees to send to Optimism is calculated. Then, `SafeCall` is used to send those funds to Optimism. Finally, the remaining balance of the contract is bridged to L1.
+    
+    Similar to the issue raised in "Vault's totalPro
+wiki_exploit_scenario: |
+    Per Solodit #54656: ## FeeDisburser.sol #L57
+    
+    ## Description
+    When `disburseFees()` is called, the amount of fees to send to Optimism is calculated. Then, `SafeCall` is used to send those funds to Optimism. Finally, the r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IfOptimismWalletHasExpensiveReceiveFunctionTheirPayments"
+solodit_id: "54656"
+solodit_slug: |
+    if-optimism-wallet-has-expensive-receive-function-their-payments-can-be-bypassed-cantina-none-coinbase-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal disbursefees;"
+fn_name_regex: ".*(disburseFees|SafeCall|receive|OPTIMISM_WALLET).*"
+read_var_regex: ".*(disburseFees|receive).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "disburseFees"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return disbursefees > 0;"

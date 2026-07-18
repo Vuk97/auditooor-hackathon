@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "migrating-the-existing-locks-for-an-investor-when-is-resolved-ca"
+class_name: "MigratingTheExistingLocksForAnInvestorWhenIsResolvedCa"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #63779 (Cyfrin/Remora Dynamic Tokens)"
+help: |
+    Migrating the existing locks for an investor when is resolved can be gamed causing the existing locks to last longer than they should
+wiki_title: |
+    Migrating the existing locks for an investor when is resolved can be gamed causing the existing locks to last longer than they should
+wiki_description: |
+    **Description:** When resolving an investor, the existing locks on the `oldAddress` are migrated to the `newAddress` by appending the locks from the `oldAddress` right at the end of the existing locks on the `newAddress`.
+    ```solidity
+        function _newAccountSameLocks(address oldAddress, address newA
+wiki_exploit_scenario: |
+    Per Solodit #63779: **Description:** When resolving an investor, the existing locks on the `oldAddress` are migrated to the `newAddress` by appending the locks from the `oldAddress` right at the end of the existing locks
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MigratingTheExistingLocksForAnInvestorWhenIsResolvedCa"
+solodit_id: "63779"
+solodit_slug: |
+    migrating-the-existing-locks-for-an-investor-when-is-resolved-can-be-gamed-causing-the-existing-locks-to-last-longer-than-they-should-cyfrin-none-remora-dynamic-tokens-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lockuptime;"
+fn_name_regex: ".*(oldAddress|newAddress|lockUpTime|tokenLockUps).*"
+read_var_regex: ".*(lockUpTime|newAddress|oldAddress).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "oldAddress"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return lockuptime > 0;"

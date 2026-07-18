@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "user-are-forced-to-borrow-again-in-order-to-unlock-their-nft-x"
+class_name: "UserAreForcedToBorrowAgainInOrderToUnlockTheirNftX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-benddao"
+help: |
+    Ch_301 Isolated Margin Lending the BendDAO protocol will calculate the health factor based on a single collateral (one NFT), the liquidation of collateral will be achieved by selli
+wiki_title: "User are forced to borrow again in order to unlock their NFTs from IsolateLending.sol"
+wiki_description: |
+    Ch_301 Isolated Margin Lending the BendDAO protocol will calculate the health factor based on a single collateral (one NFT), the liquidation of collateral will be achieved by selling the NFT through an auction mechanism. However, the borrower who gets liquidated (his NFT is in the auction state) sti
+wiki_exploit_scenario: |
+    Per audit finding: Ch_301 Isolated Margin Lending the BendDAO protocol will calculate the health factor based on a single collateral (one NFT), the liquidation of collateral will be achieved by selling the NFT through a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UserAreForcedToBorrowAgainInOrderToUnlockTheirNftX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(isolateRedeem|redeemThreshold|executeIsolateRedeem).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "isolateRedeem"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

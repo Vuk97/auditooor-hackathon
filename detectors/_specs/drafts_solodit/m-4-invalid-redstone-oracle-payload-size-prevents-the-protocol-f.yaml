@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "m-4-invalid-redstone-oracle-payload-size-prevents-the-protocol-f"
+class_name: "M4InvalidRedstoneOraclePayloadSizePreventsTheProtocolF"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41284 (Sherlock/Velar Artha PerpDEX)"
+help: "M-4: Invalid Redstone oracle payload size prevents the protocol from working properly"
+wiki_title: "M-4: Invalid Redstone oracle payload size prevents the protocol from working properly"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-08-velar-artha-judging/issues/75 
+    
+    ## Found by 
+    KupiaSec
+    ## Summary
+    In api contract, it uses 224 bytes as maximum length for Redstone's oracle payload, but oracle price data and signatures of 3 signers exceeds 225 bytes thus reverting transactions.
+    
+    ##
+wiki_exploit_scenario: |
+    Per Solodit #41284: Source: https://github.com/sherlock-audit/2024-08-velar-artha-judging/issues/75 
+    
+    ## Found by 
+    KupiaSec
+    ## Summary
+    In api contract, it uses 224 bytes as maximum length for Redstone's oracle payload, b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M4InvalidRedstoneOraclePayloadSizePreventsTheProtocolF"
+solodit_id: "41284"
+solodit_slug: |
+    m-4-invalid-redstone-oracle-payload-size-prevents-the-protocol-from-working-properly-sherlock-velar-artha-perpdex-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(RedstoneExtractor|PrimaryProdDataServiceConsumerBase).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "RedstoneExtractor"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

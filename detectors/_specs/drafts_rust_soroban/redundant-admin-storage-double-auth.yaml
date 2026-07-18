@@ -1,0 +1,19 @@
+id: redundant-admin-storage-double-auth
+title: "Redundant admin storage and double auth checks"
+severity: Info
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.52"
+bug_class: authorization
+indicators:
+  - "admin address stored in two places (contract instance + strategy-local) and two checks run per call"
+  - "risk that they diverge on rotation"
+victim: "Protocol: divergent admin state possible after partial rotation."
+exploit_precondition: "Admin rotation updates only one of the two copies."
+real_world_example: |
+  Halborn 7.52 (INFO): Redundant admin storage and double auth checks in interest rate strategy.
+suggested_remediation: "Single source of truth for admin; delete the duplicate."
+cross_refs:
+  - duplicate-admin-rotation-paths

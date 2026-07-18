@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "extra-weth-change-claimable-by-next-caller"
+class_name: "ExtraWethChangeClaimableByNextCaller"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit WOOFi Swap - Zellic Audit Report"
+help: |
+    When the WooRouterV2 is used to perform a swap, the user may pay in native ETH: function swap( address fromToken, address toToken, uint256 fromAmount, uint256 minToAmount, address
+wiki_title: "Extra WETH change claimable by next caller"
+wiki_description: |
+    When the WooRouterV2 is used to perform a swap, the user may pay in native ETH: function swap( address fromToken, address toToken, uint256 fromAmount, uint256 minToAmount, address payable to, address rebateTo ) external payable override nonReentrant returns (uint256 realToAmount) { require(fromToken
+wiki_exploit_scenario: |
+    Per audit finding: When the WooRouterV2 is used to perform a swap, the user may pay in native ETH: function swap( address fromToken, address toToken, uint256 fromAmount, uint256 minToAmount, address payable to, address
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExtraWethChangeClaimableByNextCaller"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(fromToken|toToken|fromAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "fromToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

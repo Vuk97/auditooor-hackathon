@@ -1,0 +1,37 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "future-depositors-receive-a-portion-of-the-reward-that-began-to-"
+class_name: "FutureDepositorsReceiveAPortionOfTheRewardThatBeganTo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52956 (Cantina/PintoFarm)"
+help: "Future depositors receive a portion of the reward that began to be distributed before their deposit"
+wiki_title: "Future depositors receive a portion of the reward that began to be distributed before their deposit "
+wiki_description: |
+    ## SiloedPinto.sol#L310-L312
+    
+    ## Description
+    `sPinto` is an ERC4626 yield-bearing token. To avoid value extraction via flash loans, it implements a vesting mechanism. Once the reward is received, it is distributed within the next 2 hours. However, deposits that happen after the vesting start will st
+wiki_exploit_scenario: |
+    Per Solodit #52956: ## SiloedPinto.sol#L310-L312
+    
+    ## Description
+    `sPinto` is an ERC4626 yield-bearing token. To avoid value extraction via flash loans, it implements a vesting mechanism. Once the reward is received, it i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FutureDepositorsReceiveAPortionOfTheRewardThatBeganTo"
+solodit_id: "52956"
+solodit_slug: |
+    future-depositors-receive-a-portion-of-the-reward-that-began-to-be-distributed-before-their-deposit-cantina-none-pintofarm-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(sPinto|totalAssets|underlyingPdv).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

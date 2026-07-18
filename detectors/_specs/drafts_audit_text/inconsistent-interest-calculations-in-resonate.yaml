@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "inconsistent-interest-calculations-in-resonate"
+class_name: "InconsistentInterestCalculationsInResonate"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Revest Resonate Pt. 2 - Zellic Audit Report"
+help: |
+    In order to convert from the amount of underlying assets to shares, claimInterest uses previewWithdraw(...))): function previewWithdraw(uint256 assets) public view override returns
+wiki_title: "Inconsistent interest calculations in Resonate"
+wiki_description: |
+    In order to convert from the amount of underlying assets to shares, claimInterest uses previewWithdraw(...))): function previewWithdraw(uint256 assets) public view override returns (uint256) { return convertToShares(assets); } [...))] function convertToShares(uint256 assets) public view override ret
+wiki_exploit_scenario: |
+    Per audit finding: In order to convert from the amount of underlying assets to shares, claimInterest uses previewWithdraw(...))): function previewWithdraw(uint256 assets) public view override returns (uint256) { return
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentInterestCalculationsInResonate"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimInterest|previewWithdraw|convertToShares).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimInterest"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

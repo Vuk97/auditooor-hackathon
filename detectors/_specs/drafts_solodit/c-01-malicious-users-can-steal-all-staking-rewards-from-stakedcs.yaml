@@ -1,0 +1,55 @@
+skeleton: "name_match_missing_call"
+name: "c-01-malicious-users-can-steal-all-staking-rewards-from-stakedcs"
+class_name: "C01MaliciousUsersCanStealAllStakingRewardsFromStakedcs"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44004 (Shieldify/Csx)"
+help: "[C-01] Malicious Users Can Steal All Staking Rewards From `StakedCSX` Due to a Logical Error"
+wiki_title: "[C-01] Malicious Users Can Steal All Staking Rewards From `StakedCSX` Due to a Logical Error"
+wiki_description: |
+    ## Severity
+    
+    Critical Risk
+    
+    ## Description
+    
+    The current implementation of `_claimToCredit()` function in `StakedCSX.sol` contract has a logical error in it:
+    
+    ```solidity
+    (,,uint256 rewardWETH) = rewardOf(_to);
+    if (rewardWETH > 0) {
+      credit[address(TOKEN_WETH)][_to] += rewardWETH;
+    }
+    
+    (uint256 reward
+wiki_exploit_scenario: |
+    Per Solodit #44004: ## Severity
+    
+    Critical Risk
+    
+    ## Description
+    
+    The current implementation of `_claimToCredit()` function in `StakedCSX.sol` contract has a logical error in it:
+    
+    ```solidity
+    (,,uint256 rewardWETH) = rewar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01MaliciousUsersCanStealAllStakingRewardsFromStakedcs"
+solodit_id: "44004"
+solodit_slug: |
+    c-01-malicious-users-can-steal-all-staking-rewards-from-stakedcsx-due-to-a-logical-error-shieldify-none-csx-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal credit;"
+fn_name_regex: ".*(credit|StakedCSX).*"
+read_var_regex: ".*(credit).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "credit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return credit > 0;"

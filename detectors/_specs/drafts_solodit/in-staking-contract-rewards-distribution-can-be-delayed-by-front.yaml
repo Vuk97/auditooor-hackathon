@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "in-staking-contract-rewards-distribution-can-be-delayed-by-front"
+class_name: "InStakingContractRewardsDistributionCanBeDelayedByFront"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33578 (Cyfrin/Templedao)"
+help: "In staking contract, rewards distribution can be delayed by front-running distributeGold function"
+wiki_title: "In staking contract, rewards distribution can be delayed by front-running distributeGold function"
+wiki_description: |
+    **Description:** In `TempleGoldStaking` contract, the reward distributer calls `distributeRewards` to by minting available TLGD from the token contract and updates reward rate based on the minted amount.
+    However, the distribution works only after the distribution cooldown period is passed:
+    ```Solidi
+wiki_exploit_scenario: |
+    Per Solodit #33578: **Description:** In `TempleGoldStaking` contract, the reward distributer calls `distributeRewards` to by minting available TLGD from the token contract and updates reward rate based on the minted amou
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InStakingContractRewardsDistributionCanBeDelayedByFront"
+solodit_id: "33578"
+solodit_slug: |
+    in-staking-contract-rewards-distribution-can-be-delayed-by-front-running-distributegold-function-cyfrin-none-cyfrin-templedao-v21-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal distributegold;"
+fn_name_regex: ".*(TempleGoldStaking|distributeRewards|lastRewardNotificationTimestamp|distributeGold).*"
+read_var_regex: ".*(distributeGold|distributeRewards|lastRewardNotificationTimestamp).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "TempleGoldStaking"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return distributegold > 0;"

@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "h-02-uniswapv2priceoracle-sol-currentcumulativeprices-will-rever"
+class_name: "H02Uniswapv2priceoracleSolCurrentcumulativepricesWillRever"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #2032 (Code4rena/Phuture Finance)"
+help: |
+    [H-02] `UniswapV2PriceOracle.sol` `currentCumulativePrices()` will revert when `priceCumulative` addition overflow
+wiki_title: |
+    [H-02] `UniswapV2PriceOracle.sol` `currentCumulativePrices()` will revert when `priceCumulative` addition overflow
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    [UniswapV2PriceOracle.sol#L62](https://github.com/code-423n4/2022-04-phuture/blob/594459d0865fb6603ba388b53f3f01648f5bb6fb/contracts/UniswapV2PriceOracle.sol#L62)<br>
+    
+    ```solidity
+    (uint price0Cumulative, uint price1Cumulative, uint32 blockTimestamp) = address(pair).currentCu
+wiki_exploit_scenario: |
+    Per Solodit #2032: _Submitted by WatchPug_
+    
+    [UniswapV2PriceOracle.sol#L62](https://github.com/code-423n4/2022-04-phuture/blob/594459d0865fb6603ba388b53f3f01648f5bb6fb/contracts/UniswapV2PriceOracle.sol#L62)<br>
+    
+    ```soli
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02Uniswapv2priceoracleSolCurrentcumulativepricesWillRever"
+solodit_id: "2032"
+solodit_slug: |
+    h-02-uniswapv2priceoraclesol-currentcumulativeprices-will-revert-when-pricecumulative-addition-overflow-code4rena-phuture-finance-phuture-finance-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Overflow/Underflow, DOS, Denial-Of-Service"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(currentCumulativePrices|price0Cumulative|price1Cumulative).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

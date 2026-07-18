@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "m-03-supply-part-of-the-accrued-debt-can-be-stolen"
+class_name: "M03SupplyPartOfTheAccruedDebtCanBeStolen"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #842 (Code4rena/Wild Credit)"
+help: "[M-03] Supply part of the accrued debt can be stolen"
+wiki_title: "[M-03] Supply part of the accrued debt can be stolen"
+wiki_description: |
+    _Submitted by cmichel_.
+    
+    The `LendingPair.uniClaimDeposit` function allows the user to "collect fees" and mint new supply shares with the collected amounts.
+    
+    #### `uniClaimDeposit` does not accrue tokens
+    
+    However, the current total supply is not `accrue`d in the function.
+    This means an attacker can:
+wiki_exploit_scenario: |
+    Per Solodit #842: _Submitted by cmichel_.
+    
+    The `LendingPair.uniClaimDeposit` function allows the user to "collect fees" and mint new supply shares with the collected amounts.
+    
+    #### `uniClaimDeposit` does not accrue tok
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03SupplyPartOfTheAccruedDebtCanBeStolen"
+solodit_id: "842"
+solodit_slug: "m-03-supply-part-of-the-accrued-debt-can-be-stolen-code4rena-wild-credit-wild-credit-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(accrue|depositUniPosition|lpRate).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

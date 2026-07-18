@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "withdrawals-can-effectively-only-happen-on-the-primary-chain-aft"
+class_name: "WithdrawalsCanEffectivelyOnlyHappenOnThePrimaryChainAft"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63838 (Cyfrin/Sherpa)"
+help: "Withdrawals can effectively only happen on the primary chain after any yield has accrued"
+wiki_title: "Withdrawals can effectively only happen on the primary chain after any yield has accrued"
+wiki_description: |
+    **Description:** During round rolls, yield is only realized on the primary chain in `SherpaVault::_adjustBalanceAndEmit`. This leaves the system in a problematic state if withdrawals happens on another chain.
+    
+    Imagine the scenario: there's 500 + 500 deposits of SherpaUSD on chain A and B, A being pr
+wiki_exploit_scenario: |
+    Per Solodit #63838: **Description:** During round rolls, yield is only realized on the primary chain in `SherpaVault::_adjustBalanceAndEmit`. This leaves the system in a problematic state if withdrawals happens on anothe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WithdrawalsCanEffectivelyOnlyHappenOnThePrimaryChainAft"
+solodit_id: "63838"
+solodit_slug: |
+    withdrawals-can-effectively-only-happen-on-the-primary-chain-after-any-yield-has-accrued-cyfrin-none-sherpa-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accountingsupply;"
+fn_name_regex: ".*(approvedTotalStakedAdjustment|approvedAccountingAdjustment|accountingSupply|consumeAccountingApproval).*"
+read_var_regex: ".*(accountingSupply|approvedAccountingAdjustment|approvedTotalStakedAdjustment).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "approvedTotalStakedAdjustment"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accountingsupply > 0;"

@@ -1,0 +1,39 @@
+skeleton: "paired_function_divergence"
+name: "m-05-division-in-bonding-sol-opentradingonuniswap-results-in-an-"
+class_name: "M05DivisionInBondingSolOpentradingonuniswapResultsInAn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61832 (Code4rena/Virtuals Protocol)"
+help: |
+    [M-05] Division in `Bonding.sol._openTradingOnUniswap()` results in an incorrect `lpSupply`, higher `vaultSupply`, and dust `AgentTokens` getting locked in `FPair`
+wiki_title: |
+    [M-05] Division in `Bonding.sol._openTradingOnUniswap()` results in an incorrect `lpSupply`, higher `vaultSupply`, and dust `AgentTokens` getting locked in `FPa
+wiki_description: |
+    When a Prototype Agent graduates to a Sentient Agent, agent tokens are minted to the `FPair` contract. Users are then able to call `Bonding.unwrapToken()` to claim their agent tokens.
+    
+    Upon graduation, the Bonding contract will divide the token supply as well as the `tokenBalance` by `10 ** 18`.
+wiki_exploit_scenario: |
+    Per Solodit #61832: When a Prototype Agent graduates to a Sentient Agent, agent tokens are minted to the `FPair` contract. Users are then able to call `Bonding.unwrapToken()` to claim their agent tokens.
+    
+    Upon graduati
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05DivisionInBondingSolOpentradingonuniswapResultsInAn"
+solodit_id: "61832"
+solodit_slug: |
+    m-05-division-in-bondingsol_opentradingonuniswap-results-in-an-incorrect-lpsupply-higher-vaultsupply-and-dust-agenttokens-getting-locked-in-fpair-code4rena-virtuals-protocol-virtuals-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(lpSupply|tokenBalance|vaultSupply).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

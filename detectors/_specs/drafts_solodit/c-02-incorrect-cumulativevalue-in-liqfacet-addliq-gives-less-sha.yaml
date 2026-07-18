@@ -1,0 +1,60 @@
+skeleton: "name_match_missing_call"
+name: "c-02-incorrect-cumulativevalue-in-liqfacet-addliq-gives-less-sha"
+class_name: "C02IncorrectCumulativevalueInLiqfacetAddliqGivesLessSha"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #55209 (Pashov Audit Group/Burve_2025-01-29)"
+help: "[C-02] Incorrect `cumulativeValue` in `LiqFacet::addLiq` gives less shares to users"
+wiki_title: "[C-02] Incorrect `cumulativeValue` in `LiqFacet::addLiq` gives less shares to users"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    Upon adding liquidity, we compute the shares to give to the user using the following code:
+    
+    ```solidity
+    
+    uint256 addedBalance = tokenBalance - preBalance[idx];
+    
+    uint256 cumulativeValue = tokenBalance;
+    
+            TokenRegistry storage
+wiki_exploit_scenario: |
+    Per Solodit #55209: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    Upon adding liquidity, we compute the shares to give to the user using the following code:
+    
+    ```solidity
+    
+    uint256 addedBalance = tok
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C02IncorrectCumulativevalueInLiqfacetAddliqGivesLessSha"
+solodit_id: "55209"
+solodit_slug: |
+    c-02-incorrect-cumulativevalue-in-liqfacetaddliq-gives-less-shares-to-users-pashov-audit-group-none-burve_2025-01-29-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addedbalance;"
+fn_name_regex: ".*(cumulativeValue|num|addedBalance|denom).*"
+read_var_regex: ".*(addedBalance|cumulativeValue|denom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "cumulativeValue"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return addedbalance > 0;"

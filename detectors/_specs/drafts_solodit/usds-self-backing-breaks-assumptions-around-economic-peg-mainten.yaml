@@ -1,0 +1,33 @@
+skeleton: "paired_function_divergence"
+name: "usds-self-backing-breaks-assumptions-around-economic-peg-mainten"
+class_name: "UsdsSelfBackingBreaksAssumptionsAroundEconomicPegMainten"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #38335 (Cyfrin/The Standard Smart Vault)"
+help: "`USDs` self-backing breaks assumptions around economic peg-maintenance incentives"
+wiki_title: "`USDs` self-backing breaks assumptions around economic peg-maintenance incentives"
+wiki_description: |
+    **Description:** When `SmartVaultYieldManager::deposit` is called via `SmartVaultV4::depositYield`, [at least 10%](https://github.com/the-standard/smart-vault/blob/c6837d4a296fe8a6e4bb5e0280a66d6eb8a40361/contracts/SmartVaultYieldManager.sol#L168) of the deposited collateral must be directed toward
+wiki_exploit_scenario: |
+    Per Solodit #38335: **Description:** When `SmartVaultYieldManager::deposit` is called via `SmartVaultV4::depositYield`, [at least 10%](https://github.com/the-standard/smart-vault/blob/c6837d4a296fe8a6e4bb5e0280a66d6eb8a4
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsdsSelfBackingBreaksAssumptionsAroundEconomicPegMainten"
+solodit_id: "38335"
+solodit_slug: |
+    usds-self-backing-breaks-assumptions-around-economic-peg-maintenance-incentives-cyfrin-none-the-standard-smart-vault-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

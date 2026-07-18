@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unoptimized-getclaimableamount-function"
+class_name: "UnoptimizedGetclaimableamountFunction"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Yeet - Zellic Audit Report"
+help: |
+    The getClaimableAmount function returns the total reward amount that can be claimed from the Reward contract at the moment (including the amount already claimed): function getClaim
+wiki_title: "Unoptimized getClaimableAmount function"
+wiki_description: |
+    The getClaimableAmount function returns the total reward amount that can be claimed from the Reward contract at the moment (including the amount already claimed): function getClaimableAmount(address user) public view returns (uint256) { // (...) for (uint256 epoch = lastClaimedForEpoch[user] + 1; ep
+wiki_exploit_scenario: |
+    Per audit finding: The getClaimableAmount function returns the total reward amount that can be claimed from the Reward contract at the moment (including the amount already claimed): function getClaimableAmount(address u
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnoptimizedGetclaimableamountFunction"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getClaimableAmount|lastClaimedForEpoch|currentEpoch).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "getClaimableAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

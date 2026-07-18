@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "accountableopenterm-loan-interest-cannot-be-repaid-once-principa"
+class_name: "AccountableopentermLoanInterestCannotBeRepaidOncePrincipa"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #62973 (Cyfrin/Accountable)"
+help: "`AccountableOpenTerm` loan interest cannot be repaid once principal hits zero"
+wiki_title: "`AccountableOpenTerm` loan interest cannot be repaid once principal hits zero"
+wiki_description: |
+    **Description:** In `AccountableOpenTerm`, interest accrues virtually via `_scaleFactor`, but there is no mechanism to pay/realize that interest. The only funding paths are `borrow()`, `supply()`, and `repay()`. Both `supply()` and `repay()` first service withdrawals and then reduce `_loan.outstandi
+wiki_exploit_scenario: |
+    Per Solodit #62973: **Description:** In `AccountableOpenTerm`, interest accrues virtually via `_scaleFactor`, but there is no mechanism to pay/realize that interest. The only funding paths are `borrow()`, `supply()`, and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AccountableopentermLoanInterestCannotBeRepaidOncePrincipa"
+solodit_id: "62973"
+solodit_slug: |
+    accountableopenterm-loan-interest-cannot-be-repaid-once-principal-hits-zero-cyfrin-none-accountable-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assetshareratio;"
+fn_name_regex: ".*(AccountableOpenTerm|borrow|supply|repay).*"
+write_var_regex: ".*(assetShareRatio|borrow|repay).*"
+guard_var_regex: ".*(assetShareRatio|borrow|repay).*"
+vuln_fn_name: "AccountableOpenTerm"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "assetshareratio = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

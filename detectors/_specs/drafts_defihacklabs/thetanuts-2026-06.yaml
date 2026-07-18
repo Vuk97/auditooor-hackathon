@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "thetanuts-2026-06"
+class_name: "Thetanuts202606"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-06/Thetanuts_exp.sol"
+help: "Thetanuts 2026-06 — flashloan exploit (105471.50 USDC)"
+wiki_title: "Thetanuts (2026-06) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-06): Thetanuts lost 105471.50 USDC. Bug class: flashloan. Attack tx: 0xbba9f138fe39503bfd1aa62932dbd6ab35d37d23d48e4b7bf2988a9d5dc39fec.
+wiki_exploit_scenario: |
+    Attacker (0x30498e4466789e534c72e03b52a16c978655b41e) exploits Thetanuts via flashloan: the victim contract 0xc2c3ae0a7b405058558c9b4a63b373486cb86ac7 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Thetanuts202606"
+trigger_sig_regex: ".*(executeOperation).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function executeOperation(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.executeOperation(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

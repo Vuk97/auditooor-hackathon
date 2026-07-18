@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "principalassets-not-updated-on-erc-4626-transfer"
+class_name: "PrincipalassetsNotUpdatedOnErc4626Transfer"
+wave: "12"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "corpus slice slice_ag"
+help: |
+    `principalAssets` mapping (used for fee base) not updated in `_update`/`_transfer` override; recipient pays fees on sender's principal.
+wiki_title: "principalAssets Not Updated on ERC-4626 Transfer"
+wiki_description: |
+    `principalAssets` mapping (used for fee base) not updated in `_update`/`_transfer` override; recipient pays fees on sender's principal.
+wiki_exploit_scenario: |
+    Attacker exploits principalAssets Not Updated on ERC-4626 Transfer as described: `principalAssets` mapping (used for fee base) not updated in `_update`/`_transfer` override; recipient pays fees on sender's principal.
+wiki_recommendation: "ERC-4626 vault with per-user `principal`/`cost basis` mapping not overriding `_update`."
+contract_name: "PrincipalassetsNotUpdatedOnErc4626Transfer"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(principalAssets|principal).*"
+read_var_regex: ".*(_transfer|_update|principal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "principalAssets"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

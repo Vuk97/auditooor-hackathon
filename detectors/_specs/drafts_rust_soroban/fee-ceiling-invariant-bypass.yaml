@@ -1,0 +1,19 @@
+id: fee-ceiling-invariant-bypass
+title: "Fee ceiling invariant bypass via reorder of setters"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44488"
+bug_class: precision-loss
+indicators:
+  - "individual setters pass with old-value dependency; combined update breaks invariant"
+  - "no invariant check at end of transaction boundary"
+victim: "Protocol: invariant holds momentarily between steps but violated during the window."
+exploit_precondition: "Admin applies a sequence of valid individual updates whose intermediate state is invalid."
+real_world_example: |
+  V12 #44488 (Low): Fee ceiling invariant bypass.
+suggested_remediation: "Batch-update all fee fields atomically and validate invariant at the end."
+cross_refs:
+  - combined-fee-cap-bypass

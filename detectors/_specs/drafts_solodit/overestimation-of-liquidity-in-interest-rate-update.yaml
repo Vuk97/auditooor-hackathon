@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "overestimation-of-liquidity-in-interest-rate-update"
+class_name: "OverestimationOfLiquidityInInterestRateUpdate"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28717 (MixBytes/AAVE)"
+help: "Overestimation of Liquidity in Interest Rate Update."
+wiki_title: "Overestimation of Liquidity in Interest Rate Update."
+wiki_description: |
+    ##### Description
+    https://github.com/aave/protocol-v2/blob/f435b2fa0ac589852ca3dd6ae2b0fbfbc7079d54/contracts/lendingpool/LendingPool.sol#L582
+    
+    ```solidity
+    IERC20(asset).safeTransferFrom(receiverAddress, vars.aTokenAddress, vars.amountPlusPremium);
+    
+    reserve.updateState();
+    reserve.cumulateToLiquidity
+wiki_exploit_scenario: |
+    Per Solodit #28717: ##### Description
+    https://github.com/aave/protocol-v2/blob/f435b2fa0ac589852ca3dd6ae2b0fbfbc7079d54/contracts/lendingpool/LendingPool.sol#L582
+    
+    ```solidity
+    IERC20(asset).safeTransferFrom(receiverAddre
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OverestimationOfLiquidityInInterestRateUpdate"
+solodit_id: "28717"
+solodit_slug: "overestimation-of-liquidity-in-interest-rate-update-mixbytes-none-aave-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal liquidityadded;"
+fn_name_regex: ".*(updateInterestRates|liquidityAdded).*"
+read_var_regex: ".*(liquidityAdded|updateInterestRates).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateInterestRates"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return liquidityadded > 0;"

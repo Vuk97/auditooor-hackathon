@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "trst-m-10-canhedge-will-return-true-when-trade-moves-delta-in-sa"
+class_name: "TrstM10CanhedgeWillReturnTrueWhenTradeMovesDeltaInSa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18905 (Trust Security/Lyra Finance)"
+help: |
+    TRST-M-10 canHedge will return true when trade moves delta in same direction as expectedHedge even when that leads to more risk
+wiki_title: |
+    TRST-M-10 canHedge will return true when trade moves delta in same direction as expectedHedge even when that leads to more risk
+wiki_description: |
+    **Description:**
+    Lyra’s security model relies on being able to hedge and achieve delta-neutrality when opening 
+    a user position. The check is done in canHedge() in GMXFuturesPoolHedger. The function will 
+    return true when the delta of the trade has the same sign as the expectedHedge. For example:
+    ``
+wiki_exploit_scenario: |
+    Per Solodit #18905: **Description:**
+    Lyra’s security model relies on being able to hedge and achieve delta-neutrality when opening 
+    a user position. The check is done in canHedge() in GMXFuturesPoolHedger. The function w
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM10CanhedgeWillReturnTrueWhenTradeMovesDeltaInSa"
+solodit_id: "18905"
+solodit_slug: |
+    trst-m-10-canhedge-will-return-true-when-trade-moves-delta-in-same-direction-as-expectedhedge-even-when-that-leads-to-more-risk-trust-security-none-lyra-finance-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal strikeid;"
+fn_name_regex: ".*(strikeId).*"
+read_var_regex: ".*(strikeId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "strikeId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return strikeid > 0;"

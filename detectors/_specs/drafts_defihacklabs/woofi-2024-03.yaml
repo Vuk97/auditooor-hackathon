@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "woofi-2024-03"
+class_name: "Woofi202403"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-03/Woofi_exp.sol"
+help: "Woofi 2024-03 — flashloan exploit (~8M)"
+wiki_title: "Woofi (2024-03) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-03): Woofi lost ~8M. Bug class: flashloan. Attack tx: 0x57e555328b7def90e1fc2a0f7aa6df8d601a8f15803800a5aaf0a20382f21fbd.
+wiki_exploit_scenario: |
+    Attacker (0x9961190b258897bca7a12b8f37f415e689d281c4) exploits Woofi via flashloan: the victim contract 0xeff23b4be1091b53205e35f3afcd9c7182bf3062 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Woofi202403"
+trigger_sig_regex: ".*(uniswapV3FlashCallback).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function uniswapV3FlashCallback(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.uniswapV3FlashCallback(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

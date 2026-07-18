@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "underflow-could-occur-in-calculation"
+class_name: "UnderflowCouldOccurInCalculation"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Adrastia PID Controller - Zellic Audit Report"
+help: |
+    The function fetchLiquidity is used to calculate value and error in the accumulator. The function could underflow if value - target is greater than ERROR_ZERO. function fetchLiquid
+wiki_title: "Underflow could occur in calculation"
+wiki_description: |
+    The function fetchLiquidity is used to calculate value and error in the accumulator. The function could underflow if value - target is greater than ERROR_ZERO. function fetchLiquidity(bytes memory data) internal view virtual override returns (uint112 value, uint112 err) { value = fetchValue(data); u
+wiki_exploit_scenario: |
+    Per audit finding: The function fetchLiquidity is used to calculate value and error in the accumulator. The function could underflow if value - target is greater than ERROR_ZERO. function fetchLiquidity(bytes memory dat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnderflowCouldOccurInCalculation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(fetchLiquidity|fetchValue|fetchTarget).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "fetchLiquidity"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

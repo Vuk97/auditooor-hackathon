@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "gas-price-calculation-error-due-to-integer-division-rounding"
+class_name: "GasPriceCalculationErrorDueToIntegerDivisionRounding"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Fairyring - Zellic Audit Report"
+help: |
+    The gas-fee calculation code may lead to inaccuracies due to rounding errors in integer division. Currently, the calculation sequence is as follows: usedGasFee := sdk.NewCoin( txFe
+wiki_title: "Gas-price calculation error due to integer division rounding"
+wiki_description: |
+    The gas-fee calculation code may lead to inaccuracies due to rounding errors in integer division. Currently, the calculation sequence is as follows: usedGasFee := sdk.NewCoin( txFee[0].Denom, // Tx Fee Amount Divide Provide Gas => provided gas price // Provided Gas Price * Gas Used => Amount to dedu
+wiki_exploit_scenario: |
+    Per audit finding: The gas-fee calculation code may lead to inaccuracies due to rounding errors in integer division. Currently, the calculation sequence is as follows: usedGasFee := sdk.NewCoin( txFee[0].Denom, // Tx Fe
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GasPriceCalculationErrorDueToIntegerDivisionRounding"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(usedGasFee|txFee|gasProvided).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "usedGasFee"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

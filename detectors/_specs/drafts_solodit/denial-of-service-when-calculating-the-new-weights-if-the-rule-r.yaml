@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "denial-of-service-when-calculating-the-new-weights-if-the-rule-r"
+class_name: "DenialOfServiceWhenCalculatingTheNewWeightsIfTheRuleR"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49679 (Codehawks/QuantAMM)"
+help: "Denial of service when calculating the new weights if the rule requires previous moving averages"
+wiki_title: "Denial of service when calculating the new weights if the rule requires previous moving averages"
+wiki_description: |
+    ## Summary
+    
+    When the rule requires the previous moving averages in `UpdateRule::CalculateNewWeights`, the `movingAverages[_pool]` array length is twice the number of assets. However, when unpacking it using the `QuantAMMStorage::_quantAMMUnpack128Array` function, the amount of data requested is the
+wiki_exploit_scenario: |
+    Per Solodit #49679: ## Summary
+    
+    When the rule requires the previous moving averages in `UpdateRule::CalculateNewWeights`, the `movingAverages[_pool]` array length is twice the number of assets. However, when unpacking it
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DenialOfServiceWhenCalculatingTheNewWeightsIfTheRuleR"
+solodit_id: "49679"
+solodit_slug: |
+    denial-of-service-when-calculating-the-new-weights-if-the-rule-requires-previous-moving-averages-codehawks-quantamm-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(MinimumVarianceUpdateRule).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "MinimumVarianceUpdateRule"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

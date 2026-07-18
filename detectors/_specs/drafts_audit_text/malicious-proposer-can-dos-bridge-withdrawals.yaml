@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "malicious-proposer-can-dos-bridge-withdrawals"
+class_name: "MaliciousProposerCanDosBridgeWithdrawals"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-01-initia-rollup-modules"
+help: |
+    Ruhum Finding description and impact Anybody can create an L2 and its bridge. They set their own proposer and challenger to handle the output proposals. If the proposer sets the L2
+wiki_title: "Malicious proposer can DOS bridge withdrawals"
+wiki_description: |
+    Ruhum Finding description and impact Anybody can create an L2 and its bridge. They set their own proposer and challenger to handle the output proposals. If the proposer sets the L2 block number of an output proposal to the max value of a uint64 , any subsequent output proposal will fail preventing u
+wiki_exploit_scenario: |
+    Per audit finding: Ruhum Finding description and impact Anybody can create an L2 and its bridge. They set their own proposer and challenger to handle the output proposals. If the proposer sets the L2 block number of an
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousProposerCanDosBridgeWithdrawals"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(l2BlockNumber|lastOutputProposal).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "l2BlockNumber"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

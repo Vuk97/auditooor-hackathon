@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-1-multiinvoker-and-manager-orders-execution-can-be-dos-in-key-"
+class_name: "M1MultiinvokerAndManagerOrdersExecutionCanBeDosInKey"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #38388 (Sherlock/Perennial V2 Update #3)"
+help: |
+    M-1: `MultiInvoker` and `Manager` orders execution can be DOS in key moments if AAVE/Compound utilization is at 100%
+wiki_title: |
+    M-1: `MultiInvoker` and `Manager` orders execution can be DOS in key moments if AAVE/Compound utilization is at 100%
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-08-perennial-v2-update-3-judging/issues/16 
+    
+    ## Found by 
+    panprog
+    **Summary**
+    Perennial contracts rely on the `DSU` token, which is essentially a wrapper for the `USDC` token. There are 2 in-scope implementations of `DSU` wrappers (`reserve`) which use
+wiki_exploit_scenario: |
+    Per Solodit #38388: Source: https://github.com/sherlock-audit/2024-08-perennial-v2-update-3-judging/issues/16 
+    
+    ## Found by 
+    panprog
+    **Summary**
+    Perennial contracts rely on the `DSU` token, which is essentially a wrapper
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1MultiinvokerAndManagerOrdersExecutionCanBeDosInKey"
+solodit_id: "38388"
+solodit_slug: |
+    m-1-multiinvoker-and-manager-orders-execution-can-be-dos-in-key-moments-if-aavecompound-utilization-is-at-100-sherlock-perennial-v2-update-3-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal batcher;"
+fn_name_regex: ".*(DSU|USDC|reserve|redeem).*"
+read_var_regex: ".*(batcher|interfaceFee|redeem).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "DSU"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return batcher > 0;"

@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "borrowers-can-force-swaps-on-escrow-suppliers-by-transferring-th"
+class_name: "BorrowersCanForceSwapsOnEscrowSuppliersByTransferringTh"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #45138 (Spearbit/Collar Protocol)"
+help: "Borrowers can force swaps on escrow suppliers by transferring the loan's NFT to them"
+wiki_title: "Borrowers can force swaps on escrow suppliers by transferring the loan's NFT to them"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - **LoansNFT.sol**: Lines 264-265, Lines 425-426
+    
+    ## Description
+    In `LoansNFT.closeLoan()`, `_isSenderOrKeeperFor()` is called to check if the borrower has approved the keeper to close the loan on their behalf:
+    ```solidity
+    address borrower = ownerOf(loanId);
+    requ
+wiki_exploit_scenario: |
+    Per Solodit #45138: ## Severity: Medium Risk
+    
+    ## Context
+    - **LoansNFT.sol**: Lines 264-265, Lines 425-426
+    
+    ## Description
+    In `LoansNFT.closeLoan()`, `_isSenderOrKeeperFor()` is called to check if the borrower has approve
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BorrowersCanForceSwapsOnEscrowSuppliersByTransferringTh"
+solodit_id: "45138"
+solodit_slug: |
+    borrowers-can-force-swaps-on-escrow-suppliers-by-transferring-the-loans-nft-to-them-spearbit-none-collar-protocol-pdf
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal cashasset;"
+fn_name_regex: ".*(forecloseLoan|closeLoan|keeperApprovedFor|cashAsset).*"
+read_var_regex: ".*(cashAsset|closeLoan|forecloseLoan).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "forecloseLoan"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cashasset > 0;"

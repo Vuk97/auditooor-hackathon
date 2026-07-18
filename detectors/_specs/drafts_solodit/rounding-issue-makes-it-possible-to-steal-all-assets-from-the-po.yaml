@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "rounding-issue-makes-it-possible-to-steal-all-assets-from-the-po"
+class_name: "RoundingIssueMakesItPossibleToStealAllAssetsFromThePo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #51836 (Halborn/GMI and Lending)"
+help: "Rounding issue makes it possible to steal all assets from the pool"
+wiki_title: "Rounding issue makes it possible to steal all assets from the pool"
+wiki_description: |
+    ##### Description
+    
+    In the `LendingPool` contract, the `withdraw` function suffers from two related issues, namely the required `shares` to withdraw a certain amount of assets can be `0` and the fact that this calculation rounds down. That makes it possible, among other factors, to have the following
+wiki_exploit_scenario: |
+    Per Solodit #51836: ##### Description
+    
+    In the `LendingPool` contract, the `withdraw` function suffers from two related issues, namely the required `shares` to withdraw a certain amount of assets can be `0` and the fact t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RoundingIssueMakesItPossibleToStealAllAssetsFromThePo"
+solodit_id: "51836"
+solodit_slug: |
+    rounding-issue-makes-it-possible-to-steal-all-assets-from-the-pool-halborn-gloop-finance-gmi-and-lending-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal shares;"
+fn_name_regex: ".*(LendingPool|withdraw|shares).*"
+read_var_regex: ".*(shares|withdraw).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LendingPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return shares > 0;"

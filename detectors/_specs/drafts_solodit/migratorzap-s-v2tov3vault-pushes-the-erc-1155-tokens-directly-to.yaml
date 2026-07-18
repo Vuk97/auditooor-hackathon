@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "migratorzap-s-v2tov3vault-pushes-the-erc-1155-tokens-directly-to"
+class_name: "MigratorzapSV2tov3vaultPushesTheErc1155TokensDirectlyTo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #54552 (Cantina/NFTX)"
+help: |
+    MigratorZap 's _v2ToV3Vault() pushes the ERC-1155 tokens directly to the v3 Vault, breaking up its mint, which renders MigratorZap unavailable for ERC-1155 underlyings
+wiki_title: |
+    MigratorZap 's _v2ToV3Vault() pushes the ERC-1155 tokens directly to the v3 Vault, breaking up its mint, which renders MigratorZap unavailable for ERC-1155 unde
+wiki_description: |
+    ## Context
+    MigratorZap.sol#L348-L353
+    
+    ## Description
+    The `_v2ToV3Vault()` function redeems directly to the v3 Vault all the time. However, this approach works only for ERC-721 tokens. In the case of ERC-1155 tokens, the subsequent Vault's `mint()` function will attempt to pull the tokens in from `Mi
+wiki_exploit_scenario: |
+    Per Solodit #54552: ## Context
+    MigratorZap.sol#L348-L353
+    
+    ## Description
+    The `_v2ToV3Vault()` function redeems directly to the v3 Vault all the time. However, this approach works only for ERC-721 tokens. In the case of E
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MigratorzapSV2tov3vaultPushesTheErc1155TokensDirectlyTo"
+solodit_id: "54552"
+solodit_slug: |
+    migratorzap-s-_v2tov3vault-pushes-the-erc-1155-tokens-directly-to-the-v3-vault-breaking-up-its-mint-which-renders-migratorzap-unavailable-for-erc-1155-underlyings-cantina-none-nftx-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal mint;"
+fn_name_regex: ".*(mint|MigratorZap|NFTXVaultUpgradeableV3).*"
+read_var_regex: ".*(mint).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mint"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return mint > 0;"

@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "m-29-user-can-bypass-recovery-mode-via-uniswaphandler-to-buy-mal"
+class_name: "M29UserCanBypassRecoveryModeViaUniswaphandlerToBuyMal"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42391 (Code4rena/Malt Finance)"
+help: "[M-29] User can bypass Recovery Mode via UniswapHandler to buy Malt"
+wiki_title: "[M-29] User can bypass Recovery Mode via UniswapHandler to buy Malt"
+wiki_description: |
+    _Submitted by gzeon_
+    
+    One of the innovative feature of Malt is to block buying while under peg. The buy block can be bypassed by swapping to the whitelisted UniswapHandler, and then extract the token by abusing the add and remove liquidity function. This is considered a high severity issue because i
+wiki_exploit_scenario: |
+    Per Solodit #42391: _Submitted by gzeon_
+    
+    One of the innovative feature of Malt is to block buying while under peg. The buy block can be bypassed by swapping to the whitelisted UniswapHandler, and then extract the token
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M29UserCanBypassRecoveryModeViaUniswaphandlerToBuyMal"
+solodit_id: "42391"
+solodit_slug: |
+    m-29-user-can-bypass-recovery-mode-via-uniswaphandler-to-buy-malt-code4rena-malt-finance-malt-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity|removeLiquidity).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

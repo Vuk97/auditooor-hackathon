@@ -1,0 +1,33 @@
+skeleton: "state_write_without_paired_write"
+name: "when-recovertoken-in-daigoldaction-contract-is-called-it-does-no"
+class_name: "WhenRecovertokenInDaigoldactionContractIsCalledItDoesNo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33577 (Cyfrin/Templedao)"
+help: "When recoverToken in DaiGoldAction contract is called, it does not update the status"
+wiki_title: "When recoverToken in DaiGoldAction contract is called, it does not update the status"
+wiki_description: |
+    **Description:** recoverToken function moves specific amount of TGLD from the auction contract to another and delete last epoch so that it can be reset and restart.
+    The tokens get moved but the status nextAuctionGoldAmount is not subtracted, and this gives incorrect amount of TLGD tokens to the next
+wiki_exploit_scenario: |
+    Per Solodit #33577: **Description:** recoverToken function moves specific amount of TGLD from the auction contract to another and delete last epoch so that it can be reset and restart.
+    The tokens get moved but the status
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WhenRecovertokenInDaigoldactionContractIsCalledItDoesNo"
+solodit_id: "33577"
+solodit_slug: |
+    when-recovertoken-in-daigoldaction-contract-is-called-it-does-not-update-the-status-cyfrin-none-cyfrin-templedao-v21-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(recoverToken|nextAuctionGoldAmount).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

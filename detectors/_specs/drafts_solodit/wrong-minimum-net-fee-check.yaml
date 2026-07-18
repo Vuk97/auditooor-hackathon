@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "wrong-minimum-net-fee-check"
+class_name: "WrongMinimumNetFeeCheck"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7257 (Spearbit/CLOBER)"
+help: "Wrong minimum net fee check"
+wiki_title: "Wrong minimum net fee check"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    - MarketFactory.sol#L79
+    - MarketFactory.sol#L111
+    
+    ## Description
+    A minimum net fee was introduced that all markets should comply by such that the protocol earns fees. The protocol fees are computed as `takerFee + makerFee`, but the market factory computes the wrong
+wiki_exploit_scenario: |
+    Per Solodit #7257: ## Severity: High Risk
+    
+    ## Context
+    - MarketFactory.sol#L79
+    - MarketFactory.sol#L111
+    
+    ## Description
+    A minimum net fee was introduced that all markets should comply by such that the protocol earns fees
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrongMinimumNetFeeCheck"
+solodit_id: "7257"
+solodit_slug: "wrong-minimum-net-fee-check-spearbit-clober-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(takerFee|makerFee|minNetFee|marketHost).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "takerFee"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

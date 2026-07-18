@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-replay-protection-on-step"
+class_name: "MissingReplayProtectionOnStep"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Succinct Telepathy - Zellic Audit Report"
+help: |
+    One of the methods to update the state of the light client is the step function, which can be called when the light client has an existing sync committee poseidon for the requested
+wiki_title: "Missing replay protection on step"
+wiki_description: |
+    One of the methods to update the state of the light client is the step function, which can be called when the light client has an existing sync committee poseidon for the requested finalizedSlot: function step(LightClientStep memory update) external { bool finalized = processStep(update); if (getCur
+wiki_exploit_scenario: |
+    Per audit finding: One of the methods to update the state of the light client is the step function, which can be called when the light client has an existing sync committee poseidon for the requested finalizedSlot: func
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingReplayProtectionOnStep"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(finalizedSlot|processStep|getCurrentSlot).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "finalizedSlot"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

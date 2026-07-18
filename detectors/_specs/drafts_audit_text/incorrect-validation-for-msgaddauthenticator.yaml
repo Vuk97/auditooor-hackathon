@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-validation-for-msgaddauthenticator"
+class_name: "IncorrectValidationForMsgaddauthenticator"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Osmosis Authentication Abstraction - Zellic Audit Report"
+help: |
+    The ValidateBasic for the MsgAddAuthenticator message has a check to ensure that the size of the data field is secp256k1.PubKeySize: func (msg *MsgAddAuthenticator) ValidateBasic()
+wiki_title: "Incorrect validation for MsgAddAuthenticator"
+wiki_description: |
+    The ValidateBasic for the MsgAddAuthenticator message has a check to ensure that the size of the data field is secp256k1.PubKeySize: func (msg *MsgAddAuthenticator) ValidateBasic() error { if len(msg.Data) !) secp256k1.PubKeySize { return fmt.Errorf(”invalid secp256k1 pub key size”) } return validat
+wiki_exploit_scenario: |
+    Per audit finding: The ValidateBasic for the MsgAddAuthenticator message has a check to ensure that the size of the data field is secp256k1.PubKeySize: func (msg *MsgAddAuthenticator) ValidateBasic() error { if len(msg.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectValidationForMsgaddauthenticator"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(validateSender).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "validateSender"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

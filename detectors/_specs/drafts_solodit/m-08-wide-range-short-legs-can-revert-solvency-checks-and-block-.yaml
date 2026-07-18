@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-08-wide-range-short-legs-can-revert-solvency-checks-and-block-"
+class_name: "M08WideRangeShortLegsCanRevertSolvencyChecksAndBlock"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65035 (Code4rena/Panoptic)"
+help: |
+    [M-08] Wide-range short legs can revert solvency checks and block liquidations (`Errors.InvalidTick`)
+wiki_title: |
+    [M-08] Wide-range short legs can revert solvency checks and block liquidations (`Errors.InvalidTick`)
+wiki_description: |
+    * `RiskEngine.sol` [L1489-L1505](https://github.com/code-423n4/2025-12-panoptic/blob/fe557748210a529ae414d7c487b6514be0d9e220/contracts/RiskEngine.sol# L1489-L1505)
+    * `Math.sol` [L187-L245](https://github.com/code-423n4/2025-12-panoptic/blob/fe557748210a529ae414d7c487b6514be0d9e220/contracts/libra
+wiki_exploit_scenario: |
+    Per Solodit #65035: * `RiskEngine.sol` [L1489-L1505](https://github.com/code-423n4/2025-12-panoptic/blob/fe557748210a529ae414d7c487b6514be0d9e220/contracts/RiskEngine.sol# L1489-L1505)
+    * `Math.sol` [L187-L245](https://
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08WideRangeShortLegsCanRevertSolvencyChecksAndBlock"
+solodit_id: "65035"
+solodit_slug: |
+    m-08-wide-range-short-legs-can-revert-solvency-checks-and-block-liquidations-errorsinvalidtick-code4rena-panoptic-panoptic-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal attick;"
+fn_name_regex: ".*(atTick|getSqrtRatioAtTick|tickLower|tickUpper).*"
+write_var_regex: ".*(atTick|getSqrtRatioAtTick|tickLower).*"
+guard_var_regex: ".*(atTick|getSqrtRatioAtTick|tickLower).*"
+vuln_fn_name: "atTick"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "attick = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

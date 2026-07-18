@@ -1,0 +1,36 @@
+skeleton: "semantic_eoa_codesize_guard"
+name: "eoa-restricted-modifiers-that-checks-the-bytecode-size-of-the-caller-a"
+class_name: "EoaRestrictedModifiersThatChecksTheBytecodeSizeOfTheCallerA"
+wave: "13"
+severity: "MEDIUM"
+confidence: "LOW"
+source: "Hexens Glider query: eoa-restricted-modifiers-that-checks-the-bytecode"
+help: "EOA-only modifier/function uses caller bytecode size as the guard, which is bypassable from a constructor."
+wiki_title: "EOA guard bypassable via constructor codesize trick"
+wiki_description: |
+  Contracts sometimes try to block contract callers with
+  `msg.sender.code.length == 0`, `address(msg.sender).code.length == 0`, or
+  `extcodesize(caller()) == 0`. That check is bypassable from a constructor
+  because the caller's runtime bytecode is not stored yet.
+wiki_exploit_scenario: |
+  A restricted mint or flashloan-sensitive entrypoint uses an EOA-only modifier
+  implemented with `msg.sender.code.length == 0`. An attacker deploys a helper
+  contract whose constructor calls the entrypoint, passing the guard while
+  still acting as a contract.
+wiki_recommendation: |
+  Do not rely on caller bytecode size for EOA-only enforcement. For this
+  fixture-smoke approximation, treat an explicit `tx.origin == msg.sender`
+  guard as the accepted clean rewrite and keep the row
+  `submission_posture: NOT_SUBMIT_READY`.
+preconditions:
+  - contract.source_matches_regex: "extcodesize|\\.code\\.length"
+match:
+  - function.kind: "any"
+  - function.body_contains_regex: "(address\\s*\\(\\s*msg\\.sender\\s*\\)|msg\\.sender)\\s*\\.code\\.length|extcodesize\\s*\\(\\s*(msg\\.sender|caller\\s*\\(\\s*\\))\\s*\\)"
+  - function.body_not_contains_regex: "tx\\.origin\\s*==\\s*msg\\.sender|msg\\.sender\\s*==\\s*tx\\.origin"
+  - function.not_in_skip_list: true
+  - function.not_source_matches_regex: "(?i)\\b(mock|test|fixture|helper|script)"
+fixtures:
+  vuln: detectors/fixtures/eoa_restricted_modifiers_that_checks_the_bytecode_size_of_the_caller_a/positive.sol
+  clean: detectors/fixtures/eoa_restricted_modifiers_that_checks_the_bytecode_size_of_the_caller_a/clean.sol
+coverage_claim: "detector_fixture_smoke_only"

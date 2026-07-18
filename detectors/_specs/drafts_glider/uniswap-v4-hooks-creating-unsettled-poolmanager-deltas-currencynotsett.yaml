@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "uniswap-v4-hooks-creating-unsettled-poolmanager-deltas-currencynotsett"
+class_name: "UniswapV4HooksCreatingUnsettledPoolmanagerDeltasCurrencynotsett"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: uniswap-v4-hook-unsettled-delta"
+help: "Uniswap V4 Hooks Creating Unsettled PoolManager Deltas (CurrencyNotSettled DoS)"
+wiki_title: "Uniswap V4 Hooks Creating Unsettled PoolManager Deltas (CurrencyNotSettled DoS)"
+wiki_description: |
+    Detects Uniswap V4 hook callbacks that create debt against the PoolManager (via `take` or `mint`) but fail to fully resolve that debt by either: 1) Settling it internally (`settle` or `burn`), OR 2) Returning the delta to be applied by the PoolManager. In Uniswap V4, any hook that leaves a non-zero 
+wiki_exploit_scenario: |
+    Per Glider query tags []: Detects Uniswap V4 hook callbacks that create debt against the PoolManager (via `take` or `mint`) but fail to fully resolve that debt by either: 1) Settling it internally (`settle` or `burn`), OR 2) R
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "UniswapV4HooksCreatingUnsettledPoolmanagerDeltasCurrencynotsett"
+fn_name_regex: ".*(take).*"
+read_var_regex: ".*(take).*"
+required_call_regex: ".*(accrue|update|sync|validate|check).*"
+guarded_helper_name: "_guard"
+vuln_fn_name: "take"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return take > 0;"
+state_decl: "uint256 internal take;"

@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_require"
+name: "polygonspokeconnector-orpolygonhubconnector-can-get-compromised-"
+class_name: "PolygonspokeconnectorOrpolygonhubconnectorCanGetCompromised"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7131 (Spearbit/Connext)"
+help: |
+    PolygonSpokeConnector orPolygonHubConnector can get compromised and DoSed if an address(0) is passed to their constructor for _mirrorConnector
+wiki_title: |
+    PolygonSpokeConnector orPolygonHubConnector can get compromised and DoSed if an address(0) is passed to their constructor for _mirrorConnector
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    - `FxBaseChildTunnel.sol#L38-L41`
+    - `FxBaseRootTunnel.sol#L58-L61`
+    - `Connector.sol#L119-L121`
+    - `PolygonSpokeConnector.sol#L78-L82`
+    - `PolygonHubConnector.sol#L51-L55`
+    
+    ## Description
+    `PolygonSpokeConnector` (`PolygonHubConnector`) inherits from `SpokeConnector` (
+wiki_exploit_scenario: |
+    Per Solodit #7131: ## Severity: High Risk
+    
+    ## Context
+    - `FxBaseChildTunnel.sol#L38-L41`
+    - `FxBaseRootTunnel.sol#L58-L61`
+    - `Connector.sol#L119-L121`
+    - `PolygonSpokeConnector.sol#L78-L82`
+    - `PolygonHubConnector.sol#L51-L
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PolygonspokeconnectorOrpolygonhubconnectorCanGetCompromised"
+solodit_id: "7131"
+solodit_slug: |
+    polygonspokeconnector-orpolygonhubconnector-can-get-compromised-and-dosed-if-an-address0-spearbit-connext-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal fxchildtunnel;"
+fn_name_regex: ".*(PolygonSpokeConnector|PolygonHubConnector|SpokeConnector|HubConnector).*"
+write_var_regex: ".*(fxChildTunnel|fxRootTunnel|mirrorConnector).*"
+guard_var_regex: ".*(fxChildTunnel|fxRootTunnel|mirrorConnector).*"
+vuln_fn_name: "PolygonSpokeConnector"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "fxchildtunnel = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

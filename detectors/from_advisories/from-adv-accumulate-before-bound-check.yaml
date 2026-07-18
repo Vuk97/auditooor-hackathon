@@ -1,0 +1,21 @@
+pattern: from-adv-accumulate-before-bound-check
+source: advisory-seed-corpus/accumulate_before_bound_check
+severity: MEDIUM
+confidence: MEDIUM
+backend: regex
+tags: [ordering-arithmetic-overflow]
+
+# CLASS-LEVEL mechanism detector auto-derived from 1 advisory seed(s).
+# Mechanism matched, not any instance. Anti-overfit verified by advisory-seed-to-dsl.py.
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-w834-cf6p-9m9w
+
+preconditions: []
+
+match:
+  - function.kind: external_or_public
+  - function.body_contains_regex: "\\b[\\w.]*(?:balance|total|sum|acc|amount)\\b[^;]*\\+=[^;]*;"
+  - function.body_not_contains_regex: "(?:checked_add|saturating_add|\\.checked\\(|overflowing_add|ensure!\\s*\\([^)]*MAX|<=\\s*[\\w:.]*MAX)"
+
+help: "A money/balance accumulator adds credits before subtracting debits (or before a MAX bound) without checked arithmetic - the intermediate may transiently overflow a bounded type."
+wiki_title: "Accumulate Before Bound Check"
+wiki_description: "A money/balance accumulator adds credits before subtracting debits (or before a MAX bound) without checked arithmetic - the intermediate may transiently overflow a bounded type."

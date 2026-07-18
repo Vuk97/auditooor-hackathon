@@ -1,0 +1,39 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-15-pool-tokens-can-be-stolen-via-privatepool-flashloan-functio"
+class_name: "M15PoolTokensCanBeStolenViaPrivatepoolFlashloanFunctio"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #43394 (Code4rena/Caviar)"
+help: "[M-15] Pool tokens can be stolen via `PrivatePool.flashLoan` function from previous owner"
+wiki_title: "[M-15] Pool tokens can be stolen via `PrivatePool.flashLoan` function from previous owner"
+wiki_description: |
+    <https://github.com/code-423n4/2023-04-caviar/blob/main/src/PrivatePool.sol#L461>
+    
+    <https://github.com/code-423n4/2023-04-caviar/blob/main/src/PrivatePool.sol#L623-L654>
+    
+    `PrivatePool.sol` ERC721 and ERC20 tokens can be stolen by the previous owner via `execute` and `flashLoan` functions (or by mal
+wiki_exploit_scenario: |
+    Per Solodit #43394: <https://github.com/code-423n4/2023-04-caviar/blob/main/src/PrivatePool.sol#L461>
+    
+    <https://github.com/code-423n4/2023-04-caviar/blob/main/src/PrivatePool.sol#L623-L654>
+    
+    `PrivatePool.sol` ERC721 and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15PoolTokensCanBeStolenViaPrivatepoolFlashloanFunctio"
+solodit_id: "43394"
+solodit_slug: |
+    m-15-pool-tokens-can-be-stolen-via-privatepoolflashloan-function-from-previous-owner-code4rena-caviar-caviar-git
+solodit_quality: "5"
+solodit_rarity: "2"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(execute|flashLoan|onFlashLoan|transferFrom).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

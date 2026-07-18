@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "h-03-interest-rates-are-incorrect-on-liquidation"
+class_name: "H03InterestRatesAreIncorrectOnLiquidation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #15976 (Code4rena/ParaSpace)"
+help: "[H-03] Interest rates are incorrect on Liquidation"
+wiki_title: "[H-03] Interest rates are incorrect on Liquidation"
+wiki_description: |
+    The debt tokens are being transferred before calculating the interest rates. But the interest rate calculation function assumes that debt token has not yet been sent thus the outcome `currentLiquidityRate` will be incorrect
+    
+    ### Proof of Concept
+    
+    1.  Liquidator L1 calls [`executeLiquidateERC20`](ht
+wiki_exploit_scenario: |
+    Per Solodit #15976: The debt tokens are being transferred before calculating the interest rates. But the interest rate calculation function assumes that debt token has not yet been sent thus the outcome `currentLiquidit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03InterestRatesAreIncorrectOnLiquidation"
+solodit_id: "15976"
+solodit_slug: "h-03-interest-rates-are-incorrect-on-liquidation-code4rena-paraspace-paraspace-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal currentliquidityrate;"
+fn_name_regex: ".*(currentLiquidityRate|executeLiquidateERC20).*"
+read_var_regex: ".*(currentLiquidityRate|executeLiquidateERC20).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "currentLiquidityRate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return currentliquidityrate > 0;"

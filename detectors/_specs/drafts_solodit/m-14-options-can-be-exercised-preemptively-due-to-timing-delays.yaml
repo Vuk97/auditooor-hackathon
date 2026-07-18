@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "m-14-options-can-be-exercised-preemptively-due-to-timing-delays"
+class_name: "M14OptionsCanBeExercisedPreemptivelyDueToTimingDelays"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32337 (Code4rena/Tapioca DAO)"
+help: "[M-14] Options can be exercised preemptively due to timing delays"
+wiki_title: "[M-14] Options can be exercised preemptively due to timing delays"
+wiki_description: |
+    When a user participates in the options system via `TapiocaOptionBroker.sol`, they mint an `otap` position in exchange for their `tolp` position. The time of creation is recorded, and the user is allowed to exercise the option only after a full epoch duration, which is a week.
+    
+    ```solidity
+     if (blo
+wiki_exploit_scenario: |
+    Per Solodit #32337: When a user participates in the options system via `TapiocaOptionBroker.sol`, they mint an `otap` position in exchange for their `tolp` position. The time of creation is recorded, and the user is all
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14OptionsCanBeExercisedPreemptivelyDueToTimingDelays"
+solodit_id: "32337"
+solodit_slug: |
+    m-14-options-can-be-exercised-preemptively-due-to-timing-delays-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal epoch;"
+fn_name_regex: ".*(otap|tolp|netDepositedForEpoch|participate).*"
+read_var_regex: ".*(epoch|exerciseOption|netDepositedForEpoch).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "otap"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return epoch > 0;"

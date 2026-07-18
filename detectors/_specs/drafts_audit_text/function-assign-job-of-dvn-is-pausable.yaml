@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "function-assign-job-of-dvn-is-pausable"
+class_name: "FunctionAssignJobOfDvnIsPausable"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero Starknet Endpoint V2 - Zellic Audit Report"
+help: |
+    The DVN contract has the assign_job and quote functions, which can be paused by the default admin: fn assign_job(ref self: ContractState, params: QuoteParams) -> u256 { self.worker
+wiki_title: "Function assign_job of DVN is pausable"
+wiki_description: |
+    The DVN contract has the assign_job and quote functions, which can be paused by the default admin: fn assign_job(ref self: ContractState, params: QuoteParams) -> u256 { self.worker_base._assert_not_paused(); // (...) self.quote(params) } // (...) fn quote(self: @ContractState, params: QuoteParams) -
+wiki_exploit_scenario: |
+    Per audit finding: The DVN contract has the assign_job and quote functions, which can be paused by the default admin: fn assign_job(ref self: ContractState, params: QuoteParams) -> u256 { self.worker_base._assert_not_pa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FunctionAssignJobOfDvnIsPausable"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(assignJob|onlyRole|onlyAcl).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "assignJob"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

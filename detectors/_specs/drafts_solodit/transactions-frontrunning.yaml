@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "transactions-frontrunning"
+class_name: "TransactionsFrontrunning"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28345 (MixBytes/1Inch)"
+help: "Transactions frontrunning"
+wiki_title: "Transactions frontrunning"
+wiki_description: |
+    ##### Description
+    The code in this line contains an error in calculation
+    in line: https://github.com/1inch/fee-collector/blob/3c2626763fd829500496f15476d5e98fbdf4f574/contracts/FeeCollector.sol#L360
+    
+    `uint256 returnAmount = amount * tokenBalance / value(erc20);`
+       
+    According to the formula, it is f
+wiki_exploit_scenario: |
+    Per Solodit #28345: ##### Description
+    The code in this line contains an error in calculation
+    in line: https://github.com/1inch/fee-collector/blob/3c2626763fd829500496f15476d5e98fbdf4f574/contracts/FeeCollector.sol#L360
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TransactionsFrontrunning"
+solodit_id: "28345"
+solodit_slug: "transactions-frontrunning-mixbytes-none-1inch-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(returnAmount|tokenBalance|updateReward).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "returnAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

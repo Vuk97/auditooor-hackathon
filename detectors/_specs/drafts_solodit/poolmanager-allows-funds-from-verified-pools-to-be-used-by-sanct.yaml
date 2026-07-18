@@ -1,0 +1,37 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "poolmanager-allows-funds-from-verified-pools-to-be-used-by-sanct"
+class_name: "PoolmanagerAllowsFundsFromVerifiedPoolsToBeUsedBySanct"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41971 (Spearbit/Coinbase Verified Pools)"
+help: "PoolManager allows funds from verified pools to be used by sanctioned accounts during flashloans"
+wiki_title: "PoolManager allows funds from verified pools to be used by sanctioned accounts during flashloans"
+wiki_description: |
+    Severity: Medium Risk
+    Context: (No context files were provided by the reviewer)
+    Description: Tainted funds can be moved throughPoolManager and sanctioned entities can borrow capital which
+    stems from Coinbase's verified pools via flash loans. These could potentially be used to perform exploits whi
+wiki_exploit_scenario: |
+    Per Solodit #41971: Severity: Medium Risk
+    Context: (No context files were provided by the reviewer)
+    Description: Tainted funds can be moved throughPoolManager and sanctioned entities can borrow capital which
+    stems fro
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PoolmanagerAllowsFundsFromVerifiedPoolsToBeUsedBySanct"
+solodit_id: "41971"
+solodit_slug: |
+    poolmanager-allows-funds-from-verified-pools-to-be-used-by-sanctioned-accounts-during-flashloans-spearbit-none-coinbase-verified-pools-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(throughPoolManager|unlockData|poolManager|transferFrom).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

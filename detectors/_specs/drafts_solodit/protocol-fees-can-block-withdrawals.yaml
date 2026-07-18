@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "protocol-fees-can-block-withdrawals"
+class_name: "ProtocolFeesCanBlockWithdrawals"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53566 (SigmaPrime/Brava Labs)"
+help: "Protocol Fees Can Block Withdrawals"
+wiki_title: "Protocol Fees Can Block Withdrawals"
+wiki_description: |
+    ## Description
+    
+    It is possible for the payment of accrued fees to cause withdrawals on the same vault to fail. When processing withdrawals in `AcrossWithdraw`, the withdrawal amount is set using `sharesBefore`, which is recorded prior to the removal of accrued fees. This means that a withdrawal can
+wiki_exploit_scenario: |
+    Per Solodit #53566: ## Description
+    
+    It is possible for the payment of accrued fees to cause withdrawals on the same vault to fail. When processing withdrawals in `AcrossWithdraw`, the withdrawal amount is set using `shar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProtocolFeesCanBlockWithdrawals"
+solodit_id: "53566"
+solodit_slug: "protocol-fees-can-block-withdrawals-sigmaprime-none-brava-labs-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal sharesbefore;"
+fn_name_regex: ".*(AcrossWithdraw|sharesBefore).*"
+read_var_regex: ".*(sharesBefore).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "AcrossWithdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return sharesbefore > 0;"

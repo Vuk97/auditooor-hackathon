@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "h-41-rewards-compounded-in-aavestrategy-are-unredeemable"
+class_name: "H41RewardsCompoundedInAavestrategyAreUnredeemable"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27531 (Code4rena/Tapioca DAO)"
+help: "[H-41] Rewards compounded in AaveStrategy are unredeemable"
+wiki_title: "[H-41] Rewards compounded in AaveStrategy are unredeemable"
+wiki_description: |
+    The AaveStrategy contract is designed to:
+    
+    1.  Receive depositor's ERC20 tokens from yieldBox
+    2.  Deposit those tokens into an AAVE lending pool
+    3.  Allow anyone to call `compound()`, which:
+        a. Claims AAVE rewards from the `incentivesController`
+        b. Claims staking rewards from the `stakingRe
+wiki_exploit_scenario: |
+    Per Solodit #27531: The AaveStrategy contract is designed to:
+    
+    1.  Receive depositor's ERC20 tokens from yieldBox
+    2.  Deposit those tokens into an AAVE lending pool
+    3.  Allow anyone to call `compound()`, which:
+        a. C
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H41RewardsCompoundedInAavestrategyAreUnredeemable"
+solodit_id: "27531"
+solodit_slug: "h-41-rewards-compounded-in-aavestrategy-are-unredeemable-code4rena-tapioca-dao-tapioca-dao-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimrewards;"
+fn_name_regex: ".*(compound|incentivesController|stakingRewardToken|rewardToken).*"
+read_var_regex: ".*(claimRewards|compound|incentivesController).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "compound"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimrewards > 0;"

@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_require"
+name: "single-asset-liquidity-functions-allow-stealing-of-assets"
+class_name: "SingleAssetLiquidityFunctionsAllowStealingOfAssets"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #17666 (TrailOfBits/Balancer Core)"
+help: "Single-asset liquidity functions allow stealing of assets"
+wiki_title: "Single-asset liquidity functions allow stealing of assets"
+wiki_description: |
+    ## Auditing and Logging
+    
+    ## Type:   
+    Auditing and Logging  
+    **Target:** BFactory.sol
+    
+    ## Difficulty:   
+    Low  
+    **Type:** Access Controls  
+    **Target:** BPool.sol  
+    
+    ## Description
+    Incorrect access control in the single-asset liquidity functions allows an attacker to withdraw all the assets. The Balanc
+wiki_exploit_scenario: |
+    Per Solodit #17666: ## Auditing and Logging
+    
+    ## Type:   
+    Auditing and Logging  
+    **Target:** BFactory.sol
+    
+    ## Difficulty:   
+    Low  
+    **Type:** Access Controls  
+    **Target:** BPool.sol  
+    
+    ## Description
+    Incorrect access contr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SingleAssetLiquidityFunctionsAllowStealingOfAssets"
+solodit_id: "17666"
+solodit_slug: "single-asset-liquidity-functions-allow-stealing-of-assets-trailofbits-balancer-core-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal exitswapexternamountout;"
+fn_name_regex: ".*(joinswapExternAmountIn|joinswapExternAmountOut|exitswapPoolAmountIn|exitswapPoolAmountOut).*"
+write_var_regex: ".*(exitswapExternAmountOut|exitswapPoolAmountIn|exitswapPoolAmountOut).*"
+guard_var_regex: ".*(exitswapExternAmountOut|exitswapPoolAmountIn|exitswapPoolAmountOut).*"
+vuln_fn_name: "joinswapExternAmountIn"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "exitswapexternamountout = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

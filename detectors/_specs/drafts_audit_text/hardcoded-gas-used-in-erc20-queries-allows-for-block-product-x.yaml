@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "hardcoded-gas-used-in-erc20-queries-allows-for-block-product-x"
+class_name: "HardcodedGasUsedInErc20QueriesAllowsForBlockProductX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-11-nibiru"
+help: |
+    3docSec , also found by 0x007 Vulnerability details The funtoken precompile allows an EVM caller to access information about tokens that coexist in the Cosmos (“coin”) and EVM (“ER
+wiki_title: "Hardcoded gas used in ERC20 queries allows for block production halt from infinite recursion"
+wiki_description: |
+    3docSec , also found by 0x007 Vulnerability details The funtoken precompile allows an EVM caller to access information about tokens that coexist in the Cosmos (“coin”) and EVM (“ERC20”) spaces. Some operations performed by this precompile consist of EVM calls; for example, if we look at the balance
+wiki_exploit_scenario: |
+    Per audit finding: 3docSec , also found by 0x007 Vulnerability details The funtoken precompile allows an EVM caller to access information about tokens that coexist in the Cosmos (“coin”) and EVM (“ERC20”) spaces. Some o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "HardcodedGasUsedInErc20QueriesAllowsForBlockProductX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(precompileFunToken|erc20Bal|evmKeeper).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "precompileFunToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "rebalanceparams-callback-can-steal-accrued-fees-of-liquidity-nft"
+class_name: "RebalanceparamsCallbackCanStealAccruedFeesOfLiquidityNft"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40580 (Cantina/Mellow)"
+help: "RebalanceParams.callback can steal accrued fees of liquidity NFTs during rebalance"
+wiki_title: "RebalanceParams.callback can steal accrued fees of liquidity NFTs during rebalance "
+wiki_description: |
+    ## Vulnerability Report
+    
+    ## Context
+    Core.sol#L221-L223
+    
+    ## Description
+    During the rebalancing process, the liquidity NFTs are transferred to the `RebalanceParams.callback` address. In cases where the `CallbackParams` of a user's managed position are empty (a scenario when the user just wants rebalan
+wiki_exploit_scenario: |
+    Per Solodit #40580: ## Vulnerability Report
+    
+    ## Context
+    Core.sol#L221-L223
+    
+    ## Description
+    During the rebalancing process, the liquidity NFTs are transferred to the `RebalanceParams.callback` address. In cases where the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RebalanceparamsCallbackCanStealAccruedFeesOfLiquidityNft"
+solodit_id: "40580"
+solodit_slug: |
+    rebalanceparamscallback-can-steal-accrued-fees-of-liquidity-nfts-during-rebalance-cantina-none-mellow-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(CallbackParams).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

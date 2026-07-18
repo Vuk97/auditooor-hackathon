@@ -1,0 +1,19 @@
+id: liquidation-bypasses-reserve-acl
+title: "Liquidation flow bypasses reserve-level access controls"
+severity: Medium
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44816"
+bug_class: authorization
+indicators:
+  - "liquidation entry point does not check reserve ACL (whitelist/blacklist) for the liquidator"
+  - "direct liquidation bypasses a check enforced by prepared liquidation"
+victim: "Protocol governance: ACL not enforced on liquidation path."
+exploit_precondition: "Liquidator is in blacklist but liquidation path doesn't check."
+real_world_example: |
+  V12 #44816 (Medium): Liquidation flow bypasses reserve-level access controls.
+suggested_remediation: "Apply the same ACL checks to all liquidation paths."
+cross_refs:
+  - liquidation-blacklist-not-rechecked-in-execute

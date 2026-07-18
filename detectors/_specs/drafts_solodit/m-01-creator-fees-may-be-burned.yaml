@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "m-01-creator-fees-may-be-burned"
+class_name: "M01CreatorFeesMayBeBurned"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #3164 (Code4rena/Foundation)"
+help: "[M-01] Creator fees may be burned"
+wiki_title: "[M-01] Creator fees may be burned"
+wiki_description: |
+    _Submitted by Lambda_
+    
+    `royaltyInfo`, `getRoyalties`, or `getFeeRecipients` may return `address(0)` as the recipient address. While the value 0 is correctly handled for the royalties itself, it is not for the address. In such a case, the ETH amount will be sent to `address(0)`, i.e. it is burned and
+wiki_exploit_scenario: |
+    Per Solodit #3164: _Submitted by Lambda_
+    
+    `royaltyInfo`, `getRoyalties`, or `getFeeRecipients` may return `address(0)` as the recipient address. While the value 0 is correctly handled for the royalties itself, it is not
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01CreatorFeesMayBeBurned"
+solodit_id: "3164"
+solodit_slug: "m-01-creator-fees-may-be-burned-code4rena-foundation-foundation-drop-contest-git"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal getfeerecipients;"
+fn_name_regex: ".*(royaltyInfo|getRoyalties|getFeeRecipients).*"
+write_var_regex: ".*(getFeeRecipients|getRoyalties|royaltyInfo).*"
+guard_var_regex: ".*(getFeeRecipients|getRoyalties|royaltyInfo).*"
+vuln_fn_name: "royaltyInfo"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "getfeerecipients = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

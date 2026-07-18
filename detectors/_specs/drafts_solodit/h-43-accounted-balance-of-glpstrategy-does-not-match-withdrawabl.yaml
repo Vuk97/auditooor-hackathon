@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "h-43-accounted-balance-of-glpstrategy-does-not-match-withdrawabl"
+class_name: "H43AccountedBalanceOfGlpstrategyDoesNotMatchWithdrawabl"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27533 (Code4rena/Tapioca DAO)"
+help: |
+    [H-43] Accounted balance of GlpStrategy does not match withdrawable balance, allowing for attackers to steal unclaimed rewards
+wiki_title: |
+    [H-43] Accounted balance of GlpStrategy does not match withdrawable balance, allowing for attackers to steal unclaimed rewards
+wiki_description: |
+    Attackers can steal unclaimed rewards due to insufficient accounting.
+    
+    ### Proof of Concept
+    
+    Pricing of shares for Yieldbox strategies is dependent upon the total underlying balance of the strategy. We can see below how we mint an amount of shares according to this underlying amount.
+    
+    ```solidity
+    /
+wiki_exploit_scenario: |
+    Per Solodit #27533: Attackers can steal unclaimed rewards due to insufficient accounting.
+    
+    ### Proof of Concept
+    
+    Pricing of shares for Yieldbox strategies is dependent upon the total underlying balance of the strategy.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H43AccountedBalanceOfGlpstrategyDoesNotMatchWithdrawabl"
+solodit_id: "27533"
+solodit_slug: |
+    h-43-accounted-balance-of-glpstrategy-does-not-match-withdrawable-balance-allowing-for-attackers-to-steal-unclaimed-rewards-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositAsset|totalAmount|totalSupply|assetId).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositAsset"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

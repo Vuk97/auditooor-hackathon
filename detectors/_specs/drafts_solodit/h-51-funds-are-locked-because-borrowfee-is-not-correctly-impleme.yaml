@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "h-51-funds-are-locked-because-borrowfee-is-not-correctly-impleme"
+class_name: "H51FundsAreLockedBecauseBorrowfeeIsNotCorrectlyImpleme"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27541 (Code4rena/Tapioca DAO)"
+help: "[H-51] Funds are locked because borrowFee is not correctly implemented in BigBang"
+wiki_title: "[H-51] Funds are locked because borrowFee is not correctly implemented in BigBang"
+wiki_description: |
+    There's borrowOpeningFee for markets. In Singularity, this fee is accumulated over assets as a reward to asset depositors. In BigBang, assets is USD0 which would be minted and burned on borrow, and repay respectively. BigBang does not collect fees, because it uses the same mechanism as Singularity
+wiki_exploit_scenario: |
+    Per Solodit #27541: There's borrowOpeningFee for markets. In Singularity, this fee is accumulated over assets as a reward to asset depositors. In BigBang, assets is USD0 which would be minted and burned on borrow, and r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H51FundsAreLockedBecauseBorrowfeeIsNotCorrectlyImpleme"
+solodit_id: "27541"
+solodit_slug: |
+    h-51-funds-are-locked-because-borrowfee-is-not-correctly-implemented-in-bigbang-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(borrowOpeningFee|bigBang|feeAmount|totalBorrow).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "borrowOpeningFee"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

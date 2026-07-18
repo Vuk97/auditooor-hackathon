@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "h-1-user-is-unable-to-partially-payback-loan-if-they-aren-t-able"
+class_name: "H1UserIsUnableToPartiallyPaybackLoanIfTheyArenTAble"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #5684 (Sherlock/Isomorph)"
+help: |
+    H-1: User is unable to partially payback loan if they aren't able to post enough isoUSD to bring them back to minOpeningMargin
+wiki_title: |
+    H-1: User is unable to partially payback loan if they aren't able to post enough isoUSD to bring them back to minOpeningMargin
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-11-isomorph-judging/issues/161 
+    
+    ## Found by 
+    0x52
+    
+    ## Summary
+    
+    The only way for a user to reduce their debt is to call closeLoan. If the amount repaid does not bring the user back above minOpeningMargin then the transaction will revert. This is problem
+wiki_exploit_scenario: |
+    Per Solodit #5684: Source: https://github.com/sherlock-audit/2022-11-isomorph-judging/issues/161 
+    
+    ## Found by 
+    0x52
+    
+    ## Summary
+    
+    The only way for a user to reduce their debt is to call closeLoan. If the amount repaid d
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1UserIsUnableToPartiallyPaybackLoanIfTheyArenTAble"
+solodit_id: "5684"
+solodit_slug: |
+    h-1-user-is-unable-to-partially-payback-loan-if-they-arent-able-to-post-enough-isousd-to-bring-them-back-to-minopeningmargin-sherlock-isomorph-isomorph-git
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(closeLoan|minOpeningMargin|outstandingisoUSD|collateralLeft).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "closeLoan"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

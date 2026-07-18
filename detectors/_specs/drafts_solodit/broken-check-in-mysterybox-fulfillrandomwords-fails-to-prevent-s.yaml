@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "broken-check-in-mysterybox-fulfillrandomwords-fails-to-prevent-s"
+class_name: "BrokenCheckInMysteryboxFulfillrandomwordsFailsToPreventS"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29268 (Cyfrin/Mode Earnm)"
+help: |
+    Broken check in `MysteryBox::fulfillRandomWords()` fails to prevent same request being fulfilled multiple times
+wiki_title: |
+    Broken check in `MysteryBox::fulfillRandomWords()` fails to prevent same request being fulfilled multiple times
+wiki_description: |
+    **Description:** Consider the [check](https://github.com/Earnft/smart-contracts/blob/43d3a8305dd6c7325339ed35d188fe82070ee5c9/contracts/MysteryBox.sol#L221-L222) which attempts to prevent the same request from being fulfilled multiple times:
+    ```solidity
+    if (vrfRequests[_requestId].fulfilled) revert
+wiki_exploit_scenario: |
+    Per Solodit #29268: **Description:** Consider the [check](https://github.com/Earnft/smart-contracts/blob/43d3a8305dd6c7325339ed35d188fe82070ee5c9/contracts/MysteryBox.sol#L221-L222) which attempts to prevent the same req
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BrokenCheckInMysteryboxFulfillrandomwordsFailsToPreventS"
+solodit_id: "29268"
+solodit_slug: |
+    broken-check-in-mysteryboxfulfillrandomwords-fails-to-prevent-same-request-being-fulfilled-multiple-times-cyfrin-none-cyfrin-mode-earnm-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal activevrfrequests;"
+fn_name_regex: ".*(activeVrfRequests|fulfilledVrfRequests|requestId).*"
+read_var_regex: ".*(activeVrfRequests|fulfilledVrfRequests|requestId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "activeVrfRequests"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return activevrfrequests > 0;"

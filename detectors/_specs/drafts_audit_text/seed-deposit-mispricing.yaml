@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "seed-deposit-mispricing"
+class_name: "SeedDepositMispricing"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Origami Finance - Zellic Audit Report"
+help: |
+    The first seed deposit into the lov vault is priced at a 1:1 ratio regardless of the current Dai/USDC price. function _reservesToShares(Cache memory cache, uint256 reserves) privat
+wiki_title: "Seed-deposit mispricing"
+wiki_description: |
+    The first seed deposit into the lov vault is priced at a 1:1 ratio regardless of the current Dai/USDC price. function _reservesToShares(Cache memory cache, uint256 reserves) private view returns (uint256) { if (cache.totalSupply == 0) { return reserves; } However, when this seed deposit is removed,
+wiki_exploit_scenario: |
+    Per audit finding: The first seed deposit into the lov vault is priced at a 1:1 ratio regardless of the current Dai/USDC price. function _reservesToShares(Cache memory cache, uint256 reserves) private view returns (uint
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SeedDepositMispricing"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalSupply|userRedeemableRe).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalSupply"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

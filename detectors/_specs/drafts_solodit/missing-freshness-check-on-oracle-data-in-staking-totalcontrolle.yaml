@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "missing-freshness-check-on-oracle-data-in-staking-totalcontrolle"
+class_name: "MissingFreshnessCheckOnOracleDataInStakingTotalcontrolle"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63671 (MixBytes/Mantle Network)"
+help: "Missing freshness check on oracle data in `Staking.totalControlled()` enables stale-rate arbitrage"
+wiki_title: "Missing freshness check on oracle data in `Staking.totalControlled()` enables stale-rate arbitrage"
+wiki_description: |
+    ##### Description
+    `Staking.totalControlled()` derives the mETH/ETH exchange rate inputs from `oracle.latestRecord()` without validating the record timestamp.
+    
+    If the oracle lags significant state changes (e.g., validator rewards or slashing), the resulting rate becomes stale. An attacker can exploit
+wiki_exploit_scenario: |
+    Per Solodit #63671: ##### Description
+    `Staking.totalControlled()` derives the mETH/ETH exchange rate inputs from `oracle.latestRecord()` without validating the record timestamp.
+    
+    If the oracle lags significant state chan
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingFreshnessCheckOnOracleDataInStakingTotalcontrolle"
+solodit_id: "63671"
+solodit_slug: |
+    missing-freshness-check-on-oracle-data-in-stakingtotalcontrolled-enables-stale-rate-arbitrage-mixbytes-none-mantle-network-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(totalControlled).*"
+primary_var_regex: ".*(totalControlled).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

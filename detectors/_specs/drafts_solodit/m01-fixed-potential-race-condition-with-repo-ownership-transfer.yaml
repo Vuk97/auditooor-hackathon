@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m01-fixed-potential-race-condition-with-repo-ownership-transfer"
+class_name: "M01FixedPotentialRaceConditionWithRepoOwnershipTransfer"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11565 (OpenZeppelin/Opyn Contracts Audit)"
+help: "[M01][Fixed] Potential race condition with Repo ownership transfer"
+wiki_title: "[M01][Fixed] Potential race condition with Repo ownership transfer"
+wiki_description: |
+    Currently a `Repo` owner can transfer the ownership by calling [`transferRepoOwnership`](https://github.com/opynfinance/Convexity-Protocol/blob/c34598565cba2bfcf824eb2da63d95c7f5dda4fa/contracts/OptionsContract.sol#L429). A malicious original owner could front run this transaction with another one t
+wiki_exploit_scenario: |
+    Per Solodit #11565: Currently a `Repo` owner can transfer the ownership by calling [`transferRepoOwnership`](https://github.com/opynfinance/Convexity-Protocol/blob/c34598565cba2bfcf824eb2da63d95c7f5dda4fa/contracts/Optio
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01FixedPotentialRaceConditionWithRepoOwnershipTransfer"
+solodit_id: "11565"
+solodit_slug: |
+    m01fixed-potential-race-condition-with-repo-ownership-transfer-openzeppelin-opyn-contracts-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal transferrepoownership;"
+fn_name_regex: ".*(Repo|transferRepoOwnership).*"
+read_var_regex: ".*(transferRepoOwnership).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Repo"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return transferrepoownership > 0;"

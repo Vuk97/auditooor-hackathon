@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "liquidation-bonus-is-0-when-currentltv-1e18"
+class_name: "LiquidationBonusIs0WhenCurrentltv1e18"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #37521 (Zokyo/Cedro Finance)"
+help: "Liquidation bonus is 0% when `currentLTV > 1e18`"
+wiki_title: "Liquidation bonus is 0% when `currentLTV > 1e18`"
+wiki_description: |
+    **Severity**: High
+    
+    **Status**: Acknowledged
+    
+    **Description**
+    
+    In Contract LiquidationManager.sol, the method `liquidate(..)` has the following check:
+    ```solidity
+           uint256 discount; 
+           uint256 liqPercent = 1e18;
+           if (currentLTV < 1e18) {
+               discount = 1e36 / currentLTV - 999
+wiki_exploit_scenario: |
+    Per Solodit #37521: **Severity**: High
+    
+    **Status**: Acknowledged
+    
+    **Description**
+    
+    In Contract LiquidationManager.sol, the method `liquidate(..)` has the following check:
+    ```solidity
+           uint256 discount; 
+           uint
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LiquidationBonusIs0WhenCurrentltv1e18"
+solodit_id: "37521"
+solodit_slug: "liquidation-bonus-is-0-when-currentltv-1e18-zokyo-none-cedro-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal currentltv;"
+fn_name_regex: ".*(liquidate|currentLTV).*"
+read_var_regex: ".*(currentLTV|liquidate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return currentltv > 0;"

@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "inkfinance-2026-05"
+class_name: "Inkfinance202605"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-05/INKFinance_exp.sol"
+help: "INKFinance 2026-05 — flashloan exploit (~$140K)"
+wiki_title: "INKFinance (2026-05) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-05): INKFinance lost ~$140K. Bug class: flashloan. Attack tx: 0xb469a24ec737be16fe41367a7b5b315c7f03b4e0ff3af50b3a2db03b3066b982.
+wiki_exploit_scenario: |
+    Attacker (0x90b147592191388e955401af43842e19faa87ee2) exploits INKFinance via flashloan: the victim contract 0xeF2C77f3B9b8aaa067239bc6B4588Bae26433494 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Inkfinance202605"
+trigger_sig_regex: ".*(receiveFlashLoan).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function receiveFlashLoan(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.receiveFlashLoan(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

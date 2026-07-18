@@ -1,0 +1,31 @@
+skeleton: "state_write_without_paired_write"
+name: "anti-sandwich-mechanism-also-breaks-price-reliability-at-the-sta"
+class_name: "AntiSandwichMechanismAlsoBreaksPriceReliabilityAtTheSta"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61388 (OpenZeppelin/OpenZeppelin Uniswap Hooks v1.1.0 RC 1 Audit)"
+help: "Anti-Sandwich Mechanism Also Breaks Price Reliability at the Start of a Block"
+wiki_title: "Anti-Sandwich Mechanism Also Breaks Price Reliability at the Start of a Block"
+wiki_description: |
+    [`AntiSandwichHook`](https://github.com/OpenZeppelin/uniswap-hooks/blob/087974776fb7285ec844ca090eab860bd8430a11/src/general/AntiSandwichHook.sol#L47) tries to stop sandwich attacks by making sure that swaps cannot happen at a better price than what was available at the start of the block. This only
+wiki_exploit_scenario: |
+    Per Solodit #61388: [`AntiSandwichHook`](https://github.com/OpenZeppelin/uniswap-hooks/blob/087974776fb7285ec844ca090eab860bd8430a11/src/general/AntiSandwichHook.sol#L47) tries to stop sandwich attacks by making sure tha
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AntiSandwichMechanismAlsoBreaksPriceReliabilityAtTheSta"
+solodit_id: "61388"
+solodit_slug: |
+    anti-sandwich-mechanism-also-breaks-price-reliability-at-the-start-of-a-block-openzeppelin-none-openzeppelin-uniswap-hooks-v110-rc-1-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(AntiSandwichHook).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

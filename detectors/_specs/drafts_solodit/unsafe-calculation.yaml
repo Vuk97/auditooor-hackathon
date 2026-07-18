@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "unsafe-calculation"
+class_name: "UnsafeCalculation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #56005 (Zokyo/Argo)"
+help: "Unsafe calculation"
+wiki_title: "Unsafe calculation"
+wiki_description: |
+    **Description**
+    
+    In contract YieldFarm.sol (argo-yieldfarming-staking-master), in function massHarvest there is
+    a calculation without safe math check:
+    totalDistributedValue += _harvest(i);
+    
+    **Recommendation**:
+    
+    Add safe math:
+    totalDistributedValue = totalDistributedValue.add(_harvest(i));
+wiki_exploit_scenario: |
+    Per Solodit #56005: **Description**
+    
+    In contract YieldFarm.sol (argo-yieldfarming-staking-master), in function massHarvest there is
+    a calculation without safe math check:
+    totalDistributedValue += _harvest(i);
+    
+    **Recommen
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnsafeCalculation"
+solodit_id: "56005"
+solodit_slug: "unsafe-calculation-zokyo-none-argo-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(massHarvest|totalDistributedValue).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "massHarvest"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

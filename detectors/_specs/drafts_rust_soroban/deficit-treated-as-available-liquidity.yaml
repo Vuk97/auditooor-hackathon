@@ -1,0 +1,19 @@
+id: deficit-treated-as-available-liquidity
+title: "Reserve deficit not subtracted from available-liquidity rate calculation"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44353"
+bug_class: liquidation
+indicators:
+  - "`available_liquidity = total_supply - total_debt` without `- reserve_deficit`"
+  - "`calculate_interest_rates_for_reserve` uses supply-debt diff as truth after bad debt has been externalized"
+victim: "Suppliers: reserve reprices as if liquidity recovered, subsidizing discounted borrows atop real shortfall."
+exploit_precondition: "A prior liquidation or bad-debt event has increased `reserve_deficit`."
+real_world_example: |
+  V12 #44353 (High): Deficit treated as available liquidity in rate update.
+suggested_remediation: "Subtract `reserve_deficit` from `available_liquidity` OR read actual aToken underlying balance."
+cross_refs:
+  - exact-collateral-liquidation-skips-deficit

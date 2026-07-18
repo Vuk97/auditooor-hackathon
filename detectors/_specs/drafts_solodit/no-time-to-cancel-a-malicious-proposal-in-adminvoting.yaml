@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "no-time-to-cancel-a-malicious-proposal-in-adminvoting"
+class_name: "NoTimeToCancelAMaliciousProposalInAdminvoting"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #27772 (MixBytes/Prisma Finance)"
+help: "No time to cancel a malicious proposal in AdminVoting"
+wiki_title: "No time to cancel a malicious proposal in AdminVoting"
+wiki_description: |
+    ##### Description
+    
+    - https://github.com/prisma-fi/prisma-contracts/blob/c0122d27677cd4e1aaee7f1e21f807ccadf46ac8/contracts/dao/AdminVoting.sol#L211
+    
+    A malicious whale can create a proposal, wait for `MIN_TIME_TO_EXECUTION + 1` (currently 24 hours), and then vote and execute it in the same block, lea
+wiki_exploit_scenario: |
+    Per Solodit #27772: ##### Description
+    
+    - https://github.com/prisma-fi/prisma-contracts/blob/c0122d27677cd4e1aaee7f1e21f807ccadf46ac8/contracts/dao/AdminVoting.sol#L211
+    
+    A malicious whale can create a proposal, wait for `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoTimeToCancelAMaliciousProposalInAdminvoting"
+solodit_id: "27772"
+solodit_slug: "no-time-to-cancel-a-malicious-proposal-in-adminvoting-mixbytes-none-prisma-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(currentWeight|requiredWeight|createdAt).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "currentWeight"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-01-although-erc20boost-decrementgaugesboostindexed-function-wo"
+class_name: "M01AlthoughErc20boostDecrementgaugesboostindexedFunctionWo"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #26070 (Code4rena/Maia DAO Ecosystem)"
+help: |
+    [M-01] Although `ERC20Boost.decrementGaugesBoostIndexed` function would require the user to remove all of their boosts from a deprecated gauge at once, such a user can instead call
+wiki_title: |
+    [M-01] Although `ERC20Boost.decrementGaugesBoostIndexed` function would require the user to remove all of their boosts from a deprecated gauge at once, such a u
+wiki_description: |
+    When the `gauge` input corresponds to a deprecated gauge, calling the `ERC20Boost.decrementGaugeBoost` function can still execute `gaugeState.userGaugeBoost -= boost.toUint128()` if `boost >= gaugeState.userGaugeBoost` is false.
+    
+    <https://github.com/code-423n4/2023-05-maia/blob/62f4f01a522dcbb4b9ab
+wiki_exploit_scenario: |
+    Per Solodit #26070: When the `gauge` input corresponds to a deprecated gauge, calling the `ERC20Boost.decrementGaugeBoost` function can still execute `gaugeState.userGaugeBoost -= boost.toUint128()` if `boost >= gaugeSt
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01AlthoughErc20boostDecrementgaugesboostindexedFunctionWo"
+solodit_id: "26070"
+solodit_slug: |
+    m-01-although-erc20boostdecrementgaugesboostindexed-function-would-require-the-user-to-remove-all-of-their-boosts-from-a-deprecated-gauge-at-once-such-a-user-can-instead-call-erc20boostdecrementgaugeboost-function-multiple-times-to-utilize-such-deprecated-gauge-and-decrement-its-usergaugeboost-code4rena-maia-dao-ecosystem-maia-dao-ecosystem-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal gauge;"
+fn_name_regex: ".*(gauge|userGaugeBoost).*"
+read_var_regex: ".*(gauge|userGaugeBoost).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "gauge"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return gauge > 0;"

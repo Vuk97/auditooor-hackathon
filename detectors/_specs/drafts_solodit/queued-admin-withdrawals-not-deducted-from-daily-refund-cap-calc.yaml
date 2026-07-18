@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "queued-admin-withdrawals-not-deducted-from-daily-refund-cap-calc"
+class_name: "QueuedAdminWithdrawalsNotDeductedFromDailyRefundCapCalc"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64794 (Spearbit/Buck Labs)"
+help: "Queued admin withdrawals not deducted from daily refund cap calculation"
+wiki_title: "Queued admin withdrawals not deducted from daily refund cap calculation"
+wiki_description: |
+    ## Medium Risk Severity Report
+    
+    **Context:**  
+    - LiquidityReserveV2.sol#L283-L288  
+    - PolicyManagerV2.sol#L574
+    
+    **Description:**  
+    When an admin queues a withdrawal in `LiquidityReserveV2`, the funds remain in the reserve during the delay period (default: 24 hours) but are committed to be released.
+wiki_exploit_scenario: |
+    Per Solodit #64794: ## Medium Risk Severity Report
+    
+    **Context:**  
+    - LiquidityReserveV2.sol#L283-L288  
+    - PolicyManagerV2.sol#L574
+    
+    **Description:**  
+    When an admin queues a withdrawal in `LiquidityReserveV2`, the funds
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "QueuedAdminWithdrawalsNotDeductedFromDailyRefundCapCalc"
+solodit_id: "64794"
+solodit_slug: "queued-admin-withdrawals-not-deducted-from-daily-refund-cap-calculation-spearbit-none-buck-labs-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal dailycapusdc;"
+fn_name_regex: ".*(LiquidityReserveV2|PolicyManagerV2|dailyCapUsdc).*"
+read_var_regex: ".*(dailyCapUsdc).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LiquidityReserveV2"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return dailycapusdc > 0;"

@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "price-accumulators-overflow-in-gtelaunchpadv2pair-contract-c-x"
+class_name: "PriceAccumulatorsOverflowInGtelaunchpadv2pairContractCX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-08-gte-perps-and-launchpad"
+help: |
+    AasifUsmani , also found by 0rpse 0xanony 0xIconart dimulski djshan_eden johnyfwesh KonstantinVelev nonso72 prk0 , and ret2basic launchpad/uniswap/GTELaunchpadV2Pair.sol #L136-L137
+wiki_title: "Price Accumulators Overflow in GTELaunchpadV2Pair contract Causes AMM-wide DoS"
+wiki_description: |
+    AasifUsmani , also found by 0rpse 0xanony 0xIconart dimulski djshan_eden johnyfwesh KonstantinVelev nonso72 prk0 , and ret2basic launchpad/uniswap/GTELaunchpadV2Pair.sol #L136-L137 launchpad/uniswap/GTELaunchpadV2Pair.sol #L2 The GTE AMM is a Uniswap V2 fork but uses Solidity >0.8.0. Solidity ≥0.8 i
+wiki_exploit_scenario: |
+    Per audit finding: AasifUsmani , also found by 0rpse 0xanony 0xIconart dimulski djshan_eden johnyfwesh KonstantinVelev nonso72 prk0 , and ret2basic launchpad/uniswap/GTELaunchpadV2Pair.sol #L136-L137 launchpad/uniswap/G
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PriceAccumulatorsOverflowInGtelaunchpadv2pairContractCX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

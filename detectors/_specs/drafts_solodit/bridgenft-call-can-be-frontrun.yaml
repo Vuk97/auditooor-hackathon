@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_require"
+name: "bridgenft-call-can-be-frontrun"
+class_name: "BridgenftCallCanBeFrontrun"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50956 (Halborn/Gains Trade)"
+help: "BRIDGENFT CALL CAN BE FRONTRUN"
+wiki_title: "BRIDGENFT CALL CAN BE FRONTRUN"
+wiki_description: |
+    ##### Description
+    
+    In the `NFTMintingBridge` contract, the function `bridgeNft()` is used to bridge `ERC721` tokens from one chain to another:
+    
+    #### NFTMintingBridge.sol
+    
+    ```
+    /**
+     * bridgeNft
+     * @param dstChainId     The **LayerZero** destination chain ID.
+     * @param tokenId        The tokenId of the
+wiki_exploit_scenario: |
+    Per Solodit #50956: ##### Description
+    
+    In the `NFTMintingBridge` contract, the function `bridgeNft()` is used to bridge `ERC721` tokens from one chain to another:
+    
+    #### NFTMintingBridge.sol
+    
+    ```
+    /**
+     * bridgeNft
+     * @para
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BridgenftCallCanBeFrontrun"
+solodit_id: "50956"
+solodit_slug: "bridgenft-call-can-be-frontrun-halborn-gains-trade-gains-trade-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bridgenft;"
+fn_name_regex: ".*(NFTMintingBridge|bridgeNft|ERC721|tokenId).*"
+write_var_regex: ".*(bridgeNft|tokenId).*"
+guard_var_regex: ".*(bridgeNft|tokenId).*"
+vuln_fn_name: "NFTMintingBridge"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "bridgenft = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

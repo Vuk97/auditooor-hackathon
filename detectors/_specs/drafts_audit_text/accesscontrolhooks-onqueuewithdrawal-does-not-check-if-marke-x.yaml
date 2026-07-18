@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "accesscontrolhooks-onqueuewithdrawal-does-not-check-if-marke-x"
+class_name: "AccesscontrolhooksOnqueuewithdrawalDoesNotCheckIfMarkeX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-08-wildcat"
+help: |
+    gesha17 , also found by falconhoof kutugu , and Infect3d Impact The onQueueWithdrawal() function does not check if the caller is a hooked market, meaning anyone can call the functi
+wiki_title: |
+    AccessControlHooks onQueueWithdrawal() does not check if market is hooked which could lead to unexpected errors such as temporary DoS
+wiki_description: |
+    gesha17 , also found by falconhoof kutugu , and Infect3d Impact The onQueueWithdrawal() function does not check if the caller is a hooked market, meaning anyone can call the function and attempt to verify credentials on a lender. This results in calls to registered pull providers with arbitrary hook
+wiki_exploit_scenario: |
+    Per audit finding: gesha17 , also found by falconhoof kutugu , and Infect3d Impact The onQueueWithdrawal() function does not check if the caller is a hooked market, meaning anyone can call the function and attempt to ve
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AccesscontrolhooksOnqueuewithdrawalDoesNotCheckIfMarkeX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(onQueueWithdrawal|hookData|scaledAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "onQueueWithdrawal"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

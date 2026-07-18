@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "twamm-instant-orders-can-steal-historical-rewards"
+class_name: "TwammInstantOrdersCanStealHistoricalRewards"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-11-ekubo"
+help: |
+    zzebra83 When a TWAMM order is created exactly at block.timestamp == startTime , the startTime is not registered in the time bitmap. This causes rewardRatesBeforeSlot[startTime] to
+wiki_title: "TWAMM Instant Orders Can Steal Historical Rewards"
+wiki_description: |
+    zzebra83 When a TWAMM order is created exactly at block.timestamp == startTime , the startTime is not registered in the time bitmap. This causes rewardRatesBeforeSlot[startTime] to remain uninitialized (value 0), resulting in getRewardRateInside() returning inflated reward values that include all hi
+wiki_exploit_scenario: |
+    Per audit finding: zzebra83 When a TWAMM order is created exactly at block.timestamp == startTime , the startTime is not registered in the time bitmap. This causes rewardRatesBeforeSlot[startTime] to remain uninitialize
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TwammInstantOrdersCanStealHistoricalRewards"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(startTime|rewardRatesBeforeSlot|getRewardRateInside).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "startTime"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

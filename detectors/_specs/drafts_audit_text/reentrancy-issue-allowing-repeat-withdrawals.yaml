@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "reentrancy-issue-allowing-repeat-withdrawals"
+class_name: "ReentrancyIssueAllowingRepeatWithdrawals"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Gasp Node and Monorepo - Zellic Audit Report"
+help: |
+    The function close_withdrawal has a reentrancy issue. The processedL2Requests mapping is only updated at the end of the function and after the withdrawal is processed, which includ
+wiki_title: "Reentrancy issue allowing repeat withdrawals"
+wiki_description: |
+    The function close_withdrawal has a reentrancy issue. The processedL2Requests mapping is only updated at the end of the function and after the withdrawal is processed, which includes sending ETH to the recipient. function close_withdrawal(Withdrawal calldata withdrawal, bytes32 merkle_root, bytes32[
+wiki_exploit_scenario: |
+    Per audit finding: The function close_withdrawal has a reentrancy issue. The processedL2Requests mapping is only updated at the end of the function and after the withdrawal is processed, which includes sending ETH to th
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyIssueAllowingRepeatWithdrawals"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(processedL2Requests|merkleRootRange|requestId).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "processedL2Requests"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

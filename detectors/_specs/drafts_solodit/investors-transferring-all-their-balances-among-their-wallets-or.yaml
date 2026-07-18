@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "investors-transferring-all-their-balances-among-their-wallets-or"
+class_name: "InvestorsTransferringAllTheirBalancesAmongTheirWalletsOr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64391 (Cyfrin/Securitize Dstoken Rebasing)"
+help: |
+    Investors transferring all their balances among their wallets or self-transferring on the same wallet causes to incorrectly decrement the investor counters causing DoS for other in
+wiki_title: |
+    Investors transferring all their balances among their wallets or self-transferring on the same wallet causes to incorrectly decrement the investor counters caus
+wiki_description: |
+    **Description:** `ComplianceServiceRegulated::recordTransfer()` is in charge of adjusting the investor counters when the receiver's investor is new, or the sender's investor is transferring all of its balance, but there are edge cases that cause the investor counters to be incorrectly decremented.
+    1
+wiki_exploit_scenario: |
+    Per Solodit #64391: **Description:** `ComplianceServiceRegulated::recordTransfer()` is in charge of adjusting the investor counters when the receiver's investor is new, or the sender's investor is transferring all of its
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InvestorsTransferringAllTheirBalancesAmongTheirWalletsOr"
+solodit_id: "64391"
+solodit_slug: |
+    investors-transferring-all-their-balances-among-their-wallets-or-self-transferring-on-the-same-wallet-causes-to-incorrectly-decrement-the-investor-counters-causing-dos-for-other-investors-transfers-cyfrin-none-securitize-dstoken-rebasing-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(recordTransfer|compareInvestorBalance|getToken|balanceOfInvestor).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "recordTransfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "the-sponsorpaymaster-owner-should-be-restricted-to-withdraw"
+class_name: "TheSponsorpaymasterOwnerShouldBeRestrictedToWithdraw"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #30494 (MixBytes/Kinto)"
+help: "The SponsorPaymaster owner should be restricted to withdraw"
+wiki_title: "The SponsorPaymaster owner should be restricted to withdraw"
+wiki_description: |
+    ##### Description
+    
+    `SponsorPaymaster._postOp()` has these lines:
+    ```
+    balances[account] -= ethCost;
+    contractSpent[account] += ethCost;
+    balances[owner()] += ethCost;
+    ```
+    - https://github.com/KintoXYZ/kinto-core/blob/f7dd98f66b9dfba1f73758703b808051196e740b/src/paymasters/SponsorPaymaster.sol#L160-L162
+wiki_exploit_scenario: |
+    Per Solodit #30494: ##### Description
+    
+    `SponsorPaymaster._postOp()` has these lines:
+    ```
+    balances[account] -= ethCost;
+    contractSpent[account] += ethCost;
+    balances[owner()] += ethCost;
+    ```
+    - https://github.com/KintoXYZ/ki
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheSponsorpaymasterOwnerShouldBeRestrictedToWithdraw"
+solodit_id: "30494"
+solodit_slug: "the-sponsorpaymaster-owner-should-be-restricted-to-withdraw-mixbytes-none-kinto-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal beneficiary;"
+fn_name_regex: ".*(beneficiary|SponsorPaymaster|ethCost|Entrypoint).*"
+read_var_regex: ".*(beneficiary|ethCost).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "beneficiary"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return beneficiary > 0;"

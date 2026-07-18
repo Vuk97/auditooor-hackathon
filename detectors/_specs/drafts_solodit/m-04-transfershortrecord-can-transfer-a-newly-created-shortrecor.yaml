@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "m-04-transfershortrecord-can-transfer-a-newly-created-shortrecor"
+class_name: "M04TransfershortrecordCanTransferANewlyCreatedShortrecor"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34181 (Code4rena/DittoETH)"
+help: |
+    [M-04] `transferShortRecord`: Can transfer a newly created `ShortRecord` using a previously minted NFT
+wiki_title: |
+    [M-04] `transferShortRecord`: Can transfer a newly created `ShortRecord` using a previously minted NFT
+wiki_description: |
+    Can move the newly created `ShortRecord` using the NFT that was minted in the past.
+    
+    ### Proof of Concept
+    
+    Even if the `ShortRecord` is closed, the previously minted NFT is not burnt. The `s.nftMapping[tokenId].shortRecordId` data is not deleted either. Therefore, when a `ShortRecord` is created by
+wiki_exploit_scenario: |
+    Per Solodit #34181: Can move the newly created `ShortRecord` using the NFT that was minted in the past.
+    
+    ### Proof of Concept
+    
+    Even if the `ShortRecord` is closed, the previously minted NFT is not burnt. The `s.nftMappi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04TransfershortrecordCanTransferANewlyCreatedShortrecor"
+solodit_id: "34181"
+solodit_slug: |
+    m-04-transfershortrecord-can-transfer-a-newly-created-shortrecord-using-a-previously-minted-nft-code4rena-dittoeth-dittoeth-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(ShortRecord|transferShortRecord).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "ShortRecord"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

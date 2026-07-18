@@ -1,0 +1,36 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-02-check-for-stale-data-before-trusting-chainlink-s-response"
+class_name: "M02CheckForStaleDataBeforeTrustingChainlinkSResponse"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18768 (ZachObront/Dyad)"
+help: "[M-02] Check for stale data before trusting Chainlink's response"
+wiki_title: "[M-02] Check for stale data before trusting Chainlink's response"
+wiki_description: |
+    Much of the math in the protocol is based on the data provided by Chainlink's ETH-USD feed.
+    
+    According to [Chainlink's documentation](https://docs.chain.link/data-feeds/price-feeds/historical-data), it is important to provide additional checks that the data is fresh:
+    
+    - If answeredInRound is less th
+wiki_exploit_scenario: |
+    Per Solodit #18768: Much of the math in the protocol is based on the data provided by Chainlink's ETH-USD feed.
+    
+    According to [Chainlink's documentation](https://docs.chain.link/data-feeds/price-feeds/historical-data), i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02CheckForStaleDataBeforeTrustingChainlinkSResponse"
+solodit_id: "18768"
+solodit_slug: "m-02-check-for-stale-data-before-trusting-chainlinks-response-zachobront-none-dyad-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Validation, Stale Price, Oracle"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(answeredInRound|roundId|roundID|timeStamp).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

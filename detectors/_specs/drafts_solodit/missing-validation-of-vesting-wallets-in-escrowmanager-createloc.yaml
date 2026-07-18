@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "missing-validation-of-vesting-wallets-in-escrowmanager-createloc"
+class_name: "MissingValidationOfVestingWalletsInEscrowmanagerCreateloc"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44331 (MixBytes/EYWA)"
+help: "Missing validation of vesting wallets in `EscrowManager.createLock()`"
+wiki_title: "Missing validation of vesting wallets in `EscrowManager.createLock()`"
+wiki_description: |
+    ##### Description
+    `EscrowManager.createLock()` lacks whitelist verification for the `vestingWallets_` parameter. This allows an attacker to use the same "poisoned" vesting wallet multiple times to artificially increase voting power in the system.
+    
+    The poisoned wallet is a custom contract that does n
+wiki_exploit_scenario: |
+    Per Solodit #44331: ##### Description
+    `EscrowManager.createLock()` lacks whitelist verification for the `vestingWallets_` parameter. This allows an attacker to use the same "poisoned" vesting wallet multiple times to art
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingValidationOfVestingWalletsInEscrowmanagerCreateloc"
+solodit_id: "44331"
+solodit_slug: "missing-validation-of-vesting-wallets-in-escrowmanagercreatelock-mixbytes-none-eywa-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal transfer;"
+fn_name_regex: ".*(vestingWallets_|transfer).*"
+write_var_regex: ".*(transfer|vestingWallets_).*"
+guard_var_regex: ".*(transfer|vestingWallets_).*"
+vuln_fn_name: "vestingWallets_"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "transfer = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

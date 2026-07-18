@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-implementation-of-uspc-checkminshares-causes-dos"
+class_name: "IncorrectImplementationOfUspcCheckminsharesCausesDos"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Multisafe USPC Contracts - Zellic Audit Report"
+help: |
+    In the USPC contract, the _checkMinShares function guarantees that after all deposits and withdrawals, if _totalSupply is not equal to 0 or is less than MIN_SHARES, then it will re
+wiki_title: "Incorrect implementation of USPC._checkMinShares causes DOS"
+wiki_description: |
+    In the USPC contract, the _checkMinShares function guarantees that after all deposits and withdrawals, if _totalSupply is not equal to 0 or is less than MIN_SHARES, then it will revert: /** * @notice Internal deposit function with minimum shares check * @dev Overrides ERC4626 _deposit to add donatio
+wiki_exploit_scenario: |
+    Per audit finding: In the USPC contract, the _checkMinShares function guarantees that after all deposits and withdrawals, if _totalSupply is not equal to 0 or is less than MIN_SHARES, then it will revert: /** * @notice
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectImplementationOfUspcCheckminsharesCausesDos"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(whenNotPaused|isAllowlisted|totalSupply).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "whenNotPaused"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

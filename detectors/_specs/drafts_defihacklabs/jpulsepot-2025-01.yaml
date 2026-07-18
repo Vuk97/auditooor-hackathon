@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "jpulsepot-2025-01"
+class_name: "Jpulsepot202501"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-01/JPulsepot_exp.sol"
+help: "JPulsepot 2025-01 — reentrancy exploit (21.5K)"
+wiki_title: "JPulsepot (2025-01) — reentrancy"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-01): JPulsepot lost 21.5K. Bug class: reentrancy. Attack tx: 0xd6ba15ecf3df9aaae37450df8f79233267af41535793ee1f69c565b50e28f7da.
+wiki_exploit_scenario: |
+    Attacker (0xf1e73123594cb0f3655d40e4dd6bde41fa8806e8) exploits JPulsepot via reentrancy: the victim contract 0x384b9fb6e42dab87f3023d87ea1575499a69998e exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Apply the nonReentrant modifier (OZ ReentrancyGuard) to every externally-callable state-mutating entry point that transfers value, and follow the checks-effects-interactions pattern.
+contract_name: "Jpulsepot202501"
+fn_name_regex: ".*(withdraw).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(nonReentrant).*"
+guarded_helper_name: "nonReentrant"
+vuln_fn_name: "withdraw"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

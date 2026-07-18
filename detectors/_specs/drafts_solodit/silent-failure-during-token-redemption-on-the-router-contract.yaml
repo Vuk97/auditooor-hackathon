@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "silent-failure-during-token-redemption-on-the-router-contract"
+class_name: "SilentFailureDuringTokenRedemptionOnTheRouterContract"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50116 (Halborn/Contracts V2 Updates)"
+help: "SILENT FAILURE DURING TOKEN REDEMPTION ON THE ROUTER CONTRACT"
+wiki_title: "SILENT FAILURE DURING TOKEN REDEMPTION ON THE ROUTER CONTRACT"
+wiki_description: |
+    ##### Description
+    
+    In the router contract, The `redeem` function aims to redeem `mTokens` equivalent to `mTokenRedeemAmount`. The call `mToken.redeem(mTokenRedeemAmount);` is responsible for the redemption action.
+    
+    In the event of an error, the `mToken.redeem()` function from `Compound's mToken` con
+wiki_exploit_scenario: |
+    Per Solodit #50116: ##### Description
+    
+    In the router contract, The `redeem` function aims to redeem `mTokens` equivalent to `mTokenRedeemAmount`. The call `mToken.redeem(mTokenRedeemAmount);` is responsible for the redem
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SilentFailureDuringTokenRedemptionOnTheRouterContract"
+solodit_id: "50116"
+solodit_slug: |
+    silent-failure-during-token-redemption-on-the-router-contract-halborn-moonwell-contracts-v2-updates-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal mtokenredeemamount;"
+fn_name_regex: ".*(redeem|mTokens|mTokenRedeemAmount|MTOKEN).*"
+write_var_regex: ".*(mTokenRedeemAmount|mTokens|redeem).*"
+guard_var_regex: ".*(mTokenRedeemAmount|mTokens|redeem).*"
+vuln_fn_name: "redeem"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "mtokenredeemamount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

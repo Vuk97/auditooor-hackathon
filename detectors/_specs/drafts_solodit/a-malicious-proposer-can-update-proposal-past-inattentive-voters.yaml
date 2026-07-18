@@ -1,0 +1,50 @@
+skeleton: "state_write_without_paired_write"
+name: "a-malicious-proposer-can-update-proposal-past-inattentive-voters"
+class_name: "AMaliciousProposerCanUpdateProposalPastInattentiveVoters"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21325 (Spearbit/Nouns DAO)"
+help: |
+    A malicious proposer can update proposal past inattentive voters to sneak in otherwise unacceptable details
+wiki_title: |
+    A malicious proposer can update proposal past inattentive voters to sneak in otherwise unacceptable details
+wiki_description: |
+    ## Medium Risk Security Issue
+    
+    ## Context
+    - **Affected Files:**
+      - `NounsDAOV3Proposals.sol` (Lines: 269-423)
+      - `NounsDAOV3Admin.sol` (Line: 118)
+      - `NounsDAOV3Votes.sol` (Lines: 70-293)
+    
+    ## Description
+    Updatable proposal description and transactions is a new feature being introduced in V3 to im
+wiki_exploit_scenario: |
+    Per Solodit #21325: ## Medium Risk Security Issue
+    
+    ## Context
+    - **Affected Files:**
+      - `NounsDAOV3Proposals.sol` (Lines: 269-423)
+      - `NounsDAOV3Admin.sol` (Line: 118)
+      - `NounsDAOV3Votes.sol` (Lines: 70-293)
+    
+    ## Descr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AMaliciousProposerCanUpdateProposalPastInattentiveVoters"
+solodit_id: "21325"
+solodit_slug: |
+    a-malicious-proposer-can-update-proposal-past-inattentive-voters-to-sneak-in-otherwise-unaccept-spearbit-none-nouns-dao-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(uint256 => bytes32) internal proposalPayloadHash;
+        mapping(uint256 => bool) internal voterNoticeInvalidated;
+fn_name_regex: ".*(updateProposal|proposal).*"
+primary_var_regex: ".*(proposal|payload|hash).*"
+paired_var_regex: ".*(notice|invalidate|voter).*"
+vuln_fn_name: "updateProposal"
+vuln_fn_params: "uint256 proposalId, bytes32 newPayloadHash"
+primary_write_line: "proposalPayloadHash[proposalId] = newPayloadHash;"
+paired_write_line: "voterNoticeInvalidated[proposalId] = true;"

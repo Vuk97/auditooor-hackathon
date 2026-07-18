@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "sending-tokens-to-a-strategy-when-totalsupply-is-0-can-perma-x"
+class_name: "SendingTokensToAStrategyWhenTotalsupplyIs0CanPermaX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-bakerfi-invitational"
+help: |
+    klau5 , also found by 0xlemon MrPotatoMagic , and shaflow2 Finding description and impact Before the first deposit or when all shares have been withdrawn making totalSupply zero, a
+wiki_title: "Sending tokens to a Strategy when totalSupply is 0 can permanently make the Vault unavailable"
+wiki_description: |
+    klau5 , also found by 0xlemon MrPotatoMagic , and shaflow2 Finding description and impact Before the first deposit or when all shares have been withdrawn making totalSupply zero, an attacker can manipulate totalAssets by directly sending tokens to the Strategy, making the Vault permanently unusable.
+wiki_exploit_scenario: |
+    Per audit finding: klau5 , also found by 0xlemon MrPotatoMagic , and shaflow2 Finding description and impact Before the first deposit or when all shares have been withdrawn making totalSupply zero, an attacker can manip
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SendingTokensToAStrategyWhenTotalsupplyIs0CanPermaX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalSupply|totalAssets|getBalances).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "totalSupply"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

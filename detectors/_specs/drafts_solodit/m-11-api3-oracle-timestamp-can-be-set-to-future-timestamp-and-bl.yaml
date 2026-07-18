@@ -1,0 +1,41 @@
+skeleton: "state_write_without_paired_write"
+name: "m-11-api3-oracle-timestamp-can-be-set-to-future-timestamp-and-bl"
+class_name: "M11Api3OracleTimestampCanBeSetToFutureTimestampAndBl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29602 (Code4rena/INIT Capital)"
+help: |
+    [M-11] API3 oracle timestamp can be set to future timestamp and block API3 Oracle usage to make code revert in underflow
+wiki_title: |
+    [M-11] API3 oracle timestamp can be set to future timestamp and block API3 Oracle usage to make code revert in underflow
+wiki_description: |
+    In the Api3OracleReader.sol, the code assumes tha the timestamp returned from oracle is always in the past.
+    
+    ```solidity
+        function getPrice_e36(address _token) external view returns (uint price_e36) {
+            // load and check
+            DataFeedInfo memory dataFeedInfo = dataFeedInfos[_token];
+wiki_exploit_scenario: |
+    Per Solodit #29602: In the Api3OracleReader.sol, the code assumes tha the timestamp returned from oracle is always in the past.
+    
+    ```solidity
+        function getPrice_e36(address _token) external view returns (uint price_e3
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M11Api3OracleTimestampCanBeSetToFutureTimestampAndBl"
+solodit_id: "29602"
+solodit_slug: |
+    m-11-api3-oracle-timestamp-can-be-set-to-future-timestamp-and-block-api3-oracle-usage-to-make-code-revert-in-underflow-code4rena-init-capital-init-capital-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(dataFeedInfo|dataFeedInfos|dataFeedId|maxStaleTime).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

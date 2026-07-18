@@ -1,0 +1,47 @@
+skeleton: "state_write_without_paired_write"
+name: "h-04-stale-inflightbridgeamounts-cause-incorrect-tvl-calculation"
+class_name: "H04StaleInflightbridgeamountsCauseIncorrectTvlCalculation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61481 (Pashov Audit Group/Blueberry_2025-04-30)"
+help: "[H-04] Stale `inFlightBridgeAmounts` cause incorrect `tvl` calculations"
+wiki_title: "[H-04] Stale `inFlightBridgeAmounts` cause incorrect `tvl` calculations"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `inFlightBridgeAmounts[assetIndex]` mapping in the `L1EscrowActions` contract is not cleared after assets are settled on L1. This leads to outdated and unrelated in-flight amounts lingering in the mapping, which are then inc
+wiki_exploit_scenario: |
+    Per Solodit #61481: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `inFlightBridgeAmounts[assetIndex]` mapping in the `L1EscrowActions` contract is not cleared after assets are settled on L1.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04StaleInflightbridgeamountsCauseIncorrectTvlCalculation"
+solodit_id: "61481"
+solodit_slug: |
+    h-04-stale-inflightbridgeamounts-cause-incorrect-tvl-calculations-pashov-audit-group-none-blueberry_2025-04-30-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(L1EscrowActions|tvl|bridgeToL1|assetA).*"
+primary_var_regex: ".*(assetA|assetB|bridgeToL1).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

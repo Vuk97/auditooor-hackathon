@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "withdrawal-may-revert-because-of-rounding-errors"
+class_name: "WithdrawalMayRevertBecauseOfRoundingErrors"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32989 (OpenZeppelin/Origin Balancer MetaPool Strategy Audit)"
+help: "Withdrawal May Revert Because of Rounding Errors"
+wiki_title: "Withdrawal May Revert Because of Rounding Errors"
+wiki_description: |
+    The `_withdraw` function redeems BPTs from the Balancer pool in exchange for exact [`_amounts`](https://github.com/OriginProtocol/origin-dollar/blob/eb11498c376b65696c90981757221b076d6226aa/contracts/contracts/strategies/balancer/BalancerMetaPoolStrategy.sol#L182) of tokens, which are then sent to t
+wiki_exploit_scenario: |
+    Per Solodit #32989: The `_withdraw` function redeems BPTs from the Balancer pool in exchange for exact [`_amounts`](https://github.com/OriginProtocol/origin-dollar/blob/eb11498c376b65696c90981757221b076d6226aa/contracts/
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WithdrawalMayRevertBecauseOfRoundingErrors"
+solodit_id: "32989"
+solodit_slug: |
+    withdrawal-may-revert-because-of-rounding-errors-openzeppelin-none-origin-balancer-metapool-strategy-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(safeTransfer).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "safeTransfer"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

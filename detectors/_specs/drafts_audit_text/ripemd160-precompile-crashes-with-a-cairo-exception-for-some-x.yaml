@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "ripemd160-precompile-crashes-with-a-cairo-exception-for-some-x"
+class_name: "Ripemd160PrecompileCrashesWithACairoExceptionForSomeX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-09-kakarot"
+help: |
+    muellerberndt , also found by RadiantLabs gumgumzum , and ahmedaghadi Calling the RIPEMD160 precompile with certain input lengths results in a Cairo exception. As a result, some L2
+wiki_title: "RIPEMD160 precompile crashes with a Cairo exception for some input lengths"
+wiki_description: |
+    muellerberndt , also found by RadiantLabs gumgumzum , and ahmedaghadi Calling the RIPEMD160 precompile with certain input lengths results in a Cairo exception. As a result, some L2 smart contracts that use this precompile cannot be executed. The bug seems to occur in line 477 of the precompile. The
+wiki_exploit_scenario: |
+    Per audit finding: muellerberndt , also found by RadiantLabs gumgumzum , and ahmedaghadi Calling the RIPEMD160 precompile with certain input lengths results in a Cairo exception. As a result, some L2 smart contracts tha
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Ripemd160PrecompileCrashesWithACairoExceptionForSomeX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(computeRipemd160|hashInputLength20|inputData).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "computeRipemd160"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

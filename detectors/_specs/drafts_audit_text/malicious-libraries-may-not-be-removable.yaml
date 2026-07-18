@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "malicious-libraries-may-not-be-removable"
+class_name: "MaliciousLibrariesMayNotBeRemovable"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Polyhedra DVN - Zellic Audit Report"
+help: |
+    Messaging libraries are responsible for notifying DVNs of messages being sent (“send library”) on the source chain and receiving verifications from DVNs (“receive library”) on the
+wiki_title: "Malicious libraries may not be removable"
+wiki_description: |
+    Messaging libraries are responsible for notifying DVNs of messages being sent (“send library”) on the source chain and receiving verifications from DVNs (“receive library”) on the destination chain. They verify the payload of each packet, committing the verified payload hash to the endpoint after th
+wiki_exploit_scenario: |
+    Per audit finding: Messaging libraries are responsible for notifying DVNs of messages being sent (“send library”) on the source chain and receiving verifications from DVNs (“receive library”) on the destination chain. T
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousLibrariesMayNotBeRemovable"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(messageLibLookup|assignJob|dstEid).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "messageLibLookup"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

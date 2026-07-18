@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-05-calculatetvl-may-run-out-of-gas-for-modest-number-of-operat"
+class_name: "M05CalculatetvlMayRunOutOfGasForModestNumberOfOperat"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33500 (Code4rena/Renzo)"
+help: |
+    [M-05] `calculateTVL` may run out of gas for modest number of operators and tokens breaking deposits, withdrawals, and trades
+wiki_title: |
+    [M-05] `calculateTVL` may run out of gas for modest number of operators and tokens breaking deposits, withdrawals, and trades
+wiki_description: |
+    The `calculateTVLs` function in the `RestakeManager` contains [two nested loops](https://github.com/code-423n4/2024-04-renzo/blob/main/contracts/RestakeManager.sol#L289-L310): one loop for each operator delegator (OD), and an internal loop for each token. In each internal loop:
+    
+    - The [OD's `getTok
+wiki_exploit_scenario: |
+    Per Solodit #33500: The `calculateTVLs` function in the `RestakeManager` contains [two nested loops](https://github.com/code-423n4/2024-04-renzo/blob/main/contracts/RestakeManager.sol#L289-L310): one loop for each opera
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05CalculatetvlMayRunOutOfGasForModestNumberOfOperat"
+solodit_id: "33500"
+solodit_slug: |
+    m-05-calculatetvl-may-run-out-of-gas-for-modest-number-of-operators-and-tokens-breaking-deposits-withdrawals-and-trades-code4rena-renzo-renzo-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calculatetvls;"
+fn_name_regex: ".*(calculateTVLs|RestakeManager|getTokenBalanceFromStrategy|renzoOracle).*"
+read_var_regex: ".*(calculateTVLs|getTokenBalanceFromStrategy|renzoOracle).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "calculateTVLs"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calculatetvls > 0;"

@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "trst-m-3-basev1pair-could-break-because-of-overflow"
+class_name: "TrstM3Basev1pairCouldBreakBecauseOfOverflow"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18955 (Trust Security/Satin.Exchange)"
+help: "TRST-M-3 BaseV1Pair could break because of overflow"
+wiki_title: "TRST-M-3 BaseV1Pair could break because of overflow"
+wiki_description: |
+    **Description:**
+    In the function _update(), called internally by `mint()`, `burn()` and `swap()`, the following code 
+    is executed:
+    ```solidity
+        uint256 timeElapsed = blockTimestamp - blockTimestampLast;
+         // overflow is desired
+        if (timeElapsed > 0 && _reserve0 != 0 && _reserve1 != 0) {
+wiki_exploit_scenario: |
+    Per Solodit #18955: **Description:**
+    In the function _update(), called internally by `mint()`, `burn()` and `swap()`, the following code 
+    is executed:
+    ```solidity
+        uint256 timeElapsed = blockTimestamp - blockTimestamp
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM3Basev1pairCouldBreakBecauseOfOverflow"
+solodit_id: "18955"
+solodit_slug: "trst-m-3-basev1pair-could-break-because-of-overflow-trust-security-none-satinexchange-markdown_"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Overflow/Underflow, Denial-Of-Service, DOS"
+state_decl: "uint256 internal burn;"
+fn_name_regex: ".*(mint|burn|swap).*"
+write_var_regex: ".*(burn|mint|swap).*"
+guard_var_regex: ".*(burn|mint|swap).*"
+vuln_fn_name: "mint"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "burn = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

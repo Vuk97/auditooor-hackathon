@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "all-highly-liquid-btc-derivatives-that-do-not-have-18-decimals-c"
+class_name: "AllHighlyLiquidBtcDerivativesThatDoNotHave18DecimalsC"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46147 (Cantina/Bima)"
+help: |
+    All highly liquid BTC derivatives that do not have 18 decimals cannot be used as a collateral to mint stable coins
+wiki_title: |
+    All highly liquid BTC derivatives that do not have 18 decimals cannot be used as a collateral to mint stable coins 
+wiki_description: |
+    ## Context
+    Factory.sol#L70-L78
+    
+    ## Description
+    The code enforces that the collateral must have 18 decimals.
+    
+    ```solidity
+    require(collateralToken.decimals() == BIMA_COLLATERAL_DECIMALS, "Invalid collateral decimals");
+    ```
+    
+    The protocol intends to use BTC derivatives as collateral to mint stable coins
+wiki_exploit_scenario: |
+    Per Solodit #46147: ## Context
+    Factory.sol#L70-L78
+    
+    ## Description
+    The code enforces that the collateral must have 18 decimals.
+    
+    ```solidity
+    require(collateralToken.decimals() == BIMA_COLLATERAL_DECIMALS, "Invalid collat
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AllHighlyLiquidBtcDerivativesThatDoNotHave18DecimalsC"
+solodit_id: "46147"
+solodit_slug: |
+    all-highly-liquid-btc-derivatives-that-do-not-have-18-decimals-cannot-be-used-as-a-collateral-to-mint-stable-coins-cantina-none-bima-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(collateralToken|renBTC|imBTC).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "collateralToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

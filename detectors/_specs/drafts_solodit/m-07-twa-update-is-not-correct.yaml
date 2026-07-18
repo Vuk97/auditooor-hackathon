@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-07-twa-update-is-not-correct"
+class_name: "M07TwaUpdateIsNotCorrect"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #16129 (Code4rena/Maverick)"
+help: "[M-07] TWA update is not correct"
+wiki_title: "[M-07] TWA update is not correct"
+wiki_description: |
+    Time-warped-price is updated incorrectly and this affects moving bins.
+    
+    ### Proof of Concept
+    
+    The protocol updates `twa` on every swap and uses that to decide how to move bins.
+    
+    But in the function `swap()`, the delta's `endSqrtPrice` can not contribute negatively to the `activeTick` because it is
+wiki_exploit_scenario: |
+    Per Solodit #16129: Time-warped-price is updated incorrectly and this affects moving bins.
+    
+    ### Proof of Concept
+    
+    The protocol updates `twa` on every swap and uses that to decide how to move bins.
+    
+    But in the function `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07TwaUpdateIsNotCorrect"
+solodit_id: "16129"
+solodit_slug: "m-07-twa-update-is-not-correct-code4rena-maverick-maverick-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal activetick;"
+fn_name_regex: ".*(twa|swap|endSqrtPrice|activeTick).*"
+read_var_regex: ".*(activeTick|clip|endSqrtPrice).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "twa"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return activetick > 0;"

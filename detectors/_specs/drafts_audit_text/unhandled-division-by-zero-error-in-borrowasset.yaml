@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unhandled-division-by-zero-error-in-borrowasset"
+class_name: "UnhandledDivisionByZeroErrorInBorrowasset"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Sturdy - Zellic Audit Report"
+help: |
+    In the borrowAsset() function, there is no check for the possibility of totalAsset being 0, which could lead to a division-by-zero error in numerator / totalAsset. function borrowA
+wiki_title: "Unhandled division-by-zero error in borrowAsset()"
+wiki_description: |
+    In the borrowAsset() function, there is no check for the possibility of totalAsset being 0, which could lead to a division-by-zero error in numerator / totalAsset. function borrowAsset( address _silo, uint256 _borrowAmount, uint256 _collateralAmount, address _collateralAsset, address _receiver ) ext
+wiki_exploit_scenario: |
+    Per audit finding: In the borrowAsset() function, there is no check for the possibility of totalAsset being 0, which could lead to a division-by-zero error in numerator / totalAsset. function borrowAsset( address _silo,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnhandledDivisionByZeroErrorInBorrowasset"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(borrowAsset|totalAsset|nonReentrant).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "borrowAsset"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

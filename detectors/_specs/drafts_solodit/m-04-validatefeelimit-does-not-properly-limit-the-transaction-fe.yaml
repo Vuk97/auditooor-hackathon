@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_require"
+name: "m-04-validatefeelimit-does-not-properly-limit-the-transaction-fe"
+class_name: "M04ValidatefeelimitDoesNotProperlyLimitTheTransactionFe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #50031 (Pashov Audit Group/Clave_2024-12-23)"
+help: "[M-04] `validateFeeLimit` does not properly limit the transaction fee"
+wiki_title: "[M-04] `validateFeeLimit` does not properly limit the transaction fee"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    `validateFeeLimit` will be called within `SessionKeyValidator`'s `validationHook` to ensure that the caller's provided `maxFeePerGas` and `gasLimit` is within the usage limit.
+    
+    ```solidity
+      function validationHook(bytes32 sign
+wiki_exploit_scenario: |
+    Per Solodit #50031: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    `validateFeeLimit` will be called within `SessionKeyValidator`'s `validationHook` to ensure that the caller's provided `maxFeeP
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04ValidatefeelimitDoesNotProperlyLimitTheTransactionFe"
+solodit_id: "50031"
+solodit_slug: |
+    m-04-validatefeelimit-does-not-properly-limit-the-transaction-fee-pashov-audit-group-none-clave_2024-12-23-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal gaslimit;"
+fn_name_regex: ".*(validateFeeLimit|SessionKeyValidator|validationHook|maxFeePerGas).*"
+write_var_regex: ".*(gasLimit|maxFeePerGas|paymaster).*"
+guard_var_regex: ".*(gasLimit|maxFeePerGas|paymaster).*"
+vuln_fn_name: "validateFeeLimit"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "gaslimit = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

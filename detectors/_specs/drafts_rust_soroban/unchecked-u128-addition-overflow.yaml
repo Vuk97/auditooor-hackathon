@@ -1,0 +1,20 @@
+id: unchecked-u128-addition-overflow
+title: "Unchecked u128 addition can overflow and misprice rates"
+severity: Info
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.48"
+bug_class: precision-loss
+indicators:
+  - "`a + b` on `u128` without `.checked_add(b)?` where total can exceed u128::MAX"
+  - "utilization numerator addition of borrow + fee without check"
+victim: "Protocol: rate calculations panic or wrap."
+exploit_precondition: "Borrow volumes grow such that sum exceeds u128."
+real_world_example: |
+  Halborn 7.48 (INFO): Unchecked addition in utilization calculation can overflow and misprice rates.
+suggested_remediation: "Use `checked_add` and return a proper error."
+cross_refs:
+  - i128-bounds-unchecked-cast
+  - missing-negative-supply-guard

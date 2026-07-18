@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "vault-initialization-allows-zero-deposit-limit-with-no-ability-t"
+class_name: "VaultInitializationAllowsZeroDepositLimitWithNoAbilityT"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61242 (Cyfrin/Suzaku Core)"
+help: "Vault initialization allows zero deposit limit with no ability to modify causing denial of service"
+wiki_title: "Vault initialization allows zero deposit limit with no ability to modify causing denial of service"
+wiki_description: |
+    **Description:** The `VaultTokenized` contract's initialization procedure allows a vault to be created with deposit limit feature enabled at a value of zero, but without any ability to change this limit. This creates a state where all deposits are effectively blocked, as the limit is set to zero, an
+wiki_exploit_scenario: |
+    Per Solodit #61242: **Description:** The `VaultTokenized` contract's initialization procedure allows a vault to be created with deposit limit feature enabled at a value of zero, but without any ability to change this lim
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VaultInitializationAllowsZeroDepositLimitWithNoAbilityT"
+solodit_id: "61242"
+solodit_slug: |
+    vault-initialization-allows-zero-deposit-limit-with-no-ability-to-modify-causing-denial-of-service-cyfrin-none-suzaku-core-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositlimitsetroleholder;"
+fn_name_regex: ".*(VaultTokenized|isDepositLimitSetRoleHolder|depositLimitSetRoleHolder).*"
+read_var_regex: ".*(depositLimitSetRoleHolder|isDepositLimitSetRoleHolder).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "VaultTokenized"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return depositlimitsetroleholder > 0;"

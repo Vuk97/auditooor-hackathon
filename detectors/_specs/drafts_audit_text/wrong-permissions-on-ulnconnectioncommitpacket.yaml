@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "wrong-permissions-on-ulnconnectioncommitpacket"
+class_name: "WrongPermissionsOnUlnconnectioncommitpacket"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero TON - Zellic Audit Report"
+help: |
+    When the ULN wants to commit the packet, it sends a message to the ulnConnection to call the ul- nConnectionCommitPacket function, which determines whether the packet should be com
+wiki_title: "Wrong permissions on ulnConnectionCommitPacket"
+wiki_description: |
+    When the ULN wants to commit the packet, it sends a message to the ulnConnection to call the ul- nConnectionCommitPacket function, which determines whether the packet should be committed or not given the OApp's configuration. The default configuration — which can be overridden by the OApp configurat
+wiki_exploit_scenario: |
+    Per audit finding: When the ULN wants to commit the packet, it sends a message to the ulnConnection to call the ul- nConnectionCommitPacket function, which determines whether the packet should be committed or not given
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrongPermissionsOnUlnconnectioncommitpacket"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(ulnConnection|nConnectionCommitPacket|ulnConnectionCommitPacket).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "ulnConnection"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

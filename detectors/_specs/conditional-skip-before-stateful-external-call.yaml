@@ -1,0 +1,29 @@
+skeleton: name_match_missing_call
+name: conditional-skip-before-stateful-external-call
+class_name: ConditionalSkipBeforeStatefulExternalCall
+wave: 16
+severity: MEDIUM
+confidence: MEDIUM
+source: "Morpho Cantina M-C1 (IRM not queried when totalBorrowAssets==0 → stateful drift) + generic pattern"
+help: "Function early-returns when a key variable is zero without calling a stateful external dependency — the dependency's internal state drifts"
+wiki_title: "Conditional skip before stateful external call causes state drift"
+wiki_description: "A function early-returns (if X == 0 return) before calling an external contract that maintains its own state (e.g., an IRM, oracle, reward accumulator). When X is zero, the external contract's state update is skipped. If the external contract's behavior depends on being called regularly (e.g., a time-weighted rate model), the skip causes the external state to drift, producing incorrect results when X becomes non-zero again."
+wiki_exploit_scenario: "A lending market has zero borrows for 1 week. The interest rate model (IRM) expects to be called every block to update its time-weighted rate. Because accrueInterest early-returns when totalBorrowAssets==0, the IRM is never called for 7 days. When the first borrow arrives, the IRM sees a 7-day elapsed time with zero prior updates and produces a wildly incorrect rate."
+wiki_recommendation: "Always call the stateful external dependency even when the primary variable is zero. Gate only the EFFECT (e.g., interest charge) on the zero-check, not the external call itself."
+contract_name: StatefulAccruer
+state_decl: |
+    uint256 internal totalBorrowAssets;
+    uint256 internal lastUpdate;
+fn_name_regex: ".*(accrue|update|sync|refresh|compound).*"
+read_var_regex: ".*(totalBorrow|totalDebt|totalSupply|totalStaked).*"
+required_call_regex: ".*(irm|rateModel|oracle|rewardController|accumulator).*"
+guarded_helper_name: _queryRateModel
+vuln_fn_name: accrueInterest
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: |
+    if (totalBorrowAssets == 0) return false;
+    lastUpdate = block.timestamp;
+    return true;

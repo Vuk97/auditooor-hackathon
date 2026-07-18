@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "unexecutable-trades-might-be-added-to-tradestotrigger"
+class_name: "UnexecutableTradesMightBeAddedToTradestotrigger"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Ostium - Zellic Audit Report"
+help: |
+    The function _getLimitOrdersToTrigger loops through the open limit orders to find the trades to execute. If the trade type is OpenOrderType.STOP, the o.targetPrice should be compar
+wiki_title: "Unexecutable trades might be added to tradesToTrigger"
+wiki_description: |
+    The function _getLimitOrdersToTrigger loops through the open limit orders to find the trades to execute. If the trade type is OpenOrderType.STOP, the o.targetPrice should be compared against a.price instead of priceAfter
+wiki_exploit_scenario: |
+    Per audit finding: The function _getLimitOrdersToTrigger loops through the open limit orders to find the trades to execute. If the trade type is OpenOrderType.STOP, the o.targetPrice should be compared against a.price i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnexecutableTradesMightBeAddedToTradestotrigger"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(targetPrice|priceAfter|tradesToTrigger).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "targetPrice"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

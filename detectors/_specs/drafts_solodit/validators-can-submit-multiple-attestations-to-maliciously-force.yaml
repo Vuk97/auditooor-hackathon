@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "validators-can-submit-multiple-attestations-to-maliciously-force"
+class_name: "ValidatorsCanSubmitMultipleAttestationsToMaliciouslyForce"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #58812 (Quantstamp/Powerloom L2)"
+help: "Validators Can Submit Multiple Attestations to Maliciously Force Wrong Consensus"
+wiki_title: "Validators Can Submit Multiple Attestations to Maliciously Force Wrong Consensus"
+wiki_description: |
+    **File(s) affected:**`DataMarket.sol`
+    
+    **Description:** The function `submitBatchAttestation()` allows a validator to vote on a given batchCid while providing a `finalizedCidsRootHash`. However, it does not guard against a validator voting again on either a different or the same hash in the same epo
+wiki_exploit_scenario: |
+    Per Solodit #58812: **File(s) affected:**`DataMarket.sol`
+    
+    **Description:** The function `submitBatchAttestation()` allows a validator to vote on a given batchCid while providing a `finalizedCidsRootHash`. However, it do
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ValidatorsCanSubmitMultipleAttestationsToMaliciouslyForce"
+solodit_id: "58812"
+solodit_slug: |
+    validators-can-submit-multiple-attestations-to-maliciously-force-wrong-consensus-quantstamp-powerloom-l2-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal finalizedcidsroothash;"
+fn_name_regex: ".*(submitBatchAttestation|finalizedCidsRootHash).*"
+read_var_regex: ".*(finalizedCidsRootHash|submitBatchAttestation).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "submitBatchAttestation"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return finalizedcidsroothash > 0;"

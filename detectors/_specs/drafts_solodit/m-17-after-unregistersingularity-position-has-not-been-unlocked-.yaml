@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "m-17-after-unregistersingularity-position-has-not-been-unlocked-"
+class_name: "M17AfterUnregistersingularityPositionHasNotBeenUnlocked"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32340 (Code4rena/Tapioca DAO)"
+help: |
+    [M-17] After `unregisterSingularity()`, position has not been unlocked and will be locked in the contract
+wiki_title: |
+    [M-17] After `unregisterSingularity()`, position has not been unlocked and will be locked in the contract
+wiki_description: |
+    When `singularity.rescue==true`, owner can execute `unregisterSingularity()`. This method will delete `activeSingularities[]/sglAssetIDToAddress[]`.
+    
+    ```solidity
+        function unregisterSingularity(IERC20 singularity) external onlyOwner updateTotalSGLPoolWeights {
+            uint256 sglAssetID = active
+wiki_exploit_scenario: |
+    Per Solodit #32340: When `singularity.rescue==true`, owner can execute `unregisterSingularity()`. This method will delete `activeSingularities[]/sglAssetIDToAddress[]`.
+    
+    ```solidity
+        function unregisterSingularity(IE
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M17AfterUnregistersingularityPositionHasNotBeenUnlocked"
+solodit_id: "32340"
+solodit_slug: |
+    m-17-after-unregistersingularity-position-has-not-been-unlocked-and-will-be-locked-in-the-contract-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal token;"
+fn_name_regex: ".*(unregisterSingularity|unlock|token).*"
+write_var_regex: ".*(token|unlock|unregisterSingularity).*"
+guard_var_regex: ".*(token|unlock|unregisterSingularity).*"
+vuln_fn_name: "unregisterSingularity"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "token = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

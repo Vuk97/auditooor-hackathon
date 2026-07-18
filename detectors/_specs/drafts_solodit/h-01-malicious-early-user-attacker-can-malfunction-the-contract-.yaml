@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "h-01-malicious-early-user-attacker-can-malfunction-the-contract-"
+class_name: "H01MaliciousEarlyUserAttackerCanMalfunctionTheContract"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #42444 (Code4rena/XDEFI)"
+help: |
+    [H-01] Malicious early user/attacker can malfunction the contract and even freeze users' funds in edge cases
+wiki_title: |
+    [H-01] Malicious early user/attacker can malfunction the contract and even freeze users' funds in edge cases
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    <https://github.com/XDeFi-tech/xdefi-distribution/blob/3856a42df295183b40c6eee89307308f196612fe/contracts/XDEFIDistribution.sol#L151-L151>
+    
+    ```solidity
+    _pointsPerUnit += ((newXDEFI * _pointsMultiplier) / totalUnitsCached);
+    ```
+    
+    In the current implementation,  `_pointsPerUnit
+wiki_exploit_scenario: |
+    Per Solodit #42444: _Submitted by WatchPug_
+    
+    <https://github.com/XDeFi-tech/xdefi-distribution/blob/3856a42df295183b40c6eee89307308f196612fe/contracts/XDEFIDistribution.sol#L151-L151>
+    
+    ```solidity
+    _pointsPerUnit += ((new
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01MaliciousEarlyUserAttackerCanMalfunctionTheContract"
+solodit_id: "42444"
+solodit_slug: |
+    h-01-malicious-early-userattacker-can-malfunction-the-contract-and-even-freeze-users-funds-in-edge-cases-code4rena-xdefi-xdefi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal lock;"
+fn_name_regex: ".*(updateDistribution|lock|unlock|totalUnits).*"
+read_var_regex: ".*(lock|totalUnits|unlock).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateDistribution"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return lock > 0;"

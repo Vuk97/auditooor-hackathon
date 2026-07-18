@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "l1-l2-token-deposits-can-be-dos-ed-by-purposefully-providing-x"
+class_name: "L1L2TokenDepositsCanBeDosEdByPurposefullyProvidingX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-01-initia-rollup-modules"
+help: |
+    RadiantLabs On L2, MsgFinalizeTokenDeposit must be relayed in strict sequence , matching finalizedL1Sequence, err := ms.GetNextL1Sequence(ctx) x/opchild/keeper/msg_server.go::Final
+wiki_title: "L1->L2 token deposits can be DoS’ed by purposefully providing a large"
+wiki_description: |
+    RadiantLabs On L2, MsgFinalizeTokenDeposit must be relayed in strict sequence , matching finalizedL1Sequence, err := ms.GetNextL1Sequence(ctx) x/opchild/keeper/msg_server.go::FinalizeTokenDeposit(..) 385 : finalizedL1Sequence err := ms. GetNextL1Sequence (ctx) 386 : if err != nil { 387 : return nil
+wiki_exploit_scenario: |
+    Per audit finding: RadiantLabs On L2, MsgFinalizeTokenDeposit must be relayed in strict sequence , matching finalizedL1Sequence, err := ms.GetNextL1Sequence(ctx) x/opchild/keeper/msg_server.go::FinalizeTokenDeposit(..)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "L1L2TokenDepositsCanBeDosEdByPurposefullyProvidingX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(finalizedL1Sequence|maxTxBytes).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "finalizedL1Sequence"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "some-bytes-are-not-displayed"
+class_name: "SomeBytesAreNotDisplayed"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Cosmos SDK Sign Mode Textual - Zellic Audit Report"
+help: |
+    When tx_display_translation is encoding the src buffer to dst, any bytes less than 0x0F will be caught in the following branch: if (tmp_codepoint < 0x0F) { for (size_t i = 0; i < a
+wiki_title: "Some bytes are not displayed"
+wiki_description: |
+    When tx_display_translation is encoding the src buffer to dst, any bytes less than 0x0F will be caught in the following branch: if (tmp_codepoint < 0x0F) { for (size_t i = 0; i < array_length(ascii_substitutions); i+)) { if ((char)tmp_codepoint =) ascii_substitutions[i].ascii_code) { *dst+) = '\)';
+wiki_exploit_scenario: |
+    Per audit finding: When tx_display_translation is encoding the src buffer to dst, any bytes less than 0x0F will be caught in the following branch: if (tmp_codepoint < 0x0F) { for (size_t i = 0; i < array_length(ascii_su
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SomeBytesAreNotDisplayed"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(dstLen).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "dstLen"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,21 @@
+id: liquidation-replay-temporary-callback-params
+title: "Flash-loan callback params stored in temporary storage and not cleared enable replay"
+severity: Critical
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.3"
+bug_class: liquidation
+indicators:
+  - "`env.storage().temporary().set(&LIQCB, &params)` without a subsequent `remove` after callback completes"
+  - "public `execute_operation(...)` entrypoint gated only by comparing `initiator` arg to `env.current_contract_address()`"
+  - "`match execute_liquidation_callback(...) { Ok => true, Err => false }` error-to-bool conversion that hides failures"
+victim: "Users and protocol: attacker re-triggers liquidation callback outside flash-loan context, over-seizing collateral using stored params."
+exploit_precondition: "A legit liquidation has run; its params are still in temporary storage."
+real_world_example: |
+  Halborn 7.3 (CRITICAL): `execute_operation` publicly replays `LIQCB` params; gating relies only on spoofable `initiator`/`premiums` args.
+suggested_remediation: "Clear callback params after use; gate `execute_operation` with a single-use nonce bound to the in-flight flash-loan."
+cross_refs:
+  - two-step-liquidation-stale-auth
+  - liquidation-blacklist-not-rechecked-in-execute

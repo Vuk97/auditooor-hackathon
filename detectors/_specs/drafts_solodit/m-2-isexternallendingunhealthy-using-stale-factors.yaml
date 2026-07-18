@@ -1,0 +1,41 @@
+skeleton: "state_write_without_paired_write"
+name: "m-2-isexternallendingunhealthy-using-stale-factors"
+class_name: "M2IsexternallendingunhealthyUsingStaleFactors"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30165 (Sherlock/Notional Update #5)"
+help: "M-2: _isExternalLendingUnhealthy() using stale factors"
+wiki_title: "M-2: _isExternalLendingUnhealthy() using stale factors"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-12-notional-update-5-judging/issues/18 
+    
+    ## Found by 
+    bin2chen
+    ## Summary
+    In `checkRebalance() -> _isExternalLendingUnhealthy() -> getTargetExternalLendingAmount(factors)`
+    using stale `factors` will lead to inaccurate `targetAmount`, which in turn will
+wiki_exploit_scenario: |
+    Per Solodit #30165: Source: https://github.com/sherlock-audit/2023-12-notional-update-5-judging/issues/18 
+    
+    ## Found by 
+    bin2chen
+    ## Summary
+    In `checkRebalance() -> _isExternalLendingUnhealthy() -> getTargetExternalLendi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2IsexternallendingunhealthyUsingStaleFactors"
+solodit_id: "30165"
+solodit_slug: "m-2-_isexternallendingunhealthy-using-stale-factors-sherlock-notional-update-5-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(factors|targetAmount|checkRebalance|rebalance).*"
+primary_var_regex: ".*(checkRebalance|currencyId|factors).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

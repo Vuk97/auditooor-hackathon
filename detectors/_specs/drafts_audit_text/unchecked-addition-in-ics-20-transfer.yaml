@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "unchecked-addition-in-ics-20-transfer"
+class_name: "UncheckedAdditionInIcs20Transfer"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Penumbra - Zellic Audit Report"
+help: |
+    When a denom is transferred to an external chain via IBC, the ICS-20 balance for it is updated to keep track of the total amount that has been transferred out: async fn withdrawal_
+wiki_title: "Unchecked addition in ICS-20 transfer"
+wiki_description: |
+    When a denom is transferred to an external chain via IBC, the ICS-20 balance for it is updated to keep track of the total amount that has been transferred out: async fn withdrawal_execute(&mut self, withdrawal: &Ics20Withdrawal) -> Result<()> { // create packet, assume it's already checked since the
+wiki_exploit_scenario: |
+    Per audit finding: When a denom is transferred to an external chain via IBC, the ICS-20 balance for it is updated to keep track of the total amount that has been transferred out: async fn withdrawal_execute(&mut self, w
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UncheckedAdditionInIcs20Transfer"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(check|execute).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

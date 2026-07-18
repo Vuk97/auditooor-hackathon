@@ -1,0 +1,25 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "flashloan-callback-missing-caller-validation-enables-forged-execution"
+class_name: "FlashloanCallbackMissingCallerValidationEnablesForgedExecution"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: unauthenticated-flashloan-callbacks-allow-direct-i"
+help: "Flashloan callback missing caller validation enables forged execution"
+wiki_title: "Flashloan callback missing caller validation enables forged execution"
+wiki_description: |
+    This query detects flashloan callback functions (e.g. executeOperation, onFlashLoan) that perform sensitive operations such as state writes, external calls, or value transfers, but do NOT validate msg.sender against a trusted flashloan provider (Aave, ERC-3156, etc). While some implementations rely 
+wiki_exploit_scenario: |
+    Per Glider query tags [flashloan, callback, missing-validation, aave, erc3156]: This query detects flashloan callback functions (e.g. executeOperation, onFlashLoan) that perform sensitive operations such as state writes, external calls, or value transfers, but do NOT validate msg
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "FlashloanCallbackMissingCallerValidationEnablesForgedExecution"
+trigger_sig_regex: ".*(executeOperation).*"
+required_sibling_regex: ".*(validate|check|verify|assert).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "executeOperation"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

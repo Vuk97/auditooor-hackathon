@@ -1,0 +1,40 @@
+skeleton: "state_write_without_paired_write"
+name: "chainlink-oracle-data-may-be-stale"
+class_name: "ChainlinkOracleDataMayBeStale"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58995 (Quantstamp/StakeStone Vault)"
+help: "Chainlink Oracle Data May Be Stale"
+wiki_title: "Chainlink Oracle Data May Be Stale"
+wiki_description: |
+    **Update**
+    The client added additional data validation in `87b9c378fd2026f5ae36e8f250f18030b970f5a2` and `aef34121fc8c84a3cf029ad45d469c85407d77f8`.
+    
+    **File(s) affected:**`ChainlinkOracle.sol`
+    
+    **Description:** Chainlink oracles can return stale pricing data due to network delays or other issues. If
+wiki_exploit_scenario: |
+    Per Solodit #58995: **Update**
+    The client added additional data validation in `87b9c378fd2026f5ae36e8f250f18030b970f5a2` and `aef34121fc8c84a3cf029ad45d469c85407d77f8`.
+    
+    **File(s) affected:**`ChainlinkOracle.sol`
+    
+    **Desc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainlinkOracleDataMayBeStale"
+solodit_id: "58995"
+solodit_slug: "chainlink-oracle-data-may-be-stale-quantstamp-stakestone-vault-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(aef34121fc8c84a3cf029ad45d469c85407d77f8|roundId|answer|updatedAt).*"
+primary_var_regex: ".*(aef34121fc8c84a3cf029ad45d469c85407d77f8|answer|roundId).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "mishandled-partial-vest-accounting-makes-repeated-withdrawal-x"
+class_name: "MishandledPartialVestAccountingMakesRepeatedWithdrawalX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Apyx Stablecoin - Zellic Audit Report"
+help: |
+    The LinearVestV0 contract allows a specific depositor to deposit funds that then vest to a specific beneficiary over time. During the configured vesting period, the total amount of
+wiki_title: "Mishandled partial-vest accounting makes repeated withdrawals distribute"
+wiki_description: |
+    The LinearVestV0 contract allows a specific depositor to deposit funds that then vest to a specific beneficiary over time. During the configured vesting period, the total amount of unvested funds will linearly vest until all of it is vested at the end of the period. The function that the beneficiary
+wiki_exploit_scenario: |
+    Per audit finding: The LinearVestV0 contract allows a specific depositor to deposit funds that then vest to a specific beneficiary over time. During the configured vesting period, the total amount of unvested funds will
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MishandledPartialVestAccountingMakesRepeatedWithdrawalX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferVestedYield|onlyBeneficiary|vestedAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "transferVestedYield"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

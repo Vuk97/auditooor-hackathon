@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "deprecated-variable-l1messageservicev1-messagesender-is-still-us"
+class_name: "DeprecatedVariableL1messageservicev1MessagesenderIsStillUs"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #33297 (Cyfrin/Linea)"
+help: |
+    Deprecated variable `L1MessageServiceV1::__messageSender` is still used making `TokenBridge::completeBridging` revert for older messages preventing users from receiving bridged tok
+wiki_title: |
+    Deprecated variable `L1MessageServiceV1::__messageSender` is still used making `TokenBridge::completeBridging` revert for older messages preventing users from r
+wiki_description: |
+    **Description:** In `L1MessageServiceV1`, this [comment](https://github.com/Consensys/zkevm-monorepo/blob/364b64d2a2704567adac00e3fa428a1901717666/contracts/contracts/messageService/l1/v1/L1MessageServiceV1.sol#L27) indicates that `_messageSender` storage variable is deprecated in favor of transient
+wiki_exploit_scenario: |
+    Per Solodit #33297: **Description:** In `L1MessageServiceV1`, this [comment](https://github.com/Consensys/zkevm-monorepo/blob/364b64d2a2704567adac00e3fa428a1901717666/contracts/contracts/messageService/l1/v1/L1MessageSer
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DeprecatedVariableL1messageservicev1MessagesenderIsStillUs"
+solodit_id: "33297"
+solodit_slug: |
+    deprecated-variable-l1messageservicev1__messagesender-is-still-used-making-tokenbridgecompletebridging-revert-for-older-messages-preventing-users-from-receiving-bridged-tokens-cyfrin-none-cyfrin-linea-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal completebridging;"
+fn_name_regex: ".*(L1MessageServiceV1|TokenBridge|completeBridging).*"
+read_var_regex: ".*(completeBridging).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "L1MessageServiceV1"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return completebridging > 0;"

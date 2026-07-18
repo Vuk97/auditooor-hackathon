@@ -1,0 +1,39 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-1-margintrading-sol-missing-flash-loan-initiator-check-allows-"
+class_name: "H1MargintradingSolMissingFlashLoanInitiatorCheckAllows"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18566 (Sherlock/DODO Margin Trading)"
+help: |
+    H-1: MarginTrading.sol: Missing flash loan initiator check allows attacker to open trades, close trades and steal funds
+wiki_title: |
+    H-1: MarginTrading.sol: Missing flash loan initiator check allows attacker to open trades, close trades and steal funds
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-05-dodo-judging/issues/34 
+    
+    ## Found by 
+    0xHati, BAHOZ, Bauer, BowTiedOriole, CRYP70, Jiamin, Juntao, Quantish, Tendency, VAD37, alexzoid, carrotsmuggler, circlelooper, curiousapple, nobody2018, oot2k, pengun, qbs, roguereddwarf, rvierdiiev, sashik\_eth
+wiki_exploit_scenario: |
+    Per Solodit #18566: Source: https://github.com/sherlock-audit/2023-05-dodo-judging/issues/34 
+    
+    ## Found by 
+    0xHati, BAHOZ, Bauer, BowTiedOriole, CRYP70, Jiamin, Juntao, Quantish, Tendency, VAD37, alexzoid, carrotsmuggler
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1MargintradingSolMissingFlashLoanInitiatorCheckAllows"
+solodit_id: "18566"
+solodit_slug: |
+    h-1-margintradingsol-missing-flash-loan-initiator-check-allows-attacker-to-open-trades-close-trades-and-steal-funds-sherlock-none-dodo-margin-trading-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Missing Check, Flash Loan"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(lendingPool|MarginTrading|receiverAddress|initiator).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

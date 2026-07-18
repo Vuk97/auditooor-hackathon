@@ -1,0 +1,48 @@
+skeleton: "state_write_without_paired_write"
+name: "m-2-lyra-vault-underestimates-the-collateral-value"
+class_name: "M2LyraVaultUnderestimatesTheCollateralValue"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #5694 (Sherlock/Isomorph)"
+help: "M-2: Lyra vault underestimates the collateral value"
+wiki_title: "M-2: Lyra vault underestimates the collateral value"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-11-isomorph-judging/issues/242 
+    
+    ## Found by 
+    hansfriese
+    
+    ## Summary
+    
+    Lyra vault subtracts the withdrawal fee while calculating the collateral value in USD, and it does not match the actual Lyra Pool implementation.
+    
+    ## Vulnerability Detail
+    
+    The user's
+wiki_exploit_scenario: |
+    Per Solodit #5694: Source: https://github.com/sherlock-audit/2022-11-isomorph-judging/issues/242 
+    
+    ## Found by 
+    hansfriese
+    
+    ## Summary
+    
+    Lyra vault subtracts the withdrawal fee while calculating the collateral value in U
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2LyraVaultUnderestimatesTheCollateralValue"
+solodit_id: "5694"
+solodit_slug: "m-2-lyra-vault-underestimates-the-collateral-value-sherlock-isomorph-isomorph-git"
+solodit_quality: "5"
+solodit_rarity: "2"
+solodit_tags: "External Contract"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(priceCollateralToUSD).*"
+primary_var_regex: ".*(priceCollateralToUSD).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

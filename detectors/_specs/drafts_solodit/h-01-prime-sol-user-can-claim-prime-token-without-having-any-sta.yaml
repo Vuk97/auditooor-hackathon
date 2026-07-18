@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "h-01-prime-sol-user-can-claim-prime-token-without-having-any-sta"
+class_name: "H01PrimeSolUserCanClaimPrimeTokenWithoutHavingAnySta"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28832 (Code4rena/Venus Protocol)"
+help: |
+    [H-01] Prime.sol - User can claim Prime token without having any staked XVS, because his `stakedAt` isn't reset whenever he is issued an irrevocable token
+wiki_title: |
+    [H-01] Prime.sol - User can claim Prime token without having any staked XVS, because his `stakedAt` isn't reset whenever he is issued an irrevocable token
+wiki_description: |
+    Whenever a new Prime token is created, the users `stakedAt` is reset to 0. This happens when the user `claim` a revocable token and when he is `issue` a revocable token, but it does not happen when a user is `issue` an irrevocable token.
+    
+    This is `issue()`
+    
+    ```javascript
+    function issue(bool isIrrev
+wiki_exploit_scenario: |
+    Per Solodit #28832: Whenever a new Prime token is created, the users `stakedAt` is reset to 0. This happens when the user `claim` a revocable token and when he is `issue` a revocable token, but it does not happen when a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01PrimeSolUserCanClaimPrimeTokenWithoutHavingAnySta"
+solodit_id: "28832"
+solodit_slug: |
+    h-01-primesol-user-can-claim-prime-token-without-having-any-staked-xvs-because-his-stakedat-isnt-reset-whenever-he-is-issued-an-irrevocable-token-code4rena-venus-protocol-venus-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claim;"
+fn_name_regex: ".*(stakedAt|claim|issue).*"
+write_var_regex: ".*(claim|issue|stakedAt).*"
+guard_var_regex: ".*(claim|issue|stakedAt).*"
+vuln_fn_name: "stakedAt"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "claim = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

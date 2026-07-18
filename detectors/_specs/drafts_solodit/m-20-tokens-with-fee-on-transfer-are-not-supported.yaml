@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "m-20-tokens-with-fee-on-transfer-are-not-supported"
+class_name: "M20TokensWithFeeOnTransferAreNotSupported"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1039 (Code4rena/Vader Protocol)"
+help: "[M-20] Tokens with fee on transfer are not supported"
+wiki_title: "[M-20] Tokens with fee on transfer are not supported"
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    There are ERC20 tokens that charge fee for every `transfer()` or `transferFrom()`, E.g `Vader` token.
+    
+    In the current implementation, `BasePoolV2.sol#mint()` assumes that the received amount is the same as the transfer amount, and uses it to calculate liquidity units.
+    
+    <http
+wiki_exploit_scenario: |
+    Per Solodit #1039: _Submitted by WatchPug_
+    
+    There are ERC20 tokens that charge fee for every `transfer()` or `transferFrom()`, E.g `Vader` token.
+    
+    In the current implementation, `BasePoolV2.sol#mint()` assumes that the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M20TokensWithFeeOnTransferAreNotSupported"
+solodit_id: "1039"
+solodit_slug: |
+    m-20-tokens-with-fee-on-transfer-are-not-supported-code4rena-vader-protocol-vader-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Fee On Transfer"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(transfer|transferFrom).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

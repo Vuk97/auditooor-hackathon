@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-02-partygovernancenft-sol-mint-user-can-delegate-another-users"
+class_name: "M02PartygovernancenftSolMintUserCanDelegateAnotherUsers"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29548 (Code4rena/Party Protocol)"
+help: |
+    [M-02] `PartyGovernanceNFT.sol#mint` - User can delegate another users funds to themselves and brick them from changing the delegation
+wiki_title: |
+    [M-02] `PartyGovernanceNFT.sol#mint` - User can delegate another users funds to themselves and brick them from changing the delegation
+wiki_description: |
+    The natural flow of minting a new Card is through contributing to the Crowdfund. The protocol also allows users to `contributeFor` in the name of someone else.
+    
+    Let's follow the flow of the `contributeFor`. The function immediately calls `_contribute`:
+    
+    ```js
+    function _contribute(
+            address p
+wiki_exploit_scenario: |
+    Per Solodit #29548: The natural flow of minting a new Card is through contributing to the Crowdfund. The protocol also allows users to `contributeFor` in the name of someone else.
+    
+    Let's follow the flow of the `contribu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02PartygovernancenftSolMintUserCanDelegateAnotherUsers"
+solodit_id: "29548"
+solodit_slug: |
+    m-02-partygovernancenftsolmint-user-can-delegate-another-users-funds-to-themselves-and-brick-them-from-changing-the-delegation-code4rena-party-protocol-party-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal contributefor;"
+fn_name_regex: ".*(contributeFor).*"
+read_var_regex: ".*(contributeFor).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "contributeFor"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return contributefor > 0;"

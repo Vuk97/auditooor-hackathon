@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "griefing-in-checkifexpired"
+class_name: "GriefingInCheckifexpired"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit ChainLocker - Zellic Audit Report"
+help: |
+    If a locker is nonrefundable and expirationTime has passed, it is possible to call check IfExpired to transfer the deposit amount to the seller and any remaining funds to the buyer
+wiki_title: "Griefing in checkIfExpired"
+wiki_description: |
+    If a locker is nonrefundable and expirationTime has passed, it is possible to call check IfExpired to transfer the deposit amount to the seller and any remaining funds to the buyer. It is possible for the buyer or the seller to intentionally revert this transaction. The vulnerability here is similar
+wiki_exploit_scenario: |
+    Per audit finding: If a locker is nonrefundable and expirationTime has passed, it is possible to call check IfExpired to transfer the deposit amount to the seller and any remaining funds to the buyer. It is possible for
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GriefingInCheckifexpired"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(expirationTime|safeTransferETH|safeTransfer).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "expirationTime"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

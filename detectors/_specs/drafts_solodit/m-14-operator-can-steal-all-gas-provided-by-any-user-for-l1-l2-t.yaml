@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "m-14-operator-can-steal-all-gas-provided-by-any-user-for-l1-l2-t"
+class_name: "M14OperatorCanStealAllGasProvidedByAnyUserForL1L2T"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30293 (Code4rena/zkSync)"
+help: "[M-14] Operator can steal all gas provided by ANY user for `L1→L2` transactions"
+wiki_title: "[M-14] Operator can steal all gas provided by ANY user for `L1→L2` transactions"
+wiki_description: |
+    In [bootloader, function processL1Tx](https://github.com/code-423n4/2023-10-zksync/blob/1fb4649b612fac7b4ee613df6f6b7d921ddd6b0d/code/system-contracts/bootloader/bootloader.yul#L921C1-L921C57), it is possible for a malicious operator to steal all the gas provided by **ANY** user who requests an `L1
+wiki_exploit_scenario: |
+    Per Solodit #30293: In [bootloader, function processL1Tx](https://github.com/code-423n4/2023-10-zksync/blob/1fb4649b612fac7b4ee613df6f6b7d921ddd6b0d/code/system-contracts/bootloader/bootloader.yul#L921C1-L921C57), it is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14OperatorCanStealAllGasProvidedByAnyUserForL1L2T"
+solodit_id: "30293"
+solodit_slug: |
+    m-14-operator-can-steal-all-gas-provided-by-any-user-for-l1l2-transactions-code4rena-zksync-zksync-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal add;"
+fn_name_regex: ".*(refundGas|reservedGas|add|max).*"
+write_var_regex: ".*(add|max|refundGas).*"
+guard_var_regex: ".*(add|max|refundGas).*"
+vuln_fn_name: "refundGas"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "add = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

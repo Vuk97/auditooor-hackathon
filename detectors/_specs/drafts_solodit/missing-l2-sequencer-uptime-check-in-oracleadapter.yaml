@@ -1,0 +1,32 @@
+skeleton: "state_write_without_paired_write"
+name: "missing-l2-sequencer-uptime-check-in-oracleadapter"
+class_name: "MissingL2SequencerUptimeCheckInOracleadapter"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #55542 (Cyfrin/Yieldfi)"
+help: "Missing L2 sequencer uptime check in `OracleAdapter`"
+wiki_title: "Missing L2 sequencer uptime check in `OracleAdapter`"
+wiki_description: |
+    **Description:** On L2, the `YToken` exchange rate is provided by custom Chainlink oracles. The exchange rate is queried in [`OracleAdapter::fetchExchangeRate`](https://github.com/YieldFiLabs/contracts/blob/40caad6c60625d750cc5c3a5a7df92b96a93a2fb/contracts/core/OracleAdapter.sol#L52-L77):
+    
+    ```solid
+wiki_exploit_scenario: |
+    Per Solodit #55542: **Description:** On L2, the `YToken` exchange rate is provided by custom Chainlink oracles. The exchange rate is queried in [`OracleAdapter::fetchExchangeRate`](https://github.com/YieldFiLabs/contract
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingL2SequencerUptimeCheckInOracleadapter"
+solodit_id: "55542"
+solodit_slug: "missing-l2-sequencer-uptime-check-in-oracleadapter-cyfrin-none-yieldfi-markdown"
+solodit_quality: "4"
+solodit_rarity: "2"
+solodit_tags: "L2 Sequencer"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(YToken|OracleAdapter).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

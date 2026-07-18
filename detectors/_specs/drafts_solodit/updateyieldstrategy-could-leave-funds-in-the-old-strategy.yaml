@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "updateyieldstrategy-could-leave-funds-in-the-old-strategy"
+class_name: "UpdateyieldstrategyCouldLeaveFundsInTheOldStrategy"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16637 (TrailOfBits/Sherlock Protocol V2)"
+help: "updateYieldStrategy could leave funds in the old strategy"
+wiki_title: "updateYieldStrategy could leave funds in the old strategy"
+wiki_description: |
+    ## Diﬃculty: Medium
+    
+    ## Type: Undeﬁned Behavior
+    
+    ### Description
+    The `updateYieldStrategy` function sets a new yield strategy manager contract without calling `yieldStrategy.withdrawAll()` on the old strategy, potentially leaving funds in it.
+    
+    ```solidity
+    // Sets a new yield strategy manager contrac
+wiki_exploit_scenario: |
+    Per Solodit #16637: ## Diﬃculty: Medium
+    
+    ## Type: Undeﬁned Behavior
+    
+    ### Description
+    The `updateYieldStrategy` function sets a new yield strategy manager contract without calling `yieldStrategy.withdrawAll()` on the old
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UpdateyieldstrategyCouldLeaveFundsInTheOldStrategy"
+solodit_id: "16637"
+solodit_slug: "updateyieldstrategy-could-leave-funds-in-the-old-strategy-trailofbits-sherlock-protocol-v2-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal initialstake;"
+fn_name_regex: ".*(updateYieldStrategy|totalTokenBalanceStakers|initialStake).*"
+read_var_regex: ".*(initialStake|totalTokenBalanceStakers|updateYieldStrategy).*"
+required_call_regex: ".*yieldStrategy.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateYieldStrategy"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return initialstake > 0;"

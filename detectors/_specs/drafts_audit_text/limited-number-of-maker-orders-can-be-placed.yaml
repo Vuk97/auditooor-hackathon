@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "limited-number-of-maker-orders-can-be-placed"
+class_name: "LimitedNumberOfMakerOrdersCanBePlaced"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Tristero - Zellic Audit Report"
+help: |
+    A limited number of maker orders are allowed to be placed: uint constant max_orders=10; /) [...))] /)1.2 -) placeMaker function placeMaker(address sell_token, address buy_token, ui
+wiki_title: "Limited number of maker orders can be placed"
+wiki_description: |
+    A limited number of maker orders are allowed to be placed: uint constant max_orders=10; /) [...))] /)1.2 -) placeMaker function placeMaker(address sell_token, address buy_token, uint lz_cid, uint96 _quantity) public nonReentrant { /) [...))] /)increment the maker count require(selected_pair.mkr_coun
+wiki_exploit_scenario: |
+    Per audit finding: A limited number of maker orders are allowed to be placed: uint constant max_orders=10; /) [...))] /)1.2 -) placeMaker function placeMaker(address sell_token, address buy_token, uint lz_cid, uint96 _q
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LimitedNumberOfMakerOrdersCanBePlaced"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

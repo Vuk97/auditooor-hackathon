@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-vault-manager-is-unable-to-delete-the-last-strategy-from-x"
+class_name: "TheVaultManagerIsUnableToDeleteTheLastStrategyFromX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-bakerfi-invitational"
+help: |
+    pfapostol The removeStrategy function in the MultiStrategy contract allows the removal of a strategy and redistributes the withdrawn funds among the remaining strategies. Refered c
+wiki_title: "The Vault Manager is unable to delete the last strategy from MultiStrategyVault"
+wiki_description: |
+    pfapostol The removeStrategy function in the MultiStrategy contract allows the removal of a strategy and redistributes the withdrawn funds among the remaining strategies. Refered code : if ( strategyAssets > 0 ) { IStrategy ( _strategies [ index ]). undeploy ( strategyAssets ); _allocateAssets ( str
+wiki_exploit_scenario: |
+    Per audit finding: pfapostol The removeStrategy function in the MultiStrategy contract allows the removal of a strategy and redistributes the withdrawn funds among the remaining strategies. Refered code : if ( strategyA
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheVaultManagerIsUnableToDeleteTheLastStrategyFromX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(removeStrategy|strategyAssets|totalDeployed).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "removeStrategy"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

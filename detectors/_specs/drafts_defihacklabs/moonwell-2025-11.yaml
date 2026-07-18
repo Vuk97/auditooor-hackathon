@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "moonwell-2025-11"
+class_name: "Moonwell202511"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-11/Moonwell_exp.sol"
+help: "Moonwell 2025-11 — flashloan exploit (1M USD)"
+wiki_title: "Moonwell (2025-11) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-11): Moonwell lost 1M USD. Bug class: flashloan. Attack tx: 0x190a491c0ef095d5447d6d813dc8e2ec11a5710e189771c24527393a2beb05ac.
+wiki_exploit_scenario: |
+    Attacker (0x6997a8c804642ae2de16d7b8ff09565a5d5658ff) exploits Moonwell via flashloan: the victim contract (unknown) exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Moonwell202511"
+trigger_sig_regex: ".*(uniswapV3FlashCallback).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function uniswapV3FlashCallback(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.uniswapV3FlashCallback(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

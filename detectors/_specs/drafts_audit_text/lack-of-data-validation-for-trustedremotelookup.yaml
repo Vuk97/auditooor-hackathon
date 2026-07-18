@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-data-validation-for-trustedremotelookup"
+class_name: "LackOfDataValidationForTrustedremotelookup"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Y2K Finance - Zellic Audit Report"
+help: |
+    The current implementation of the lzReceive function lacks checks to verify the va- lidity of the data stored in trustedRemoteLookup[_srcChainId] and _srcAddress bytes. If trustedR
+wiki_title: "Lack of data validation for trustedRemoteLookup"
+wiki_description: |
+    The current implementation of the lzReceive function lacks checks to verify the va- lidity of the data stored in trustedRemoteLookup[_srcChainId] and _srcAddress bytes. If trustedRemoteLookup[_srcChainId] is not set and _srcAddress is zero bytes, the re- sult of the check if (keccak256(_srcAddress)
+wiki_exploit_scenario: |
+    Per audit finding: The current implementation of the lzReceive function lacks checks to verify the va- lidity of the data stored in trustedRemoteLookup[_srcChainId] and _srcAddress bytes. If trustedRemoteLookup[_srcChai
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfDataValidationForTrustedremotelookup"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(lzReceive|trustedRemoteLookup|rcChainId).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "lzReceive"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

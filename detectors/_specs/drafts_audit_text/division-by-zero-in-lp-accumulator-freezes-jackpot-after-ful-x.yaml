@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "division-by-zero-in-lp-accumulator-freezes-jackpot-after-ful-x"
+class_name: "DivisionByZeroInLpAccumulatorFreezesJackpotAfterFulX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Megapot v2 - Zellic Audit Report"
+help: |
+    The JackpotLPManager::processDrawingSettlement function blindly divides by currentLP.lpPoolTotal when updating the accumulator for drawings > 0. If the previous drawing settled wit
+wiki_title: "Division by zero in LP accumulator freezes jackpot after full withdrawals"
+wiki_description: |
+    The JackpotLPManager::processDrawingSettlement function blindly divides by currentLP.lpPoolTotal when updating the accumulator for drawings > 0. If the previous drawing settled with newLPValue == 0, the next drawing is initialized with lpPoolTotal = 0. Settling that drawing therefore reverts due to
+wiki_exploit_scenario: |
+    Per audit finding: The JackpotLPManager::processDrawingSettlement function blindly divides by currentLP.lpPoolTotal when updating the accumulator for drawings > 0. If the previous drawing settled with newLPValue == 0, t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DivisionByZeroInLpAccumulatorFreezesJackpotAfterFulX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(processDrawingSettlement|currentLP|lpPoolTotal).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "processDrawingSettlement"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

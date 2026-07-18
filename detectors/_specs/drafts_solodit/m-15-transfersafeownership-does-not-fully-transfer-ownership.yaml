@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m-15-transfersafeownership-does-not-fully-transfer-ownership"
+class_name: "M15TransfersafeownershipDoesNotFullyTransferOwnership"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29363 (Code4rena/Open Dollar)"
+help: "[M-15] `transferSAFEOwnership()` does not fully transfer ownership"
+wiki_title: "[M-15] `transferSAFEOwnership()` does not fully transfer ownership"
+wiki_description: |
+    Function `transferSAFEOwnership()` is only callable by `Only Vault721`: `require(msg.sender == address(vault721), 'SafeMngr: Only Vault721');` and its purpose is to give the safe ownership to a `dst` address.
+    However, `transferSAFEOwnership()` does not reset `safeCan` mapping which is used by `safe
+wiki_exploit_scenario: |
+    Per Solodit #29363: Function `transferSAFEOwnership()` is only callable by `Only Vault721`: `require(msg.sender == address(vault721), 'SafeMngr: Only Vault721');` and its purpose is to give the safe ownership to a `dst`
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15TransfersafeownershipDoesNotFullyTransferOwnership"
+solodit_id: "29363"
+solodit_slug: "m-15-transfersafeownership-does-not-fully-transfer-ownership-code4rena-open-dollar-open-dollar-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal dst;"
+fn_name_regex: ".*(transferSAFEOwnership|dst|safeCan|safeAllowed).*"
+read_var_regex: ".*(dst|safeAllowed|safeCan).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferSAFEOwnership"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return dst > 0;"

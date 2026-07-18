@@ -1,0 +1,19 @@
+id: reflector-unchecked-decimals-corrupt-scaling
+title: "Unchecked reflector decimals() return corrupts price scaling"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44865"
+bug_class: oracle-cascade
+indicators:
+  - "`let d = reflector.decimals()` with no sanity bounds check (e.g. `d <= 36`)"
+  - "scaling formula that panics or overflows on unexpected decimals"
+victim: "All users: price scaling produces wildly wrong numbers if reflector returns an unexpected value."
+exploit_precondition: "Reflector deployment returns a malformed decimals value or is replaced with a malicious contract."
+real_world_example: |
+  V12 #44865 (Low): Unchecked reflector decimals corrupt price scaling.
+suggested_remediation: "Validate `decimals` against known bounds; cache the value at configuration time."
+cross_refs:
+  - reflector-hardcoded-decimals

@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "protocol-fails-to-charge-fees-from-swap-amount"
+class_name: "ProtocolFailsToChargeFeesFromSwapAmount"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-08-gte-perps-and-launchpad"
+help: |
+    ifex445 , also found by 0rpse anchabadze dimulski hezze IvanAlexandur , and nuthan2x launchpad/uniswap/GTELaunchpadV2Pair.sol #L231 The GTE uniswap contract fails to charge fee for
+wiki_title: "Protocol fails to charge fees from swap amount"
+wiki_description: |
+    ifex445 , also found by 0rpse anchabadze dimulski hezze IvanAlexandur , and nuthan2x launchpad/uniswap/GTELaunchpadV2Pair.sol #L231 The GTE uniswap contract fails to charge fee for swaps and update balAdjusted by fees charged. This would allow users execute free swaps making LP providers lose reward
+wiki_exploit_scenario: |
+    Per audit finding: ifex445 , also found by 0rpse anchabadze dimulski hezze IvanAlexandur , and nuthan2x launchpad/uniswap/GTELaunchpadV2Pair.sol #L231 The GTE uniswap contract fails to charge fee for swaps and update ba
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ProtocolFailsToChargeFeesFromSwapAmount"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

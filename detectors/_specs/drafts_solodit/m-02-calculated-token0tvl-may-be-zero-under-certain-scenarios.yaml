@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "m-02-calculated-token0tvl-may-be-zero-under-certain-scenarios"
+class_name: "M02CalculatedToken0tvlMayBeZeroUnderCertainScenarios"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25381 (Code4rena/Canto)"
+help: "[M-02] Calculated `token0TVL` may be zero under certain scenarios"
+wiki_title: "[M-02] Calculated `token0TVL` may be zero under certain scenarios"
+wiki_description: |
+    ```solidity
+    uint token0TVL = assetReserves[i] * (prices[i] / decimals);
+    ```
+    
+    Because of the brackets, the division of `prices[i] / decimals` is executed before multiplication, causing `token0TVL` to potentially be zero.
+    
+    ### Proof of Concept
+    
+    Add the following test in `oracle.test.ts`. Note: `getPr
+wiki_exploit_scenario: |
+    Per Solodit #25381: ```solidity
+    uint token0TVL = assetReserves[i] * (prices[i] / decimals);
+    ```
+    
+    Because of the brackets, the division of `prices[i] / decimals` is executed before multiplication, causing `token0TVL` to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02CalculatedToken0tvlMayBeZeroUnderCertainScenarios"
+solodit_id: "25381"
+solodit_slug: "m-02-calculated-token0tvl-may-be-zero-under-certain-scenarios-code4rena-canto-canto-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(getPriceLP|note|prices).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

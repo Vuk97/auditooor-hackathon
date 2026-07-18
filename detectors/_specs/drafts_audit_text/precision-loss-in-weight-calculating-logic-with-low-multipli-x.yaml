@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "precision-loss-in-weight-calculating-logic-with-low-multipli-x"
+class_name: "PrecisionLossInWeightCalculatingLogicWithLowMultipliX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Omni AVS - Zellic Audit Report"
+help: |
+    OmniAVS calculates the personal stake amount and delegated stake amount of an operator sepa- rately. To calculate an operator’s personal stake amount, OmniAVS fetches the delegatab
+wiki_title: "Precision loss in weight-calculating logic with low multipliers                      17"
+wiki_description: |
+    OmniAVS calculates the personal stake amount and delegated stake amount of an operator sepa- rately. To calculate an operator’s personal stake amount, OmniAVS fetches the delegatable shares of an operator, which is fully delegated to the operator by the design of EigenLayer. Following is the code of
+wiki_exploit_scenario: |
+    Per audit finding: OmniAVS calculates the personal stake amount and delegated stake amount of an operator sepa- rately. To calculate an operator’s personal stake amount, OmniAVS fetches the delegatable shares of an oper
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PrecisionLossInWeightCalculatingLogicWithLowMultipliX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getDelegatableShares).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "getDelegatableShares"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

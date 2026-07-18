@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "m-1-priceoracle-getprice-doesn-t-check-for-stale-price"
+class_name: "M1PriceoracleGetpriceDoesnTCheckForStalePrice"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19170 (Sherlock/Iron Bank)"
+help: "M-1: PriceOracle.getPrice doesn't check for stale price"
+wiki_title: "M-1: PriceOracle.getPrice doesn't check for stale price"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-05-ironbank-judging/issues/9 
+    
+    ## Found by 
+    0x3b, 0x52, 0x8chars, 0xHati, 0xStalin, 0xpinky, 3agle, Angry\_Mustache\_Man, Arabadzhiev, Aymen0909, Bauchibred, BenRai, Bozho, Breeje, Brenzee, BugBusters, CMierez, Delvir0, Diana, Hama, HexHackers, IceBear,
+wiki_exploit_scenario: |
+    Per Solodit #19170: Source: https://github.com/sherlock-audit/2023-05-ironbank-judging/issues/9 
+    
+    ## Found by 
+    0x3b, 0x52, 0x8chars, 0xHati, 0xStalin, 0xpinky, 3agle, Angry\_Mustache\_Man, Arabadzhiev, Aymen0909, Bauchib
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M1PriceoracleGetpriceDoesnTCheckForStalePrice"
+solodit_id: "19170"
+solodit_slug: "m-1-priceoraclegetprice-doesnt-check-for-stale-price-sherlock-none-iron-bank-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(devScrooge|getPrice|getPriceFromChainlink|latestRoundData).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

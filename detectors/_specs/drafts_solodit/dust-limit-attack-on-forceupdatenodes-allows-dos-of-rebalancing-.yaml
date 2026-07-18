@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "dust-limit-attack-on-forceupdatenodes-allows-dos-of-rebalancing-"
+class_name: "DustLimitAttackOnForceupdatenodesAllowsDosOfRebalancing"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61229 (Cyfrin/Suzaku Core)"
+help: "Dust limit attack on `forceUpdateNodes` allows DoS of rebalancing and potential vault insolvency"
+wiki_title: "Dust limit attack on `forceUpdateNodes` allows DoS of rebalancing and potential vault insolvency"
+wiki_description: |
+    **Description:** An attacker can exploit the `forceUpdateNodes()` function with minimal `limitStake` values to force all validator nodes into a pending update state. By exploiting precision loss in stake-to-weight conversion, an attacker can call `forceUpdateNodes` with a minimal limitStake (e.g., 1
+wiki_exploit_scenario: |
+    Per Solodit #61229: **Description:** An attacker can exploit the `forceUpdateNodes()` function with minimal `limitStake` values to force all validator nodes into a pending update state. By exploiting precision loss in st
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DustLimitAttackOnForceupdatenodesAllowsDosOfRebalancing"
+solodit_id: "61229"
+solodit_slug: |
+    dust-limit-attack-on-forceupdatenodes-allows-dos-of-rebalancing-and-potential-vault-insolvency-cyfrin-none-suzaku-core-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal dustamount;"
+fn_name_regex: ".*(forceUpdateNodes|limitStake|dustAmount).*"
+read_var_regex: ".*(dustAmount|forceUpdateNodes|limitStake).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "forceUpdateNodes"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return dustamount > 0;"

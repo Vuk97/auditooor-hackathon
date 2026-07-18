@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-safeguards-in-paymentforwader"
+class_name: "LackOfSafeguardsInPaymentforwader"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #12069 (OpenZeppelin/Storj Token Audit)"
+help: "Lack of safeguards in PaymentForwader"
+wiki_title: "Lack of safeguards in PaymentForwader"
+wiki_description: |
+    For such an important component, `PaymentForwarder` is lacking in safety measures. All math operations are unchecked for overflows. The comments state: “We trust Ethereum amounts cannot overflow uint256”. Although this seems to be true, it’s better to be safe than sorry. An overflow could leave the
+wiki_exploit_scenario: |
+    Per Solodit #12069: For such an important component, `PaymentForwarder` is lacking in safety measures. All math operations are unchecked for overflows. The comments state: “We trust Ethereum amounts cannot overflow uint2
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfSafeguardsInPaymentforwader"
+solodit_id: "12069"
+solodit_slug: "lack-of-safeguards-in-paymentforwader-openzeppelin-storj-token-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(PaymentForwarder|SafeMath).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "PaymentForwarder"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

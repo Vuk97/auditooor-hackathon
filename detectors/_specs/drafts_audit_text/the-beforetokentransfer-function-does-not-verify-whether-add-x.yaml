@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "the-beforetokentransfer-function-does-not-verify-whether-add-x"
+class_name: "TheBeforetokentransferFunctionDoesNotVerifyWhetherAddX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-11-ethena-labs"
+help: |
+    [L-12] The _beforeTokenTransfer() function does not verify whether addresses are whitelisted when WHITELIST_ENABLED is set. As noted in line 191, the function only checks if the ad
+wiki_title: |
+    The _beforeTokenTransfer() function does not verify whether addresses are whitelisted when WHITELIST_ENABLED is set. As noted in line 191, the function only che
+wiki_description: |
+    [L-12] The _beforeTokenTransfer() function does not verify whether addresses are whitelisted when WHITELIST_ENABLED is set. As noted in line 191, the function only checks if the address to is not blacklisted. Consequently, unwhitelisted users can still receive UStb when WHITELIST_ENABLED is active.
+wiki_exploit_scenario: |
+    Per audit finding: [L-12] The _beforeTokenTransfer() function does not verify whether addresses are whitelisted when WHITELIST_ENABLED is set. As noted in line 191, the function only checks if the address to is not blac
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheBeforetokentransferFunctionDoesNotVerifyWhetherAddX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferState|hasRole).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "transferState"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

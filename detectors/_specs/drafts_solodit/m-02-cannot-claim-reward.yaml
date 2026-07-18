@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "m-02-cannot-claim-reward"
+class_name: "M02CannotClaimReward"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25579 (Code4rena/Sushi)"
+help: "[M-02] Cannot claim reward"
+wiki_title: "[M-02] Cannot claim reward"
+wiki_description: |
+    _Submitted by cmichel, also found by 0xsanson, broccoli, hickuphh3, and WatchPug_
+    
+    The `ConcentratedLiquidityPoolManager.claimReward` requires `stake.initialized` but it is never set.
+    It also performs a strange computation as `128 - incentive.secondsClaimed` which will almost always underflow and re
+wiki_exploit_scenario: |
+    Per Solodit #25579: _Submitted by cmichel, also found by 0xsanson, broccoli, hickuphh3, and WatchPug_
+    
+    The `ConcentratedLiquidityPoolManager.claimReward` requires `stake.initialized` but it is never set.
+    It also performs
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02CannotClaimReward"
+solodit_id: "25579"
+solodit_slug: "m-02-cannot-claim-reward-code4rena-sushi-sushi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimReward|secondsClaimed).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimReward"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

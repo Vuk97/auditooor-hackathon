@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "wrong-nullifier-computation"
+class_name: "WrongNullifierComputation"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Singularity - Zellic Audit Report"
+help: |
+    In the generateCurveAddLiquidityProof function, if the value of rho happens to be null, then the nullifier is also set to zero: const nullifier1 = param.note1.rho === 0n ? 0n : cal
+wiki_title: "Wrong nullifier computation"
+wiki_description: |
+    In the generateCurveAddLiquidityProof function, if the value of rho happens to be null, then the nullifier is also set to zero: const nullifier1 = param.note1.rho === 0n ? 0n : calcNullifier(param.note1.rho, fuzkPubKey); const nullifier2 = param.note2.rho === 0n ? 0n : calcNullifier(param.note2.rho,
+wiki_exploit_scenario: |
+    Per audit finding: In the generateCurveAddLiquidityProof function, if the value of rho happens to be null, then the nullifier is also set to zero: const nullifier1 = param.note1.rho === 0n ? 0n : calcNullifier(param.not
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WrongNullifierComputation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(generateCurveAddLiquidityProof|calcNullifier|fuzkPubKey).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "generateCurveAddLiquidityProof"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "m-08-funds-from-reverted-transaction-may-be-lost-locked"
+class_name: "M08FundsFromRevertedTransactionMayBeLostLocked"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36937 (Code4rena/ZetaChain)"
+help: "[M-08] Funds from reverted transaction may be lost/locked"
+wiki_title: "[M-08] Funds from reverted transaction may be lost/locked"
+wiki_description: |
+    <https://github.com/code-423n4/2023-11-zetachain/blob/b237708ed5e86f12c4bddabddfd42f001e81941a/repos/node/x/crosschain/keeper/keeper_cross_chain_tx_vote_outbound_tx.go#L61-L226> 
+    
+    ### Vulnerability details
+    
+    When the cross chain transaction is reverted on destination chain, the revert transaction is
+wiki_exploit_scenario: |
+    Per Solodit #36937: <https://github.com/code-423n4/2023-11-zetachain/blob/b237708ed5e86f12c4bddabddfd42f001e81941a/repos/node/x/crosschain/keeper/keeper_cross_chain_tx_vote_outbound_tx.go#L61-L226> 
+    
+    ### Vulnerability d
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08FundsFromRevertedTransactionMayBeLostLocked"
+solodit_id: "36937"
+solodit_slug: "m-08-funds-from-reverted-transaction-may-be-lostlocked-code4rena-zetachain-zetachain-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(PendingOutbound|PendingRevert).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "PendingOutbound"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

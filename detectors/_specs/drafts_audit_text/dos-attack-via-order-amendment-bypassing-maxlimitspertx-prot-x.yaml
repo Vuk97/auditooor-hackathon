@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "dos-attack-via-order-amendment-bypassing-maxlimitspertx-prot-x"
+class_name: "DosAttackViaOrderAmendmentBypassingMaxlimitspertxProtX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-07-gte-spot-clob-and-router"
+help: |
+    eightzerofour , also found by lonelybones clob/CLOB.sol #L390 The CLOB (Central Limit Order Book) system implements DOS protection through the maxLimitsPerTx parameter, which limit
+wiki_title: "DOS Attack via Order Amendment Bypassing maxLimitsPerTx Protection"
+wiki_description: |
+    eightzerofour , also found by lonelybones clob/CLOB.sol #L390 The CLOB (Central Limit Order Book) system implements DOS protection through the maxLimitsPerTx parameter, which limits the number of new limit orders a user can place within a single transaction. However, the amend() function allows user
+wiki_exploit_scenario: |
+    Per audit finding: eightzerofour , also found by lonelybones clob/CLOB.sol #L390 The CLOB (Central Limit Order Book) system implements DOS protection through the maxLimitsPerTx parameter, which limits the number of new
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DosAttackViaOrderAmendmentBypassingMaxlimitspertxProtX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxLimitsPerTx|incrementLimitsPlaced|postLimitOrder).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "maxLimitsPerTx"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

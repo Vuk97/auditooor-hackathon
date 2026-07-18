@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "double-spending"
+class_name: "DoubleSpending"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49432 (MixBytes/Liquorice)"
+help: "Double spending"
+wiki_title: "Double spending"
+wiki_description: |
+    ##### Description
+    
+    A maker can borrow funds against their existing `CollateralToken` and then transfer their entire `CollateralToken` balance to an arbitrary address, from which they could perform a `withdraw()` in the LendingPool.
+    
+    ##### Recommendation
+    
+    We recommend restricting transfers of `Collat
+wiki_exploit_scenario: |
+    Per Solodit #49432: ##### Description
+    
+    A maker can borrow funds against their existing `CollateralToken` and then transfer their entire `CollateralToken` balance to an arbitrary address, from which they could perform a `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DoubleSpending"
+solodit_id: "49432"
+solodit_slug: "double-spending-mixbytes-none-liquorice-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal withdraw;"
+fn_name_regex: ".*(CollateralToken|withdraw).*"
+read_var_regex: ".*(withdraw).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "CollateralToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return withdraw > 0;"

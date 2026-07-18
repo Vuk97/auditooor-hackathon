@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "check-order-of-timestamps-in-token-distribution-constructor"
+class_name: "CheckOrderOfTimestampsInTokenDistributionConstructor"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #11965 (OpenZeppelin/UnikoinGold Token Audit)"
+help: "Check order of timestamps in Token distribution constructor"
+wiki_title: "Check order of timestamps in Token distribution constructor"
+wiki_description: |
+    The TokenDistribution contract relies on [three timestamps](https://github.com/unikoingold/UnikoinGold-UKG-Contract/blob/8b38f30039c2d13383c416fd6143f6bd0f091404/contracts/TokenDistribution.sol#L58-L60):
+    
+    
+    * `freezeTimestamp`, which indicates up to which point it is possible to cancel the distributi
+wiki_exploit_scenario: |
+    Per Solodit #11965: The TokenDistribution contract relies on [three timestamps](https://github.com/unikoingold/UnikoinGold-UKG-Contract/blob/8b38f30039c2d13383c416fd6143f6bd0f091404/contracts/TokenDistribution.sol#L58-L6
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CheckOrderOfTimestampsInTokenDistributionConstructor"
+solodit_id: "11965"
+solodit_slug: |
+    check-order-of-timestamps-in-token-distribution-constructor-openzeppelin-unikoingold-token-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal distributionstarttimestamp;"
+fn_name_regex: ".*(freezeTimestamp|distributionStartTimestamp|lockupTimestamp|require).*"
+write_var_regex: ".*(distributionStartTimestamp|freezeTimestamp|lockupTimestamp).*"
+guard_var_regex: ".*(distributionStartTimestamp|freezeTimestamp|lockupTimestamp).*"
+vuln_fn_name: "freezeTimestamp"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "distributionstarttimestamp = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

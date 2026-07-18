@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "m-02-users-can-t-cancel-reservation-due-to-out-of-gas"
+class_name: "M02UsersCanTCancelReservationDueToOutOfGas"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #45198 (Code4rena/Coded Estate)"
+help: "[M-02] Users can't cancel reservation due to out-of-gas"
+wiki_title: "[M-02] Users can't cancel reservation due to out-of-gas"
+wiki_description: |
+    In `execute.rs#cancelreservationafterapprovalforshortterm` and `execute.rs#cancelreservationafterapprovalforlongterm()` , multiple iterations occur over the `cancellation` vector, which may cause the transaction to fail due to an out-of-gas error.
+    
+    Consequently, malicious NFT owners could exploit t
+wiki_exploit_scenario: |
+    Per Solodit #45198: In `execute.rs#cancelreservationafterapprovalforshortterm` and `execute.rs#cancelreservationafterapprovalforlongterm()` , multiple iterations occur over the `cancellation` vector, which may cause the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02UsersCanTCancelReservationDueToOutOfGas"
+solodit_id: "45198"
+solodit_slug: "m-02-users-cant-cancel-reservation-due-to-out-of-gas-code4rena-coded-estate-coded-estate-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cancellation;"
+fn_name_regex: ".*(cancellation).*"
+read_var_regex: ".*(cancellation).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "cancellation"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cancellation > 0;"

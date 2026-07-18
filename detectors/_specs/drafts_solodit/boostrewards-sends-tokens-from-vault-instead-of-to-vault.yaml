@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "boostrewards-sends-tokens-from-vault-instead-of-to-vault"
+class_name: "BoostrewardsSendsTokensFromVaultInsteadOfToVault"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44818 (Zokyo/Mercydao)"
+help: "`boostRewards` sends tokens FROM vault instead of TO vault"
+wiki_title: "`boostRewards` sends tokens FROM vault instead of TO vault"
+wiki_description: |
+    **Severity**: Critical
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    on line 174 in the `boostRewards` function there is a call `IERC20(accrualToken).safeTransfer(msg.sender, amount);` which actually sends `accrualToken` to the caller from the vault. The real function should do vise versa.
+    
+    **Recommendati
+wiki_exploit_scenario: |
+    Per Solodit #44818: **Severity**: Critical
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    on line 174 in the `boostRewards` function there is a call `IERC20(accrualToken).safeTransfer(msg.sender, amount);` which actually sends
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BoostrewardsSendsTokensFromVaultInsteadOfToVault"
+solodit_id: "44818"
+solodit_slug: "boostrewards-sends-tokens-from-vault-instead-of-to-vault-zokyo-none-mercydao-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accrualtoken;"
+fn_name_regex: ".*(boostRewards|accrualToken|safeTransfer|safeTransferFrom).*"
+read_var_regex: ".*(accrualToken|boostRewards|safeTransfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "boostRewards"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accrualtoken > 0;"

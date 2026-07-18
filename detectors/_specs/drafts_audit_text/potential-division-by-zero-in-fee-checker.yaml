@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "potential-division-by-zero-in-fee-checker"
+class_name: "PotentialDivisionByZeroInFeeChecker"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Swisstronik - Zellic Audit Report"
+help: |
+    A divide-by-zero error may occur if the gas is zero when calculating the fee cap: feeCap := fee.Quo(sdkmath.NewIntFromUint64(gas)) Without a check ensuring gas > 0, runtime errors
+wiki_title: "Potential division by zero in fee_checker"
+wiki_description: |
+    A divide-by-zero error may occur if the gas is zero when calculating the fee cap: feeCap := fee.Quo(sdkmath.NewIntFromUint64(gas)) Without a check ensuring gas > 0, runtime errors could disrupt transaction processing.
+wiki_exploit_scenario: |
+    Per audit finding: A divide-by-zero error may occur if the gas is zero when calculating the fee cap: feeCap := fee.Quo(sdkmath.NewIntFromUint64(gas)) Without a check ensuring gas > 0, runtime errors could disrupt transa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialDivisionByZeroInFeeChecker"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(feeCap).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "feeCap"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

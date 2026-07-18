@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "m-04-runiverselandminter-minttokensusingtokenid-does-not-verify-"
+class_name: "M04RuniverselandminterMinttokensusingtokenidDoesNotVerify"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28891 (Code4rena/Forgotten Runiverse)"
+help: |
+    [M-04] `RuniverseLandMinter._mintTokensUsingTokenId` does not verify that the `tokenId` matches the corresponding `plotSize`
+wiki_title: |
+    [M-04] `RuniverseLandMinter._mintTokensUsingTokenId` does not verify that the `tokenId` matches the corresponding `plotSize`
+wiki_description: |
+    The first eight digits of the RuniverseLand TokenID indicate the corresponding plotSize of the NFT.<br>
+    Owner can call `RuniverseLandMinter.ownerMintUsingTokenId` directly to mint the NFT for a specific TokenID.<br>
+    In `RuniverseLandMinter._mintTokensUsingTokenId`, there is no verification that the
+wiki_exploit_scenario: |
+    Per Solodit #28891: The first eight digits of the RuniverseLand TokenID indicate the corresponding plotSize of the NFT.<br>
+    Owner can call `RuniverseLandMinter.ownerMintUsingTokenId` directly to mint the NFT for a speci
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04RuniverselandminterMinttokensusingtokenidDoesNotVerify"
+solodit_id: "28891"
+solodit_slug: |
+    m-04-runiverselandminter_minttokensusingtokenid-does-not-verify-that-the-tokenid-matches-the-corresponding-plotsize-code4rena-forgotten-runiverse-forgotten-runiverse-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(tokenId|plotSize).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "tokenId"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

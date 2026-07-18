@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "liqh-2-incorrect-blocks-for-liquidation"
+class_name: "Liqh2IncorrectBlocksForLiquidation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27187 (Guardian Audits/GMX)"
+help: "LIQH-2 | Incorrect Blocks For Liquidation"
+wiki_title: "LIQH-2 | Incorrect Blocks For Liquidation"
+wiki_description: |
+    **Description**
+    
+    In `processLiquidation`, the `marketDecrease` order that is created for liquidation does not get touched, therefore the `updatedAtBlock` is always 0.
+    
+    Therefore it is impossible to execute a liquidation with the correct block number for oracle prices and by extension impossible to l
+wiki_exploit_scenario: |
+    Per Solodit #27187: **Description**
+    
+    In `processLiquidation`, the `marketDecrease` order that is created for liquidation does not get touched, therefore the `updatedAtBlock` is always 0.
+    
+    Therefore it is impossible to ex
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Liqh2IncorrectBlocksForLiquidation"
+solodit_id: "27187"
+solodit_slug: "liqh-2-incorrect-blocks-for-liquidation-guardian-audits-none-gmx-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal marketdecrease;"
+fn_name_regex: ".*(processLiquidation|marketDecrease|updatedAtBlock|oracleBlockNumber).*"
+read_var_regex: ".*(marketDecrease|oracleBlockNumber|processLiquidation).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "processLiquidation"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return marketdecrease > 0;"

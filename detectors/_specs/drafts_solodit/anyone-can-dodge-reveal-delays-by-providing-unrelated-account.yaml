@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "anyone-can-dodge-reveal-delays-by-providing-unrelated-account"
+class_name: "AnyoneCanDodgeRevealDelaysByProvidingUnrelatedAccount"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #65326 (Cyfrin/Statusl)"
+help: "Anyone can dodge reveal delays by providing unrelated account"
+wiki_title: "Anyone can dodge reveal delays by providing unrelated account"
+wiki_description: |
+    **Description:** `RLN` provides a commit-reveal functionality to slashing. Firstly, a commit happens:
+    ```solidity
+    function slashCommit(address account, bytes32 hash) external onlyRole(SLASHER_ROLE) {
+        uint256 lastReveal = lastRevealStartTime[account];
+        uint256 revealStartTime;
+    
+        if (lastRev
+wiki_exploit_scenario: |
+    Per Solodit #65326: **Description:** `RLN` provides a commit-reveal functionality to slashing. Firstly, a commit happens:
+    ```solidity
+    function slashCommit(address account, bytes32 hash) external onlyRole(SLASHER_ROLE) {
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyoneCanDodgeRevealDelaysByProvidingUnrelatedAccount"
+solodit_id: "65326"
+solodit_slug: "anyone-can-dodge-reveal-delays-by-providing-unrelated-account-cyfrin-none-statusl-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal account;"
+fn_name_regex: ".*(RLN|account|slashCommitments).*"
+read_var_regex: ".*(account|slashCommitments).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "RLN"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return account > 0;"

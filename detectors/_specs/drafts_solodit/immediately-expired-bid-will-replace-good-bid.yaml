@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_require"
+name: "immediately-expired-bid-will-replace-good-bid"
+class_name: "ImmediatelyExpiredBidWillReplaceGoodBid"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #46413 (Cantina/Kim Exchange)"
+help: "Immediately expired bid will replace good bid"
+wiki_title: "Immediately expired bid will replace good bid "
+wiki_description: |
+    ## Auction Contract Analysis
+    
+    ## Context
+    `Auction.sol#L150`
+    
+    ## Description
+    For listings of type `BUY_IT_NOW_WITH_BIDS`, the bidder bids with an `expiryTimestamp`, and when the bid expires, the bid will not be accepted. Since the protocol does not limit the minimum valid time, a bidder can offer a h
+wiki_exploit_scenario: |
+    Per Solodit #46413: ## Auction Contract Analysis
+    
+    ## Context
+    `Auction.sol#L150`
+    
+    ## Description
+    For listings of type `BUY_IT_NOW_WITH_BIDS`, the bidder bids with an `expiryTimestamp`, and when the bid expires, the bid wi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ImmediatelyExpiredBidWillReplaceGoodBid"
+solodit_id: "46413"
+solodit_slug: "immediately-expired-bid-will-replace-good-bid-cantina-none-kim-exchange-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal expirytimestamp;"
+fn_name_regex: ".*(BUY_IT_NOW_WITH_BIDS|expiryTimestamp).*"
+write_var_regex: ".*(expiryTimestamp).*"
+guard_var_regex: ".*(expiryTimestamp).*"
+vuln_fn_name: "BUY_IT_NOW_WITH_BIDS"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "expirytimestamp = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

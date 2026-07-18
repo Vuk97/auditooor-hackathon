@@ -1,0 +1,38 @@
+skeleton: "paired_function_divergence"
+name: "daofiv1pair-deposit-accepts-deposits-of-zero-blocking-the-pool"
+class_name: "Daofiv1pairDepositAcceptsDepositsOfZeroBlockingThePool"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #13528 (ConsenSys/DAOfi)"
+help: "DAOfiV1Pair.deposit() accepts deposits of zero, blocking the pool"
+wiki_title: "DAOfiV1Pair.deposit() accepts deposits of zero, blocking the pool"
+wiki_description: |
+    #### Description
+    
+    
+    `DAOfiV1Pair.deposit()` is used to deposit liquidity into the pool. Only a single deposit can be made, so no liquidity can ever be added to a pool where `deposited == true`. The `deposit()` function does not check for a nonzero deposit amount in either token, so a malicious user t
+wiki_exploit_scenario: |
+    Per Solodit #13528: #### Description
+    
+    
+    `DAOfiV1Pair.deposit()` is used to deposit liquidity into the pool. Only a single deposit can be made, so no liquidity can ever be added to a pool where `deposited == true`. The `de
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Daofiv1pairDepositAcceptsDepositsOfZeroBlockingThePool"
+solodit_id: "13528"
+solodit_slug: "daofiv1pairdeposit-accepts-deposits-of-zero-blocking-the-pool-consensys-daofi-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(baseToken|deposit|quoteToken).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

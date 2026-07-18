@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "race-condition-in-bitcoin-client-leads-to-double-spend"
+class_name: "RaceConditionInBitcoinClientLeadsToDoubleSpend"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit ZetaChain - 6.30.23 Zellic Audit Report"
+help: |
+    The Bitcoin client is used to watch for cross-chain transactions as well as to relay transactions to and from the Bitcoin chain. There are numerous functions in the client, but the
+wiki_title: "Race condition in Bitcoin client leads to double spend"
+wiki_description: |
+    The Bitcoin client is used to watch for cross-chain transactions as well as to relay transactions to and from the Bitcoin chain. There are numerous functions in the client, but the relevant functions are described below: 1. IsSendOutTxProcessed() - Checks the ob.submittedTx[outTxID] to see whether t
+wiki_exploit_scenario: |
+    Per audit finding: The Bitcoin client is used to watch for cross-chain transactions as well as to relay transactions to and from the Bitcoin chain. There are numerous functions in the client, but the relevant functions
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RaceConditionInBitcoinClientLeadsToDoubleSpend"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(submittedTx|outTxID|startSendScheduler).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "submittedTx"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

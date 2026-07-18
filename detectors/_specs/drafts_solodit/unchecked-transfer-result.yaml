@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "unchecked-transfer-result"
+class_name: "UncheckedTransferResult"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44595 (Zokyo/Umami)"
+help: "Unchecked transfer result"
+wiki_title: "Unchecked transfer result"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In contract AssetVault in function claimWithdrawalRequest at line 126 the result of the 'asset.transfer' is not checked. The value returned by the transfer function from ERC20 standard should be checked, as implementations differ.
+    
+    **Recom
+wiki_exploit_scenario: |
+    Per Solodit #44595: **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    In contract AssetVault in function claimWithdrawalRequest at line 126 the result of the 'asset.transfer' is not checked. The value returned
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UncheckedTransferResult"
+solodit_id: "44595"
+solodit_slug: "unchecked-transfer-result-zokyo-none-umami-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimWithdrawalRequest|safeTransfer).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "claimWithdrawalRequest"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

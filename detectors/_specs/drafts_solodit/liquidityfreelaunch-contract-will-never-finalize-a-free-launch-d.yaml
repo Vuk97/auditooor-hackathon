@@ -1,0 +1,47 @@
+skeleton: "paired_function_divergence"
+name: "liquidityfreelaunch-contract-will-never-finalize-a-free-launch-d"
+class_name: "LiquidityfreelaunchContractWillNeverFinalizeAFreeLaunchD"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #37720 (Zokyo/Zap)"
+help: |
+    `LiquidityFreeLaunch` Contract Will Never Finalize a Free Launch Due to Incorrect Order of Operations for `isFinalized` and `factory.getPair()`
+wiki_title: |
+    `LiquidityFreeLaunch` Contract Will Never Finalize a Free Launch Due to Incorrect Order of Operations for `isFinalized` and `factory.getPair()`
+wiki_description: |
+    **Severity**: Critical
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    The `LiquidityFreeLaunch` contract is responsible for handling the bootstrapping and sales of the newly created `DegenERC20` token. Should the maximum ETH to be raised be met, purchases are processed through the `performFinalTrade()` in
+wiki_exploit_scenario: |
+    Per Solodit #37720: **Severity**: Critical
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    The `LiquidityFreeLaunch` contract is responsible for handling the bootstrapping and sales of the newly created `DegenERC20` token. Shoul
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LiquidityfreelaunchContractWillNeverFinalizeAFreeLaunchD"
+solodit_id: "37720"
+solodit_slug: |
+    liquidityfreelaunch-contract-will-never-finalize-a-free-launch-due-to-incorrect-order-of-operations-for-isfinalized-and-factorygetpair-zokyo-none-zap-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity|lpToken|pair).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

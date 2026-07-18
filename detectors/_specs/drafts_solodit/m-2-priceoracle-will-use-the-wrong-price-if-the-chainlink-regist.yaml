@@ -1,0 +1,42 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-2-priceoracle-will-use-the-wrong-price-if-the-chainlink-regist"
+class_name: "M2PriceoracleWillUseTheWrongPriceIfTheChainlinkRegist"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19171 (Sherlock/Iron Bank)"
+help: |
+    M-2: PriceOracle will use the wrong price if the Chainlink registry returns price outside min/max range
+wiki_title: |
+    M-2: PriceOracle will use the wrong price if the Chainlink registry returns price outside min/max range
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-05-ironbank-judging/issues/25 
+    
+    ## Found by 
+    0x52, 0x8chars, Angry\_Mustache\_Man, Bauchibred, BenRai, BugBusters, Jaraxxus, Madalad, R-Nemes, bitsurfer, branch\_indigo, deadrxsezzz, shaka, thekmj, tsvetanovv
+    ## Summary
+    
+    Chainlink aggregators have a bui
+wiki_exploit_scenario: |
+    Per Solodit #19171: Source: https://github.com/sherlock-audit/2023-05-ironbank-judging/issues/25 
+    
+    ## Found by 
+    0x52, 0x8chars, Angry\_Mustache\_Man, Bauchibred, BenRai, BugBusters, Jaraxxus, Madalad, R-Nemes, bitsurfer,
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2PriceoracleWillUseTheWrongPriceIfTheChainlinkRegist"
+solodit_id: "19171"
+solodit_slug: |
+    m-2-priceoracle-will-use-the-wrong-price-if-the-chainlink-registry-returns-price-outside-minmax-range-sherlock-none-iron-bank-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Oracle, Chainlink"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(price).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

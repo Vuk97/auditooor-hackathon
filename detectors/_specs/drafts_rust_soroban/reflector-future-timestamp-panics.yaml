@@ -1,0 +1,19 @@
+id: reflector-future-timestamp-panics
+title: "Reflector future timestamps cause oracle panic"
+severity: Info
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.42"
+bug_class: oracle-cascade
+indicators:
+  - "`let age = env.ledger().timestamp() - feed_ts` with no check that `feed_ts <= now`"
+  - "unchecked subtraction that panics on underflow for future timestamps"
+victim: "Protocol: every price query panics, bricking all lending operations."
+exploit_precondition: "Feed reports a timestamp ahead of current ledger time."
+real_world_example: |
+  Halborn 7.42 (INFO): Reflector future timestamps panic the oracle and brick all price queries.
+suggested_remediation: "`if feed_ts > now { return Err(FutureTimestamp) }` before the subtraction; use `checked_sub`."
+cross_refs:
+  - reflector-negative-twap-to-huge-positive

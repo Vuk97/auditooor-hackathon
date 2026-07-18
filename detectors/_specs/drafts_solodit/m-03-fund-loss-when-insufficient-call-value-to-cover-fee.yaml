@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "m-03-fund-loss-when-insufficient-call-value-to-cover-fee"
+class_name: "M03FundLossWhenInsufficientCallValueToCoverFee"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25625 (Code4rena/Livepeer)"
+help: "[M-03] Fund loss when insufficient call value to cover fee"
+wiki_title: "[M-03] Fund loss when insufficient call value to cover fee"
+wiki_description: |
+    _Submitted by gzeon_.
+    
+    Fund can be lost if the L1 call value provided is insufficient to cover `_maxSubmissionCost`, or stuck if insufficient to cover `_maxSubmissionCost + (_maxGas * _gasPriceBid)`.
+    
+    #### Proof of Concept
+    
+    `outboundTransfer` in `L1LPTGateway` does not check if the call value is suf
+wiki_exploit_scenario: |
+    Per Solodit #25625: _Submitted by gzeon_.
+    
+    Fund can be lost if the L1 call value provided is insufficient to cover `_maxSubmissionCost`, or stuck if insufficient to cover `_maxSubmissionCost + (_maxGas * _gasPriceBid)`.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03FundLossWhenInsufficientCallValueToCoverFee"
+solodit_id: "25625"
+solodit_slug: "m-03-fund-loss-when-insufficient-call-value-to-cover-fee-code4rena-livepeer-livepeer-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal outboundtransfer;"
+fn_name_regex: ".*(outboundTransfer|L1LPTGateway|L1GatewayRouter).*"
+write_var_regex: ".*(outboundTransfer).*"
+guard_var_regex: ".*(outboundTransfer).*"
+vuln_fn_name: "outboundTransfer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "outboundtransfer = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

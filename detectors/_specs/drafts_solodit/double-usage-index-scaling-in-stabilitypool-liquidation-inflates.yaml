@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "double-usage-index-scaling-in-stabilitypool-liquidation-inflates"
+class_name: "DoubleUsageIndexScalingInStabilitypoolLiquidationInflates"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57192 (Codehawks/Core Contracts)"
+help: "Double Usage Index Scaling in StabilityPool Liquidation Inflates Required CRVUSD Balance"
+wiki_title: "Double Usage Index Scaling in StabilityPool Liquidation Inflates Required CRVUSD Balance"
+wiki_description: |
+    ## Summary
+    
+    The `StabilityPool.sol::liquidateBorrower()` function incorrectly scales user debt by the usage index twice when checking against the pool's CRVUSD balance. This occurs because the function multiplies an already-normalized debt value by the normalization factor again, artificially inflat
+wiki_exploit_scenario: |
+    Per Solodit #57192: ## Summary
+    
+    The `StabilityPool.sol::liquidateBorrower()` function incorrectly scales user debt by the usage index twice when checking against the pool's CRVUSD balance. This occurs because the functio
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DoubleUsageIndexScalingInStabilitypoolLiquidationInflates"
+solodit_id: "57192"
+solodit_slug: |
+    double-usage-index-scaling-in-stabilitypool-liquidation-inflates-required-crvusd-balance-codehawks-regnum-aurum-acquisition-corp-core-contracts-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(liquidateBorrower|getUserDebt|userDebt|lendingPool).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidateBorrower"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,37 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-03-attacker-could-steal-almost-all-the-bonus-tokens-in-bathbud"
+class_name: "H03AttackerCouldStealAlmostAllTheBonusTokensInBathbud"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #2490 (Code4rena/Rubicon)"
+help: "[H-03] Attacker could steal almost all the bonus tokens in BathBuddy Vesting Wallet"
+wiki_title: "[H-03] Attacker could steal almost all the bonus tokens in BathBuddy Vesting Wallet"
+wiki_description: |
+    _Submitted by xiaoming90, also found by 0x52, PP1004, shenwilly, and_ _sashik_eth_
+    
+    BathBuddy is a Vesting Wallet that payout withdrawers any `bonusTokens` they may have accrued while staking in the Bath Token (e.g. network incentives/governance tokens).
+    
+    BathBuddy Vesting Wallet releases a user the
+wiki_exploit_scenario: |
+    Per Solodit #2490: _Submitted by xiaoming90, also found by 0x52, PP1004, shenwilly, and_ _sashik_eth_
+    
+    BathBuddy is a Vesting Wallet that payout withdrawers any `bonusTokens` they may have accrued while staking in the B
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03AttackerCouldStealAlmostAllTheBonusTokensInBathbud"
+solodit_id: "2490"
+solodit_slug: |
+    h-03-attacker-could-steal-almost-all-the-bonus-tokens-in-bathbuddy-vesting-wallet-code4rena-rubicon-rubicon-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Vesting"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(bonusTokens|bonusToken).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

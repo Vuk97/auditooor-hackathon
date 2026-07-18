@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "allowing-users-to-claim-for-other-addresses-can-lead-to-stolen"
+class_name: "AllowingUsersToClaimForOtherAddressesCanLeadToStolen"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit SushiSwap FundsReturner - Zellic Audit Report"
+help: |
+    The claim() function is defined as follows: function claim(uint256 index, address account, uint256 amount, address token, bytes32[] calldata merkleProof) external { /) ...)) *) } T
+wiki_title: "Allowing users to claim for other addresses can lead to stolen"
+wiki_description: |
+    The claim() function is defined as follows: function claim(uint256 index, address account, uint256 amount, address token, bytes32[] calldata merkleProof) external { /) ...)) *) } The function allows the caller to pass in the address of the account that will claim the tokens, and then the amount is t
+wiki_exploit_scenario: |
+    Per audit finding: The claim() function is defined as follows: function claim(uint256 index, address account, uint256 amount, address token, bytes32[] calldata merkleProof) external { /) ...)) *) } The function allows t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AllowingUsersToClaimForOtherAddressesCanLeadToStolen"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(merkleProof).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "merkleProof"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

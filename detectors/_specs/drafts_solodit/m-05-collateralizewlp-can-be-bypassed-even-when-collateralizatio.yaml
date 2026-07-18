@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "m-05-collateralizewlp-can-be-bypassed-even-when-collateralizatio"
+class_name: "M05CollateralizewlpCanBeBypassedEvenWhenCollateralizatio"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29596 (Code4rena/INIT Capital)"
+help: "[M-05] `collateralizeWLp` can be bypassed even when collateralization is paused"
+wiki_title: "[M-05] `collateralizeWLp` can be bypassed even when collateralization is paused"
+wiki_description: |
+    Admin can pause collateralization for a specific mode to prevent users from providing more collateral either via `collateralize` or `collateralizeWLp`. However, due to not properly using internal accounting when tracking wLP collateral, users can still provide more collateral by directly donating t
+wiki_exploit_scenario: |
+    Per Solodit #29596: Admin can pause collateralization for a specific mode to prevent users from providing more collateral either via `collateralize` or `collateralizeWLp`. However, due to not properly using internal acc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05CollateralizewlpCanBeBypassedEvenWhenCollateralizatio"
+solodit_id: "29596"
+solodit_slug: |
+    m-05-collateralizewlp-can-be-bypassed-even-when-collateralization-is-paused-code4rena-init-capital-init-capital-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cancollateralize;"
+fn_name_regex: ".*(collateralize|collateralizeWLp|tokenId|canCollateralize).*"
+write_var_regex: ".*(canCollateralize|collateralize|collateralizeWLp).*"
+guard_var_regex: ".*(canCollateralize|collateralize|collateralizeWLp).*"
+vuln_fn_name: "collateralize"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "cancollateralize = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

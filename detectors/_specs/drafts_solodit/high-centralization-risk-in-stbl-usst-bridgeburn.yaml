@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "high-centralization-risk-in-stbl-usst-bridgeburn"
+class_name: "HighCentralizationRiskInStblUsstBridgeburn"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64364 (Cyfrin/Stbl)"
+help: "High centralization risk in `STBL_USST::bridgeBurn`"
+wiki_title: "High centralization risk in `STBL_USST::bridgeBurn`"
+wiki_description: |
+    **Description:** Current implementation of `STBL_USST::bridgeBurn` allows `BRIDGE_ROLE` to burn tokens from any arbitrary address without user approval. This creates unnecessary centralization risk when a safer approach is already demonstrated in the protocol's own `STBL_Token` contract.
+    
+    ```solidit
+wiki_exploit_scenario: |
+    Per Solodit #64364: **Description:** Current implementation of `STBL_USST::bridgeBurn` allows `BRIDGE_ROLE` to burn tokens from any arbitrary address without user approval. This creates unnecessary centralization risk wh
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "HighCentralizationRiskInStblUsstBridgeburn"
+solodit_id: "64364"
+solodit_slug: "high-centralization-risk-in-stbl_usstbridgeburn-cyfrin-none-stbl-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bridgeburn;"
+fn_name_regex: ".*(BRIDGE_ROLE|STBL_Token|DEFAULT_ADMIN|STBL_TOKEN).*"
+read_var_regex: ".*(bridgeBurn).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "BRIDGE_ROLE"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return bridgeburn > 0;"

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_call"
+name: "m-4-users-can-fail-to-closepositionfarm-and-lose-their-funds"
+class_name: "M4UsersCanFailToClosepositionfarmAndLoseTheirFunds"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18498 (Sherlock/Blueberry Update)"
+help: "M-4: Users can fail to closePositionFarm and lose their funds"
+wiki_title: "M-4: Users can fail to closePositionFarm and lose their funds"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-04-blueberry-judging/issues/64 
+    
+    ## Found by 
+    Bauer
+    ## Summary
+    If self.is_killed in the curve pool contract  becomes true, user may be unable to call the `CurveSpell.closePositionFarm()` function to  repay his debt, resulting in his assets being liquida
+wiki_exploit_scenario: |
+    Per Solodit #18498: Source: https://github.com/sherlock-audit/2023-04-blueberry-judging/issues/64 
+    
+    ## Found by 
+    Bauer
+    ## Summary
+    If self.is_killed in the curve pool contract  becomes true, user may be unable to call the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M4UsersCanFailToClosepositionfarmAndLoseTheirFunds"
+solodit_id: "18498"
+solodit_slug: "m-4-users-can-fail-to-closepositionfarm-and-lose-their-funds-sherlock-none-blueberry-update-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Missing-Logic, Liquidation, Lending Pool, Fund Lock, Denial-Of-Service"
+state_decl: "uint256 internal closepositionfarm;"
+fn_name_regex: ".*(remove_liquidity_one_coin|closePositionFarm).*"
+read_var_regex: ".*(closePositionFarm|remove_liquidity_one_coin).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "remove_liquidity_one_coin"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return closepositionfarm > 0;"

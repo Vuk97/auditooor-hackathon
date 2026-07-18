@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_call"
+name: "m-08-users-can-deposit-liquidity-in-the-last-minutes-of-the-prev"
+class_name: "M08UsersCanDepositLiquidityInTheLastMinutesOfThePrev"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #43558 (Pashov Audit Group/Bunni-August)"
+help: "[M-08] Users can deposit liquidity in the last minutes of the previous epoch and earn a fee"
+wiki_title: "[M-08] Users can deposit liquidity in the last minutes of the previous epoch and earn a fee"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When am-AMM is enabled the BunniHook code collects the rent as BunniToken(LP) and burns each epoch's rent when new epochs begin.
+    
+    ```solidity
+            // burn rent charged
+            if (rentCharged != 0) {
+                _burnBidToke
+wiki_exploit_scenario: |
+    Per Solodit #43558: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When am-AMM is enabled the BunniHook code collects the rent as BunniToken(LP) and burns each epoch's rent when new epochs begin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08UsersCanDepositLiquidityInTheLastMinutesOfThePrev"
+solodit_id: "43558"
+solodit_slug: |
+    m-08-users-can-deposit-liquidity-in-the-last-minutes-of-the-previous-epoch-and-earn-a-fee-pashov-audit-group-none-bunni-august-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(rentCharged).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rentCharged"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

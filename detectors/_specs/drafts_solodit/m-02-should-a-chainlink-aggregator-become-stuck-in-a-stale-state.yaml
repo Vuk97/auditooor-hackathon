@@ -1,0 +1,51 @@
+skeleton: "paired_function_divergence"
+name: "m-02-should-a-chainlink-aggregator-become-stuck-in-a-stale-state"
+class_name: "M02ShouldAChainlinkAggregatorBecomeStuckInAStaleState"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1021 (Code4rena/Vader Protocol)"
+help: |
+    [M-02] Should a Chainlink aggregator become stuck in a stale state then TwapOracle will become irrecoverably broken
+wiki_title: |
+    [M-02] Should a Chainlink aggregator become stuck in a stale state then TwapOracle will become irrecoverably broken
+wiki_description: |
+    _Submitted by TomFrenchBlockchain_
+    
+    #### Impact
+    
+    Inability to call `consult` on the TwapOracle and so calculate the exchange rate between USDV and VADER.
+    
+    #### Proof of Concept
+    
+    Should any of the Chainlink aggregators used by the TwapOracle becomes stuck in such a state that the check on L143-146 of
+wiki_exploit_scenario: |
+    Per Solodit #1021: _Submitted by TomFrenchBlockchain_
+    
+    #### Impact
+    
+    Inability to call `consult` on the TwapOracle and so calculate the exchange rate between USDV and VADER.
+    
+    #### Proof of Concept
+    
+    Should any of the Chai
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02ShouldAChainlinkAggregatorBecomeStuckInAStaleState"
+solodit_id: "1021"
+solodit_slug: |
+    m-02-should-a-chainlink-aggregator-become-stuck-in-a-stale-state-then-twaporacle-will-become-irrecoverably-broken-code4rena-vader-protocol-vader-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(consult).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-01-no-bar-fees-for-indexpools"
+class_name: "M01NoBarFeesForIndexpools"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24642 (Code4rena/Sushi)"
+help: "[M-01] No bar fees for `IndexPools`?"
+wiki_title: "[M-01] No bar fees for `IndexPools`?"
+wiki_description: |
+    _Submitted by 0xsanson, also found by pauliax_
+    
+    #### Impact
+    `IndexPool` doesn't collect fees for `barFeeTo`. Since this Pool contains also a method `updateBarFee()`, probably this is an unintended behavior.
+    Also without a fee, liquidity providers would probably ditch `ConstantProductPool` in favor o
+wiki_exploit_scenario: |
+    Per Solodit #24642: _Submitted by 0xsanson, also found by pauliax_
+    
+    #### Impact
+    `IndexPool` doesn't collect fees for `barFeeTo`. Since this Pool contains also a method `updateBarFee()`, probably this is an unintended beh
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01NoBarFeesForIndexpools"
+solodit_id: "24642"
+solodit_slug: "m-01-no-bar-fees-for-indexpools-code4rena-sushi-sushi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal barfeeto;"
+fn_name_regex: ".*(IndexPool|barFeeTo|updateBarFee|ConstantProductPool).*"
+read_var_regex: ".*(barFeeTo|barFees|updateBarFee).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "IndexPool"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return barfeeto > 0;"

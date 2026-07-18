@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-maximum-fee-check-in-the-constructor"
+class_name: "LackOfMaximumFeeCheckInTheConstructor"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Polygon Staking - Zellic Audit Report"
+help: |
+    Currently, there is no maximum-value check for the fee in the constructor: constructor(address _lst, Fee[] memory _fees, address _owner) { controller = ILSTRewardsSplitterControlle
+wiki_title: "Lack of maximum-fee check in the constructor"
+wiki_description: |
+    Currently, there is no maximum-value check for the fee in the constructor: constructor(address _lst, Fee[] memory _fees, address _owner) { controller = ILSTRewardsSplitterController(msg.sender); lst = IERC677(_lst); for (uint256 i = 0; i < _fees.length; ++i) { fees.push(_fees[i]); } _transferOwnersh
+wiki_exploit_scenario: |
+    Per audit finding: Currently, there is no maximum-value check for the fee in the constructor: constructor(address _lst, Fee[] memory _fees, address _owner) { controller = ILSTRewardsSplitterController(msg.sender); lst =
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfMaximumFeeCheckInTheConstructor"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addFee|onlyOwner|updateFee).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "addFee"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

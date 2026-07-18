@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-03-handlerepay-of-moneymarkethook-does-not-consider-the-actual"
+class_name: "H03HandlerepayOfMoneymarkethookDoesNotConsiderTheActual"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #29591 (Code4rena/INIT Capital)"
+help: |
+    [H-03] `_handleRepay` of `MoneyMarketHook` does not consider the actual debt shares of the `posId` inside the position manager and could lead to a user's tokens getting stuck insid
+wiki_title: |
+    [H-03] `_handleRepay` of `MoneyMarketHook` does not consider the actual debt shares of the `posId` inside the position manager and could lead to a user's tokens
+wiki_description: |
+    When users construct repay operations via `MoneyMarketHook`, it doesn't consider the actual debt shares of the position inside the `InitCore` and `PosManager`. This could lead to users' tokens getting stuck inside the `MoneyMarketHook` contract.
+    
+    ### Proof of Concept
+    
+    When users want to repay his p
+wiki_exploit_scenario: |
+    Per Solodit #29591: When users construct repay operations via `MoneyMarketHook`, it doesn't consider the actual debt shares of the position inside the `InitCore` and `PosManager`. This could lead to users' tokens gettin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03HandlerepayOfMoneymarkethookDoesNotConsiderTheActual"
+solodit_id: "29591"
+solodit_slug: |
+    h-03-_handlerepay-of-moneymarkethook-does-not-consider-the-actual-debt-shares-of-the-posid-inside-the-position-manager-and-could-lead-to-a-users-tokens-getting-stuck-inside-the-hook-code4rena-init-capital-init-capital-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal repayamt;"
+fn_name_regex: ".*(MoneyMarketHook|InitCore|PosManager|repayParams).*"
+read_var_regex: ".*(repayAmt|repayParams).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "MoneyMarketHook"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return repayamt > 0;"

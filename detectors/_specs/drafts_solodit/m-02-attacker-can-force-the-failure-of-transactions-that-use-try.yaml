@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "m-02-attacker-can-force-the-failure-of-transactions-that-use-try"
+class_name: "M02AttackerCanForceTheFailureOfTransactionsThatUseTry"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25876 (Code4rena/Ambire)"
+help: "[M-02] Attacker can force the failure of transactions that use `tryCatch`"
+wiki_title: "[M-02] Attacker can force the failure of transactions that use `tryCatch`"
+wiki_description: |
+    An attacker, or malicious relayer, can force the failure of transactions that rely on `tryCatch()` by carefully choosing the gas limit.
+    
+    The `tryCatch()` function present in the AmbireAccount contract can be used to execute a call in the context of a wallet, which is eventually allowed to fail; i.e
+wiki_exploit_scenario: |
+    Per Solodit #25876: An attacker, or malicious relayer, can force the failure of transactions that rely on `tryCatch()` by carefully choosing the gas limit.
+    
+    The `tryCatch()` function present in the AmbireAccount contrac
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02AttackerCanForceTheFailureOfTransactionsThatUseTry"
+solodit_id: "25876"
+solodit_slug: "m-02-attacker-can-force-the-failure-of-transactions-that-use-trycatch-code4rena-ambire-ambire-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal execute;"
+fn_name_regex: ".*(tryCatch|TestTryCatch|execute|executeBySender).*"
+write_var_regex: ".*(execute|executeBySender|tryCatch).*"
+guard_var_regex: ".*(execute|executeBySender|tryCatch).*"
+vuln_fn_name: "tryCatch"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "execute = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

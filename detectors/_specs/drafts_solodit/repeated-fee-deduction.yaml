@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "repeated-fee-deduction"
+class_name: "RepeatedFeeDeduction"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #47229 (OtterSec/EthSign Launchpad)"
+help: "Repeated Fee Deduction"
+wiki_title: "Repeated Fee Deduction"
+wiki_description: |
+    ## Claim Sale Token
+    
+    `claimSaleToken` includes a call to `_chargeClaimFlatFee`, responsible for charging a flat fee for claiming tokens. If this internal function is not designed carefully, it may introduce vulnerabilities, especially in scenarios where it may be called multiple times. When `_charge
+wiki_exploit_scenario: |
+    Per Solodit #47229: ## Claim Sale Token
+    
+    `claimSaleToken` includes a call to `_chargeClaimFlatFee`, responsible for charging a flat fee for claiming tokens. If this internal function is not designed carefully, it may int
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RepeatedFeeDeduction"
+solodit_id: "47229"
+solodit_slug: "repeated-fee-deduction-ottersec-none-ethsign-launchpad-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimflatfee;"
+fn_name_regex: ".*(claimSaleToken|claimFlatFee|feeRecipient).*"
+read_var_regex: ".*(claimFlatFee|claimSaleToken|feeRecipient).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimSaleToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimflatfee > 0;"

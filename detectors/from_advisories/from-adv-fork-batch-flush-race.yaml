@@ -1,0 +1,25 @@
+pattern: from-adv-fork-batch-flush-race
+source: advisory-seed-corpus/fork_batch_flush_race
+severity: HIGH
+confidence: MEDIUM
+backend: cosmos
+tags: [fork-divergence-missing-upstream-fix]
+
+# CLASS-LEVEL mechanism detector auto-derived from 5 advisory seed(s).
+# Mechanism matched, not any instance. Anti-overfit verified by advisory-seed-to-dsl.py.
+# advisory: cosmos/cosmos-sdk (store) #20425 (port 7b7f3a2492) - nil panic when store missing in historical version | fork-pin dd116
+# advisory: cosmos/iavl #1007 (cf74234) - extra check for reformatted root node in GetNode | fork-pin 1c8b8e787e85 (dydxprotocol/iav
+# advisory: cosmos/iavl #1024 (f7bbb9d) + #970 (7939ef9) - Close()/clean pruning shutdown | fork-pin 1c8b8e787e85 (dydxprotocol/iavl
+# advisory: cosmos/iavl #1142 (146f723) - race between fast-node cache update and db commit | fork-pin 1c8b8e787e85 (dydxprotocol/ia
+# advisory: cosmos/iavl #983 (fe80f0a) - batch write race on Importer.Commit | fork-pin 1c8b8e787e85 (dydxprotocol/iavl audit-pin) |
+
+preconditions: []
+
+match:
+  - function.kind: external_or_public
+  - function.body_contains_regex: "(?:\\w*[Cc]ache\\.(?:Add|Remove)\\s*\\(|batch\\.(?:Set|Write|WriteSync)\\s*\\(|\\.WriteSync\\s*\\(\\s*\\))"
+  - function.body_not_contains_regex: "(?:pending[A-Z]\\w*|pendingFastNode|<-\\s*\\w*[Ii]nflight|\\.Wait\\s*\\(\\s*\\)|sync\\.WaitGroup)"
+
+help: "A fast-node/iavl cache is mutated mid-commit, or Commit/WriteSync runs without waiting for the in-flight batch, with no pending-staging buffers - upstream shipped the staged-buffer / wait fix that this fork did not backport (race / fork-divergence)."
+wiki_title: "Fork Batch Flush Race"
+wiki_description: "A fast-node/iavl cache is mutated mid-commit, or Commit/WriteSync runs without waiting for the in-flight batch, with no pending-staging buffers - upstream shipped the staged-buffer / wait fix that this fork did not backport (race / fork-divergence)."

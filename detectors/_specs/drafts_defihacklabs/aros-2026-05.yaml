@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "aros-2026-05"
+class_name: "Aros202605"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-05/AROS_exp.sol"
+help: "AROS 2026-05 — flashloan exploit (~$295K)"
+wiki_title: "AROS (2026-05) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-05): AROS lost ~$295K. Bug class: flashloan. Attack tx: 0xe89fe640ec5241edfca7d8dcae77a0a4270dee15e4bbd043fc60e393aabf41e1.
+wiki_exploit_scenario: |
+    Attacker (0x6f548693937039C8C4343E01C5bd42c5986508f5) exploits AROS via flashloan: the victim contract 0xFEC7D27525cC4efDe5b785EEb5E37Df90E9cd1d5 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Aros202605"
+trigger_sig_regex: ".*(uniswapV3FlashCallback).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function uniswapV3FlashCallback(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.uniswapV3FlashCallback(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

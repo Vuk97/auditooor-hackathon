@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "loss-of-precision-possible-due-to-rewardrate-rounding"
+class_name: "LossOfPrecisionPossibleDueToRewardrateRounding"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40540 (Cantina/Marginal)"
+help: "Loss of precision possible due to rewardRate rounding"
+wiki_title: "Loss of precision possible due to rewardRate rounding "
+wiki_description: |
+    ## Context
+    - `MultiRewards.sol#L164-L166`
+    - `MultiRewards.sol#L168-L176`
+    
+    ## Description
+    In `MultiRewards.notifyRewardAmount`, we compute the `rewardRate` given the amount of reward tokens to distribute divided by the `rewardsDuration`, e.g.:
+    
+    ```solidity
+    rewardData[_rewardsToken].rewardRate = rewar
+wiki_exploit_scenario: |
+    Per Solodit #40540: ## Context
+    - `MultiRewards.sol#L164-L166`
+    - `MultiRewards.sol#L168-L176`
+    
+    ## Description
+    In `MultiRewards.notifyRewardAmount`, we compute the `rewardRate` given the amount of reward tokens to distribu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LossOfPrecisionPossibleDueToRewardrateRounding"
+solodit_id: "40540"
+solodit_slug: "loss-of-precision-possible-due-to-rewardrate-rounding-cantina-none-marginal-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal rewardrate;"
+fn_name_regex: ".*(rewardRate|rewardsDuration|MultiRewards|MultiRewardsFactory).*"
+read_var_regex: ".*(rewardRate|rewardsDuration).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rewardRate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return rewardrate > 0;"

@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "self-settlement-via-dispatchfrom-bypasses-refund-mechanism-a-x"
+class_name: "SelfSettlementViaDispatchfromBypassesRefundMechanismAX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-12-panoptic-next-core"
+help: |
+    merlinboii , also found by AnantaDeva and Valves PanopticPool.sol L1671-L1703 PanopticPool.sol L1598-L1664 Finding description The PanopticPool._settlePremium() and PanopticPool._f
+wiki_title: "Self-settlement via dispatchFrom bypasses refund mechanism allowing underfunded debt settlement"
+wiki_description: |
+    merlinboii , also found by AnantaDeva and Valves PanopticPool.sol L1671-L1703 PanopticPool.sol L1598-L1664 Finding description The PanopticPool._settlePremium() and PanopticPool._forceExercise() allow position owners to act as the caller ( account == msg.sender ) via dispatchFrom . However, these fl
+wiki_exploit_scenario: |
+    Per audit finding: merlinboii , also found by AnantaDeva and Valves PanopticPool.sol L1671-L1703 PanopticPool.sol L1598-L1664 Finding description The PanopticPool._settlePremium() and PanopticPool._forceExercise() allow
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SelfSettlementViaDispatchfromBypassesRefundMechanismAX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

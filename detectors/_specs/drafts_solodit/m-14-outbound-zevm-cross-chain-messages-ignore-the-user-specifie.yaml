@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-14-outbound-zevm-cross-chain-messages-ignore-the-user-specifie"
+class_name: "M14OutboundZevmCrossChainMessagesIgnoreTheUserSpecifie"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36943 (Code4rena/ZetaChain)"
+help: |
+    [M-14] Outbound zEVM cross-chain messages ignore the user-specified gas limit and may fail with an out-of-gas error
+wiki_title: |
+    [M-14] Outbound zEVM cross-chain messages ignore the user-specified gas limit and may fail with an out-of-gas error
+wiki_description: |
+    Cross-chain Zeta messages originating from the zEVM have the user-specified destination gas limit ignored (hardcoded to `90000`), potentially causing the transaction to fail with an out-of-gas error.
+    
+    As a result, [the cctx is **aborted** without refunding the sender,](https://github.com/code-423n4
+wiki_exploit_scenario: |
+    Per Solodit #36943: Cross-chain Zeta messages originating from the zEVM have the user-specified destination gas limit ignored (hardcoded to `90000`), potentially causing the transaction to fail with an out-of-gas error.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14OutboundZevmCrossChainMessagesIgnoreTheUserSpecifie"
+solodit_id: "36943"
+solodit_slug: |
+    m-14-outbound-zevm-cross-chain-messages-ignore-the-user-specified-gas-limit-and-may-fail-with-an-out-of-gas-error-code4rena-zetachain-zetachain-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal destinationgaslimit;"
+fn_name_regex: ".*(PostTxProcessing|ZetaSent|Withdrawal|ProcessZetaSentEvent).*"
+read_var_regex: ".*(destinationGasLimit|onReceive).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "PostTxProcessing"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return destinationgaslimit > 0;"

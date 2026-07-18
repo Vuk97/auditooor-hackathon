@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_call"
+name: "m-01-instant-withdraw-lets-users-self-fund-residuals-with-their-"
+class_name: "M01InstantWithdrawLetsUsersSelfFundResidualsWithTheir"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63721 (Pashov Audit Group/BOB-Staking_2025-10-18)"
+help: "[M-01] Instant withdraw lets users self-fund residuals with their own penalty"
+wiki_title: "[M-01] Instant withdraw lets users self-fund residuals with their own penalty"
+wiki_description: |
+    _Acknowledged_
+    
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When a user calls `BobStaking::instantWithdraw`, the function first calls `_claimRewards(msg.sender, false)`. If `rewardTokenBalance` is insufficient, `_claimRewards` credits the shortfall to `residualRewardBal
+wiki_exploit_scenario: |
+    Per Solodit #63721: _Acknowledged_
+    
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When a user calls `BobStaking::instantWithdraw`, the function first calls `_claimRewards(msg.sender, false)`.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01InstantWithdrawLetsUsersSelfFundResidualsWithTheir"
+solodit_id: "63721"
+solodit_slug: |
+    m-01-instant-withdraw-lets-users-self-fund-residuals-with-their-own-penalty-pashov-audit-group-none-bob-staking_2025-10-18-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal claimresidualrewards;"
+fn_name_regex: ".*(rewardTokenBalance|instantWithdraw|claimResidualRewards).*"
+read_var_regex: ".*(claimResidualRewards|instantWithdraw|rewardTokenBalance).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rewardTokenBalance"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return claimresidualrewards > 0;"

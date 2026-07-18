@@ -1,0 +1,38 @@
+skeleton: "state_write_without_paired_write"
+name: "m-01-same-heartbeat-for-multiple-price-feeds-is-vulnerable"
+class_name: "M01SameHeartbeatForMultiplePriceFeedsIsVulnerable"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62529 (Code4rena/Morpheus)"
+help: "[M-01] Same heartbeat for multiple price feeds is vulnerable"
+wiki_title: "[M-01] Same heartbeat for multiple price feeds is vulnerable"
+wiki_description: |
+    <https://github.com/code-423n4/2025-08-morpheus/blob/d275e9035b7e703efe26cdee6543e78f452774bb/contracts/capital-protocol/ChainLinkDataConsumer.sol# L91>
+    
+    ### Finding description and impact
+    
+    `ChainLinkDataConsumer` uses the same heartbeat `allowedPriceUpdateDelay` for multiple feeds when checking i
+wiki_exploit_scenario: |
+    Per Solodit #62529: <https://github.com/code-423n4/2025-08-morpheus/blob/d275e9035b7e703efe26cdee6543e78f452774bb/contracts/capital-protocol/ChainLinkDataConsumer.sol# L91>
+    
+    ### Finding description and impact
+    
+    `ChainLi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01SameHeartbeatForMultiplePriceFeedsIsVulnerable"
+solodit_id: "62529"
+solodit_slug: "m-01-same-heartbeat-for-multiple-price-feeds-is-vulnerable-code4rena-morpheus-morpheus-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(ChainLinkDataConsumer|allowedPriceUpdateDelay).*"
+primary_var_regex: ".*(allowedPriceUpdateDelay).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

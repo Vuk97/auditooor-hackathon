@@ -1,0 +1,40 @@
+skeleton: "state_write_without_paired_write"
+name: "malicious-user-can-drain-rewards-through-reentrancy-in-staking"
+class_name: "MaliciousUserCanDrainRewardsThroughReentrancyInStaking"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #59357 (Quantstamp/Zero Staking)"
+help: "Malicious User Can Drain Rewards Through Reentrancy in Staking"
+wiki_title: "Malicious User Can Drain Rewards Through Reentrancy in Staking"
+wiki_description: |
+    **Update**
+    Marked as "Fixed" by the client. Addressed in: `0a9a94bb49ec54fce5e6bd8859be3f981fbbac4a`.
+    
+    **File(s) affected:**`StakingERC20.sol`, `StakingERC721.sol`
+    
+    **Description:** The `StakingERC721.stake()` function allows a malicious staker to exploit the stale `staker.lastUpdatedTimestamp` due
+wiki_exploit_scenario: |
+    Per Solodit #59357: **Update**
+    Marked as "Fixed" by the client. Addressed in: `0a9a94bb49ec54fce5e6bd8859be3f981fbbac4a`.
+    
+    **File(s) affected:**`StakingERC20.sol`, `StakingERC721.sol`
+    
+    **Description:** The `StakingERC721
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousUserCanDrainRewardsThroughReentrancyInStaking"
+solodit_id: "59357"
+solodit_slug: "malicious-user-can-drain-rewards-through-reentrancy-in-staking-quantstamp-zero-staking-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(checkOnERC721Received|stake|unstake|lastUpdatedTimestamp).*"
+primary_var_regex: ".*(checkOnERC721Received|lastUpdatedTimestamp|nonReentrant).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

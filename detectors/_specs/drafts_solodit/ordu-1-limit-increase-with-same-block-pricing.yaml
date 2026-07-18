@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "ordu-1-limit-increase-with-same-block-pricing"
+class_name: "Ordu1LimitIncreaseWithSameBlockPricing"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #27179 (Guardian Audits/GMX)"
+help: "ORDU-1 | Limit Increase With Same Block Pricing"
+wiki_title: "ORDU-1 | Limit Increase With Same Block Pricing"
+wiki_description: |
+    **Description**
+    
+    In `validateOracleBlockNumbersForPosition`, both conditionals on lines 295 and 306 handle the `LimitIncrease` order type but with different oracle block requirements. 
+    During execution, the first `if` statement is entered, therefore a `LimitIncrease` order is forced to use prices wh
+wiki_exploit_scenario: |
+    Per Solodit #27179: **Description**
+    
+    In `validateOracleBlockNumbersForPosition`, both conditionals on lines 295 and 306 handle the `LimitIncrease` order type but with different oracle block requirements. 
+    During executio
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Ordu1LimitIncreaseWithSameBlockPricing"
+solodit_id: "27179"
+solodit_slug: "ordu-1-limit-increase-with-same-block-pricing-guardian-audits-none-gmx-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal oracleblocknumbers;"
+fn_name_regex: ".*(validateOracleBlockNumbersForPosition|LimitIncrease|oracleBlockNumbers|orderUpdatedAtBlock).*"
+write_var_regex: ".*(oracleBlockNumbers|orderUpdatedAtBlock|updatedAtBlock).*"
+guard_var_regex: ".*(oracleBlockNumbers|orderUpdatedAtBlock|updatedAtBlock).*"
+vuln_fn_name: "validateOracleBlockNumbersForPosition"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "oracleblocknumbers = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

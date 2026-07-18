@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "fiat-investments-do-not-respect-limits"
+class_name: "FiatInvestmentsDoNotRespectLimits"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #11984 (OpenZeppelin/Fiinu Token Audit)"
+help: "Fiat investments do not respect limits"
+wiki_title: "Fiat investments do not respect limits"
+wiki_description: |
+    Investments submitted by the admin via [`investFIAT`](https://github.com/fiinu/smart-contract/blob/7589b9d137bbf902e142e4f0476b06976e390bdb/FiinuCoin.sol#L246) do not respect the `maxRaiseWei` limit. Consider enforcing this by adding `require(raisedWei &lt;= maxRaiseWei)` at the end of the function.
+wiki_exploit_scenario: |
+    Per Solodit #11984: Investments submitted by the admin via [`investFIAT`](https://github.com/fiinu/smart-contract/blob/7589b9d137bbf902e142e4f0476b06976e390bdb/FiinuCoin.sol#L246) do not respect the `maxRaiseWei` limit.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FiatInvestmentsDoNotRespectLimits"
+solodit_id: "11984"
+solodit_slug: "fiat-investments-do-not-respect-limits-openzeppelin-fiinu-token-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal investfiat;"
+fn_name_regex: ".*(investFIAT|maxRaiseWei|require).*"
+write_var_regex: ".*(investFIAT|maxRaiseWei|require).*"
+guard_var_regex: ".*(investFIAT|maxRaiseWei|require).*"
+vuln_fn_name: "investFIAT"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "investfiat = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

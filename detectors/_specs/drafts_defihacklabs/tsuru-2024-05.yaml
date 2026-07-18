@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "tsuru-2024-05"
+class_name: "Tsuru202405"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-05/TSURU_exp.sol"
+help: "TSURU 2024-05 — swap exploit (140K)"
+wiki_title: "TSURU (2024-05) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-05): TSURU lost 140K. Bug class: swap. Attack tx: 0xe63a8df8759f41937432cd34c590d85af61b3343cf438796c6ed2c8f5b906f62.
+wiki_exploit_scenario: |
+    Attacker (0x7A5Eb99C993f4C075c222F9327AbC7426cFaE386) exploits TSURU via swap: the victim contract 0x75Ac62EA5D058A7F88f0C3a5F8f73195277c93dA exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Tsuru202405"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

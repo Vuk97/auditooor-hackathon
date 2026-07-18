@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "cross-function-reentrancy-erc20pods"
+class_name: "CrossFunctionReentrancyErc20pods"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_aa"
+help: |
+    In `_beforeTokenTransfer`, if `from` is a fake pod contract it can re-enter `addPod()` during step 2 processing, then step 3 mints to `to` — both `from` and `to` receive delegation
+wiki_title: "cross-function-reentrancy-erc20pods"
+wiki_description: |
+    In `_beforeTokenTransfer`, if `from` is a fake pod contract it can re-enter `addPod()` during step 2 processing, then step 3 mints to `to` — both `from` and `to` receive delegation tokens.
+wiki_exploit_scenario: |
+    Attacker exploits cross-function-reentrancy-erc20pods as described: In `_beforeTokenTransfer`, if `from` is a fake pod contract it can re-enter `addPod()` during step 2 processing, then step 3 mints to `to` — both `from` and `to` receive delegation tokens.
+wiki_recommendation: |
+    `_beforeTokenTransfer` hook that iterates pods array and makes external `_updateBalances` call without reentrancy guard — Slither `reentrancy-no-eth` partially covers.
+contract_name: "CrossFunctionReentrancyErc20pods"
+state_decl: "uint256 internal from;"
+fn_name_regex: ".*(from|addPod).*"
+read_var_regex: ".*(from|to).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "from"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return from > 0;"

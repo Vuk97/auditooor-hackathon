@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "h-05-gtelaunchpadv2pair-permits-minting-lp-tokens-for-free-when-"
+class_name: "H05Gtelaunchpadv2pairPermitsMintingLpTokensForFreeWhen"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #64853 (Code4rena/GTE)"
+help: |
+    [H-05] `GTELaunchpadV2Pair` permits minting LP tokens for free when there are non-zero accumulated launch pad fees
+wiki_title: |
+    [H-05] `GTELaunchpadV2Pair` permits minting LP tokens for free when there are non-zero accumulated launch pad fees
+wiki_description: |
+    `launchpad/uniswap/GTELaunchpadV2Pair.sol` [# L187-L188](https://github.com/code-423n4/2025-08-gte-perps/blob/f43e1eedb65e7e0327cfaf4d7608a37d85d2fae7/contracts/launchpad/uniswap/GTELaunchpadV2Pair.sol# L187-L188)
+    
+    In `GTELaunchpadV2Pair::mint`, the `amount0` and `amount1` of tokens provided to th
+wiki_exploit_scenario: |
+    Per Solodit #64853: `launchpad/uniswap/GTELaunchpadV2Pair.sol` [# L187-L188](https://github.com/code-423n4/2025-08-gte-perps/blob/f43e1eedb65e7e0327cfaf4d7608a37d85d2fae7/contracts/launchpad/uniswap/GTELaunchpadV2Pair.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H05Gtelaunchpadv2pairPermitsMintingLpTokensForFreeWhen"
+solodit_id: "64853"
+solodit_slug: |
+    h-05-gtelaunchpadv2pair-permits-minting-lp-tokens-for-free-when-there-are-non-zero-accumulated-launch-pad-fees-code4rena-gte-gte-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(amount0|amount1|burn).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

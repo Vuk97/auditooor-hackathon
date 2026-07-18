@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "vesting-admin-vestingdeposit-victim-amount-enables-unauthori-x"
+class_name: "VestingAdminVestingdepositVictimAmountEnablesUnauthoriX"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ag"
+help: |
+    `vestingDeposit(from, amount)` calls `safeTransferFrom(from, address(this), amount)`; admin can drain any user with open approval to vault.
+wiki_title: "Vesting Admin vestingDeposit(victim, amount) Enables Unauthorized transferFrom"
+wiki_description: |
+    `vestingDeposit(from, amount)` calls `safeTransferFrom(from, address(this), amount)`; admin can drain any user with open approval to vault.
+wiki_exploit_scenario: |
+    Attacker exploits Vesting Admin vestingDeposit(victim, amount) Enables Unauthorized transferFrom as described: `vestingDeposit(from, amount)` calls `safeTransferFrom(from, address(this), amount)`; admin can drain any user with open approval to vault.
+wiki_recommendation: "privileged function accepting arbitrary `from` address in `transferFrom`."
+contract_name: "VestingAdminVestingdepositVictimAmountEnablesUnauthoriX"
+state_decl: "uint256 internal from;"
+fn_name_regex: ".*(vestingDeposit|from|transferFrom).*"
+read_var_regex: ".*(from|transferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "vestingDeposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return from > 0;"

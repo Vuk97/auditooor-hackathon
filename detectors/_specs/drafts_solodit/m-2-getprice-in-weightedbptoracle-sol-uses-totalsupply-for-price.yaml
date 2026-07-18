@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-2-getprice-in-weightedbptoracle-sol-uses-totalsupply-for-price"
+class_name: "M2GetpriceInWeightedbptoracleSolUsesTotalsupplyForPrice"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24322 (Sherlock/Blueberry Update #3)"
+help: |
+    M-2: `getPrice` in `WeightedBPTOracle.sol`  uses `totalSupply` for price calculations which can lead to wrong results
+wiki_title: |
+    M-2: `getPrice` in `WeightedBPTOracle.sol`  uses `totalSupply` for price calculations which can lead to wrong results
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-07-blueberry-judging/issues/18 
+    
+    ## Found by 
+    Vagner
+    `getPrice` is used to calculate the price in USD of a given balancer LP, and it respects the recommendations  of Balancer docs by calculating the invariant and using it to protect from manipulations,
+wiki_exploit_scenario: |
+    Per Solodit #24322: Source: https://github.com/sherlock-audit/2023-07-blueberry-judging/issues/18 
+    
+    ## Found by 
+    Vagner
+    `getPrice` is used to calculate the price in USD of a given balancer LP, and it respects the recomme
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M2GetpriceInWeightedbptoracleSolUsesTotalsupplyForPrice"
+solodit_id: "24322"
+solodit_slug: |
+    m-2-getprice-in-weightedbptoraclesol-uses-totalsupply-for-price-calculations-which-can-lead-to-wrong-results-sherlock-none-blueberry-update-3-git
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Wrong Math"
+state_decl: "uint256 internal getactualsupply;"
+fn_name_regex: ".*(getPrice|totalSupply|getActualSupply|getVirtualSupply).*"
+read_var_regex: ".*(getActualSupply|getPrice|getVirtualSupply).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getPrice"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getactualsupply > 0;"

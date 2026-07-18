@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_require"
+name: "hasfundablekeys-marks-operators-that-have-no-more-fundable-valid"
+class_name: "HasfundablekeysMarksOperatorsThatHaveNoMoreFundableValid"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7013 (Spearbit/Liquid Collective)"
+help: "_hasFundableKeys marks operators that have no more fundable validators as fundable."
+wiki_title: "_hasFundableKeys marks operators that have no more fundable validators as fundable."
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    Operators.sol#L151-L152
+    
+    ## Description
+    Since `operator.keys >= operator.limit` (based on the checks when `operator.keys` has been set), we can simplify `_hasFundableKeys`'s return expression to:
+    
+    ```
+    operator.active && operator.limit > (operator.funded - operator.
+wiki_exploit_scenario: |
+    Per Solodit #7013: ## Severity: High Risk
+    
+    ## Context
+    Operators.sol#L151-L152
+    
+    ## Description
+    Since `operator.keys >= operator.limit` (based on the checks when `operator.keys` has been set), we can simplify `_hasFundabl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "HasfundablekeysMarksOperatorsThatHaveNoMoreFundableValid"
+solodit_id: "7013"
+solodit_slug: |
+    hasfundablekeys-marks-operators-that-have-no-more-fundable-validators-as-fundable-spearbit-liquid-collective-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal funded;"
+fn_name_regex: ".*(funded|limit|keys|ValidatorKeys).*"
+write_var_regex: ".*(funded|keys|limit).*"
+guard_var_regex: ".*(funded|keys|limit).*"
+vuln_fn_name: "funded"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "funded = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

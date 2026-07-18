@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "reverts-occur-when"
+class_name: "RevertsOccurWhen"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-10-ramses-exchange"
+help: |
+    [L-02] Reverts occur when staticcall is used on non-view/non-pure functions The staticcall may revert because cachePeriodEarned() is not marked as view or pure. The EVM enforces th
+wiki_title: "Reverts occur when"
+wiki_description: |
+    [L-02] Reverts occur when staticcall is used on non-view/non-pure functions The staticcall may revert because cachePeriodEarned() is not marked as view or pure. The EVM enforces that only read-only functions can be called via staticcall . As per docs the staticcall is only suitable for read-only fun
+wiki_exploit_scenario: |
+    Per audit finding: [L-02] Reverts occur when staticcall is used on non-view/non-pure functions The staticcall may revert because cachePeriodEarned() is not marked as view or pure. The EVM enforces that only read-only fu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RevertsOccurWhen"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(cachePeriodEarned|encodeCall|tickLower).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "cachePeriodEarned"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

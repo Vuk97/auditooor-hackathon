@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-verificationgaslimit-is-not-checked-during-validation"
+class_name: "TheVerificationgaslimitIsNotCheckedDuringValidation"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Biconomy SponsorshipPaymaster - Zellic Audit Report"
+help: |
+    The amount of gas passed into the _validatePaymasterUserOp() function is equal to the userOp.verificationGasLimit. This same gas limit is later used when the _postOp() func- tion i
+wiki_title: "The verificationGasLimit is not checked during validation"
+wiki_description: |
+    The amount of gas passed into the _validatePaymasterUserOp() function is equal to the userOp.verificationGasLimit. This same gas limit is later used when the _postOp() func- tion is called. However, _validatePaymasterUserOp() does not check to ensure that userOp.verificationGasLimit is high enough t
+wiki_exploit_scenario: |
+    Per audit finding: The amount of gas passed into the _validatePaymasterUserOp() function is equal to the userOp.verificationGasLimit. This same gas limit is later used when the _postOp() func- tion is called. However, _
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheVerificationgaslimitIsNotCheckedDuringValidation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(userOp|verificationGasLimit).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "userOp"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

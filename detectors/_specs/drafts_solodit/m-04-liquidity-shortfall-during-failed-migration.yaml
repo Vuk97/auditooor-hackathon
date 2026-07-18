@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "m-04-liquidity-shortfall-during-failed-migration"
+class_name: "M04LiquidityShortfallDuringFailedMigration"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65004 (Pashov Audit Group/_2024-12-12)"
+help: "[M-04] Liquidity shortfall during failed migration"
+wiki_title: "[M-04] Liquidity shortfall during failed migration"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When `reserves0` or the native token reaches the value of `MIGRATION_MINIMUM_LIQUIDITY` and the volume is met, it is possible to execute `_migrateToken`:
+    
+    ```solidity
+    File: g8keepBondingCurve.sol
+    509:         if (curveLiquidityMet
+wiki_exploit_scenario: |
+    Per Solodit #65004: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    When `reserves0` or the native token reaches the value of `MIGRATION_MINIMUM_LIQUIDITY` and the volume is met, it is possible to ex
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04LiquidityShortfallDuringFailedMigration"
+solodit_id: "65004"
+solodit_slug: "m-04-liquidity-shortfall-during-failed-migration-pashov-audit-group-none-_2024-12-12-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal breserve;"
+fn_name_regex: ".*(reserves0|MIGRATION_MINIMUM_LIQUIDITY|curveLiquidityMet|bReserve).*"
+read_var_regex: ".*(bReserve|bReserves|curveLiquidityMet).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "reserves0"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return breserve > 0;"

@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_require"
+name: "previous-withdraw-proxy-s-withdrawreservereceived-is-not-updated"
+class_name: "PreviousWithdrawProxySWithdrawreservereceivedIsNotUpdated"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7324 (Spearbit/Astaria)"
+help: |
+    Previous withdraw proxy's withdrawReserveReceived is not updated when assets are drained from the current withdraw proxy to the previous
+wiki_title: |
+    Previous withdraw proxy's withdrawReserveReceived is not updated when assets are drained from the current withdraw proxy to the previous
+wiki_description: |
+    ## Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `PublicVault.sol#L378-L381`
+    
+    ## Description
+    When `drain` is called, we don't update the `s.epochData[s.currentEpoch - 1].withdrawReserveReceived`. This is in contrast to when withdraw reserves are transferred from the public vault to t
+wiki_exploit_scenario: |
+    Per Solodit #7324: ## Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    `PublicVault.sol#L378-L381`
+    
+    ## Description
+    When `drain` is called, we don't update the `s.epochData[s.currentEpoch - 1].withdrawReserv
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PreviousWithdrawProxySWithdrawreservereceivedIsNotUpdated"
+solodit_id: "7324"
+solodit_slug: |
+    previous-withdraw-proxys-withdrawreservereceived-is-not-updated-when-assets-are-drained-from-spearbit-astaria-pdf
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal drain;"
+fn_name_regex: ".*(drain|withdrawReserveReceived|transferWithdrawReserve).*"
+write_var_regex: ".*(drain|transferWithdrawReserve|withdrawReserveReceived).*"
+guard_var_regex: ".*(drain|transferWithdrawReserve|withdrawReserveReceived).*"
+vuln_fn_name: "drain"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "drain = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

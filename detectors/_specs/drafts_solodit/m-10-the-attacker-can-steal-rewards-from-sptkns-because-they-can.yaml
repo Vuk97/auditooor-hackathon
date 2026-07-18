@@ -1,0 +1,47 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-10-the-attacker-can-steal-rewards-from-sptkns-because-they-can"
+class_name: "M10TheAttackerCanStealRewardsFromSptknsBecauseTheyCan"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #52762 (Sherlock/Peapods)"
+help: |
+    M-10: The attacker can steal rewards from spTKNs because they can influence the fee processing by making a direct token transfer to the pod when the fees are below the minimum
+wiki_title: |
+    M-10: The attacker can steal rewards from spTKNs because they can influence the fee processing by making a direct token transfer to the pod when the fees are be
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/286 
+    
+    ## Found by 
+    Schnilch, X77, pkqs90
+    
+    ### Summary
+    
+    Fees in a pod are only swapped to rewards once a minimum threshold is exceeded. This allows an attacker to stake in a transaction while no fees are processed as rew
+wiki_exploit_scenario: |
+    Per Solodit #52762: Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/286 
+    
+    ## Found by 
+    Schnilch, X77, pkqs90
+    
+    ### Summary
+    
+    Fees in a pod are only swapped to rewards once a minimum thresho
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M10TheAttackerCanStealRewardsFromSptknsBecauseTheyCan"
+solodit_id: "52762"
+solodit_slug: |
+    m-10-the-attacker-can-steal-rewards-from-sptkns-because-they-can-influence-the-fee-processing-by-making-a-direct-token-transfer-to-the-pod-when-the-fees-are-below-the-minimum-sherlock-peapods-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(flashMint).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-08-reentrancy-attack-possible-if-the-feeto-is-a-malicious-cont"
+class_name: "M08ReentrancyAttackPossibleIfTheFeetoIsAMaliciousCont"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #48964 (Code4rena/Rubicon)"
+help: |
+    [M-08] REENTRANCY ATTACK POSSIBLE IF THE `_feeTo` IS A MALICIOUS CONTRACT IN `FeeWrapper._chargeFeePayable()` FUNCTION
+wiki_title: |
+    [M-08] REENTRANCY ATTACK POSSIBLE IF THE `_feeTo` IS A MALICIOUS CONTRACT IN `FeeWrapper._chargeFeePayable()` FUNCTION
+wiki_description: |
+    Reentrancy attack could happen if `_feeTo` is a `malicious` contract and has `recieve()` function implemented in `_feeTo` contract. `FeeWrapper._chargeFeePayable()` function is used to send the `_feeAmount` of ETH to the `_feeTo` address.
+    
+    Consider that `FeeWrapper._chargeFeePayable()` is called by
+wiki_exploit_scenario: |
+    Per Solodit #48964: Reentrancy attack could happen if `_feeTo` is a `malicious` contract and has `recieve()` function implemented in `_feeTo` contract. `FeeWrapper._chargeFeePayable()` function is used to send the `_fee
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08ReentrancyAttackPossibleIfTheFeetoIsAMaliciousCont"
+solodit_id: "48964"
+solodit_slug: |
+    m-08-reentrancy-attack-possible-if-the-_feeto-is-a-malicious-contract-in-feewrapper_chargefeepayable-function-code4rena-rubicon-rubicon-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal call;"
+fn_name_regex: ".*(malicious|recieve|FeeWrapper|rubicallPayable).*"
+write_var_regex: ".*(call|malicious|recieve).*"
+guard_var_regex: ".*(call|malicious|recieve).*"
+vuln_fn_name: "malicious"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "call = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

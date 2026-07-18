@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "m-31-lientoken-payment-function-increases-users-debt"
+class_name: "M31LientokenPaymentFunctionIncreasesUsersDebt"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25847 (Code4rena/Astaria)"
+help: "[M-31] `LienToken._payment` function increases users debt"
+wiki_title: "[M-31] `LienToken._payment` function increases users debt"
+wiki_description: |
+    LienToken.\_payment function increases users debt. Every time when user pays not whole lien amount then interests are added to the loan amount, so next time user pays interests based on interests.
+    
+    ### Proof of Concept
+    
+    `LienToken._payment` is used by `LienToken.makePayment` function that allows bo
+wiki_exploit_scenario: |
+    Per Solodit #25847: LienToken.\_payment function increases users debt. Every time when user pays not whole lien amount then interests are added to the loan amount, so next time user pays interests based on interests.
+    
+    #
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M31LientokenPaymentFunctionIncreasesUsersDebt"
+solodit_id: "25847"
+solodit_slug: "m-31-lientoken_payment-function-increases-users-debt-code4rena-astaria-astaria-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(makePayment|activeStack|lienId|lienMeta).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "makePayment"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

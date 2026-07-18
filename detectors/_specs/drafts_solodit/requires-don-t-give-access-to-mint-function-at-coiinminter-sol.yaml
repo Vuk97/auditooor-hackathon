@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "requires-don-t-give-access-to-mint-function-at-coiinminter-sol"
+class_name: "RequiresDonTGiveAccessToMintFunctionAtCoiinminterSol"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56162 (Zokyo/Raiinmaker)"
+help: "Requires don’t give access to mint function at CoiinMinter.sol"
+wiki_title: "Requires don’t give access to mint function at CoiinMinter.sol"
+wiki_description: |
+    **Description**
+    
+    
+    In constructor of CoiinMinter.sol you define variable lastMintAmount equal to 1000000 * 1e18,
+    but in function mint you have requires:
+    // _amount cannot be less than minMintMonthly
+    require(_amount >= coiin.minMintMonthly(), "amount cannot be less than min mint amount");
+    // _amount c
+wiki_exploit_scenario: |
+    Per Solodit #56162: **Description**
+    
+    
+    In constructor of CoiinMinter.sol you define variable lastMintAmount equal to 1000000 * 1e18,
+    but in function mint you have requires:
+    // _amount cannot be less than minMintMonthly
+    re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RequiresDonTGiveAccessToMintFunctionAtCoiinminterSol"
+solodit_id: "56162"
+solodit_slug: "requires-dont-give-access-to-mint-function-at-coiinmintersol-zokyo-none-raiinmaker-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(lastMintAmount|minMintMonthly|maxMintMonthly).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "lastMintAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

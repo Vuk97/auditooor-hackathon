@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "gateways-call-the-scroll-bridge-without-supplying-a-fee"
+class_name: "GatewaysCallTheScrollBridgeWithoutSupplyingAFee"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Scroll - 05.26.23 Zellic Audit Report"
+help: |
+    The L2ERC721Gateway and L2ERC1155Gateway contracts perform cross-chain invo- cations by calling the sendMessage function in several different functions. However, these contracts do
+wiki_title: "Gateways call the Scroll bridge without supplying a fee"
+wiki_description: |
+    The L2ERC721Gateway and L2ERC1155Gateway contracts perform cross-chain invo- cations by calling the sendMessage function in several different functions. However, these contracts do not send any native value or send an equal amount of native to- kens and specify the amount to be the same. This result
+wiki_exploit_scenario: |
+    Per audit finding: The L2ERC721Gateway and L2ERC1155Gateway contracts perform cross-chain invo- cations by calling the sendMessage function in several different functions. However, these contracts do not send any native
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GatewaysCallTheScrollBridgeWithoutSupplyingAFee"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(sendMessage|nonReentrant).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "sendMessage"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

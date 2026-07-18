@@ -1,0 +1,37 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-05-positionaction-sol-oncreditflashloan-may-end-up-with-stuck-"
+class_name: "M05PositionactionSolOncreditflashloanMayEndUpWithStuck"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49117 (Code4rena/LoopFi)"
+help: |
+    [M-05] `PositionAction.sol#onCreditFlashLoan` may end up with stuck funds for `EXACT_IN` primary swaps
+wiki_title: |
+    [M-05] `PositionAction.sol#onCreditFlashLoan` may end up with stuck funds for `EXACT_IN` primary swaps
+wiki_description: |
+    *Note: This is a new issue that was introduced by the latest code diff.*
+    
+    When conducting a `decreaseLever` action, the final swap inside `onCreditFlashLoan()` is from collateral token to debt token. If the swap is `EXACT_IN` type, this means all collateral token is used for the swap. The output to
+wiki_exploit_scenario: |
+    Per Solodit #49117: *Note: This is a new issue that was introduced by the latest code diff.*
+    
+    When conducting a `decreaseLever` action, the final swap inside `onCreditFlashLoan()` is from collateral token to debt token.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05PositionactionSolOncreditflashloanMayEndUpWithStuck"
+solodit_id: "49117"
+solodit_slug: |
+    m-05-positionactionsoloncreditflashloan-may-end-up-with-stuck-funds-for-exact_in-primary-swaps-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(decreaseLever|onCreditFlashLoan|EXACT_IN).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

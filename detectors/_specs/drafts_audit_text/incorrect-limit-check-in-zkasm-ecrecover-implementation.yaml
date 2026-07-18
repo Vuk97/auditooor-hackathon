@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-limit-check-in-zkasm-ecrecover-implementation"
+class_name: "IncorrectLimitCheckInZkasmEcrecoverImplementation"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "hexens audit Hexens_Polygon_zkEVM_PUBLIC_27.02.23"
+help: |
+    In the zkASM implementation of the ecrecover function, there must be a check against ECDSA signature malleability. The check should be done when the transaction’s signature is veri
+wiki_title: "INCORRECT LIMIT CHECK IN ZKASM ECRECOVER IMPLEMENTATION"
+wiki_description: |
+    In the zkASM implementation of the ecrecover function, there must be a check against ECDSA signature malleability. The check should be done when the transaction’s signature is veriﬁed and is omitted when the precompiled ecrecover is called. For ECDSA signature not to be malleable, the S value should
+wiki_exploit_scenario: |
+    Per audit finding: In the zkASM implementation of the ecrecover function, there must be a check against ECDSA signature malleability. The check should be done when the transaction’s signature is veriﬁed and is omitted w
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectLimitCheckInZkasmEcrecoverImplementation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(zkASM).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "zkASM"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

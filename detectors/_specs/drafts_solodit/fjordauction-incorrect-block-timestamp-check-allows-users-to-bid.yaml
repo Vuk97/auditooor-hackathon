@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "fjordauction-incorrect-block-timestamp-check-allows-users-to-bid"
+class_name: "FjordauctionIncorrectBlockTimestampCheckAllowsUsersToBid"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37952 (Codehawks/Fjord)"
+help: |
+    `FjordAuction` incorrect `block.timestamp` check allows users to bid after calling `auctionEnd` to claim more tokens than they should
+wiki_title: |
+    `FjordAuction` incorrect `block.timestamp` check allows users to bid after calling `auctionEnd` to claim more tokens than they should
+wiki_description: |
+    ## Summary
+    
+    The `FjordAuction` contract can be exploited when `block.timestamp` is equal to `auctionEndTime` by ending the auction and then placing a bid in the same block. This leads to an outdated and inflated `multiplier` value that allows the attacker to claim more tokens than their actual bid a
+wiki_exploit_scenario: |
+    Per Solodit #37952: ## Summary
+    
+    The `FjordAuction` contract can be exploited when `block.timestamp` is equal to `auctionEndTime` by ending the auction and then placing a bid in the same block. This leads to an outdated a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FjordauctionIncorrectBlockTimestampCheckAllowsUsersToBid"
+solodit_id: "37952"
+solodit_slug: |
+    fjordauction-incorrect-blocktimestamp-check-allows-users-to-bid-after-calling-auctionend-to-claim-more-tokens-than-they-should-codehawks-fjord-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal auctionend;"
+fn_name_regex: ".*(FjordAuction|auctionEndTime|multiplier|auctionEnd).*"
+read_var_regex: ".*(auctionEnd|auctionEndTime|bid).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "FjordAuction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return auctionend > 0;"

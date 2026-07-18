@@ -1,0 +1,46 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-02-flash-loan-wrong-balance-check"
+class_name: "H02FlashLoanWrongBalanceCheck"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #58099 (Pashov Audit Group/Astrolab)"
+help: "[H-02] Flash loan wrong balance check"
+wiki_title: "[H-02] Flash loan wrong balance check"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium, because the flash loan functionality is affected
+    
+    **Likelihood:** High, because it will revert every time а flash loan is used
+    
+    ## Description
+    
+    `balanceBefore` is recorded before the flash loan amount being transferred. As a result, in line 714, `balanceAfter` need t
+wiki_exploit_scenario: |
+    Per Solodit #58099: ## Severity
+    
+    **Impact:** Medium, because the flash loan functionality is affected
+    
+    **Likelihood:** High, because it will revert every time а flash loan is used
+    
+    ## Description
+    
+    `balanceBefore` is reco
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02FlashLoanWrongBalanceCheck"
+solodit_id: "58099"
+solodit_slug: "h-02-flash-loan-wrong-balance-check-pashov-audit-group-none-astrolab-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(balanceBefore|balanceAfter|toRepay|safeTransferFrom).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

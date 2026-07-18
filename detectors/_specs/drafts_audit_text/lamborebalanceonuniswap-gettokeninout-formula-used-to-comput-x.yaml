@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "lamborebalanceonuniswap-gettokeninout-formula-used-to-comput-x"
+class_name: "LamborebalanceonuniswapGettokeninoutFormulaUsedToComputX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-lambowin"
+help: |
+    Infect3d , also found by EPSec ka14ar King_9aimon KupiaSec , and pontifex The formula implemented assumes that the pool is based on a constant sum AMM formula ( x+y = k ), and also
+wiki_title: |
+    LamboRebalanceOnUniswap::_getTokenInOut formula used to compute rebalancing amount is wrong for a UniV3 pool
+wiki_description: |
+    Infect3d , also found by EPSec ka14ar King_9aimon KupiaSec , and pontifex The formula implemented assumes that the pool is based on a constant sum AMM formula ( x+y = k ), and also eludes the fact that reserves in a UniV3 pool do not directly relate to the price because of the 1-sided ticks liquidit
+wiki_exploit_scenario: |
+    Per audit finding: Infect3d , also found by EPSec ka14ar King_9aimon KupiaSec , and pontifex The formula implemented assumes that the pool is based on a constant sum AMM formula ( x+y = k ), and also eludes the fact tha
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LamborebalanceonuniswapGettokeninoutFormulaUsedToComputX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(previewRebalance|vETH|wethBalance).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "previewRebalance"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "including-non-standard-erc20-tokens-will-revert-and-prevent-fork"
+class_name: "IncludingNonStandardErc20TokensWillRevertAndPreventFork"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21331 (Spearbit/Nouns DAO)"
+help: "Including non-standard ERC20 tokens will revert and prevent forking/quitting"
+wiki_title: "Including non-standard ERC20 tokens will revert and prevent forking/quitting"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - NounsDAOExecutorV2.sol#L223
+    - NounsDAOV3Fork.sol#L228-L229
+    - NounsDAOLogicV1Fork.sol#L213-L214
+    
+    ## Description
+    `Iferc20TokensToIncludeInFork` or `erc20TokensToIncludeInQuit` accidentally or maliciously include non-confirming ERC20 tokens, such as USDT, which do
+wiki_exploit_scenario: |
+    Per Solodit #21331: ## Severity: Medium Risk
+    
+    ## Context
+    - NounsDAOExecutorV2.sol#L223
+    - NounsDAOV3Fork.sol#L228-L229
+    - NounsDAOLogicV1Fork.sol#L213-L214
+    
+    ## Description
+    `Iferc20TokensToIncludeInFork` or `erc20TokensToIn
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncludingNonStandardErc20TokensWillRevertAndPreventFork"
+solodit_id: "21331"
+solodit_slug: |
+    including-non-standard-erc20-tokens-will-revert-and-prevent-forkingquitting-spearbit-none-nouns-dao-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal erc20tokenstoincludeinquit;"
+fn_name_regex: ".*(Iferc20TokensToIncludeInFork|erc20TokensToIncludeInQuit|sendProRataTreasury|quit).*"
+read_var_regex: ".*(erc20TokensToIncludeInQuit|quit|safeTransfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Iferc20TokensToIncludeInFork"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return erc20tokenstoincludeinquit > 0;"

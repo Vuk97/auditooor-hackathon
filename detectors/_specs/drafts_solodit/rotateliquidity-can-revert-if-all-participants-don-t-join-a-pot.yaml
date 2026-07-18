@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "rotateliquidity-can-revert-if-all-participants-don-t-join-a-pot"
+class_name: "RotateliquidityCanRevertIfAllParticipantsDonTJoinAPot"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #40643 (Cantina/Quail Finance)"
+help: "rotateLiquidity() can revert if all participants don 't join a pot"
+wiki_title: "rotateLiquidity() can revert if all participants don 't join a pot "
+wiki_description: |
+    ## Context
+    **File:** QuailFinance.sol  
+    **Line:** L146  
+    
+    ## Description
+    It's possible that not all joiners join a pot. Therefore, `pot.participants.length < pot.numParticipants`, which can cause `winnerIndex` to go out of bounds:
+    
+    ```solidity
+    uint256 winnerIndex = uint256(randomNumber) % pot.numPar
+wiki_exploit_scenario: |
+    Per Solodit #40643: ## Context
+    **File:** QuailFinance.sol  
+    **Line:** L146  
+    
+    ## Description
+    It's possible that not all joiners join a pot. Therefore, `pot.participants.length < pot.numParticipants`, which can cause `win
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RotateliquidityCanRevertIfAllParticipantsDonTJoinAPot"
+solodit_id: "40643"
+solodit_slug: "rotateliquidity-can-revert-if-all-participants-don-t-join-a-pot-cantina-none-quail-finance-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal winnerindex;"
+fn_name_regex: ".*(winnerIndex).*"
+read_var_regex: ".*(winnerIndex).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "winnerIndex"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return winnerindex > 0;"

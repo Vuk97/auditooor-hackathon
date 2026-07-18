@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_require"
+name: "zero-gauge-could-be-added-via-addpool"
+class_name: "ZeroGaugeCouldBeAddedViaAddpool"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28497 (MixBytes/Convex Platform)"
+help: "Zero gauge could be added via `addPool`"
+wiki_title: "Zero gauge could be added via `addPool`"
+wiki_description: |
+    ##### Description
+    In `addPool` defined at https://github.com/convex-eth/platform/blob/754d9e700693246275b613e895b4044b63ce9ed5/contracts/contracts/Booster.sol#L160 there is no check for `_gauge` variable. For example during this call
+    ```soldity
+    booster.addPool(threeCrvSwap, "0x0000000000000000000000
+wiki_exploit_scenario: |
+    Per Solodit #28497: ##### Description
+    In `addPool` defined at https://github.com/convex-eth/platform/blob/754d9e700693246275b613e895b4044b63ce9ed5/contracts/contracts/Booster.sol#L160 there is no check for `_gauge` varia
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ZeroGaugeCouldBeAddedViaAddpool"
+solodit_id: "28497"
+solodit_slug: "zero-gauge-could-be-added-via-addpool-mixbytes-none-convex-platform-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addpool;"
+fn_name_regex: ".*(addPool|get_gauges|Booster|StashFactory).*"
+write_var_regex: ".*(addPool|get_gauges).*"
+guard_var_regex: ".*(addPool|get_gauges).*"
+vuln_fn_name: "addPool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "addpool = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

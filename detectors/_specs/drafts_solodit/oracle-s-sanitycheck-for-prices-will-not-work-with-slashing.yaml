@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_require"
+name: "oracle-s-sanitycheck-for-prices-will-not-work-with-slashing"
+class_name: "OracleSSanitycheckForPricesWillNotWorkWithSlashing"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20748 (ConsenSys/Geodefi)"
+help: "Oracle’s _sanityCheck for prices will not work with slashing"
+wiki_title: "Oracle’s _sanityCheck for prices will not work with slashing"
+wiki_description: |
+    #### Description
+    
+    
+    The `_sanityCheck` is verifying that the new price didn’t change significantly:
+    
+    
+    **code/contracts/Portal/utils/OracleUtilsLib.sol:L405-L417**
+    
+    
+    
+    ```
+    uint256 maxPrice = curPrice +
+     ((curPrice \*
+     self.PERIOD\_PRICE\_INCREASE\_LIMIT \*
+     \_periodsSinceUpdate) / PERCENTAGE\_DENOMINAT
+wiki_exploit_scenario: |
+    Per Solodit #20748: #### Description
+    
+    
+    The `_sanityCheck` is verifying that the new price didn’t change significantly:
+    
+    
+    **code/contracts/Portal/utils/OracleUtilsLib.sol:L405-L417**
+    
+    
+    
+    ```
+    uint256 maxPrice = curPrice +
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OracleSSanitycheckForPricesWillNotWorkWithSlashing"
+solodit_id: "20748"
+solodit_slug: "oracles-_sanitycheck-for-prices-will-not-work-with-slashing-consensys-none-geodefi-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(maxPrice|curPrice|minPrice|gETH).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "maxPrice"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "distributor-drained-via-fake-pool-address"
+class_name: "DistributorDrainedViaFakePoolAddress"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_ag"
+help: |
+    `claim()` and `allocate()` in Distributor don't validate `_pool` is registered; attacker deploys fake pool with controlled `bondToken`/`couponToken` interfaces to drain USDC.
+wiki_title: "Distributor Drained via Fake Pool Address"
+wiki_description: |
+    `claim()` and `allocate()` in Distributor don't validate `_pool` is registered; attacker deploys fake pool with controlled `bondToken`/`couponToken` interfaces to drain USDC.
+wiki_exploit_scenario: |
+    Attacker exploits Distributor Drained via Fake Pool Address as described: `claim()` and `allocate()` in Distributor don't validate `_pool` is registered; attacker deploys fake pool with controlled `bondToken`/`couponToken` interfaces to drain USDC.
+wiki_recommendation: "external-address param passed to `Pool(addr)` cast without registry check."
+contract_name: "DistributorDrainedViaFakePoolAddress"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(claim|allocate|bondToken).*"
+read_var_regex: ".*(_pool|bondToken|couponToken).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claim"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

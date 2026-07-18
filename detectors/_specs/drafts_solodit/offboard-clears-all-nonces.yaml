@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "offboard-clears-all-nonces"
+class_name: "OffboardClearsAllNonces"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #54845 (Cantina/Parcel)"
+help: "offboard() clears all nonces"
+wiki_title: "offboard() clears all nonces "
+wiki_description: |
+    ## Security Review
+    
+    ## Context
+    - **Files:** Organizer.sol#L93-L106, Storage.sol#L17-L34
+    
+    ## Description
+    The function `offboard()` deletes `orgs[msg.sender]`, which also deletes `packedPayoutNonces[]`. If the same safe were to ever call `onboard()` with (more or less) the same approvers, then all pre
+wiki_exploit_scenario: |
+    Per Solodit #54845: ## Security Review
+    
+    ## Context
+    - **Files:** Organizer.sol#L93-L106, Storage.sol#L17-L34
+    
+    ## Description
+    The function `offboard()` deletes `orgs[msg.sender]`, which also deletes `packedPayoutNonces[]`.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OffboardClearsAllNonces"
+solodit_id: "54845"
+solodit_slug: "offboard-clears-all-nonces-cantina-none-parcel-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal offboard;"
+fn_name_regex: ".*(offboard|onboard|validatePayrollTxHashes).*"
+read_var_regex: ".*(offboard|onboard|validatePayrollTxHashes).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "offboard"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return offboard > 0;"

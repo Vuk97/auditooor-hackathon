@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "voting-process-reverts"
+class_name: "VotingProcessReverts"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #19324 (SigmaPrime/Dimo)"
+help: "Voting Process Reverts"
+wiki_title: "Voting Process Reverts"
+wiki_description: |
+    ## Description
+    Because of the removal of OpenZeppelin’s `ERC20VotesUpgradeable` contract from the Dimo token in `DimoV2.sol`, it is not possible to propose a governance vote. Calls to `DimoGovernance.propose()` revert because `propose()` calls `token.getPastVotes(account, blockNumber)`.
+    
+    ## Recommen
+wiki_exploit_scenario: |
+    Per Solodit #19324: ## Description
+    Because of the removal of OpenZeppelin’s `ERC20VotesUpgradeable` contract from the Dimo token in `DimoV2.sol`, it is not possible to propose a governance vote. Calls to `DimoGovernance.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VotingProcessReverts"
+solodit_id: "19324"
+solodit_slug: "voting-process-reverts-sigmaprime-none-dimo-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal propose;"
+fn_name_regex: ".*(ERC20VotesUpgradeable|propose|DimoV2).*"
+read_var_regex: ".*(propose).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ERC20VotesUpgradeable"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return propose > 0;"

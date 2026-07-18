@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-validation-when-creating-a-talos-staked-strategy"
+class_name: "LackOfValidationWhenCreatingATalosStakedStrategy"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Maia DAO February 2023 - Zellic Audit Report"
+help: |
+    When creating a new TalosStrategyStaked via the TalosStrategyStakedFactory, the c reateTalosBaseStrategy is called, which in turn calls createTalosV3Strategy and then DeployStaked.
+wiki_title: "Lack of validation when creating a Talos staked strategy"
+wiki_description: |
+    When creating a new TalosStrategyStaked via the TalosStrategyStakedFactory, the c reateTalosBaseStrategy is called, which in turn calls createTalosV3Strategy and then DeployStaked.createTalosV3Strategy. The strategy is then added to the flywheel: function createTalosBaseStrategy( IUniswapV3Pool pool
+wiki_exploit_scenario: |
+    Per audit finding: When creating a new TalosStrategyStaked via the TalosStrategyStakedFactory, the c reateTalosBaseStrategy is called, which in turn calls createTalosV3Strategy and then DeployStaked.createTalosV3Strateg
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfValidationWhenCreatingATalosStakedStrategy"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(reateTalosBaseStrategy|createTalosV3Strategy|createTalosBaseStrategy).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "reateTalosBaseStrategy"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

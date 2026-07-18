@@ -1,0 +1,55 @@
+skeleton: "name_match_missing_call"
+name: "c-03-users-can-t-redeem-funds-due-to-malicious-manipulation-of-t"
+class_name: "C03UsersCanTRedeemFundsDueToMaliciousManipulationOfT"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53314 (Pashov Audit Group/Omo_2025-01-25)"
+help: "[C-03] Users can't redeem funds due to malicious manipulation of `_totalAssets`"
+wiki_title: "[C-03] Users can't redeem funds due to malicious manipulation of `_totalAssets`"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    The function `OmoVault.sol#topOff()` is only used by agents.
+    It transfers the entire asset balance from the agent to the `record.receiver` address
+    
+    ```solidity
+    File: OmoVault.sol
+    
+    449:         asset.safeTransferFrom(msg.sender, add
+wiki_exploit_scenario: |
+    Per Solodit #53314: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    The function `OmoVault.sol#topOff()` is only used by agents.
+    It transfers the entire asset balance from the agent to the `record.re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C03UsersCanTRedeemFundsDueToMaliciousManipulationOfT"
+solodit_id: "53314"
+solodit_slug: |
+    c-03-users-cant-redeem-funds-due-to-malicious-manipulation-of-_totalassets-pashov-audit-group-none-omo_2025-01-25-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal agentbalance;"
+fn_name_regex: ".*(agentBalance|topOff).*"
+read_var_regex: ".*(agentBalance|topOff).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "agentBalance"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return agentbalance > 0;"

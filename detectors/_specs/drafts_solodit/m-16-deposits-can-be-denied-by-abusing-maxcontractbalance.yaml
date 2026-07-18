@@ -1,0 +1,46 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-16-deposits-can-be-denied-by-abusing-maxcontractbalance"
+class_name: "M16DepositsCanBeDeniedByAbusingMaxcontractbalance"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42235 (Code4rena/Reality Cards)"
+help: "[M-16] Deposits can be denied by abusing `maxContractBalance`"
+wiki_title: "[M-16] Deposits can be denied by abusing `maxContractBalance`"
+wiki_description: |
+    _Submitted by [cmichel](https://twitter.com/cmichelio)_
+    
+    The treasury implements a max contract balance check in the `deposit` function:
+    
+    ```solidity
+    require(
+        (erc20.balanceOf(address(this)) + _amount) <= maxContractBalance,
+        "Limit hit"
+    );
+    ```
+    A whale can stop anyone from depositing by front
+wiki_exploit_scenario: |
+    Per Solodit #42235: _Submitted by [cmichel](https://twitter.com/cmichelio)_
+    
+    The treasury implements a max contract balance check in the `deposit` function:
+    
+    ```solidity
+    require(
+        (erc20.balanceOf(address(this)) + _am
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M16DepositsCanBeDeniedByAbusingMaxcontractbalance"
+solodit_id: "42235"
+solodit_slug: "m-16-deposits-can-be-denied-by-abusing-maxcontractbalance-code4rena-reality-cards-reality-cards-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(deposit|maxContractBalance).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

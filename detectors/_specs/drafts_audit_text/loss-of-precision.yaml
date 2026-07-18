@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "loss-of-precision"
+class_name: "LossOfPrecision"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Wasabi Perps - Zellic Audit Report"
+help: |
+    The DebtController::computeMaxInterest function computes the maximum interest that a user should be charged given a position size, age, and principal. Currently, the principal addr
+wiki_title: "Loss of precision"
+wiki_description: |
+    The DebtController::computeMaxInterest function computes the maximum interest that a user should be charged given a position size, age, and principal. Currently, the principal address is ignored and only the position size and age are considered. function computeMaxInterest( address, uint256 _princip
+wiki_exploit_scenario: |
+    Per audit finding: The DebtController::computeMaxInterest function computes the maximum interest that a user should be charged given a position size, age, and principal. Currently, the principal address is ignored and o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LossOfPrecision"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(computeMaxInterest|maxInterestToPay|secondsSince).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "computeMaxInterest"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

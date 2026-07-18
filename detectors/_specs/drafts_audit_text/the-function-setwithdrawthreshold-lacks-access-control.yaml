@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "the-function-setwithdrawthreshold-lacks-access-control"
+class_name: "TheFunctionSetwithdrawthresholdLacksAccessControl"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    The external function setWithdrawThreshold is used to allow governance to set the withdraw threshold parameter: function setWithdrawThreshold(uint256 _withdrawThreshold) external {
+wiki_title: "The function setWithdrawThreshold lacks access control"
+wiki_description: |
+    The external function setWithdrawThreshold is used to allow governance to set the withdraw threshold parameter: function setWithdrawThreshold(uint256 _withdrawThreshold) external { require(_withdrawThreshold < 100 * _PRECISION, "THRESHOLD_EXCEEDS_MAX"); withdrawThreshold = _withdrawThreshold; emit W
+wiki_exploit_scenario: |
+    Per audit finding: The external function setWithdrawThreshold is used to allow governance to set the withdraw threshold parameter: function setWithdrawThreshold(uint256 _withdrawThreshold) external { require(_withdrawTh
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheFunctionSetwithdrawthresholdLacksAccessControl"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setWithdrawThreshold|withdrawThreshold).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setWithdrawThreshold"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

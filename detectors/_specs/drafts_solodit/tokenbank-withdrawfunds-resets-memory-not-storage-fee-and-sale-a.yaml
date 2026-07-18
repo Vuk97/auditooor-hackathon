@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "tokenbank-withdrawfunds-resets-memory-not-storage-fee-and-sale-a"
+class_name: "TokenbankWithdrawfundsResetsMemoryNotStorageFeeAndSaleA"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61179 (Cyfrin/Remora Pledge)"
+help: |
+    `TokenBank::withdrawFunds` resets `memory` not `storage` fee and sale amounts allowing multiple withdraws for the same token
+wiki_title: |
+    `TokenBank::withdrawFunds` resets `memory` not `storage` fee and sale amounts allowing multiple withdraws for the same token
+wiki_description: |
+    **Description:** `TokenBank::withdrawFunds` resets `memory` not `storage` fee and sale amounts allowing multiple withdraws for the same token:
+    ```solidity
+        function withdrawFunds(
+            address tokenAddress,
+            bool fee
+        ) public nonReentrant restricted {
+            TokenData memory curDat
+wiki_exploit_scenario: |
+    Per Solodit #61179: **Description:** `TokenBank::withdrawFunds` resets `memory` not `storage` fee and sale amounts allowing multiple withdraws for the same token:
+    ```solidity
+        function withdrawFunds(
+            address t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokenbankWithdrawfundsResetsMemoryNotStorageFeeAndSaleA"
+solodit_id: "61179"
+solodit_slug: |
+    tokenbankwithdrawfunds-resets-memory-not-storage-fee-and-sale-amounts-allowing-multiple-withdraws-for-the-same-token-cyfrin-none-remora-pledge-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal memory;"
+fn_name_regex: ".*(memory|storage).*"
+read_var_regex: ".*(memory|storage).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "memory"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return memory > 0;"

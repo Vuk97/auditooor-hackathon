@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "no-upper-cap-for-exitcollateralratiobips"
+class_name: "NoUpperCapForExitcollateralratiobips"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Flare FAssets - Zellic Audit Report"
+help: |
+    The collateral pool’s exit collateral ratio (exitCollateralRatioBIPS) has no global maximum. Although changes are timelocked and per-update increases are limited (as shown in the c
+wiki_title: "No upper cap for exitCollateralRatioBIPS"
+wiki_description: |
+    The collateral pool’s exit collateral ratio (exitCollateralRatioBIPS) has no global maximum. Although changes are timelocked and per-update increases are limited (as shown in the code below), an agent can repeatedly increase the value over time. function setPoolExitCollateralRatioBIPS( Agent.State s
+wiki_exploit_scenario: |
+    Per audit finding: The collateral pool’s exit collateral ratio (exitCollateralRatioBIPS) has no global maximum. Although changes are timelocked and per-update increases are limited (as shown in the code below), an agent
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoUpperCapForExitcollateralratiobips"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(exitCollateralRatioBIPS|setPoolExitCollateralRatioBIPS|minCR).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "exitCollateralRatioBIPS"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

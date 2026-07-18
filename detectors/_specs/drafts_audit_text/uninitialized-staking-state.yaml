@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "uninitialized-staking-state"
+class_name: "UninitializedStakingState"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Wrapped Staked TAO - Zellic Audit Report"
+help: |
+    WrappedStakedTAO is an upgradable contract, and its states should be initialized within the initialize function. However, the staking state is assigned within the constructor, resu
+wiki_title: "Uninitialized staking state"
+wiki_description: |
+    WrappedStakedTAO is an upgradable contract, and its states should be initialized within the initialize function. However, the staking state is assigned within the constructor, resulting in an uninitialized state. /// @custom:oz-upgrades-unsafe-allow constructor constructor() { _disableInitializers()
+wiki_exploit_scenario: |
+    Per audit finding: WrappedStakedTAO is an upgradable contract, and its states should be initialized within the initialize function. However, the staking state is assigned within the constructor, resulting in an uninitia
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UninitializedStakingState"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(initialOwner).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "initialOwner"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

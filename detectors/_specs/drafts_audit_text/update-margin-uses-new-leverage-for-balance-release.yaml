@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "update-margin-uses-new-leverage-for-balance-release"
+class_name: "UpdateMarginUsesNewLeverageForBalanceRelease"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    The function updateMargin allows users to deposit or withdraw USDC from their open positions. When updating the margin order, there are fees (marginFees) that the users have to pay
+wiki_title: "Update margin uses new leverage for balance release"
+wiki_description: |
+    The function updateMargin allows users to deposit or withdraw USDC from their open positions. When updating the margin order, there are fees (marginFees) that the users have to pay. These fees are allocated as rewards in the vault manager, and as the fees are taken from the origin order, it is essen
+wiki_exploit_scenario: |
+    Per audit finding: The function updateMargin allows users to deposit or withdraw USDC from their open positions. When updating the margin order, there are fees (marginFees) that the users have to pay. These fees are all
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UpdateMarginUsesNewLeverageForBalanceRelease"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateMargin|marginFees|storePendingMarginUpdateOrder).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "updateMargin"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

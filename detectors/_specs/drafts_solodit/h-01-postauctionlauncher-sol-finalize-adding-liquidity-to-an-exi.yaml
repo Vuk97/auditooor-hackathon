@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "h-01-postauctionlauncher-sol-finalize-adding-liquidity-to-an-exi"
+class_name: "H01PostauctionlauncherSolFinalizeAddingLiquidityToAnExi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25553 (Code4rena/Sushi)"
+help: |
+    [H-01] `PostAuctionLauncher.sol#finalize()` Adding liquidity to an existing pool may allows the attacker to steal most of the tokens
+wiki_title: |
+    [H-01] `PostAuctionLauncher.sol#finalize()` Adding liquidity to an existing pool may allows the attacker to steal most of the tokens
+wiki_description: |
+    _Submitted by WatchPug, also found by 0xRajeev and cmichel._
+    
+    `PostAuctionLauncher.finalize()` can be called by anyone, and it sends tokens directly to the pair pool to mint liquidity, even when the pair pool exists.
+    
+    An attacker may control the LP price by creating the pool and then call `finalize(
+wiki_exploit_scenario: |
+    Per Solodit #25553: _Submitted by WatchPug, also found by 0xRajeev and cmichel._
+    
+    `PostAuctionLauncher.finalize()` can be called by anyone, and it sends tokens directly to the pair pool to mint liquidity, even when the p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01PostauctionlauncherSolFinalizeAddingLiquidityToAnExi"
+solodit_id: "25553"
+solodit_slug: |
+    h-01-postauctionlaunchersolfinalize-adding-liquidity-to-an-existing-pool-may-allows-the-attacker-to-steal-most-of-the-tokens-code4rena-sushi-sushi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(finalize).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

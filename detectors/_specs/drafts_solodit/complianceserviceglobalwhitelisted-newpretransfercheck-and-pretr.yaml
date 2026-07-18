@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "complianceserviceglobalwhitelisted-newpretransfercheck-and-pretr"
+class_name: "ComplianceserviceglobalwhitelistedNewpretransfercheckAndPretr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64481 (Cyfrin/Securitize Global Registry)"
+help: |
+    `ComplianceServiceGlobalWhitelisted::newPreTransferCheck` and `preTransferCheck` allow blacklisted users to transfer tokens
+wiki_title: |
+    `ComplianceServiceGlobalWhitelisted::newPreTransferCheck` and `preTransferCheck` allow blacklisted users to transfer tokens
+wiki_description: |
+    **Description:** `ComplianceServiceGlobalWhitelisted::newPreTransferCheck` and `preTransferCheck` only enforce that the recipient of tokens is not blacklisted, but they don't check that the sender is also not blacklisted:
+    ```solidity
+    function newPreTransferCheck(
+        address _from,
+        address _to,
+wiki_exploit_scenario: |
+    Per Solodit #64481: **Description:** `ComplianceServiceGlobalWhitelisted::newPreTransferCheck` and `preTransferCheck` only enforce that the recipient of tokens is not blacklisted, but they don't check that the sender is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ComplianceserviceglobalwhitelistedNewpretransfercheckAndPretr"
+solodit_id: "64481"
+solodit_slug: |
+    complianceserviceglobalwhitelistednewpretransfercheck-and-pretransfercheck-allow-blacklisted-users-to-transfer-tokens-cyfrin-none-securitize-global-registry-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal from;"
+fn_name_regex: ".*(preTransferCheck|from).*"
+read_var_regex: ".*(from|preTransferCheck).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "preTransferCheck"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return from > 0;"

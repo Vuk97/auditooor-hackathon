@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unvalidated-memory-access-in-readmem"
+class_name: "UnvalidatedMemoryAccessInReadmem"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-optimism"
+help: |
+    K42 The readMem() and writeMem() functions do not properly validate the memory address being accessed. This could lead to unauthorized access to memory outside the intended ranges,
+wiki_title: "Unvalidated memory access in readMem"
+wiki_description: |
+    K42 The readMem() and writeMem() functions do not properly validate the memory address being accessed. This could lead to unauthorized access to memory outside the intended ranges, which could then allow a black hat to read or modify sensitive data, in creative ways. As the contract is using a 32-bi
+wiki_exploit_scenario: |
+    Per audit finding: K42 The readMem() and writeMem() functions do not properly validate the memory address being accessed. This could lead to unauthorized access to memory outside the intended ranges, which could then al
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnvalidatedMemoryAccessInReadmem"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(readMem|writeMem|preimageKey).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "readMem"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "positionaction-sol-deposit-incorrectly-checks-auxswap-asseti-x"
+class_name: "PositionactionSolDepositIncorrectlyChecksAuxswapAssetiX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-loopfi"
+help: |
+    pkqs90 PositionAction.sol#_deposit incorrectly checks auxSwap.assetIn should be equal to collateralParams.targetToken . This is incorrect, because auxSwap.assetIn should be the tok
+wiki_title: |
+    PositionAction.sol#_deposit incorrectly checks auxSwap.assetIn should be equal to collateralParams.targetToken
+wiki_description: |
+    pkqs90 PositionAction.sol#_deposit incorrectly checks auxSwap.assetIn should be equal to collateralParams.targetToken . This is incorrect, because auxSwap.assetIn should be the token used to swap for collateralParams.targetToken . Bug Description First, let’s inspect how deposit works with swap enab
+wiki_exploit_scenario: |
+    Per audit finding: pkqs90 PositionAction.sol#_deposit incorrectly checks auxSwap.assetIn should be equal to collateralParams.targetToken . This is incorrect, because auxSwap.assetIn should be the token used to swap for
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PositionactionSolDepositIncorrectlyChecksAuxswapAssetiX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(auxSwap|assetIn|collateralParams).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "auxSwap"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

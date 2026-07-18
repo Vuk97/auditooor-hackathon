@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_require"
+name: "setispausedforallmarkets-bypass-the-check-done-in-setisborrowpau"
+class_name: "SetispausedforallmarketsBypassTheCheckDoneInSetisborrowpau"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6902 (Spearbit/Morpho)"
+help: |
+    setIsPausedForAllMarkets bypass the check done in setIsBorrowPaused and allow resuming borrow on a deprecated market
+wiki_title: |
+    setIsPausedForAllMarkets bypass the check done in setIsBorrowPaused and allow resuming borrow on a deprecated market
+wiki_description: |
+    ## Medium Risk Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    - `aave-v2/MorphoGovernance.sol#L470`
+    - `compound/MorphoGovernance.sol#L470`
+    
+    ## Description
+    The `MorphoGovernance` contract allows Morpho to set the `isBorrowPaused` to `false` only if the market is not deprecated.
+    
+    ```sol
+wiki_exploit_scenario: |
+    Per Solodit #6902: ## Medium Risk Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    - `aave-v2/MorphoGovernance.sol#L470`
+    - `compound/MorphoGovernance.sol#L470`
+    
+    ## Description
+    The `MorphoGovernance` contrac
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SetispausedforallmarketsBypassTheCheckDoneInSetisborrowpau"
+solodit_id: "6902"
+solodit_slug: |
+    setispausedforallmarkets-bypass-the-check-done-in-setisborrowpaused-and-allow-resuming-borrow-spearbit-morpho-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation"
+state_decl: "uint256 internal isborrowpaused;"
+fn_name_regex: ".*(MorphoGovernance|isBorrowPaused|setIsPausedForAllMarkets).*"
+write_var_regex: ".*(isBorrowPaused|setIsPausedForAllMarkets).*"
+guard_var_regex: ".*(isBorrowPaused|setIsPausedForAllMarkets).*"
+vuln_fn_name: "MorphoGovernance"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "isborrowpaused = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

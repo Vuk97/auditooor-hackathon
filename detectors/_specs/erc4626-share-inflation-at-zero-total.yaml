@@ -1,0 +1,30 @@
+skeleton: name_match_missing_call
+name: erc4626-share-inflation-at-zero-total
+class_name: Erc4626ShareInflationAtZeroTotal
+wave: 16
+severity: HIGH
+confidence: MEDIUM
+source: "Morpho Cantina H-C4 (borrow-share inflation when totalBorrowAssets==0) + generic ERC-4626 first-depositor pattern"
+help: "Share-denominated function writes totalShares when totalAssets is zero — classic inflation/first-depositor attack surface"
+wiki_title: "ERC-4626/share-based accounting inflation when total assets is zero"
+wiki_description: "When totalAssets (or totalBorrowAssets, totalSupplyAssets, etc.) is zero, a deposit/mint/borrow that writes to totalShares without a virtual-offset guard allows the first depositor to manipulate the share price by donating assets before or after. This is the canonical ERC-4626 first-depositor inflation attack."
+wiki_exploit_scenario: "Attacker front-runs the first legitimate depositor: attacker mints 1 wei of shares, donates a large amount of underlying directly to the vault, then the next depositor's deposit is worth ~0 shares due to the inflated share price. Attacker redeems and takes the depositor's funds."
+wiki_recommendation: "Use virtual shares/assets offset (e.g., OpenZeppelin's _decimalsOffset or Morpho's VIRTUAL_SHARES/VIRTUAL_ASSETS pattern) to prevent share-price manipulation when totalAssets is near zero."
+contract_name: ShareVault
+state_decl: |
+    uint256 internal totalAssets;
+    uint256 internal totalShares;
+fn_name_regex: ".*(deposit|mint|borrow|supply).*"
+read_var_regex: ".*(totalShares|totalSupplyShares|totalBorrowShares|totalSupply).*"
+required_call_regex: ".*(virtual|VIRTUAL|_decimalsOffset|initialDeposit).*"
+guarded_helper_name: _applyVirtualOffset
+vuln_fn_name: deposit
+vuln_fn_params: "uint256 assets"
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "uint256"
+vuln_fn_body: |
+    uint256 shares = totalAssets == 0 ? assets : assets * totalShares / totalAssets;
+    totalShares += shares;
+    totalAssets += assets;
+    return shares;

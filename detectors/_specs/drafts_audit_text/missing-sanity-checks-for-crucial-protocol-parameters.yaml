@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-sanity-checks-for-crucial-protocol-parameters"
+class_name: "MissingSanityChecksForCrucialProtocolParameters"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Cega - Zellic Audit Report"
+help: |
+    The Cega smart contracts rely on a number of protocol parameters to function cor- rectly. There are functions that allow the admins of the protocol to alter most of these parameter
+wiki_title: "Missing sanity checks for crucial protocol parameters"
+wiki_description: |
+    The Cega smart contracts rely on a number of protocol parameters to function cor- rectly. There are functions that allow the admins of the protocol to alter most of these parameters. We found that the majority of these parameters are not checked to be within certain limits before they are set. The m
+wiki_exploit_scenario: |
+    Per audit finding: The Cega smart contracts rely on a number of protocol parameters to function cor- rectly. There are functions that allow the admins of the protocol to alter most of these parameters. We found that the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingSanityChecksForCrucialProtocolParameters"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setManagementFeeBps|setYieldFeeBps|setMaxDepositAmountLimit).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setManagementFeeBps"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

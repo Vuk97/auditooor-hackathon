@@ -1,0 +1,46 @@
+skeleton: "paired_function_divergence"
+name: "attackers-can-sandwich-changeparameters-calls-to-steal-funds"
+class_name: "AttackersCanSandwichChangeparametersCallsToStealFunds"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26785 (TrailOfBits/Primitive Hyper)"
+help: "Attackers can sandwich changeParameters calls to steal funds"
+wiki_title: "Attackers can sandwich changeParameters calls to steal funds"
+wiki_description: |
+    ## Diﬃculty: Low
+    
+    ## Type: Data Validation
+    
+    ### Description
+    
+    The `changeParameters` function does not adjust the reserves according to the new parameters, which results in a discrepancy between the virtual reserves of a pool and the reserves of the tokens in the Hyper contract.
+    
+    An attacker can crea
+wiki_exploit_scenario: |
+    Per Solodit #26785: ## Diﬃculty: Low
+    
+    ## Type: Data Validation
+    
+    ### Description
+    
+    The `changeParameters` function does not adjust the reserves according to the new parameters, which results in a discrepancy between the vi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AttackersCanSandwichChangeparametersCallsToStealFunds"
+solodit_id: "26785"
+solodit_slug: "attackers-can-sandwich-changeparameters-calls-to-steal-funds-trailofbits-none-primitive-hyper-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(allocate|changeParameters|getAmountsWad).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,55 @@
+skeleton: "name_match_missing_call"
+name: "h-01-tvl-double-counts-assets-returned-from-strategy-to-vault"
+class_name: "H01TvlDoubleCountsAssetsReturnedFromStrategyToVault"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #63544 (Pashov Audit Group/Elytra_2025-07-10)"
+help: "[H-01] TVL double-counts assets returned from strategy to vault"
+wiki_title: "[H-01] TVL double-counts assets returned from strategy to vault"
+wiki_description: |
+    _Resolved_
+    
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When assets are allocated to a strategy, `ElytraDepositPoolV1.assetsAllocatedToStrategies[asset]` is incremented. Later, the strategy can return funds to the unstaking vault via:
+    
+    ```solidity
+        /// @notice Receives
+wiki_exploit_scenario: |
+    Per Solodit #63544: _Resolved_
+    
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When assets are allocated to a strategy, `ElytraDepositPoolV1.assetsAllocatedToStrategies[asset]` is incremented. La
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01TvlDoubleCountsAssetsReturnedFromStrategyToVault"
+solodit_id: "63544"
+solodit_slug: |
+    h-01-tvl-double-counts-assets-returned-from-strategy-to-vault-pashov-audit-group-none-elytra_2025-07-10-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assetstrategyallocations;"
+fn_name_regex: ".*(getTotalAssetTVL|assetsAllocatedToStrategies|assetStrategyAllocations|ElytraDepositPoolV1).*"
+read_var_regex: ".*(assetStrategyAllocations|assetsAllocatedToStrategies|getTotalAssetTVL).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getTotalAssetTVL"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assetstrategyallocations > 0;"

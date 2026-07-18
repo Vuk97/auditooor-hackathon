@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "fees-sent-to-quantammadmin-is-stuck-forever-as-there-is-no-funct"
+class_name: "FeesSentToQuantammadminIsStuckForeverAsThereIsNoFunct"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49702 (Codehawks/QuantAMM)"
+help: "fees sent to QuantAMMAdmin is stuck forever as there is no function to retrieve them"
+wiki_title: "fees sent to QuantAMMAdmin is stuck forever as there is no function to retrieve them"
+wiki_description: |
+    ## Summary
+    
+    When a user removes liquidity from the pool he pays fees and a portion of the fees is liquidity added back for `QuantAMMAdmin`
+    
+    Those funds are stuck in, and can't be removed as there is no mapping or NFT minted for those shares so any attempt to removeliquidity will revert
+    
+    ## Vulnerabi
+wiki_exploit_scenario: |
+    Per Solodit #49702: ## Summary
+    
+    When a user removes liquidity from the pool he pays fees and a portion of the fees is liquidity added back for `QuantAMMAdmin`
+    
+    Those funds are stuck in, and can't be removed as there is n
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FeesSentToQuantammadminIsStuckForeverAsThereIsNoFunct"
+solodit_id: "49702"
+solodit_slug: |
+    fees-sent-to-quantammadmin-is-stuck-forever-as-there-is-no-function-to-retrieve-them-codehawks-quantamm-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(onAfterREmoveLiquidity|poolsFeeData|quantAMMAdmin).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

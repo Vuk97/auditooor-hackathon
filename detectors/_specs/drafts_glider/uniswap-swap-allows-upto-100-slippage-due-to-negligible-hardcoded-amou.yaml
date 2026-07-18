@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "uniswap-swap-allows-upto-100-slippage-due-to-negligible-hardcoded-amou"
+class_name: "UniswapSwapAllowsUpto100SlippageDueToNegligibleHardcodedAmou"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: uniswap-v2v3-swaps-contain-hardcoded-minimum-amoun"
+help: "Uniswap Swap allows upto 100% slippage due to negligible hardcoded amountOutMinimum"
+wiki_title: "Uniswap Swap allows upto 100% slippage due to negligible hardcoded amountOutMinimum"
+wiki_description: |
+    Both Uniswap-V2 and Uniswap-V3 allow users to specify the minimum amount they are willing to receive from a swap, however if these values are hardcoded to a literal such as 0 or 1 there is near zero slippage protection thus a slippage of 100% (or near 100%) can occur. This is exploited by MEV bots w
+wiki_exploit_scenario: |
+    Per Glider query tags [Uniswap, AMM]: Both Uniswap-V2 and Uniswap-V3 allow users to specify the minimum amount they are willing to receive from a swap, however if these values are hardcoded to a literal such as 0 or 1 there is near zero s
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "UniswapSwapAllowsUpto100SlippageDueToNegligibleHardcodedAmou"
+fn_name_regex: ".*(amountOutMinimum).*"
+read_var_regex: ".*(amountoutm).*"
+required_call_regex: ".*(accrue|update|sync|validate|check).*"
+guarded_helper_name: "_guard"
+vuln_fn_name: "amountOutMinimum"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amountoutm > 0;"
+state_decl: "uint256 internal amountoutm;"

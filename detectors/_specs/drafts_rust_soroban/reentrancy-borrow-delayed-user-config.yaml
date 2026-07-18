@@ -1,0 +1,19 @@
+id: reentrancy-borrow-delayed-user-config
+title: "Re-entrancy in borrow bypasses HF via delayed user_config update"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44354"
+bug_class: health-factor
+indicators:
+  - "`borrow` updates `user_config.set_borrowing(...)` AFTER the token transfer that triggers a cross-contract callback"
+  - "re-entrant call sees old (zero) debt state and passes HF"
+victim: "Protocol: attacker uses callback to borrow more than HF allows."
+exploit_precondition: "Reserve token is callback-enabled (custom SAC or hook-bearing token)."
+real_world_example: |
+  V12 #44354 (Low): Re-entrancy in borrow bypasses HF via delayed user_config update.
+suggested_remediation: "Update `user_config` before the external transfer (checks-effects-interactions)."
+cross_refs:
+  - scaled-share-rounding-mismatch

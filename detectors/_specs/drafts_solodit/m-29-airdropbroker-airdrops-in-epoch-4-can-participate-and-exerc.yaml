@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "m-29-airdropbroker-airdrops-in-epoch-4-can-participate-and-exerc"
+class_name: "M29AirdropbrokerAirdropsInEpoch4CanParticipateAndExerc"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32352 (Code4rena/Tapioca DAO)"
+help: |
+    [M-29] `AirdropBroker`: Airdrops in epoch 4 can participate and exercise options in subsequent epochs
+wiki_title: |
+    [M-29] `AirdropBroker`: Airdrops in epoch 4 can participate and exercise options in subsequent epochs
+wiki_description: |
+    In `AirdropBroker`, the owner calls `registerUsersForPhase` with `_phase = 4` to airdrop to users in epoch 4 to 8.
+    
+    ```solidity
+            else if (_phase == 4) {
+                for (uint256 i; i < _users.length; i++) {
+                    phase4Users[_users[i]] = _amounts[i];
+                }
+            }
+    ```
+    
+    An
+wiki_exploit_scenario: |
+    Per Solodit #32352: In `AirdropBroker`, the owner calls `registerUsersForPhase` with `_phase = 4` to airdrop to users in epoch 4 to 8.
+    
+    ```solidity
+            else if (_phase == 4) {
+                for (uint256 i; i < _users.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M29AirdropbrokerAirdropsInEpoch4CanParticipateAndExerc"
+solodit_id: "32352"
+solodit_slug: |
+    m-29-airdropbroker-airdrops-in-epoch-4-can-participate-and-exercise-options-in-subsequent-epochs-code4rena-tapioca-dao-tapioca-dao-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal aotap;"
+fn_name_regex: ".*(AirdropBroker|registerUsersForPhase|twTAP|aoTAP).*"
+read_var_regex: ".*(aoTAP|aoTAPs|phase4Users).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "AirdropBroker"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return aotap > 0;"

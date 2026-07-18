@@ -1,0 +1,50 @@
+skeleton: "paired_function_divergence"
+name: "balanceof-can-be-circumvented-via-reentrancy-and-two-pairs"
+class_name: "BalanceofCanBeCircumventedViaReentrancyAndTwoPairs"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18297 (Spearbit/Sudoswap LSSVM2)"
+help: "balanceOf() can be circumvented via reentrancy and two pairs"
+wiki_title: "balanceOf() can be circumvented via reentrancy and two pairs"
+wiki_description: |
+    ## Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    LSSVMPairERC1155.sol#L222-L246
+    
+    ## Description
+    A reentrancy issue can occur if two pairs with the same ERC1155 NFTid are deployed. Via a call to swap NFTs, the ERC1155 callback `onERC1155BatchReceived()` is called. This callback can st
+wiki_exploit_scenario: |
+    Per Solodit #18297: ## Vulnerability Report
+    
+    ## Severity
+    **Medium Risk**
+    
+    ## Context
+    LSSVMPairERC1155.sol#L222-L246
+    
+    ## Description
+    A reentrancy issue can occur if two pairs with the same ERC1155 NFTid are deployed. Via
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BalanceofCanBeCircumventedViaReentrancyAndTwoPairs"
+solodit_id: "18297"
+solodit_slug: "balanceof-can-be-circumvented-via-reentrancy-and-two-pairs-spearbit-sudoswap-lssvm2-pdf"
+solodit_quality: "4"
+solodit_rarity: "5"
+solodit_tags: "Reentrancy"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balanceOf|onERC1155BatchReceived).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

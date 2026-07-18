@@ -1,0 +1,56 @@
+skeleton: "name_match_missing_require"
+name: "sharesmanager-mintshares-depositors-may-receive-zero-shares-due-"
+class_name: "SharesmanagerMintsharesDepositorsMayReceiveZeroSharesDue"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7029 (Spearbit/Liquid Collective)"
+help: "SharesManager._mintShares - Depositors may receive zero shares due to front-running"
+wiki_title: "SharesManager._mintShares - Depositors may receive zero shares due to front-running"
+wiki_description: |
+    ## Medium Risk Report
+    
+    ## Severity 
+    Medium Risk
+    
+    ## Context 
+    SharesManager.1.sol#L202
+    
+    ## Description 
+    The number of shares minted to a depositor is determined by 
+    
+    \[
+    \text{shares} = \frac{\text{underlyingAssetValue} \times \text{totalSupply()}}{\text{oldTotalAssetBalance}}
+    \]
+    
+    Potential attackers
+wiki_exploit_scenario: |
+    Per Solodit #7029: ## Medium Risk Report
+    
+    ## Severity 
+    Medium Risk
+    
+    ## Context 
+    SharesManager.1.sol#L202
+    
+    ## Description 
+    The number of shares minted to a depositor is determined by 
+    
+    \[
+    \text{shares} = \frac{\text{unde
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SharesmanagerMintsharesDepositorsMayReceiveZeroSharesDue"
+solodit_id: "7029"
+solodit_slug: |
+    sharesmanager_mintshares-depositors-may-receive-zero-shares-due-to-front-running-spearbit-liquid-collective-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Validation, Share Inflation, Front-Running"
+state_decl: "uint256 internal attackershares;"
+fn_name_regex: ".*(oldTotalAssetBalance|underlyingAssetValue|attackerShares).*"
+write_var_regex: ".*(attackerShares|oldTotalAssetBalance|underlyingAssetValue).*"
+guard_var_regex: ".*(attackerShares|oldTotalAssetBalance|underlyingAssetValue).*"
+vuln_fn_name: "oldTotalAssetBalance"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "attackershares = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

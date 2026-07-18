@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "l2contractmigrationfacet-addmigrateddepositstoaccount-doesn-t-pu"
+class_name: "L2contractmigrationfacetAddmigrateddepositstoaccountDoesnTPu"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36250 (Codehawks/Beanstalk: The Finale)"
+help: "`L2ContractMigrationFacet.addMigratedDepositsToAccount()` doesn't push depositId to `depositIdList`"
+wiki_title: "`L2ContractMigrationFacet.addMigratedDepositsToAccount()` doesn't push depositId to `depositIdList`"
+wiki_description: |
+    ## Summary
+    
+    `depositIdList` is array of Silo deposits owned by account. Ids are pushed on new deposits and deleted on withdrawals. `depositIdList` is used to track deposits of user off-chain.
+    
+    Problem is that L2ContractMigrationFacet doesn't update this array when migrates deposits. You can check it
+wiki_exploit_scenario: |
+    Per Solodit #36250: ## Summary
+    
+    `depositIdList` is array of Silo deposits owned by account. Ids are pushed on new deposits and deleted on withdrawals. `depositIdList` is used to track deposits of user off-chain.
+    
+    Problem
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "L2contractmigrationfacetAddmigrateddepositstoaccountDoesnTPu"
+solodit_id: "36250"
+solodit_slug: |
+    l2contractmigrationfacetaddmigrateddepositstoaccount-doesnt-push-depositid-to-depositidlist-codehawks-beanstalk-the-finale-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositidlist;"
+fn_name_regex: ".*(depositIdList).*"
+read_var_regex: ".*(depositIdList).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositIdList"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return depositidlist > 0;"

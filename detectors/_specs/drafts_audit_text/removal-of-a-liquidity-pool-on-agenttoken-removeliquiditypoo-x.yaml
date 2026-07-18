@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "removal-of-a-liquidity-pool-on-agenttoken-removeliquiditypoo-x"
+class_name: "RemovalOfALiquidityPoolOnAgenttokenRemoveliquiditypooX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-04-virtuals-protocol"
+help: |
+    YouCrossTheLineAlfie Finding description The AgentToken.sol contract uses tax mechanism whenever swaps take place for the added liquidity pools, which can be observed in the transf
+wiki_title: "Removal of a liquidity pool on AgentToken::removeLiquidityPool still incurs taxes on swaps"
+wiki_description: |
+    YouCrossTheLineAlfie Finding description The AgentToken.sol contract uses tax mechanism whenever swaps take place for the added liquidity pools, which can be observed in the transfer functions. function transfer ( address to uint256 amount ) public virtual override ( IERC20 ) returns ( bool ) { addr
+wiki_exploit_scenario: |
+    Per audit finding: YouCrossTheLineAlfie Finding description The AgentToken.sol contract uses tax mechanism whenever swaps take place for the added liquidity pools, which can be observed in the transfer functions. functi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RemovalOfALiquidityPoolOnAgenttokenRemoveliquiditypooX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(isLiquidityPool|uniswapV2Pair|uniswapV2Pair_).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

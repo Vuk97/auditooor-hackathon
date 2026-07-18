@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "rounding-asymmetry-in-share-debt-conversion-flows"
+class_name: "RoundingAsymmetryInShareDebtConversionFlows"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider AST: rounding-asymmetry-in-share-debt-conversion-flows"
+help: "Rounding asymmetry in share/debt conversion flows"
+wiki_title: "Rounding asymmetry in share/debt conversion flows"
+wiki_description: |
+    Flags contracts that mix rounding-down and rounding-up math across convert/preview/borrow/repay paths, a drainage vector where users can loop mint/redeem or borrow/repay to extract rounding dust.
+wiki_exploit_scenario: |
+    Tags [rounding, conversion, debt, shares, preview]: Flags contracts that mix rounding-down and rounding-up math across convert/preview/borrow/repay paths, a drainage vector where users can loop mint/redeem or borrow/repay to extract rounding dust.
+wiki_recommendation: "Apply the access check implied by the Glider query filter."
+contract_name: "RoundingAsymmetryInShareDebtConversionFlows"
+fn_name_regex: ".*"
+read_var_regex: ".*rounding.*"
+required_call_regex: ".*(validate|check|verify|require).*"
+guarded_helper_name: "_validateGuard"
+vuln_fn_name: "roundingFn"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return rounding > 0;"
+state_decl: "uint256 internal rounding;"

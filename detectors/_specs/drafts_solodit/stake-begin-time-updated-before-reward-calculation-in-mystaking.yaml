@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "stake-begin-time-updated-before-reward-calculation-in-mystaking"
+class_name: "StakeBeginTimeUpdatedBeforeRewardCalculationInMystaking"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57531 (Zokyo/Magic Yearn)"
+help: "Stake begin time updated before reward calculation in MyStaking."
+wiki_title: "Stake begin time updated before reward calculation in MyStaking."
+wiki_description: |
+    **Description**
+    
+    MyStaking.sol: function_stake(). "stakeBegin" is used within the function getDivisorByTime() during the calculation of the claimable amount. Since_setTimer() is called before rewards are calculated (Lines 243-244), "stakeBegin" will be equal for msg.sender and the commission for the
+wiki_exploit_scenario: |
+    Per Solodit #57531: **Description**
+    
+    MyStaking.sol: function_stake(). "stakeBegin" is used within the function getDivisorByTime() during the calculation of the claimable amount. Since_setTimer() is called before rewards
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StakeBeginTimeUpdatedBeforeRewardCalculationInMystaking"
+solodit_id: "57531"
+solodit_slug: "stake-begin-time-updated-before-reward-calculation-in-mystaking-zokyo-none-magic-yearn-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(stakeBegin|getDivisorByTime|userInfo|unclaimedAmount).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "stakeBegin"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

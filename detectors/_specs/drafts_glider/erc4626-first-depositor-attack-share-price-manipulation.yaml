@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_call"
+name: "erc4626-first-depositor-attack-share-price-manipulation"
+class_name: "Erc4626FirstDepositorAttackSharePriceManipulation"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: erc4626-first-depositor-attack-share-price-manipul"
+help: "ERC4626 deposit or mint path reads bootstrap share accounting without a first-deposit or virtual-offset guard"
+wiki_title: "ERC4626 First Depositor Attack - Share Price Manipulation"
+wiki_description: |
+    Detects ERC4626-style deposit or mint flows that read total-supply or total-asset
+    accounting but do not call a bootstrap helper, virtual-offset helper, or
+    first-deposit guard.
+wiki_exploit_scenario: |
+    Attacker seeds an empty vault, donates underlying to skew the exchange rate,
+    then frontruns the next depositor so the victim receives near-zero shares.
+wiki_recommendation: "Use a bootstrap branch, virtual shares/assets, or an equivalent first-deposit guard to prevent hostile exchange-rate initialization."
+contract_name: "Erc4626FirstDepositorAttackSharePriceManipulation"
+fn_name_regex: ".*(deposit|mint).*"
+read_var_regex: ".*(totalSupply|totalShares|shareSupply|totalAssets|managedAssets|assetBalance).*"
+required_call_regex: ".*(virtual|VIRTUAL|bootstrap|initialDeposit|firstDeposit|seed|_decimalsOffset).*"
+guarded_helper_name: "_bootstrapVirtualOffset"
+vuln_fn_name: "deposit"
+vuln_fn_params: "uint256 assets"
+vuln_fn_mutability: "external"
+vuln_fn_mutability_clean: "external"
+vuln_fn_return: "uint256 shares"
+vuln_fn_body: "shares = totalSupply == 0 ? assets : (assets * totalSupply) / totalManagedAssets; totalManagedAssets += assets; totalSupply += shares; return shares;"
+state_decl: "uint256 internal totalSupply; uint256 internal totalManagedAssets;"

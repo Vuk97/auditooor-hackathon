@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "initpool-handles-fees-incorrectly"
+class_name: "InitpoolHandlesFeesIncorrectly"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit CrocSwap - Zellic Audit Report"
+help: |
+    The function initPool allows to create a new pool for tokens pair from a preset tem- plate, which is defined by poolIdx. registerPool is called during the pool initialization proce
+wiki_title: "initPool handles fees incorrectly"
+wiki_description: |
+    The function initPool allows to create a new pool for tokens pair from a preset tem- plate, which is defined by poolIdx. registerPool is called during the pool initialization process and gets a preset template, which is defined by poolIdx and saves new pool in storage. Also, there is the protocolTak
+wiki_exploit_scenario: |
+    Per audit finding: The function initPool allows to create a new pool for tokens pair from a preset tem- plate, which is defined by poolIdx. registerPool is called during the pool initialization process and gets a preset
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InitpoolHandlesFeesIncorrectly"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

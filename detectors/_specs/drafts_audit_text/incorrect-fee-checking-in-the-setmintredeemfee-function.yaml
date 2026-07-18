@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-fee-checking-in-the-setmintredeemfee-function"
+class_name: "IncorrectFeeCheckingInTheSetmintredeemfeeFunction"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Frax - Zellic Audit Report"
+help: |
+    The setMintRedeemFee function allows the owner to set the mint and redeem fees. However, the current implementation checks if either fee is less than 1e18, which is not a valid che
+wiki_title: "Incorrect fee checking in the setMintRedeemFee function"
+wiki_description: |
+    The setMintRedeemFee function allows the owner to set the mint and redeem fees. However, the current implementation checks if either fee is less than 1e18, which is not a valid check for ensuring that the fees are fractions of the underlying asset. function setMintRedeemFee(uint256 _mintFee, uint _r
+wiki_exploit_scenario: |
+    Per audit finding: The setMintRedeemFee function allows the owner to set the mint and redeem fees. However, the current implementation checks if either fee is less than 1e18, which is not a valid check for ensuring that
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectFeeCheckingInTheSetmintredeemfeeFunction"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setMintRedeemFee|onlyOwner|mintFee).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setMintRedeemFee"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

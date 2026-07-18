@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "lack-of-user-access-control-in-stakev2"
+class_name: "LackOfUserAccessControlInStakev2"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Yeet October - Zellic Audit Report"
+help: |
+    The Manager contract in StakeV2.sol does not have access control. The functions addManager and removeManager lack any access control, allowing arbitrary addresses to be registered
+wiki_title: "Lack of user access control in StakeV2"
+wiki_description: |
+    The Manager contract in StakeV2.sol does not have access control. The functions addManager and removeManager lack any access control, allowing arbitrary addresses to be registered or removed as a manager. function addManager(address _manager) external override { require(!managers[_manager], "Manager
+wiki_exploit_scenario: |
+    Per audit finding: The Manager contract in StakeV2.sol does not have access control. The functions addManager and removeManager lack any access control, allowing arbitrary addresses to be registered or removed as a mana
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfUserAccessControlInStakev2"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addManager|removeManager).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "addManager"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

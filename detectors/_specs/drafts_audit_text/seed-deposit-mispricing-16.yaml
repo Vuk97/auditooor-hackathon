@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "seed-deposit-mispricing-16"
+class_name: "SeedDepositMispricing16"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Origami Finance - Zellic Audit Report"
+help: |
+    When a user exits the OrigamiLovToken, a percent of their reserves are kept as an exit fee. As such, the ratio of reserve to supply tokens is increased. This increases the price of
+wiki_title: "Seed-deposit mispricing                              16"
+wiki_description: |
+    When a user exits the OrigamiLovToken, a percent of their reserves are kept as an exit fee. As such, the ratio of reserve to supply tokens is increased. This increases the price of the shares of the remaining users in the vault and can have undesired side effects. function exitToToken( address /*acc
+wiki_exploit_scenario: |
+    Per audit finding: When a user exits the OrigamiLovToken, a percent of their reserves are kept as an exit fee. As such, the ratio of reserve to supply tokens is increased. This increases the price of the shares of the r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SeedDepositMispricing16"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(exitToToken|quoteData|onlyLovToken).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "exitToToken"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

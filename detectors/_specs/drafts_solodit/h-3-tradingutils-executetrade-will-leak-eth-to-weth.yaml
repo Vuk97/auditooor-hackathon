@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "h-3-tradingutils-executetrade-will-leak-eth-to-weth"
+class_name: "H3TradingutilsExecutetradeWillLeakEthToWeth"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3323 (Sherlock/Notional)"
+help: "H-3: `TradingUtils::_executeTrade` will leak ETH to WETH"
+wiki_title: "H-3: `TradingUtils::_executeTrade` will leak ETH to WETH"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2022-09-notional-judging/issues/98 
+    
+    ## Found by 
+    lemonmon
+    
+    ## Summary
+    
+    If sellToken is ETH, and using Uniswap for the dex, and it is exact out trade, too much is deposited to the WETH and does not withdraw the excess amount. It will give wrong `amountSold`
+wiki_exploit_scenario: |
+    Per Solodit #3323: Source: https://github.com/sherlock-audit/2022-09-notional-judging/issues/98 
+    
+    ## Found by 
+    lemonmon
+    
+    ## Summary
+    
+    If sellToken is ETH, and using Uniswap for the dex, and it is exact out trade, too muc
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H3TradingutilsExecutetradeWillLeakEthToWeth"
+solodit_id: "3323"
+solodit_slug: "h-3-tradingutils_executetrade-will-leak-eth-to-weth-sherlock-notional-notional-git"
+solodit_quality: "3"
+solodit_rarity: "3"
+solodit_tags: "Refund Ether"
+state_decl: "uint256 internal amountsold;"
+fn_name_regex: ".*(amountSold).*"
+read_var_regex: ".*(amountSold).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "amountSold"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amountsold > 0;"

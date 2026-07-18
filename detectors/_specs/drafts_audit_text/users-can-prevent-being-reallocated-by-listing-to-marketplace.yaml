@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "users-can-prevent-being-reallocated-by-listing-to-marketplace"
+class_name: "UsersCanPreventBeingReallocatedByListingToMarketplace"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-secondswap"
+help: |
+    0xc0ffEE , also found by attentioniayn ChainProof falconhoof rouhsamad sl1 , and TheKhans The token issuer has the ability to change vesting allocation. However, a user can prevent
+wiki_title: "Users can prevent being reallocated by listing to marketplace"
+wiki_description: |
+    0xc0ffEE , also found by attentioniayn ChainProof falconhoof rouhsamad sl1 , and TheKhans The token issuer has the ability to change vesting allocation. However, a user can prevent his vesting from being allocated by listing his vesting to the marketplace. The function SecondSwap_StepVesting::transf
+wiki_exploit_scenario: |
+    Per audit finding: 0xc0ffEE , also found by attentioniayn ChainProof falconhoof rouhsamad sl1 , and TheKhans The token issuer has the ability to change vesting allocation. However, a user can prevent his vesting from be
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanPreventBeingReallocatedByListingToMarketplace"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferVesting|tokenIssuer|vestingDeployer).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "transferVesting"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

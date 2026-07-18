@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "nonstandard-erc-20-token-usage"
+class_name: "NonstandardErc20TokenUsage"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Megapot AutoSub_BatchPurchase - Zellic Audit Report"
+help: |
+    The BatchPurchaseFacilitator, JackpotAutoSubscription, and JackpotRandomTicketBuyer contracts call approve directly on the USDC token to allow the Jackpot contract to transfer the
+wiki_title: "Nonstandard ERC-20 token usage"
+wiki_description: |
+    The BatchPurchaseFacilitator, JackpotAutoSubscription, and JackpotRandomTicketBuyer contracts call approve directly on the USDC token to allow the Jackpot contract to transfer the exact amount of USDC during ticket purchase. usdc.approve(address(Jackpot), totalCost); While this works for USDC, the a
+wiki_exploit_scenario: |
+    Per audit finding: The BatchPurchaseFacilitator, JackpotAutoSubscription, and JackpotRandomTicketBuyer contracts call approve directly on the USDC token to allow the Jackpot contract to transfer the exact amount of USDC
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NonstandardErc20TokenUsage"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalCost).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "totalCost"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

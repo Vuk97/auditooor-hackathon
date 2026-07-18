@@ -1,0 +1,46 @@
+skeleton: "paired_function_divergence"
+name: "h-7-incorrect-reserve-mapping-leads-to-fault-swap"
+class_name: "H7IncorrectReserveMappingLeadsToFaultSwap"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #52752 (Sherlock/Peapods)"
+help: "H-7: Incorrect reserve mapping leads to fault swap"
+wiki_title: "H-7: Incorrect reserve mapping leads to fault swap"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/512 
+    
+    ## Found by 
+    Etherking, Honour, ZoA, pkqs90
+    
+    ### Summary
+    
+    The function `_getSwapAmt` incorrectly assumes that `_r0` corresponds to `_t0` and `_r1` corresponds to `_t1`. However, Uniswap V2's `getReserves()` return
+wiki_exploit_scenario: |
+    Per Solodit #52752: Source: https://github.com/sherlock-audit/2025-01-peapods-finance-judging/issues/512 
+    
+    ## Found by 
+    Etherking, Honour, ZoA, pkqs90
+    
+    ### Summary
+    
+    The function `_getSwapAmt` incorrectly assumes that `_r
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H7IncorrectReserveMappingLeadsToFaultSwap"
+solodit_id: "52752"
+solodit_slug: "h-7-incorrect-reserve-mapping-leads-to-fault-swap-sherlock-peapods-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(getReserves).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

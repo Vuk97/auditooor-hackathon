@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "missing-access-control-in-collateralliquidityprovider-setcollate"
+class_name: "MissingAccessControlInCollateralliquidityproviderSetcollate"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #64227 (Cyfrin/Securitize Redemptions)"
+help: "Missing access control in `CollateralLiquidityProvider::setCollateralProvider`"
+wiki_title: "Missing access control in `CollateralLiquidityProvider::setCollateralProvider`"
+wiki_description: |
+    **Description:** The contract `CollateralLiquidityProvider` relies on `collateralProvider` to pull the collateral and process redemption in liquidity token. This state variable can be changed via the function `setCollateralProvider()` as below.
+    ```solidity
+    CollateralLiquidityProvider.sol
+    79:     fun
+wiki_exploit_scenario: |
+    Per Solodit #64227: **Description:** The contract `CollateralLiquidityProvider` relies on `collateralProvider` to pull the collateral and process redemption in liquidity token. This state variable can be changed via the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingAccessControlInCollateralliquidityproviderSetcollate"
+solodit_id: "64227"
+solodit_slug: |
+    missing-access-control-in-collateralliquidityprovidersetcollateralprovider-cyfrin-none-securitize-redemptions-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal availableliquidity;"
+fn_name_regex: ".*(CollateralLiquidityProvider|collateralProvider|setCollateralProvider|availableLiquidity).*"
+read_var_regex: ".*(availableLiquidity|collateralProvider|onlyOwner).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "CollateralLiquidityProvider"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return availableliquidity > 0;"

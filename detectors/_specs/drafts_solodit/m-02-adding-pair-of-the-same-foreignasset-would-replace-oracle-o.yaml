@@ -1,0 +1,37 @@
+skeleton: "paired_function_divergence"
+name: "m-02-adding-pair-of-the-same-foreignasset-would-replace-oracle-o"
+class_name: "M02AddingPairOfTheSameForeignassetWouldReplaceOracleO"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42428 (Code4rena/Vader Protocol)"
+help: "[M-02] Adding pair of the same `foreignAsset` would replace oracle of earlier entry"
+wiki_title: "[M-02] Adding pair of the same `foreignAsset` would replace oracle of earlier entry"
+wiki_description: |
+    _Submitted by gzeon_
+    
+    Oracles are mapped to the `foreignAsset` but not to the specific pair. Pairs with the same `foreignAsset` (e.g. UniswapV2 and Sushi) will be forced to use the same oracle. Generally this should be the expected behavior but there are also possibility that while adding a new pair
+wiki_exploit_scenario: |
+    Per Solodit #42428: _Submitted by gzeon_
+    
+    Oracles are mapped to the `foreignAsset` but not to the specific pair. Pairs with the same `foreignAsset` (e.g. UniswapV2 and Sushi) will be forced to use the same oracle. Genera
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02AddingPairOfTheSameForeignassetWouldReplaceOracleO"
+solodit_id: "42428"
+solodit_slug: |
+    m-02-adding-pair-of-the-same-foreignasset-would-replace-oracle-of-earlier-entry-code4rena-vader-protocol-vader-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(foreignAsset).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

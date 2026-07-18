@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "missing-price-staleness-check-for-weeth-aggregator"
+class_name: "MissingPriceStalenessCheckForWeethAggregator"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-benddao-invitational"
+help: |
+    oakcobalt Code reference: EETHPriceAdapter.sol#L115 EETHPriceAdapter::latestRoundata() is called by PriceOracle::getAssetPriceFromChainlink. It provides price of eETH in baseCurren
+wiki_title: "Missing price staleness check for WEETH_AGGREGATOR"
+wiki_description: |
+    oakcobalt Code reference: EETHPriceAdapter.sol#L115 EETHPriceAdapter::latestRoundata() is called by PriceOracle::getAssetPriceFromChainlink. It provides price of eETH in baseCurrency(USD) by using two chainlink oracles - ETH/USD( BASE_AGGREGATOR ), WETH/ETH ( WEETH_AGGREGATOR ). The problem is the f
+wiki_exploit_scenario: |
+    Per audit finding: oakcobalt Code reference: EETHPriceAdapter.sol#L115 EETHPriceAdapter::latestRoundata() is called by PriceOracle::getAssetPriceFromChainlink. It provides price of eETH in baseCurrency(USD) by using two
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingPriceStalenessCheckForWeethAggregator"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(latestRoundata|getAssetPriceFromChainlink|eETH).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "latestRoundata"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

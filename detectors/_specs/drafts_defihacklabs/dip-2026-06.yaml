@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "dip-2026-06"
+class_name: "Dip202606"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2026-06/DIP_exp.sol"
+help: "DIP 2026-06 — flashloan exploit (111,097.59 USDC)"
+wiki_title: "DIP (2026-06) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2026-06): DIP lost 111,097.59 USDC. Bug class: flashloan. Attack tx: 0x1c09395848a87069c9d6ddbe5adc6249510aba7a2a83479a74b4280cafb5fb29.
+wiki_exploit_scenario: |
+    Attacker (0x0d4024cd27538350a911d9b7ee90811fa4875ba3) exploits DIP via flashloan: the victim contract 0x6c60bf5db0670ae94489d3dde2c60f271625db50 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Dip202606"
+trigger_sig_regex: ".*(pancakeCall).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function pancakeCall(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.pancakeCall(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

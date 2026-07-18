@@ -1,0 +1,37 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "lp-token-price-manipulation-through-reserve"
+class_name: "LpTokenPriceManipulationThroughReserve"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #52252 (Halborn/Contracts V1)"
+help: "LP Token Price Manipulation Through Reserve"
+wiki_title: "LP Token Price Manipulation Through Reserve"
+wiki_description: |
+    ##### Description
+    
+    The BondSteerOracle contract implements a flawed methodology for calculating the price of Steer Protocol LP tokens. The `_currentPrice` function uses spot reserves to determine the LP token value, which is susceptible to manipulation:
+    
+    ```
+    function _currentPrice(ERC20 quoteToken_,
+wiki_exploit_scenario: |
+    Per Solodit #52252: ##### Description
+    
+    The BondSteerOracle contract implements a flawed methodology for calculating the price of Steer Protocol LP tokens. The `_currentPrice` function uses spot reserves to determine the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LpTokenPriceManipulationThroughReserve"
+solodit_id: "52252"
+solodit_slug: "lp-token-price-manipulation-through-reserve-halborn-lucid-labs-contracts-v1-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(getTotalAmounts).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

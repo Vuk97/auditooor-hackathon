@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "ibc-does-not-work-with-chains-that-generate-subsecond-blocks"
+class_name: "IbcDoesNotWorkWithChainsThatGenerateSubsecondBlocks"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit IBC Eureka - Zellic Audit Report"
+help: |
+    The _checkUpdateResult function ensures that the timestamp of the new valid submitted consensus state (newConsensusState.timestamp) is greater than the last trusted consensus state
+wiki_title: "IBC does not work with chains that generate subsecond blocks"
+wiki_description: |
+    The _checkUpdateResult function ensures that the timestamp of the new valid submitted consensus state (newConsensusState.timestamp) is greater than the last trusted consensus state, trustedConsensusState.timestamp. function _checkUpdateResult(IUpdateClientMsgs.UpdateClientOutput memory output) priva
+wiki_exploit_scenario: |
+    Per audit finding: The _checkUpdateResult function ensures that the timestamp of the new valid submitted consensus state (newConsensusState.timestamp) is greater than the last trusted consensus state, trustedConsensusSt
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IbcDoesNotWorkWithChainsThatGenerateSubsecondBlocks"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(newConsensusState|trustedConsensusState|consensusStateHash).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "newConsensusState"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

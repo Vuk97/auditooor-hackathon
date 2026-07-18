@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "execute-trigger-check-never-fails-due-to-atomicity-82"
+class_name: "ExecuteTriggerCheckNeverFailsDueToAtomicity82"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    The function openTrade is used to open a new market or limit trade. While creating a limit order, the openPrice could be set to any value. For a buy order, the value of stop loss s
+wiki_title: "Execute trigger check never fails due to atomicity                             82"
+wiki_description: |
+    The function openTrade is used to open a new market or limit trade. While creating a limit order, the openPrice could be set to any value. For a buy order, the value of stop loss should always be less than this openPrice due to the check t.sl < t.openPrice as shown below in openTrade: function openT
+wiki_exploit_scenario: |
+    Per audit finding: The function openTrade is used to open a new market or limit trade. While creating a limit order, the openPrice could be set to any value. For a buy order, the value of stop loss should always be less
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExecuteTriggerCheckNeverFailsDueToAtomicity82"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

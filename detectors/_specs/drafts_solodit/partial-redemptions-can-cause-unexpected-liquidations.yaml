@@ -1,0 +1,42 @@
+skeleton: "state_write_without_paired_write"
+name: "partial-redemptions-can-cause-unexpected-liquidations"
+class_name: "PartialRedemptionsCanCauseUnexpectedLiquidations"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41457 (TrailOfBits/Acronym Foundation)"
+help: "Partial redemptions can cause unexpected liquidations"
+wiki_title: "Partial redemptions can cause unexpected liquidations"
+wiki_description: |
+    ## Data Validation Issue
+    
+    **Difficulty:** High  
+    **Type:** Data Validation
+    
+    ## Description
+    The amount of credited tokens available for redemption is not updated during partial redemptions, which would cause LOCs to enter an unhealthy state and allow them to then be unexpectedly liquidated. Similar t
+wiki_exploit_scenario: |
+    Per Solodit #41457: ## Data Validation Issue
+    
+    **Difficulty:** High  
+    **Type:** Data Validation
+    
+    ## Description
+    The amount of credited tokens available for redemption is not updated during partial redemptions, which would
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PartialRedemptionsCanCauseUnexpectedLiquidations"
+solodit_id: "41457"
+solodit_slug: "partial-redemptions-can-cause-unexpected-liquidations-trailofbits-none-acronym-foundation-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(storedLoc|collateralTokenAmount|collateralToClaimAndSendLiquidator|liquidationAmount).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

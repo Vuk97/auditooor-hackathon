@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "deployedamount-not-updated-on-strategysupplybase-undeploy-pr-x"
+class_name: "DeployedamountNotUpdatedOnStrategysupplybaseUndeployPrX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-12-bakerfi-invitational"
+help: |
+    klau5 , also found by 0xlemon 0xpiken MrPotatoMagic pfapostol , and shaflow2 Finding description and impact StrategySupplyBase.undeploy does not update _deployedAmount . As a resul
+wiki_title: |
+    _deployedAmount not updated on StrategySupplyBase.undeploy , preventing performance fees from being collected
+wiki_description: |
+    klau5 , also found by 0xlemon 0xpiken MrPotatoMagic pfapostol , and shaflow2 Finding description and impact StrategySupplyBase.undeploy does not update _deployedAmount . As a result, if a withdrawal occurs, even if interest is generated, the protocol cannot collect performance fees through rebalance
+wiki_exploit_scenario: |
+    Per audit finding: klau5 , also found by 0xlemon 0xpiken MrPotatoMagic pfapostol , and shaflow2 Finding description and impact StrategySupplyBase.undeploy does not update _deployedAmount . As a result, if a withdrawal o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DeployedamountNotUpdatedOnStrategysupplybaseUndeployPrX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(nonReentrant|onlyOwner|undeployedAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "nonReentrant"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

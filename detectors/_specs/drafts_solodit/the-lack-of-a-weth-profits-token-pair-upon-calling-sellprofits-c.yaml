@@ -1,0 +1,42 @@
+skeleton: "paired_function_divergence"
+name: "the-lack-of-a-weth-profits-token-pair-upon-calling-sellprofits-c"
+class_name: "TheLackOfAWethProfitsTokenPairUponCallingSellprofitsC"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34527 (Codehawks/Beedle - Oracle free perpetual lending)"
+help: |
+    The lack of a WETH-Profits Token pair upon calling sellProfits can expose it to malicious pool creation
+wiki_title: |
+    The lack of a WETH-Profits Token pair upon calling sellProfits can expose it to malicious pool creation
+wiki_description: |
+    ### Relevant GitHub Links
+    <a data-meta="codehawks-github-link" href="https://github.com/Cyfrin/2023-07-beedle/blob/main/src/Fees.sol#L26-L44">https://github.com/Cyfrin/2023-07-beedle/blob/main/src/Fees.sol#L26-L44</a>
+    
+    
+    ## Summary
+    
+    Some tokens do not have Uniswap V3 pools with WETH, which allows a b
+wiki_exploit_scenario: |
+    Per Solodit #34527: ### Relevant GitHub Links
+    <a data-meta="codehawks-github-link" href="https://github.com/Cyfrin/2023-07-beedle/blob/main/src/Fees.sol#L26-L44">https://github.com/Cyfrin/2023-07-beedle/blob/main/src/Fee
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TheLackOfAWethProfitsTokenPairUponCallingSellprofitsC"
+solodit_id: "34527"
+solodit_slug: |
+    the-lack-of-a-weth-profits-token-pair-upon-calling-sellprofits-can-expose-it-to-malicious-pool-creation-codehawks-beedle-oracle-free-perpetual-lending-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(exactInputSingle|sellProfits|swapExactInputMultihop).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

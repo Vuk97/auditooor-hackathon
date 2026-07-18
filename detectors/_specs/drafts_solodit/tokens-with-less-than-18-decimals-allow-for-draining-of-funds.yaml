@@ -1,0 +1,40 @@
+skeleton: "paired_function_divergence"
+name: "tokens-with-less-than-18-decimals-allow-for-draining-of-funds"
+class_name: "TokensWithLessThan18DecimalsAllowForDrainingOfFunds"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #34487 (Codehawks/Beedle - Oracle free perpetual lending)"
+help: "Tokens with less than 18 decimals allow for draining of funds"
+wiki_title: "Tokens with less than 18 decimals allow for draining of funds"
+wiki_description: |
+    ### Relevant GitHub Links
+    <a data-meta="codehawks-github-link" href="https://github.com/Cyfrin/2023-07-beedle/blob/main/src/Lender.sol#L246">https://github.com/Cyfrin/2023-07-beedle/blob/main/src/Lender.sol#L246</a>
+    
+    
+    ## Summary
+    
+    The `Lender.sol` contract allows users to supply assets which can then
+wiki_exploit_scenario: |
+    Per Solodit #34487: ### Relevant GitHub Links
+    <a data-meta="codehawks-github-link" href="https://github.com/Cyfrin/2023-07-beedle/blob/main/src/Lender.sol#L246">https://github.com/Cyfrin/2023-07-beedle/blob/main/src/Lend
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TokensWithLessThan18DecimalsAllowForDrainingOfFunds"
+solodit_id: "34487"
+solodit_slug: |
+    tokens-with-less-than-18-decimals-allow-for-draining-of-funds-codehawks-beedle-oracle-free-perpetual-lending-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

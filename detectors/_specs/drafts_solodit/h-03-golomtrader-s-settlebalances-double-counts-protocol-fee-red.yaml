@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "h-03-golomtrader-s-settlebalances-double-counts-protocol-fee-red"
+class_name: "H03GolomtraderSSettlebalancesDoubleCountsProtocolFeeRed"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #8729 (Code4rena/Golom)"
+help: |
+    [H-03] GolomTrader's `_settleBalances` double counts protocol fee, reducing taker's payout for a NFT sold
+wiki_title: |
+    [H-03] GolomTrader's `_settleBalances` double counts protocol fee, reducing taker's payout for a NFT sold
+wiki_description: |
+    Currently `(o.totalAmt * 50) / 10000)` protocol fee share is multiplied by `amount` twice when being accounted for as a deduction from the total in amount due to the `msg.sender` taker calculations in \_settleBalances(), which is called by fillBid() and fillCriteriaBid() to handle the payouts.
+    
+    Set
+wiki_exploit_scenario: |
+    Per Solodit #8729: Currently `(o.totalAmt * 50) / 10000)` protocol fee share is multiplied by `amount` twice when being accounted for as a deduction from the total in amount due to the `msg.sender` taker calculations i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03GolomtraderSSettlebalancesDoubleCountsProtocolFeeRed"
+solodit_id: "8729"
+solodit_slug: |
+    h-03-golomtraders-_settlebalances-double-counts-protocol-fee-reducing-takers-payout-for-a-nft-sold-code4rena-golom-golom-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(amount).*"
+read_var_regex: ".*(amount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "amount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

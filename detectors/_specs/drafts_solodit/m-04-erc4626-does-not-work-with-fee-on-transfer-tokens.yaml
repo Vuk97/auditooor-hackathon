@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "m-04-erc4626-does-not-work-with-fee-on-transfer-tokens"
+class_name: "M04Erc4626DoesNotWorkWithFeeOnTransferTokens"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1549 (Code4rena/Tribe)"
+help: "[M-04] ERC4626 does not work with fee-on-transfer tokens"
+wiki_title: "[M-04] ERC4626 does not work with fee-on-transfer tokens"
+wiki_description: |
+    _Submitted by cmichel_
+    
+    > The docs/video say `ERC4626.sol` is in scope as its part of `TurboSafe`
+    
+    The `ERC4626.deposit/mint` functions do not work well with fee-on-transfer tokens as the `amount` variable is the pre-fee amount, including the fee, whereas the `totalAssets` do not include the fee any
+wiki_exploit_scenario: |
+    Per Solodit #1549: _Submitted by cmichel_
+    
+    > The docs/video say `ERC4626.sol` is in scope as its part of `TurboSafe`
+    
+    The `ERC4626.deposit/mint` functions do not work well with fee-on-transfer tokens as the `amount` var
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04Erc4626DoesNotWorkWithFeeOnTransferTokens"
+solodit_id: "1549"
+solodit_slug: "m-04-erc4626-does-not-work-with-fee-on-transfer-tokens-code4rena-tribe-tribe-turbo-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Fee On Transfer"
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(TurboSafe|amount|totalAssets|deposit).*"
+write_var_regex: ".*(amount|deposit|previewDeposit).*"
+guard_var_regex: ".*(amount|deposit|previewDeposit).*"
+vuln_fn_name: "TurboSafe"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

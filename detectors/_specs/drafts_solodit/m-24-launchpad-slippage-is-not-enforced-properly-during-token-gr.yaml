@@ -1,0 +1,36 @@
+skeleton: "paired_function_divergence"
+name: "m-24-launchpad-slippage-is-not-enforced-properly-during-token-gr"
+class_name: "M24LaunchpadSlippageIsNotEnforcedProperlyDuringTokenGr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64867 (Code4rena/GTE)"
+help: "[M-24] Launchpad slippage is not enforced properly during token graduation"
+wiki_title: "[M-24] Launchpad slippage is not enforced properly during token graduation"
+wiki_description: |
+    `launchpad/Launchpad.sol` [# L287](https://github.com/code-423n4/2025-08-gte-perps/blob/main/contracts/launchpad/Launchpad.sol# L287)
+    
+    When a user wants to buy tokens from the launchpad, they specify the number of base tokens they want to buy and the max amount of quote tokens they want to spend a
+wiki_exploit_scenario: |
+    Per Solodit #64867: `launchpad/Launchpad.sol` [# L287](https://github.com/code-423n4/2025-08-gte-perps/blob/main/contracts/launchpad/Launchpad.sol# L287)
+    
+    When a user wants to buy tokens from the launchpad, they specif
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M24LaunchpadSlippageIsNotEnforcedProperlyDuringTokenGr"
+solodit_id: "64867"
+solodit_slug: "m-24-launchpad-slippage-is-not-enforced-properly-during-token-graduation-code4rena-gte-gte-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

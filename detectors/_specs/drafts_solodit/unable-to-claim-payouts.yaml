@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "unable-to-claim-payouts"
+class_name: "UnableToClaimPayouts"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #50755 (Halborn/SCProtection)"
+help: "UNABLE TO CLAIM PAYOUTS"
+wiki_title: "UNABLE TO CLAIM PAYOUTS"
+wiki_description: |
+    ##### Description
+    
+    The `getExcludedCoverageOf` and `getClaimableOf` can be deadlocked since the `voteTimestamp` is used without verification whether the last incident is on vote state or not those returning `voteTimestamp` of 0 and causing the `_getEOD` to underflow. Furthermore, the report can be c
+wiki_exploit_scenario: |
+    Per Solodit #50755: ##### Description
+    
+    The `getExcludedCoverageOf` and `getClaimableOf` can be deadlocked since the `voteTimestamp` is used without verification whether the last incident is on vote state or not those ret
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnableToClaimPayouts"
+solodit_id: "50755"
+solodit_slug: "unable-to-claim-payouts-halborn-degis-scprotection-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getclaimableof;"
+fn_name_regex: ".*(getExcludedCoverageOf|getClaimableOf|voteTimestamp|report).*"
+read_var_regex: ".*(getClaimableOf|getExcludedCoverageOf|getPoolReportsAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getExcludedCoverageOf"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getclaimableof > 0;"

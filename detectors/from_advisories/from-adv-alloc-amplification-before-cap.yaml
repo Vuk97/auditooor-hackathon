@@ -1,0 +1,24 @@
+pattern: from-adv-alloc-amplification-before-cap
+source: advisory-seed-corpus/alloc_amplification_before_cap
+severity: HIGH
+confidence: MEDIUM
+backend: regex
+tags: [allocation-amplification]
+
+# CLASS-LEVEL mechanism detector auto-derived from 4 advisory seed(s).
+# Mechanism matched, not any instance. Anti-overfit verified by advisory-seed-to-dsl.py.
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-438q-jx8f-cccv
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-65jj-fmw8-468q
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-h72h-ppcx-998p
+# advisory: https://github.com/ZcashFoundation/zebra/security/advisories/GHSA-xr93-pcq3-pxf8
+
+preconditions: []
+
+match:
+  - function.kind: external_or_public
+  - function.body_contains_regex: "(?:with_capacity|reserve|reserve_exact|Vec::with_capacity)\\s*\\(\\s*(?:[a-z]\\w*|[\\w.]+\\.(?:len|size|count)\\s*\\(\\s*\\))\\b"
+  - function.body_not_contains_regex: "(?:\\b(?:if|ensure!|require!|assert!|debug_assert!)\\b[^;{]*(?:>|>=|<|<=)\\s*[\\w:.]*(?:MAX|LIMIT|CAP|max_|limit|bound)|\\.min\\s*\\(|::min\\s*\\(|saturating_)"
+
+help: "Inbound/deserialized length or count drives a heap allocation (with_capacity/reserve) before any cap/bound check - a crafted small message can request gigabytes (memory-amplification DoS)."
+wiki_title: "Alloc Amplification Before Cap"
+wiki_description: "Inbound/deserialized length or count drives a heap allocation (with_capacity/reserve) before any cap/bound check - a crafted small message can request gigabytes (memory-amplification DoS)."

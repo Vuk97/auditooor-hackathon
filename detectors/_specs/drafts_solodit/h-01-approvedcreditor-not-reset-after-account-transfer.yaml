@@ -1,0 +1,46 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-01-approvedcreditor-not-reset-after-account-transfer"
+class_name: "H01ApprovedcreditorNotResetAfterAccountTransfer"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31492 (Pashov Audit Group/Arcadia)"
+help: "[H-01] `approvedCreditor` not reset after account transfer"
+wiki_title: "[H-01] `approvedCreditor` not reset after account transfer"
+wiki_description: |
+    **Severity**
+    
+    **Impact**: High, user can steal funds from liquidated account
+    
+    **Likelihood**: Medium, requires either a bad debt account, or L2 to be offline for some time
+    
+    **Description**
+    
+    The Arcadia accounts support a secondary backup creditor which is stored in the `approvedCreditor` storage var
+wiki_exploit_scenario: |
+    Per Solodit #31492: **Severity**
+    
+    **Impact**: High, user can steal funds from liquidated account
+    
+    **Likelihood**: Medium, requires either a bad debt account, or L2 to be offline for some time
+    
+    **Description**
+    
+    The Arcadi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01ApprovedcreditorNotResetAfterAccountTransfer"
+solodit_id: "31492"
+solodit_slug: "h-01-approvedcreditor-not-reset-after-account-transfer-pashov-none-arcadia-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(approvedCreditor|flashActionByCreditor|actionTarget|auctionBoughtIn).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "anyone-could-submit-a-malicious-output-via-the-optimistic-fu-x"
+class_name: "AnyoneCouldSubmitAMaliciousOutputViaTheOptimisticFuX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit OP Succinct - Zellic Audit Report"
+help: |
+    When optimistic mode is enabled, the function proposeL2Output without output verification will be used. If the current block.timestamp has exceeded the fallbackTimeout since the la
+wiki_title: "Anyone could submit a malicious output via the optimistic function pro-"
+wiki_description: |
+    When optimistic mode is enabled, the function proposeL2Output without output verification will be used. If the current block.timestamp has exceeded the fallbackTimeout since the last proposal, then anyone can use this function to propose an output root. function proposeL2Output(bytes32 _outputRoot,
+wiki_exploit_scenario: |
+    Per audit finding: When optimistic mode is enabled, the function proposeL2Output without output verification will be used. If the current block.timestamp has exceeded the fallbackTimeout since the last proposal, then an
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyoneCouldSubmitAMaliciousOutputViaTheOptimisticFuX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(proposeL2Output|fallbackTimeout|whenOptimistic).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "proposeL2Output"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

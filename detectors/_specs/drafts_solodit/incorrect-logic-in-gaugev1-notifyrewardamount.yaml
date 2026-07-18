@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "incorrect-logic-in-gaugev1-notifyrewardamount"
+class_name: "IncorrectLogicInGaugev1Notifyrewardamount"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44335 (MixBytes/EYWA)"
+help: "Incorrect logic in `GaugeV1.notifyRewardAmount()`"
+wiki_title: "Incorrect logic in `GaugeV1.notifyRewardAmount()`"
+wiki_description: |
+    ##### Description
+    
+    The `notifyRewardAmount()` function in the `GaugeV1` contract uses an incorrect value for creating a Merkl campaign. Instead of the `amount_` parameter, it uses `balanceOf(address(this))`, while missing `transferFrom()` despite having a `forceApprove()` call.
+    
+    ```solidity
+    function
+wiki_exploit_scenario: |
+    Per Solodit #44335: ##### Description
+    
+    The `notifyRewardAmount()` function in the `GaugeV1` contract uses an incorrect value for creating a Merkl campaign. Instead of the `amount_` parameter, it uses `balanceOf(address(t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectLogicInGaugev1Notifyrewardamount"
+solodit_id: "44335"
+solodit_slug: "incorrect-logic-in-gaugev1notifyrewardamount-mixbytes-none-eywa-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount_;"
+fn_name_regex: ".*(notifyRewardAmount|GaugeV1|amount_|transferFrom).*"
+read_var_regex: ".*(amount_|forceApprove|notifyRewardAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "notifyRewardAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount_ > 0;"

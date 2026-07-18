@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "m-15-missing-sellable-check-in-completepurchase-will-cause-a-use"
+class_name: "M15MissingSellableCheckInCompletepurchaseWillCauseAUse"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49551 (Code4rena/SecondSwap)"
+help: |
+    [M-15] Missing sellable check in completePurchase will cause a user to buy a token marked as unsellable by S2ADMIN if it was listed beforehand
+wiki_title: |
+    [M-15] Missing sellable check in completePurchase will cause a user to buy a token marked as unsellable by S2ADMIN if it was listed beforehand
+wiki_description: |
+    <https://github.com/code-423n4/2024-12-secondswap/blob/214849c3517eb26b31fe194bceae65cb0f52d2c0/contracts/SecondSwap_VestingManager.sol# L167-L186>
+    
+    <https://github.com/code-423n4/2024-12-secondswap/blob/214849c3517eb26b31fe194bceae65cb0f52d2c0/contracts/SecondSwap_VestingManager.sol# L161-L164>
+wiki_exploit_scenario: |
+    Per Solodit #49551: <https://github.com/code-423n4/2024-12-secondswap/blob/214849c3517eb26b31fe194bceae65cb0f52d2c0/contracts/SecondSwap_VestingManager.sol# L167-L186>
+    
+    <https://github.com/code-423n4/2024-12-secondswap
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15MissingSellableCheckInCompletepurchaseWillCauseAUse"
+solodit_id: "49551"
+solodit_slug: |
+    m-15-missing-sellable-check-in-completepurchase-will-cause-a-user-to-buy-a-token-marked-as-unsellable-by-s2admin-if-it-was-listed-beforehand-code4rena-secondswap-secondswap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(listVesting|onlyMarketplace|vestingSettings|setSellable).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "listVesting"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

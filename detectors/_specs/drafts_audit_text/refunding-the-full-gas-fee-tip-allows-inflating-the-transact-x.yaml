@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "refunding-the-full-gas-fee-tip-allows-inflating-the-transact-x"
+class_name: "RefundingTheFullGasFeeTipAllowsInflatingTheTransactX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-11-mantra-chain"
+help: |
+    berndartmueller Finding description and impact skip-mev’s feemarket ante handler escrows the full paid fee amount (which includes the base gas fee + tip). Any paid gas fee that is
+wiki_title: |
+    Refunding the full gas fee tip allows inflating the transaction priority and filling up the block gas limit, effectively DoSing the network
+wiki_description: |
+    berndartmueller Finding description and impact skip-mev’s feemarket ante handler escrows the full paid fee amount (which includes the base gas fee + tip). Any paid gas fee that is not consumed is fully refunded to the fee payer in Mantra’s xfeemarket post handler. This is problematic in two ways: Ac
+wiki_exploit_scenario: |
+    Per audit finding: berndartmueller Finding description and impact skip-mev’s feemarket ante handler escrows the full paid fee amount (which includes the base gas fee + tip). Any paid gas fee that is not consumed is full
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RefundingTheFullGasFeeTipAllowsInflatingTheTransactX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(feeMarketCheckDecorator|priorityFee|baseGasPrice).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "feeMarketCheckDecorator"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

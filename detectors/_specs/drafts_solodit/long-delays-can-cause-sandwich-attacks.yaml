@@ -1,0 +1,36 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "long-delays-can-cause-sandwich-attacks"
+class_name: "LongDelaysCanCauseSandwichAttacks"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21082 (AuditOne/Redstone)"
+help: "Long Delays Can Cause Sandwich Attacks"
+wiki_title: "Long Delays Can Cause Sandwich Attacks"
+wiki_description: |
+    **Description:**
+    
+    Price Manipulation: An attacker can take advantage of the delayed data to manipulate the price or other values within the contract, potentially affecting users and other contracts relying on the data.
+    
+    Front-Running: Attackers can monitor pending transactions and exploit the outdat
+wiki_exploit_scenario: |
+    Per Solodit #21082: **Description:**
+    
+    Price Manipulation: An attacker can take advantage of the delayed data to manipulate the price or other values within the contract, potentially affecting users and other contracts re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LongDelaysCanCauseSandwichAttacks"
+solodit_id: "21082"
+solodit_slug: "long-delays-can-cause-sandwich-attacks-auditone-none-redstone-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(validateDataPackagesTimestampOnce|maxDataDelaySeconds|getAllowedTimestampDiffsInSeconds).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

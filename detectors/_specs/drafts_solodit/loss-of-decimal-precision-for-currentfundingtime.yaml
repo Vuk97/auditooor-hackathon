@@ -1,0 +1,48 @@
+skeleton: "name_match_missing_call"
+name: "loss-of-decimal-precision-for-currentfundingtime"
+class_name: "LossOfDecimalPrecisionForCurrentfundingtime"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #45639 (Zokyo/Filament)"
+help: "Loss of decimal precision for `currentFundingTime`"
+wiki_title: "Loss of decimal precision for `currentFundingTime`"
+wiki_description: |
+    **Severity**: Medium	
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    The `settleFundingPayments` function in the `Formula.sol` smart contract contains a `currentFundingTime` variable that is calculated as:
+    
+    uint256 currentFundingTime = (block.timestamp / fundingInterval) * fundingInterval;
+    
+    
+    As it can be s
+wiki_exploit_scenario: |
+    Per Solodit #45639: **Severity**: Medium	
+    
+    **Status**: Resolved
+    
+    **Description**
+    
+    The `settleFundingPayments` function in the `Formula.sol` smart contract contains a `currentFundingTime` variable that is calculated as:
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LossOfDecimalPrecisionForCurrentfundingtime"
+solodit_id: "45639"
+solodit_slug: "loss-of-decimal-precision-for-currentfundingtime-zokyo-none-filament-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal currentfundingtime;"
+fn_name_regex: ".*(settleFundingPayments|currentFundingTime|fundingInternal).*"
+read_var_regex: ".*(currentFundingTime|fundingInternal|settleFundingPayments).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "settleFundingPayments"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return currentfundingtime > 0;"

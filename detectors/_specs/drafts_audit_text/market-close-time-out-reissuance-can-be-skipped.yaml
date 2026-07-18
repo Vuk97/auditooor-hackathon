@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "market-close-time-out-reissuance-can-be-skipped"
+class_name: "MarketCloseTimeOutReissuanceCanBeSkipped"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Ostium - Zellic Audit Report"
+help: |
+    In OstiumTrading, when a market close times out, the user can call closeTradeMarketTimeout to unregister and reregister the trade: function closeTradeMarketTimeout(uint256 _order)
+wiki_title: "Market-close time-out reissuance can be skipped"
+wiki_description: |
+    In OstiumTrading, when a market close times out, the user can call closeTradeMarketTimeout to unregister and reregister the trade: function closeTradeMarketTimeout(uint256 _order) external notDone { address sender = _msgSender(); // [...] (bool success,) = address(this).delegatecall( abi.encodeWithS
+wiki_exploit_scenario: |
+    Per audit finding: In OstiumTrading, when a market close times out, the user can call closeTradeMarketTimeout to unregister and reregister the trade: function closeTradeMarketTimeout(uint256 _order) external notDone { a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MarketCloseTimeOutReissuanceCanBeSkipped"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

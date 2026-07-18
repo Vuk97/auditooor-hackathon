@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-02-wrong-repayment-amount-used-in-positionaction-repay-forcing"
+class_name: "M02WrongRepaymentAmountUsedInPositionactionRepayForcing"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49039 (Code4rena/LoopFi)"
+help: |
+    [M-02] Wrong repayment amount used in `PositionAction::_repay`, forcing users to unexpectedly lose funds
+wiki_title: |
+    [M-02] Wrong repayment amount used in `PositionAction::_repay`, forcing users to unexpectedly lose funds
+wiki_description: |
+    `PositionAction` allows users to interact with their position in the CDP Vault through a proxy, on top of that it allows users to do certain actions before interacting with the position. An example of this is the `PositionAction::deposit`, which allows users to:
+    
+    1. Deposit collateral tokens direct
+wiki_exploit_scenario: |
+    Per Solodit #49039: `PositionAction` allows users to interact with their position in the CDP Vault through a proxy, on top of that it allows users to do certain actions before interacting with the position. An example o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02WrongRepaymentAmountUsedInPositionactionRepayForcing"
+solodit_id: "49039"
+solodit_slug: |
+    m-02-wrong-repayment-amount-used-in-positionaction_repay-forcing-users-to-unexpectedly-lose-funds-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(PositionAction).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "PositionAction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

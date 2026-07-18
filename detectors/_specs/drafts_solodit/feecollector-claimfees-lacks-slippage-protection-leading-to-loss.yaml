@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "feecollector-claimfees-lacks-slippage-protection-leading-to-loss"
+class_name: "FeecollectorClaimfeesLacksSlippageProtectionLeadingToLoss"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #52868 (Spearbit/Berachain Pol)"
+help: "FeeCollector.claimFees lacks slippage protection leading to loss of payoutAmount"
+wiki_title: "FeeCollector.claimFees lacks slippage protection leading to loss of payoutAmount"
+wiki_description: |
+    Severity: High Risk
+    Context: /src/pol/FeeCollector.sol#L91
+    Description: As documented, FeeCollector.claimFees draws inspiration from the Uniswap V3 Factory Owner
+    contract. Here fees are collected in any token, remaining claimable by anyone so long as payoutAmount of the
+    payoutToken is provided t
+wiki_exploit_scenario: |
+    Per Solodit #52868: Severity: High Risk
+    Context: /src/pol/FeeCollector.sol#L91
+    Description: As documented, FeeCollector.claimFees draws inspiration from the Uniswap V3 Factory Owner
+    contract. Here fees are collected i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FeecollectorClaimfeesLacksSlippageProtectionLeadingToLoss"
+solodit_id: "52868"
+solodit_slug: |
+    feecollectorclaimfees-lacks-slippage-protection-leading-to-loss-of-payoutamount-spearbit-none-berachain-pol-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(claimFees|payoutAmount|payoutToken).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "claimFees"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,26 @@
+skeleton: "state_write_without_paired_write"
+name: "stale-price-pointer-after-expired-order-removal"
+class_name: "StalePricePointerAfterExpiredOrderRemoval"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit GTE Perps - Zellic Audit Report"
+help: |
+    Within the _matchIncomingAsk function, the code branch for removing expired orders does not update the bestBid variable using ds.getBestBid() before executing the continue statemen
+wiki_title: "Stale price pointer after expired-order removal"
+wiki_description: |
+    Within the _matchIncomingAsk function, the code branch for removing expired orders does not update the bestBid variable using ds.getBestBid() before executing the continue statement. Consequently, bestBid can become stale, potentially referring to the price of a removed order in the next loop iterat
+wiki_exploit_scenario: |
+    Per audit finding: Within the _matchIncomingAsk function, the code branch for removing expired orders does not update the bestBid variable using ds.getBestBid() before executing the continue statement. Consequently, bes
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StalePricePointerAfterExpiredOrderRemoval"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(bestBid|getBestBid|incomingOrder).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

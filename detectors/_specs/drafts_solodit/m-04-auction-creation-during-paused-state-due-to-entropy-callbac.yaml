@@ -1,0 +1,47 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-04-auction-creation-during-paused-state-due-to-entropy-callbac"
+class_name: "M04AuctionCreationDuringPausedStateDueToEntropyCallbac"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44405 (Pashov Audit Group/apDAO_2024-10-03)"
+help: "[M-04] Auction creation during paused state due to entropy callback"
+wiki_title: "[M-04] Auction creation during paused state due to entropy callback"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `ApiologyAuctionHouse` contract has a mechanism to pause its operations preventing new auctions from being created. The creation of an auction can only occur through the `ApiologyAuctionHouse::unpause` and `ApiologyAuctionH
+wiki_exploit_scenario: |
+    Per Solodit #44405: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    The `ApiologyAuctionHouse` contract has a mechanism to pause its operations preventing new auctions from being created. The cre
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04AuctionCreationDuringPausedStateDueToEntropyCallbac"
+solodit_id: "44405"
+solodit_slug: |
+    m-04-auction-creation-during-paused-state-due-to-entropy-callback-pashov-audit-group-none-apdao_2024-10-03-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(ApiologyAuctionHouse|entropyCallback|entropy).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

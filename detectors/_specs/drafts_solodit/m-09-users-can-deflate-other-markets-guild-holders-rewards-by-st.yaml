@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_require"
+name: "m-09-users-can-deflate-other-markets-guild-holders-rewards-by-st"
+class_name: "M09UsersCanDeflateOtherMarketsGuildHoldersRewardsBySt"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30229 (Code4rena/Ethereum Credit Guild)"
+help: "[M-09] Users can deflate other markets Guild holders rewards by staking less priced token"
+wiki_title: "[M-09] Users can deflate other markets Guild holders rewards by staking less priced token"
+wiki_description: |
+    In the `SurplusGuildMinter::stake()` function, there is currently no check to verify if the provided term’s `CREDIT` token is the same as the `CREDIT` token in the called `SurplusGuildMinter`. This oversight could result in inaccuracies in `gaugeWeight` and rewards for guild holders, especially wit
+wiki_exploit_scenario: |
+    Per Solodit #30229: In the `SurplusGuildMinter::stake()` function, there is currently no check to verify if the provided term’s `CREDIT` token is the same as the `CREDIT` token in the called `SurplusGuildMinter`. This o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09UsersCanDeflateOtherMarketsGuildHoldersRewardsBySt"
+solodit_id: "30229"
+solodit_slug: |
+    m-09-users-can-deflate-other-markets-guild-holders-rewards-by-staking-less-priced-token-code4rena-ethereum-credit-guild-ethereum-credit-guild-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal gusdc;"
+fn_name_regex: ".*(CREDIT|SurplusGuildMinter|gaugeWeight|mintRatio).*"
+write_var_regex: ".*(gUSDC|gWETH|gaugeWeight).*"
+guard_var_regex: ".*(gUSDC|gWETH|gaugeWeight).*"
+vuln_fn_name: "CREDIT"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "gusdc = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

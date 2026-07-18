@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-funding-rate-calculation-due-to-rounding"
+class_name: "IncorrectFundingRateCalculationDueToRounding"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Ostium - Zellic Audit Report"
+help: |
+    The protocol implements a velocity-based funding-rate model where the velocity is defined as fol- lows: ( ) Ck(k − 1) newV elocity = R −k+1 (3..3) kC − (L − S) And the actual fundi
+wiki_title: "Incorrect funding-rate calculation due to rounding"
+wiki_description: |
+    The protocol implements a velocity-based funding-rate model where the velocity is defined as fol- lows: ( ) Ck(k − 1) newV elocity = R −k+1 (3..3) kC − (L − S) And the actual funding rate is defined as follows: ∫ t ( ) Ck(k − 1) fL = R −k+1 dt (3..4) 0 kC − (L − S) This funding rate is calculated as
+wiki_exploit_scenario: |
+    Per audit finding: The protocol implements a velocity-based funding-rate model where the velocity is defined as fol- lows: ( ) Ck(k − 1) newV elocity = R −k+1 (3..3) kC − (L − S) And the actual funding rate is defined a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectFundingRateCalculationDueToRounding"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(absLastFundingRate|numBlocksToLimit|absLastVelocity).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "absLastFundingRate"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

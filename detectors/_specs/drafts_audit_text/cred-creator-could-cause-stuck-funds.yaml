@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "cred-creator-could-cause-stuck-funds"
+class_name: "CredCreatorCouldCauseStuckFunds"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-08-phi"
+help: |
+    petarP1998 Update of cred can be triggered by the cred creator. If there are already issued shares for users, and the cred creator decides to update the sellShareRoyalty_ this will
+wiki_title: "Cred creator could cause stuck funds"
+wiki_description: |
+    petarP1998 Update of cred can be triggered by the cred creator. If there are already issued shares for users, and the cred creator decides to update the sellShareRoyalty_ this will lead users to pay up to 50% fee depending on the value. And users will be in situation that to withdraw their funds, th
+wiki_exploit_scenario: |
+    Per audit finding: petarP1998 Update of cred can be triggered by the cred creator. If there are already issued shares for users, and the cred creator decides to update the sellShareRoyalty_ this will lead users to pay u
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CredCreatorCouldCauseStuckFunds"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(petarP1998|bondingCurve|getSellPrice).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "petarP1998"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

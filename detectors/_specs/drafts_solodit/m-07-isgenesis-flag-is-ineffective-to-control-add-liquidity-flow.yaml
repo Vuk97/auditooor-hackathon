@@ -1,0 +1,41 @@
+skeleton: "paired_function_divergence"
+name: "m-07-isgenesis-flag-is-ineffective-to-control-add-liquidity-flow"
+class_name: "M07IsgenesisFlagIsIneffectiveToControlAddLiquidityFlow"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58341 (Code4rena/Audit 507)"
+help: "[M-07] `isGenesis` flag is ineffective to control add liquidity flow in `RouterV2.addLiquidity()`"
+wiki_title: "[M-07] `isGenesis` flag is ineffective to control add liquidity flow in `RouterV2.addLiquidity()`"
+wiki_description: |
+    <https://github.com/code-423n4/2025-05-blackhole/blob/92fff849d3b266e609e6d63478c4164d9f608e91/contracts/RouterV2.sol# L384>
+    
+    ### Finding description
+    
+    The check that prevents external liquidity additions to “Genesis Pool” pairs before their official launch are insufficient. The `RouterV2.addLiquid
+wiki_exploit_scenario: |
+    Per Solodit #58341: <https://github.com/code-423n4/2025-05-blackhole/blob/92fff849d3b266e609e6d63478c4164d9f608e91/contracts/RouterV2.sol# L384>
+    
+    ### Finding description
+    
+    The check that prevents external liquidity addi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07IsgenesisFlagIsIneffectiveToControlAddLiquidityFlow"
+solodit_id: "58341"
+solodit_slug: |
+    m-07-isgenesis-flag-is-ineffective-to-control-add-liquidity-flow-in-routerv2addliquidity-code4rena-audit-507-audit-507-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addLiquidity|isGenesis|require).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

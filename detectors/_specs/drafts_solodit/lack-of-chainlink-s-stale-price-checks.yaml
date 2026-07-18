@@ -1,0 +1,34 @@
+skeleton: "state_write_without_paired_write"
+name: "lack-of-chainlink-s-stale-price-checks"
+class_name: "LackOfChainlinkSStalePriceChecks"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51917 (Halborn/Spokes V1)"
+help: "Lack Of Chainlink's Stale Price Checks"
+wiki_title: "Lack Of Chainlink's Stale Price Checks"
+wiki_description: |
+    ##### Description
+    
+    The `ChainlinkPriceProvider` contract uses Chainlink feed as their price oracle. When requesting the price via the `_getPrice()` function, the contracts query Chainlink for the underlying token price using the `latestRoundData()` function. This function returns `uint80 roundId`, `
+wiki_exploit_scenario: |
+    Per Solodit #51917: ##### Description
+    
+    The `ChainlinkPriceProvider` contract uses Chainlink feed as their price oracle. When requesting the price via the `_getPrice()` function, the contracts query Chainlink for the unde
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "LackOfChainlinkSStalePriceChecks"
+solodit_id: "51917"
+solodit_slug: "lack-of-chainlinks-stale-price-checks-halborn-concrete-spokes-v1-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(ChainlinkPriceProvider|latestRoundData|roundId|answer).*"
+primary_var_regex: ".*(answer|answeredInRound|getPrice).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "payout-distributions-to-remora-token-holders-are-diluted-by-init"
+class_name: "PayoutDistributionsToRemoraTokenHoldersAreDilutedByInit"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61187 (Cyfrin/Remora Pledge)"
+help: "Payout distributions to Remora token holders are diluted by initial token owner mint"
+wiki_title: "Payout distributions to Remora token holders are diluted by initial token owner mint"
+wiki_description: |
+    **Description:** `RemoraToken::initialize` takes a parameter `_initialSupply` and mints this to `tokenOwner`:
+    ```solidity
+    _mint(tokenOwner, _initialSupply * 10 ** decimals());
+    ```
+    
+    `DividendManager::distributePayout` records the payout amount together with the current total supply:
+    ```solidity
+    $._pa
+wiki_exploit_scenario: |
+    Per Solodit #61187: **Description:** `RemoraToken::initialize` takes a parameter `_initialSupply` and mints this to `tokenOwner`:
+    ```solidity
+    _mint(tokenOwner, _initialSupply * 10 ** decimals());
+    ```
+    
+    `DividendManager::d
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PayoutDistributionsToRemoraTokenHoldersAreDilutedByInit"
+solodit_id: "61187"
+solodit_slug: |
+    payout-distributions-to-remora-token-holders-are-diluted-by-initial-token-owner-mint-cyfrin-none-remora-pledge-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal tokenowner;"
+fn_name_regex: ".*(tokenOwner|RemoraToken|TokenBank).*"
+read_var_regex: ".*(tokenOwner).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "tokenOwner"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tokenowner > 0;"

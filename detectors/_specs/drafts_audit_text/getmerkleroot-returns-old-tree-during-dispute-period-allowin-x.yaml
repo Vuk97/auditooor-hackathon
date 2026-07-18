@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "getmerkleroot-returns-old-tree-during-dispute-period-allowin-x"
+class_name: "GetmerklerootReturnsOldTreeDuringDisputePeriodAllowinX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-11-merkl"
+help: |
+    [L-05] getMerkleRoot returns old tree during dispute period allowing claims at stale rates When admin submits corrected merkle tree to fix erroneous rewards, the getMerkleRoot() fu
+wiki_title: |
+    getMerkleRoot returns old tree during dispute period allowing claims at stale rates When admin submits corrected merkle tree to fix erroneous rewards, the getMe
+wiki_description: |
+    [L-05] getMerkleRoot returns old tree during dispute period allowing claims at stale rates When admin submits corrected merkle tree to fix erroneous rewards, the getMerkleRoot() function still returns old tree root during dispute period. Users can exploit this window to claim rewards at old (incorre
+wiki_exploit_scenario: |
+    Per audit finding: [L-05] getMerkleRoot returns old tree during dispute period allowing claims at stale rates When admin submits corrected merkle tree to fix erroneous rewards, the getMerkleRoot() function still returns
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GetmerklerootReturnsOldTreeDuringDisputePeriodAllowinX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(getMerkleRoot|updateTree|lastTree).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "getMerkleRoot"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_call"
+name: "overflow-underflow-during-inline-assembly"
+class_name: "OverflowUnderflowDuringInlineAssembly"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider AST: integer-overflowunderflow-in-yul-assembly"
+help: "Overflow / Underflow During Inline Assembly"
+wiki_title: "Overflow / Underflow During Inline Assembly"
+wiki_description: |
+    Detects inline assembly operations (add, mul, sub) that lack overflow/underflow protection. Unlike normal Solidity which provides automatic overflow checks in 0.8+, inline assembly operations don't have built-in protections. This can lead to silent overflow/underflow bugs where calculations wrap aro
+wiki_exploit_scenario: |
+    Tags [Assembly, Overflow, Underflow, Arithmetic, Inline Assembly]: Detects inline assembly operations (add, mul, sub) that lack overflow/underflow protection. Unlike normal Solidity which provides automatic overflow checks in 0.8+, inline assembly operations don't ha
+wiki_recommendation: "Apply the access check implied by the Glider query filter."
+contract_name: "OverflowUnderflowDuringInlineAssembly"
+fn_name_regex: ".*"
+read_var_regex: ".*overflow.*"
+required_call_regex: ".*(validate|check|verify|require).*"
+guarded_helper_name: "_validateGuard"
+vuln_fn_name: "overflowFn"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return overflow > 0;"
+state_decl: "uint256 internal overflow;"

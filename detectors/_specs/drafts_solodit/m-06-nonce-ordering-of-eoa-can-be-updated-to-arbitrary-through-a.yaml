@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_require"
+name: "m-06-nonce-ordering-of-eoa-can-be-updated-to-arbitrary-through-a"
+class_name: "M06NonceOrderingOfEoaCanBeUpdatedToArbitraryThroughA"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30285 (Code4rena/zkSync)"
+help: "[M-06] Nonce ordering of EOA can be updated to \"arbitrary\" through an L1 tx"
+wiki_title: "[M-06] Nonce ordering of EOA can be updated to \"arbitrary\" through an L1 tx"
+wiki_description: |
+    Nonce order of an EOA should always be sequential, otherwise the transaction cannot be validated. The default account does not allow user to call function `updateNonceOrdering` of ContractDeployer. However, the restriction can be bypassed if user call `updateNonceOrdering` through an L1 priority tr
+wiki_exploit_scenario: |
+    Per Solodit #30285: Nonce order of an EOA should always be sequential, otherwise the transaction cannot be validated. The default account does not allow user to call function `updateNonceOrdering` of ContractDeployer. H
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06NonceOrderingOfEoaCanBeUpdatedToArbitraryThroughA"
+solodit_id: "30285"
+solodit_slug: "m-06-nonce-ordering-of-eoa-can-be-updated-to-arbitrary-through-an-l1-tx-code4rena-zksync-zksync-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal from;"
+fn_name_regex: ".*(updateNonceOrdering|incrementMinNonceIfEquals|nonce|from).*"
+write_var_regex: ".*(from|incrementMinNonceIfEquals|nonce).*"
+guard_var_regex: ".*(from|incrementMinNonceIfEquals|nonce).*"
+vuln_fn_name: "updateNonceOrdering"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "from = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

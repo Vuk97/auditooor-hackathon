@@ -1,0 +1,29 @@
+skeleton: "name_match_missing_call"
+name: "claimreward-does-not-verify-token-ownership"
+class_name: "ClaimrewardDoesNotVerifyTokenOwnership"
+wave: "13"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Hexens Glider query: claiming-nft-rewards-lack-ownership-validation"
+help: "claimReward does not verify token ownership"
+wiki_title: "claimReward does not verify token ownership"
+wiki_description: |
+    Detects reward-claiming functions (e.g., `claimReward`, `claim`, `claimRewards`) that accept a `tokenId` parameter but do NOT validate that `msg.sender` is the owner of that token. Missing such checks allows attackers to claim rewards for any tokenId they do not own.
+wiki_exploit_scenario: |
+    Per Glider query tags [reward, nft, access-control, tokenId, ownership]: Detects reward-claiming functions (e.g., `claimReward`, `claim`, `claimRewards`) that accept a `tokenId` parameter but do NOT validate that `msg.sender` is the owner of that token. Missing such checks
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "ClaimrewardDoesNotVerifyTokenOwnership"
+fn_name_regex: ".*(claimReward).*"
+read_var_regex: ".*(claimrewar).*"
+required_call_regex: ".*(ownerOf|isApprovedOrOwner|checkOwnership|checkTokenOwnership|validateOwnership).*"
+guarded_helper_name: "_checkOwnership"
+vuln_fn_name: "claimReward"
+vuln_fn_params: "uint256 tokenId"
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: |
+    uint256 amount = claimRewards[tokenId];
+    claimRewards[tokenId] = 0;
+    return amount > 0;
+state_decl: "mapping(uint256 => uint256) internal claimRewards;"

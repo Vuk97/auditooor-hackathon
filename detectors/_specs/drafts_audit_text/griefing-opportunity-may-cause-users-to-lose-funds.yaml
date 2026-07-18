@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "griefing-opportunity-may-cause-users-to-lose-funds"
+class_name: "GriefingOpportunityMayCauseUsersToLoseFunds"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Revest Finance - Zellic Audit Report"
+help: |
+    The calculation of lastMul to account for rebase tokens is incorrect and can lead to devaluation of user funds deposited in the vault. function updateBalance(uint fnftId, uint inco
+wiki_title: "Griefing opportunity may cause users to lose funds"
+wiki_description: |
+    The calculation of lastMul to account for rebase tokens is incorrect and can lead to devaluation of user funds deposited in the vault. function updateBalance(uint fnftId, uint incomingDeposit) internal { ...)) if(asset !) address(0)){ currentAmount = IERC20(asset).balanceOf(address(this)); } else {
+wiki_exploit_scenario: |
+    Per audit finding: The calculation of lastMul to account for rebase tokens is incorrect and can lead to devaluation of user funds deposited in the vault. function updateBalance(uint fnftId, uint incomingDeposit) interna
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GriefingOpportunityMayCauseUsersToLoseFunds"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(lastMul|updateBalance|fnftId).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "lastMul"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

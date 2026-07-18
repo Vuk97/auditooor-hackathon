@@ -1,0 +1,55 @@
+skeleton: "name_match_missing_call"
+name: "m-02-no-slippage-check-when-depositing-to-pendle"
+class_name: "M02NoSlippageCheckWhenDepositingToPendle"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36407 (Pashov Audit Group/Fyde May)"
+help: "[M-02] No slippage check when depositing to Pendle"
+wiki_title: "[M-02] No slippage check when depositing to Pendle"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Low
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    When calling `YieldStrategy.depositToPendle()`, the slippage is set at zero when `router.swapExactTokenForPt()` is called.
+    
+    ```
+    function depositToPendle(address _underlying, address _market, uint256 _amount)
+        external
+        retur
+wiki_exploit_scenario: |
+    Per Solodit #36407: **Severity**
+    
+    **Impact:** Low
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    When calling `YieldStrategy.depositToPendle()`, the slippage is set at zero when `router.swapExactTokenForPt()` is called.
+    
+    ```
+    fu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02NoSlippageCheckWhenDepositingToPendle"
+solodit_id: "36407"
+solodit_slug: "m-02-no-slippage-check-when-depositing-to-pendle-pashov-audit-group-none-fyde-may-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal deposittopendle;"
+fn_name_regex: ".*(swapExactTokenForPt|minPtOut|depositToPendle).*"
+read_var_regex: ".*(depositToPendle|minPtOut|swapExactTokenForPt).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "swapExactTokenForPt"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return deposittopendle > 0;"

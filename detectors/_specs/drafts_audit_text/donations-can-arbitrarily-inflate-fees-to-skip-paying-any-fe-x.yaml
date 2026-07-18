@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "donations-can-arbitrarily-inflate-fees-to-skip-paying-any-fe-x"
+class_name: "DonationsCanArbitrarilyInflateFeesToSkipPayingAnyFeX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Polygon Staking - Zellic Audit Report"
+help: |
+    The updateDeposits function is called by the staking pool to update the amount of accrued fees based on the profit and loss sustained by the vaults. It calls getDepositChange to ca
+wiki_title: "Donations can arbitrarily inflate fees to skip paying any fees via an upstream"
+wiki_description: |
+    The updateDeposits function is called by the staking pool to update the amount of accrued fees based on the profit and loss sustained by the vaults. It calls getDepositChange to calculate the difference between the current total balance across all the vaults and the totalDeposits, which is the basel
+wiki_exploit_scenario: |
+    Per audit finding: The updateDeposits function is called by the staking pool to update the amount of accrued fees based on the profit and loss sustained by the vaults. It calls getDepositChange to calculate the differen
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DonationsCanArbitrarilyInflateFeesToSkipPayingAnyFeX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(updateDeposits|getDepositChange|totalDeposits).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "updateDeposits"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

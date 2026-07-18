@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "duplicate-destination-allowlist-checks-in-corevaultclientfac-x"
+class_name: "DuplicateDestinationAllowlistChecksInCorevaultclientfacX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Flare FAssets - Zellic Audit Report"
+help: |
+    According to the specification, when a redemption payment is blocked by the receiver, the agent may submit a proof with status PAYMENT_BLOCKED to confirmRedemptionPayment. In this
+wiki_title: "Duplicate destination-allowlist checks in CoreVaultClientFacet flows                46"
+wiki_description: |
+    According to the specification, when a redemption payment is blocked by the receiver, the agent may submit a proof with status PAYMENT_BLOCKED to confirmRedemptionPayment. In this case, the agent’s obligation is considered fulfilled, and the agent should retain both the collateral and the underlying
+wiki_exploit_scenario: |
+    Per audit finding: According to the specification, when a redemption payment is blocked by the receiver, the agent may submit a proof with status PAYMENT_BLOCKED to confirmRedemptionPayment. In this case, the agent’s ob
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DuplicateDestinationAllowlistChecksInCorevaultclientfacX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(confirmRedemptionPayment|receivedAmount|responseBody).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "confirmRedemptionPayment"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

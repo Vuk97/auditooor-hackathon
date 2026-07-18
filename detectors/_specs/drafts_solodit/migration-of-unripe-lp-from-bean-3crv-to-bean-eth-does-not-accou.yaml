@@ -1,0 +1,35 @@
+skeleton: "paired_function_divergence"
+name: "migration-of-unripe-lp-from-bean-3crv-to-bean-eth-does-not-accou"
+class_name: "MigrationOfUnripeLpFromBean3crvToBeanEthDoesNotAccou"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31259 (Cyfrin/Beanstalk Bip)"
+help: |
+    Migration of unripe LP from BEAN:3CRV to BEAN:ETH does not account for recapitalization accounting error
+wiki_title: |
+    Migration of unripe LP from BEAN:3CRV to BEAN:ETH does not account for recapitalization accounting error
+wiki_description: |
+    **Description:** The global [`AppStorage::recapitalized`](https://github.com/BeanstalkFarms/Beanstalk/blob/12c608a22535e3a1fe379db1153185fe43851ea7/protocol/contracts/beanstalk/AppStorage.sol#L485) state refers to the dollar amount recapitalized when Fertilizer was bought with USDC and paired with B
+wiki_exploit_scenario: |
+    Per Solodit #31259: **Description:** The global [`AppStorage::recapitalized`](https://github.com/BeanstalkFarms/Beanstalk/blob/12c608a22535e3a1fe379db1153185fe43851ea7/protocol/contracts/beanstalk/AppStorage.sol#L485) st
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MigrationOfUnripeLpFromBean3crvToBeanEthDoesNotAccou"
+solodit_id: "31259"
+solodit_slug: |
+    migration-of-unripe-lp-from-bean3crv-to-beaneth-does-not-account-for-recapitalization-accounting-error-cyfrin-none-cyfrin-beanstalk-bip-38-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

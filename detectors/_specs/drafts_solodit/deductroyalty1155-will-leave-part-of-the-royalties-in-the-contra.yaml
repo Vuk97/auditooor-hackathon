@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "deductroyalty1155-will-leave-part-of-the-royalties-in-the-contra"
+class_name: "Deductroyalty1155WillLeavePartOfTheRoyaltiesInTheContra"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #54554 (Cantina/NFTX)"
+help: |
+    _deductRoyalty1155 will leave part of the royalties in the contract and it can be taken out by other users
+wiki_title: |
+    _deductRoyalty1155 will leave part of the royalties in the contract and it can be taken out by other users 
+wiki_description: |
+    ## Context
+    - MarketplaceUniversalRouterZap.sol#L672-L676
+    - MarketplaceUniversalRouterZap.sol#L358-L370
+    
+    ## Description
+    `_deductRoyalty1155` collects royalties from ERC1155, but in the code below, the royalties are calculated as `royaltyAmount * amount`. However, only the `royaltyAmount` will be sent
+wiki_exploit_scenario: |
+    Per Solodit #54554: ## Context
+    - MarketplaceUniversalRouterZap.sol#L672-L676
+    - MarketplaceUniversalRouterZap.sol#L358-L370
+    
+    ## Description
+    `_deductRoyalty1155` collects royalties from ERC1155, but in the code below, the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "Deductroyalty1155WillLeavePartOfTheRoyaltiesInTheContra"
+solodit_id: "54554"
+solodit_slug: |
+    deductroyalty1155-will-leave-part-of-the-royalties-in-the-contract-and-it-can-be-taken-out-by-other-users-cantina-none-nftx-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal buynftswitheth;"
+fn_name_regex: ".*(royaltyAmount|buyNFTsWithETH).*"
+read_var_regex: ".*(buyNFTsWithETH|royaltyAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "royaltyAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return buynftswitheth > 0;"

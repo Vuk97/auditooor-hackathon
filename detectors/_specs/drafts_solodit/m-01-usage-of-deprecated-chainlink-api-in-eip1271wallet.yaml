@@ -1,0 +1,36 @@
+skeleton: "state_write_without_paired_write"
+name: "m-01-usage-of-deprecated-chainlink-api-in-eip1271wallet"
+class_name: "M01UsageOfDeprecatedChainlinkApiInEip1271wallet"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24658 (Code4rena/Notional)"
+help: "[M-01] Usage of deprecated ChainLink API in `EIP1271Wallet`"
+wiki_title: "[M-01] Usage of deprecated ChainLink API in `EIP1271Wallet`"
+wiki_description: |
+    _Submitted by cmichel, also found by 0x1f8b, defsec, leastwood, pauliax, sirhashalot, TomFrenchBlockchain, UncleGrandpa925, and WatchPug_
+    
+    The Chainlink API (`latestAnswer`) used in the `EIP1271Wallet` contract is deprecated:
+    
+    > This API is deprecated. Please see API Reference for the latest Price F
+wiki_exploit_scenario: |
+    Per Solodit #24658: _Submitted by cmichel, also found by 0x1f8b, defsec, leastwood, pauliax, sirhashalot, TomFrenchBlockchain, UncleGrandpa925, and WatchPug_
+    
+    The Chainlink API (`latestAnswer`) used in the `EIP1271Wallet
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01UsageOfDeprecatedChainlinkApiInEip1271wallet"
+solodit_id: "24658"
+solodit_slug: "m-01-usage-of-deprecated-chainlink-api-in-eip1271wallet-code4rena-notional-notional-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(latestAnswer|EIP1271Wallet|latestRoundData).*"
+primary_var_regex: ".*(latestAnswer|latestRoundData).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

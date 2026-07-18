@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "h-13-burning-does-not-update-reserves"
+class_name: "H13BurningDoesNotUpdateReserves"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25573 (Code4rena/Sushi)"
+help: "[H-13] Burning does not update reserves"
+wiki_title: "[H-13] Burning does not update reserves"
+wiki_description: |
+    _Submitted by cmichel, also found by 0xsanson, broccoli, and pauliax_
+    
+    The `ConcentratedLiquidityPool.burn` function sends out `amount0`/`amount1` tokens but only updates the reserves by decreasing it by the **fees of these amounts**.
+    
+    ```solidity
+    unchecked {
+        // @audit decreases by fees only, no
+wiki_exploit_scenario: |
+    Per Solodit #25573: _Submitted by cmichel, also found by 0xsanson, broccoli, and pauliax_
+    
+    The `ConcentratedLiquidityPool.burn` function sends out `amount0`/`amount1` tokens but only updates the reserves by decreasing it
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H13BurningDoesNotUpdateReserves"
+solodit_id: "25573"
+solodit_slug: "h-13-burning-does-not-update-reserves-code4rena-sushi-sushi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount0;"
+fn_name_regex: ".*(amount0|amount1|burn|mint).*"
+write_var_regex: ".*(amount0|amount1|burn).*"
+guard_var_regex: ".*(amount0|amount1|burn).*"
+vuln_fn_name: "amount0"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "amount0 = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

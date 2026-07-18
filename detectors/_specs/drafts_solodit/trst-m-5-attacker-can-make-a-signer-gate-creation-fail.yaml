@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "trst-m-5-attacker-can-make-a-signer-gate-creation-fail"
+class_name: "TrstM5AttackerCanMakeASignerGateCreationFail"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18929 (Trust Security/Hats Protocol)"
+help: "TRST-M-5 Attacker can make a signer gate creation fail"
+wiki_title: "TRST-M-5 Attacker can make a signer gate creation fail"
+wiki_description: |
+    **Description:** 
+    DAOs can deploy a HSG using `deployHatsSignerGateAndSafe()` or 
+    `deployMultiHatsSignerGateAndSafe()`.The parameters are encoded and passed to 
+    `moduleProxyFactory.deployModule()`:
+    ```solidity
+        bytes memory initializeParams = abi.encode(_ownerHatId, _signersHatId, _safe, hatsAddr
+wiki_exploit_scenario: |
+    Per Solodit #18929: **Description:** 
+    DAOs can deploy a HSG using `deployHatsSignerGateAndSafe()` or 
+    `deployMultiHatsSignerGateAndSafe()`.The parameters are encoded and passed to 
+    `moduleProxyFactory.deployModule()`:
+    ``
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TrstM5AttackerCanMakeASignerGateCreationFail"
+solodit_id: "18929"
+solodit_slug: "trst-m-5-attacker-can-make-a-signer-gate-creation-fail-trust-security-none-hats-protocol-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Front-Running, CREATE2"
+state_decl: "uint256 internal createproxy;"
+fn_name_regex: ".*(deployHatsSignerGateAndSafe|deployMultiHatsSignerGateAndSafe|createProxy).*"
+read_var_regex: ".*(createProxy|deployHatsSignerGateAndSafe|deployMultiHatsSignerGateAndSafe).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "deployHatsSignerGateAndSafe"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return createproxy > 0;"

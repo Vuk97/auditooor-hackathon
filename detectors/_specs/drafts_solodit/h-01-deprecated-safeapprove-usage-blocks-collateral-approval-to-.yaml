@@ -1,0 +1,52 @@
+skeleton: "name_match_missing_require"
+name: "h-01-deprecated-safeapprove-usage-blocks-collateral-approval-to-"
+class_name: "H01DeprecatedSafeapproveUsageBlocksCollateralApprovalTo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #63922 (Pashov Audit Group/Hyperlend_2025-11-21)"
+help: "[H-01] Deprecated `safeApprove()` usage blocks collateral approval to pool"
+wiki_title: "[H-01] Deprecated `safeApprove()` usage blocks collateral approval to pool"
+wiki_description: |
+    _Resolved_
+    
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    Project uses Openzeppelin@v4.9.6, which deprecates `safeApprove()`. Safe approve usage is not safe here because it blocks every approval if approval for the collateral is non-zero:
+    
+    ```solidity
+    //    function execute
+wiki_exploit_scenario: |
+    Per Solodit #63922: _Resolved_
+    
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    Project uses Openzeppelin@v4.9.6, which deprecates `safeApprove()`. Safe approve usage is not safe here because it b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01DeprecatedSafeapproveUsageBlocksCollateralApprovalTo"
+solodit_id: "63922"
+solodit_slug: |
+    h-01-deprecated-safeapprove-usage-blocks-collateral-approval-to-pool-pashov-audit-group-none-hyperlend_2025-11-21-markdown
+solodit_quality: "4.333333333333333"
+solodit_rarity: "3.5"
+solodit_tags: "ERC20"
+state_decl: "uint256 internal forceapprove;"
+fn_name_regex: ".*(safeApprove|require|forceApprove).*"
+write_var_regex: ".*(forceApprove|require|safeApprove).*"
+guard_var_regex: ".*(forceApprove|require|safeApprove).*"
+vuln_fn_name: "safeApprove"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "forceapprove = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

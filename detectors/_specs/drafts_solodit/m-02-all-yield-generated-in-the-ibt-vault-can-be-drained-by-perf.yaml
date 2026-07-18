@@ -1,0 +1,48 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-02-all-yield-generated-in-the-ibt-vault-can-be-drained-by-perf"
+class_name: "M02AllYieldGeneratedInTheIbtVaultCanBeDrainedByPerf"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30732 (Code4rena/Spectra)"
+help: |
+    [M-02] All yield generated in the IBT vault can be drained by performing a vault deflation attack using the flash loan functionality of the Principal Token contract
+wiki_title: |
+    [M-02] All yield generated in the IBT vault can be drained by performing a vault deflation attack using the flash loan functionality of the Principal Token cont
+wiki_description: |
+    The current implementation of the `PrincipalToken` has a flash lending functionality:
+    
+    ```solidity
+        function flashLoan(
+            IERC3156FlashBorrower _receiver,
+            address _token,
+            uint256 _amount,
+            bytes calldata _data
+        ) external override returns (bool) {
+            if (_amo
+wiki_exploit_scenario: |
+    Per Solodit #30732: The current implementation of the `PrincipalToken` has a flash lending functionality:
+    
+    ```solidity
+        function flashLoan(
+            IERC3156FlashBorrower _receiver,
+            address _token,
+            uin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02AllYieldGeneratedInTheIbtVaultCanBeDrainedByPerf"
+solodit_id: "30732"
+solodit_slug: |
+    m-02-all-yield-generated-in-the-ibt-vault-can-be-drained-by-performing-a-vault-deflation-attack-using-the-flash-loan-functionality-of-the-principal-token-contract-code4rena-spectra-spectra-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Flash Loan"
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(PrincipalToken|totalAssets|totalShares).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

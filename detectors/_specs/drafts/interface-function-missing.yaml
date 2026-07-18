@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "interface-function-missing"
+class_name: "InterfaceFunctionMissing"
+wave: "12"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "corpus slice slice_aa"
+help: |
+    `_checkRequestIdToFinalizeUpTo` calls `IWithdrawalQueue.getWithdrawalRequestStatus()` but the function does not exist in the actual `WithdrawalQueue` contract; always reverts.
+wiki_title: "interface-function-missing"
+wiki_description: |
+    `_checkRequestIdToFinalizeUpTo` calls `IWithdrawalQueue.getWithdrawalRequestStatus()` but the function does not exist in the actual `WithdrawalQueue` contract; always reverts.
+wiki_exploit_scenario: |
+    Attacker exploits interface-function-missing as described: `_checkRequestIdToFinalizeUpTo` calls `IWithdrawalQueue.getWithdrawalRequestStatus()` but the function does not exist in the actual `WithdrawalQueue` contract; always reverts.
+wiki_recommendation: |
+    cast to interface and call to function name that does not appear in the concrete implementation contract.
+contract_name: "InterfaceFunctionMissing"
+state_decl: "uint256 internal tracked;"
+fn_name_regex: ".*(WithdrawalQueue).*"
+read_var_regex: ".*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "WithdrawalQueue"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return tracked > 0;"

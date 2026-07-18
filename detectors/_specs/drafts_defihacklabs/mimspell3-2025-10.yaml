@@ -1,0 +1,26 @@
+skeleton: "name_match_missing_require"
+name: "mimspell3-2025-10"
+class_name: "Mimspell3202510"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-10/MIMSpell3_exp.sol"
+help: "MIMSpell3 2025-10 — rounding exploit (1.7M USD)"
+wiki_title: "MIMSpell3 (2025-10) — rounding"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-10): MIMSpell3 lost 1.7M USD. Bug class: rounding. Attack tx: 0x842aae91c89a9e5043e64af34f53dc66daf0f033ad8afbf35ef0c93f99a9e5e6.
+wiki_exploit_scenario: |
+    Attacker (0x1aaade3e9062d124b7deb0ed6ddc7055efa7354d) exploits MIMSpell3 via rounding: the victim contract 0x46f54d434063e5f1a2b2cc6d9aaa657b1b9ff82c exposes a code path that can be triggered without the guard expected by the name_match_missing_require skeleton.
+wiki_recommendation: |
+    Use mulDiv with explicit rounding direction; require the resulting amount to stay within tolerance bounds; never round user-withdraw amounts up.
+contract_name: "Mimspell3202510"
+fn_name_regex: ".*(withdraw).*"
+write_var_regex: ".*(admin|owner|balance|amount).*"
+guard_var_regex: ".*(admin|owner|balance|amount).*"
+vuln_fn_name: "withdraw"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(msg.sender == owner, \"!auth\");"
+state_decl: |
+    uint256 internal balance;
+        address internal owner;

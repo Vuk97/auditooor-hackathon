@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_call"
+name: "m-01-excess-liquidity-is-not-returned-and-approval-is-not-revoke"
+class_name: "M01ExcessLiquidityIsNotReturnedAndApprovalIsNotRevoke"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #44188 (Shieldify/Vyper)"
+help: |
+    [M-01] Excess Liquidity Is Not Returned and Approval Is Not Revoked When Minting Positions in `Auction`
+wiki_title: |
+    [M-01] Excess Liquidity Is Not Returned and Approval Is Not Revoked When Minting Positions in `Auction`
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    `Auction.addInitialLiquidity()` calls `INonfungiblePositionManager(v3PositionManager).mint()`, but does not revoke excess approvals and return extra funds:
+    
+    ```solidity
+    (uint256 tokenId,,,) = INonfungiblePositionManager(v3PositionManager).mint(params);
+    
+    LP m
+wiki_exploit_scenario: |
+    Per Solodit #44188: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    `Auction.addInitialLiquidity()` calls `INonfungiblePositionManager(v3PositionManager).mint()`, but does not revoke excess approvals and return extra funds:
+    
+    `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01ExcessLiquidityIsNotReturnedAndApprovalIsNotRevoke"
+solodit_id: "44188"
+solodit_slug: |
+    m-01-excess-liquidity-is-not-returned-and-approval-is-not-revoked-when-minting-positions-in-auction-shieldify-none-vyper-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(Auction).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Auction"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

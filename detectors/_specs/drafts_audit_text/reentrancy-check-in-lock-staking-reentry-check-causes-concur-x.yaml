@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "reentrancy-check-in-lock-staking-reentry-check-causes-concur-x"
+class_name: "ReentrancyCheckInLockStakingReentryCheckCausesConcurX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-04-cabal-liquid-staking-token"
+help: |
+    rare_one Finding description and impact The liquid staking protocol’s deposit_init_for_xinit function, which allows users to deposit INIT tokens to receive xINIT, is vulnerable to
+wiki_title: "Reentrancy Check in lock_staking::reentry_check Causes Concurrent INIT Deposit Failures (DOS)"
+wiki_description: |
+    rare_one Finding description and impact The liquid staking protocol’s deposit_init_for_xinit function, which allows users to deposit INIT tokens to receive xINIT, is vulnerable to transaction failures when multiple users deposit concurrently in the same block. The function withdraws INIT tokens and
+wiki_exploit_scenario: |
+    Per audit finding: rare_one Finding description and impact The liquid staking protocol’s deposit_init_for_xinit function, which allows users to deposit INIT tokens to receive xINIT, is vulnerable to transaction failures
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReentrancyCheckInLockStakingReentryCheckCausesConcurX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(xINIT).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "xINIT"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

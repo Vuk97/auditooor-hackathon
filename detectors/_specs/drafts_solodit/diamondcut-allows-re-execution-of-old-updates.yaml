@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_require"
+name: "diamondcut-allows-re-execution-of-old-updates"
+class_name: "DiamondcutAllowsReExecutionOfOldUpdates"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7145 (Spearbit/Connext)"
+help: "diamondCut() allows re-execution of old updates"
+wiki_title: "diamondCut() allows re-execution of old updates"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    **File:** LibDiamond.sol  
+    **Lines:** 112-115
+    
+    ## Description
+    When `diamondCut()` is executed, `ds.acceptanceTimes[keccak256(abi.encode(_diamondCut, _init, _calldata))]` is not reset to zero. This means the contract owner can rerun the old updates again without a
+wiki_exploit_scenario: |
+    Per Solodit #7145: ## Severity: Medium Risk
+    
+    ## Context
+    **File:** LibDiamond.sol  
+    **Lines:** 112-115
+    
+    ## Description
+    When `diamondCut()` is executed, `ds.acceptanceTimes[keccak256(abi.encode(_diamondCut, _init, _callda
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "DiamondcutAllowsReExecutionOfOldUpdates"
+solodit_id: "7145"
+solodit_slug: "diamondcut-allows-re-execution-of-old-updates-spearbit-connext-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Don't update state"
+state_decl: "uint256 internal diamondcut;"
+fn_name_regex: ".*(diamondCut).*"
+write_var_regex: ".*(diamondCut).*"
+guard_var_regex: ".*(diamondCut).*"
+vuln_fn_name: "diamondCut"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "diamondcut = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

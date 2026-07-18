@@ -1,0 +1,40 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-09-the-contract-serves-as-a-flashloan-pool-without-fee"
+class_name: "M09TheContractServesAsAFlashloanPoolWithoutFee"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2942 (Code4rena/Putty)"
+help: "[M-09] The contract serves as a flashloan pool without fee"
+wiki_title: "[M-09] The contract serves as a flashloan pool without fee"
+wiki_description: |
+    _Submitted by 0xc0ffEE, also found by horsefacts, pedroais, and unforgiven_
+    
+    The malicious user could leverage PuttyV2 contract to flashloan without paying fee the assets to make profit.
+    
+    Consider a scenario that maker and taker is the same, and is a contract
+    
+    1.  The contract call PuttyV2.`fillOrde
+wiki_exploit_scenario: |
+    Per Solodit #2942: _Submitted by 0xc0ffEE, also found by horsefacts, pedroais, and unforgiven_
+    
+    The malicious user could leverage PuttyV2 contract to flashloan without paying fee the assets to make profit.
+    
+    Consider a s
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09TheContractServesAsAFlashloanPoolWithoutFee"
+solodit_id: "2942"
+solodit_slug: "m-09-the-contract-serves-as-a-flashloan-pool-without-fee-code4rena-putty-putty-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(fillOrder|erc20Assets|token|tokenAmount).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

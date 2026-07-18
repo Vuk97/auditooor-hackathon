@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-01-auravault-claim-reward-calculation-does-not-deduct-fees-fro"
+class_name: "H01AuravaultClaimRewardCalculationDoesNotDeductFeesFro"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #49023 (Code4rena/LoopFi)"
+help: |
+    [H-01] `AuraVault::claim` reward calculation does not deduct fees from reward amount, causing DoS or extra rewards lost
+wiki_title: |
+    [H-01] `AuraVault::claim` reward calculation does not deduct fees from reward amount, causing DoS or extra rewards lost
+wiki_description: |
+    `AuraVault::claim` allows users to claim rewards corresponding to the amount of `WETH` they are depositing in the same call.
+    
+    Prior to sending rewards to `msg.sender`, a percentage of the rewards is sent to the `vault locker rewards`. However, the percentage of the rewards sent to the `vault locker
+wiki_exploit_scenario: |
+    Per Solodit #49023: `AuraVault::claim` allows users to claim rewards corresponding to the amount of `WETH` they are depositing in the same call.
+    
+    Prior to sending rewards to `msg.sender`, a percentage of the rewards is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01AuravaultClaimRewardCalculationDoesNotDeductFeesFro"
+solodit_id: "49023"
+solodit_slug: |
+    h-01-auravaultclaim-reward-calculation-does-not-deduct-fees-from-reward-amount-causing-dos-or-extra-rewards-lost-code4rena-loopfi-loopfi-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(WETH|AuraVault).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "WETH"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,45 @@
+skeleton: "paired_function_divergence"
+name: "m-01-functions-withdrawwithconfirm-and-depositwithconfirm-incorr"
+class_name: "M01FunctionsWithdrawwithconfirmAndDepositwithconfirmIncorr"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #65097 (Code4rena/Recall)"
+help: |
+    [M-01] Functions `withdrawWithConfirm` and `depositWithConfirm` incorrectly update `genesisValidators` state
+wiki_title: |
+    [M-01] Functions `withdrawWithConfirm` and `depositWithConfirm` incorrectly update `genesisValidators` state
+wiki_description: |
+    <https://github.com/code-423n4/2025-02-recall/blob/ab5f90b9b0322016ecce6dd71c528a935544bec5/contracts/contracts/lib/LibStaking.sol# L505>
+    
+    ### Finding description and impact
+    
+    The vulnerable functions are `LibStaking::withdrawWithConfirm()` and `LibStaking::depositWithConfirm()`.
+    
+    When the subnet i
+wiki_exploit_scenario: |
+    Per Solodit #65097: <https://github.com/code-423n4/2025-02-recall/blob/ab5f90b9b0322016ecce6dd71c528a935544bec5/contracts/contracts/lib/LibStaking.sol# L505>
+    
+    ### Finding description and impact
+    
+    The vulnerable function
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01FunctionsWithdrawwithconfirmAndDepositwithconfirmIncorr"
+solodit_id: "65097"
+solodit_slug: |
+    m-01-functions-withdrawwithconfirm-and-depositwithconfirm-incorrectly-update-genesisvalidators-state-code4rena-recall-recall-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(addStake|genesisValidators|leave).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

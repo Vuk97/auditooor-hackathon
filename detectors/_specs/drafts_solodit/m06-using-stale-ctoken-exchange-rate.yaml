@@ -1,0 +1,30 @@
+skeleton: "state_write_without_paired_write"
+name: "m06-using-stale-ctoken-exchange-rate"
+class_name: "M06UsingStaleCtokenExchangeRate"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #10974 (OpenZeppelin/BarnBridge Smart Yield Bonds Audit)"
+help: "[M06] Using stale cToken exchange rate"
+wiki_title: "[M06] Using stale cToken exchange rate"
+wiki_description: |
+    Throughout the [`CompoundProvider` contract](https://github.com/BarnBridge/BarnBridge-SmartYieldBonds/blob/943df3a8fcd8dd128af3beb0c85a0480c0e95ead/contracts/providers/CompoundProvider.sol#L305), when considering the exchange rate between cTokens and uTokens in a given Compound pool, the pool’s [`ex
+wiki_exploit_scenario: |
+    Per Solodit #10974: Throughout the [`CompoundProvider` contract](https://github.com/BarnBridge/BarnBridge-SmartYieldBonds/blob/943df3a8fcd8dd128af3beb0c85a0480c0e95ead/contracts/providers/CompoundProvider.sol#L305), when
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06UsingStaleCtokenExchangeRate"
+solodit_id: "10974"
+solodit_slug: "m06-using-stale-ctoken-exchange-rate-openzeppelin-barnbridge-smart-yield-bonds-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(CompoundProvider|exchangeRateStored|exchangeRateCurrent).*"
+primary_var_regex: ".*(exchangeRateCurrent|exchangeRateStored).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

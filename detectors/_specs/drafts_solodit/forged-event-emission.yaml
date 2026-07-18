@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "forged-event-emission"
+class_name: "ForgedEventEmission"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32417 (OpenZeppelin/1inch Limit Order Protocol Diff Audit)"
+help: "Forged Event Emission"
+wiki_title: "Forged Event Emission"
+wiki_description: |
+    Users have two options to cancel their orders:
+    
+    
+    * Via the [`cancelOrder`](https://github.com/1inch/limit-order-protocol/blob/aab3364577fd22d5baf5bc07cb9f8feb1511de55/contracts/OrderMixin.sol#L98-L105) function, which uses both the `BitInvalidator` and the `RemaningInvalidator` approaches for cancel
+wiki_exploit_scenario: |
+    Per Solodit #32417: Users have two options to cancel their orders:
+    
+    
+    * Via the [`cancelOrder`](https://github.com/1inch/limit-order-protocol/blob/aab3364577fd22d5baf5bc07cb9f8feb1511de55/contracts/OrderMixin.sol#L98-L105
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ForgedEventEmission"
+solodit_id: "32417"
+solodit_slug: "forged-event-emission-openzeppelin-none-1inch-limit-order-protocol-diff-audit-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal bitsinvalidatefororder;"
+fn_name_regex: ".*(cancelOrder|BitInvalidator|RemaningInvalidator|OrderCancelled).*"
+read_var_regex: ".*(bitsInvalidateForOrder|cancelOrder).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "cancelOrder"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return bitsinvalidatefororder > 0;"

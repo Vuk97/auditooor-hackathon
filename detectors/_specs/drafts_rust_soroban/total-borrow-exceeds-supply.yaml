@@ -1,0 +1,19 @@
+id: total-borrow-exceeds-supply
+title: "total_borrow > total_supply triggers harmful treasury sweeps"
+severity: Low
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.30"
+bug_class: precision-loss
+indicators:
+  - "reserve-sweep path that computes `sweepable = total_supply - total_borrow` without `saturating_sub`"
+  - "no invariant assertion that `total_supply >= total_borrow`"
+victim: "Protocol: admin accidentally sweeps treasury into the red."
+exploit_precondition: "Rounding or bad debt pushes borrow above supply momentarily."
+real_world_example: |
+  Halborn 7.30 (LOW): Overstated protocol reserves when total_borrow exceeds total_supply trigger harmful treasury sweeps.
+suggested_remediation: "`saturating_sub` + hard cap; admin sweeps should require explicit amount."
+cross_refs:
+  - deficit-treated-as-available-liquidity

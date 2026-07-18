@@ -1,0 +1,19 @@
+id: public-getter-preserves-stale-baseline
+title: "Public getter preserves stale baseline across writes"
+severity: Medium
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44452"
+bug_class: error-handling
+indicators:
+  - "public `get_state()` returns a cached struct not refreshed on subsequent mutations"
+  - "clients consume stale data as authoritative"
+victim: "Off-chain consumers."
+exploit_precondition: "Mutation happens without refreshing the cached view."
+real_world_example: |
+  V12 #44452 (Medium): Public getter preserves stale baseline.
+suggested_remediation: "Compute the getter from live storage on every call."
+cross_refs:
+  - oracle-cache-not-invalidated-on-config-change

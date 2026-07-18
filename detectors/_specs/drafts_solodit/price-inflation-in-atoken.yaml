@@ -1,0 +1,36 @@
+skeleton: "paired_function_divergence"
+name: "price-inflation-in-atoken"
+class_name: "PriceInflationInAtoken"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #51950 (Halborn/Finance Contracts)"
+help: "Price Inflation in AToken"
+wiki_title: "Price Inflation in AToken"
+wiki_description: |
+    ##### Description
+    
+    The AToken contract is susceptible to price inflation due to liquidity index manipulation and rounding issues in the mint and burn functions. This vulnerability can be exploited to extract profit, particularly in scenarios where the initial pool balance is not properly initialized
+wiki_exploit_scenario: |
+    Per Solodit #51950: ##### Description
+    
+    The AToken contract is susceptible to price inflation due to liquidity index manipulation and rounding issues in the mint and burn functions. This vulnerability can be exploited to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PriceInflationInAtoken"
+solodit_id: "51950"
+solodit_slug: "price-inflation-in-atoken-halborn-bonzo-finance-contracts-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(deposit|initialize).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

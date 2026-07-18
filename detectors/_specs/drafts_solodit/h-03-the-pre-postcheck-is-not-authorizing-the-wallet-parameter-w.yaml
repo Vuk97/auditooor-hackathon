@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_require"
+name: "h-03-the-pre-postcheck-is-not-authorizing-the-wallet-parameter-w"
+class_name: "H03ThePrePostcheckIsNotAuthorizingTheWalletParameterW"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61413 (Shieldify/Etherspot Credibleaccountmodule)"
+help: "[H-03] The `pre/postCheck()` Is Not Authorizing the `wallet` Parameter with `msg.sender`"
+wiki_title: "[H-03] The `pre/postCheck()` Is Not Authorizing the `wallet` Parameter with `msg.sender`"
+wiki_description: |
+    ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    When using `CredibleAccountModule` as a Hook, the wallet will call `preCheck()` before executing and `postCheck()`. They extract the wallet parameter from the data `sender` and accumulate the tokens for all session keys owned by that wallet
+    
+    ```solidity
+    funct
+wiki_exploit_scenario: |
+    Per Solodit #61413: ## Severity
+    
+    High Risk
+    
+    ## Description
+    
+    When using `CredibleAccountModule` as a Hook, the wallet will call `preCheck()` before executing and `postCheck()`. They extract the wallet parameter from the
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03ThePrePostcheckIsNotAuthorizingTheWalletParameterW"
+solodit_id: "61413"
+solodit_slug: |
+    h-03-the-prepostcheck-is-not-authorizing-the-wallet-parameter-with-msgsender-shieldify-none-etherspot-credibleaccountmodule-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal postcheck;"
+fn_name_regex: ".*(CredibleAccountModule|preCheck|postCheck|sesionKey).*"
+write_var_regex: ".*(postCheck|preCheck|sesionKey).*"
+guard_var_regex: ".*(postCheck|preCheck|sesionKey).*"
+vuln_fn_name: "CredibleAccountModule"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "postcheck = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "h-04-reserved-token-rounding-can-be-abused-to-honeypot-and-steal"
+class_name: "H04ReservedTokenRoundingCanBeAbusedToHoneypotAndSteal"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #5806 (Code4rena/Juicebox)"
+help: "[H-04] Reserved token rounding can be abused to honeypot and steal user's funds"
+wiki_title: "[H-04] Reserved token rounding can be abused to honeypot and steal user's funds"
+wiki_description: |
+    When the project wishes to mint reserved tokens, they call mintReservesFor which allows minting up to the amount calculated by DelegateStore's \_numberOfReservedTokensOutstandingFor. The function has this line:
+    
+        // No token minted yet? Round up to 1.
+        if (_storedTier.initialQuantity == _stor
+wiki_exploit_scenario: |
+    Per Solodit #5806: When the project wishes to mint reserved tokens, they call mintReservesFor which allows minting up to the amount calculated by DelegateStore's \_numberOfReservedTokensOutstandingFor. The function has
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H04ReservedTokenRoundingCanBeAbusedToHoneypotAndSteal"
+solodit_id: "5806"
+solodit_slug: |
+    h-04-reserved-token-rounding-can-be-abused-to-honeypot-and-steal-users-funds-code4rena-juicebox-juicebox-contest-git
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Rounding"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(mintReservesFor|initialQuantity|remainingQuantity|tierIDs).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "mintReservesFor"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

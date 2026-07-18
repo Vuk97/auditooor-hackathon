@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-01-exiting-a-farm-on-mainnet-assumes-a-peg-of-1-1-when-swappin"
+class_name: "M01ExitingAFarmOnMainnetAssumesAPegOf11WhenSwappin"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32090 (Code4rena/Wise Lending)"
+help: "[M-01] Exiting a farm on mainnet assumes a peg of `1:1`  when swapping stETH for ETH"
+wiki_title: "[M-01] Exiting a farm on mainnet assumes a peg of `1:1`  when swapping stETH for ETH"
+wiki_description: |
+    When stETH depegs from ETH, the swaps on Curve will revert due to requesting a higher `amountOut` than what the curves pool will give.
+    
+    ### Proof of Concept
+    
+    When exiting a farm on mainnet, the requested `tokensOut` is set as `stETH` for redeeming the SY tokens on the `PENDLE_SY` contract. Once the
+wiki_exploit_scenario: |
+    Per Solodit #32090: When stETH depegs from ETH, the swaps on Curve will revert due to requesting a higher `amountOut` than what the curves pool will give.
+    
+    ### Proof of Concept
+    
+    When exiting a farm on mainnet, the reque
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01ExitingAFarmOnMainnetAssumesAPegOf11WhenSwappin"
+solodit_id: "32090"
+solodit_slug: |
+    m-01-exiting-a-farm-on-mainnet-assumes-a-peg-of-11-when-swapping-steth-for-eth-code4rena-wise-lending-wise-lending-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amountout;"
+fn_name_regex: ".*(amountOut|tokensOut|stETH|PENDLE_SY).*"
+read_var_regex: ".*(amountOut|ethValue|minOutAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "amountOut"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amountout > 0;"

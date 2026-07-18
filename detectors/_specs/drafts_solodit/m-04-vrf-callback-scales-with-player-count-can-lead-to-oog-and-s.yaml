@@ -1,0 +1,51 @@
+skeleton: "name_match_missing_call"
+name: "m-04-vrf-callback-scales-with-player-count-can-lead-to-oog-and-s"
+class_name: "M04VrfCallbackScalesWithPlayerCountCanLeadToOogAndS"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #62743 (Shieldify/Soulsclub Revolver)"
+help: "[M-04] VRF Callback Scales with Player Count Can Lead to OOG and Stuck `WaitingVRF`"
+wiki_title: "[M-04] VRF Callback Scales with Player Count Can Lead to OOG and Stuck `WaitingVRF`"
+wiki_description: |
+    ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    In `Revolver` the `randomNumberCallback(uint256 requestId, uint256 randomNumber)` calls `_checkSolePlayer(round)` every callback.
+    
+    However, the `_checkSolePlayer()` function iterates all active cells and then all players in those cells:
+    
+    ```solidity
+    for (ui
+wiki_exploit_scenario: |
+    Per Solodit #62743: ## Severity
+    
+    Medium Risk
+    
+    ## Description
+    
+    In `Revolver` the `randomNumberCallback(uint256 requestId, uint256 randomNumber)` calls `_checkSolePlayer(round)` every callback.
+    
+    However, the `_checkSolePl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04VrfCallbackScalesWithPlayerCountCanLeadToOogAndS"
+solodit_id: "62743"
+solodit_slug: |
+    m-04-vrf-callback-scales-with-player-count-can-lead-to-oog-and-stuck-waitingvrf-shieldify-none-soulsclub-revolver-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal randomnumbercallback;"
+fn_name_regex: ".*(Revolver|randomNumberCallback|status|WaitingVRF).*"
+read_var_regex: ".*(randomNumberCallback|status).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "Revolver"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return randomnumbercallback > 0;"

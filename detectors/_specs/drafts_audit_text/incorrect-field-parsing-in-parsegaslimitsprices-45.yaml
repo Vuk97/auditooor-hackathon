@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "incorrect-field-parsing-in-parsegaslimitsprices-45"
+class_name: "IncorrectFieldParsingInParsegaslimitsprices45"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero TON - Zellic Audit Report"
+help: |
+    The msglibSendCallback function in the channel is called by smlManager as part of the process of sending a message. It emits the Channel::event::PACKET_SENT event, which is what of
+wiki_title: "Incorrect field parsing in parseGasLimitsPrices                                45"
+wiki_description: |
+    The msglibSendCallback function in the channel is called by smlManager as part of the process of sending a message. It emits the Channel::event::PACKET_SENT event, which is what off-chain entities listen for to know that a message has been sent. Execution must leave the channel from the first channe
+wiki_exploit_scenario: |
+    Per audit finding: The msglibSendCallback function in the channel is called by smlManager as part of the process of sending a message. It emits the Channel::event::PACKET_SENT event, which is what off-chain entities lis
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectFieldParsingInParsegaslimitsprices45"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(msglibSendCallback|smlManager|channelSend).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "msglibSendCallback"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

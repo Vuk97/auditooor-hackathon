@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unclaimed-withdrawal-requests-may-be-incorrectly-finalized"
+class_name: "UnclaimedWithdrawalRequestsMayBeIncorrectlyFinalized"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Concrete - Zellic Audit Report"
+help: |
+    When the owner of the vault batch claims withdrawal requests, the function batchClaim determines whether to terminate the current batch claim based on the remaining available asset
+wiki_title: "Unclaimed withdrawal requests may be incorrectly finalized"
+wiki_description: |
+    When the owner of the vault batch claims withdrawal requests, the function batchClaim determines whether to terminate the current batch claim based on the remaining available assets and the value of maxRequests set by the owner. For available assets, the function prepareWithdrawal is expected to ret
+wiki_exploit_scenario: |
+    Per audit finding: When the owner of the vault batch claims withdrawal requests, the function batchClaim determines whether to terminate the current batch claim based on the remaining available assets and the value of m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnclaimedWithdrawalRequestsMayBeIncorrectlyFinalized"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(batchClaim|maxRequests|prepareWithdrawal).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "batchClaim"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

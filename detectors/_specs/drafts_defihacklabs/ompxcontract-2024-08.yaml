@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "ompxcontract-2024-08"
+class_name: "Ompxcontract202408"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-08/OMPxContract_exp.sol"
+help: "OMPxContract 2024-08 — flashloan exploit (4.37 ETH (~11527 USD))"
+wiki_title: "OMPxContract (2024-08) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-08): OMPxContract lost 4.37 ETH (~11527 USD). Bug class: flashloan. Attack tx: 0xd927843e30c6b2bf43103d83bca6abead648eac3cad0d05b1b0eb84cd87de9b6.
+wiki_exploit_scenario: |
+    Attacker (0x40d115198d71cab59668b51dd112a07d273d5831) exploits OMPxContract via flashloan: the victim contract 0x09a80172ed7335660327cd664876b5df6fe06108 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Ompxcontract202408"
+trigger_sig_regex: ".*(receiveFlashLoan).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function receiveFlashLoan(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.receiveFlashLoan(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

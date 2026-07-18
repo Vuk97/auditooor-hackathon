@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "m-05-deposittobentobox-sometimes-uses-both-eth-and-weth"
+class_name: "M05DeposittobentoboxSometimesUsesBothEthAndWeth"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #24646 (Code4rena/Sushi)"
+help: "[M-05] `_depositToBentoBox` sometimes uses both ETH and WETH"
+wiki_title: "[M-05] `_depositToBentoBox` sometimes uses both ETH and WETH"
+wiki_description: |
+    _Submitted by cmichel, also found by 0xRajeev_
+    
+    The `TridentRouter._depositToBentoBox` function only uses the `ETH` in the contract if it's higher then the desired `underlyingAmount` (`address(this).balance >= underlyingAmount)`).
+    
+    Otherwise, the ETH is ignored and the function uses WETH from the us
+wiki_exploit_scenario: |
+    Per Solodit #24646: _Submitted by cmichel, also found by 0xRajeev_
+    
+    The `TridentRouter._depositToBentoBox` function only uses the `ETH` in the contract if it's higher then the desired `underlyingAmount` (`address(this).b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05DeposittobentoboxSometimesUsesBothEthAndWeth"
+solodit_id: "24646"
+solodit_slug: "m-05-_deposittobentobox-sometimes-uses-both-eth-and-weth-code4rena-sushi-sushi-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal refundeth;"
+fn_name_regex: ".*(ETH|underlyingAmount|WETH|refundETH).*"
+read_var_regex: ".*(refundETH|underlyingAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ETH"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return refundeth > 0;"

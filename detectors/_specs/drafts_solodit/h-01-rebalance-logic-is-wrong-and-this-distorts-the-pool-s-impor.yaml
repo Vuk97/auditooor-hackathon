@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "h-01-rebalance-logic-is-wrong-and-this-distorts-the-pool-s-impor"
+class_name: "H01RebalanceLogicIsWrongAndThisDistortsThePoolSImpor"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #24901 (Code4rena/Timeswap)"
+help: "[H-01] Rebalance logic is wrong and this distorts the pool's important states"
+wiki_title: "[H-01] Rebalance logic is wrong and this distorts the pool's important states"
+wiki_description: |
+    The important states including `long0Balance, long1Balance, long1FeeGrowth, long1ProtocolFees` are wrongly calculated and it breaks the pool's invariant.
+    
+    ### Proof of Concept
+    
+    The protocol provides a rebalancing functionality and the main logic is implemented in the library `Pool.sol`.
+    If `param.i
+wiki_exploit_scenario: |
+    Per Solodit #24901: The important states including `long0Balance, long1Balance, long1FeeGrowth, long1ProtocolFees` are wrongly calculated and it breaks the pool's invariant.
+    
+    ### Proof of Concept
+    
+    The protocol provides
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01RebalanceLogicIsWrongAndThisDistortsThePoolSImpor"
+solodit_id: "24901"
+solodit_slug: |
+    h-01-rebalance-logic-is-wrong-and-this-distorts-the-pools-important-states-code4rena-timeswap-timeswap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal long1amountadjustfees;"
+fn_name_regex: ".*(long1AmountAdjustFees|long1Balance).*"
+write_var_regex: ".*(long1AmountAdjustFees|long1Balance).*"
+guard_var_regex: ".*(long1AmountAdjustFees|long1Balance).*"
+vuln_fn_name: "long1AmountAdjustFees"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "long1amountadjustfees = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "unchecked-return-values-icomptroller-exitmarket-entermarket"
+class_name: "UncheckedReturnValuesIcomptrollerExitmarketEntermarket"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #16527 (ConsenSys/Fuji Protocol)"
+help: "Unchecked Return Values - IComptroller exitMarket, enterMarket"
+wiki_title: "Unchecked Return Values - IComptroller exitMarket, enterMarket"
+wiki_description: |
+    #### Description
+    
+    
+    `IComptroller.exitMarket()`, `IComptroller.enterMarkets()` may return a non-zero uint on error but none of the Providers check for this error condition. Together with [issue 4.10](#aavegeist-interface-declaration-mismatch-and-unchecked-return-values), this might suggest that unche
+wiki_exploit_scenario: |
+    Per Solodit #16527: #### Description
+    
+    
+    `IComptroller.exitMarket()`, `IComptroller.enterMarkets()` may return a non-zero uint on error but none of the Providers check for this error condition. Together with [issue 4.10](#
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UncheckedReturnValuesIcomptrollerExitmarketEntermarket"
+solodit_id: "16527"
+solodit_slug: "unchecked-return-values-icomptroller-exitmarket-entermarket-consensys-fuji-protocol-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(exitMarket|enterMarkets|amountOwed|redeemAllowedInternal).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "exitMarket"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

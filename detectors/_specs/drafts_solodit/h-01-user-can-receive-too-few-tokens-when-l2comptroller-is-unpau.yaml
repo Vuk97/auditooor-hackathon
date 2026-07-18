@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "h-01-user-can-receive-too-few-tokens-when-l2comptroller-is-unpau"
+class_name: "H01UserCanReceiveTooFewTokensWhenL2comptrollerIsUnpau"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18772 (ZachObront/Dhedge)"
+help: "[H-01] User can receive too few tokens when L2Comptroller is unpaused"
+wiki_title: "[H-01] User can receive too few tokens when L2Comptroller is unpaused"
+wiki_description: |
+    When MTA tokens are burned on L1 to generate MTy tokens on L2, the message is passed using Optimism's Cross Domain Messenger contract.
+    
+    If the ultimate call to `buyBackFromL1()` fails, the Cross Domain Messenger contains functionality to set the message as `failed` so it can be replayed:
+    
+    ```solidit
+wiki_exploit_scenario: |
+    Per Solodit #18772: When MTA tokens are burned on L1 to generate MTy tokens on L2, the message is passed using Optimism's Cross Domain Messenger contract.
+    
+    If the ultimate call to `buyBackFromL1()` fails, the Cross Domai
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01UserCanReceiveTooFewTokensWhenL2comptrollerIsUnpau"
+solodit_id: "18772"
+solodit_slug: "h-01-user-can-receive-too-few-tokens-when-l2comptroller-is-unpaused-zachobront-none-dhedge-markdown"
+solodit_quality: "0"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: "uint256 internal buybackfroml1;"
+fn_name_regex: ".*(buyBackFromL1|failed|L2Comptroller|l1BurntAmountOf).*"
+read_var_regex: ".*(buyBackFromL1|claimedAmountOf|failed).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "buyBackFromL1"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return buybackfroml1 > 0;"

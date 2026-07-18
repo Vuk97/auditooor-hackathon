@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-01-dos-attacker-may-front-run-createsplit-with-a-merkleroot-ca"
+class_name: "M01DosAttackerMayFrontRunCreatesplitWithAMerklerootCa"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1761 (Code4rena/Joyn)"
+help: |
+    [M-01] DoS: Attacker May Front-Run `createSplit()` With A `merkleRoot` Causing Future Transactions With The Same `merkleRoot` to Revert
+wiki_title: |
+    [M-01] DoS: Attacker May Front-Run `createSplit()` With A `merkleRoot` Causing Future Transactions With The Same `merkleRoot` to Revert
+wiki_description: |
+    _Submitted by kirk-baird_
+    
+    A `merkleRoot` may only be used once in `createSplit()` since it is used as `salt` to the deployment of a `SplitProxy`.
+    
+    The result is an attacker may front-run any `createSplit()` transaction in the mem pool and create another `createSplit()` transaction with a higher gas
+wiki_exploit_scenario: |
+    Per Solodit #1761: _Submitted by kirk-baird_
+    
+    A `merkleRoot` may only be used once in `createSplit()` since it is used as `salt` to the deployment of a `SplitProxy`.
+    
+    The result is an attacker may front-run any `createS
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01DosAttackerMayFrontRunCreatesplitWithAMerklerootCa"
+solodit_id: "1761"
+solodit_slug: |
+    m-01-dos-attacker-may-front-run-createsplit-with-a-merkleroot-causing-future-transactions-with-the-same-merkleroot-to-revert-code4rena-joyn-joyn-contest-git
+solodit_quality: "3"
+solodit_rarity: "4"
+solodit_tags: "Front-Running"
+state_decl: "uint256 internal createsplit;"
+fn_name_regex: ".*(merkleRoot|createSplit|salt|SplitProxy).*"
+read_var_regex: ".*(createSplit|createSplitProxy|merkleRoot).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "merkleRoot"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return createsplit > 0;"

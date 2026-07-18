@@ -1,0 +1,44 @@
+skeleton: "paired_function_divergence"
+name: "beware-of-malicious-adapters"
+class_name: "BewareOfMaliciousAdapters"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #6813 (Spearbit/Sense)"
+help: "Beware Of Malicious Adapters"
+wiki_title: "Beware Of Malicious Adapters"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    **File:** Periphery.sol
+    
+    ## Situation
+    The following functions allow for interaction with any adapter. These adapters could be malicious. No additional checks are made on the validity of the adapter. Through the adapter, a re-entrant call could be made, and no `no
+wiki_exploit_scenario: |
+    Per Solodit #6813: ## Severity: Medium Risk
+    
+    ## Context
+    **File:** Periphery.sol
+    
+    ## Situation
+    The following functions allow for interaction with any adapter. These adapters could be malicious. No additional checks are m
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BewareOfMaliciousAdapters"
+solodit_id: "6813"
+solodit_slug: "beware-of-malicious-adapters-spearbit-sense-pdf"
+solodit_quality: "5"
+solodit_rarity: "5"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(nonReentrant|safeApprove).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

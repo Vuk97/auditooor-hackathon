@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "voting-power-snapshot-missing"
+class_name: "VotingPowerSnapshotMissing"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #57249 (Codehawks/Core Contracts)"
+help: "Voting Power Snapshot Missing"
+wiki_title: "Voting Power Snapshot Missing"
+wiki_description: |
+    ## Summary
+    
+    Voting power is based on current balance, not a snapshot at proposal creation\
+    
+    
+    ```Solidity
+        function castVote(uint256 proposalId, bool support) external override returns (uint256) {
+            ProposalCore storage proposal = _proposals[proposalId];
+            if (proposal.startTime == 0)
+wiki_exploit_scenario: |
+    Per Solodit #57249: ## Summary
+    
+    Voting power is based on current balance, not a snapshot at proposal creation\
+    
+    
+    ```Solidity
+        function castVote(uint256 proposalId, bool support) external override returns (uint256) {
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VotingPowerSnapshotMissing"
+solodit_id: "57249"
+solodit_slug: "voting-power-snapshot-missing-codehawks-regnum-aurum-acquisition-corp-core-contracts-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal castvote;"
+fn_name_regex: ".*(castVote|veRAACTokens|votingDelay).*"
+read_var_regex: ".*(castVote|veRAACTokens|votingDelay).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "castVote"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return castvote > 0;"

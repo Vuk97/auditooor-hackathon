@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_require"
+name: "m-01-dao-sol-insufficient-validation-for-proposal-creation"
+class_name: "M01DaoSolInsufficientValidationForProposalCreation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #42256 (Code4rena/Spartan Protocol)"
+help: "[M-01] `Dao.sol`: Insufficient validation for proposal creation"
+wiki_title: "[M-01] `Dao.sol`: Insufficient validation for proposal creation"
+wiki_description: |
+    _Submitted by hickuphh3, 0xRajeev, also found by gpersoon and shw_
+    
+    In general, creating invalid proposals is easy due to the lack of validation in the `new*Proposal()` functions.
+    
+    - The `typeStr` is not validated at all. For example, one can call `newActionProposal()` with `typeStr = ROUTER` or `ty
+wiki_exploit_scenario: |
+    Per Solodit #42256: _Submitted by hickuphh3, 0xRajeev, also found by gpersoon and shw_
+    
+    In general, creating invalid proposals is easy due to the lack of validation in the `new*Proposal()` functions.
+    
+    - The `typeStr` is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01DaoSolInsufficientValidationForProposalCreation"
+solodit_id: "42256"
+solodit_slug: |
+    m-01-daosol-insufficient-validation-for-proposal-creation-code4rena-spartan-protocol-spartan-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal completeproposal;"
+fn_name_regex: ".*(typeStr|newActionProposal|finaliseProposal|completeProposal).*"
+write_var_regex: ".*(completeProposal|finaliseProposal|newActionProposal).*"
+guard_var_regex: ".*(completeProposal|finaliseProposal|newActionProposal).*"
+vuln_fn_name: "typeStr"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "completeproposal = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

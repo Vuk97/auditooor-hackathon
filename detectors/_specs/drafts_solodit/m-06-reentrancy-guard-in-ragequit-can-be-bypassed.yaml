@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "m-06-reentrancy-guard-in-ragequit-can-be-bypassed"
+class_name: "M06ReentrancyGuardInRagequitCanBeBypassed"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20143 (Code4rena/PartyDAO)"
+help: "[M-06] Reentrancy guard in `rageQuit()` can be bypassed"
+wiki_title: "[M-06] Reentrancy guard in `rageQuit()` can be bypassed"
+wiki_description: |
+    The reentrancy guard present in the `rageQuit()` function can be bypassed by host accounts, leading to reentrancy attack vectors and loss of funds.
+    
+    The new `rageQuit()` function can be used by party members to exit their position and obtain their share of the tokens held by the party contract. In
+wiki_exploit_scenario: |
+    Per Solodit #20143: The reentrancy guard present in the `rageQuit()` function can be bypassed by host accounts, leading to reentrancy attack vectors and loss of funds.
+    
+    The new `rageQuit()` function can be used by party
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06ReentrancyGuardInRagequitCanBeBypassed"
+solodit_id: "20143"
+solodit_slug: "m-06-reentrancy-guard-in-ragequit-can-be-bypassed-code4rena-partydao-party-dao-invitational-git"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Reentrancy"
+state_decl: "uint256 internal ragequit;"
+fn_name_regex: ".*(rageQuit|rageQuitTimestamp).*"
+read_var_regex: ".*(rageQuit|rageQuitTimestamp).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rageQuit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ragequit > 0;"

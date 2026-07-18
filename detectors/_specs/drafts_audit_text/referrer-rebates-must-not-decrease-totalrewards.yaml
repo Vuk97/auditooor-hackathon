@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "referrer-rebates-must-not-decrease-totalrewards"
+class_name: "ReferrerRebatesMustNotDecreaseTotalrewards"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Avantis - Zellic Audit Report"
+help: |
+    When a trade is opened, if the trader has set their referral code, the referrer would get a rebate. This rebate is added as rebates in the function applyReferralOpen when a trade i
+wiki_title: "Referrer rebates must not decrease totalRewards"
+wiki_description: |
+    When a trade is opened, if the trader has set their referral code, the referrer would get a rebate. This rebate is added as rebates in the function applyReferralOpen when a trade is opened. Ad- ditionally, part of the remaining fee, after the rebate, is allocated as rewards in the vault manager. fun
+wiki_exploit_scenario: |
+    Per audit finding: When a trade is opened, if the trader has set their referral code, the referrer would get a rebate. This rebate is added as rebates in the function applyReferralOpen when a trade is opened. Ad- dition
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReferrerRebatesMustNotDecreaseTotalrewards"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

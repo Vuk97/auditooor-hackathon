@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "a-malicious-or-compromised-trader-admin-may-lead-to-locked"
+class_name: "AMaliciousOrCompromisedTraderAdminMayLeadToLocked"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Cega - Zellic Audit Report"
+help: |
+    Investors in the Cega protocol use the FCNProduct contract’s addToDepositQueue() function to deposit their funds. This function uses safeTransferFrom() to transfer asset tokens fro
+wiki_title: "A malicious or compromised trader admin may lead to locked"
+wiki_description: |
+    Investors in the Cega protocol use the FCNProduct contract’s addToDepositQueue() function to deposit their funds. This function uses safeTransferFrom() to transfer asset tokens from the investor’s address to the FCNProduct contract. function addToDepositQueue(uint256 amount, address receiver) public
+wiki_exploit_scenario: |
+    Per audit finding: Investors in the Cega protocol use the FCNProduct contract’s addToDepositQueue() function to deposit their funds. This function uses safeTransferFrom() to transfer asset tokens from the investor’s add
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AMaliciousOrCompromisedTraderAdminMayLeadToLocked"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addToDepositQueue|safeTransferFrom|isDepositQueueOpen).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "addToDepositQueue"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

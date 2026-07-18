@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "queued-transfers-can-become-stuck-on-the-source-chain-if-transce"
+class_name: "QueuedTransfersCanBecomeStuckOnTheSourceChainIfTransce"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #31372 (Cyfrin/Wormhole Evm Ntt)"
+help: |
+    Queued transfers can become stuck on the source chain if Transceiver instructions are encoded in the incorrect order
+wiki_title: |
+    Queued transfers can become stuck on the source chain if Transceiver instructions are encoded in the incorrect order
+wiki_description: |
+    **Description:** In the case of multiple Transceivers, the current logic expects that a sender encodes Transceiver instructions in order of increasing Transceiver registration index, as validated in [`TransceiverStructs::parseTransceiverInstructions`](https://github.com/wormhole-foundation/example-n
+wiki_exploit_scenario: |
+    Per Solodit #31372: **Description:** In the case of multiple Transceivers, the current logic expects that a sender encodes Transceiver instructions in order of increasing Transceiver registration index, as validated in [
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "QueuedTransfersCanBecomeStuckOnTheSourceChainIfTransce"
+solodit_id: "31372"
+solodit_slug: |
+    queued-transfers-can-become-stuck-on-the-source-chain-if-transceiver-instructions-are-encoded-in-the-incorrect-order-cyfrin-none-cyfrin-wormhole-evm-ntt-v2-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(parseTransceiverInstructions|instructionsLength|parseTransceiverInstructionUnchecked|instructionIndex).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "parseTransceiverInstructions"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

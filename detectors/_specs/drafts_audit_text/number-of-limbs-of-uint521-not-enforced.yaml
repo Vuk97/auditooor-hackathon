@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "number-of-limbs-of-uint521-not-enforced"
+class_name: "NumberOfLimbsOfUint521NotEnforced"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Brevis - Zellic Audit Report"
+help: |
+    The sdk's Uint521 type uses gnark's standard library implementation for emulated fields, in a con- figuration in which elements are stored in six limbs of 96 bits each: var u521Fie
+wiki_title: "Number of limbs of Uint521 not enforced"
+wiki_description: |
+    The sdk's Uint521 type uses gnark's standard library implementation for emulated fields, in a con- figuration in which elements are stored in six limbs of 96 bits each: var u521Field *emulated.Field[Uint521Field] type Uint521Field struct{} func (f Uint521Field) NbLimbs() uint { return 6 } func (f Ui
+wiki_exploit_scenario: |
+    Per audit finding: The sdk's Uint521 type uses gnark's standard library implementation for emulated fields, in a con- figuration in which elements are stored in six limbs of 96 bits each: var u521Field *emulated.Field[U
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NumberOfLimbsOfUint521NotEnforced"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(u521Field|newU521).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "u521Field"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

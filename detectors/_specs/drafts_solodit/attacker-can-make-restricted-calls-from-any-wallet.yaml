@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_call"
+name: "attacker-can-make-restricted-calls-from-any-wallet"
+class_name: "AttackerCanMakeRestrictedCallsFromAnyWallet"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41994 (Cantina/Coinbase)"
+help: "Attacker can make restricted calls from any wallet"
+wiki_title: "Attacker can make restricted calls from any wallet "
+wiki_description: |
+    ## Vulnerability in SpendPermissionManager.sol
+    
+    ## Context
+    `SpendPermissionManager.sol#L298-L301`
+    
+    ## Description
+    When the `value` is `0` in the `spend()` function, it no longer checks whether permission is approved and will make restricted calls from the wallet. 
+    
+    In `spend()`, it first calls `_use
+wiki_exploit_scenario: |
+    Per Solodit #41994: ## Vulnerability in SpendPermissionManager.sol
+    
+    ## Context
+    `SpendPermissionManager.sol#L298-L301`
+    
+    ## Description
+    When the `value` is `0` in the `spend()` function, it no longer checks whether permiss
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AttackerCanMakeRestrictedCallsFromAnyWallet"
+solodit_id: "41994"
+solodit_slug: "attacker-can-make-restricted-calls-from-any-wallet-cantina-none-coinbase-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal isapproved;"
+fn_name_regex: ".*(value|spend|isApproved|transfer).*"
+read_var_regex: ".*(isApproved|spend|transfer).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "value"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return isapproved > 0;"

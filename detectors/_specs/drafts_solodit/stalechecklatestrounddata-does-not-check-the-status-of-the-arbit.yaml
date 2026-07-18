@@ -1,0 +1,35 @@
+skeleton: "state_write_without_paired_write"
+name: "stalechecklatestrounddata-does-not-check-the-status-of-the-arbit"
+class_name: "StalechecklatestrounddataDoesNotCheckTheStatusOfTheArbit"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #34423 (Codehawks/Foundry DeFi Stablecoin CodeHawks Audit Contest)"
+help: "staleCheckLatestRoundData() does not check the status of the Arbitrum sequencer in Chainlink feeds."
+wiki_title: "staleCheckLatestRoundData() does not check the status of the Arbitrum sequencer in Chainlink feeds."
+wiki_description: |
+    ## Summary
+    
+    Given that the contract will be deployed on any EVM chain, when utilizing Chainlink in L2 chains like Arbitrum, it's important to ensure that the prices provided are not falsely perceived as fresh particularly in scenarios where the sequencer might be non-operational. Hence, a critical s
+wiki_exploit_scenario: |
+    Per Solodit #34423: ## Summary
+    
+    Given that the contract will be deployed on any EVM chain, when utilizing Chainlink in L2 chains like Arbitrum, it's important to ensure that the prices provided are not falsely perceived
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "StalechecklatestrounddataDoesNotCheckTheStatusOfTheArbit"
+solodit_id: "34423"
+solodit_slug: |
+    stalechecklatestrounddata-does-not-check-the-status-of-the-arbitrum-sequencer-in-chainlink-feeds-codehawks-foundry-defi-stablecoin-codehawks-audit-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(staleCheckLatestRoundData|isSequencerAlive|startedAt|latestRoundData).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

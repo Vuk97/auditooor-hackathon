@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "panic-triggered-by-incorrect-logic-in-finality-module-s-endblock"
+class_name: "PanicTriggeredByIncorrectLogicInFinalityModuleSEndblock"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Babylon Genesis Chain - Zellic Audit Report"
+help: |
+    A panic can occur due to incorrect logic in the BeginBlock and EndBlock functions of the finality module when the FinalitySigTimeout parameter is set to a value greater than zero.
+wiki_title: "Panic triggered by incorrect logic in finality module’s EndBlock"
+wiki_description: |
+    A panic can occur due to incorrect logic in the BeginBlock and EndBlock functions of the finality module when the FinalitySigTimeout parameter is set to a value greater than zero. On the testnet, this parameter was observed to be set to 3. The issue arises in a scenario where a finality provider (FP
+wiki_exploit_scenario: |
+    Per audit finding: A panic can occur due to incorrect logic in the BeginBlock and EndBlock functions of the finality module when the FinalitySigTimeout parameter is set to a value greater than zero. On the testnet, this
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PanicTriggeredByIncorrectLogicInFinalityModuleSEndblock"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(heightToExamine).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "heightToExamine"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

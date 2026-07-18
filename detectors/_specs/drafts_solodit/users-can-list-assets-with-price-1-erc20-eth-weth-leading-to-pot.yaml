@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "users-can-list-assets-with-price-1-erc20-eth-weth-leading-to-pot"
+class_name: "UsersCanListAssetsWithPrice1Erc20EthWethLeadingToPot"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #49814 (Codehawks/Dria)"
+help: "Users can list assets with price < 1 ERC20 (ETH, WETH), leading to potential DoS vulnerability."
+wiki_title: "Users can list assets with price < 1 ERC20 (ETH, WETH), leading to potential DoS vulnerability."
+wiki_description: |
+    ## Summary
+    
+    In `Swan.sol`, the `list` function allows users to create new assets with various parameters, including a price parameter that lacks a minimum value constraint. As a result, users can set any ERC20-compatible token (e.g., ETH, WETH) as the price, potentially even using extremely low valu
+wiki_exploit_scenario: |
+    Per Solodit #49814: ## Summary
+    
+    In `Swan.sol`, the `list` function allows users to create new assets with various parameters, including a price parameter that lacks a minimum value constraint. As a result, users can set
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsersCanListAssetsWithPrice1Erc20EthWethLeadingToPot"
+solodit_id: "49814"
+solodit_slug: |
+    users-can-list-assets-with-price-1-erc20-eth-weth-leading-to-potential-dos-vulnerability-codehawks-swan-dria-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal list;"
+fn_name_regex: ".*(list|maxAssetCount).*"
+write_var_regex: ".*(list|maxAssetCount).*"
+guard_var_regex: ".*(list|maxAssetCount).*"
+vuln_fn_name: "list"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "list = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

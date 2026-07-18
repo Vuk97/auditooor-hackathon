@@ -1,0 +1,51 @@
+skeleton: "state_write_without_paired_write"
+name: "vaultimplementation-buyoutlien-does-not-update-the-new-public-va"
+class_name: "VaultimplementationBuyoutlienDoesNotUpdateTheNewPublicVa"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7287 (Spearbit/Astaria)"
+help: |
+    VaultImplementation.buyoutLien does not update the new public vault's parameters and does not transfer assets between the vault and the borrower
+wiki_title: |
+    VaultImplementation.buyoutLien does not update the new public vault's parameters and does not transfer assets between the vault and the borrower
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context:
+    - VaultImplementation.sol#L305
+    - LienToken.sol#L102
+    - LienToken.sol#L116
+    - LienToken.sol#L165-L174
+    
+    ## Description:
+    `VaultImplementation.buyoutLien` does not update the accounting for the vault (if it's public). The `slope`, `yIntercept`, and `epochData[...].liens
+wiki_exploit_scenario: |
+    Per Solodit #7287: ## Severity: High Risk
+    
+    ## Context:
+    - VaultImplementation.sol#L305
+    - LienToken.sol#L102
+    - LienToken.sol#L116
+    - LienToken.sol#L165-L174
+    
+    ## Description:
+    `VaultImplementation.buyoutLien` does not update
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VaultimplementationBuyoutlienDoesNotUpdateTheNewPublicVa"
+solodit_id: "7287"
+solodit_slug: |
+    vaultimplementationbuyoutlien-does-not-update-the-new-public-vaults-parameters-and-does-not-spearbit-astaria-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Don't update state, Business Logic"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(slope|yIntercept|handleBuyoutLien).*"
+primary_var_regex: ".*(handleBuyoutLien|slope|yIntercept).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "m-01-min-gns-wei-in-is-too-small-leading-to-zero-rewards"
+class_name: "M01MinGnsWeiInIsTooSmallLeadingToZeroRewards"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40195 (Pashov Audit Group/GainsNetwork-July)"
+help: "[M-01] `MIN_GNS_WEI_IN` is too small leading to zero rewards"
+wiki_title: "[M-01] `MIN_GNS_WEI_IN` is too small leading to zero rewards"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When `sellGnsForCollateral` is executed, the caller can trade their gns for the provided collateral, as long as there is enough `collateralBalances` and the calculated `gnsAmount` is greater than `MIN_GNS_WEI_IN` (100).
+    
+    ```sol
+wiki_exploit_scenario: |
+    Per Solodit #40195: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    When `sellGnsForCollateral` is executed, the caller can trade their gns for the provided collateral, as long as there is enough
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01MinGnsWeiInIsTooSmallLeadingToZeroRewards"
+solodit_id: "40195"
+solodit_slug: |
+    m-01-min_gns_wei_in-is-too-small-leading-to-zero-rewards-pashov-audit-group-none-gainsnetwork-july-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal collateralbalances;"
+fn_name_regex: ".*(sellGnsForCollateral|collateralBalances|gnsAmount|MIN_GNS_WEI_IN).*"
+read_var_regex: ".*(collateralBalances|gnsAmount|sellGnsForCollateral).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "sellGnsForCollateral"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return collateralbalances > 0;"

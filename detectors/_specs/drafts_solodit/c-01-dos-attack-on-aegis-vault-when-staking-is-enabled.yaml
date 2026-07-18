@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "c-01-dos-attack-on-aegis-vault-when-staking-is-enabled"
+class_name: "C01DosAttackOnAegisVaultWhenStakingIsEnabled"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #41319 (Pashov Audit Group/Aegis-September)"
+help: "[C-01] DoS attack on Aegis Vault when staking is enabled"
+wiki_title: "[C-01] DoS attack on Aegis Vault when staking is enabled"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    When Aegis Vault's staking capability is enabled, `preAction` and `postAction` functions are executed within important operations. These actions interact with the Berachain reward vault. `preAction` will unstake, claim rewards, and
+wiki_exploit_scenario: |
+    Per Solodit #41319: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** High
+    
+    ## Description
+    
+    When Aegis Vault's staking capability is enabled, `preAction` and `postAction` functions are executed within important operations.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "C01DosAttackOnAegisVaultWhenStakingIsEnabled"
+solodit_id: "41319"
+solodit_slug: |
+    c-01-dos-attack-on-aegis-vault-when-staking-is-enabled-pashov-audit-group-none-aegis-september-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal account;"
+fn_name_regex: ".*(preAction|postAction|stakedBalance|exit).*"
+write_var_regex: ".*(account|amount|delegateStake).*"
+guard_var_regex: ".*(account|amount|delegateStake).*"
+vuln_fn_name: "preAction"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "account = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

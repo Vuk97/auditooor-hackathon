@@ -1,0 +1,19 @@
+id: missing-cross-param-validation-threshold-bonus
+title: "Missing cross-parameter validation for liquidation threshold and bonus"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44427"
+bug_class: input-validation
+indicators:
+  - "setter for `liquidation_threshold` and `liquidation_bonus` don't enforce `threshold + bonus/2 <= 1`"
+  - "combined invariant left to admin discretion"
+victim: "Protocol: misconfigured reserve accepts liquidations that push HF further underwater."
+exploit_precondition: "Admin sets params that violate invariant."
+real_world_example: |
+  V12 #44427 (Low): Missing cross-parameter validation for liquidation threshold and bonus.
+suggested_remediation: "Validate combined invariant on every setter."
+cross_refs:
+  - fee-ceiling-invariant-bypass

@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "bridge-signals-can-be-forged-to-drain-the-protocol-phase-3"
+class_name: "BridgeSignalsCanBeForgedToDrainTheProtocolPhase3"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #34319 (OpenZeppelin/Taiko Protocol Audit)"
+help: "Bridge Signals Can Be Forged to Drain the Protocol - Phase 3"
+wiki_title: "Bridge Signals Can Be Forged to Drain the Protocol - Phase 3"
+wiki_description: |
+    Cross-chain messages can be sent by calling the `sendMessage` function on the `Bridge` contract. This function in turn calls `sendSignal` on the `SignalService` contract [with the hash of the sent message](https://github.com/taikoxyz/taiko-mono/blob/b90b932f29e6a933625d973bc32c2f0a1c6908e4/packages/
+wiki_exploit_scenario: |
+    Per Solodit #34319: Cross-chain messages can be sent by calling the `sendMessage` function on the `Bridge` contract. This function in turn calls `sendSignal` on the `SignalService` contract [with the hash of the sent mes
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BridgeSignalsCanBeForgedToDrainTheProtocolPhase3"
+solodit_id: "34319"
+solodit_slug: |
+    bridge-signals-can-be-forged-to-drain-the-protocol-phase-3-openzeppelin-none-taiko-protocol-audit-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal onmessageinvocation;"
+fn_name_regex: ".*(sendMessage|Bridge|sendSignal|SignalService).*"
+read_var_regex: ".*(onMessageInvocation|sendMessage|sendSignal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "sendMessage"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return onmessageinvocation > 0;"

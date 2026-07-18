@@ -1,0 +1,46 @@
+skeleton: "state_write_without_paired_write"
+name: "h-02-withdraw-check-can-be-bypassed"
+class_name: "H02WithdrawCheckCanBeBypassed"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61455 (Pashov Audit Group/Blueberry_2025-03-12)"
+help: "[H-02] Withdraw check can be bypassed"
+wiki_title: "[H-02] Withdraw check can be bypassed"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    In VaultEscrow, we will withdraw assets from the Vault in the core chain via function withdraw(). In withdraw() function, we have one security sanity check. This will make sure that we will not withdraw more asset than what we d
+wiki_exploit_scenario: |
+    Per Solodit #61455: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    In VaultEscrow, we will withdraw assets from the Vault in the core chain via function withdraw(). In withdraw() function, we hav
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02WithdrawCheckCanBeBypassed"
+solodit_id: "61455"
+solodit_slug: "h-02-withdraw-check-can-be-bypassed-pashov-audit-group-none-blueberry_2025-03-12-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(VAULT_EQUITY_PRECOMPILE_ADDRESS).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

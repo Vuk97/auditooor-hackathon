@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "any-party-can-reject-receiving-funds-to-prevent-escrow-from-sett"
+class_name: "AnyPartyCanRejectReceivingFundsToPreventEscrowFromSett"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #21041 (AuditOne/Unicrow)"
+help: "Any party can reject receiving funds to prevent escrow from settling/claiming"
+wiki_title: "Any party can reject receiving funds to prevent escrow from settling/claiming"
+wiki_description: |
+    **Description:** 
+    
+    Since the system adopts ""Push""pattern to handle funds transferring when settling, if any transfer is failed then the escrow cannot be settled. Any party (buyer,seller,marketplace) can abused this,reject receiving funds (native token or ERC777)and prevent escrow from settling.
+    
+    1
+wiki_exploit_scenario: |
+    Per Solodit #21041: **Description:** 
+    
+    Since the system adopts ""Push""pattern to handle funds transferring when settling, if any transfer is failed then the escrow cannot be settled. Any party (buyer,seller,marketplace)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AnyPartyCanRejectReceivingFundsToPreventEscrowFromSett"
+solodit_id: "21041"
+solodit_slug: |
+    any-party-can-reject-receiving-funds-to-prevent-escrow-from-settlingclaiming-auditone-none-unicrow-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(sendEscrowShare).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "sendEscrowShare"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

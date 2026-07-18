@@ -1,0 +1,43 @@
+skeleton: "paired_function_divergence"
+name: "rounding-error-allows-liquidity-to-be-added-without-depositing-t"
+class_name: "RoundingErrorAllowsLiquidityToBeAddedWithoutDepositingT"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26784 (TrailOfBits/Primitive Hyper)"
+help: "Rounding error allows liquidity to be added without depositing tokens"
+wiki_title: "Rounding error allows liquidity to be added without depositing tokens"
+wiki_description: |
+    ## Diﬃculty: Low
+    
+    ## Type: Undefined Behavior
+    
+    ## Description
+    In pools that have an asset token of six decimals, small allocations of those tokens will be scaled by the number of decimals and then rounded down. A `deltaAsset` value of 0 can be returned by the `getLiquidityDeltas` function, even if a
+wiki_exploit_scenario: |
+    Per Solodit #26784: ## Diﬃculty: Low
+    
+    ## Type: Undefined Behavior
+    
+    ## Description
+    In pools that have an asset token of six decimals, small allocations of those tokens will be scaled by the number of decimals and then rou
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RoundingErrorAllowsLiquidityToBeAddedWithoutDepositingT"
+solodit_id: "26784"
+solodit_slug: |
+    rounding-error-allows-liquidity-to-be-added-without-depositing-tokens-trailofbits-none-primitive-hyper-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(amountAssetDec|amountAssetWad|deltaAsset).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

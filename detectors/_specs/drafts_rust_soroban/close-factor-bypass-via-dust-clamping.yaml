@@ -1,0 +1,19 @@
+id: close-factor-bypass-via-dust-clamping
+title: "Close factor bypass via dust clamping"
+severity: Low
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44417"
+bug_class: liquidation
+indicators:
+  - "dust-threshold clamp raises the allowed liquidation amount past close_factor"
+  - "`if debt <= dust_threshold { close_factor_cap = full_debt }` branch"
+victim: "Borrowers on small positions."
+exploit_precondition: "Debt near or below dust threshold."
+real_world_example: |
+  V12 #44417 (Low): Close factor bypass via dust clamping.
+suggested_remediation: "Apply close factor first, then dust cleanup only when full repayment would have occurred anyway."
+cross_refs:
+  - close-factor-bypass-repeated-liquidations

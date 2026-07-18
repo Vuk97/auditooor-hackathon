@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "when-senior-s-targetgain-is-negative-the-tx-will-revert-because-"
+class_name: "WhenSeniorSTargetgainIsNegativeTheTxWillRevertBecause"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63229 (Cyfrin/Strata Tranches)"
+help: |
+    When Senior's TargetGain is negative, the tx will revert because the senior loss is not accounted for on the Junior Tranche as profit, causing the navs summation to not match the c
+wiki_title: |
+    When Senior's TargetGain is negative, the tx will revert because the senior loss is not accounted for on the Junior Tranche as profit, causing the navs summatio
+wiki_description: |
+    **Description:** When `srtGainTarget < 0`, the code transfers senior loss to `jrtNavT0` *after* initializing `jrtNavT1 = jrtNavT0 + gain_dTAbs`. This fails to propagate the junior "profit" to `jrtNavT1`, leaving it unchanged.
+    
+    ```solidity
+     if (srtGainTarget < 0) {
+                // Should never happen,
+wiki_exploit_scenario: |
+    Per Solodit #63229: **Description:** When `srtGainTarget < 0`, the code transfers senior loss to `jrtNavT0` *after* initializing `jrtNavT1 = jrtNavT0 + gain_dTAbs`. This fails to propagate the junior "profit" to `jrtNavT
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WhenSeniorSTargetgainIsNegativeTheTxWillRevertBecause"
+solodit_id: "63229"
+solodit_slug: |
+    when-seniors-targetgain-is-negative-the-tx-will-revert-because-the-senior-loss-is-not-accounted-for-on-the-junior-tranche-as-profit-causing-the-navs-summation-to-not-match-the-current-nav-cyfrin-none-strata-tranches-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal jrtnavt0;"
+fn_name_regex: ".*(jrtNavT0|jrtNavT1|sUSDe|InvalidNavSpit).*"
+read_var_regex: ".*(jrtNavT0|jrtNavT1|sUSDe).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "jrtNavT0"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return jrtnavt0 > 0;"

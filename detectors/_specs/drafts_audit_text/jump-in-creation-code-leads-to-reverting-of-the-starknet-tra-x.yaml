@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "jump-in-creation-code-leads-to-reverting-of-the-starknet-tra-x"
+class_name: "JumpInCreationCodeLeadsToRevertingOfTheStarknetTraX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-09-kakarot"
+help: |
+    ahmedaghadi , also found by gumgumzum If the creation code consists of JUMP or JUMPI opcode for offset less than creation code length , then the starknet transaction reverts. The e
+wiki_title: "Jump in creation code leads to reverting of the starknet transaction"
+wiki_description: |
+    ahmedaghadi , also found by gumgumzum If the creation code consists of JUMP or JUMPI opcode for offset less than creation code length , then the starknet transaction reverts. The evm.cairo::jump function is called whenever the JUMP or JUMPI opcode is executed. This function is as follows: // @notice
+wiki_exploit_scenario: |
+    Per audit finding: ahmedaghadi , also found by gumgumzum If the creation code consists of JUMP or JUMPI opcode for offset less than creation code length , then the starknet transaction reverts. The evm.cairo::jump funct
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "JumpInCreationCodeLeadsToRevertingOfTheStarknetTraX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(invalidJumpDestError).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "invalidJumpDestError"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

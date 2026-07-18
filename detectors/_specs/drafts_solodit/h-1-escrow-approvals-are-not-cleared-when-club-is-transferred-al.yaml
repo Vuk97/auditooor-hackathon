@@ -1,0 +1,40 @@
+skeleton: "state_write_without_paired_write"
+name: "h-1-escrow-approvals-are-not-cleared-when-club-is-transferred-al"
+class_name: "H1EscrowApprovalsAreNotClearedWhenClubIsTransferredAl"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #18600 (Sherlock/Footium)"
+help: "H-1: Escrow approvals are not cleared when club is transferred allowing for abuse after transfer"
+wiki_title: "H-1: Escrow approvals are not cleared when club is transferred allowing for abuse after transfer"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-04-footium-judging/issues/289 
+    
+    ## Found by 
+    0x52, BenRai, Brenzee, CMierez, J4de, MiloTruck, PokemonAuditSimulator, Quantish, cergyk, ctf\_sec, mstpr-brainbot, pengun, sashik\_eth, shaka, shogoki, toshii
+    ## Summary
+    
+    Escrow approvals remain even across
+wiki_exploit_scenario: |
+    Per Solodit #18600: Source: https://github.com/sherlock-audit/2023-04-footium-judging/issues/289 
+    
+    ## Found by 
+    0x52, BenRai, Brenzee, CMierez, J4de, MiloTruck, PokemonAuditSimulator, Quantish, cergyk, ctf\_sec, mstpr-br
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H1EscrowApprovalsAreNotClearedWhenClubIsTransferredAl"
+solodit_id: "18600"
+solodit_slug: |
+    h-1-escrow-approvals-are-not-cleared-when-club-is-transferred-allowing-for-abuse-after-transfer-sherlock-none-footium-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "ERC721, ERC20, Approve"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(clubId).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

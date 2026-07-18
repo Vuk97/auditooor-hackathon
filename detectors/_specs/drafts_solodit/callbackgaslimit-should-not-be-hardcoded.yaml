@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "callbackgaslimit-should-not-be-hardcoded"
+class_name: "CallbackgaslimitShouldNotBeHardcoded"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37447 (Zokyo/Vaultka)"
+help: "`CallbackGasLimit` Should Not Be Hardcoded"
+wiki_title: "`CallbackGasLimit` Should Not Be Hardcoded"
+wiki_description: |
+    **Severity** - Medium
+    
+    **Status** - Resolved
+    
+    **Description**
+    
+    `Keys.MAX_CALLBACK_GAS_LIMIT` is configurable param inside GMX protocol, which can be changed to value that is smaller than 2 millions. 
+    Vaultka creates `createDeposit` and `createWithdrawal` on the GMX side and sends `CallbackGasLimit`
+wiki_exploit_scenario: |
+    Per Solodit #37447: **Severity** - Medium
+    
+    **Status** - Resolved
+    
+    **Description**
+    
+    `Keys.MAX_CALLBACK_GAS_LIMIT` is configurable param inside GMX protocol, which can be changed to value that is smaller than 2 millions.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CallbackgaslimitShouldNotBeHardcoded"
+solodit_id: "37447"
+solodit_slug: "callbackgaslimit-should-not-be-hardcoded-zokyo-none-vaultka-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal callbackgaslimit;"
+fn_name_regex: ".*(createDeposit|createWithdrawal|CallbackGasLimit|callbackGasLimit).*"
+read_var_regex: ".*(callbackGasLimit|createDeposit|createWithdrawal).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "createDeposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return callbackgaslimit > 0;"

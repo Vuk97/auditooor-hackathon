@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "cancellation-of-isdeposittoken-still-allows-rewards-to-be"
+class_name: "CancellationOfIsdeposittokenStillAllowsRewardsToBe"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit GammaSwap Staking - Zellic Audit Report"
+help: |
+    The isDepositToken mapping is used to validate whether a token is whitelisted to be staked in the contract. function _stake(address _fundingAccount, address _account, address _depo
+wiki_title: "Cancellation of isDepositToken still allows rewards to be"
+wiki_description: |
+    The isDepositToken mapping is used to validate whether a token is whitelisted to be staked in the contract. function _stake(address _fundingAccount, address _account, address _depositToken, uint256 _amount) internal virtual { /) ...)) require(isDepositToken[_depositToken], ”RewardTracker: invalid _d
+wiki_exploit_scenario: |
+    Per audit finding: The isDepositToken mapping is used to validate whether a token is whitelisted to be staked in the contract. function _stake(address _fundingAccount, address _account, address _depositToken, uint256 _a
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CancellationOfIsdeposittokenStillAllowsRewardsToBe"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(isDepositToken|safeTransferFrom|safeTransfer).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "isDepositToken"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "writing-during-the-exercise-period-may-lead-to-arbitrage"
+class_name: "WritingDuringTheExercisePeriodMayLeadToArbitrage"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Valorem - Zellic Audit Report"
+help: |
+    Currently, a user is allowed to write an option until its expiry date. The exercise period, however, lasts from the exercise to the expiry timestamps of an option. function write(u
+wiki_title: "Writing during the exercise period may lead to arbitrage"
+wiki_description: |
+    Currently, a user is allowed to write an option until its expiry date. The exercise period, however, lasts from the exercise to the expiry timestamps of an option. function write(uint256 optionId, uint112 amount, uint256 claimId) public returns (uint256) { /) ...)) Option storage optionRecord = _opt
+wiki_exploit_scenario: |
+    Per audit finding: Currently, a user is allowed to write an option until its expiry date. The exercise period, however, lasts from the exercise to the expiry timestamps of an option. function write(uint256 optionId, uin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "WritingDuringTheExercisePeriodMayLeadToArbitrage"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(optionId|claimId|optionRecord).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "optionId"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

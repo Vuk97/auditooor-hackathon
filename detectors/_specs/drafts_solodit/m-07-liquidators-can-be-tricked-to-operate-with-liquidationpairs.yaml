@@ -1,0 +1,35 @@
+skeleton: "paired_function_divergence"
+name: "m-07-liquidators-can-be-tricked-to-operate-with-liquidationpairs"
+class_name: "M07LiquidatorsCanBeTrickedToOperateWithLiquidationpairs"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25967 (Code4rena/PoolTogether)"
+help: |
+    [M-07] Liquidators can be tricked to operate with `LiquidationPairs` that were deployed using the `LiquidationPairFactory` but they configured the `LiquidationSource` as a fake mal
+wiki_title: |
+    [M-07] Liquidators can be tricked to operate with `LiquidationPairs` that were deployed using the `LiquidationPairFactory` but they configured the `LiquidationS
+wiki_description: |
+    Users and Bots can be tricked into operating with LiquidationPairs that were deployed using the LiquidationPairFactory but they configured the LiquidationSource as a fake malicious contract that will allow the Liquidator's creator to steal all the POOL tokens that were meant to be used to liquidate
+wiki_exploit_scenario: |
+    Per Solodit #25967: Users and Bots can be tricked into operating with LiquidationPairs that were deployed using the LiquidationPairFactory but they configured the LiquidationSource as a fake malicious contract that will
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07LiquidatorsCanBeTrickedToOperateWithLiquidationpairs"
+solodit_id: "25967"
+solodit_slug: |
+    m-07-liquidators-can-be-tricked-to-operate-with-liquidationpairs-that-were-deployed-using-the-liquidationpairfactory-but-they-configured-the-liquidationsource-as-a-fake-malicious-contract-code4rena-pooltogether-pooltogether-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(deployedPairs|source).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

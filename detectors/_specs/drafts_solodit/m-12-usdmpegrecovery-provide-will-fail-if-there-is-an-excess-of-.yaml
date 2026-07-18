@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_require"
+name: "m-12-usdmpegrecovery-provide-will-fail-if-there-is-an-excess-of-"
+class_name: "M12UsdmpegrecoveryProvideWillFailIfThereIsAnExcessOf"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1422 (Code4rena/Concur Finance)"
+help: "[M-12] `USDMPegRecovery.provide()` Will Fail If There Is An Excess Of `usdm` Tokens"
+wiki_title: "[M-12] `USDMPegRecovery.provide()` Will Fail If There Is An Excess Of `usdm` Tokens"
+wiki_description: |
+    _Submitted by leastwood_
+    
+    The `provide` function does not take a `_steps` argument and will instead calculate `addingLiquidity` by truncating amounts under `step`. As a result, if there is an excess of `usdm` such that the truncated amount exceeds the contract's `pool3` truncated balance, then the f
+wiki_exploit_scenario: |
+    Per Solodit #1422: _Submitted by leastwood_
+    
+    The `provide` function does not take a `_steps` argument and will instead calculate `addingLiquidity` by truncating amounts under `step`. As a result, if there is an excess o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12UsdmpegrecoveryProvideWillFailIfThereIsAnExcessOf"
+solodit_id: "1422"
+solodit_slug: |
+    m-12-usdmpegrecoveryprovide-will-fail-if-there-is-an-excess-of-usdm-tokens-code4rena-concur-finance-concur-finance-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal addingliquidity;"
+fn_name_regex: ".*(provide|addingLiquidity|step|usdm).*"
+write_var_regex: ".*(addingLiquidity|pool3|provide).*"
+guard_var_regex: ".*(addingLiquidity|pool3|provide).*"
+vuln_fn_name: "provide"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "addingliquidity = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

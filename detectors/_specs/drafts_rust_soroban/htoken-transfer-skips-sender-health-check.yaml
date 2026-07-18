@@ -1,0 +1,21 @@
+id: htoken-transfer-skips-sender-health-check
+title: "aToken transfer checks only receiver whitelist, not sender health factor"
+severity: Critical
+language: rust
+platform: soroban
+source: "watchpug-rev3 | k2-v12"
+source_ids:
+  - "WP-C1"
+  - "44803"
+bug_class: health-factor
+indicators:
+  - "`transfer_internal(from, to, amount)` validates `to` against recipient whitelist but does not call `validate_user_can_withdraw(from, ...)`"
+  - "aToken transfer path does not run health-factor check on sender"
+victim: "Suppliers: borrower in bad health transfers aTokens away to evade liquidation."
+exploit_precondition: "Borrower has an unhealthy position about to be liquidated."
+real_world_example: |
+  WatchPug WP-C1 (Critical): Only whitelist checks on receivers; no sender HF check on aToken transfer.
+suggested_remediation: "Call `validate_and_finalize_transfer(from, to, amount)` (which includes HF check) in every aToken transfer path."
+cross_refs:
+  - htoken-burn-bypass-hf
+  - collateral-auto-enable-without-eligibility

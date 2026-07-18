@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "h-08-governance-wrongly-calculates-quorumreached"
+class_name: "H08GovernanceWronglyCalculatesQuorumreached"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #21145 (Code4rena/Lybra Finance)"
+help: "[H-08] Governance wrongly calculates `_quorumReached()`"
+wiki_title: "[H-08] Governance wrongly calculates `_quorumReached()`"
+wiki_description: |
+    For some reason it is calculated as sum of `againstVotes` and `abstainVotes` instead of `totalVotes` on proposal. As the result, quorum will be reached only if >=1/3 of all votes are abstain or against, which doesn't make sense.
+    
+    ### Proof of Concept
+    
+    Number of votes with support = 1 and support =
+wiki_exploit_scenario: |
+    Per Solodit #21145: For some reason it is calculated as sum of `againstVotes` and `abstainVotes` instead of `totalVotes` on proposal. As the result, quorum will be reached only if >=1/3 of all votes are abstain or again
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H08GovernanceWronglyCalculatesQuorumreached"
+solodit_id: "21145"
+solodit_slug: "h-08-governance-wrongly-calculates-_quorumreached-code4rena-lybra-finance-lybra-finance-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal abstainvotes;"
+fn_name_regex: ".*(againstVotes|abstainVotes|totalVotes).*"
+read_var_regex: ".*(abstainVotes|againstVotes|totalVotes).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "againstVotes"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return abstainvotes > 0;"

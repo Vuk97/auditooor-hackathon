@@ -1,0 +1,20 @@
+id: redstone-u256-silent-truncation
+title: "U256 Redstone price silently truncated to 128 bits"
+severity: Info
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.41"
+bug_class: precision-loss
+indicators:
+  - "`price_u256.to_u128().unwrap_or(0)` or `as u128` cast on a value that can exceed 2^128"
+  - "no explicit overflow check before truncating U256 to u128"
+victim: "Users of high-decimal or high-value assets: truncation produces wildly wrong prices."
+exploit_precondition: "Feed reports a price whose scaled value exceeds u128::MAX."
+real_world_example: |
+  Halborn 7.41 (INFO): Silent truncation of u256 to 128 bits in Redstone adapter price conversion.
+suggested_remediation: "Explicitly check `price_u256 <= U256::from(u128::MAX)` and error otherwise."
+cross_refs:
+  - redstone-missing-authenticity-check
+  - i128-bounds-unchecked-cast

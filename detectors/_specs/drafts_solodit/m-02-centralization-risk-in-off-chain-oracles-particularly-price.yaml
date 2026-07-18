@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "m-02-centralization-risk-in-off-chain-oracles-particularly-price"
+class_name: "M02CentralizationRiskInOffChainOraclesParticularlyPrice"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18711 (ZachObront/Hook)"
+help: "[M-02] Centralization risk in off chain oracles (particularly priceOracleSigner)"
+wiki_title: "[M-02] Centralization risk in off chain oracles (particularly priceOracleSigner)"
+wiki_description: |
+    The protocol uses two off chain oracles to (a) verify asset prices and (b) allow gasless cancellations.
+    
+    Each of these off chain signers pose a centralization risk for the protocol:
+    
+    - `priceOracleSigner`: This signer submits the asset prices used in the Black Scholes calculation for option value. I
+wiki_exploit_scenario: |
+    Per Solodit #18711: The protocol uses two off chain oracles to (a) verify asset prices and (b) allow gasless cancellations.
+    
+    Each of these off chain signers pose a centralization risk for the protocol:
+    
+    - `priceOracleSig
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02CentralizationRiskInOffChainOraclesParticularlyPrice"
+solodit_id: "18711"
+solodit_slug: |
+    m-02-centralization-risk-in-off-chain-oracles-particularly-priceoraclesigner-zachobront-none-hook-markdown_
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal ordervalidityoraclesigner;"
+fn_name_regex: ".*(priceOracleSigner|orderValidityOracleSigner).*"
+read_var_regex: ".*(orderValidityOracleSigner|priceOracleSigner).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "priceOracleSigner"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ordervalidityoraclesigner > 0;"

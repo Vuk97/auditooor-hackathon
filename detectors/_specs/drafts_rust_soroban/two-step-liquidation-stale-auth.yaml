@@ -1,0 +1,21 @@
+id: two-step-liquidation-stale-auth
+title: "Two-step liquidation executes on stale prepared params"
+severity: Critical
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.3"
+bug_class: liquidation
+indicators:
+  - "`prepare_liquidation` stores `collateral_to_seize`, `debt_price`, `collateral_price` in temporary storage"
+  - "`execute_liquidation` reads stored params without recomputing health factor, price, or bounds"
+  - "no health-factor recheck on execute"
+victim: "Borrowers: prices move between prepare and execute, leading to over-seizure of collateral."
+exploit_precondition: "Time/price delta between prepare and execute steps."
+real_world_example: |
+  Halborn 7.3 (CRITICAL): Two-step liquidation can over-seize due to stale authorization data.
+suggested_remediation: "On execute, recompute health factor from live state; bound seize amount to current reserve+price snapshot."
+cross_refs:
+  - liquidation-replay-temporary-callback-params
+  - liquidation-blacklist-not-rechecked-in-execute

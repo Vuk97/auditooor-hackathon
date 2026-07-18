@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "unused-on-chain-interest-calculation"
+class_name: "UnusedOnChainInterestCalculation"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Wasabi Perps - Zellic Audit Report"
+help: |
+    When closing a short position, the short pool computes the amount of interest required from the user. However, the result of the calculation is not used. function _closePositionInt
+wiki_title: "Unused on-chain interest calculation"
+wiki_description: |
+    When closing a short position, the short pool computes the amount of interest required from the user. However, the result of the calculation is not used. function _closePositionInternal( bool _unwrapWETH, uint256 _interest, Position calldata _position, FunctionCallData[] calldata _swapFunctions ) in
+wiki_exploit_scenario: |
+    Per audit finding: When closing a short position, the short pool computes the amount of interest required from the user. However, the result of the calculation is not used. function _closePositionInternal( bool _unwrapW
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UnusedOnChainInterestCalculation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(principalRepaid|interestPaid|feeAmount).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "principalRepaid"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "usage-of-a-twap-price-instead-of-the-exact-current-sqrtpricex96-"
+class_name: "UsageOfATwapPriceInsteadOfTheExactCurrentSqrtpricex96"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #40582 (Cantina/Mellow)"
+help: |
+    Usage of a TWAP price instead of the exact current sqrtPriceX96 will lead to wrong calcula- tion of token amounts within the position
+wiki_title: |
+    Usage of a TWAP price instead of the exact current sqrtPriceX96 will lead to wrong calcula- tion of token amounts within the position 
+wiki_description: |
+    ## Issue Report: LpWrapper.sol#L97
+    
+    ## Context
+    When depositing in the `LpWrapper`, `getAmountsForLiquidity` is called in order to calculate the exact `token0` and `token1` amounts within the position. 
+    
+    ## Description
+    The problem is that the `sqrtPriceX96` used is not the current one, but rather the
+wiki_exploit_scenario: |
+    Per Solodit #40582: ## Issue Report: LpWrapper.sol#L97
+    
+    ## Context
+    When depositing in the `LpWrapper`, `getAmountsForLiquidity` is called in order to calculate the exact `token0` and `token1` amounts within the position.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UsageOfATwapPriceInsteadOfTheExactCurrentSqrtpricex96"
+solodit_id: "40582"
+solodit_slug: |
+    usage-of-a-twap-price-instead-of-the-exact-current-sqrtpricex96-will-lead-to-wrong-calcula-tion-of-token-amounts-within-the-position-cantina-none-mellow-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getamountsforliquidity;"
+fn_name_regex: ".*(LpWrapper|getAmountsForLiquidity|token0|token1).*"
+read_var_regex: ".*(getAmountsForLiquidity|slot0|sqrtPriceX96).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "LpWrapper"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getamountsforliquidity > 0;"

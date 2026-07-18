@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "m-15-calling-position-marketsell-function-compares-fill-amt-that"
+class_name: "M15CallingPositionMarketsellFunctionComparesFillAmtThat"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #48971 (Code4rena/Rubicon)"
+help: |
+    [M-15] Calling `Position._marketSell` function compares `fill_amt` that includes fee to `min_fill_amount` that does not include fee
+wiki_title: |
+    [M-15] Calling `Position._marketSell` function compares `fill_amt` that includes fee to `min_fill_amount` that does not include fee
+wiki_description: |
+    Calling the following `Position._marketSell` function calls `rubiconMarket.sellAllAmount(ERC20(_asset), _payAmount, ERC20(_quote), _minFill)`, where `_minFill` does not include `_fee`.
+    
+    <https://github.com/code-423n4/2023-04-rubicon/blob/main/contracts/utilities/poolsUtility/Position.sol#L475-L511>
+wiki_exploit_scenario: |
+    Per Solodit #48971: Calling the following `Position._marketSell` function calls `rubiconMarket.sellAllAmount(ERC20(_asset), _payAmount, ERC20(_quote), _minFill)`, where `_minFill` does not include `_fee`.
+    
+    <https://gith
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M15CallingPositionMarketsellFunctionComparesFillAmtThat"
+solodit_id: "48971"
+solodit_slug: |
+    m-15-calling-position_marketsell-function-compares-fill_amt-that-includes-fee-to-min_fill_amount-that-does-not-include-fee-code4rena-rubicon-rubicon-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal fill_amt;"
+fn_name_regex: ".*(require|min_fill_amount|fill_amt).*"
+read_var_regex: ".*(fill_amt|min_fill_amount|require).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "require"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return fill_amt > 0;"

@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "m-18-volatile-prices-and-lack-of-checks-on-rigidredemption-can-c"
+class_name: "M18VolatilePricesAndLackOfChecksOnRigidredemptionCanC"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21163 (Code4rena/Lybra Finance)"
+help: |
+    [M-18] Volatile prices and lack of checks on `rigidRedemption()` can cause users to purchase stETH at unwanted prices
+wiki_title: |
+    [M-18] Volatile prices and lack of checks on `rigidRedemption()` can cause users to purchase stETH at unwanted prices
+wiki_description: |
+    ### Impact
+    
+    Volatile prices can cause issue when users try to do [`rigidRedemption`](https://github.com/code-423n4/2023-06-lybra/blob/main/contracts/lybra/pools/base/LybraPeUSDVaultBase.sol#L157-L168).
+    
+    ### Proof of Concept
+    
+    Volatile prices can cause slippage loss when users use `rigidRedemption()`
+wiki_exploit_scenario: |
+    Per Solodit #21163: ### Impact
+    
+    Volatile prices can cause issue when users try to do [`rigidRedemption`](https://github.com/code-423n4/2023-06-lybra/blob/main/contracts/lybra/pools/base/LybraPeUSDVaultBase.sol#L157-L168
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M18VolatilePricesAndLackOfChecksOnRigidredemptionCanC"
+solodit_id: "21163"
+solodit_slug: |
+    m-18-volatile-prices-and-lack-of-checks-on-rigidredemption-can-cause-users-to-purchase-steth-at-unwanted-prices-code4rena-lybra-finance-lybra-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Slippage"
+state_decl: "uint256 internal minamount;"
+fn_name_regex: ".*(rigidRedemption|timestamp|minAmount).*"
+write_var_regex: ".*(minAmount|rigidRedemption|timestamp).*"
+guard_var_regex: ".*(minAmount|rigidRedemption|timestamp).*"
+vuln_fn_name: "rigidRedemption"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "minamount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

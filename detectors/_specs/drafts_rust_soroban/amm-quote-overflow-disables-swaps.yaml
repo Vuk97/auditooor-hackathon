@@ -1,0 +1,19 @@
+id: amm-quote-overflow-disables-swaps
+title: "AMM quote overflow disables swaps and liquidations"
+severity: High
+language: rust
+platform: soroban
+source: "k2-v12"
+source_ids:
+  - "44844"
+bug_class: precision-loss
+indicators:
+  - "`x * y` in quote formula without checked ops or u256 upgrade"
+  - "large reserves cause overflow that reverts quote"
+victim: "Protocol: swap and liquidation flows revert."
+exploit_precondition: "Reserves grow large enough to overflow u128 in the quote multiplication."
+real_world_example: |
+  V12 #44844 (High): AMM quote overflow can disable swaps and liquidations.
+suggested_remediation: "Use u256 intermediate; `checked_mul`."
+cross_refs:
+  - precision-loss-div-before-mul

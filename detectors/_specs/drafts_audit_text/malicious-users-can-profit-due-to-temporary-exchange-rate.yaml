@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "malicious-users-can-profit-due-to-temporary-exchange-rate"
+class_name: "MaliciousUsersCanProfitDueToTemporaryExchangeRate"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit Y2K Finance - Zellic Audit Report"
+help: |
+    When a position is closed by calling closePosition, the deposit queue is cleared by pulling funds from the queue contract using the function _pullQueuedDeposits. The function _pull
+wiki_title: "Malicious users can profit due to temporary exchange rate"
+wiki_description: |
+    When a position is closed by calling closePosition, the deposit queue is cleared by pulling funds from the queue contract using the function _pullQueuedDeposits. The function _pullQueuedDeposits is only called when the length of queueDeposits is less than maxQueuePull. If the length of this queueDep
+wiki_exploit_scenario: |
+    Per audit finding: When a position is closed by calling closePosition, the deposit queue is cleared by pulling funds from the queue contract using the function _pullQueuedDeposits. The function _pullQueuedDeposits is on
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MaliciousUsersCanProfitDueToTemporaryExchangeRate"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(closePosition|queueDeposits|maxQueuePull).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "closePosition"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

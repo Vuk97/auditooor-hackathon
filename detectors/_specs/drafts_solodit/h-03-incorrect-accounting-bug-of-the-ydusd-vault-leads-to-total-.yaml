@@ -1,0 +1,41 @@
+skeleton: "state_write_without_paired_write"
+name: "h-03-incorrect-accounting-bug-of-the-ydusd-vault-leads-to-total-"
+class_name: "H03IncorrectAccountingBugOfTheYdusdVaultLeadsToTotal"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35298 (Code4rena/DittoETH)"
+help: |
+    [H-03] Incorrect accounting bug of the `yDUSD` vault leads to total loss of depositors' `DUSD` assets
+wiki_title: |
+    [H-03] Incorrect accounting bug of the `yDUSD` vault leads to total loss of depositors' `DUSD` assets
+wiki_description: |
+    ### Summary
+    
+    The current implementation of the `yDUSD` vault does not properly support the auto-compounding token rewards mechanism by directly minting the `DUSD` assets to the vault.
+    
+    Due to an incorrect accounting bug of the vault's total supply (shares), depositors can lose some deposited `DUSD`
+wiki_exploit_scenario: |
+    Per Solodit #35298: ### Summary
+    
+    The current implementation of the `yDUSD` vault does not properly support the auto-compounding token rewards mechanism by directly minting the `DUSD` assets to the vault.
+    
+    Due to an inco
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03IncorrectAccountingBugOfTheYdusdVaultLeadsToTotal"
+solodit_id: "35298"
+solodit_slug: |
+    h-03-incorrect-accounting-bug-of-the-ydusd-vault-leads-to-total-loss-of-depositors-dusd-assets-code4rena-dittoeth-dittoeth-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(yDUSD|DUSD|Ditto|newDebt).*"
+primary_var_regex: ".*(newDebt|totalAssets|totalSupply).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "reward-tokens-can-become-inaccessible-due-to-revert-when-rewardp"
+class_name: "RewardTokensCanBecomeInaccessibleDueToRevertWhenRewardp"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61553 (Cyfrin/Paladin Valkyrie)"
+help: |
+    Reward tokens can become inaccessible due to revert when `rewardPerTokenStored` is downcast and overflows
+wiki_title: |
+    Reward tokens can become inaccessible due to revert when `rewardPerTokenStored` is downcast and overflows
+wiki_description: |
+    **Description:** The return value of `_newRewardPerToken()` that is assigned to the `rewardPerTokenStored` state variable present in all incentive logic contracts is not safe to be type casted to `uint96` because it can easily overflow. The computation in which the scaling up of precision by `UNIT`
+wiki_exploit_scenario: |
+    Per Solodit #61553: **Description:** The return value of `_newRewardPerToken()` that is assigned to the `rewardPerTokenStored` state variable present in all incentive logic contracts is not safe to be type casted to `uin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RewardTokensCanBecomeInaccessibleDueToRevertWhenRewardp"
+solodit_id: "61553"
+solodit_slug: |
+    reward-tokens-can-become-inaccessible-due-to-revert-when-rewardpertokenstored-is-downcast-and-overflows-cyfrin-none-paladin-valkyrie-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal rewardpertokenstored;"
+fn_name_regex: ".*(rewardPerTokenStored|uint96|UNIT|token0).*"
+read_var_regex: ".*(rewardPerTokenStored|token0|uint96).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "rewardPerTokenStored"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return rewardpertokenstored > 0;"

@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "swapaction-sol-balancerswap-does-not-support-native-eth-as-i-x"
+class_name: "SwapactionSolBalancerswapDoesNotSupportNativeEthAsIX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-loopfi"
+help: |
+    pkqs90 , also found by pkqs90 , Centaur ( 1 2 3 4 ), and Sparrow SwapAction is used to swap tokens using Balancer/Uniswap or join/exit a Pendle pool. Pendle accepts native ETH as i
+wiki_title: "SwapAction.sol#balancerSwap does not support native ETH as input token"
+wiki_description: |
+    pkqs90 , also found by pkqs90 , Centaur ( 1 2 3 4 ), and Sparrow SwapAction is used to swap tokens using Balancer/Uniswap or join/exit a Pendle pool. Pendle accepts native ETH as input token when joining a Pendle pool, and Balancer accepts native ETH during swap. We can check that the SwapAction con
+wiki_exploit_scenario: |
+    Per audit finding: pkqs90 , also found by pkqs90 , Centaur ( 1 2 3 4 ), and Sparrow SwapAction is used to swap tokens using Balancer/Uniswap or join/exit a Pendle pool. Pendle accepts native ETH as input token when join
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwapactionSolBalancerswapDoesNotSupportNativeEthAsIX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(pendleJoin|pendleRouter|addLiquiditySingleToken).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "pendleJoin"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

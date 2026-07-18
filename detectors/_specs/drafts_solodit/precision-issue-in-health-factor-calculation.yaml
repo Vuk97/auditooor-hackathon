@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "precision-issue-in-health-factor-calculation"
+class_name: "PrecisionIssueInHealthFactorCalculation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #53693 (SigmaPrime/Stader Labs)"
+help: "Precision Issue In Health Factor Calculation"
+wiki_title: "Precision Issue In Health Factor Calculation"
+wiki_description: |
+    ## Description
+    
+    All healthy positions can be liquidated due to precision issues in calculating `userData.healthFactor`. Inside `liquidationCall()`, the function expects `userData.healthFactor` to be expressed in 18 decimals:
+    
+    ```solidity
+    if (userData.healthFactor > DECIMAL) {
+        revert NotLiquidata
+wiki_exploit_scenario: |
+    Per Solodit #53693: ## Description
+    
+    All healthy positions can be liquidated due to precision issues in calculating `userData.healthFactor`. Inside `liquidationCall()`, the function expects `userData.healthFactor` to be e
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PrecisionIssueInHealthFactorCalculation"
+solodit_id: "53693"
+solodit_slug: "precision-issue-in-health-factor-calculation-sigmaprime-none-stader-labs-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getuserdata;"
+fn_name_regex: ".*(liquidationCall|healthFactor|getUserData|DECIMAL).*"
+read_var_regex: ".*(getUserData|healthFactor|liquidationCall).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidationCall"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getuserdata > 0;"

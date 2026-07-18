@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "no-validation-for-wsx-rewards-unstaked-amount"
+class_name: "NoValidationForWsxRewardsUnstakedAmount"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #58501 (Zokyo/Liquistake)"
+help: "No validation for WSX rewards / unstaked amount."
+wiki_title: "No validation for WSX rewards / unstaked amount."
+wiki_description: |
+    **Description**
+    
+    StWSX.sol, oracle Report Unstaked Withdraw(), oracle ReportRewards()
+    It is assumed that the necessary amount of WSX will already be present on the contract at the moment of reporting. However, there are no checks to show that the rewards / unstaked amount was actually transferred to
+wiki_exploit_scenario: |
+    Per Solodit #58501: **Description**
+    
+    StWSX.sol, oracle Report Unstaked Withdraw(), oracle ReportRewards()
+    It is assumed that the necessary amount of WSX will already be present on the contract at the moment of reporting.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NoValidationForWsxRewardsUnstakedAmount"
+solodit_id: "58501"
+solodit_slug: "no-validation-for-wsx-rewards-unstaked-amount-zokyo-none-liquistake-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferFrom).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

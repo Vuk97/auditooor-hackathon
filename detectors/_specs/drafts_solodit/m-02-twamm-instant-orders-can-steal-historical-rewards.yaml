@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "m-02-twamm-instant-orders-can-steal-historical-rewards"
+class_name: "M02TwammInstantOrdersCanStealHistoricalRewards"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #64661 (Code4rena/Ekubo)"
+help: "[M-02] TWAMM Instant Orders Can Steal Historical Rewards"
+wiki_title: "[M-02] TWAMM Instant Orders Can Steal Historical Rewards"
+wiki_description: |
+    <https://github.com/code-423n4/2025-11-ekubo/blob/bbc87eb26d73700cf886f1b3f06f8a348d9c6aef/src/extensions/TWAMM.sol# L84-L111>
+    
+    When a TWAMM order is created exactly at `block.timestamp == startTime`, the `startTime` is not registered in the time bitmap. This causes `rewardRatesBeforeSlot[startTim
+wiki_exploit_scenario: |
+    Per Solodit #64661: <https://github.com/code-423n4/2025-11-ekubo/blob/bbc87eb26d73700cf886f1b3f06f8a348d9c6aef/src/extensions/TWAMM.sol# L84-L111>
+    
+    When a TWAMM order is created exactly at `block.timestamp == startTime
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02TwammInstantOrdersCanStealHistoricalRewards"
+solodit_id: "64661"
+solodit_slug: "m-02-twamm-instant-orders-can-steal-historical-rewards-code4rena-ekubo-ekubo-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal else;"
+fn_name_regex: ".*(startTime|getRewardRateInside|CALL_TYPE_CHANGE_SALE_RATE|else).*"
+read_var_regex: ".*(else|endTime|getRewardRateInside).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "startTime"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return else > 0;"

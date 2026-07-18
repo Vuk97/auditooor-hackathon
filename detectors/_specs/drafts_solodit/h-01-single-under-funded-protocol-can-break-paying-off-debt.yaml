@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "h-01-single-under-funded-protocol-can-break-paying-off-debt"
+class_name: "H01SingleUnderFundedProtocolCanBreakPayingOffDebt"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #25521 (Code4rena/Sherlock)"
+help: "[H-01] Single under-funded protocol can break paying off debt"
+wiki_title: "[H-01] Single under-funded protocol can break paying off debt"
+wiki_description: |
+    _Submitted by cmichel, also found by walker and gpersoon_
+    
+    The `SherXERC20.payOffDebtAll` function iterates over all protocols of the token.
+    If _a single project_ does not have enough funds to cover the premium payments, the transactions come to a halt, see `_payOffDebt`:
+    
+    ```solidity
+    debt = _accrue
+wiki_exploit_scenario: |
+    Per Solodit #25521: _Submitted by cmichel, also found by walker and gpersoon_
+    
+    The `SherXERC20.payOffDebtAll` function iterates over all protocols of the token.
+    If _a single project_ does not have enough funds to cover t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01SingleUnderFundedProtocolCanBreakPayingOffDebt"
+solodit_id: "25521"
+solodit_slug: "h-01-single-under-funded-protocol-can-break-paying-off-debt-code4rena-sherlock-sherlock-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal redeem;"
+fn_name_regex: ".*(setTokenPrice|setProtocolPremium|withdrawProtocolBalance|redeem).*"
+read_var_regex: ".*(redeem|setProtocolPremium|setTokenPrice).*"
+required_call_regex: ".*_payOffDebt.*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "setTokenPrice"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return redeem > 0;"

@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "m-09-users-of-migration-sol-may-forfeit-rebase-rewards"
+class_name: "M09UsersOfMigrationSolMayForfeitRebaseRewards"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #2884 (Code4rena/Yieldy)"
+help: "[M-09] Users of Migration.sol may forfeit rebase rewards"
+wiki_title: "[M-09] Users of Migration.sol may forfeit rebase rewards"
+wiki_description: |
+    _Submitted by 0x52, also found by berndartmueller_
+    
+    Users of `moveFundsToUpgradedContract()` in migration.sol may forfeit rebase rewards.
+    
+    ### Proof of Concept
+    
+    L54 calls instantUnstake(false) meaning that it skips the optional rebase. If there is a pending rebase then the user calling the function
+wiki_exploit_scenario: |
+    Per Solodit #2884: _Submitted by 0x52, also found by berndartmueller_
+    
+    Users of `moveFundsToUpgradedContract()` in migration.sol may forfeit rebase rewards.
+    
+    ### Proof of Concept
+    
+    L54 calls instantUnstake(false) meaning
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09UsersOfMigrationSolMayForfeitRebaseRewards"
+solodit_id: "2884"
+solodit_slug: "m-09-users-of-migrationsol-may-forfeit-rebase-rewards-code4rena-yieldy-yieldy-contest-git"
+solodit_quality: "4"
+solodit_rarity: "3"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal movefundstoupgradedcontract;"
+fn_name_regex: ".*(moveFundsToUpgradedContract).*"
+read_var_regex: ".*(moveFundsToUpgradedContract).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "moveFundsToUpgradedContract"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return movefundstoupgradedcontract > 0;"

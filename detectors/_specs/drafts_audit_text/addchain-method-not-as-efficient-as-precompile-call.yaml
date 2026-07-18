@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "addchain-method-not-as-efficient-as-precompile-call"
+class_name: "AddchainMethodNotAsEfficientAsPrecompileCall"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit SolBLS - Zellic Audit Report"
+help: |
+    In audits/internal_audit_july_2024.md, it is said that calling the Ethereum modexp precompile at 0x05 consumes around 14k gas. While the addchain method consumes around 7k gas per
+wiki_title: "Addchain method not as efficient as precompile call"
+wiki_description: |
+    In audits/internal_audit_july_2024.md, it is said that calling the Ethereum modexp precompile at 0x05 consumes around 14k gas. While the addchain method consumes around 7k gas per call, for functions inverse and sqrt, it is better to use the addchain compared to the precompile. One of the most expen
+wiki_exploit_scenario: |
+    Per audit finding: In audits/internal_audit_july_2024.md, it is said that calling the Ethereum modexp precompile at 0x05 consumes around 14k gas. While the addchain method consumes around 7k gas per call, for functions
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AddchainMethodNotAsEfficientAsPrecompileCall"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(bigModExp|memPtr).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "bigModExp"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

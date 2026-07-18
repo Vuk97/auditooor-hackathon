@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "m-08-borrower-can-cause-a-dos-by-frontrunning-a-liquidation-and-"
+class_name: "M08BorrowerCanCauseADosByFrontrunningALiquidationAnd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20777 (Code4rena/Venus Protocol)"
+help: |
+    [M-08] Borrower can cause a DoS by frontrunning a liquidation and repaying as low as 1 wei of the current debt
+wiki_title: |
+    [M-08] Borrower can cause a DoS by frontrunning a liquidation and repaying as low as 1 wei of the current debt
+wiki_description: |
+    Borrowers can cause DoS when the liquidator attempts to liquidate 100% of the borrower's position.
+    The borrower needs to frontrun the liquidation tx and repay a slight portion of the debt, paying as low as 1 wei will make the [borrowBalance](https://github.com/code-423n4/2023-05-venus/blob/main/con
+wiki_exploit_scenario: |
+    Per Solodit #20777: Borrowers can cause DoS when the liquidator attempts to liquidate 100% of the borrower's position.
+    The borrower needs to frontrun the liquidation tx and repay a slight portion of the debt, paying as
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M08BorrowerCanCauseADosByFrontrunningALiquidationAnd"
+solodit_id: "20777"
+solodit_slug: |
+    m-08-borrower-can-cause-a-dos-by-frontrunning-a-liquidation-and-repaying-as-low-as-1-wei-of-the-current-debt-code4rena-venus-protocol-venus-protocol-isolated-pools-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: "Front-Running, DOS"
+state_decl: "uint256 internal borrowbalance;"
+fn_name_regex: ".*(repayAmount|maxClose|borrowBalance).*"
+read_var_regex: ".*(borrowBalance|maxClose|repayAmount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "repayAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borrowbalance > 0;"

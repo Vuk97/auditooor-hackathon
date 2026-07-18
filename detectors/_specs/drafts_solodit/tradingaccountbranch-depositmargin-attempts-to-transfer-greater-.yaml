@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "tradingaccountbranch-depositmargin-attempts-to-transfer-greater-"
+class_name: "TradingaccountbranchDepositmarginAttemptsToTransferGreater"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #34825 (Cyfrin/Zaros)"
+help: |
+    `TradingAccountBranch::depositMargin` attempts to transfer greater amount than user deposited for tokens with less than 18 decimals
+wiki_title: |
+    `TradingAccountBranch::depositMargin` attempts to transfer greater amount than user deposited for tokens with less than 18 decimals
+wiki_description: |
+    **Description:** For collateral tokens with less than 18 decimals, `TradingAccountBranch::depositMargin` attempts to transfer a greater amount of tokens than what the user is actually depositing as:
+    * input `amount` is converted into `ud60x18Amount` via `MarginCollateralConfiguration::convertTokenAm
+wiki_exploit_scenario: |
+    Per Solodit #34825: **Description:** For collateral tokens with less than 18 decimals, `TradingAccountBranch::depositMargin` attempts to transfer a greater amount of tokens than what the user is actually depositing as:
+    *
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TradingaccountbranchDepositmarginAttemptsToTransferGreater"
+solodit_id: "34825"
+solodit_slug: |
+    tradingaccountbranchdepositmargin-attempts-to-transfer-greater-amount-than-user-deposited-for-tokens-with-less-than-18-decimals-cyfrin-none-cyfrinzaros-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(amount|ud60x18Amount|safeTransferFrom).*"
+read_var_regex: ".*(amount|safeTransferFrom|ud60x18Amount).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "amount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

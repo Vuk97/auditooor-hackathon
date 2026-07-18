@@ -1,0 +1,57 @@
+skeleton: "name_match_missing_call"
+name: "h-10-packpoolvirtualbalance-reverts-due-to-incorrect-pool-vb-mas"
+class_name: "H10PackpoolvirtualbalanceRevertsDueToIncorrectPoolVbMas"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36350 (Pashov Audit Group/Lucidly)"
+help: "[H-10] `_packPoolVirtualBalance()` reverts due to incorrect `POOL_VB_MASK`"
+wiki_title: "[H-10] `_packPoolVirtualBalance()` reverts due to incorrect `POOL_VB_MASK`"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    All calculations with POOL_VB_MASK always revert due to a wrong value stored.
+    E.g. reverts in `_packPoolVirtualBalance()` during the liquidity provision.
+    
+    **Recommendations**
+    
+    `POOL_VB_MASK` value should be fixed:
+    
+    ```diff
+    - ui
+wiki_exploit_scenario: |
+    Per Solodit #36350: **Severity**
+    
+    **Impact:** Medium
+    
+    **Likelihood:** High
+    
+    **Description**
+    
+    All calculations with POOL_VB_MASK always revert due to a wrong value stored.
+    E.g. reverts in `_packPoolVirtualBalance()` durin
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H10PackpoolvirtualbalanceRevertsDueToIncorrectPoolVbMas"
+solodit_id: "36350"
+solodit_slug: |
+    h-10-_packpoolvirtualbalance-reverts-due-to-incorrect-pool_vb_mask-pashov-audit-group-none-lucidly-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(POOL_VB_MASK).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "POOL_VB_MASK"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

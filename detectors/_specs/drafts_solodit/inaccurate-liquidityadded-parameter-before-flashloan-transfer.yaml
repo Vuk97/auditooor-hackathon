@@ -1,0 +1,38 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "inaccurate-liquidityadded-parameter-before-flashloan-transfer"
+class_name: "InaccurateLiquidityaddedParameterBeforeFlashloanTransfer"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28719 (MixBytes/AAVE)"
+help: "Inaccurate `liquidityAdded` Parameter Before Flashloan Transfer"
+wiki_title: "Inaccurate `liquidityAdded` Parameter Before Flashloan Transfer"
+wiki_description: |
+    ##### Description
+    
+    https://github.com/aave/protocol-v2/blob/56d25e81cb0fdfcac785d669d3577b1ef2d9286e/contracts/lendingpool/LendingPool.sol#L511
+    
+    The `liquidityAdded` parameter of the `updateInterestRates` call seems to be incorrect as the flashloan body is yet to be transferred thus it will not be i
+wiki_exploit_scenario: |
+    Per Solodit #28719: ##### Description
+    
+    https://github.com/aave/protocol-v2/blob/56d25e81cb0fdfcac785d669d3577b1ef2d9286e/contracts/lendingpool/LendingPool.sol#L511
+    
+    The `liquidityAdded` parameter of the `updateInterestRa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InaccurateLiquidityaddedParameterBeforeFlashloanTransfer"
+solodit_id: "28719"
+solodit_slug: "inaccurate-liquidityadded-parameter-before-flashloan-transfer-mixbytes-none-aave-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(liquidityAdded|updateInterestRates).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "fee-calculations-break-when-token-decimals-are-different-from-18"
+class_name: "FeeCalculationsBreakWhenTokenDecimalsAreDifferentFrom18"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61598 (Cyfrin/Octodefi)"
+help: "Fee calculations break when token decimals are different from 18"
+wiki_title: "Fee calculations break when token decimals are different from 18"
+wiki_description: |
+    **Description:** `FeeController.calculateFee()` and `calculateTokenAmount()` implicitly treat every ERC-20 as if it had **18 decimals**, but many popular assets (USDC/USDT = 6, etc.) do not.
+    Inside `calculateFee` the line
+    
+    ```solidity
+    uint256 _feeInUSD = _feeAmount * _tokenPrice / 10**18;
+    ```
+    
+    divid
+wiki_exploit_scenario: |
+    Per Solodit #61598: **Description:** `FeeController.calculateFee()` and `calculateTokenAmount()` implicitly treat every ERC-20 as if it had **18 decimals**, but many popular assets (USDC/USDT = 6, etc.) do not.
+    Inside `c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FeeCalculationsBreakWhenTokenDecimalsAreDifferentFrom18"
+solodit_id: "61598"
+solodit_slug: "fee-calculations-break-when-token-decimals-are-different-from-18-cyfrin-none-octodefi-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal calculatefee;"
+fn_name_regex: ".*(calculateTokenAmount|calculateFee|maxFeeInUSD|FeeExceedMaxFee).*"
+read_var_regex: ".*(calculateFee|calculateTokenAmount|maxFeeInUSD).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "calculateTokenAmount"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return calculatefee > 0;"

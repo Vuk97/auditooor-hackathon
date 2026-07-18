@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "gas-refunds-use-block-gas-instead-of-transaction-gas-leading-x"
+class_name: "GasRefundsUseBlockGasInsteadOfTransactionGasLeadingX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-11-nibiru"
+help: |
+    0x41 , also found by ABAIKUNANBAEV and Sentryx There is a mismatch between how gas fees are deducted and refunded in the EVM implementation: In evmante_gas_consume.go , gas fees ar
+wiki_title: "Gas refunds use block gas instead of transaction gas, leading to incorrect refund amounts"
+wiki_description: |
+    0x41 , also found by ABAIKUNANBAEV and Sentryx There is a mismatch between how gas fees are deducted and refunded in the EVM implementation: In evmante_gas_consume.go , gas fees are deducted upfront based on each transaction’s individual gas limit. However, the refund calculation in msg_server.go us
+wiki_exploit_scenario: |
+    Per audit finding: 0x41 , also found by ABAIKUNANBAEV and Sentryx There is a mismatch between how gas fees are deducted and refunded in the EVM implementation: In evmante_gas_consume.go , gas fees are deducted upfront b
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "GasRefundsUseBlockGasInsteadOfTransactionGasLeadingX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(txData|baseFeeMicronibiPerGas|feeAmtMicronibi).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "txData"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

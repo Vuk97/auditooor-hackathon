@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_require"
+name: "m-12-gettargetexternallendingamount-when-targetutilization-0-no-"
+class_name: "M12GettargetexternallendingamountWhenTargetutilization0No"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30175 (Sherlock/Notional Update #5)"
+help: |
+    M-12: getTargetExternalLendingAmount() when targetUtilization == 0  no check whether enough externalUnderlyingAvailableForWithdraw
+wiki_title: |
+    M-12: getTargetExternalLendingAmount() when targetUtilization == 0  no check whether enough externalUnderlyingAvailableForWithdraw
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-12-notional-update-5-judging/issues/51 
+    
+    ## Found by 
+    bin2chen
+    ## Summary
+    in `getTargetExternalLendingAmount()`
+    When `targetUtilization == 0`, it directly returns `targetAmount=0`.
+    It lacks the judgment of whether there is enough `externalUnderlyingAvai
+wiki_exploit_scenario: |
+    Per Solodit #30175: Source: https://github.com/sherlock-audit/2023-12-notional-update-5-judging/issues/51 
+    
+    ## Found by 
+    bin2chen
+    ## Summary
+    in `getTargetExternalLendingAmount()`
+    When `targetUtilization == 0`, it directl
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M12GettargetexternallendingamountWhenTargetutilization0No"
+solodit_id: "30175"
+solodit_slug: |
+    m-12-gettargetexternallendingamount-when-targetutilization-0-no-check-whether-enough-externalunderlyingavailableforwithdraw-sherlock-notional-update-5-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal externalunderlyingavailableforwithdraw;"
+fn_name_regex: ".*(getTargetExternalLendingAmount|externalUnderlyingAvailableForWithdraw|revert|withdraw).*"
+write_var_regex: ".*(externalUnderlyingAvailableForWithdraw|getTargetExternalLendingAmount|revert).*"
+guard_var_regex: ".*(externalUnderlyingAvailableForWithdraw|getTargetExternalLendingAmount|revert).*"
+vuln_fn_name: "getTargetExternalLendingAmount"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "externalunderlyingavailableforwithdraw = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

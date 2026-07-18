@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "assignmenthooks-may-drain-prover-tko-when-calling-proposeblock"
+class_name: "AssignmenthooksMayDrainProverTkoWhenCallingProposeblock"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #35999 (SigmaPrime/Taiko)"
+help: "AssignmentHooks May Drain Prover TKO When Calling proposeBlock()"
+wiki_title: "AssignmentHooks May Drain Prover TKO When Calling proposeBlock()"
+wiki_description: |
+    ## Description
+    
+    AssignmentHooks are used to transfer the livenessBond from the assigned prover by calling `AssignmentHook.onProposedBlock()`. However, there is nothing to prevent calling the same assignment hook repeatedly for a single block proposal. As a result, it is possible to drain the entire
+wiki_exploit_scenario: |
+    Per Solodit #35999: ## Description
+    
+    AssignmentHooks are used to transfer the livenessBond from the assigned prover by calling `AssignmentHook.onProposedBlock()`. However, there is nothing to prevent calling the same assi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AssignmenthooksMayDrainProverTkoWhenCallingProposeblock"
+solodit_id: "35999"
+solodit_slug: "assignmenthooks-may-drain-prover-tko-when-calling-proposeblock-sigmaprime-none-taiko-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assignmenthook;"
+fn_name_regex: ".*(assignmentHook|TaikoL1).*"
+read_var_regex: ".*(assignmentHook).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "assignmentHook"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assignmenthook > 0;"

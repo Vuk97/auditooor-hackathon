@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "avgborrowrate-is-miscalculated-as-zero-when-newborrowrate-equals"
+class_name: "AvgborrowrateIsMiscalculatedAsZeroWhenNewborrowrateEquals"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #54433 (Cantina/Morpho)"
+help: "avgBorrowRate is miscalculated as zero when newBorrowRate equals to borrowRateAfterJump"
+wiki_title: "avgBorrowRate is miscalculated as zero when newBorrowRate equals to borrowRateAfterJump "
+wiki_description: |
+    ## SpeedJumpIrm.sol Overview
+    
+    ## Context
+    **File:** SpeedJumpIrm.sol  
+    **Line:** 147
+    
+    ## Description
+    The `SpeedJumpIrm` calculates the interest rate based on `SpeedFactor` and `JumpFactor`. According to the document, at any time `t`, the level of the rate is given by the formula:
+    
+    \[ r(t) = r(last(t)
+wiki_exploit_scenario: |
+    Per Solodit #54433: ## SpeedJumpIrm.sol Overview
+    
+    ## Context
+    **File:** SpeedJumpIrm.sol  
+    **Line:** 147
+    
+    ## Description
+    The `SpeedJumpIrm` calculates the interest rate based on `SpeedFactor` and `JumpFactor`. According t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AvgborrowrateIsMiscalculatedAsZeroWhenNewborrowrateEquals"
+solodit_id: "54433"
+solodit_slug: |
+    avgborrowrate-is-miscalculated-as-zero-when-newborrowrate-equals-to-borrowrateafterjump-cantina-none-morpho-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal avgborrowrate;"
+fn_name_regex: ".*(SpeedJumpIrm|SpeedFactor|JumpFactor|avgBorrowRate).*"
+write_var_regex: ".*(avgBorrowRate|borrowRateAfterJump|linearVariation).*"
+guard_var_regex: ".*(avgBorrowRate|borrowRateAfterJump|linearVariation).*"
+vuln_fn_name: "SpeedJumpIrm"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "avgborrowrate = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

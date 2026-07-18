@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "bucket-for-exercise-manipulatable-with-small-exercise"
+class_name: "BucketForExerciseManipulatableWithSmallExercise"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Valorem Options - Zellic Audit Report"
+help: |
+    The first bucket to be exercised in an exercise() call is based on a deterministic seed. This seed is reset upon every exercise() call. The seed can be intentionally reset by exerc
+wiki_title: "Bucket for exercise() manipulatable with small exercise()"
+wiki_description: |
+    The first bucket to be exercised in an exercise() call is based on a deterministic seed. This seed is reset upon every exercise() call. The seed can be intentionally reset by exercise()ing with a small amount. If the seed is repeatedly reset until the desired bucket is next in line, the next bucket
+wiki_exploit_scenario: |
+    Per audit finding: The first bucket to be exercised in an exercise() call is based on a deterministic seed. This seed is reset upon every exercise() call. The seed can be intentionally reset by exercise()ing with a smal
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BucketForExerciseManipulatableWithSmallExercise"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(optionTypeState|optionRecord|numUnexercisedBuckets).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "optionTypeState"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

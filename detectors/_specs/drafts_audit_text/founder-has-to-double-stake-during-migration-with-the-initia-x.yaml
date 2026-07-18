@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "founder-has-to-double-stake-during-migration-with-the-initia-x"
+class_name: "FounderHasToDoubleStakeDuringMigrationWithTheInitiaX"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-04-virtuals-protocol"
+help: |
+    oakcobalt , also found by gkrastenov During the migration process implemented in AgentMigrator.sol, founders face a double-staking problem where their original LP tokens remain loc
+wiki_title: "Founder has to double-stake during migration with the initial LP locked in the old veToken"
+wiki_description: |
+    oakcobalt , also found by gkrastenov During the migration process implemented in AgentMigrator.sol, founders face a double-staking problem where their original LP tokens remain locked in the old AgentVeToken contract while they must provide additional virtual tokens for the migration to the new syst
+wiki_exploit_scenario: |
+    Per audit finding: oakcobalt , also found by gkrastenov During the migration process implemented in AgentMigrator.sol, founders face a double-staking problem where their original LP tokens remain locked in the old Agent
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "FounderHasToDoubleStakeDuringMigrationWithTheInitiaX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

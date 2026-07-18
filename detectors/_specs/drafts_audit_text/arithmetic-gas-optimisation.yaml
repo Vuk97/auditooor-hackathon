@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "arithmetic-gas-optimisation"
+class_name: "ArithmeticGasOptimisation"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "hexens audit 1inch_FusionMode_Hexens.2"
+help: |
+    In the function St1nch.sol:_withdraw on line 202 the unlock time of the deposit is set to the minimum of the original unlock time and the current timestamp. However, this arithmeti
+wiki_title: "ARITHMETIC GAS OPTIMISATION"
+wiki_description: |
+    In the function St1nch.sol:_withdraw on line 202 the unlock time of the deposit is set to the minimum of the original unlock time and the current timestamp. However, this arithmetic operation is redundant and the unlock time of the deposit should be set directly to the current timestamp. If it is an
+wiki_exploit_scenario: |
+    Per audit finding: In the function St1nch.sol:_withdraw on line 202 the unlock time of the deposit is set to the minimum of the original unlock time and the current timestamp. However, this arithmetic operation is redun
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ArithmeticGasOptimisation"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(totalDeposits|unlockTime).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "totalDeposits"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

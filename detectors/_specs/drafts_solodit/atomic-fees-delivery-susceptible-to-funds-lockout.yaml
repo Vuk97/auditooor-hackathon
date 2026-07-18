@@ -1,0 +1,46 @@
+skeleton: "paired_function_divergence"
+name: "atomic-fees-delivery-susceptible-to-funds-lockout"
+class_name: "AtomicFeesDeliverySusceptibleToFundsLockout"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #7263 (Spearbit/CLOBER)"
+help: "Atomic fees delivery susceptible to funds lockout"
+wiki_title: "Atomic fees delivery susceptible to funds lockout"
+wiki_description: |
+    ## Severity: Medium Risk
+    
+    ## Context
+    - OrderBook.sol#L791-L798 
+    - OrderBook.sol#L804-L805
+    
+    ## Description
+    The `collectFees` function delivers the `quoteToken` part of fees as well as the `baseToken` part of fees atomically and simultaneously to both the DAO and the host. In case a single address is
+wiki_exploit_scenario: |
+    Per Solodit #7263: ## Severity: Medium Risk
+    
+    ## Context
+    - OrderBook.sol#L791-L798 
+    - OrderBook.sol#L804-L805
+    
+    ## Description
+    The `collectFees` function delivers the `quoteToken` part of fees as well as the `baseToken` p
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AtomicFeesDeliverySusceptibleToFundsLockout"
+solodit_id: "7263"
+solodit_slug: "atomic-fees-delivery-susceptible-to-funds-lockout-spearbit-clober-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "DOS, Blacklisted"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(baseToken|collectFee|collectFees).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

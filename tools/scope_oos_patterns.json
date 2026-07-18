@@ -1,0 +1,163 @@
+{
+  "cross_chain_atomicity": {
+    "pattern": "(polkadot|xcm|parachain|l1.*l2.*atom|same.tx.from.*remote.*chain|bridge.*origin.*tx|pre.fund.*deposit|atomic.*prefund|cross.chain.*atomicity|polkadot.side|bridgehub)",
+    "flag_severity": "likely-OOS",
+    "rationale": "Cross-chain tx atomicity is often excluded; bridge bounties scope only the destination-chain contract state. SNOW R67-F001 rejected on this class.",
+    "reference": "docs/TRIAGER_OUTCOMES_POST_ITER13.md Snow R67-F001",
+    "scope_keywords": ["cross-chain", "polkadot", "atomicity", "bridgehub", "origin", "parachain", "pre-fund", "atomic"]
+  },
+  "gas_griefing_without_fund_loss": {
+    "pattern": "(gas.griefing|dos.via.gas|expensive.revert)",
+    "flag_severity": "medium-OOS",
+    "rationale": "Many bounties exclude gas-griefing without demonstrable fund loss.",
+    "reference": "common",
+    "scope_keywords": ["gas", "griefing", "dos"]
+  },
+  "centralization_risk_admin": {
+    "pattern": "(admin.*can.*rug|owner.*can.*drain|privileged.role.*can|admin.*can.*add.*remove.*admin|centralization.risk|delegatecall\\s+(target|module|implementation|impl|address)?[^.\\n]{0,80}(onlyowner|only[- ]?owner|owner[- ]gated|admin[- ]gated|governance[- ]gated|owner[- ]set|admin[- ]set|governance[- ]set|set\\s+by\\s+(the\\s+)?(owner|admin|governance)|via\\s+(an?\\s+)?onlyowner|behind\\s+onlyowner|under\\s+onlyowner)|(onlyowner|only[- ]?owner|owner[- ]gated|admin[- ]gated|governance[- ]gated|owner[- ]set|admin[- ]set|governance[- ]set|set\\s+by\\s+(the\\s+)?(owner|admin|governance))[^.\\n]{0,120}delegatecall|owner[^.\\n]{0,80}(can|may|able to)[^.\\n]{0,80}(swap|change|replace|set|update|rotate|upgrade)[^.\\n]{0,80}(delegatecall|implementation|impl\\b|target|module|logic|proxy)|setgsnmodule[^.\\n]{0,40}onlyowner|onlyowner[^.\\n]{0,40}setgsnmodule|proxy[- ]?wallet[- ]?factory[^.\\n]{0,120}delegatecall|delegatecall[^.\\n]{0,120}proxy[- ]?wallet[- ]?factory)",
+    "flag_severity": "common-OOS",
+    "rationale": "Centralization / admin-key abuse is frequently excluded when admin has acknowledged trust. Polymarket B6 idiom (ProxyWalletFactory _pre/_postRelayedCall delegatecall to getGSNModule(), where the module is set only by setGSNModule(...) onlyOwner) is OOS-6 by design — the regex below catches the generalized 'delegatecall target gated by onlyOwner / admin / governance' shape so finders writing a technically-precise draft (without the rhetorical 'centralization risk' phrase) are still flagged.",
+    "reference": "common; Polymarket B6 (ProxyWalletFactory delegatecall + setGSNModule onlyOwner) — see ~/audits/polymarket/SUPPRESSED_PATTERNS.json#delegatecall_proxywalletfactory_only_owner",
+    "scope_keywords": ["centralization", "admin", "privileged", "governance", "owner", "delegatecall", "onlyowner", "proxywalletfactory", "setgsnmodule"]
+  },
+  "unrealistic_bounds": {
+    "pattern": "(2\\s*\\*\\*\\s*248|2\\^24[0-9]|2\\^25[0-6]|makeramount\\s*[>\\u2265]=?\\s*2\\s*\\*\\*|maker.?amount.*(2\\^|\\b248\\b|\\b256\\b)|(\\$\\s?10\\s?m|\\$\\s?[0-9]+\\s?m).*(stuck|frozen|locked|drained)|billions?.*(stuck|frozen|locked|drained)|impossible[- ]limit|exceeds?.*(token\\s+supply|total\\s+supply|max\\s+supply)|unrealistic(ally)?\\s+(large|high|bounded)|unbounded.*(amount|quantity|maker|taker).*(overflow|stuck|drain))",
+    "flag_severity": "HIGH",
+    "rationale": "POLY-45-style: claimed impact requires a market/protocol state the rules prevent (e.g. makerAmount >= 2^248, billions frozen on a capped market, impossible-limit scenarios). Triager rejects because the threshold cannot be reached under real token supply / market caps.",
+    "reference": "docs/TRIAGER_OUTCOMES_POST_ITER13.md#POLY-45",
+    "scope_keywords": ["unrealistic", "impossible", "limit", "caps", "bounds"]
+  },
+  "event_only_impact": {
+    "pattern": "(event[- ]only|event\\s+emit(s|ted|ting)?\\s+(only|but\\s+no|without)|(emit(s|ted|ting)?|log(s|ged|ging)?)\\s+(only|a\\s+stale|a\\s+misleading|incorrect|spurious|phantom)\\s+(transfer|approval|event|log)|transfer\\s+event\\s+(misleading|spurious|phantom|incorrect)|unindexed\\s+log|observational[- ]only|no\\s+state\\s+change.*event|cosmetic\\s+(event|log|emit)|wrong\\s+event\\s+emitted)",
+    "flag_severity": "MEDIUM",
+    "rationale": "POLY-46-style: the claimed impact is only an event / log emit (observational) with no fund-loss or state-change. Triager rejects because the underlying state mapping (e.g. isOperator) is correctly updated; only the emitted event is stale or misleading.",
+    "reference": "docs/TRIAGER_OUTCOMES_POST_ITER13.md#POLY-46",
+    "scope_keywords": ["event", "emit", "log", "observable"]
+  },
+  "attribution_reconstructible": {
+    "pattern": "(attribution\\s+(is\\s+)?(reconstructible|recoverable|trivially\\s+recoverable)|(user|sender|caller|actor)\\s+(identity|attribution)\\s+(is\\s+)?(reconstructible|recoverable|derivable|inferable)\\s+from\\s+(sibling|subsequent|prior|same[- ]tx|in[- ]tx|follow[- ]up|downstream)\\s+(event|log|transfer|transferbatch|call)|reconstructible\\s+from\\s+(sibling|subsequent|in[- ]tx|same[- ]tx)\\s+(event|log|transferbatch)|off[- ]chain\\s+(interpretation|indexer|subgraph|oracle)\\s+(required|needed|dependent)|requires?\\s+off[- ]chain\\s+(interpretation|reconstruction|correlation|context)|oracle[- ]dependent\\s+(impact|attribution|inference)|sequencer[- ]state\\s+(dependent|required|inference)|l2\\s+sequencer\\s+state|subjective\\s+(market\\s+)?(intent|interpretation|resolution)|off[- ]chain\\s+mev\\s+(inference|attribution)|impact\\s+(requires|relies\\s+on)\\s+off[- ]chain)",
+    "flag_severity": "MEDIUM",
+    "rationale": "POLY-49-style: the claimed impact is not quantifiable or attributable from on-chain state alone. Triager rejects because user attribution / impact inference requires off-chain interpretation (external oracle, off-chain MEV inference, L2 sequencer-state correlation, subjective market intent) or can be trivially reconstructed from sibling/subsequent events in the same tx (e.g. ERC1155.TransferBatch following a spoofed Transfer).",
+    "reference": "docs/TRIAGER_OUTCOMES_POST_ITER13.md#POLY-49",
+    "scope_keywords": ["attribution", "reconstructible", "off-chain", "oracle-dependent", "sequencer-state", "subjective"]
+  },
+  "duplicate_of_rejected_original": {
+    "pattern": "(duplicate\\s+of\\s+(rejected\\s+)?(original|parent|prior|earlier|filed)|duplicate\\s*\\(\\s*(original\\s+)?rejected|(parent|original|prior|earlier)\\s+finding\\s+(is\\s+|was\\s+|already\\s+)?(rejected|invalidated|dismissed)|variant\\s+of\\s+(rejected|invalid|dismissed)\\s+(finding|original)|same\\s+(as|finding\\s+as)\\s+rejected|already\\s+rejected\\s+(finding|original|parent)|previously\\s+rejected\\s+(finding|original|duplicate)|dup(e|licate)?\\s+of\\s+rejected|rejected\\s+original|rejected\\s+parent\\s+finding|mirror\\s+of\\s+rejected)",
+    "flag_severity": "MEDIUM",
+    "rationale": "POLY-14 / MORPHO-638-style: the draft self-identifies as a duplicate of an already-rejected original / parent / prior finding. Triagers reject because the parent's rejection outcome is inherited by any dup (iter13 duplicate-inheritance doctrine in docs/10_OF_10_PLAYBOOK.md line 194). Narrowed to avoid FP on the factory bundles' generic 'Duplicate risk: PRESENT' and 'Duplicate (5 finders)' advisory lines (variant-detector output, not a self-rejection claim).",
+    "reference": "docs/TRIAGER_OUTCOMES_POST_ITER13.md#POLY-14",
+    "scope_keywords": ["duplicate", "rejected", "original", "parent", "dup"]
+  },
+  "partitioned_state_cascading_delete_gap": {
+    "pattern": "((partitioned|split|mirrored|dependent|secondary|reverse)\\s+(state|mapping|mappings).{0,120}(not|without|fails?|missing|orphan|stale).{0,120}(delete|clear|remove|deregister|cascade)|(delete|clear|remove|deregister).{0,120}(only|just|primary|parent|root).{0,120}(not|without|fails?|missing|orphan|stale).{0,120}(dependent|secondary|child|reverse|mirror|mapping|signer)|deregister\\w*.{0,80}(pcr0|image|root).{0,120}(not|without|fails?|missing|orphan|stale).{0,120}(signer|dependent|secondary|mapping))",
+    "flag_severity": "MEDIUM",
+    "rationale": "Base-Azul Cantina T-1 style: revocation/removal updates the primary partition but leaves dependent mapping state live, so stale children survive after the parent is removed. Advisory by default; use as a prompt to prove the dependent-state cascade is missing.",
+    "reference": "Base-Azul Cantina T-1 / fix a94f57ac",
+    "scope_keywords": ["partitioned", "cascading", "mapping", "dependent", "revocation", "deregister", "pcr0"]
+  },
+  "off_chain_params_vs_session_id_desync": {
+    "pattern": "((off[- ]?chain|grpc|service|prover|worker).{0,120}(session[-_ ]?id|sessionid|request[-_ ]?id|idempotenc).{0,120}(missing|without|no|ignores?|not\\s+check).{0,120}(parameter|params|argument|request).{0,40}(hash|digest|equality|match)|(session[-_ ]?id|sessionid).{0,80}(dedup|idempotenc|cache|reuse|collision).{0,120}(parameter|params|argument|request).{0,40}(mismatch|desync|not\\s+hashed|not\\s+checked|ignored))",
+    "flag_severity": "LOW",
+    "rationale": "Base-Azul Known-Vulns KV-8 style: an off-chain service deduplicates by session id but does not bind the full request parameters, allowing stale or mismatched proof/result reuse. Advisory by default because it often sits outside on-chain bounty scope unless bridged to a concrete on-chain acceptance path.",
+    "reference": "Base-Azul Known-Vulns KV-8",
+    "scope_keywords": ["off-chain", "grpc", "session", "idempotency", "parameter", "prover"]
+  },
+  "cache_trusts_external_authority_without_cap": {
+    "pattern": "((cache|caches|cached|caching|stores?|storage).{0,120}(zk|proof|oracle|external|authority|attestation|certificate|cert).{0,120}(expiry|expiration|timestamp|price|value|limit).{0,120}(without|no|missing|not\\s+check|uncapped).{0,80}(cap|bound|sanity|maximum|max)|(zk|proof|oracle|external|authority).{0,120}(expiry|expiration|timestamp|price|value).{0,120}(trusted|accepted|stored|cached).{0,120}(without|no|missing|uncapped).{0,80}(cap|bound|sanity|maximum|max))",
+    "flag_severity": "MEDIUM",
+    "rationale": "Base-Azul Known-Vulns KV-10 style: an on-chain cache persists externally asserted values (proof output, oracle value, certificate expiry) without an on-chain sanity cap. Advisory by default; promote only when a PoC proves the cached value can cross a real trust or economic boundary.",
+    "reference": "Base-Azul Known-Vulns KV-10",
+    "scope_keywords": ["cache", "external", "zk", "oracle", "certificate", "expiry", "sanity"]
+  },
+  "pessimistic_cascade_ignores_recipient_reassignment": {
+    "pattern": "((invalid|reject|pessim|fail|bad|else)[\\- ]?(parent|ancestor|predecessor|branch|path)?.{0,80}(without|no|missing|omit|skip|fails?\\s+to|forget|forgets|forgot|does\\s+not).{0,40}(update|set|write|assign|reassign|reassignment|record).{0,40}(recipient|beneficiary|payee|winner|claimant|receiver)|(recipient|beneficiary|payee|winner|claimant|receiver)\\s+(is\\s+)?(unchanged|stale|not\\s+(re)?assigned|kept|preserved|remains|left\\s+stale|never\\s+(re)?set)|(skips?|omit(s|ted)?|forgets?|forgot)\\s+(the\\s+|that\\s+|a\\s+)?(parallel\\s+|sibling\\s+|matching\\s+)?(write|update|reassignment|assignment)\\s+to\\s+(recipient|beneficiary|payee|winner|claimant|receiver))",
+    "flag_severity": "MEDIUM",
+    "rationale": "Base-Azul engagement-3 FN-1 style: a conditional pessimistic branch (invalid-parent / rejection path) writes only the status/state variable and forgets the sibling write to recipient/beneficiary/payee/winner that the normal else-branch performs. Advisory by default; promote when the stale recipient address can receive a payout, bond refund, or governance weight after resolution.",
+    "reference": "Base-Azul engagement-3 FN-1 (AggregateVerifier.resolve invalid-parent branch)",
+    "scope_keywords": ["recipient", "beneficiary", "payee", "winner", "invalid parent", "pessimistic", "resolution", "branch"]
+  },
+  "validator_lacks_ancestry_walk": {
+    "pattern": "((isValid|isGameClaimValid|isClaimValid|isNodeValid|check[A-Za-z_]*Valid|verify[A-Za-z_]*|validate[A-Za-z_]*)\\s*\\(.{0,240}(\\.parent\\(\\)|parentOf|\\.prev\\(\\)|predecessor|immediate\\s+parent).{0,80}(return|bool)|(single[- ]level|one[- ]level|only\\s+(the\\s+)?(immediate|direct)\\s+parent|does\\s+not\\s+walk\\s+(the\\s+)?ancestry|no\\s+ancestor(y|s)?\\s+(walk|traversal|check|loop)|ancestry\\s+(is\\s+)?(not|never)\\s+(walked|traversed|verified|validated|checked)|reads?\\s+only\\s+(the\\s+)?(immediate\\s+)?parent|checks?\\s+only\\s+(the\\s+)?(immediate\\s+)?parent|walks?\\s+no\\s+ancestor))",
+    "flag_severity": "MEDIUM",
+    "rationale": "Base-Azul engagement-3 FN-5 style: a validator named isValid*/check*Valid/verify* reads only the immediate parent().status and returns a bool, while callers treat the bool as 'entire ancestry is valid'. A malicious leaf whose parent is valid but whose grandparent is invalid slips through. Advisory; promote to MEDIUM-HIGH when the validator gates value flow.",
+    "reference": "Base-Azul engagement-3 FN-5 (AnchorStateRegistry.isGameClaimValid no ancestor check)",
+    "scope_keywords": ["ancestor", "ancestry", "parent", "validator", "isValid", "claim", "walk"]
+  },
+  "public_audit_endorsed_design_mirror": {
+    "pattern": "(public\\s+audit\\s+(explicitly\\s+)?(endorse[ds]?|accept(ed|s)?|approv(ed|al))\\s+(this\\s+)?design|already\\s+enforced\\s+(by\\s+the\\s+)?on[- ]chain\\s+code|acknowledged[,\\s]+(will\\s+)?(resolve|update)?\\s*(in\\s+(the\\s+)?(arbitration\\s+)?(charter|documentation|docs))|fix\\s+(is\\s+|was\\s+|stays\\s+)?(documentation|charter|docs)[- ]level\\s+(only|rather\\s+than\\s+code)|charter[- ]level\\s+fix|risk[- ]accept(ed|ance)\\s+by\\s+(team|protocol)|prior\\s+audit\\s+(reviewed|discussed|noted|raised)\\s+(this\\s+)?(asymmetry|design\\s+choice|architectural\\s+(decision|boundary))|mirror\\s+(direction|side)\\s+of\\s+(an\\s+)?(acknowledged|already[- ]?known|previously[- ]?audited)\\s+(asymmetry|design)|other\\s+direction\\s+of\\s+(an\\s+)?acknowledged\\s+asymmetry|inverse\\s+attack\\s+on\\s+(an\\s+)?audited\\s+design)",
+    "flag_severity": "likely-OOS",
+    "rationale": "PR #120 lesson 5: when a public audit (a) explicitly discussed a design boundary or asymmetry, (b) the protocol response was charter/documentation/risk-acceptance rather than code-level, then attacks on that boundary — INCLUDING mirror-direction attacks — are likely OOS under Immunefi's 'bugs mentioned in public audits and not fixed are ineligible' clause. Engagement-5 N1 case study: OZ-2025-L-02 'Double Jeopardy' explicitly endorsed The Graph DisputeManager's indexing-side single-slot disputeId schema while raising the query-side double-jeopardy concern; a candidate proposing a front-run/grief attack on the endorsed indexing-side design was correctly closed under this rule. Decision tree: (1) Did a public audit discuss this exact design boundary? (2) Was the project response documentation/charter/risk-accepted rather than code fix? (3) Is the candidate attacking the same boundary or a mirror direction? If all yes → likely-OOS. Promote ONLY if the candidate proves a strictly stronger code-level effect outside the boundary the audit endorsed.",
+    "reference": "PR #120 lesson 5 + The Graph engagement-5 N1 / OZ-2025-L-02",
+    "scope_keywords": ["public audit", "acknowledged", "design", "asymmetry", "mirror", "charter", "risk-accepted", "endorsed", "documentation-level"]
+  },
+  "operator_response_assumption": {
+    "pattern": "((assum\\w*|requires?|relies\\s+on|depends?\\s+on).{0,120}(will\\s+not|won'?t|does\\s+not|fails?\\s+to|do\\s+nothing|inaction).{0,120}(blacklist|dispute|retire|challenge|respond)|((base|project|ops|operator|guardian).{0,120}(will\\s+not|won'?t|does\\s+not|fails?\\s+to|do\\s+nothing).{0,120}(blacklist|dispute|retire|challenge|respond))|7[- ]day\\s+window.{0,120}(will\\s+not|won'?t|do\\s+nothing|inaction).{0,120}(blacklist|dispute|retire|challenge))",
+    "flag_severity": "HIGH",
+    "rationale": "Base-Azul FN-5 style: the severity path assumes the project will not use an available proof-system response action such as blacklist, dispute, or retire during the response window. This must be downgraded or reframed unless the draft proves the action cannot be taken.",
+    "reference": "Base-Azul Immunefi scope: emergency-action downgrade for assumptions that Base will not dispute/blacklist/retire invalid proposals",
+    "scope_keywords": ["blacklist", "dispute", "retire", "invalid proposal", "proof system", "will not"]
+  },
+  "invalid_proof_or_mock_verifier_prereq": {
+    "pattern": "((?<!not\\s)(rel(?:y|ies|ying)|requires?|needs?|depends?\\s+on|cannot\\s+be\\s+reached\\s+without|only\\s+succeeds\\s+because).{0,140}(invalid\\s+(tee|zk|proof)|tee/zk\\s+proof|proof\\s+forg|proof[- ]acceptance\\s+bypass|compromised\\s+(enclave|signer|key)|key\\s+compromise|fresh\\s+enclave\\s+signature|mock\\s*verifier)|(mock\\s*verifier).{0,140}(returns\\s+true|unconditional|accepts?\\s+any|proof\\s+bypass|only\\s+succeeds|permissionless\\s+reachability))",
+    "flag_severity": "HIGH",
+    "rationale": "Base-Azul FN-5/FN-6 style: a PoC or severity path that depends on invalid TEE/ZK proof acceptance, key compromise, fresh enclave signatures, or an unconditional MockVerifier is not enough for an in-scope production exploit unless the draft separately proves a verifier bypass that does not require compromised keys.",
+    "reference": "Base-Azul Immunefi scope: reports relying on invalid TEE or ZK proofs are downgraded, especially TEE proofs unless key compromise is unnecessary",
+    "scope_keywords": ["invalid tee", "invalid zk", "invalid proof", "tee", "zk", "key compromise", "proof"]
+  },
+  "unproven_bad_game_prereq": {
+    "pattern": "((fraudulent|invalid|bad|poisoned).{0,80}(game|proposal|root|state).{0,100}(resolve|resolved|defender_wins|finalize|finalized)|(after|once).{0,60}(bad|fraudulent|invalid).{0,60}(game|proposal|root).{0,80}(exists|resolved))",
+    "flag_severity": "HIGH",
+    "rationale": "Base-Azul FN-5 style: a draft that starts from an already-fraudulent resolved game/root needs an independently proven in-scope path that creates that state. Without that upstream proof-bypass or challenge-circumvention primitive, bridge-drain severity is not paste-ready.",
+    "reference": "Base-Azul Immunefi scope: invalid proposals must account for proof-system dispute/blacklist/retire actions and invalid TEE/ZK proof downgrade language",
+    "scope_keywords": ["invalid proposal", "proof system", "invalid proof", "blacklist", "dispute", "retire"],
+    "exceptions": [
+    {
+      "name": "dlt_engine_api",
+      "include_pattern": "(engine_newPayloadV[1-9]|engine_forkchoiceUpdated[A-Za-z0-9]*|validate_block_post_execution_with_hashed_state|OpEngineValidator|BaseEngineValidator|EngineApiTreeHandler|engine\\s*api\\s*payload|payload[- ]?validation|withdrawals_root\\s+validator|state[- ]?root\\s+validator|reth\\s+(engine|tree[- ]?state|tree_state|persistence|validator)|op[- ]?node|op[- ]?geth|op[- ]?reth|backend\\s*:\\s*rust|blockchain[/_ ]dlt)",
+      "exclude_pattern": "(faultdisputegame|disputegamefactory|dispute[\\- ]?game|anchorstateregistry|optimismportal|defender[\\-_ ]wins|challenger[\\-_ ]wins|onlyowner|onlyguardian|\\.sol\\b|solidity|fault[\\- ]?proof[\\- ]?contract|delayedweth)",
+      "rationale": "Rust Engine API / DLT payload-validation root cause (FN7-shape) is not the legacy Solidity FN5/FN6 'bad dispute game created by OOS/mock prerequisite' class. Suppress the warning when the draft cites Rust Engine API entrypoints (engine_newPayloadV*, engine_forkchoiceUpdated*, OpEngineValidator, BaseEngineValidator, EngineApiTreeHandler, validate_block_post_execution_with_hashed_state) AND does not also cite Solidity dispute-game / FaultDisputeGame / AnchorStateRegistry contracts. If both are cited, fall back to the conservative warn (see test_scope_reasoner_dlt_exception::test_mixed_dispute_and_engine_api_still_warns)."
+    },
+    {
+      "name": "cosmos_persisted_state_restart",
+      "include_pattern": "(FinalizeBlock|BeginBlocker|EndBlocker|Cosmos|GoLevelDB|re[- ]?panic|restart|persisted\\s+state|poisoned\\s+vault\\s+state)",
+      "exclude_pattern": "(faultdisputegame|disputegamefactory|dispute[\\- ]?game|anchorstateregistry|optimismportal|defender[\\-_ ]wins|challenger[\\-_ ]wins|bad\\s+(game|proposal|root)|fraudulent\\s+(game|proposal|root)|invalid\\s+(game|proposal|root)|proof[- ]system|proof[- ]bypass)",
+      "rationale": "Cosmos/AppChain reports often describe attacker-created poisoned module state that survives restart and re-panics in FinalizeBlock. That is production-profile persistence evidence, not the Base-Azul/FaultDisputeGame class where the draft starts from an already-invalid proof game/root. Suppress when Cosmos/block-execution persistence terms appear and no dispute-game/proof-system terms are present."
+    }
+  ]
+},
+  "current_deployment_config_unproven": {
+    "pattern": "((current|live|deployed|sepolia|competition).{0,100}(not\\s+vulnerable|not\\s+affected|unproven|unknown|missing).{0,120}(config|configuration|deployment|parameter)|requires?.{0,100}(future|hypothetical|config\\s+drift|deployment\\s+drift|mainnet).{0,100}(configuration|deployment|config|parameter)|mainnet.{0,80}not\\s+in\\s+scope|not\\s+claim\\s+current\\s+deployment)",
+    "flag_severity": "MEDIUM",
+    "rationale": "Config-sensitive findings need proof that the competition deployment is currently vulnerable. Future/mainnet-only configuration drift, or a current deployment stated as not vulnerable, should block paste-ready status until live config evidence is attached.",
+    "reference": "Base-Azul scope: Base Sepolia competition environment is in scope; Base mainnet is not in scope for the competition",
+    "scope_keywords": ["mainnet", "not in scope", "configuration", "deployment", "service", "program", "different configurations"]
+  },
+  "asset_scope_mismatch": {
+    "pattern": "((primary|main|affected).{0,100}(AnchorStateRegistry|OptimismPortal2|OP\\s+Stack|Optimism\\s+contract|op-node|op-geth|op-batcher)|(AnchorStateRegistry|OptimismPortal2|OP\\s+Stack|Optimism\\s+contract).{0,120}(primary|main|root\\s+cause|affected|impact\\s+path)|out[- ]of[- ]scope\\s+upstream\\s+code|not\\s+explicit\\s+asset)",
+    "flag_severity": "MEDIUM",
+    "rationale": "Base-Azul scope mismatch guard: drafts rooted in Optimism/OP Stack components or non-listed contracts need an explicit bridge back to Base-native in-scope assets before they are considered paste-ready.",
+    "reference": "Base-Azul scope: Optimism components are out of scope unless Base-native modifications are the affected code",
+    "scope_keywords": ["optimism", "op stack", "out of scope", "base-native", "assets in scope", "anchorstateregistry", "optimismportal"]
+  },
+  "economic_sequencing_oos": {
+    "pattern": "(front[\\- ]?run\\w*|back[\\- ]?run\\w*|sandwich\\w*|pre[\\- ]?position\\w*|pre[\\- ]?seed\\w*|pre[\\- ]?curat\\w*|pre[\\- ]?fund\\w*|mev\\b|maximal\\s+extractable\\s+value|order(ing|[\\- ]flow)?\\s+(manipulat\\w*|advantage|dependent)|transaction\\s+ordering|reorder\\w*\\s+(transaction|tx)|wait\\s+for\\s+(the\\s+)?(legitimate\\s+)?(owner|victim|user|protocol)\\s+(to\\s+)?(publish|call|act|submit|transact)|attacker\\s+(first|pre)\\w*\\s+(seed|curat|fund|position)\\w*|seed\\w*\\s+.{0,60}(before|prior\\s+to)\\s+.{0,60}(owner|victim|user|publish)|before\\s+the\\s+(owner|victim|user)\\s+(publish|call|act|transact)|after\\s+(that|the)\\s+(owner|victim|user|migration|publish)\\s+.{0,60}(redeem|burn|withdraw|drain|extract|profit))",
+    "flag_severity": "likely-OOS",
+    "rationale": "Economic-sequencing OOS trap: the exploit requires the attacker to PRE-POSITION (pre-seed / pre-curate / pre-fund / take a position) BEFORE a victim/owner/protocol action and then REDEEM/PROFIT AFTER that action. Programs that exclude frontrunning, backrunning, sandwiching, MEV, or transaction-ordering manipulation reject this class. The Graph L2GNS pre-curated-rounding-drain CRITICAL was closed OUT OF SCOPE on this class: attacker pre-curates and inflates a future deployment pool, waits for the owner publishNewVersion, then redeems. This pattern fires ONLY when the draft's exploit path actually depends on ordering around another party's transaction. A plain slippage/rounding bug that does not depend on victim-tx ordering does NOT match (those words alone, without a wait-for-victim / pre-position-then-redeem sequence, will not trip this regex because the regex requires the sequencing verbs). To clear the gate the draft must prove an alternate exploit path that does not need the excluded sequencing (mark it with `<!-- oos-economic-sequencing-rebuttal: <reason> -->`).",
+    "reference": "The Graph thegraph-l2gns-precurated-rounding-drain-CRITICAL closed OOS (frontrunning/sandwich excluded); Immunefi standard OOS clause 'attacks that rely on front-running / back-running / sandwiching / generic MEV'",
+    "scope_keywords": ["front-running", "frontrunning", "front run", "back-running", "backrunning", "back run", "sandwich", "mev", "maximal extractable value", "ordering", "transaction ordering", "pre-position", "pre-positioning", "natural permissionless"]
+  },
+  "natural_network_activity_oos": {
+    "pattern": "(curat\\w*|signal\\w*|stak\\w*|unstak\\w*|deleg\\w*|swap\\w*|provide\\s+liquidity|liquidity\\s+provision|lp(ing|\\s)|add\\s+liquidity|remove\\s+liquidity|mint\\s+signal|burn\\s+signal|deposit\\w*|bond\\w*).{0,80}(public|permissionless|normal|ordinary|expected|allowed|by\\s+design|anyone\\s+can|legitimate)|(public|permissionless|normal|ordinary|expected|anyone\\s+can|legitimate)\\s+(curat\\w*|signal\\w*|stak\\w*|deleg\\w*|swap\\w*|lp\\w*|liquidity|deposit\\w*|market\\s+activity)|prerequisite\\s+is\\s+a?\\s*(public|permissionless|normal)\\s+(action|call|activity)|relies?\\s+on\\s+(normal|ordinary|expected|permissionless)\\s+(curation|signaling|staking|swapping|lping|liquidity|market\\s+activity)|exploit\\s+(depends?|relies?)\\s+on\\s+.{0,40}(curation|signaling|staking|swap|liquidity)\\s+(fee|reserve|pool|inflation)",
+    "flag_severity": "advisory",
+    "rationale": "Natural-network-activity OOS trap: the bug's prerequisite is a permissionless action the program explicitly treats as normal network activity (curation / staking / swapping / LPing / signaling / delegation). When a program defines such activity as expected behaviour, a finding that NEEDS that activity to set up the exploit state must prove the bug is independent of the allowed activity, or walk back / drop. The Graph treats curation and signaling as normal permissionless activity; the L2GNS finding's poisoned-pool state was built by routing real curation fees into a deployment - normal network activity used as an exploit prerequisite. This is advisory by default (it is not always OOS); it is promoted to likely-OOS by the per-finding semantic check / Check #77 only when the program's pasted OOS text actually enumerates the activity as normal. To clear: prove the bug is independent of the allowed activity, or mark `<!-- oos-natural-activity-rebuttal: <reason> -->`.",
+    "reference": "The Graph thegraph-l2gns-precurated-rounding-drain-CRITICAL: curation-fee reserve inflation used as exploit prerequisite; The Graph program treats curation/signaling as normal permissionless activity",
+    "scope_keywords": ["curation", "signaling", "staking", "natural network activity", "normal market activity", "market activity", "liquidity provision", "swapping"]
+  },
+  "submission_local_path_leak": {
+    "pattern": "(/Users/[A-Za-z0-9._-]+/|/home/[A-Za-z0-9._-]+/|~/audits/|[A-Za-z]:\\\\Users\\\\)",
+    "flag_severity": "MEDIUM",
+    "rationale": "Submission hygiene guard: paste-ready drafts should not ask triagers to run commands against local operator paths. Reproduction commands should be repo-relative and include inline PoC code or attachment instructions.",
+    "reference": "operator feedback 2026-04-25",
+    "scope_keywords": []
+  }
+}

@@ -1,0 +1,40 @@
+skeleton: "name_match_missing_call"
+name: "native-tokens-permanently-stuck-in-strategypassivemanageruniswap"
+class_name: "NativeTokensPermanentlyStuckInStrategypassivemanageruniswap"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30950 (Cyfrin/Beefy Finance)"
+help: |
+    Native tokens permanently stuck in `StrategyPassiveManagerUniswap` contract due to rounding in `_chargeFees`
+wiki_title: |
+    Native tokens permanently stuck in `StrategyPassiveManagerUniswap` contract due to rounding in `_chargeFees`
+wiki_description: |
+    **Description:** `StrategyPassiveManagerUniswap::_chargeFees` converts LP fees into the native token then distributes the native tokens split between:
+    * the caller as a reward for initiating the harvest
+    * beefy protocol
+    * the strategist registered with the strategy
+    
+    However due to [rounding during d
+wiki_exploit_scenario: |
+    Per Solodit #30950: **Description:** `StrategyPassiveManagerUniswap::_chargeFees` converts LP fees into the native token then distributes the native tokens split between:
+    * the caller as a reward for initiating the harve
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "NativeTokensPermanentlyStuckInStrategypassivemanageruniswap"
+solodit_id: "30950"
+solodit_slug: |
+    native-tokens-permanently-stuck-in-strategypassivemanageruniswap-contract-due-to-rounding-in-_chargefees-cyfrin-none-cyfrin-beefy-finance-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(StrategyPassiveManagerUniswap).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "StrategyPassiveManagerUniswap"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,19 @@
+id: reflector-hardcoded-decimals
+title: "Hardcoded 14-decimal precision misprices feeds with different native decimals"
+severity: Info
+language: rust
+platform: soroban
+source: "halborn-2025-09"
+source_ids:
+  - "7.39"
+bug_class: oracle-cascade
+indicators:
+  - "`const REFLECTOR_DECIMALS: u32 = 14` with no read from the feed's own decimals()"
+  - "division/multiplication by `10u128.pow(14)` hardcoded"
+victim: "All users on feeds that report non-14-decimal prices."
+exploit_precondition: "A feed is onboarded that uses, e.g., 8-decimal output (ETH-style)."
+real_world_example: |
+  Halborn 7.39 (INFO): Hardcoded 14-decimal precision may cause mispriced Reflector feeds.
+suggested_remediation: "Read decimals from the feed contract; store per-asset decimals in config."
+cross_refs:
+  - reflector-unchecked-decimals-corrupt-scaling

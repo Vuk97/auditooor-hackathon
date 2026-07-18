@@ -1,0 +1,47 @@
+skeleton: "state_write_without_paired_write"
+name: "oracle-removemember-could-in-the-same-epoch-allow-members-to-vot"
+class_name: "OracleRemovememberCouldInTheSameEpochAllowMembersToVot"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7011 (Spearbit/Liquid Collective)"
+help: |
+    Oracle.removeMember could, in the same epoch, allow members to vote multiple times and other members to not vote at all
+wiki_title: |
+    Oracle.removeMember could, in the same epoch, allow members to vote multiple times and other members to not vote at all
+wiki_description: |
+    ## Oracle Vulnerability Report
+    
+    **Severity:** High Risk  
+    **Context:** Oracle.1.sol#L213-L222  
+    
+    ## Description
+    
+    The current implementation of `removeMember` is introducing an exploit that allows an oracle member to vote multiple times in the same epoch, while preventing another oracle that has neve
+wiki_exploit_scenario: |
+    Per Solodit #7011: ## Oracle Vulnerability Report
+    
+    **Severity:** High Risk  
+    **Context:** Oracle.1.sol#L213-L222  
+    
+    ## Description
+    
+    The current implementation of `removeMember` is introducing an exploit that allows an o
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "OracleRemovememberCouldInTheSameEpochAllowMembersToVot"
+solodit_id: "7011"
+solodit_slug: |
+    oracleremovemember-could-in-the-same-epoch-allow-members-to-vote-multiple-times-and-other-spearbit-liquid-collective-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Vote, Don't update state"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(removeMember|reportBeacon).*"
+primary_var_regex: ".*(removeMember|reportBeacon).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

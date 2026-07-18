@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "m-21-liquidation-won-t-work-when-bad-and-safe-collateral-ratio-a"
+class_name: "M21LiquidationWonTWorkWhenBadAndSafeCollateralRatioA"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #21166 (Code4rena/Lybra Finance)"
+help: "[M-21] Liquidation won't work when bad and safe collateral ratio are set to default values"
+wiki_title: "[M-21] Liquidation won't work when bad and safe collateral ratio are set to default values"
+wiki_description: |
+    `getBadCollateralRatio()` will revert because of underflow, if `vaultBadCollateralRatio[pool]` and `vaultSafeCollateralRatio[pool]` are set to 0 (i.e. using default ratios 150% and 130% accordingly).
+    It blocks liquidation flow.
+    
+    ### Proof of Concept
+    
+    1e19 is decremented from value `vaultSafeCollate
+wiki_exploit_scenario: |
+    Per Solodit #21166: `getBadCollateralRatio()` will revert because of underflow, if `vaultBadCollateralRatio[pool]` and `vaultSafeCollateralRatio[pool]` are set to 0 (i.e. using default ratios 150% and 130% accordingly).
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M21LiquidationWonTWorkWhenBadAndSafeCollateralRatioA"
+solodit_id: "21166"
+solodit_slug: |
+    m-21-liquidation-wont-work-when-bad-and-safe-collateral-ratio-are-set-to-default-values-code4rena-lybra-finance-lybra-finance-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal getbadcollateralratio;"
+fn_name_regex: ".*(getBadCollateralRatio|BadCollateralRatio|SafeCollateralRatio|newRatio).*"
+read_var_regex: ".*(getBadCollateralRatio|getSafeCollateralRatio|newRatio).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "getBadCollateralRatio"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return getbadcollateralratio > 0;"

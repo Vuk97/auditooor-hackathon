@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "ed25519-no-domain-type-hash"
+class_name: "Ed25519NoDomainTypeHash"
+wave: "12"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "corpus slice slice_ab"
+help: |
+    ed25519 signature digest lacks domain/type hashes; cross-contract or cross-chain signature confusion possible.
+wiki_title: "Ed25519-No-Domain-Type-Hash"
+wiki_description: |
+    ed25519 signature digest lacks domain/type hashes; cross-contract or cross-chain signature confusion possible.
+wiki_exploit_scenario: |
+    Attacker exploits Ed25519-No-Domain-Type-Hash as described: ed25519 signature digest lacks domain/type hashes; cross-contract or cross-chain signature confusion possible.
+wiki_recommendation: "`ed25519_verify` call where message is a raw struct hash without domain-separation prefix."
+contract_name: "Ed25519NoDomainTypeHash"
+state_decl: "uint256 internal ed25519_verify;"
+fn_name_regex: ".*(ed25519_verify).*"
+read_var_regex: ".*(ed25519_verify).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ed25519_verify"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return ed25519_verify > 0;"

@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-05-users-are-unable-to-mint-shares-from-a-public-vault-using-a"
+class_name: "M05UsersAreUnableToMintSharesFromAPublicVaultUsingA"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #25821 (Code4rena/Astaria)"
+help: |
+    [M-05] Users are unable to mint shares from a public vault using `AstariaRouter` contract when share price is bigger than one
+wiki_title: |
+    [M-05] Users are unable to mint shares from a public vault using `AstariaRouter` contract when share price is bigger than one
+wiki_description: |
+    For a public vault, calling the `AstariaRouter.mint` function calls the following `ERC4626RouterBase.mint` function and then the `ERC4626Cloned.mint` function below. After user actions like borrowing and repaying after some time, the public vault's share price can become bigger than 1 so `ERC4626Cl
+wiki_exploit_scenario: |
+    Per Solodit #25821: For a public vault, calling the `AstariaRouter.mint` function calls the following `ERC4626RouterBase.mint` function and then the `ERC4626Cloned.mint` function below. After user actions like borrowing
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05UsersAreUnableToMintSharesFromAPublicVaultUsingA"
+solodit_id: "25821"
+solodit_slug: |
+    m-05-users-are-unable-to-mint-shares-from-a-public-vault-using-astariarouter-contract-when-share-price-is-bigger-than-one-code4rena-astaria-astaria-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal assets;"
+fn_name_regex: ".*(assets|shares|AstariaRouter|maxAmountIn).*"
+read_var_regex: ".*(assets|maxAmountIn|shares).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "assets"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return assets > 0;"

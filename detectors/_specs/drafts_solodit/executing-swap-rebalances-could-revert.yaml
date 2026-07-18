@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_require"
+name: "executing-swap-rebalances-could-revert"
+class_name: "ExecutingSwapRebalancesCouldRevert"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #51449 (Halborn/Strategies Contracts)"
+help: "Executing swap rebalances could revert"
+wiki_title: "Executing swap rebalances could revert"
+wiki_description: |
+    ##### Description
+    
+    In order to prevent gaming and token rebalances by continuously sending tokens to the account, the `swapRebalancePosition` function in the **LiquidationLogic** library requires that the size of the swap rebalance must either:
+    
+    1. Leave the account with zero delta.
+    2. Leave the acc
+wiki_exploit_scenario: |
+    Per Solodit #51449: ##### Description
+    
+    In order to prevent gaming and token rebalances by continuously sending tokens to the account, the `swapRebalancePosition` function in the **LiquidationLogic** library requires that
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExecutingSwapRebalancesCouldRevert"
+solodit_id: "51449"
+solodit_slug: "executing-swap-rebalances-could-revert-halborn-goldlink-strategies-contracts-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal rebalanceamount;"
+fn_name_regex: ".*(swapRebalancePosition|remaining|rebalanceAmount|require).*"
+write_var_regex: ".*(rebalanceAmount|remaining|require).*"
+guard_var_regex: ".*(rebalanceAmount|remaining|require).*"
+vuln_fn_name: "swapRebalancePosition"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "rebalanceamount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

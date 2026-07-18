@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "h-2-liquidatepositionspartya-limits-partyb-loss-to-partyb-alloca"
+class_name: "H2LiquidatepositionspartyaLimitsPartybLossToPartybAlloca"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #26347 (Sherlock/Symmetrical Update)"
+help: |
+    H-2: `liquidatePositionsPartyA` limits partyB loss to partyB allocated balance, which can lead to inflated partyB balance and loss of funds for protocol users
+wiki_title: |
+    H-2: `liquidatePositionsPartyA` limits partyB loss to partyB allocated balance, which can lead to inflated partyB balance and loss of funds for protocol users
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2023-08-symmetrical-judging/issues/6 
+    
+    ## Found by 
+    bitsurfer, panprog
+    
+    If partyB has positions both in a high profit and in a high loss, so that total upnl is much smaller than individual positions upnl, then partyB can deallocate most (or even all) of its
+wiki_exploit_scenario: |
+    Per Solodit #26347: Source: https://github.com/sherlock-audit/2023-08-symmetrical-judging/issues/6 
+    
+    ## Found by 
+    bitsurfer, panprog
+    
+    If partyB has positions both in a high profit and in a high loss, so that total upnl i
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H2LiquidatepositionspartyaLimitsPartybLossToPartybAlloca"
+solodit_id: "26347"
+solodit_slug: |
+    h-2-liquidatepositionspartya-limits-partyb-loss-to-partyb-allocated-balance-which-can-lead-to-inflated-partyb-balance-and-loss-of-funds-for-protocol-users-sherlock-symmetrical-update-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(liquidatePositionsPartyA|amount|amountToDeduct).*"
+read_var_regex: ".*(amount|amountToDeduct|liquidatePositionsPartyA).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "liquidatePositionsPartyA"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

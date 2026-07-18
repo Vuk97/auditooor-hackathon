@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "vesting-account-preemption-attack-preventing-future-contract-x"
+class_name: "VestingAccountPreemptionAttackPreventingFutureContractX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-11-nibiru"
+help: |
+    gh8eo This vulnerability allows an attacker to preemptively set a target address as a vesting account, permanently blocking contract deployments by Factory contracts or other users
+wiki_title: "Vesting account preemption attack preventing future contract deployment"
+wiki_description: |
+    gh8eo This vulnerability allows an attacker to preemptively set a target address as a vesting account, permanently blocking contract deployments by Factory contracts or other users to that address. Once the address is marked as a vesting account, any deployment attempt stores the contract bytecode i
+wiki_exploit_scenario: |
+    Per audit finding: gh8eo This vulnerability allows an attacker to preemptively set a target address as a vesting account, permanently blocking contract deployments by Factory contracts or other users to that address. On
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "VestingAccountPreemptionAttackPreventingFutureContractX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(codeHash|privKeyE|privKey).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "codeHash"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

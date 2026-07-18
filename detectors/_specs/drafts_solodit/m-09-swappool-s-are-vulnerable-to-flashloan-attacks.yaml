@@ -1,0 +1,46 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-09-swappool-s-are-vulnerable-to-flashloan-attacks"
+class_name: "M09SwappoolSAreVulnerableToFlashloanAttacks"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36539 (Pashov Audit Group/Nabla)"
+help: "[M-09] SwapPool's are vulnerable to flashloan attacks"
+wiki_title: "[M-09] SwapPool's are vulnerable to flashloan attacks"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    SwapPool allows users to provide liquidity (LP) and earn fees. However, the ability for liquidity providers to deposit and withdraw within the same block makes the system vulnerable to flash loan attacks, which can exploit other L
+wiki_exploit_scenario: |
+    Per Solodit #36539: **Severity**
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    **Description**
+    
+    SwapPool allows users to provide liquidity (LP) and earn fees. However, the ability for liquidity providers to deposit and withdra
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09SwappoolSAreVulnerableToFlashloanAttacks"
+solodit_id: "36539"
+solodit_slug: "m-09-swappools-are-vulnerable-to-flashloan-attacks-pashov-audit-group-none-nabla-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(testFlahloan|changeSwapPoolCoverageTo|reserveWithSlippage|makeAddr).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

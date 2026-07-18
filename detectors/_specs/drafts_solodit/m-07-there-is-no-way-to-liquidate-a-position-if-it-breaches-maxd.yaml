@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "m-07-there-is-no-way-to-liquidate-a-position-if-it-breaches-maxd"
+class_name: "M07ThereIsNoWayToLiquidateAPositionIfItBreachesMaxd"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #30227 (Code4rena/Ethereum Credit Guild)"
+help: |
+    [M-07] There is no way to liquidate a position if it breaches `maxDebtPerCollateralToken` value creating bad debt.
+wiki_title: |
+    [M-07] There is no way to liquidate a position if it breaches `maxDebtPerCollateralToken` value creating bad debt.
+wiki_description: |
+    Liquidations in the system are done via `LendingTerm._call()`, which will auction the loan's collateral to repay outstanding debt. A loan can be called only if the term has been offboarded or if a loan missed a periodic `partialRepay`. To understand the issue, we must understand how the loan is cre
+wiki_exploit_scenario: |
+    Per Solodit #30227: Liquidations in the system are done via `LendingTerm._call()`, which will auction the loan's collateral to repay outstanding debt. A loan can be called only if the term has been offboarded or if a lo
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07ThereIsNoWayToLiquidateAPositionIfItBreachesMaxd"
+solodit_id: "30227"
+solodit_slug: |
+    m-07-there-is-no-way-to-liquidate-a-position-if-it-breaches-maxdebtpercollateraltoken-value-creating-bad-debt-code4rena-ethereum-credit-guild-ethereum-credit-guild-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal borrowamount;"
+fn_name_regex: ".*(partialRepay|borrowAmount|maxBorrow|maxDebtPerCollateralToken).*"
+read_var_regex: ".*(borrowAmount|maxBorrow|maxDebtPerCollateralToken).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "partialRepay"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return borrowamount > 0;"

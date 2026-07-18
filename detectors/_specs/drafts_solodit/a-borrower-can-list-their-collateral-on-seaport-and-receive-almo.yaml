@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "a-borrower-can-list-their-collateral-on-seaport-and-receive-almo"
+class_name: "ABorrowerCanListTheirCollateralOnSeaportAndReceiveAlmo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7283 (Spearbit/Astaria)"
+help: |
+    A borrower can list their collateral on Seaport and receive almost all the listing price without paying back their liens
+wiki_title: |
+    A borrower can list their collateral on Seaport and receive almost all the listing price without paying back their liens
+wiki_description: |
+    ## Severity: Critical Risk
+    
+    ## Context
+    **File:** LienToken.sol#L480
+    
+    ## Description
+    When the collateral is listed on SeaPort by the borrower using `listForSaleOnSeaport`, `s.auctionData` is not populated. Thus, if that order gets fulfilled/matched and `ClearingHouse`'s fallback function gets called
+wiki_exploit_scenario: |
+    Per Solodit #7283: ## Severity: Critical Risk
+    
+    ## Context
+    **File:** LienToken.sol#L480
+    
+    ## Description
+    When the collateral is listed on SeaPort by the borrower using `listForSaleOnSeaport`, `s.auctionData` is not popula
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ABorrowerCanListTheirCollateralOnSeaportAndReceiveAlmo"
+solodit_id: "7283"
+solodit_slug: |
+    a-borrower-can-list-their-collateral-on-seaport-and-receive-almost-all-the-listing-price-without-paying-spearbit-astaria-pdf
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Business Logic"
+state_decl: "uint256 internal listforsaleonseaport;"
+fn_name_regex: ".*(listForSaleOnSeaport|ClearingHouse|settleAuction).*"
+read_var_regex: ".*(listForSaleOnSeaport|settleAuction).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "listForSaleOnSeaport"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return listforsaleonseaport > 0;"

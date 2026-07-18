@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "centralization-risk-with-modifiable-router-14"
+class_name: "CentralizationRiskWithModifiableRouter14"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit LayerZero DVN - Zellic Audit Report"
+help: |
+    One of the main properties of the system is that the admin should not be able to forge messages for eid’s that are already configured on the DVN. This can be bypassed by abusing se
+wiki_title: "Centralization risk with modifiable router                          14"
+wiki_description: |
+    One of the main properties of the system is that the admin should not be able to forge messages for eid’s that are already configured on the DVN. This can be bypassed by abusing setDstConfig. function setDstConfig(DstConfigParam[] calldata _params) external onlyRole(ADMIN_ROLE) { for (uint256 i = 0;
+wiki_exploit_scenario: |
+    Per audit finding: One of the main properties of the system is that the admin should not be able to forge messages for eid’s that are already configured on the DVN. This can be bypassed by abusing setDstConfig. function
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CentralizationRiskWithModifiableRouter14"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(setDstConfig|onlyRole|chainName).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "setDstConfig"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

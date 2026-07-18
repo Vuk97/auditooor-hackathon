@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_require"
+name: "h-01-user-can-get-unlimited-votes"
+class_name: "H01UserCanGetUnlimitedVotes"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3263 (Code4rena/Nouns Builder)"
+help: "[H-01] User can get unlimited votes"
+wiki_title: "[H-01] User can get unlimited votes"
+wiki_description: |
+    `aftertokenTransfer` in ERC721Votes transfers votes between user addresses instead of the delegated addresses, so a user can cause overflow in `_moveDelegates` and get unlimited votes.
+    
+    ### Proof of Concept
+    
+    <https://github.com/code-423n4/2022-09-nouns-builder/blob/7e9fddbbacdd7d7812e912a369cfd862e
+wiki_exploit_scenario: |
+    Per Solodit #3263: `aftertokenTransfer` in ERC721Votes transfers votes between user addresses instead of the delegated addresses, so a user can cause overflow in `_moveDelegates` and get unlimited votes.
+    
+    ### Proof of
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H01UserCanGetUnlimitedVotes"
+solodit_id: "3263"
+solodit_slug: "h-01-user-can-get-unlimited-votes-code4rena-nouns-builder-nouns-builder-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal aftertokentransfer;"
+fn_name_regex: ".*(aftertokenTransfer|balanceOf).*"
+write_var_regex: ".*(aftertokenTransfer|balanceOf).*"
+guard_var_regex: ".*(aftertokenTransfer|balanceOf).*"
+vuln_fn_name: "aftertokenTransfer"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "aftertokentransfer = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

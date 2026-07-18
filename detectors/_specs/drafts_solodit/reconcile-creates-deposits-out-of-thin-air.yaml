@@ -1,0 +1,43 @@
+skeleton: "name_match_missing_call"
+name: "reconcile-creates-deposits-out-of-thin-air"
+class_name: "ReconcileCreatesDepositsOutOfThinAir"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #36782 (Spearbit/Fastlane Atlas)"
+help: "reconcile() creates deposits out of thin air"
+wiki_title: "reconcile() creates deposits out of thin air"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    `GasAccounting.sol#L73-L119`
+    
+    ## Description
+    A call to `reconcile()` with non-zero `maxApprovedGasSpend` increases surplus and deposit. Assuming `maxApprovedGasSpend` fits within the bonded balance of the current solver, this will later on be _credited to the
+wiki_exploit_scenario: |
+    Per Solodit #36782: ## Severity: High Risk
+    
+    ## Context
+    `GasAccounting.sol#L73-L119`
+    
+    ## Description
+    A call to `reconcile()` with non-zero `maxApprovedGasSpend` increases surplus and deposit. Assuming `maxApprovedGa
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ReconcileCreatesDepositsOutOfThinAir"
+solodit_id: "36782"
+solodit_slug: "reconcile-creates-deposits-out-of-thin-air-spearbit-none-fastlane-atlas-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal atleth;"
+fn_name_regex: ".*(reconcile|maxApprovedGasSpend|atlETH).*"
+read_var_regex: ".*(atlETH|maxApprovedGasSpend|reconcile).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "reconcile"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return atleth > 0;"

@@ -1,0 +1,35 @@
+skeleton: "paired_function_divergence"
+name: "m-04-launched-tokens-are-vulnerable-to-flashloan-attacks-forcing"
+class_name: "M04LaunchedTokensAreVulnerableToFlashloanAttacksForcing"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #61831 (Code4rena/Virtuals Protocol)"
+help: |
+    [M-04] Launched tokens are vulnerable to flashloan attacks forcing premature graduation, allowing reward manipulation
+wiki_title: |
+    [M-04] Launched tokens are vulnerable to flashloan attacks forcing premature graduation, allowing reward manipulation
+wiki_description: |
+    Bonding.sol only allows a launched memecoin to graduate when [`gradThreshold`](https://github.com/code-423n4/2025-04-virtuals-protocol/blob/084a1b46749e2a9924ecc8c06982a40cc8b3dd5a/contracts/fun/Bonding.sol# L350) is met and enough liquidity (`assetToken` balance) is gained through the investor co
+wiki_exploit_scenario: |
+    Per Solodit #61831: Bonding.sol only allows a launched memecoin to graduate when [`gradThreshold`](https://github.com/code-423n4/2025-04-virtuals-protocol/blob/084a1b46749e2a9924ecc8c06982a40cc8b3dd5a/contracts/fun/Bon
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04LaunchedTokensAreVulnerableToFlashloanAttacksForcing"
+solodit_id: "61831"
+solodit_slug: |
+    m-04-launched-tokens-are-vulnerable-to-flashloan-attacks-forcing-premature-graduation-allowing-reward-manipulation-code4rena-virtuals-protocol-virtuals-protocol-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(agentToken|agentTokens|assetToken).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

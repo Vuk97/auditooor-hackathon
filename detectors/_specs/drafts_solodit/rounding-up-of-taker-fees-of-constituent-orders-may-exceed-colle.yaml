@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "rounding-up-of-taker-fees-of-constituent-orders-may-exceed-colle"
+class_name: "RoundingUpOfTakerFeesOfConstituentOrdersMayExceedColle"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #7258 (Spearbit/CLOBER)"
+help: "Rounding up of taker fees of constituent orders may exceed collected fee"
+wiki_title: "Rounding up of taker fees of constituent orders may exceed collected fee"
+wiki_description: |
+    ## Severity: High Risk
+    
+    ## Context
+    - OrderBook.sol#L463 
+    - OrderBook.sol#L478-L482 
+    - OrderBook.sol#L604 
+    
+    ## Description
+    If multiple orders are taken, the taker fee calculated is rounded up once, but that of each taken maker order could be rounded up as well, leading to more fees accounted for than
+wiki_exploit_scenario: |
+    Per Solodit #7258: ## Severity: High Risk
+    
+    ## Context
+    - OrderBook.sol#L463 
+    - OrderBook.sol#L478-L482 
+    - OrderBook.sol#L604 
+    
+    ## Description
+    If multiple orders are taken, the taker fee calculated is rounded up once, but
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RoundingUpOfTakerFeesOfConstituentOrdersMayExceedColle"
+solodit_id: "7258"
+solodit_slug: "rounding-up-of-taker-fees-of-constituent-orders-may-exceed-collected-fee-spearbit-clober-pdf"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Rounding"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(takerFee|testClaimFeesFailFromRounding|orderIndex1|orderIndex2).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "takerFee"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

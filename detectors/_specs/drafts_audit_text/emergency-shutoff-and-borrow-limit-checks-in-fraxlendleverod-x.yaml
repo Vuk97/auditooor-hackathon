@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "emergency-shutoff-and-borrow-limit-checks-in-fraxlendleverod-x"
+class_name: "EmergencyShutoffAndBorrowLimitChecksInFraxlendleverodX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Frax (USD Stablecoin) - Zellic Audit Report"
+help: |
+    The FraxlendLeverOdos contract, part of the Odos Fraxlend Leverage Router (Component #3), implements two safety mechanisms: an emergency shutoff flag and a per-pair borrow-limit ch
+wiki_title: "Emergency shutoff and borrow-limit checks in FraxlendLeverOdos are per-"
+wiki_description: |
+    The FraxlendLeverOdos contract, part of the Odos Fraxlend Leverage Router (Component #3), implements two safety mechanisms: an emergency shutoff flag and a per-pair borrow-limit check. Both are evaluated in the swapExactTokensForTokens function before executing any swap. // frax-flashloan/src/Fraxle
+wiki_exploit_scenario: |
+    Per audit finding: The FraxlendLeverOdos contract, part of the Odos Fraxlend Leverage Router (Component #3), implements two safety mechanisms: an emergency shutoff flag and a per-pair borrow-limit check. Both are evalua
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "EmergencyShutoffAndBorrowLimitChecksInFraxlendleverodX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

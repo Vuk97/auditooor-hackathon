@@ -1,0 +1,35 @@
+skeleton: "name_match_missing_call"
+name: "h-17-transfer-fee-is-burned-on-wrong-accounts"
+class_name: "H17TransferFeeIsBurnedOnWrongAccounts"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3920 (Code4rena/Vader Protocol)"
+help: "[H-17] Transfer fee is burned on wrong accounts"
+wiki_title: "[H-17] Transfer fee is burned on wrong accounts"
+wiki_description: |
+    The `Vader._transfer` function burns the transfer fee on `msg.sender` but this address might not be involved in the transfer at all due to `transferFrom`.
+    
+    Smart contracts that simply relay transfers like aggregators have their Vader balance burned or the transaction fails because these accounts do
+wiki_exploit_scenario: |
+    Per Solodit #3920: The `Vader._transfer` function burns the transfer fee on `msg.sender` but this address might not be involved in the transfer at all due to `transferFrom`.
+    
+    Smart contracts that simply relay transfers
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H17TransferFeeIsBurnedOnWrongAccounts"
+solodit_id: "3920"
+solodit_slug: "h-17-transfer-fee-is-burned-on-wrong-accounts-code4rena-vader-protocol-vader-protocol-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal recipient;"
+fn_name_regex: ".*(transferFrom|recipient).*"
+read_var_regex: ".*(recipient|transferFrom).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return recipient > 0;"

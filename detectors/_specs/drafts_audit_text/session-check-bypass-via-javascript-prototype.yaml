@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "session-check-bypass-via-javascript-prototype"
+class_name: "SessionCheckBypassViaJavascriptPrototype"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit Reclaim Protocol - Zellic Audit Report"
+help: |
+    The node session check can be bypassed if the ID is set to a key that exists natively in JavaScript objects, such as __proto__ or toString. This issue occurs in tls-receipt-verifie
+wiki_title: "Session check bypass via JavaScript prototype"
+wiki_description: |
+    The node session check can be bypassed if the ID is set to a key that exists natively in JavaScript objects, such as __proto__ or toString. This issue occurs in tls-receipt-verifier/node/src/sessions/assert-session.ts: export function getSession(id: string) { // id is user's input return storage[id]
+wiki_exploit_scenario: |
+    Per audit finding: The node session check can be bypassed if the ID is set to a key that exists natively in JavaScript objects, such as __proto__ or toString. This issue occurs in tls-receipt-verifier/node/src/sessions/
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SessionCheckBypassViaJavascriptPrototype"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(toString|getSession|assertSession).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "toString"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

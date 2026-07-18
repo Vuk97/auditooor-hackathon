@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "rounding-errors-in-computing-fee-13"
+class_name: "RoundingErrorsInComputingFee13"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "zellic audit StakeKit FeeWrapper - Zellic Audit Report"
+help: |
+    The FeeWrapper4626 vault currently uses the transferFrom function to transfer ERC-20 tokens. However, some nonstandard ERC-20 tokens, such as USDT, do not return a success status f
+wiki_title: "Rounding errors in computing fee                           13"
+wiki_description: |
+    The FeeWrapper4626 vault currently uses the transferFrom function to transfer ERC-20 tokens. However, some nonstandard ERC-20 tokens, such as USDT, do not return a success status from their transferFrom function. This deviation from the standard EIP-20 implementation can lead to unexpected behavior
+wiki_exploit_scenario: |
+    Per audit finding: The FeeWrapper4626 vault currently uses the transferFrom function to transfer ERC-20 tokens. However, some nonstandard ERC-20 tokens, such as USDT, do not return a success status from their transferFr
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RoundingErrorsInComputingFee13"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(transferFrom).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "transferFrom"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

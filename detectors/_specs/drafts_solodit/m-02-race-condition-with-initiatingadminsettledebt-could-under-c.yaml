@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "m-02-race-condition-with-initiatingadminsettledebt-could-under-c"
+class_name: "M02RaceConditionWithInitiatingadminsettledebtCouldUnderC"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31517 (Pashov Audit Group/Saffron)"
+help: "[M-02] Race condition with `initiatingAdminSettleDebt()` could under-compensate participants"
+wiki_title: "[M-02] Race condition with `initiatingAdminSettleDebt()` could under-compensate participants"
+wiki_description: |
+    **Severity**
+    
+    **Impact:** Medium, participants will incur loss on withdrawal as admin underpaid for debt settlement. But admin (trusted) can make up the loss by refunding them the difference separately.
+    
+    **Likelihood:** Medium, occurs when admin settles debt
+    
+    **Description**
+    
+    Within `LidoVault.depos
+wiki_exploit_scenario: |
+    Per Solodit #31517: **Severity**
+    
+    **Impact:** Medium, participants will incur loss on withdrawal as admin underpaid for debt settlement. But admin (trusted) can make up the loss by refunding them the difference separatel
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02RaceConditionWithInitiatingadminsettledebtCouldUnderC"
+solodit_id: "31517"
+solodit_slug: |
+    m-02-race-condition-with-initiatingadminsettledebt-could-under-compensate-participants-pashov-none-saffron-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal adminsettledebtamount;"
+fn_name_regex: ".*(initiatingAdminSettleDebt|deposit|adminSettleDebtAmount|fixedSideCapacity).*"
+write_var_regex: ".*(adminSettleDebtAmount|deposit|fixedSideCapacity).*"
+guard_var_regex: ".*(adminSettleDebtAmount|deposit|fixedSideCapacity).*"
+vuln_fn_name: "initiatingAdminSettleDebt"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "adminsettledebtamount = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

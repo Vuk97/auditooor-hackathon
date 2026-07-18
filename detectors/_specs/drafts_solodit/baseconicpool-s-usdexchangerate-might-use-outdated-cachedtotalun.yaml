@@ -1,0 +1,46 @@
+skeleton: "name_match_missing_call"
+name: "baseconicpool-s-usdexchangerate-might-use-outdated-cachedtotalun"
+class_name: "BaseconicpoolSUsdexchangerateMightUseOutdatedCachedtotalun"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #29926 (MixBytes/Conic Finance)"
+help: "BaseConicPool's `usdExchangeRate()` might use outdated `_cachedTotalUnderlying`"
+wiki_title: "BaseConicPool's `usdExchangeRate()` might use outdated `_cachedTotalUnderlying`"
+wiki_description: |
+    ##### Description
+    
+    `usdExchangeRate()` uses `_cachedTotalUnderlying` for its calculation:
+    ```
+    function usdExchangeRate() 
+        external view virtual override returns (uint256) {
+        uint256 underlyingPrice = 
+            controller.priceOracle().getUSDPrice(address(underlying));
+        return _exchangeRate(
+wiki_exploit_scenario: |
+    Per Solodit #29926: ##### Description
+    
+    `usdExchangeRate()` uses `_cachedTotalUnderlying` for its calculation:
+    ```
+    function usdExchangeRate() 
+        external view virtual override returns (uint256) {
+        uint256 underlyingP
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "BaseconicpoolSUsdexchangerateMightUseOutdatedCachedtotalun"
+solodit_id: "29926"
+solodit_slug: |
+    baseconicpools-usdexchangerate-might-use-outdated-_cachedtotalunderlying-mixbytes-none-conic-finance-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cachedtotalunderlying;"
+fn_name_regex: ".*(usdExchangeRate|cachedTotalUnderlying).*"
+read_var_regex: ".*(cachedTotalUnderlying|usdExchangeRate).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "usdExchangeRate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cachedtotalunderlying > 0;"

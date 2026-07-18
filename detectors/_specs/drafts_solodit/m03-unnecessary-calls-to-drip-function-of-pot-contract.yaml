@@ -1,0 +1,32 @@
+skeleton: "name_match_missing_call"
+name: "m03-unnecessary-calls-to-drip-function-of-pot-contract"
+class_name: "M03UnnecessaryCallsToDripFunctionOfPotContract"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #11579 (OpenZeppelin/Compound Finance – MCD & DSR Integration)"
+help: "[M03] Unnecessary calls to drip function of pot contract"
+wiki_title: "[M03] Unnecessary calls to drip function of pot contract"
+wiki_description: |
+    When `rho == now`, [`pot.drip`](https://github.com/makerdao/dss/blob/effdda3657f71fd6efc3465dc661b375d1bacc3e/src/pot.sol#L137) is a gas-intensive no-op. This means every call to the [`CDaiDelegate` `accrueInterest` function](https://github.com/compound-finance/compound-protocol/blob/9ea64ddd166a78b
+wiki_exploit_scenario: |
+    Per Solodit #11579: When `rho == now`, [`pot.drip`](https://github.com/makerdao/dss/blob/effdda3657f71fd6efc3465dc661b375d1bacc3e/src/pot.sol#L137) is a gas-intensive no-op. This means every call to the [`CDaiDelegate` `
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03UnnecessaryCallsToDripFunctionOfPotContract"
+solodit_id: "11579"
+solodit_slug: |
+    m03-unnecessary-calls-to-drip-function-of-pot-contract-openzeppelin-compound-finance-mcd-dsr-integration-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal accrueinterest;"
+fn_name_regex: ".*(CDaiDelegate|accrueInterest).*"
+read_var_regex: ".*(accrueInterest).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "CDaiDelegate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return accrueinterest > 0;"

@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "bnbx-2024-04"
+class_name: "Bnbx202404"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-04/BNBX_exp.sol"
+help: "BNBX 2024-04 — oracle exploit (~5 $ETH)"
+wiki_title: "BNBX (2024-04) — oracle"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-04): BNBX lost ~5 $ETH. Bug class: oracle. Attack tx: 0xea88dc6dbd81d09c572b5849e0d4508598edcf8f11c9a995cd8fe7e6c194f39e.
+wiki_exploit_scenario: |
+    Attacker (0x123fa25c574bb3158ecf6515595932a92a1da510) exploits BNBX via oracle: the victim contract 0x389a9ae29fbe53cca7bc8b7a4d9d0a04078e1c24 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Replace spot-price reads with a TWAP wrapper (e.g., Uniswap V3 OracleLibrary.consult) and require a minimum observation window; sanity-check prices against a reference oracle.
+contract_name: "Bnbx202404"
+trigger_sig_regex: ".*(getPrice).*"
+required_sibling_regex: ".*(validatePrice).*"
+target_interface_decl: "interface IT { function getPrice(uint256) external; function validatePrice(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "readPrice"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.getPrice(x)"
+sibling_call: "target.validatePrice(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

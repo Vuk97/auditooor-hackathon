@@ -1,0 +1,45 @@
+skeleton: "name_match_missing_require"
+name: "m-04-persistent-inflation-from-uninitialized-rates"
+class_name: "M04PersistentInflationFromUninitializedRates"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #57828 (Pashov Audit Group/Hyperstable_2025-03-19)"
+help: "[M-04] Persistent inflation from uninitialized rates"
+wiki_title: "[M-04] Persistent inflation from uninitialized rates"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    The `PositionManager.setInterestRateStrategy()` function enables the protocol owner to update the interest rate strategy contract. However, this operation does not include any mechanism to migrate or initialize the internal state re
+wiki_exploit_scenario: |
+    Per Solodit #57828: ## Severity
+    
+    **Impact:** High
+    
+    **Likelihood:** Low
+    
+    ## Description
+    
+    The `PositionManager.setInterestRateStrategy()` function enables the protocol owner to update the interest rate strategy contract. H
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M04PersistentInflationFromUninitializedRates"
+solodit_id: "57828"
+solodit_slug: |
+    m-04-persistent-inflation-from-uninitialized-rates-pashov-audit-group-none-hyperstable_2025-03-19-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal endrateat;"
+fn_name_regex: ".*(targetUtilization|endRateAt|lastUpdate|interestRate).*"
+write_var_regex: ".*(endRateAt|err|interestRate).*"
+guard_var_regex: ".*(endRateAt|err|interestRate).*"
+vuln_fn_name: "targetUtilization"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "endrateat = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

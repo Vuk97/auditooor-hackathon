@@ -1,0 +1,37 @@
+skeleton: "name_match_missing_call"
+name: "h-13-when-opening-a-position-the-collateral-of-the-previous-posi"
+class_name: "H13WhenOpeningAPositionTheCollateralOfThePreviousPosi"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #48952 (Code4rena/Rubicon)"
+help: |
+    [H-13] When opening a position, the collateral of the previous position is used for borrowing, which makes the user more easily liquidated
+wiki_title: |
+    [H-13] When opening a position, the collateral of the previous position is used for borrowing, which makes the user more easily liquidated
+wiki_description: |
+    When a user opens a position, if there is collateral in previous positions that have not reached the maximum borrowable amount, this collateral will be used for borrowing, which may cause the user to reach the liquidation threshold, resulting in the user being liquidated.
+    
+    ```solidity
+            uint2
+wiki_exploit_scenario: |
+    Per Solodit #48952: When a user opens a position, if there is collateral in previous positions that have not reached the maximum borrowable amount, this collateral will be used for borrowing, which may cause the user to
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H13WhenOpeningAPositionTheCollateralOfThePreviousPosi"
+solodit_id: "48952"
+solodit_slug: |
+    h-13-when-opening-a-position-the-collateral-of-the-previous-position-is-used-for-borrowing-which-makes-the-user-more-easily-liquidated-code4rena-rubicon-rubicon-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(balanceOf).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "balanceOf"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

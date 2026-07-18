@@ -1,0 +1,27 @@
+skeleton: "state_write_without_paired_write"
+name: "missing-user-tickets-mapping-update-in-jackpotbridgemanager--x"
+class_name: "MissingUserTicketsMappingUpdateInJackpotbridgemanagerX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-11-megapot"
+help: |
+    [L-07] Missing User Tickets Mapping Update in JackpotBridgeManager::claimTickets Function Causes Gas Inefficiency and Incorrect Return Values The claimTickets() function fails to u
+wiki_title: |
+    Missing User Tickets Mapping Update in JackpotBridgeManager::claimTickets Function Causes Gas Inefficiency and Incorrect Return Values The claimTickets() functi
+wiki_description: |
+    [L-07] Missing User Tickets Mapping Update in JackpotBridgeManager::claimTickets Function Causes Gas Inefficiency and Incorrect Return Values The claimTickets() function fails to update the userTickets mapping when tickets are transferred, causing getUserTickets() to consume excessive gas and return
+wiki_exploit_scenario: |
+    Per audit finding: [L-07] Missing User Tickets Mapping Update in JackpotBridgeManager::claimTickets Function Causes Gas Inefficiency and Incorrect Return Values The claimTickets() function fails to update the userTicket
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "MissingUserTicketsMappingUpdateInJackpotbridgemanagerX"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(claimTickets|userTickets|getUserTickets).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

@@ -1,0 +1,53 @@
+skeleton: "name_match_missing_call"
+name: "m-03-attacker-can-block-refunds-to-the-fulfiller-s-account"
+class_name: "M03AttackerCanBlockRefundsToTheFulfillerSAccount"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #63318 (Pashov Audit Group/SXT_2025-03-31)"
+help: "[M-03] Attacker can block refunds to the fulfiller's account"
+wiki_title: "[M-03] Attacker can block refunds to the fulfiller's account"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    
+    The current `fulfillQuery` pays refund gas to the query source. If the refund fails, the entire flow will revert. This means malicious users can always reject the completion of queries:
+    
+    ```solidity
+    QueryLogic.sol::L243
+wiki_exploit_scenario: |
+    Per Solodit #63318: ## Severity
+    
+    **Impact:** Medium
+    
+    **Likelihood:** Medium
+    
+    ## Description
+    
+    
+    The current `fulfillQuery` pays refund gas to the query source. If the refund fails, the entire flow will revert. This means
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M03AttackerCanBlockRefundsToTheFulfillerSAccount"
+solodit_id: "63318"
+solodit_slug: |
+    m-03-attacker-can-block-refunds-to-the-fulfillers-account-pashov-audit-group-none-sxt_2025-03-31-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal fallback;"
+fn_name_regex: ".*(fulfillQuery|receive|fallback).*"
+read_var_regex: ".*(fallback|fulfillQuery|receive).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "fulfillQuery"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return fallback > 0;"

@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "uni-2025-03"
+class_name: "Uni202503"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2025-03/UNI_exp.sol"
+help: "UNI 2025-03 — swap exploit (14K USD)"
+wiki_title: "UNI (2025-03) — swap"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2025-03): UNI lost 14K USD. Bug class: swap. Attack tx: 0x6c8aed8d0eab29416cd335038cd5ee68c5e27bfb001c9eac7fc14c7075ed4420.
+wiki_exploit_scenario: |
+    Attacker (0x97d8170e04771826a31c4c9b81e9f9191a1c8613) exploits UNI via swap: the victim contract 0x76ea342bc038d665e8a116392c82552d2605eda1 exposes a code path that can be triggered without the guard expected by the name_match_missing_call skeleton.
+wiki_recommendation: |
+    Validate the full swap path and slippage; require(amountOut >= minAmountOut) and enforce deadlines; reject attacker-controlled tokens in the path.
+contract_name: "Uni202503"
+fn_name_regex: ".*(exploit).*"
+read_var_regex: ".*(balance).*"
+required_call_regex: ".*(accrueGuard).*"
+guarded_helper_name: "accrueGuard"
+vuln_fn_name: "exploit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"
+state_decl: "uint256 internal balance;"

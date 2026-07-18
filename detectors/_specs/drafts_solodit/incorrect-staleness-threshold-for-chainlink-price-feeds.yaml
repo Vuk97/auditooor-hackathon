@@ -1,0 +1,46 @@
+skeleton: "state_write_without_paired_write"
+name: "incorrect-staleness-threshold-for-chainlink-price-feeds"
+class_name: "IncorrectStalenessThresholdForChainlinkPriceFeeds"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #37582 (Zokyo/Copra)"
+help: "Incorrect Staleness Threshold for Chainlink Price Feeds"
+wiki_title: "Incorrect Staleness Threshold for Chainlink Price Feeds"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Location**: GammaSwapLiquidityWarehouse.sol
+    
+    **Description**
+    
+    The current implementation uses a single `STALENESS_THRESHOLD` constant (24 hours) for all Chainlink price feeds. This approach is problematic because different price feeds have vastly differe
+wiki_exploit_scenario: |
+    Per Solodit #37582: **Severity**: Medium
+    
+    **Status**: Resolved
+    
+    **Location**: GammaSwapLiquidityWarehouse.sol
+    
+    **Description**
+    
+    The current implementation uses a single `STALENESS_THRESHOLD` constant (24 hours) for all C
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "IncorrectStalenessThresholdForChainlinkPriceFeeds"
+solodit_id: "37582"
+solodit_slug: "incorrect-staleness-threshold-for-chainlink-price-feeds-zokyo-none-copra-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(STALENESS_THRESHOLD).*"
+primary_var_regex: ".*(balance|amount|total|supply|reserve).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

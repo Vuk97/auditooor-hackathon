@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "swaps-performed-in-pools-with-zero-liquidity-can-cause-a-complet"
+class_name: "SwapsPerformedInPoolsWithZeroLiquidityCanCauseAComplet"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61558 (Cyfrin/Paladin Valkyrie)"
+help: "Swaps performed in pools with zero liquidity can cause a complete DoS of `FullRangeHook`"
+wiki_title: "Swaps performed in pools with zero liquidity can cause a complete DoS of `FullRangeHook`"
+wiki_description: |
+    **Description:** The `FullRangeHook` is characterized by rebalancing after every swap executed in the pool:
+    
+    ```solidity
+    function _rebalance(PoolKey memory key) public {
+        PoolId poolId = key.toId();
+        // Remove all the liquidity from the Pool
+        (BalanceDelta balanceDelta,) = poolManager.modif
+wiki_exploit_scenario: |
+    Per Solodit #61558: **Description:** The `FullRangeHook` is characterized by rebalancing after every swap executed in the pool:
+    
+    ```solidity
+    function _rebalance(PoolKey memory key) public {
+        PoolId poolId = key.toId()
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SwapsPerformedInPoolsWithZeroLiquidityCanCauseAComplet"
+solodit_id: "61558"
+solodit_slug: |
+    swaps-performed-in-pools-with-zero-liquidity-can-cause-a-complete-dos-of-fullrangehook-cyfrin-none-paladin-valkyrie-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal hasaccruedfees;"
+fn_name_regex: ".*(FullRangeHook|hasAccruedFees).*"
+read_var_regex: ".*(hasAccruedFees).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "FullRangeHook"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return hasaccruedfees > 0;"

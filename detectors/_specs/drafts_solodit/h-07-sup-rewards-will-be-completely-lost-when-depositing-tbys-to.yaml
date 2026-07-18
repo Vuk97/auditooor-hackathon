@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_require"
+name: "h-07-sup-rewards-will-be-completely-lost-when-depositing-tbys-to"
+class_name: "H07SupRewardsWillBeCompletelyLostWhenDepositingTbysTo"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #55679 (0x52/Stusdcxbloom)"
+help: "[H-07] SUP rewards will be completely lost when depositing TBYs to stUSDC via wstUSDC"
+wiki_title: "[H-07] SUP rewards will be completely lost when depositing TBYs to stUSDC via wstUSDC"
+wiki_description: |
+    **Details**
+    
+    [StUsdc.sol#L118-L130](https://github.com/stakeup-protocol/stakeup-contracts/blob/b4d8a83e9455efb8c7543a0fc62b5aea598c7f49/src/token/StUsdc.sol#L118-L130)
+    
+        function depositTby(uint256 tbyId, uint256 amount) external nonReentrant returns (uint256 amountMinted) {
+            IBloomPool po
+wiki_exploit_scenario: |
+    Per Solodit #55679: **Details**
+    
+    [StUsdc.sol#L118-L130](https://github.com/stakeup-protocol/stakeup-contracts/blob/b4d8a83e9455efb8c7543a0fc62b5aea598c7f49/src/token/StUsdc.sol#L118-L130)
+    
+        function depositTby(uint256
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H07SupRewardsWillBeCompletelyLostWhenDepositingTbysTo"
+solodit_id: "55679"
+solodit_slug: |
+    h-07-sup-rewards-will-be-completely-lost-when-depositing-tbys-to-stusdc-via-wstusdc-0x52-none-stusdcxbloom-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(depositTby|tbyId|nonReentrant|amountMinted).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "depositTby"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

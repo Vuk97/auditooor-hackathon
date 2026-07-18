@@ -1,0 +1,34 @@
+skeleton: "name_match_missing_call"
+name: "timelocksafeguard-cancel-not-whitelisted-for-immediate-execution"
+class_name: "TimelocksafeguardCancelNotWhitelistedForImmediateExecution"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #56903 (MixBytes/Mantle Network)"
+help: "`TimelockSafeGuard.cancel` Not Whitelisted for Immediate Execution"
+wiki_title: "`TimelockSafeGuard.cancel` Not Whitelisted for Immediate Execution"
+wiki_description: |
+    ##### Description
+    `TimelockSafeGuard.checkTransaction` skips the timelock for `schedule` and `scheduleSimple` but still enforces the delay for `cancel`. If the Safe itself is a `CANCELLER_ROLE` holder, any attempt to cancel a malicious proposal must wait out the full delay. A compromised proposer c
+wiki_exploit_scenario: |
+    Per Solodit #56903: ##### Description
+    `TimelockSafeGuard.checkTransaction` skips the timelock for `schedule` and `scheduleSimple` but still enforces the delay for `cancel`. If the Safe itself is a `CANCELLER_ROLE` holde
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "TimelocksafeguardCancelNotWhitelistedForImmediateExecution"
+solodit_id: "56903"
+solodit_slug: |
+    timelocksafeguardcancel-not-whitelisted-for-immediate-execution-mixbytes-none-mantle-network-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cancel;"
+fn_name_regex: ".*(schedule|scheduleSimple|cancel|CANCELLER_ROLE).*"
+read_var_regex: ".*(cancel|schedule|scheduleSimple).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "schedule"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cancel > 0;"

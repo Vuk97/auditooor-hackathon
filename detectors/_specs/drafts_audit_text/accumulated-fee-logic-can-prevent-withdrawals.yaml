@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "accumulated-fee-logic-can-prevent-withdrawals"
+class_name: "AccumulatedFeeLogicCanPreventWithdrawals"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit ether.fi - Zellic Audit Report"
+help: |
+    The accumulatedFee storage variable represents the accumulated fee, charged per strategy in deposited queued withdrawals that should be sent to the treasury when the admin calls wi
+wiki_title: "Accumulated fee logic can prevent withdrawals"
+wiki_description: |
+    The accumulatedFee storage variable represents the accumulated fee, charged per strategy in deposited queued withdrawals that should be sent to the treasury when the admin calls with- drawEther. However, it is increased when a queued withdrawal is deposited, not when it is completed: function deposi
+wiki_exploit_scenario: |
+    Per audit finding: The accumulatedFee storage variable represents the accumulated fee, charged per strategy in deposited queued withdrawals that should be sent to the treasury when the admin calls with- drawEther. Howev
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "AccumulatedFeeLogicCanPreventWithdrawals"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(accumulatedFee|drawEther|depositWithQueuedWithdrawal).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "accumulatedFee"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

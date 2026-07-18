@@ -1,0 +1,28 @@
+skeleton: "paired_function_divergence"
+name: "claiming-rewards-in-governancehybr-will-always-revert"
+class_name: "ClaimingRewardsInGovernancehybrWillAlwaysRevert"
+wave: "14"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-10-hybra-finance"
+help: |
+    OpaBatyo , also found by 0xvd and harry GovernanceHYBR.sol #L370 Details When the operator claims rewards in GovernanceHYBR.sol , the function attempts to fetch the voted pools ara
+wiki_title: "Claiming rewards in GovernanceHYBR will always revert"
+wiki_description: |
+    OpaBatyo , also found by 0xvd and harry GovernanceHYBR.sol #L370 Details When the operator claims rewards in GovernanceHYBR.sol , the function attempts to fetch the voted pools aray from the voter contract: // Claim bribes from voted pools address [] memory votedPools = IVoter ( voter ). poolVote (
+wiki_exploit_scenario: |
+    Per audit finding: OpaBatyo , also found by 0xvd and harry GovernanceHYBR.sol #L370 Details When the operator claims rewards in GovernanceHYBR.sol , the function attempts to fetch the voted pools aray from the voter con
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ClaimingRewardsInGovernancehybrWillAlwaysRevert"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

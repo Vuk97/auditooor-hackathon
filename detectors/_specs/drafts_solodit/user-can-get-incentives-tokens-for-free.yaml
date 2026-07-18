@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_call"
+name: "user-can-get-incentives-tokens-for-free"
+class_name: "UserCanGetIncentivesTokensForFree"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #56020 (Zokyo/Polars)"
+help: "User can get Incentives tokens for free"
+wiki_title: "User can get Incentives tokens for free"
+wiki_description: |
+    **Description**
+    
+    At contract incentives.sol function withdrawIncentives accepts tokenAddress and doesn’t check
+    if the token is actually an incentive one. So, users can pass, for example, an address of the
+    governance token and get it back without withdrawGovernance function.
+    After withdrawal governan
+wiki_exploit_scenario: |
+    Per Solodit #56020: **Description**
+    
+    At contract incentives.sol function withdrawIncentives accepts tokenAddress and doesn’t check
+    if the token is actually an incentive one. So, users can pass, for example, an address of
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UserCanGetIncentivesTokensForFree"
+solodit_id: "56020"
+solodit_slug: "user-can-get-incentives-tokens-for-free-zokyo-none-polars-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(withdrawIncentives|tokenAddress|withdrawGovernance|withdrawAllIncentives).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "withdrawIncentives"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

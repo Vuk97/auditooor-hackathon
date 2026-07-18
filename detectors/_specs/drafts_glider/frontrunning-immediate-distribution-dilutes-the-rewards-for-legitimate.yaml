@@ -1,0 +1,23 @@
+skeleton: "name_match_missing_require"
+name: "frontrunning-immediate-distribution-dilutes-the-rewards-for-legitimate"
+class_name: "FrontrunningImmediateDistributionDilutesTheRewardsForLegitimate"
+wave: "13"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Hexens Glider query: frontrunning-immediate-distribution-dilutes-the-re"
+help: "Frontrunning immediate distribution dilutes the rewards for legitimate users"
+wiki_title: "Frontrunning immediate distribution dilutes the rewards for legitimate users"
+wiki_description: |
+    Finds main contracts that have “immediate distribution”-style entrypoints which: - Are public/external functions with names like immediateDistribution / instantDistribution - Reconfigure reward/emission program parameters in-place - Use the current total stake / total supply and block.timestamp in t
+wiki_exploit_scenario: |
+    Per Glider query tags [rewards, immediate distribution, frontrun]: Finds main contracts that have “immediate distribution”-style entrypoints which: - Are public/external functions with names like immediateDistribution / instantDistribution - Reconfigure reward/emissi
+wiki_recommendation: "Apply the guard described by the Glider query; cross-reference the canonical Hexens doc."
+contract_name: "FrontrunningImmediateDistributionDilutesTheRewardsForLegitimate"
+fn_name_regex: ".*(immediateDistribution).*"
+write_var_regex: ".*(immediated).*"
+guard_var_regex: ".*(immediated).*"
+vuln_fn_name: "immediateDistribution"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "immediated = newVal;"
+guard_require_line: "require(newVal <= 10000);"
+state_decl: "uint256 internal immediated;"

@@ -1,0 +1,36 @@
+skeleton: "paired_function_divergence"
+name: "h-02-liquidity-providers-may-lose-funds-when-adding-liquidity"
+class_name: "H02LiquidityProvidersMayLoseFundsWhenAddingLiquidity"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #6097 (Code4rena/Caviar)"
+help: "[H-02] Liquidity providers may lose funds when adding liquidity"
+wiki_title: "[H-02] Liquidity providers may lose funds when adding liquidity"
+wiki_description: |
+    Liquidity providers may lose a portion of provided liquidity in either of the pair tokens. While the `minLpTokenAmount` protects from slippage when adding liquidity, it doesn't protect from providing liquidity at different K.
+    
+    ### Proof of Concept
+    
+    The `Pair` contract is designed to receive liquidi
+wiki_exploit_scenario: |
+    Per Solodit #6097: Liquidity providers may lose a portion of provided liquidity in either of the pair tokens. While the `minLpTokenAmount` protects from slippage when adding liquidity, it doesn't protect from providing
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02LiquidityProvidersMayLoseFundsWhenAddingLiquidity"
+solodit_id: "6097"
+solodit_slug: "h-02-liquidity-providers-may-lose-funds-when-adding-liquidity-code4rena-caviar-caviar-contest-git"
+solodit_quality: "5"
+solodit_rarity: "4"
+solodit_tags: "Lending Pool"
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(add|minLpTokenAmount).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

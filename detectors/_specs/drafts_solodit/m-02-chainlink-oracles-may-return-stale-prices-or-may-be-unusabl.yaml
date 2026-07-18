@@ -1,0 +1,37 @@
+skeleton: "state_write_without_paired_write"
+name: "m-02-chainlink-oracles-may-return-stale-prices-or-may-be-unusabl"
+class_name: "M02ChainlinkOraclesMayReturnStalePricesOrMayBeUnusabl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #32091 (Code4rena/Wise Lending)"
+help: |
+    [M-02] Chainlink Oracles may return stale prices or may be unusable when aggregator `roundId` is less than 50
+wiki_title: |
+    [M-02] Chainlink Oracles may return stale prices or may be unusable when aggregator `roundId` is less than 50
+wiki_description: |
+    `WiseLending` calibrates Oracles to get a heartbeat which it uses for checking the staleness of prices returned from the Oracle.
+    
+    To calibrate, it fetches between 3-50 inclusive historical prices and picks the second largest update time among those prices. It calls `_getIterationCount()` to know th
+wiki_exploit_scenario: |
+    Per Solodit #32091: `WiseLending` calibrates Oracles to get a heartbeat which it uses for checking the staleness of prices returned from the Oracle.
+    
+    To calibrate, it fetches between 3-50 inclusive historical prices and
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M02ChainlinkOraclesMayReturnStalePricesOrMayBeUnusabl"
+solodit_id: "32091"
+solodit_slug: |
+    m-02-chainlink-oracles-may-return-stale-prices-or-may-be-unusable-when-aggregator-roundid-is-less-than-50-code4rena-wise-lending-wise-lending-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        mapping(address => bool) internal flags;
+fn_name_regex: ".*(WiseLending|MAX_ROUND_COUNT|roundId|phaseId).*"
+primary_var_regex: ".*(getLatestRoundId|iterationCount|phaseId).*"
+paired_var_regex: ".*(flag|isLong|cleared|reset|status).*"
+vuln_fn_name: "liquidate"
+vuln_fn_params: "address user"
+primary_write_line: "balances[user] = 0;"
+paired_write_line: "flags[user] = false;"

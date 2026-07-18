@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "excess-reserve-amount"
+class_name: "ExcessReserveAmount"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #28590 (MixBytes/C.R.E.A.M. Finance)"
+help: "Excess reserve amount"
+wiki_title: "Excess reserve amount"
+wiki_description: |
+    ##### Description
+    At lines https://github.com/CreamFi/compound-protocol/blob/e414160eb8a774140457c885bb099baae528df04/contracts/CCapableErc20.sol#L250-L252 contract increases `internalCash` and `totalReserves` values, but it's so strange that `internalCash` increased by `totalFee` and `totalReserves
+wiki_exploit_scenario: |
+    Per Solodit #28590: ##### Description
+    At lines https://github.com/CreamFi/compound-protocol/blob/e414160eb8a774140457c885bb099baae528df04/contracts/CCapableErc20.sol#L250-L252 contract increases `internalCash` and `total
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ExcessReserveAmount"
+solodit_id: "28590"
+solodit_slug: "excess-reserve-amount-mixbytes-none-cream-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal internalcash;"
+fn_name_regex: ".*(internalCash|totalReserves|totalFee|reservesFee).*"
+read_var_regex: ".*(internalCash|reservesFee|totalFee).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "internalCash"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return internalcash > 0;"

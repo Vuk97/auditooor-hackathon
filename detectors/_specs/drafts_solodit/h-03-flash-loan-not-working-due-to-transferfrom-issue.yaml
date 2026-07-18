@@ -1,0 +1,42 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "h-03-flash-loan-not-working-due-to-transferfrom-issue"
+class_name: "H03FlashLoanNotWorkingDueToTransferfromIssue"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #58100 (Pashov Audit Group/Astrolab)"
+help: "[H-03] Flash loan not working due to transferFrom Issue"
+wiki_title: "[H-03] Flash loan not working due to transferFrom Issue"
+wiki_description: |
+    ## Severity
+    
+    **Impact:** Medium - The flash loan functionality is non-operational, but there's no risk of fund loss.
+    
+    **Likelihood:** High - The flash loan function consistently fails to execute as intended.
+    
+    ## Description
+    
+    The issue arises when users attempt to use the `flashLoanSimple` function:
+wiki_exploit_scenario: |
+    Per Solodit #58100: ## Severity
+    
+    **Impact:** Medium - The flash loan functionality is non-operational, but there's no risk of fund loss.
+    
+    **Likelihood:** High - The flash loan function consistently fails to execute as in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H03FlashLoanNotWorkingDueToTransferfromIssue"
+solodit_id: "58100"
+solodit_slug: "h-03-flash-loan-not-working-due-to-transferfrom-issue-pashov-audit-group-none-astrolab-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(flashLoanSimple|safeTransferFrom|allowance|transferFrom).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

@@ -1,0 +1,41 @@
+skeleton: "name_match_missing_require"
+name: "potential-gas-limit-issues-in-contract-functions-due-to-high-num"
+class_name: "PotentialGasLimitIssuesInContractFunctionsDueToHighNum"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #35309 (Zokyo/Planar Finance)"
+help: "Potential Gas Limit Issues in Contract Functions Due to High Number of User Positions"
+wiki_title: "Potential Gas Limit Issues in Contract Functions Due to High Number of User Positions"
+wiki_description: |
+    **Severity**: Medium
+    
+    **Status**:  Acknowledged 
+    
+    **Description**:
+    
+    The `LpNFTpool` contains several functions (`mergePositions`, `harvestAllPositions`, `withdrawFromAllPositions`, etc.) that iterate over user's staking positions or token IDs. In scenarios where a user has a large number of position
+wiki_exploit_scenario: |
+    Per Solodit #35309: **Severity**: Medium
+    
+    **Status**:  Acknowledged 
+    
+    **Description**:
+    
+    The `LpNFTpool` contains several functions (`mergePositions`, `harvestAllPositions`, `withdrawFromAllPositions`, etc.) that iterate
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialGasLimitIssuesInContractFunctionsDueToHighNum"
+solodit_id: "35309"
+solodit_slug: |
+    potential-gas-limit-issues-in-contract-functions-due-to-high-number-of-user-positions-zokyo-none-planar-finance-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal harvestallpositions;"
+fn_name_regex: ".*(LpNFTpool|mergePositions|harvestAllPositions|withdrawFromAllPositions).*"
+write_var_regex: ".*(harvestAllPositions|mergePositions|withdrawFromAllPositions).*"
+guard_var_regex: ".*(harvestAllPositions|mergePositions|withdrawFromAllPositions).*"
+vuln_fn_name: "LpNFTpool"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "harvestallpositions = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

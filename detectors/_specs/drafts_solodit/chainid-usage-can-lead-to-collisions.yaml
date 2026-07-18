@@ -1,0 +1,47 @@
+skeleton: "name_match_missing_call"
+name: "chainid-usage-can-lead-to-collisions"
+class_name: "ChainidUsageCanLeadToCollisions"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #17036 (TrailOfBits/Hermez)"
+help: "ChainId usage can lead to collisions"
+wiki_title: "ChainId usage can lead to collisions"
+wiki_description: |
+    ## Data Validation
+    
+    **Target:** auction/HermezAuctionProtocol.sol
+    
+    **Difficulty:** High
+    
+    ## Description
+    
+    The circuit stores only two bytes from `chainID`. This can lead to collisions if a `chainId` is above 65,535. The `_constructCircuitInput` function stores `chainID` at the end of the `inputBytes`
+wiki_exploit_scenario: |
+    Per Solodit #17036: ## Data Validation
+    
+    **Target:** auction/HermezAuctionProtocol.sol
+    
+    **Difficulty:** High
+    
+    ## Description
+    
+    The circuit stores only two bytes from `chainID`. This can lead to collisions if a `chainId` is
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ChainidUsageCanLeadToCollisions"
+solodit_id: "17036"
+solodit_slug: "chainid-usage-can-lead-to-collisions-trailofbits-hermez-pdf"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal chainid;"
+fn_name_regex: ".*(chainID|chainId|inputBytes).*"
+read_var_regex: ".*(chainID|chainId|inputBytes).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "chainID"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return chainid > 0;"

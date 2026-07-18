@@ -1,0 +1,49 @@
+skeleton: "name_match_missing_call"
+name: "m-13-malicious-user-can-get-infinite-free-trial-by-repeatedly-re"
+class_name: "M13MaliciousUserCanGetInfiniteFreeTrialByRepeatedlyRe"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1089 (Code4rena/Unlock Protocol)"
+help: |
+    [M-13] Malicious user can get infinite free trial by repeatedly refund and repurchase right before the freeTrial ends
+wiki_title: |
+    [M-13] Malicious user can get infinite free trial by repeatedly refund and repurchase right before the freeTrial ends
+wiki_description: |
+    _Submitted by WatchPug_
+    
+    The current design/implementation allows users who are refunded before to get another `freeTrial`. This can be exploited by malicious users to get an infinite free trial.
+    
+    #### Proof of Concept
+    
+    Given:
+    
+    *   `keyPrice` is 1 ETH;
+    *   `freeTrialLength` is 31 days.
+    
+    A malicious
+wiki_exploit_scenario: |
+    Per Solodit #1089: _Submitted by WatchPug_
+    
+    The current design/implementation allows users who are refunded before to get another `freeTrial`. This can be exploited by malicious users to get an infinite free trial.
+    
+    ###
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M13MaliciousUserCanGetInfiniteFreeTrialByRepeatedlyRe"
+solodit_id: "1089"
+solodit_slug: |
+    m-13-malicious-user-can-get-infinite-free-trial-by-repeatedly-refund-and-repurchase-right-before-the-freetrial-ends-code4rena-unlock-protocol-unlock-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cancelandrefund;"
+fn_name_regex: ".*(freeTrial|keyPrice|freeTrialLength|purchase).*"
+read_var_regex: ".*(cancelAndRefund|freeTrial|freeTrialLength).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "freeTrial"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cancelandrefund > 0;"

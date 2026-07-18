@@ -1,0 +1,31 @@
+skeleton: "name_match_missing_require"
+name: "m-09-it-is-possible-that-after-swapping-extra-input-token-amount"
+class_name: "M09ItIsPossibleThatAfterSwappingExtraInputTokenAmount"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28857 (Code4rena/QuickSwap and StellaSwap)"
+help: |
+    [M-09] It is possible that, after swapping, extra input token amount is transferred from user to pool but pool does not give user output token amount that corresponds to the extra
+wiki_title: |
+    [M-09] It is possible that, after swapping, extra input token amount is transferred from user to pool but pool does not give user output token amount that corre
+wiki_description: |
+    When calling the `swap` function below, the following `_swapCallback` function is further called for calling the `algebraSwapCallback` function in the callee contract, which is `msg.sender`; such contract could be implemented by a third party especially for non-technical users. There is no guarante
+wiki_exploit_scenario: |
+    Per Solodit #28857: When calling the `swap` function below, the following `_swapCallback` function is further called for calling the `algebraSwapCallback` function in the callee contract, which is `msg.sender`; such con
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M09ItIsPossibleThatAfterSwappingExtraInputTokenAmount"
+solodit_id: "28857"
+solodit_slug: |
+    m-09-it-is-possible-that-after-swapping-extra-input-token-amount-is-transferred-from-user-to-pool-but-pool-does-not-give-user-output-token-amount-that-corresponds-to-the-extra-input-token-amount-code4rena-quickswap-and-stellaswap-quickswap-and-stellaswap-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal algebraswapcallback;"
+fn_name_regex: ".*(swap|algebraSwapCallback).*"
+write_var_regex: ".*(algebraSwapCallback|swap).*"
+guard_var_regex: ".*(algebraSwapCallback|swap).*"
+vuln_fn_name: "swap"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "algebraswapcallback = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

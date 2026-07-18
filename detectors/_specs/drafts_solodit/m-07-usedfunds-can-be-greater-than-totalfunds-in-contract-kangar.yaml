@@ -1,0 +1,39 @@
+skeleton: "name_match_missing_require"
+name: "m-07-usedfunds-can-be-greater-than-totalfunds-in-contract-kangar"
+class_name: "M07UsedfundsCanBeGreaterThanTotalfundsInContractKangar"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #20244 (Code4rena/Polynomial Protocol)"
+help: |
+    [M-07] `usedFunds` can be greater than `totalFunds` in contract `KangarooVault`, which leads to `KangarooVault` being unable to close its trades and users being unable to withdraw
+wiki_title: |
+    [M-07] `usedFunds` can be greater than `totalFunds` in contract `KangarooVault`, which leads to `KangarooVault` being unable to close its trades and users being
+wiki_description: |
+    `KangarooVault` contract can't close the trades and users can't withdraw from it, then users and `KangarooVaults` will lose a lot of funds.
+    
+    ### Proof of concept
+    
+    1.  In contract `KangarooVault`, `usedFunds` is the uint256 variable which tracks the funds utilitized from the vault. And `totalFunds`
+wiki_exploit_scenario: |
+    Per Solodit #20244: `KangarooVault` contract can't close the trades and users can't withdraw from it, then users and `KangarooVaults` will lose a lot of funds.
+    
+    ### Proof of concept
+    
+    1.  In contract `KangarooVault`, `us
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M07UsedfundsCanBeGreaterThanTotalfundsInContractKangar"
+solodit_id: "20244"
+solodit_slug: |
+    m-07-usedfunds-can-be-greater-than-totalfunds-in-contract-kangaroovault-which-leads-to-kangaroovault-being-unable-to-close-its-trades-and-users-being-unable-to-withdraw-code4rena-polynomial-protocol-polynomial-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal processwithdrawalqueue;"
+fn_name_regex: ".*(KangarooVault|KangarooVaults|usedFunds|totalFunds).*"
+write_var_regex: ".*(processWithdrawalQueue|totalFunds|usedFunds).*"
+guard_var_regex: ".*(processWithdrawalQueue|totalFunds|usedFunds).*"
+vuln_fn_name: "KangarooVault"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "processwithdrawalqueue = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

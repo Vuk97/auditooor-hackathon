@@ -1,0 +1,24 @@
+skeleton: "name_match_missing_require"
+name: "queued-safetymodule-configuration-updates-may-be-applied-whe-x"
+class_name: "QueuedSafetymoduleConfigurationUpdatesMayBeAppliedWheX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "zellic audit Safety Module - Zellic Audit Report"
+help: |
+    In ConfiguratorLib, the function finalizeUpdateConfigs is used to update SafetyModule’s settings. This function checks safetyModuleState_ == SafetyModuleState.TRIGGERED. But this c
+wiki_title: "Queued SafetyModule configuration updates may be applied when the Safe-"
+wiki_description: |
+    In ConfiguratorLib, the function finalizeUpdateConfigs is used to update SafetyModule’s settings. This function checks safetyModuleState_ == SafetyModuleState.TRIGGERED. But this check could be bypassed by the owner. The owner of SafetyModule could call pause to tran- sition the state from TRIGGERED
+wiki_exploit_scenario: |
+    Per audit finding: In ConfiguratorLib, the function finalizeUpdateConfigs is used to update SafetyModule’s settings. This function checks safetyModuleState_ == SafetyModuleState.TRIGGERED. But this check could be bypass
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "QueuedSafetymoduleConfigurationUpdatesMayBeAppliedWheX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(finalizeUpdateConfigs|maxSlashPercentage|applyConfigUpdates).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "finalizeUpdateConfigs"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

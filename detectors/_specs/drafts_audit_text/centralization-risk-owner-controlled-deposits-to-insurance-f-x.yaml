@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "centralization-risk-owner-controlled-deposits-to-insurance-f-x"
+class_name: "CentralizationRiskOwnerControlledDepositsToInsuranceFX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "zellic audit GTE Perps - Zellic Audit Report"
+help: |
+    The function insuranceFundDeposit(...), which can only be called by the contract owner or admin, allows the protocol owner to transfer USDC from any account that has approved the P
+wiki_title: "Centralization risk — owner-controlled deposits to insurance fund using user"
+wiki_description: |
+    The function insuranceFundDeposit(...), which can only be called by the contract owner or admin, allows the protocol owner to transfer USDC from any account that has approved the PerpManager. Specifically, the function executes function insuranceFundDeposit(address account, uint256 amount) external
+wiki_exploit_scenario: |
+    Per audit finding: The function insuranceFundDeposit(...), which can only be called by the contract owner or admin, allows the protocol owner to transfer USDC from any account that has approved the PerpManager. Specific
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "CentralizationRiskOwnerControlledDepositsToInsuranceFX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(insuranceFundDeposit|onlyOwnerOrAdmin|insuranceFund).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "insuranceFundDeposit"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

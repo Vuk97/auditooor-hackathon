@@ -1,0 +1,33 @@
+skeleton: "name_match_missing_call"
+name: "m-01-min-mint-dyad-deposit-doesn-t-enforce-any-behavior-on-minte"
+class_name: "M01MinMintDyadDepositDoesnTEnforceAnyBehaviorOnMinte"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #18767 (ZachObront/Dyad)"
+help: "[M-01] MIN_MINT_DYAD_DEPOSIT doesn't enforce any behavior on minters"
+wiki_title: "[M-01] MIN_MINT_DYAD_DEPOSIT doesn't enforce any behavior on minters"
+wiki_description: |
+    The public mint() function includes a requirement that users must submit $5k of ETH in order to mint a new dNFT. However, there is no restriction stopping them from immediately redeeming this deposit back into ETH by calling redeemDeposit().
+    
+    The only requirement is that they keep sufficient balance
+wiki_exploit_scenario: |
+    Per Solodit #18767: The public mint() function includes a requirement that users must submit $5k of ETH in order to mint a new dNFT. However, there is no restriction stopping them from immediately redeeming this deposit
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M01MinMintDyadDepositDoesnTEnforceAnyBehaviorOnMinte"
+solodit_id: "18767"
+solodit_slug: "m-01-min_mint_dyad_deposit-doesnt-enforce-any-behavior-on-minters-zachobront-none-dyad-markdown_"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(dNFT|redeemDeposit|dNFTs).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "dNFT"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

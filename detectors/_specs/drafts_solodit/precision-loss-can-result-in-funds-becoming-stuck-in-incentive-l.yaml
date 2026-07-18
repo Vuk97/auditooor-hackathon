@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "precision-loss-can-result-in-funds-becoming-stuck-in-incentive-l"
+class_name: "PrecisionLossCanResultInFundsBecomingStuckInIncentiveL"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #61563 (Cyfrin/Paladin Valkyrie)"
+help: "Precision loss can result in funds becoming stuck in incentive logic contracts"
+wiki_title: "Precision loss can result in funds becoming stuck in incentive logic contracts"
+wiki_description: |
+    **Description:** In all three incentive logic contracts, the `ratePerSec` of deposited rewards is computed by performing a division of the `amount` to distribute by the `duration`:
+    
+    ```solidity
+        function depositRewards(IncentivizedPoolId id, address token, uint256 amount, uint256 duration)
+wiki_exploit_scenario: |
+    Per Solodit #61563: **Description:** In all three incentive logic contracts, the `ratePerSec` of deposited rewards is computed by performing a division of the `amount` to distribute by the `duration`:
+    
+    ```solidity
+        fu
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PrecisionLossCanResultInFundsBecomingStuckInIncentiveL"
+solodit_id: "61563"
+solodit_slug: |
+    precision-loss-can-result-in-funds-becoming-stuck-in-incentive-logic-contracts-cyfrin-none-paladin-valkyrie-markdown
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal amount;"
+fn_name_regex: ".*(ratePerSec|amount|duration).*"
+read_var_regex: ".*(amount|duration|ratePerSec).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "ratePerSec"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return amount > 0;"

@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-05-reentrancy-in-contracts-borroweroperations-sol"
+class_name: "M05ReentrancyInContractsBorroweroperationsSol"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1209 (Code4rena/Yeti Finance)"
+help: "[M-05] Reentrancy in contracts/BorrowerOperations.sol"
+wiki_title: "[M-05] Reentrancy in contracts/BorrowerOperations.sol"
+wiki_description: |
+    _Submitted by heiho1, also found by jayjonah8_
+    
+    #### Impact
+    
+    There are several potential re-entrant functions in contracts/BorrowerOperations.sol:
+    
+    \=> Function addColl() on line 346 is potentially re-entrant as it is external but has no re-entrancy guard declared.   This
+    function invokes \_adjustTr
+wiki_exploit_scenario: |
+    Per Solodit #1209: _Submitted by heiho1, also found by jayjonah8_
+    
+    #### Impact
+    
+    There are several potential re-entrant functions in contracts/BorrowerOperations.sol:
+    
+    \=> Function addColl() on line 346 is potentially re
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M05ReentrancyInContractsBorroweroperationsSol"
+solodit_id: "1209"
+solodit_slug: "m-05-reentrancy-in-contractsborroweroperationssol-code4rena-yeti-finance-yeti-finance-contest-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(addColl|withdrawColl|withdrawYUSD|repayYUSD).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "addColl"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

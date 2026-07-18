@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_require"
+name: "unchecked-voting-status-in-movevotes-allows-vote-power-inflation"
+class_name: "UncheckedVotingStatusInMovevotesAllowsVotePowerInflation"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #44341 (MixBytes/EYWA)"
+help: "Unchecked voting status in `moveVotes()` allows vote power inflation"
+wiki_title: "Unchecked voting status in `moveVotes()` allows vote power inflation"
+wiki_description: |
+    ##### Description
+    
+    - https://gitlab.ubertech.dev/blockchainlaboratory/eywa-dao/blob/39fba4bee623a3e60a529416f93d76e73658440d/contracts/EscrowManager.sol#L396
+    
+    The `moveVotes()` method in `EscrowManager` does not validate whether the token has already voted by checking the `s_hasVotedByTokenId` mappi
+wiki_exploit_scenario: |
+    Per Solodit #44341: ##### Description
+    
+    - https://gitlab.ubertech.dev/blockchainlaboratory/eywa-dao/blob/39fba4bee623a3e60a529416f93d76e73658440d/contracts/EscrowManager.sol#L396
+    
+    The `moveVotes()` method in `EscrowManage
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "UncheckedVotingStatusInMovevotesAllowsVotePowerInflation"
+solodit_id: "44341"
+solodit_slug: "unchecked-voting-status-in-movevotes-allows-vote-power-inflation-mixbytes-none-eywa-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal movevotes;"
+fn_name_regex: ".*(moveVotes|EscrowManager|s_hasVotedByTokenId|DELEGATION_MANAGER).*"
+write_var_regex: ".*(moveVotes|s_hasVotedByTokenId).*"
+guard_var_regex: ".*(moveVotes|s_hasVotedByTokenId).*"
+vuln_fn_name: "moveVotes"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "movevotes = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

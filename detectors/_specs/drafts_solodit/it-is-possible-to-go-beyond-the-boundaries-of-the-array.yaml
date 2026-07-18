@@ -1,0 +1,35 @@
+skeleton: "paired_function_divergence"
+name: "it-is-possible-to-go-beyond-the-boundaries-of-the-array"
+class_name: "ItIsPossibleToGoBeyondTheBoundariesOfTheArray"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #28672 (MixBytes/Yearn Finance)"
+help: "It is possible to go beyond the boundaries of the array"
+wiki_title: "It is possible to go beyond the boundaries of the array"
+wiki_description: |
+    ##### Description
+    At the line https://github.com/iearn-finance/yoracle.link/blob/faf1309cbe7a05f70b338351315039eb8e5b9c09/contracts/Keep3rV1Oracle.sol#L685 the `sample` function does not check for a valid `observations[pair]` array element number.
+    On lines 700, 701, 709, 710 there is a call to the a
+wiki_exploit_scenario: |
+    Per Solodit #28672: ##### Description
+    At the line https://github.com/iearn-finance/yoracle.link/blob/faf1309cbe7a05f70b338351315039eb8e5b9c09/contracts/Keep3rV1Oracle.sol#L685 the `sample` function does not check for a v
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ItIsPossibleToGoBeyondTheBoundariesOfTheArray"
+solodit_id: "28672"
+solodit_slug: "it-is-possible-to-go-beyond-the-boundaries-of-the-array-mixbytes-none-yearn-finance-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(length|nextIndex|sample).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

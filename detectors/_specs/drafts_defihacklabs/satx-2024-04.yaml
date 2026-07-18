@@ -1,0 +1,26 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "satx-2024-04"
+class_name: "Satx202404"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "DeFiHackLabs PoC 2024-04/SATX_exp.sol"
+help: "SATX 2024-04 — flashloan exploit (~999M US$)"
+wiki_title: "SATX (2024-04) — flashloan"
+wiki_description: |
+    Real-world exploit reproduced by DeFiHackLabs (2024-04): SATX lost ~999M US$. Bug class: flashloan. Attack tx: 0x7e02ee7242a672fb84458d12198fae4122d7029ba64f3673e7800d811a8de93f.
+wiki_exploit_scenario: |
+    Attacker (0xBEF24B94C205999ea17d2ae4941cE849C9114bfd) exploits SATX via flashloan: the victim contract 0xFd80a436dA2F4f4C42a5dBFA397064CfEB7D9508 exposes a code path that can be triggered without the guard expected by the highlevelcall_missing_sibling skeleton.
+wiki_recommendation: |
+    Validate msg.sender against the trusted flash-loan provider inside the callback; require `initiator == address(this)`; never trust untrusted callers with flash-loan callback dispatch.
+contract_name: "Satx202404"
+trigger_sig_regex: ".*(pancakeCall).*"
+required_sibling_regex: ".*(validateInitiator).*"
+target_interface_decl: "interface IT { function pancakeCall(uint256) external; function validateInitiator(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doFlash"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.pancakeCall(x)"
+sibling_call: "target.validateInitiator(x)"
+post_trigger_body: "balances[msg.sender] = x;"
+state_decl: "mapping(address => uint256) internal balances;"

@@ -1,0 +1,55 @@
+skeleton: "name_match_missing_call"
+name: "m-06-attacker-can-frontrun-to-prevent-vaults-from-being-removed-"
+class_name: "M06AttackerCanFrontrunToPreventVaultsFromBeingRemoved"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #33472 (Code4rena/DYAD)"
+help: "[M-06] Attacker can frontrun to prevent vaults from being removed from the dNFT owner's position"
+wiki_title: "[M-06] Attacker can frontrun to prevent vaults from being removed from the dNFT owner's position"
+wiki_description: |
+    When removing a vault from a dNFT position, the vault must have no assets for that dNFT.
+    
+    ```solidity
+      function remove(
+          uint    id,
+          address vault
+      ) 
+        external
+          isDNftOwner(id)
+      {
+        if (Vault(vault).id2asset(id) > 0) revert VaultHasAssets();
+        ...
+      }
+    ```
+    
+    <https://github
+wiki_exploit_scenario: |
+    Per Solodit #33472: When removing a vault from a dNFT position, the vault must have no assets for that dNFT.
+    
+    ```solidity
+      function remove(
+          uint    id,
+          address vault
+      ) 
+        external
+          isDNftOwner(id)
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06AttackerCanFrontrunToPreventVaultsFromBeingRemoved"
+solodit_id: "33472"
+solodit_slug: |
+    m-06-attacker-can-frontrun-to-prevent-vaults-from-being-removed-from-the-dnft-owners-position-code4rena-dyad-dyad-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal remove;"
+fn_name_regex: ".*(remove).*"
+read_var_regex: ".*(remove).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "remove"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return remove > 0;"

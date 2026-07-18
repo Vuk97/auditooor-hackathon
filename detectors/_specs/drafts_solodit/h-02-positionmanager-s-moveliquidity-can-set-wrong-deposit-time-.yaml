@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "h-02-positionmanager-s-moveliquidity-can-set-wrong-deposit-time-"
+class_name: "H02PositionmanagerSMoveliquidityCanSetWrongDepositTime"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #20070 (Code4rena/Ajna Protocol)"
+help: |
+    [H-02] PositionManager's `moveLiquidity` can set wrong deposit time and permanently freeze LP funds moved
+wiki_title: |
+    [H-02] PositionManager's `moveLiquidity` can set wrong deposit time and permanently freeze LP funds moved
+wiki_description: |
+    `moveLiquidity()` set new destination index LP entry deposit time to be equal to the source index deposit time, while destination bucket might have defaulted after that time.
+    
+    This is generally not correct as source bucket bankruptcy is controlled (i.e. LP shares that are moved are healthy), while
+wiki_exploit_scenario: |
+    Per Solodit #20070: `moveLiquidity()` set new destination index LP entry deposit time to be equal to the source index deposit time, while destination bucket might have defaulted after that time.
+    
+    This is generally not c
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02PositionmanagerSMoveliquidityCanSetWrongDepositTime"
+solodit_id: "20070"
+solodit_slug: |
+    h-02-positionmanagers-moveliquidity-can-set-wrong-deposit-time-and-permanently-freeze-lp-funds-moved-code4rena-ajna-protocol-ajna-protocol-git
+solodit_quality: "4"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal moveliquidity;"
+fn_name_regex: ".*(moveLiquidity|toIndex|toPosition).*"
+read_var_regex: ".*(moveLiquidity|toIndex|toPosition).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "moveLiquidity"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return moveliquidity > 0;"

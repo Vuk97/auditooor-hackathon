@@ -1,0 +1,50 @@
+skeleton: "name_match_missing_call"
+name: "h-02-minting-and-redeeming-will-break-for-fully-minted-tiers-wit"
+class_name: "H02MintingAndRedeemingWillBreakForFullyMintedTiersWit"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #5804 (Code4rena/Juicebox)"
+help: |
+    [H-02] Minting and redeeming will break for fully minted tiers with `reserveRate != 0` and `reserveRate`/`MaxReserveRate` tokens burned
+wiki_title: |
+    [H-02] Minting and redeeming will break for fully minted tiers with `reserveRate != 0` and `reserveRate`/`MaxReserveRate` tokens burned
+wiki_description: |
+    Minting and redeeming become impossible.
+    
+    ### Proof of Concept
+    
+        uint256 _numberOfNonReservesMinted = _storedTier.initialQuantity -
+          _storedTier.remainingQuantity -
+          _reserveTokensMinted;
+    
+        uint256 _numerator = uint256(_numberOfNonReservesMinted * _storedTier.reservedRate);
+    
+        uin
+wiki_exploit_scenario: |
+    Per Solodit #5804: Minting and redeeming become impossible.
+    
+    ### Proof of Concept
+    
+        uint256 _numberOfNonReservesMinted = _storedTier.initialQuantity -
+          _storedTier.remainingQuantity -
+          _reserveTokensMinted
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H02MintingAndRedeemingWillBreakForFullyMintedTiersWit"
+solodit_id: "5804"
+solodit_slug: |
+    h-02-minting-and-redeeming-will-break-for-fully-minted-tiers-with-reserverate-0-and-reserveratemaxreserverate-tokens-burned-code4rena-juicebox-juicebox-contest-git
+solodit_quality: "4"
+solodit_rarity: "4"
+solodit_tags: "Wrong Math, Overflow/Underflow"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(reserveRate|MaxReserveRate).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "reserveRate"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

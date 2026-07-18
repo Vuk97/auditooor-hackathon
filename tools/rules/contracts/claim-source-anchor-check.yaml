@@ -1,0 +1,36 @@
+# Contract for tools/claim-source-anchor-check.py (P17 rule self-test).
+# Binds Rule 61 (Claim-Source-Anchor-Required, Check #108) to executable
+# fixtures. A HIGH+ draft asserting a structural-negation about codebase
+# behavior ("X is unreachable", "stays zero", "no in-tree consumer") without an
+# inline source anchor MUST be refused under --strict; the same claim WITH an
+# inline file:line anchor MUST pass.
+name: r61-claim-source-anchor-required
+tool: tools/claim-source-anchor-check.py
+rationale: |
+  R61 exists because unanchored structural-negation claims (asserted from a
+  mental model) get triager-closed as "cannot verify" or inverted on
+  source-verify (Spark LEAD 1). The must_catch draft is a High-severity finding
+  with an unanchored negation chain ("unreachable ... never executes ... stays
+  zero ... no in-tree consumer") -> must FAIL under --strict. The must_pass
+  draft is the same claim with inline [src: file:line] anchors -> must PASS.
+argv:
+  - "--severity"
+  - "High"
+  - "--strict"
+  - "{fixture}"
+must_catch:
+  - label: high-draft-unanchored-negation
+    file: draft.md
+    content: |
+      # Severity: High
+
+      The vulnerable function is unreachable because the guard never executes and the
+      value stays zero, so no in-tree consumer can trigger it.
+must_pass:
+  - label: high-draft-anchored-negation
+    file: draft.md
+    content: |
+      # Severity: High
+
+      The vulnerable function is unreachable because the guard never executes [src: src/Vault.sol:142] and the
+      value stays zero src/Vault.sol:150, so no in-tree consumer can trigger it.

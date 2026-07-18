@@ -1,0 +1,25 @@
+skeleton: "name_match_missing_require"
+name: "potential-dao-fee-rounding-to-zero-for-upgraded-rtokens-upgr-x"
+class_name: "PotentialDaoFeeRoundingToZeroForUpgradedRtokensUpgrX"
+wave: "14"
+severity: "LOW"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-07-reserve"
+help: |
+    [L-11] Potential DAO fee rounding to zero for upgraded RTokens Upgraded RTokens might not pay DAO fees even if daoFeeRegistry has been set in Main . This is due to the change in th
+wiki_title: |
+    Potential DAO fee rounding to zero for upgraded RTokens Upgraded RTokens might not pay DAO fees even if daoFeeRegistry has been set in Main . This is due to the
+wiki_description: |
+    [L-11] Potential DAO fee rounding to zero for upgraded RTokens Upgraded RTokens might not pay DAO fees even if daoFeeRegistry has been set in Main . This is due to the change in the distribution total constraint in the _ensureSufficientTotal() function. In previous versions, the check only required
+wiki_exploit_scenario: |
+    Per audit finding: [L-11] Potential DAO fee rounding to zero for upgraded RTokens Upgraded RTokens might not pay DAO fees even if daoFeeRegistry has been set in Main . This is due to the change in the distribution total
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "PotentialDaoFeeRoundingToZeroForUpgradedRtokensUpgrX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(daoFeeRegistry|rTokenDist|rsrDist).*"
+write_var_regex: ".*(balance|amount|total|supply|reserve).*"
+guard_var_regex: ".*(balance|amount|total|supply|reserve).*"
+vuln_fn_name: "daoFeeRegistry"
+vuln_fn_params: "uint256 newVal"
+vuln_fn_body_no_require: "balance = newVal;"
+guard_require_line: "require(newVal <= 10000, \"cap\");"

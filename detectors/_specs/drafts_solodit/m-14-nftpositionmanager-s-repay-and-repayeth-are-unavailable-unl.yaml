@@ -1,0 +1,44 @@
+skeleton: "name_match_missing_call"
+name: "m-14-nftpositionmanager-s-repay-and-repayeth-are-unavailable-unl"
+class_name: "M14NftpositionmanagerSRepayAndRepayethAreUnavailableUnl"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #41835 (Sherlock/ZeroLend One)"
+help: |
+    M-14: NFTPositionManager's `repay()` and `repayETH()` are unavailable unless preceded atomically by an accounting updating operation
+wiki_title: |
+    M-14: NFTPositionManager's `repay()` and `repayETH()` are unavailable unless preceded atomically by an accounting updating operation
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-06-new-scope-judging/issues/467 
+    
+    ## Found by 
+    000000, A2-security, JCN, Obsidian, denzi\_, hyh, stuart\_the\_minion, thisvishalsingh, zarkk01
+    ### Summary
+    
+    The check in `_repay()` cannot be satisfied if pool state was not already updated by some other o
+wiki_exploit_scenario: |
+    Per Solodit #41835: Source: https://github.com/sherlock-audit/2024-06-new-scope-judging/issues/467 
+    
+    ## Found by 
+    000000, A2-security, JCN, Obsidian, denzi\_, hyh, stuart\_the\_minion, thisvishalsingh, zarkk01
+    ### Summar
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M14NftpositionmanagerSRepayAndRepayethAreUnavailableUnl"
+solodit_id: "41835"
+solodit_slug: |
+    m-14-nftpositionmanagers-repay-and-repayeth-are-unavailable-unless-preceded-atomically-by-an-accounting-updating-operation-sherlock-zerolend-one-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal previousdebtbalance;"
+fn_name_regex: ".*(repay|repayETH|previousDebtBalance).*"
+read_var_regex: ".*(previousDebtBalance|repay|repayETH).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "repay"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return previousdebtbalance > 0;"

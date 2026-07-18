@@ -1,0 +1,36 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "sandwich-attacks-and-price-manipulation"
+class_name: "SandwichAttacksAndPriceManipulation"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #59676 (Quantstamp/Vector Reserve)"
+help: "Sandwich Attacks and Price Manipulation"
+wiki_title: "Sandwich Attacks and Price Manipulation"
+wiki_description: |
+    **Update**
+    Mitigated in: `39e7959c57c0ed199bb6d168fb541d5db8aab27c`.
+    
+    Added slippage parameters to avoid sandwich attacks. These parameters should be populated from the frontend using reliable prices. However, if the VEC taxes are lowered, it can open the possibility of a user getting discounted bon
+wiki_exploit_scenario: |
+    Per Solodit #59676: **Update**
+    Mitigated in: `39e7959c57c0ed199bb6d168fb541d5db8aab27c`.
+    
+    Added slippage parameters to avoid sandwich attacks. These parameters should be populated from the frontend using reliable prices.
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SandwichAttacksAndPriceManipulation"
+solodit_id: "59676"
+solodit_slug: "sandwich-attacks-and-price-manipulation-quantstamp-vector-reserve-markdown"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(swapETHForTokens|addLiquidity|WETHTOLP|deposit).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

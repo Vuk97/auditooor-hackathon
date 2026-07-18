@@ -1,0 +1,42 @@
+skeleton: "paired_function_divergence"
+name: "rounding-direction-in-token-rates-leads-to-inconsistent-price-be"
+class_name: "RoundingDirectionInTokenRatesLeadsToInconsistentPriceBe"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #43799 (Spearbit/Balancer)"
+help: |
+    Rounding direction in token rates leads to inconsistent price between addLiquidity and removeLiquidity
+wiki_title: |
+    Rounding direction in token rates leads to inconsistent price between addLiquidity and removeLiquidity
+wiki_description: |
+    Severity: High Risk
+    Context: Vault.sol#L784
+    Description: The Vault rounds balance up in addLiquidity rounds balance down in removeLiquidity . This in
+    most cases favors the protocol. However, the minted amount depends not only on the price of the bpt but also on
+    the price of each token. The token
+wiki_exploit_scenario: |
+    Per Solodit #43799: Severity: High Risk
+    Context: Vault.sol#L784
+    Description: The Vault rounds balance up in addLiquidity rounds balance down in removeLiquidity . This in
+    most cases favors the protocol. However, the mi
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "RoundingDirectionInTokenRatesLeadsToInconsistentPriceBe"
+solodit_id: "43799"
+solodit_slug: |
+    rounding-direction-in-token-rates-leads-to-inconsistent-price-between-addliquidity-and-removeliq-spearbit-none-balancer-pdf
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: |
+    mapping(address => uint256) internal balances;
+        uint256 internal counter;
+forward_verb: "add"
+inverse_verb: "remove"
+tracking_var_regex: ".*(balance|amount|total|supply|reserve).*"
+forward_fn_name: "addThing"
+inverse_fn_name: "removeThing"
+fn_params: "address account"
+forward_body: "balances[account] += 1; counter++;"
+inverse_body_no_tracker: "balances[account] -= 1; /* counter missing */"
+inverse_body_with_tracker: "balances[account] -= 1; counter--;"

@@ -1,0 +1,42 @@
+skeleton: "name_match_missing_call"
+name: "m-16-gas-parameters-for-stargate-swap-are-hardcoded-leading-to-s"
+class_name: "M16GasParametersForStargateSwapAreHardcodedLeadingToS"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #31085 (Sherlock/Tapioca)"
+help: "M-16: Gas parameters for Stargate swap are hardcoded leading to stuck messages"
+wiki_title: "M-16: Gas parameters for Stargate swap are hardcoded leading to stuck messages"
+wiki_description: |
+    Source: https://github.com/sherlock-audit/2024-02-tapioca-judging/issues/72 
+    
+    ## Found by 
+    GiuseppeDeLaZara
+    ## Summary
+    The `dstGasForCall` for transferring erc20s through Stargate is hardcoded to 0 in the `Balancer` contract leading to `sgReceive` not being called during Stargate swap.
+    As a conseque
+wiki_exploit_scenario: |
+    Per Solodit #31085: Source: https://github.com/sherlock-audit/2024-02-tapioca-judging/issues/72 
+    
+    ## Found by 
+    GiuseppeDeLaZara
+    ## Summary
+    The `dstGasForCall` for transferring erc20s through Stargate is hardcoded to 0 in
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M16GasParametersForStargateSwapAreHardcodedLeadingToS"
+solodit_id: "31085"
+solodit_slug: "m-16-gas-parameters-for-stargate-swap-are-hardcoded-leading-to-stuck-messages-sherlock-tapioca-git"
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal cachedswaplookup;"
+fn_name_regex: ".*(dstGasForCall|Balancer|sgReceive|cachedSwapLookup).*"
+read_var_regex: ".*(cachedSwapLookup|dstGasForCall|dstNativeAddr).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "dstGasForCall"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return cachedswaplookup > 0;"

@@ -1,0 +1,36 @@
+skeleton: "name_match_missing_call"
+name: "h-20-vault-weight-accounting-is-wrong-for-withdrawals"
+class_name: "H20VaultWeightAccountingIsWrongForWithdrawals"
+wave: "15"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "Solodit #3923 (Code4rena/Vader Protocol)"
+help: "[H-20] Vault Weight accounting is wrong for withdrawals"
+wiki_title: "[H-20] Vault Weight accounting is wrong for withdrawals"
+wiki_description: |
+    When depositing two different synths, their weight is added to the same `mapMember_weight[_member]` storage variable.
+    When withdrawing the full amount of one synth with `_processWithdraw(synth, member, basisPoints=10000` the full weight is decreased.
+    
+    The second deposited synth is now essentially
+wiki_exploit_scenario: |
+    Per Solodit #3923: When depositing two different synths, their weight is added to the same `mapMember_weight[_member]` storage variable.
+    When withdrawing the full amount of one synth with `_processWithdraw(synth, memb
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "H20VaultWeightAccountingIsWrongForWithdrawals"
+solodit_id: "3923"
+solodit_slug: |
+    h-20-vault-weight-accounting-is-wrong-for-withdrawals-code4rena-vader-protocol-vader-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(basisPoints).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "basisPoints"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

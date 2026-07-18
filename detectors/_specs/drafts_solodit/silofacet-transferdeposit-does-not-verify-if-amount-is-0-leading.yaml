@@ -1,0 +1,38 @@
+skeleton: "name_match_missing_call"
+name: "silofacet-transferdeposit-does-not-verify-if-amount-is-0-leading"
+class_name: "SilofacetTransferdepositDoesNotVerifyIfAmountIs0Leading"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #36227 (Codehawks/Beanstalk: The Finale)"
+help: |
+    `SiloFacet::transferDeposit` does not verify if amount is 0, leading to full withdrawal DoS for any recipient
+wiki_title: |
+    `SiloFacet::transferDeposit` does not verify if amount is 0, leading to full withdrawal DoS for any recipient
+wiki_description: |
+    ## Description
+    
+    The `SiloFacet::transferDeposit` function allows any user to transfer their deposit to another user. However, the function does not check the amount being transfered. Worse still, if this amount is 0, it repeatedly pushes the same `depositId` into `s.accts[account].depositIdList[toke
+wiki_exploit_scenario: |
+    Per Solodit #36227: ## Description
+    
+    The `SiloFacet::transferDeposit` function allows any user to transfer their deposit to another user. However, the function does not check the amount being transfered. Worse still, if t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "SilofacetTransferdepositDoesNotVerifyIfAmountIs0Leading"
+solodit_id: "36227"
+solodit_slug: |
+    silofacettransferdeposit-does-not-verify-if-amount-is-0-leading-to-full-withdrawal-dos-for-any-recipient-codehawks-beanstalk-the-finale-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "uint256 internal depositid;"
+fn_name_regex: ".*(depositId).*"
+read_var_regex: ".*(depositId).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "depositId"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return depositid > 0;"

@@ -1,0 +1,43 @@
+skeleton: "highlevelcall_missing_sibling"
+name: "m-06-oracle-can-be-manipulted-to-consider-only-a-single-pair-for"
+class_name: "M06OracleCanBeManipultedToConsiderOnlyASinglePairFor"
+wave: "15"
+severity: "MEDIUM"
+confidence: "MEDIUM"
+source: "Solodit #1253 (Code4rena/Vader Protocol)"
+help: "[M-06] Oracle can be manipulted to consider only a single pair for pricing"
+wiki_title: "[M-06] Oracle can be manipulted to consider only a single pair for pricing"
+wiki_description: |
+    _Submitted by TomFrenchBlockchain_
+    
+    Loss of resilience of oracle to a faulty pricing for a single pair.
+    
+    #### Proof of Concept
+    
+    In the oracle we calculate the TVL of each pool by pulling the reserves and multiplying both assets by the result of a supposedly manipulation resistant oracle (the oracle
+wiki_exploit_scenario: |
+    Per Solodit #1253: _Submitted by TomFrenchBlockchain_
+    
+    Loss of resilience of oracle to a faulty pricing for a single pair.
+    
+    #### Proof of Concept
+    
+    In the oracle we calculate the TVL of each pool by pulling the reserves
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "M06OracleCanBeManipultedToConsiderOnlyASinglePairFor"
+solodit_id: "1253"
+solodit_slug: |
+    m-06-oracle-can-be-manipulted-to-consider-only-a-single-pair-for-pricing-code4rena-vader-protocol-vader-protocol-contest-git
+solodit_quality: "0"
+solodit_rarity: "0"
+solodit_tags: ""
+state_decl: "mapping(address => uint256) internal balances;"
+trigger_sig_regex: ".*(currentLiquidityEvaluation).*"
+required_sibling_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+target_interface_decl: "interface IT { function trigger(uint256) external; function sibling(uint256) external; }"
+target_iface_name: "IT"
+vuln_fn_name: "doStuff"
+vuln_fn_params: "uint256 x"
+trigger_call: "target.trigger(x)"
+sibling_call: "target.sibling(x)"
+post_trigger_body: "balances[msg.sender] = x;"

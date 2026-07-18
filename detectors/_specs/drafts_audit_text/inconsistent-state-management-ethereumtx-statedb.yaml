@@ -1,0 +1,27 @@
+skeleton: "name_match_missing_call"
+name: "inconsistent-state-management-ethereumtx-statedb"
+class_name: "InconsistentStateManagementEthereumtxStatedb"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2024-11-nibiru"
+help: |
+    0x007 When a precompile is invoked, the context ( ctx ) is cached, and the state database ( statedb ) commits to this cache, ensuring that precompiles operate with the most up-to-d
+wiki_title: "Inconsistent state management: ethereumTx StateDB"
+wiki_description: |
+    0x007 When a precompile is invoked, the context ( ctx ) is cached, and the state database ( statedb ) commits to this cache, ensuring that precompiles operate with the most up-to-date context and data. During the execution of the precompile, the context can be modified, but these changes are not ful
+wiki_exploit_scenario: |
+    Per audit finding: 0x007 When a precompile is invoked, the context ( ctx ) is cached, and the state database ( statedb ) commits to this cache, ensuring that precompiles operate with the most up-to-date context and data
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "InconsistentStateManagementEthereumtxStatedb"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(writeToCommitCtxFromCacheCtx|commitCtx|evmTxCtx).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "writeToCommitCtxFromCacheCtx"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

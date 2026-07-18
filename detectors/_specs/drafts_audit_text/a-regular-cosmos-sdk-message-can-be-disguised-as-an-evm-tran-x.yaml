@@ -1,0 +1,28 @@
+skeleton: "name_match_missing_call"
+name: "a-regular-cosmos-sdk-message-can-be-disguised-as-an-evm-tran-x"
+class_name: "ARegularCosmosSdkMessageCanBeDisguisedAsAnEvmTranX"
+wave: "14"
+severity: "HIGH"
+confidence: "MEDIUM"
+source: "code4arena audit 2025-02-initia-cosmos"
+help: |
+    berndartmueller Finding description and impact The indexer’s ListenFinalizeBlock() is called whenever a block is finalized from within BaseApp::FinalizeBlock() and processes the bl
+wiki_title: |
+    A regular Cosmos SDK message can be disguised as an EVM transaction, causing ListenFinalizeBlock to error which prevents the block from being indexed
+wiki_description: |
+    berndartmueller Finding description and impact The indexer’s ListenFinalizeBlock() is called whenever a block is finalized from within BaseApp::FinalizeBlock() and processes the block, including the transactions. func (app *BaseApp) FinalizeBlock (req *abci.RequestFinalizeBlock) (res *abci.ResponseF
+wiki_exploit_scenario: |
+    Per audit finding: berndartmueller Finding description and impact The indexer’s ListenFinalizeBlock() is called whenever a block is finalized from within BaseApp::FinalizeBlock() and processes the block, including the t
+wiki_recommendation: "See source audit report for recommended fix."
+contract_name: "ARegularCosmosSdkMessageCanBeDisguisedAsAnEvmTranX"
+state_decl: "uint256 internal balance;"
+fn_name_regex: ".*(streamingListener|streamingManager|finalizeBlockState).*"
+read_var_regex: ".*(balance|amount|total|supply|reserve).*"
+required_call_regex: ".*(accrue|update|sync|validate|check|refresh).*"
+guarded_helper_name: "_accrue"
+vuln_fn_name: "streamingListener"
+vuln_fn_params: ""
+vuln_fn_mutability: "internal"
+vuln_fn_mutability_clean: "internal"
+vuln_fn_return: "bool"
+vuln_fn_body: "return balance > 0;"

@@ -1,0 +1,41 @@
+schema_version: auditooor.hackerman_record.v1
+record_id: vyper-cve:cve-2023-30547:vyper-bridge-raw_call-relay:post-fix-migrated-histor:6206aa818ca5
+source_audit_ref: vyper-cve:cve-2023-30547:vyper-bridge-raw_call-relay:post-fix-migrated-histor
+target_domain: vault
+target_language: vyper
+target_repo: vyperlang/vyper
+target_component: "Vyper bridge raw_call relay"
+function_shape:
+  raw_signature: "def raw_call(target: address, data: Bytes[..], value: uint256) -> bool: nonpayable"
+  shape_tags:
+    - vyper-compiler-call-builtin-bypass
+    - vyper-vyper-compiler-bug
+    - affected-vyper-0.2.16
+bug_class: vyper-compiler-bug
+attack_class: vyper-compiler-call-builtin-bypass
+attacker_role: unprivileged
+attacker_action_sequence: "Construct a malicious target that returns success=true while ignoring or replaying the attached ETH. Invoke the Vyper vault entrypoint that wraps raw_call. The vault credits the depositor for value it never received because the raw_call branch silently dropped the value parameter alignment."
+required_preconditions:
+  - "contract compiled with a Vyper release that mishandles raw_call value alignment"
+  - "downstream code credits state purely on raw_call success boolean"
+  - "attacker controls the call target or can substitute it via approval"
+  - mitigation_state=post-fix-migrated-historical
+impact_class: theft
+impact_actor: depositor-class
+impact_dollar_class: $100K-$1M
+fix_pattern: "Vyper 0.2.16 corrected the ABI marshalling for raw_call's value parameter. Pools must also assert msg.value == expected_value after the call returns or rely on explicit token transfer paths rather than raw ETH attaching."
+fix_anti_pattern_avoided: "treating raw_call success as proof of value transfer when the compiler may have dropped the value parameter"
+severity_at_finding: info
+year: 2023
+cross_language_analogues:
+  - target_language: solidity
+    pattern_translation: "Solidity equivalent: low-level call where the value parameter is silently dropped by a delegate-call wrapper; pattern fires on tx.value vs msg.value drift."
+related_records:
+  - vyper-cve:cve-2023-30547:vyper-bridge-raw_call-relay:post-fix-not-migrated:a4ba04debb19
+  - vyper-cve:cve-2023-30547:vyper-bridge-raw_call-relay:pre-fix:f641ea40b133
+  - vyper-cve:cve-2023-30547:vyper-raw_call-abi-marshalling:post-fix-migrated-histor:d37210703756
+  - vyper-cve:cve-2023-30547:vyper-raw_call-abi-marshalling:post-fix-not-migrated:b76c92038da1
+  - vyper-cve:cve-2023-30547:vyper-raw_call-abi-marshalling:pre-fix:4300376ee501
+  - vyper-cve:cve-2023-30547:vyper-vault-eth-attaching-deposit-path:post-fix-migrated-histor:8fd045442b8c
+  - vyper-cve:cve-2023-30547:vyper-vault-eth-attaching-deposit-path:post-fix-not-migrated:322f7648a483
+  - vyper-cve:cve-2023-30547:vyper-vault-eth-attaching-deposit-path:pre-fix:ed8e0f00c4f3
