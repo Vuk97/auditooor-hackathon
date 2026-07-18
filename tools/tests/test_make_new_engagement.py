@@ -112,7 +112,8 @@ class TestMakeNewEngagement(unittest.TestCase):
                 f"make failed rc={proc.returncode} stderr={proc.stderr!r}",
             )
             self.assertIn("[new-engagement] created testslug", proc.stdout)
-            self.assertIn("Next: edit SCOPE.md", proc.stdout)
+            self.assertIn("Next steps:", proc.stdout)
+            self.assertIn("SCOPE.md and paste in the bounty scope", proc.stdout)
 
             ws = Path(tmp) / "audits" / "testslug"
             self.assertTrue(ws.is_dir(), f"workspace not created: {ws}")
@@ -155,10 +156,13 @@ class TestMakeNewEngagement(unittest.TestCase):
             self.assertIn("https://example.test", scope_md_text)
             self.assertIn("provenance:", scope_md_text)
 
-            # Hard-negative: the target MUST NOT fetch SOURCE. Verify by
-            # checking SCOPE.md still contains the setup-workspace.sh
-            # placeholder text (would be overwritten if we fetched).
-            self.assertIn("Placeholder scaffold", scope_md_text)
+            # Hard-negative: this scaffold records the URL but does not fetch
+            # target content. The minimal SCOPE.md must therefore contain only
+            # the provenance marker written by this target.
+            self.assertEqual(
+                scope_md_text.strip(),
+                "<!-- provenance: SOURCE=https://example.test (captured by make new-engagement) -->",
+            )
 
     # ---------- case 3: idempotency ----------
     def test_idempotent_second_invocation_is_noop_with_warning(self) -> None:

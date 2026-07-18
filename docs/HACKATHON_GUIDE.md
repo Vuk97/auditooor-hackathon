@@ -37,12 +37,18 @@ Useful checks:
 ```bash
 make judge-demo
 make judge-check
+make docs-check
 ```
 
 Start with `make judge-demo`: it validates the production manifest, summarizes
-the required contracts, and demonstrates that the state machine blocks Drive
-before prior phases produce receipts. The [judge walkthrough](JUDGE_WALKTHROUGH.md)
-explains the commands and the evidence boundary.
+the required contracts and typed reasoning handoffs, and demonstrates that the
+state machine blocks early Drive, empty closeout, and tampered state before
+they can become credit. The [judge walkthrough](JUDGE_WALKTHROUGH.md) explains
+the commands and the evidence boundary.
+
+`make docs-check` is the portable documentation check for this public build.
+It intentionally excludes private vault indexes, historical corpus maps, and
+generated operator inventories that are not distributed to judges.
 
 Private sources are optional operational memory only. If a required source is
 not present, the pipeline must preserve that as a visible evidence gap rather

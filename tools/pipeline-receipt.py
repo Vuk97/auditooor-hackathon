@@ -240,7 +240,17 @@ def build_receipt(
     """Build a canonical receipt; validation is available separately."""
 
     normalized_status = _text(status).lower()
-    provenance = {field: _hash(locals()[field]) for field in PROVENANCE_FIELDS}
+    provenance_inputs = {
+        "manifest_sha256": manifest_sha256,
+        "workspace_identity_sha256": workspace_identity_sha256,
+        "source_snapshot_sha256": source_snapshot_sha256,
+        "scope_sha256": scope_sha256,
+        "severity_sha256": severity_sha256,
+        "targets_sha256": targets_sha256,
+        "program_rules_sha256": program_rules_sha256,
+        "pipeline_tooling_sha256": pipeline_tooling_sha256,
+    }
+    provenance = {field: _hash(provenance_inputs[field]) for field in PROVENANCE_FIELDS}
     receipt: dict[str, Any] = {
         "schema": SCHEMA,
         "run_id": _text(run_id),

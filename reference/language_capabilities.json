@@ -1,0 +1,465 @@
+{
+  "schema": "auditooor.language_capability.v1",
+  "authoritative_inventory": {
+    "module": "tools/lib/source_extensions.py",
+    "symbol": "EXT_TO_LANG",
+    "language_tokens": "values"
+  },
+  "tier_values": [
+    "semantic/compiler-backed",
+    "AST-backed",
+    "lexical/shape-only",
+    "enumerator-only",
+    "unsupported",
+    "unsupported_applicable"
+  ],
+  "phase_minimum_tiers": {
+    "source": "lexical/shape-only",
+    "ast": "AST-backed",
+    "dataflow": "semantic/compiler-backed",
+    "semantic-graph": "semantic/compiler-backed",
+    "reasoner": "semantic/compiler-backed",
+    "engine": "semantic/compiler-backed",
+    "depth": "semantic/compiler-backed",
+    "harness": "AST-backed",
+    "fuzz": "semantic/compiler-backed"
+  },
+  "languages": [
+    {
+      "canonical": "solidity",
+      "display_name": "Solidity/EVM",
+      "aliases": ["evm", "sol"],
+      "extensions": [".sol"],
+      "authoritative_inventory_token": "solidity",
+      "semantic_backend_receipt": {
+        "required_for_phases": ["dataflow", "semantic-graph", "reasoner", "engine", "depth", "fuzz"],
+        "receipt_schema": "auditooor.language_backend_receipt.v1",
+        "backend": "slither",
+        "confidence": "semantic-ssa"
+      },
+      "parser_extractor": {
+        "tier": "AST-backed",
+        "tool_refs": ["tools/ast-engine.py", "tools/function-source-extractor.py"],
+        "language_filter": ["solidity"]
+      },
+      "dataflow_substrate": {
+        "tier": "semantic/compiler-backed",
+        "tool_refs": ["tools/dataflow.py", "tools/dataflow-slice.py"],
+        "language_filter": ["solidity"]
+      },
+      "semantic_graph_tier": {
+        "tier": "lexical/shape-only",
+        "tool_refs": ["tools/semantic-graph.py"],
+        "language_filter": ["solidity"]
+      },
+      "reasoner_ids": [
+        "transitive-crosscontract-cei.py",
+        "permanent-freeze-dos.py",
+        "unbounded-alloc-resource-exhaustion.py"
+      ],
+      "engine_substrate_route": {
+        "tier": "semantic/compiler-backed",
+        "tool_refs": ["tools/evm-engine-harness-author.py", "tools/depth-tools-orchestrator.py"],
+        "make_targets": ["forge-test"],
+        "language_filter": ["solidity"]
+      },
+      "depth_route": {
+        "tier": "semantic/compiler-backed",
+        "tool_refs": ["tools/depth-tools-orchestrator.py"],
+        "language_filter": ["solidity"]
+      },
+      "harness_fuzz_route": {
+        "tier": "semantic/compiler-backed",
+        "tool_refs": ["tools/evm-engine-harness-author.py", "tools/invariant-fuzz-completeness.py"],
+        "make_targets": ["forge-test"],
+        "language_filter": ["solidity"]
+      },
+      "evidence_tier": "semantic/compiler-backed"
+    },
+    {
+      "canonical": "vyper",
+      "display_name": "Vyper",
+      "aliases": ["vy"],
+      "extensions": [".vy"],
+      "authoritative_inventory_token": "vyper",
+      "parser_extractor": {
+        "tier": "lexical/shape-only",
+        "tool_refs": ["tools/function-source-extractor.py"],
+        "language_filter": ["vyper"]
+      },
+      "dataflow_substrate": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["vyper"]
+      },
+      "semantic_graph_tier": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["vyper"]
+      },
+      "reasoner_ids": [],
+      "engine_substrate_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["vyper"]
+      },
+      "depth_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["vyper"]
+      },
+      "harness_fuzz_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["vyper"]
+      },
+      "evidence_tier": "lexical/shape-only"
+    },
+    {
+      "canonical": "go",
+      "display_name": "Go",
+      "aliases": [],
+      "extensions": [".go"],
+      "authoritative_inventory_token": "go",
+      "semantic_backend_receipt": {
+        "required_for_phases": ["dataflow", "semantic-graph", "reasoner", "engine", "depth", "fuzz"],
+        "receipt_schema": "auditooor.language_backend_receipt.v1",
+        "backend": "go-ssa",
+        "confidence": "semantic-ssa"
+      },
+      "parser_extractor": {
+        "tier": "AST-backed",
+        "tool_refs": ["tools/ast-engine.py", "tools/function-source-extractor.py"],
+        "language_filter": ["go"]
+      },
+      "dataflow_substrate": {
+        "tier": "semantic/compiler-backed",
+        "tool_refs": ["tools/dataflow.py", "tools/go-dataflow.py"],
+        "language_filter": ["go"]
+      },
+      "semantic_graph_tier": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["go"]
+      },
+      "reasoner_ids": [
+        "go-mustsucceed-panic-reachability.py",
+        "go-mustsucceed-arith-overflow-halt.py",
+        "goroutine-shared-state-race.py",
+        "go-bitcoin-protocol-validation.py"
+      ],
+      "engine_substrate_route": {
+        "tier": "semantic/compiler-backed",
+        "tool_refs": ["tools/go-engine-harness-author.py", "tools/cross-language-proof-path.py"],
+        "language_filter": ["go"]
+      },
+      "depth_route": {
+        "tier": "semantic/compiler-backed",
+        "tool_refs": ["tools/depth-tools-orchestrator.py"],
+        "language_filter": ["go"]
+      },
+      "harness_fuzz_route": {
+        "tier": "semantic/compiler-backed",
+        "tool_refs": ["tools/go-engine-harness-author.py", "tools/cross-language-proof-path.py"],
+        "language_filter": ["go"]
+      },
+      "evidence_tier": "semantic/compiler-backed"
+    },
+    {
+      "canonical": "rust",
+      "display_name": "Rust",
+      "aliases": [],
+      "extensions": [".rs"],
+      "authoritative_inventory_token": "rust",
+      "semantic_backend_receipt": {
+        "required_for_phases": ["dataflow", "semantic-graph", "reasoner", "engine", "depth", "fuzz"],
+        "receipt_schema": "auditooor.language_backend_receipt.v1",
+        "backend": "mir",
+        "confidence": "semantic-ssa"
+      },
+      "parser_extractor": {
+        "tier": "AST-backed",
+        "tool_refs": ["tools/ast-engine.py", "tools/function-source-extractor.py"],
+        "language_filter": ["rust"]
+      },
+      "dataflow_substrate": {
+        "tier": "semantic/compiler-backed",
+        "tool_refs": ["tools/dataflow.py", "tools/rust-dataflow.py"],
+        "language_filter": ["rust"]
+      },
+      "semantic_graph_tier": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["rust"]
+      },
+      "reasoner_ids": [
+        "rust-account-owner-signer-confusion.py",
+        "rust-unchecked-arith-value-overflow.py",
+        "rust-numeric-overflow-underflow-scan.py",
+        "mpc-round-proof-obligation.py"
+      ],
+      "engine_substrate_route": {
+        "tier": "semantic/compiler-backed",
+        "tool_refs": ["tools/rust-engine-harness-author.py", "tools/cross-language-proof-path.py"],
+        "language_filter": ["rust"]
+      },
+      "depth_route": {
+        "tier": "semantic/compiler-backed",
+        "tool_refs": ["tools/depth-tools-orchestrator.py"],
+        "language_filter": ["rust"]
+      },
+      "harness_fuzz_route": {
+        "tier": "semantic/compiler-backed",
+        "tool_refs": ["tools/rust-engine-harness-author.py", "tools/cross-language-proof-path.py"],
+        "language_filter": ["rust"]
+      },
+      "evidence_tier": "semantic/compiler-backed"
+    },
+    {
+      "canonical": "javascript",
+      "display_name": "JavaScript",
+      "aliases": ["js"],
+      "extensions": [".js"],
+      "authoritative_inventory_token": "javascript",
+      "parser_extractor": {
+        "tier": "AST-backed",
+        "tool_refs": ["tools/js-dataflow.py", "tools/ast-engine.py"],
+        "language_filter": ["javascript"]
+      },
+      "dataflow_substrate": {
+        "tier": "AST-backed",
+        "tool_refs": ["tools/dataflow.py", "tools/js-dataflow.py"],
+        "language_filter": ["javascript"]
+      },
+      "semantic_graph_tier": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["javascript"]
+      },
+      "reasoner_ids": [],
+      "engine_substrate_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["javascript"]
+      },
+      "depth_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["javascript"]
+      },
+      "harness_fuzz_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["javascript"]
+      },
+      "evidence_tier": "AST-backed"
+    },
+    {
+      "canonical": "typescript",
+      "display_name": "TypeScript",
+      "aliases": ["ts"],
+      "extensions": [".ts"],
+      "authoritative_inventory_token": "typescript",
+      "parser_extractor": {
+        "tier": "lexical/shape-only",
+        "tool_refs": ["tools/function-source-extractor.py"],
+        "language_filter": ["typescript"]
+      },
+      "dataflow_substrate": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["typescript"]
+      },
+      "semantic_graph_tier": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["typescript"]
+      },
+      "reasoner_ids": [],
+      "engine_substrate_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["typescript"]
+      },
+      "depth_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["typescript"]
+      },
+      "harness_fuzz_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["typescript"]
+      },
+      "evidence_tier": "lexical/shape-only"
+    },
+    {
+      "canonical": "oscript",
+      "display_name": "Oscript",
+      "aliases": ["aa"],
+      "extensions": [".oscript", ".aa"],
+      "authoritative_inventory_token": "oscript",
+      "parser_extractor": {
+        "tier": "AST-backed",
+        "tool_refs": ["tools/oscript-aa-enumerate.py", "tools/oscript-ast-dataflow.py"],
+        "language_filter": ["oscript"]
+      },
+      "dataflow_substrate": {
+        "tier": "AST-backed",
+        "tool_refs": ["tools/dataflow.py", "tools/oscript-ast-dataflow.py"],
+        "language_filter": ["oscript"]
+      },
+      "semantic_graph_tier": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["oscript"]
+      },
+      "reasoner_ids": [],
+      "engine_substrate_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["oscript"]
+      },
+      "depth_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["oscript"]
+      },
+      "harness_fuzz_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["oscript"]
+      },
+      "evidence_tier": "AST-backed"
+    },
+    {
+      "canonical": "circom",
+      "display_name": "Circom",
+      "aliases": ["zk"],
+      "extensions": [".circom"],
+      "authoritative_inventory_token": "circom",
+      "parser_extractor": {
+        "tier": "lexical/shape-only",
+        "tool_refs": ["tools/zk-dataflow.py", "tools/circom-detect.py"],
+        "language_filter": ["circom"]
+      },
+      "dataflow_substrate": {
+        "tier": "lexical/shape-only",
+        "tool_refs": ["tools/dataflow.py", "tools/zk-dataflow.py"],
+        "language_filter": ["circom"]
+      },
+      "semantic_graph_tier": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["circom"]
+      },
+      "reasoner_ids": [],
+      "engine_substrate_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["circom"]
+      },
+      "depth_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["circom"]
+      },
+      "harness_fuzz_route": {
+        "tier": "unsupported_applicable",
+        "tool_refs": [],
+        "language_filter": ["circom"]
+      },
+      "evidence_tier": "lexical/shape-only"
+    },
+    {
+      "canonical": "noir",
+      "display_name": "Noir",
+      "aliases": [],
+      "extensions": [".nr"],
+      "authoritative_inventory_token": "noir",
+      "parser_extractor": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["noir"]},
+      "dataflow_substrate": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["noir"]},
+      "semantic_graph_tier": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["noir"]},
+      "reasoner_ids": [],
+      "engine_substrate_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["noir"]},
+      "depth_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["noir"]},
+      "harness_fuzz_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["noir"]},
+      "evidence_tier": "unsupported_applicable"
+    },
+    {
+      "canonical": "zokrates",
+      "display_name": "ZoKrates",
+      "aliases": [],
+      "extensions": [".zok"],
+      "authoritative_inventory_token": "zokrates",
+      "parser_extractor": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["zokrates"]},
+      "dataflow_substrate": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["zokrates"]},
+      "semantic_graph_tier": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["zokrates"]},
+      "reasoner_ids": [],
+      "engine_substrate_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["zokrates"]},
+      "depth_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["zokrates"]},
+      "harness_fuzz_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["zokrates"]},
+      "evidence_tier": "unsupported_applicable"
+    },
+    {
+      "canonical": "move",
+      "display_name": "Move",
+      "aliases": [],
+      "extensions": [".move"],
+      "authoritative_inventory_token": "move",
+      "parser_extractor": {"tier": "AST-backed", "tool_refs": ["tools/ast-engine.py"], "language_filter": ["move"]},
+      "dataflow_substrate": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["move"]},
+      "semantic_graph_tier": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["move"]},
+      "reasoner_ids": [],
+      "engine_substrate_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["move"]},
+      "depth_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["move"]},
+      "harness_fuzz_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["move"]},
+      "evidence_tier": "AST-backed"
+    },
+    {
+      "canonical": "cairo",
+      "display_name": "Cairo",
+      "aliases": [],
+      "extensions": [".cairo"],
+      "authoritative_inventory_token": "cairo",
+      "parser_extractor": {"tier": "AST-backed", "tool_refs": ["tools/ast-engine.py"], "language_filter": ["cairo"]},
+      "dataflow_substrate": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["cairo"]},
+      "semantic_graph_tier": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["cairo"]},
+      "reasoner_ids": [],
+      "engine_substrate_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["cairo"]},
+      "depth_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["cairo"]},
+      "harness_fuzz_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["cairo"]},
+      "evidence_tier": "AST-backed"
+    },
+    {
+      "canonical": "python",
+      "display_name": "Python",
+      "aliases": [],
+      "extensions": [".py"],
+      "authoritative_inventory_token": "python",
+      "parser_extractor": {"tier": "AST-backed", "tool_refs": ["tools/ast-engine.py"], "language_filter": ["python"]},
+      "dataflow_substrate": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["python"]},
+      "semantic_graph_tier": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["python"]},
+      "reasoner_ids": [],
+      "engine_substrate_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["python"]},
+      "depth_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["python"]},
+      "harness_fuzz_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["python"]},
+      "evidence_tier": "AST-backed"
+    },
+    {
+      "canonical": "clarity",
+      "display_name": "Clarity",
+      "aliases": [],
+      "extensions": [".clar"],
+      "authoritative_inventory_token": "clarity",
+      "parser_extractor": {"tier": "lexical/shape-only", "tool_refs": ["tools/function-source-extractor.py"], "language_filter": ["clarity"]},
+      "dataflow_substrate": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["clarity"]},
+      "semantic_graph_tier": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["clarity"]},
+      "reasoner_ids": [],
+      "engine_substrate_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["clarity"]},
+      "depth_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["clarity"]},
+      "harness_fuzz_route": {"tier": "unsupported_applicable", "tool_refs": [], "language_filter": ["clarity"]},
+      "evidence_tier": "lexical/shape-only"
+    }
+  ]
+}

@@ -516,18 +516,24 @@ class StrictPhaseRunnerTest(unittest.TestCase):
             "test_semantic_engine_adapter", "tools/semantic-engine-substrate.py"
         )
         files, source_set_sha256 = engine._inventory(self.ws, "solidity")
-        self._write(".auditooor/language_backend_receipts/dataflow.jsonl", json.dumps({
-            "schema": "auditooor.language_backend_receipt.v1", "language": "solidity",
-            "backend": "slither", "confidence": "semantic-ssa", "status": "pass",
-            "degraded": False, "source_set_sha256": source_set_sha256,
-            "inventory_unit_count": len(files), "examined_empty": False,
-        }) + "\n")
         record = engine.DATAFLOW.new_path(
             "semantic-path", "solidity", "backward", "slither.analyses.data_dependency",
             {"kind": "param", "fn": "deposit", "var": "amount", "file": "src/Vault.sol", "line": 1},
             {"kind": "transfer", "callee": "transfer", "arg_pos": 0, "fn": "deposit", "file": "src/Vault.sol", "line": 1}, [],
         )
         self._write(".auditooor/dataflow_paths.jsonl", json.dumps(record) + "\n")
+        self._write(".auditooor/language_backend_receipts/dataflow.jsonl", json.dumps({
+            "schema": "auditooor.language_backend_receipt.v1", "language": "solidity",
+            "backend": "slither", "confidence": "semantic-ssa", "status": "pass",
+            "degraded": False, "source_set_sha256": source_set_sha256,
+            "inventory_unit_count": len(files), "examined_empty": False,
+            "execution": {
+                "argv": ["slither", "src/Vault.sol"], "executable": "slither", "returncode": 0,
+                "command_sha256": "1" * 64, "stdout_sha256": "2" * 64,
+                "stderr_sha256": "3" * 64, "artifact_sha256": engine._record_digest([record]),
+                "artifact_kind": "slither-semantic-rows",
+            },
+        }) + "\n")
         self.assertEqual(0, runner.run_phase(self.ws, "engine-substrates"))
         receipt = self._receipt("engine-substrates")
         self.assertEqual("passed", receipt["status"])
