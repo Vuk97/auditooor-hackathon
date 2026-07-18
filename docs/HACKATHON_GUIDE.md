@@ -35,8 +35,14 @@ archive, live-chain evidence, or a target project's source and scope package.
 Useful checks:
 
 ```bash
+make judge-demo
 make judge-check
 ```
+
+Start with `make judge-demo`: it validates the production manifest, summarizes
+the required contracts, and demonstrates that the state machine blocks Drive
+before prior phases produce receipts. The [judge walkthrough](JUDGE_WALKTHROUGH.md)
+explains the commands and the evidence boundary.
 
 Private sources are optional operational memory only. If a required source is
 not present, the pipeline must preserve that as a visible evidence gap rather

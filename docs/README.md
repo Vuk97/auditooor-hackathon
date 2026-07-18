@@ -8,6 +8,8 @@ quick-start path.
 
 - [Hackathon guide](HACKATHON_GUIDE.md): public review path, evidence boundary,
   and focused verification commands.
+- [Judge walkthrough](JUDGE_WALKTHROUGH.md): executable review sequence and
+  control-plane capability map.
 - [Ordered zero-day roadmap](ORDERED_ZERO_DAY_PIPELINE_ROADMAP_2026-07-17.md):
   current capability plan and strict phase ordering.
 - [Machine-readable 69-step runbook](../tools/readme_runbook_steps.json):

@@ -798,7 +798,7 @@ fixture-dupe:
 cross-link:
 	@python3 tools/cross-link-validator.py --strict --scope repo-only \
 	  --path README.md --path docs/README.md --path docs/HACKATHON_GUIDE.md \
-	  --path docs/ORDERED_ZERO_DAY_PIPELINE_ROADMAP_2026-07-17.md \
+	  --path docs/JUDGE_WALKTHROUGH.md --path docs/ORDERED_ZERO_DAY_PIPELINE_ROADMAP_2026-07-17.md \
 	  --report-out "$${TMPDIR:-/tmp}/auditooor-cross-link-report.md"
 
 cross-link-suggestions:
@@ -815,13 +815,18 @@ judge-check: ## Run the offline public review suite used by hackathon judges
 	  tools.tests.test_pipeline_state_machine \
 	  tools.tests.test_pipeline_full_executor_authority \
 	  tools.tests.test_pipeline_full_step_order_and_gaps \
-	  tools.tests.test_readme_runbook_manifest_v2
+	  tools.tests.test_readme_runbook_manifest_v2 \
+	  tools.tests.test_judge_demo
 	@python3 tools/check-stage-reference.py
 	@python3 tools/check-makefile-tool-refs.py
 	@python3 tools/cross-link-validator.py --strict --scope repo-only \
 	  --path README.md --path docs/README.md --path docs/HACKATHON_GUIDE.md \
-	  --path docs/ORDERED_ZERO_DAY_PIPELINE_ROADMAP_2026-07-17.md \
+	  --path docs/JUDGE_WALKTHROUGH.md --path docs/ORDERED_ZERO_DAY_PIPELINE_ROADMAP_2026-07-17.md \
 	  --report-out "$${TMPDIR:-/tmp}/auditooor-cross-link-report.md"
+
+.PHONY: judge-demo
+judge-demo: ## Show fail-closed ordering using the real manifest and state machine
+	@python3 tools/judge-demo.py
 
 stage-reference-check:
 	@python3 tools/check-stage-reference.py

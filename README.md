@@ -107,6 +107,23 @@ ordered contracts; it does not claim that a target workspace has been audited.
 The test path is offline after dependency installation and does not need the
 private vault or the historical corpus.
 
+## Five-Minute Judge Tour
+
+Run the executable walkthrough after bootstrap:
+
+~~~bash
+make judge-demo
+~~~
+
+It validates the real manifest, summarizes all 69 required contracts by phase,
+checks that Reasoning precedes Drive, then asks the real state machine to start
+Drive early. The expected result is a visible
+`earlier_run_sequence_blocks` rejection. This is an enforcement demonstration,
+not a claim that any target was audited.
+
+For the review sequence and the exact evidence boundary, read the
+[judge walkthrough](docs/JUDGE_WALKTHROUGH.md).
+
 ## Run A Workspace
 
 Create a workspace:
@@ -171,6 +188,7 @@ make docs-check
 ## Documentation
 
 - [Hackathon guide](docs/HACKATHON_GUIDE.md)
+- [Judge walkthrough](docs/JUDGE_WALKTHROUGH.md)
 - [Ordered zero-day roadmap](docs/ORDERED_ZERO_DAY_PIPELINE_ROADMAP_2026-07-17.md)
 - [Machine-readable 69-step runbook](tools/readme_runbook_steps.json)
 - [Documentation index](docs/README.md)
